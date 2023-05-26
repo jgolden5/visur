@@ -8,6 +8,13 @@ image:https://img.shields.io/badge/vert.x-4.1.3-purple.svg[link="https://vertx.i
 
 This application was generated using http://start.vertx.io
 
+##Main Visur Features:
+1. Edit objects not just text files. Type-sensitive editor. Because of that, it is also language-independent
+2. Client-server architetures. Multiple users can edit the same files at the same time. Like Google Docs
+3. Conditional logic & arithmetic operation within macro definition
+4. Interface independent. Can be used in the browser, command line, or within a graphical window
+5. Can edit streams of data instead of just static files. For example, a network flow. Can work like a network analysis tool, capturing data in the moment
+
 == Building
 
 To launch your tests:
