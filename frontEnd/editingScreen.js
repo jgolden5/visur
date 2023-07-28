@@ -138,11 +138,13 @@ function keyPressHandler(e) {
         tempParagraphArr.splice(indexPosition, 0, characterToBeInserted)
         exampleParagraph = tempParagraphArr.join("")
         if(cursorC == paragraphWidth - 1) {
-          paragraphHeight += 1
           cursorR += 1
           cursorC = 0
         } else {
           cursorMove(0, 1)
+        }
+        if(exampleParagraph.length >= (paragraphHeight * paragraphWidth)) {
+          paragraphHeight += 1
         }
       }
       refresh()
