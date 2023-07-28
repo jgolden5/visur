@@ -99,6 +99,10 @@ function cursorMove(rChange, cChange) {
     }
 }
 
+function cursorContinue() { //continues the cursor along the line of text being edited on the screen
+
+}
+
 function keyPressHandler(e) {
     if(!insertModeOn) {
         if(e.key == "h" || e.key == "ArrowLeft") {
@@ -117,6 +121,20 @@ function keyPressHandler(e) {
           insertModeOn = true
           console.log("insert mode is on")
         }
+    } else {
+      let indexPosition = cursorR * canvasWidth + cursorC
+      if(event.key === "Backspace") {
+        console.log("Backspace triggered")
+        const firstPart = exampleParagraph.substring(0, indexPosition)
+        const lastPart = exampleParagraph.substring(indexPosition + 1, exampleParagraph.length - 1)
+        exampleParagraph = firstPart + lastPart
+      } else {
+        let characterToBeInserted = e.key
+        let tempParagraphArr = exampleParagraph.split("")
+        tempParagraphArr.splice(indexPosition, 0, characterToBeInserted)
+        exampleParagraph = tempParagraphArr.join("")
+      }
+      refresh()
     }
 }
 
