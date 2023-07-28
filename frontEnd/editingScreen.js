@@ -25,11 +25,13 @@ ctx.font = cellWidth + "px Courier";
 let editingSpace = [];
 let insertModeOn = false;
 
-for(let r = 0; r < paragraphHeight; r++) {
-    editingSpace[r] = [];
-	for(let c = 0; c < paragraphWidth; c++) {
-        editingSpace[r][c] = " "
-    }
+function buildCanvas() {
+  for(let r = 0; r < paragraphHeight; r++) {
+      editingSpace[r] = [];
+    for(let c = 0; c < paragraphWidth; c++) {
+          editingSpace[r][c] = " "
+      }
+  }
 }
 
 function paragraphToX(c) {
@@ -136,6 +138,7 @@ function keyPressHandler(e) {
         tempParagraphArr.splice(indexPosition, 0, characterToBeInserted)
         exampleParagraph = tempParagraphArr.join("")
         if(cursorC == paragraphWidth - 1) {
+          paragraphHeight += 1
           cursorR += 1
           cursorC = 0
         } else {
@@ -159,6 +162,7 @@ function keyUpHandler(e) {
 function refresh() {
     clearBoard();
     currentCharIndex = 0;
+    buildCanvas();
     drawBoard();
 }
 
