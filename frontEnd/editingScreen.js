@@ -63,9 +63,10 @@ function clearCell(r, c) {
 function drawCell(r, c) {
     let cell = editingSpace[r][c];
     let characterToDraw;
+    let cursorIcon = insertModeOn ? "|" : "⬜"
 
     if(r == cursorR && c == cursorC) {
-      drawCursor(r, c, "⬜")
+      drawCursor(r, c, cursorIcon)
     }
     characterToDraw = exampleParagraph.charAt(currentCharIndex)
     drawCharacter(r, c, characterToDraw)
@@ -119,6 +120,7 @@ function keyPressHandler(e) {
         }
         else if(e.key == "i") {
           insertModeOn = true
+          refresh()
           console.log("insert mode is on")
         }
     } else {
@@ -142,6 +144,7 @@ function keyUpHandler(e) {
     if(insertModeOn) {
         if(e.key === "Escape") {
             insertModeOn = false
+            refresh()
             console.log("insert mode is off")
         }
     }
