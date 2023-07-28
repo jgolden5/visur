@@ -135,6 +135,12 @@ function keyPressHandler(e) {
         let tempParagraphArr = exampleParagraph.split("")
         tempParagraphArr.splice(indexPosition, 0, characterToBeInserted)
         exampleParagraph = tempParagraphArr.join("")
+        if(cursorC == paragraphWidth - 1) {
+          cursorR += 1
+          cursorC = 0
+        } else {
+          cursorMove(0, 1)
+        }
       }
       refresh()
     }
