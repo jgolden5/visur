@@ -14,9 +14,10 @@
 <script>
 var eb = new EventBus('http://localhost:8888/eventbus');
 eb.onopen = function() {
- var svc = new BrowserInputService(eb, "browserInput");
- // use the service
- };
+  var svc = new BrowserInputService(eb, "browserInput");
+  // use the service
+  svc.keyPress();
+};
 </script>
 </script>
 </body>

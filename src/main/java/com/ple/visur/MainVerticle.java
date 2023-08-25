@@ -45,6 +45,7 @@ public class MainVerticle extends AbstractVerticle {
     router.mountSubRouter("/eventbus", SockJSHandler.create(vertx).bridge(opts));
 
     vertx.createHttpServer().requestHandler(router).listen(8888);
+
   }
 
   public static void main(String[] args) {
