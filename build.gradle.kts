@@ -4,7 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 plugins {
   java
   application
-  id("com.github.johnrengelman.shadow") version "7.0.0"
+  id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "com.ple"
@@ -14,8 +14,8 @@ repositories {
   mavenCentral()
 }
 
-val vertxVersion = "4.1.3"
-val junitJupiterVersion = "5.7.0"
+val vertxVersion = "4.4.4"
+val junitJupiterVersion = "5.9.1"
 
 val mainVerticleName = "com.ple.visur.MainVerticle"
 val launcherClassName = "io.vertx.core.Launcher"
@@ -28,11 +28,24 @@ application {
 }
 
 dependencies {
-  implementation(platform("io.vertx:vertx-stack-depchain:$vertxVersion"))
-  implementation("io.vertx:vertx-rx-java3")
-  testImplementation("io.vertx:vertx-unit")
-  testImplementation("junit:junit:4.13.1")
+  annotationProcessor("io.vertx:vertx-codegen:$vertxVersion:processor")
+  annotationProcessor("io.vertx:vertx-service-proxy:$vertxVersion")
+  annotationProcessor("io.vertx:vertx-sockjs-service-proxy:$vertxVersion")
+  implementation("io.vertx:vertx-web-client:$vertxVersion")
+  implementation("io.vertx:vertx-service-proxy:$vertxVersion")
+  implementation("io.vertx:vertx-health-check:$vertxVersion")
+  implementation("io.vertx:vertx-web:$vertxVersion")
+  implementation("io.vertx:vertx-opentelemetry:$vertxVersion")
+  implementation("io.vertx:vertx-web-sstore-cookie:$vertxVersion")
+  implementation("io.vertx:vertx-micrometer-metrics:$vertxVersion")
+  implementation("io.vertx:vertx-shell:$vertxVersion")
+  implementation("io.vertx:vertx-rx-java3:$vertxVersion")
+  implementation("io.vertx:vertx-tcp-eventbus-bridge:$vertxVersion")
+  testImplementation("io.vertx:vertx-junit5:$vertxVersion")
+  testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
 }
+
+
 
 java {
   sourceCompatibility = JavaVersion.VERSION_16
@@ -48,7 +61,7 @@ tasks.withType<ShadowJar> {
 }
 
 tasks.withType<Test> {
-  useJUnit()
+  useJUnitPlatform()
   testLogging {
     events = setOf(PASSED, SKIPPED, FAILED)
   }
