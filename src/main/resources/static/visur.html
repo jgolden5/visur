@@ -11,14 +11,7 @@
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/vertx/3.4.2/vertx-eventbus.min.js"></script>-->
 <!-- This is your generated service proxy -->
 <script src="/static/browser_input_service-proxy.js"></script>
-<script>
-var eb = new EventBus('http://localhost:8888/eventbus');
-eb.onopen = function() {
-  var svc = new BrowserInputService(eb, "browserInput");
-  // use the service
-  svc.keyPress("h");
-};
-</script>
+<script src="visur.js"></script>
 </script>
 </body>
 </html>
