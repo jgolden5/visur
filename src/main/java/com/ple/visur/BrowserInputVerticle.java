@@ -8,9 +8,9 @@ public class BrowserInputVerticle implements BrowserInputService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BrowserInputVerticle.class);
   @Override
-  public Future<Void> keyPress() {
+  public Future<Void> keyPress(String key) {
     LOGGER.debug("Key pressed");
-    System.out.println("Key pressed");
+    System.out.println(key + " key pressed");
     return null;
   }
 }

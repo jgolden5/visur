@@ -16,7 +16,7 @@ public interface BrowserInputService {
     return new BrowserInputServiceVertxEBProxy(vertx, address);
   }
 
-  Future<Void> keyPress();
+  Future<Void> keyPress(String key);
 
   // Actual service operations here...
 

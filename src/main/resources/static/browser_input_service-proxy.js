@@ -48,16 +48,16 @@
     /**
 
      @public
-
+     @param key {string} 
      @return {todo}
      */
-    this.keyPress =  function() {
+    this.keyPress =  function(key) {
       var __args = arguments;
-      if (__args.length === 0) {
+      if (__args.length === 1 && typeof __args[0] === 'string') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {}, {"action":"keyPress"});
+        j_eb.send(j_address, {"key":__args[0]}, {"action":"keyPress"});
         return;
       } else throw new TypeError('function invoked with invalid arguments');
     };
