@@ -1,16 +1,17 @@
 package com.ple.visur;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.vertx.codegen.annotations.Nullable;
-import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
-import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServerRequest;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.bridge.PermittedOptions;
-import io.vertx.ext.web.Router;
-import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
-import io.vertx.ext.web.handler.sockjs.SockJSHandler;
+import io.vertx.rxjava3.core.AbstractVerticle;
+import io.vertx.rxjava3.core.Vertx;
+import io.vertx.rxjava3.core.http.HttpServerRequest;
+import io.vertx.rxjava3.core.http.HttpServerResponse;
+import io.vertx.rxjava3.ext.web.Router;
+import io.vertx.rxjava3.ext.web.RoutingContext;
+import io.vertx.rxjava3.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.serviceproxy.ServiceBinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +28,12 @@ public class MainVerticle extends AbstractVerticle {
   private static final Logger LOGGER = LoggerFactory.getLogger(MainVerticle.class);
 
   @Override
-  public void start(Promise<Void> startPromise) throws Exception {
+  public void start() {
     System.out.println("System out works");
     LOGGER.debug("Starting main verticle");
+
     BrowserInputService browserInput = new BrowserInputVerticle();
-    new ServiceBinder(vertx)
+    new ServiceBinder(vertx.getDelegate())
       .setAddress(BusEvent.browserInput.name())
       .register(BrowserInputService.class, browserInput);
 
@@ -44,13 +46,29 @@ public class MainVerticle extends AbstractVerticle {
     router.get("/static/*").handler(this::staticHandler);
     router.mountSubRouter("/eventbus", SockJSHandler.create(vertx).bridge(opts));
 
-    vertx.createHttpServer().requestHandler(router).listen(8888);
+    router.get("/").handler(routingContext -> {
+      // Get the response object
+      HttpServerResponse response = routingContext.response();
 
+      // Set the HTTP status code to 302 (Found) for a temporary redirect
+      response.setStatusCode(302);
+
+      // Set the "Location" header to the target URL
+      response.putHeader("Location", "http://localHost:8888/static/visur.html");
+
+      // End the response to perform the redirect
+      response.end();
+    });
+
+    vertx.createHttpServer().requestHandler(router).listen(8888);
   }
 
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
     vertx.deployVerticle(new MainVerticle());
+    System.out.println("Main verticle should have been deployed");
+    vertx.deployVerticle(new BrowserOutputVerticle());
+    System.out.println("Browser Output verticle should have been deployed");
   }
 
   private void staticHandler(RoutingContext context) {
@@ -90,4 +108,3 @@ public class MainVerticle extends AbstractVerticle {
     }
   }
 }
-
