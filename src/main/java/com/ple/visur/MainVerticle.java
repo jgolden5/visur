@@ -1,12 +1,9 @@
 package com.ple.visur;
 
-import io.reactivex.rxjava3.core.Completable;
 import io.vertx.codegen.annotations.Nullable;
-import io.vertx.core.Promise;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
 import io.vertx.rxjava3.core.AbstractVerticle;
-import io.vertx.rxjava3.core.Vertx;
 import io.vertx.rxjava3.core.http.HttpServerRequest;
 import io.vertx.rxjava3.core.http.HttpServerResponse;
 import io.vertx.rxjava3.ext.web.Router;
@@ -34,14 +31,16 @@ public class MainVerticle extends AbstractVerticle {
 
     BrowserInputService browserInput = new BrowserInputVerticle();
     new ServiceBinder(vertx.getDelegate())
-      .setAddress(BusEvent.browserInput.name())
+      .setAddress(BusEvent.keyWasPressed.name())
       .register(BrowserInputService.class, browserInput);
+
+    vertx.deployVerticle(new BrowserOutputVerticle());
 
     Router router = Router.router(vertx);
 
     SockJSBridgeOptions opts = new SockJSBridgeOptions()
-      .addInboundPermitted(new PermittedOptions().setAddress(BusEvent.browserInput.name()))
-      .addOutboundPermitted(new PermittedOptions().setAddress(BusEvent.browserInput.name()));
+      .addInboundPermitted(new PermittedOptions().setAddress(BusEvent.keyWasPressed.name()));
+//      .addOutboundPermitted(new PermittedOptions().setAddress(BusEvent.keyWasPressed.name()));
 
     router.get("/static/*").handler(this::staticHandler);
     router.mountSubRouter("/eventbus", SockJSHandler.create(vertx).bridge(opts));
@@ -61,14 +60,6 @@ public class MainVerticle extends AbstractVerticle {
     });
 
     vertx.createHttpServer().requestHandler(router).listen(8888);
-  }
-
-  public static void main(String[] args) {
-    Vertx vertx = Vertx.vertx();
-    vertx.deployVerticle(new MainVerticle());
-    System.out.println("Main verticle should have been deployed");
-    vertx.deployVerticle(new BrowserOutputVerticle());
-    System.out.println("Browser Output verticle should have been deployed");
   }
 
   private void staticHandler(RoutingContext context) {

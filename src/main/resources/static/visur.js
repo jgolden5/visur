@@ -1,7 +1,7 @@
 document.addEventListener('keydown', (event) => {
   var eb = new EventBus('http://localhost:8888/eventbus');
   eb.onopen = function() {
-    var svc = new BrowserInputService(eb, "browserInput");
+    var svc = new BrowserInputService(eb, "keyWasPressed");
     svc.keyPress(event.key);
   }
 })

@@ -11,9 +11,7 @@ public class BrowserOutputVerticle extends AbstractVisurVerticle {
 
   @Override
   public void start() {
-    System.out.println("browser output start");
     vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
-      System.out.println("browser output message received");
       handleChange(event);
     });
   }

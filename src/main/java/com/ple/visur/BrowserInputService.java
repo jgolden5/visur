@@ -8,16 +8,6 @@ import io.vertx.core.json.JsonObject;
 @ProxyGen
 public interface BrowserInputService {
 
-  static BrowserInputService create(Vertx vertx) {
-    return new BrowserInputVerticle();
-  }
-
-  static BrowserInputService createProxy(Vertx vertx, String address) {
-    return new BrowserInputServiceVertxEBProxy(vertx, address);
-  }
-
   Future<Void> keyPress(String key);
-
-  // Actual service operations here...
 
 }
