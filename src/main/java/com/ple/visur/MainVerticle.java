@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 
-public class MainVerticle extends AbstractVerticle {
+public class MainVerticle extends AbstractVisurVerticle {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MainVerticle.class);
 
@@ -28,6 +28,9 @@ public class MainVerticle extends AbstractVerticle {
   public void start() {
     System.out.println("System out works");
     LOGGER.debug("Starting main verticle");
+
+    modelInt.put("cursorX", 0);
+    modelInt.put("cursorY", 0);
 
     BrowserInputService browserInput = new BrowserInputVerticle();
     new ServiceBinder(vertx.getDelegate())
@@ -39,8 +42,8 @@ public class MainVerticle extends AbstractVerticle {
     Router router = Router.router(vertx);
 
     SockJSBridgeOptions opts = new SockJSBridgeOptions()
-      .addInboundPermitted(new PermittedOptions().setAddress(BusEvent.keyWasPressed.name()));
-//      .addOutboundPermitted(new PermittedOptions().setAddress(BusEvent.keyWasPressed.name()));
+      .addInboundPermitted(new PermittedOptions().setAddress(BusEvent.keyWasPressed.name()))
+      .addOutboundPermitted(new PermittedOptions().setAddress(BusEvent.viewWasChanged.name()));
 
     router.get("/static/*").handler(this::staticHandler);
     router.mountSubRouter("/eventbus", SockJSHandler.create(vertx).bridge(opts));

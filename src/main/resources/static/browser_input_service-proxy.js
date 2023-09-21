@@ -48,7 +48,7 @@
     /**
 
      @public
-     @param key {string} 
+     @param key {string}
      @return {todo}
      */
     this.keyPress =  function(key) {
@@ -67,8 +67,8 @@
   /**
 
    @memberof module:services-js/browser_input_service
-   @param vertx {Vertx} 
-   @param address {string} 
+   @param vertx {Vertx}
+   @param address {string}
    @return {todo}
    */
   BrowserInputService.createProxy =  function(vertx, address) {
@@ -85,10 +85,10 @@
   /**
 
    @memberof module:services-js/browser_input_service
-   @param vertx {Vertx} 
+   @param vertx {Vertx}
    @return {todo}
    */
-  BrowserInputService.create =  function(vertx) {
+  BrowserInputService.create = function(vertx) {
     var __args = arguments;
     if (__args.length === 1 && typeof __args[0] === 'object' && __args[0]._jdel) {
       if (closed) {

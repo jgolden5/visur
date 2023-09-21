@@ -21,5 +21,6 @@ public abstract class AbstractVisurVerticle extends AbstractVerticle {
     modelInt = sharedData.getLocalMap("modelInt");
     modelInt.put("cursorX",0);
     modelInt.put("cursorY",0);
+    modelString.put("content", "hello");
   }
 }
