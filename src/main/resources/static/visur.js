@@ -2,28 +2,6 @@ var cursorX;
 var cursorY;
 var content;
 
-document.addEventListener('keydown', (event) => {
-  var eb = new EventBus('http://localhost:8888/eventbus');
-  eb.onopen = function() {
-    var svc = new BrowserInputService(eb, "keyWasPressed");
-    svc.keyPress(event.key);
-    eb.registerHandler('viewWasChanged', (error, message) => {
-      console.log("view was changed. message = " + (JSON.stringify(message)))
-      cursorX = message["body"]["cursorX"]
-      cursorY = message["body"]["cursorY"]
-
-      console.log("CursorX = " + (message["body"]["cursorX"]))
-      console.log("CursorY = " + (message["body"]["cursorY"]))
-
-      clearCanvas()
-      drawCanvas()
-      console.log("Canvas should have been drawn")
-
-    })
-  }
-
-})
-
 let canvas = document.getElementById("mainCanvas")
 
 let cellWidth = 20
@@ -34,9 +12,35 @@ let canvasHeight = canvas.height / cellHeight
 let canvasXOffset = 3
 let canvasYOffset = 25
 
-
 let ctx = canvas.getContext("2d")
 ctx.font = cellWidth + "px courier"
+
+var eb = new EventBus('http://localhost:8888/eventbus');
+eb.onopen = function() {
+  eb.registerHandler('viewWasChanged', (error, message) => {
+    console.log("view was changed. message = " + (JSON.stringify(message)))
+    cursorX = message["body"]["cursorX"]
+    cursorY = message["body"]["cursorY"]
+
+    console.log("CursorX = " + (message["body"]["cursorX"]))
+    console.log("CursorY = " + (message["body"]["cursorY"]))
+
+    clearCanvas()
+    drawCanvas()
+    console.log("Canvas should have been drawn")
+
+  })
+  let canvasInfo = {
+    width: (canvas.width - canvasXOffset) / cellWidth + 1,
+    height: (canvas.height - canvasYOffset) / cellHeight + 1
+  };
+  eb.send("canvasWasChanged", JSON.stringify(canvasInfo))
+}
+
+document.addEventListener('keydown', (event) => {
+  var svc = new BrowserInputService(eb, "keyWasPressed");
+  svc.keyPress(event.key);
+})
 
 function drawCanvas() {
   console.log("before drawCanvas()")

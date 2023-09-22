@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+import static com.ple.visur.ModelIntKey.*;
 
 public class MainVerticle extends AbstractVisurVerticle {
 
@@ -29,13 +30,15 @@ public class MainVerticle extends AbstractVisurVerticle {
     System.out.println("System out works");
     LOGGER.debug("Starting main verticle");
 
-    modelInt.put("cursorX", 0);
-    modelInt.put("cursorY", 0);
+    modelInt.put(cursorX.name(), 0);
+    modelInt.put(cursorY.name(), 0);
 
     BrowserInputService keyWasPressedVerticle = new KeyWasPressedVerticle();
     new ServiceBinder(vertx.getDelegate())
       .setAddress(BusEvent.keyWasPressed.name())
       .register(BrowserInputService.class, keyWasPressedVerticle);
+
+    vertx.deployVerticle(new CanvasWasChangedVerticle());
 
     vertx.deployVerticle(new BrowserOutputVerticle());
 
@@ -43,6 +46,7 @@ public class MainVerticle extends AbstractVisurVerticle {
 
     SockJSBridgeOptions opts = new SockJSBridgeOptions()
       .addInboundPermitted(new PermittedOptions().setAddress(BusEvent.keyWasPressed.name()))
+      .addInboundPermitted(new PermittedOptions().setAddress(BusEvent.canvasWasChanged.name()))
       .addOutboundPermitted(new PermittedOptions().setAddress(BusEvent.viewWasChanged.name()));
 
     router.get("/static/*").handler(this::staticHandler);

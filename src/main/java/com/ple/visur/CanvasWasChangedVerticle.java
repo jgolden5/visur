@@ -1,36 +1,20 @@
 package com.ple.visur;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
 
-public class CanvasWasChangedVerticle extends AbstractVisurVerticle implements BrowserInputService {
-  public Future<Void> keyPress(String key) {
-    mapKeys(key);
-    boolean modelChanged = true;
-    if(modelChanged) {
-      bus.send(BusEvent.modelChange.name(), null);
-    }
-    return Future.succeededFuture();
+public class CanvasWasChangedVerticle extends AbstractVisurVerticle {
+  @Override
+  public void start() {
+    vertx.eventBus().consumer(BusEvent.canvasWasChanged.name(), event -> {
+      JsonObject canvasJson = new JsonObject((String)event.body());
+      final Integer width = canvasJson.getInteger("width");
+      modelInt.put("canvasWidth", width);
+      final Integer height = canvasJson.getInteger("height");
+      modelInt.put("canvasHeight", height);
+      System.out.println("canvas width = " + width);
+      System.out.println("canvas height = " + height);
+    });
   }
-  public void mapKeys(String key) {
-    if(key.equals("h")) {
-      int x = modelInt.get("cursorX");
-      x--;
-      modelInt.put("cursorX", x);
-    } else if(key.equals("j")) {
-      int y = modelInt.get("cursorY");
-      System.out.println("y before y increment = " + modelInt.get("cursorY"));
-      y++;
-      modelInt.put("cursorY", y);
-      System.out.println("y after y increment = " + modelInt.get("cursorY"));
-    } else if(key.equals("k")) {
-      int y = modelInt.get("cursorY");
-      y--;
-      modelInt.put("cursorY", y);
-    } else if(key.equals("l")) {
-      int x = modelInt.get("cursorX");
-      x++;
-      modelInt.put("cursorX", x);
-    }
-    System.out.println(key + " key pressed");
-  }
+
 }

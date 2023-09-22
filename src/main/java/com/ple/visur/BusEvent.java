@@ -1,5 +1,5 @@
 package com.ple.visur;
 
 public enum BusEvent {
-  keyWasPressed, modelChange, viewWasChanged, browserOutput
+  canvasWasChanged, keyWasPressed, modelChange, viewWasChanged, browserOutput
 }
