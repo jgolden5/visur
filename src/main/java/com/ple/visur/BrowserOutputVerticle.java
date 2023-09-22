@@ -11,7 +11,6 @@ public class BrowserOutputVerticle extends AbstractVisurVerticle {
 
   public void handleChange(Message<Object> event) {
     System.out.println("model change message received by output verticle");
-    //step 7: if modelChange event occurred, the view is drawn/redrawn according to changes
     if(view == null) {
       view = new View();
       view.cursorX = 0;
@@ -22,13 +21,11 @@ public class BrowserOutputVerticle extends AbstractVisurVerticle {
       view.cursorY = modelInt.get("cursorY");
       view.content = modelString.get("content");
     }
-    //step 8: if view was changed, send ViewWasChanged event to event bus
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson()); //message will equal changed view based on json
   }
 
   @Override
   public void start() {
-    //step 6: BrowserOutputVerticle listens for modelChange event
     vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
       handleChange(event);
     });

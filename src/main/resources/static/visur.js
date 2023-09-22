@@ -2,10 +2,8 @@ var cursorX;
 var cursorY;
 var content;
 
-//step 1: browser listens to keydown event (eg. when user hits j)
 document.addEventListener('keydown', (event) => {
   var eb = new EventBus('http://localhost:8888/eventbus');
-  //step 2: browser sends keyWasPressed event to event bus (needs work)
   eb.onopen = function() {
     var svc = new BrowserInputService(eb, "keyWasPressed");
     svc.keyPress(event.key);
