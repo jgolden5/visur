@@ -1,20 +1,27 @@
 package com.ple.visur;
 
 import io.vertx.core.Future;
-import io.vertx.core.Vertx;
-import io.vertx.core.shareddata.LocalMap;
-import io.vertx.core.shareddata.SharedData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BrowserInputVerticle extends AbstractVisurVerticle implements BrowserInputService {
+public class KeyWasPressedVerticle extends AbstractVisurVerticle implements BrowserInputService {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(BrowserInputVerticle.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(KeyWasPressedVerticle.class);
 
 
   //step 3: browserInputVerticle listens for keyWasPressed event (also needs work)
   @Override
   public Future<Void> keyPress(String key) {
+    mapKeys(key);
+    boolean modelChanged = true;
+    //step 5: if the model was changed, browserInputVerticle sends modelChange event to event bus
+    if(modelChanged) {
+      bus.send(BusEvent.modelChange.name(), null);
+    }
+    return Future.succeededFuture();
+  }
+
+  public void mapKeys(String key) {
     if(key.equals("h")) {
       int x = modelInt.get("cursorX");
       x--;
@@ -37,13 +44,5 @@ public class BrowserInputVerticle extends AbstractVisurVerticle implements Brows
     }
     LOGGER.debug("Key pressed");
     System.out.println(key + " key pressed");
-    boolean modelChanged = true;
-    //step 5: if the model was changed, browserInputVerticle sends modelChange event to event bus
-    if(modelChanged) {
-      bus.send(BusEvent.modelChange.name(), null);
-    }
-    return Future.succeededFuture();
   }
-
-
 }

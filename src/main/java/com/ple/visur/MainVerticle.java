@@ -32,10 +32,10 @@ public class MainVerticle extends AbstractVisurVerticle {
     modelInt.put("cursorX", 0);
     modelInt.put("cursorY", 0);
 
-    BrowserInputService browserInput = new BrowserInputVerticle();
+    BrowserInputService keyWasPressedVerticle = new KeyWasPressedVerticle();
     new ServiceBinder(vertx.getDelegate())
       .setAddress(BusEvent.keyWasPressed.name())
-      .register(BrowserInputService.class, browserInput);
+      .register(BrowserInputService.class, keyWasPressedVerticle);
 
     vertx.deployVerticle(new BrowserOutputVerticle());
 
