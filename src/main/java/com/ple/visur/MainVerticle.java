@@ -3,13 +3,11 @@ package com.ple.visur;
 import io.vertx.codegen.annotations.Nullable;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
-import io.vertx.rxjava3.core.AbstractVerticle;
 import io.vertx.rxjava3.core.http.HttpServerRequest;
 import io.vertx.rxjava3.core.http.HttpServerResponse;
 import io.vertx.rxjava3.ext.web.Router;
 import io.vertx.rxjava3.ext.web.RoutingContext;
 import io.vertx.rxjava3.ext.web.handler.sockjs.SockJSHandler;
-import io.vertx.serviceproxy.ServiceBinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +17,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
-import static com.ple.visur.ModelIntKey.*;
+import static com.ple.visur.ModelIntKey.cursorX;
+import static com.ple.visur.ModelIntKey.cursorY;
 
 public class MainVerticle extends AbstractVisurVerticle {
 
@@ -33,10 +32,7 @@ public class MainVerticle extends AbstractVisurVerticle {
     modelInt.put(cursorX.name(), 0);
     modelInt.put(cursorY.name(), 0);
 
-    BrowserInputService keyWasPressedVerticle = new KeyWasPressedVerticle();
-    new ServiceBinder(vertx.getDelegate())
-      .setAddress(BusEvent.keyWasPressed.name())
-      .register(BrowserInputService.class, keyWasPressedVerticle);
+    vertx.deployVerticle(new KeyWasPressedVerticle());
 
     vertx.deployVerticle(new CanvasWasChangedVerticle());
 

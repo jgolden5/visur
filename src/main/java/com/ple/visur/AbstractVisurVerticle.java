@@ -1,13 +1,13 @@
 package com.ple.visur;
 
 import io.vertx.core.Vertx;
-
 import io.vertx.rxjava3.core.AbstractVerticle;
 import io.vertx.rxjava3.core.eventbus.EventBus;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
-import static com.ple.visur.ModelIntKey.*;
+import static com.ple.visur.ModelIntKey.cursorX;
+import static com.ple.visur.ModelIntKey.cursorY;
 
 public abstract class AbstractVisurVerticle extends AbstractVerticle {
 

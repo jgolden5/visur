@@ -1,19 +1,29 @@
 package com.ple.visur;
 
 import io.vertx.core.Future;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.vertx.core.json.JsonObject;
+import io.vertx.rxjava3.core.eventbus.Message;
 
 import static com.ple.visur.ModelIntKey.*;
 
-public class KeyWasPressedVerticle extends AbstractVisurVerticle implements BrowserInputService {
+public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
-  public Future<Void> keyPress(String key) {
+  @Override
+  public void start() {
+    vertx.eventBus().consumer(BusEvent.keyWasPressed.name(), this::handle);
+  }
+
+  public void handle(Message event) {
+    JsonObject keyJson = new JsonObject((String)event.body());
+    final String key = keyJson.getString("key");
     mapKeys(key);
     boolean modelChanged = true;
     if(modelChanged) {
       bus.send(BusEvent.modelChange.name(), null);
     }
+  }
+
+  public Future<Void> keyPress(String key) {
     return Future.succeededFuture();
   }
 

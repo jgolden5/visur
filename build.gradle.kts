@@ -28,11 +28,11 @@ application {
 }
 
 dependencies {
-  annotationProcessor("io.vertx:vertx-codegen:$vertxVersion:processor")
-  annotationProcessor("io.vertx:vertx-service-proxy:$vertxVersion")
-  annotationProcessor("io.vertx:vertx-sockjs-service-proxy:$vertxVersion")
+//  annotationProcessor("io.vertx:vertx-codegen:$vertxVersion:processor")
+//  annotationProcessor("io.vertx:vertx-service-proxy:$vertxVersion")
+//  annotationProcessor("io.vertx:vertx-sockjs-service-proxy:$vertxVersion")
   implementation("io.vertx:vertx-web-client:$vertxVersion")
-  implementation("io.vertx:vertx-service-proxy:$vertxVersion")
+//  implementation("io.vertx:vertx-service-proxy:$vertxVersion")
   implementation("io.vertx:vertx-health-check:$vertxVersion")
   implementation("io.vertx:vertx-web:$vertxVersion")
   implementation("io.vertx:vertx-opentelemetry:$vertxVersion")

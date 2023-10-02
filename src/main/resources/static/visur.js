@@ -38,8 +38,12 @@ eb.onopen = function() {
 }
 
 document.addEventListener('keydown', (event) => {
-  var svc = new BrowserInputService(eb, "keyWasPressed");
-  svc.keyPress(event.key);
+//  var svc = new BrowserInputService(eb, "keyWasPressed");
+//  svc.keyPress(event.key);
+  let keyPressedInfo = {
+    key: event.key
+  }
+  eb.send("keyWasPressed", JSON.stringify(keyPressedInfo))
 })
 
 function drawCanvas() {

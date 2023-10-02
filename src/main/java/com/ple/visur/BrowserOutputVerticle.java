@@ -1,11 +1,10 @@
 package com.ple.visur;
 
-import io.reactivex.rxjava3.core.Completable;
-import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava3.core.eventbus.Message;
 
-import static com.ple.visur.ModelIntKey.*;
+import static com.ple.visur.ModelIntKey.cursorX;
+import static com.ple.visur.ModelIntKey.cursorY;
 
 public class BrowserOutputVerticle extends AbstractVisurVerticle {
 

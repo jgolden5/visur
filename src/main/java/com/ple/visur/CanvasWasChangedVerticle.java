@@ -1,6 +1,5 @@
 package com.ple.visur;
 
-import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava3.core.eventbus.Message;
 
