@@ -36,7 +36,7 @@ public class MainVerticle extends AbstractVisurVerticle {
 
     vertx.deployVerticle(new CanvasWasChangedVerticle());
 
-    vertx.deployVerticle(new BrowserOutputVerticle());
+    vertx.deployVerticle(new ViewWasChangedVerticle());
 
     Router router = Router.router(vertx);
 

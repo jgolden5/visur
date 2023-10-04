@@ -3,15 +3,20 @@ package com.ple.visur;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava3.core.eventbus.Message;
 
-import static com.ple.visur.ModelIntKey.cursorX;
-import static com.ple.visur.ModelIntKey.cursorY;
+import static com.ple.visur.ModelIntKey.*;
+import static com.ple.visur.ModelStringKey.*;
 
-public class BrowserOutputVerticle extends AbstractVisurVerticle {
+public class ViewWasChangedVerticle extends AbstractVisurVerticle {
 
   View view;
 
   @Override
   public void start() {
+    modelInt.put(cursorX.name(), 0);
+    modelInt.put(cursorY.name(), 0);
+    modelString.put(content.name(), "Hello world" +
+      "\ngoodbye world" +
+      "\ngood night world");
     vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
       handleChange(event);
     });
@@ -20,16 +25,17 @@ public class BrowserOutputVerticle extends AbstractVisurVerticle {
   public void handleChange(Message<Object> event) {
     System.out.println("model change message received by output verticle");
     if(view == null) {
+//      System.out.println("View was null");
       view = new View();
       view.cursorX = 0;
       view.cursorY = 0;
-      view.content = "hello world";
     } else {
+//      System.out.println("View was not null");
       view.cursorX = modelInt.get(cursorX.name());
       view.cursorY = modelInt.get(cursorY.name());
-      view.content = modelString.get("content");
     }
-    vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson()); //message will equal changed view based on json
+    view.content = modelString.get(content.name());
+    vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
   }
 
 
@@ -37,7 +43,7 @@ public class BrowserOutputVerticle extends AbstractVisurVerticle {
     JsonObject output = new JsonObject();
     output.put(cursorX.name(), view.cursorX);
     output.put(cursorY.name(), view.cursorY);
-    output.put("content", view.content);
+    output.put(content.name(), view.content);
     return output;
   }
 

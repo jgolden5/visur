@@ -21,9 +21,11 @@ eb.onopen = function() {
     console.log("view was changed. message = " + (JSON.stringify(message)))
     cursorX = message["body"]["cursorX"]
     cursorY = message["body"]["cursorY"]
+    content = message["body"]["content"]
 
     console.log("CursorX = " + (message["body"]["cursorX"]))
     console.log("CursorY = " + (message["body"]["cursorY"]))
+    console.log("Content = " + (message["body"]["content"]))
 
     clearCanvas()
     drawCanvas()
@@ -48,13 +50,19 @@ document.addEventListener('keydown', (event) => {
 
 function drawCanvas() {
   console.log("before drawCanvas()")
-  for(let y = 0; y < canvasHeight; y++) {
+  charIndex = 0
+  for(let y = 0; y < canvasHeight - 1; y++) {
     for(let x = 0; x < canvasWidth; x++) {
       if(cursorX == x && cursorY == y) {
         drawCharacter(x, y, "O")
-      } else {
-        drawCharacter(x, y, ".") //eventually content
       }
+      if(content.charAt(charIndex) === "\n") {
+        y++;
+        x = -1;
+      } else {
+        drawCharacter(x, y, content.charAt(charIndex))
+      }
+      charIndex++
     }
   }
   console.log("after drawCanvas()")
@@ -83,5 +91,3 @@ function clearCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   console.log("after clearCanvas()")
 }
-
-
