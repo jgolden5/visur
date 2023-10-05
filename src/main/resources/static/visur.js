@@ -53,6 +53,7 @@ function drawCanvas() {
   charIndex = 0
   for(let y = 0; y < canvasHeight - 1; y++) {
     for(let x = 0; x < canvasWidth; x++) {
+      console.log("cursor x = " + cursorX + ", cursor y = " + cursorY + "\nx = " + x + ", y = " + y)
       if(cursorX == x && cursorY == y) {
         drawCharacter(x, y, "O")
       }
@@ -65,6 +66,7 @@ function drawCanvas() {
       charIndex++
     }
   }
+  console.log("content = " + content + ". content length = " + content.length)
   console.log("after drawCanvas()")
 }
 

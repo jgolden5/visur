@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 import static com.ple.visur.ModelIntKey.cursorX;
 import static com.ple.visur.ModelIntKey.cursorY;
+import static com.ple.visur.ModelStringKey.content;
 
 public class MainVerticle extends AbstractVisurVerticle {
 
@@ -28,9 +29,6 @@ public class MainVerticle extends AbstractVisurVerticle {
   public void start() {
     System.out.println("System out works");
     LOGGER.debug("Starting main verticle");
-
-    modelInt.put(cursorX.name(), 0);
-    modelInt.put(cursorY.name(), 0);
 
     vertx.deployVerticle(new KeyWasPressedVerticle());
 
