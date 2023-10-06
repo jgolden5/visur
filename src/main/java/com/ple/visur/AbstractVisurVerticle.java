@@ -15,6 +15,7 @@ public abstract class AbstractVisurVerticle extends AbstractVerticle {
   LocalMap<String, String> modelString;
   LocalMap<String, Integer> modelInt;
   EventBus bus;
+  EditorModelService editorModelService = new EditorModelService(sharedData);
 
   AbstractVisurVerticle() {
     init(Vertx.currentContext().owner(), Vertx.currentContext());
