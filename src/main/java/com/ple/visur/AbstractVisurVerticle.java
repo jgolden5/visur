@@ -15,7 +15,7 @@ public abstract class AbstractVisurVerticle extends AbstractVerticle {
   LocalMap<String, String> modelString;
   LocalMap<String, Integer> modelInt;
   EventBus bus;
-  EditorModelService editorModelService = new EditorModelService(sharedData);
+  EditorModelService editorModelService;
 
   AbstractVisurVerticle() {
     init(Vertx.currentContext().owner(), Vertx.currentContext());
@@ -23,6 +23,7 @@ public abstract class AbstractVisurVerticle extends AbstractVerticle {
     sharedData = vertx.sharedData();
     modelString = sharedData.getLocalMap("modelString");
     modelInt = sharedData.getLocalMap("modelInt");
+    editorModelService = new EditorModelService(sharedData);
   }
 
 }

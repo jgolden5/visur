@@ -3,6 +3,7 @@ package com.ple.visur;
 import io.vertx.rxjava3.core.AbstractVerticle;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
+import io.vertx.rxjava3.core.Vertx;
 
 import static com.ple.visur.ModelIntKey.*;
 import static com.ple.visur.ModelStringKey.*;

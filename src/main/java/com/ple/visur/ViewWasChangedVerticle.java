@@ -12,8 +12,8 @@ public class ViewWasChangedVerticle extends AbstractVisurVerticle {
 
   @Override
   public void start() {
-    modelInt.put(cursorX.name(), 0);
-    modelInt.put(cursorY.name(), 0);
+    editorModelService.setCursorX(0);
+    editorModelService.setCursorY(0);
     modelString.put(content.name(), "abc" +
       "\ndef" +
       "\nghij");
@@ -25,14 +25,12 @@ public class ViewWasChangedVerticle extends AbstractVisurVerticle {
   public void handleChange(Message<Object> event) {
     System.out.println("model change message received by output verticle");
     if(view == null) {
-//      System.out.println("View was null");
       view = new View();
       view.cursorX = 0;
       view.cursorY = 0;
     } else {
-//      System.out.println("View was not null");
-      view.cursorX = modelInt.get(cursorX.name());
-      view.cursorY = modelInt.get(cursorY.name());
+      view.cursorX = editorModelService.getCursorX();
+      view.cursorY = editorModelService.getCursorY();
     }
     view.content = modelString.get(content.name());
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());

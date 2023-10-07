@@ -53,7 +53,7 @@ function drawCanvas() {
   charIndex = 0
   for(let y = 0; y < canvasHeight - 1; y++) {
     for(let x = 0; x < canvasWidth; x++) {
-      console.log("cursor x = " + cursorX + ", cursor y = " + cursorY + "\nx = " + x + ", y = " + y)
+      console.log("x = " + x + ". y = " + y);
       if(cursorX == x && cursorY == y) {
         drawCharacter(x, y, "O")
       }
@@ -67,6 +67,7 @@ function drawCanvas() {
     }
   }
   console.log("content = " + content + ". content length = " + content.length)
+  console.log("cursor x = " + cursorX + ", cursor y = " + cursorY)
   console.log("after drawCanvas()")
 }
 
@@ -81,11 +82,9 @@ function toY(y) {
 }
 
 function drawCharacter(x, y, characterToDraw) {
-  console.log("before drawCharacter()")
+//  console.log("before drawCharacter()")
   ctx.fillText(characterToDraw, toX(x), toY(y));
-  console.log("after drawCharacter(), " + i + " characters have been drawn")
-  i++
-  console.log(i + " characters have been drawn")
+//  console.log("after drawCharacter(), " + i + " characters have been drawn")
 }
 
 function clearCanvas() {
