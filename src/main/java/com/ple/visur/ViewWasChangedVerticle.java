@@ -14,9 +14,9 @@ public class ViewWasChangedVerticle extends AbstractVisurVerticle {
   public void start() {
     editorModelService.setCursorX(0);
     editorModelService.setCursorY(0);
-    modelString.put(content.name(), "abc" +
-      "\ndef" +
-      "\nghij");
+    modelString.put(content.name(), "good morning world" +
+      "\ngood afternoon world" +
+      "\ngood night world");
     vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
       handleChange(event);
     });

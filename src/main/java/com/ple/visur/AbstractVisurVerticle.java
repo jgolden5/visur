@@ -6,6 +6,8 @@ import io.vertx.rxjava3.core.eventbus.EventBus;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
+import java.lang.reflect.Array;
+
 import static com.ple.visur.ModelIntKey.*;
 import static com.ple.visur.ModelStringKey.*;
 
@@ -14,6 +16,7 @@ public abstract class AbstractVisurVerticle extends AbstractVerticle {
   SharedData sharedData;
   LocalMap<String, String> modelString;
   LocalMap<String, Integer> modelInt;
+  LocalMap<String, String[]> modelStringArray;
   EventBus bus;
   EditorModelService editorModelService;
 
@@ -23,6 +26,8 @@ public abstract class AbstractVisurVerticle extends AbstractVerticle {
     sharedData = vertx.sharedData();
     modelString = sharedData.getLocalMap("modelString");
     modelInt = sharedData.getLocalMap("modelInt");
+    modelStringArray = sharedData.getLocalMap("modelStringArray");
+
     editorModelService = new EditorModelService(sharedData);
   }
 
