@@ -19,6 +19,7 @@ public abstract class AbstractVisurVerticle extends AbstractVerticle {
   LocalMap<String, String[]> modelStringArray;
   EventBus bus;
   EditorModelService editorModelService;
+  DataModelService dataModelService;
 
   AbstractVisurVerticle() {
     init(Vertx.currentContext().owner(), Vertx.currentContext());
@@ -29,6 +30,7 @@ public abstract class AbstractVisurVerticle extends AbstractVerticle {
     modelStringArray = sharedData.getLocalMap("modelStringArray");
 
     editorModelService = new EditorModelService(sharedData);
+    dataModelService = new DataModelService(sharedData);
   }
 
 }

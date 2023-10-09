@@ -15,7 +15,6 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   }
 
   public void handle(Message event) {
-    System.out.println("x, y to absolute index = " + xyToAbsoluteIndex(editorModelService.getCursorX(), editorModelService.getCursorY()));
     JsonObject keyJson = new JsonObject((String)event.body());
     final String key = keyJson.getString("key");
     mapKeys(key);
@@ -38,7 +37,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         x--;
       }
 //      modelInt.put(cursorX.name(), x);
-      editorModelService.setCursorX(x);
+      editorModelService.putCursorX(x);
     } else if (key.equals("j")) {
       System.out.println("y before y increment = " + editorModelService.getCursorY());
       final Integer height = modelInt.get(canvasHeight.name());
@@ -46,14 +45,14 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         y++;
         System.out.println("y after y increment = " + editorModelService.getCursorY());
 //        modelInt.put(cursorY.name(), y);
-        editorModelService.setCursorY(y);
+        editorModelService.putCursorY(y);
       }
     } else if (key.equals("k")) {
       if(y > 0) {
         y--;
       }
 //      modelInt.put(cursorY.name(), y);
-      editorModelService.setCursorY(y);
+      editorModelService.putCursorY(y);
     } else if (key.equals("l")) {
       final Integer width = modelInt.get(canvasWidth.name());
       System.out.println("x = " + x);
@@ -61,27 +60,9 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         x++;
       }
 //      modelInt.put(cursorX.name(), x);
-      editorModelService.setCursorX(x);
+      editorModelService.putCursorX(x);
     }
     System.out.println(key + " key pressed");
-  }
-
-  public int xyToAbsoluteIndex(int x, int y) {
-    int contentLength = modelString.get(content.name()).length();
-    int numberOfChars = 0;
-    int lineStartIndex = 0;
-    String substr = "";
-    int previousLineLength = 0;
-    for(int i = 0; i < contentLength; i++) {
-      if(modelString.get(content.name()).charAt(i) == '\n') {
-        substr = modelString.get(content.name()).substring(lineStartIndex, i);
-        previousLineLength = substr.length();
-        lineStartIndex = i;
-      } else if(i == previousLineLength + x + y) {
-        return i;
-      }
-    }
-   return -1;
   }
 
 }

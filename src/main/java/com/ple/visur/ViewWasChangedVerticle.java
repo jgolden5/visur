@@ -1,10 +1,13 @@
 package com.ple.visur;
 
-import io.vertx.core.json.JsonObject;
+import io.vertx.core.json.*;
 import io.vertx.rxjava3.core.eventbus.Message;
 
+import java.util.Arrays;
+
 import static com.ple.visur.ModelIntKey.*;
-import static com.ple.visur.ModelStringKey.*;
+import static com.ple.visur.ModelStringArrayKey.*;
+
 
 public class ViewWasChangedVerticle extends AbstractVisurVerticle {
 
@@ -12,11 +15,13 @@ public class ViewWasChangedVerticle extends AbstractVisurVerticle {
 
   @Override
   public void start() {
-    editorModelService.setCursorX(0);
-    editorModelService.setCursorY(0);
-    modelString.put(content.name(), "good morning world" +
-      "\ngood afternoon world" +
-      "\ngood night world");
+    editorModelService.putCursorX(0);
+    editorModelService.putCursorY(0);
+    final String initialContentLines = "Hello world" +
+      "\nhow are youuuuuuu" +
+      "\ngoodbye world";
+    dataModelService.putContentLines(initialContentLines.split("\n"));
+    System.out.println(dataModelService.getContentLines());
     vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
       handleChange(event);
     });
@@ -32,7 +37,7 @@ public class ViewWasChangedVerticle extends AbstractVisurVerticle {
       view.cursorX = editorModelService.getCursorX();
       view.cursorY = editorModelService.getCursorY();
     }
-    view.content = modelString.get(content.name());
+    view.contentLines = dataModelService.getContentLines();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
   }
 
@@ -41,7 +46,7 @@ public class ViewWasChangedVerticle extends AbstractVisurVerticle {
     JsonObject output = new JsonObject();
     output.put(cursorX.name(), view.cursorX);
     output.put(cursorY.name(), view.cursorY);
-    output.put(content.name(), view.content);
+    output.put(contentLines.name(), new JsonArray(Arrays.asList(view.contentLines)));
     return output;
   }
 

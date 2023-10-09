@@ -1,6 +1,6 @@
 var cursorX;
 var cursorY;
-var content;
+var contentLines;
 
 let canvas = document.getElementById("mainCanvas")
 
@@ -21,11 +21,11 @@ eb.onopen = function() {
     console.log("view was changed. message = " + (JSON.stringify(message)))
     cursorX = message["body"]["cursorX"]
     cursorY = message["body"]["cursorY"]
-    content = message["body"]["content"]
+    contentLines = message["body"]["contentLines"]
 
     console.log("CursorX = " + (message["body"]["cursorX"]))
     console.log("CursorY = " + (message["body"]["cursorY"]))
-    console.log("Content = " + (message["body"]["content"]))
+    console.log("Content = " + (message["body"]["contentLines"]))
 
     clearCanvas()
     drawCanvas()
@@ -50,26 +50,24 @@ document.addEventListener('keydown', (event) => {
 
 function drawCanvas() {
   console.log("before drawCanvas()")
-  charIndex = 0
-  for(let y = 0; y < canvasHeight - 1; y++) {
-    for(let x = 0; x < canvasWidth; x++) {
-      console.log("x = " + x + ". y = " + y);
-      if(cursorX == x && cursorY == y) {
-        drawCharacter(x, y, "O")
+  let lineX = 0
+  let lineY = 0
+  let lineContentX = 0
+  let lineContentY = 0
+  lineContinuing = false
+  for(let i = 0; i < contentLines.length; i++) {
+    let currentLine = contentLines[i]
+    for(let j = 0; j < currentLine.length; j++) {
+      if(!lineContinuing) {
+       lineY++
       }
-      if(content.charAt(charIndex) === "\n") {
-        y++;
-        x = -1;
-      } else {
-        drawCharacter(x, y, content.charAt(charIndex))
-      }
-      charIndex++
     }
   }
-  console.log("content = " + content + ". content length = " + content.length)
+  console.log("contentLines = " + contentLines + ". contentLines length = " + contentLines.length)
   console.log("cursor x = " + cursorX + ", cursor y = " + cursorY)
   console.log("after drawCanvas()")
 }
+
 
 let i = 0
 
