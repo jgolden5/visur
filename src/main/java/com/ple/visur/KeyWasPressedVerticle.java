@@ -40,7 +40,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       System.out.println("x = " + editorModelService.getCursorX());
     } else if (key.equals("j")) {
       System.out.println("y before y increment = " + editorModelService.getCursorY());
-      final Integer height = modelInt.get(canvasHeight.name());
+      final Integer height = editorModelService.getCanvasHeight();
       if(y < height - 1) {
         y++;
         System.out.println("y after y increment = " + editorModelService.getCursorY());
@@ -50,17 +50,15 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       if(y > 0) {
         y--;
       }
-//      modelInt.put(cursorY.name(), y);
       editorModelService.putCursorY(y);
     } else if (key.equals("l")) {
-      final Integer width = modelInt.get(canvasWidth.name());
+      final Integer width = editorModelService.getCanvasWidth();
       System.out.println("width = " + width);
       System.out.println("x = " + x);
       if(x < width - 1) {
         x++;
       }
       System.out.println("x = " + x);
-//      modelInt.put(cursorX.name(), x);
       editorModelService.putCursorX(x);
       System.out.println("x = " + editorModelService.getCursorX());
     }
