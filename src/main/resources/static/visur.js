@@ -75,15 +75,15 @@ function drawCanvas() {
         if(fullContentWasDrawn && cursorWasDrawn) {
           break contentLoop
         }
+        if(!cursorWasDrawn) {
+          if(x == cursorX && y == cursorY) {
+            drawCursor(x, y, "⬜️")
+          }
+        }
         if(!fullContentWasDrawn) {
           let char = line.charAt(contentX)
           drawCharacter(x, y, char)
           contentX++
-        }
-        if(!cursorWasDrawn) {
-          if(x == cursorX && y == cursorY) {
-            drawCharacter(x, y, "O")
-          }
         }
       }
       if(!fullContentWasDrawn) {
@@ -106,8 +106,12 @@ function drawCanvas() {
 
 let i = 0
 
-function toX(x) {
+function toXContent(x) {
   return x * cellWidth + canvasXOffset
+}
+
+function toXCursor(x) {
+  return x * cellWidth + canvasXOffset - 6
 }
 
 function toY(y) {
@@ -116,8 +120,12 @@ function toY(y) {
 
 function drawCharacter(x, y, characterToDraw) {
 //  console.log("before drawCharacter()")
-  ctx.fillText(characterToDraw, toX(x), toY(y));
+  ctx.fillText(characterToDraw, toXContent(x), toY(y));
 //  console.log("after drawCharacter(), " + i + " characters have been drawn")
+}
+
+function drawCursor(x, y, cursorIcon) {
+  ctx.fillText(cursorIcon, toXCursor(x), toY(y))
 }
 
 function clearCanvas() {
