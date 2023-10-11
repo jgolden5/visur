@@ -1,8 +1,16 @@
 package com.ple.visur;
 
 public enum BusEvent {
-  //sent by eb.onopen (visur.js), consumed by CanvasWasChangedVerticle
+  //sent in js in eb.onopen, consumed by CanvasWasChangedVerticle
   canvasWasChanged,
-  keyWasPressed, modelChange, viewWasChanged
+
+  //sent in js in keyDown event listener, consumed by KeyWasPressedVerticle
+  keyWasPressed,
+
+  //sent in KeyWasPressedVerticle, consumed by ModelChangeVerticle
+  modelChange,
+
+  //sent in ModelChangeVerticle, consumed in visur.js in eventbus.onopen
+  viewWasChanged
 }
 
