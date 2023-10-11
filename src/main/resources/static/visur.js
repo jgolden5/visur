@@ -50,24 +50,59 @@ document.addEventListener('keydown', (event) => {
 
 function drawCanvas() {
   console.log("before drawCanvas()")
-  let lineX = 0
-  let lineY = 0
-  let lineContentX = 0
-  let lineContentY = 0
+  let contentX = 0
+  let contentY = 0
   lineContinuing = false
-  for(let i = 0; i < contentLines.length; i++) {
-    let currentLine = contentLines[i]
-    for(let j = 0; j < currentLine.length; j++) {
-      if(!lineContinuing) {
-       lineY++
+  let x
+  let y
+  let numberOfWrappedLines = 0
+  let cursorWasDrawn = false
+  let fullContentWasDrawn = false
+  contentLoop:
+    for(y = 0; y < canvasHeight; y++) {
+      let line = contentLines[contentY]
+      for(x = 0; x < canvasWidth; x++) {
+        if(!fullContentWasDrawn) {
+          if(contentY == contentLines.length - 1 && contentX == line.length) {
+            fullContentWasDrawn = true
+          }
+        }
+        if(!cursorWasDrawn) {
+          if(cursorX < x && cursorY < y) {
+            cursorWasDrawn = true
+          }
+        }
+        if(fullContentWasDrawn && cursorWasDrawn) {
+          break contentLoop
+        }
+        if(!fullContentWasDrawn) {
+          let char = line.charAt(contentX)
+          drawCharacter(x, y, char)
+          contentX++
+        }
+        if(!cursorWasDrawn) {
+          if(x == cursorX && y == cursorY) {
+            drawCharacter(x, y, "O")
+          }
+        }
+      }
+      if(!fullContentWasDrawn) {
+        if(canvasWidth * (numberOfWrappedLines + 1) >= line.length) {
+          numberOfWrappedLines = 0
+          contentX = 0
+          contentY++
+        } else {
+          numberOfWrappedLines++
+        }
       }
     }
-  }
-  console.log("contentLines = " + contentLines + ". contentLines length = " + contentLines.length)
+
+  console.log("canvas x = " + x)
+  console.log("canvas y = " + y)
   console.log("cursor x = " + cursorX + ", cursor y = " + cursorY)
+  console.log("contentLines = " + contentLines + ". contentLines length = " + contentLines.length)
   console.log("after drawCanvas()")
 }
-
 
 let i = 0
 

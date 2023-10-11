@@ -29,22 +29,21 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   }
 
   public void mapKeys(String key) {
-//    int x = modelInt.get(cursorX.name());
     int x = editorModelService.getCursorX();
     int y = editorModelService.getCursorY();
-    if (key.equals("h")) {
+    if(key.equals("h")) {
+      System.out.println("x = " + editorModelService.getCursorX());
       if(x > 0) {
         x--;
       }
-//      modelInt.put(cursorX.name(), x);
       editorModelService.putCursorX(x);
+      System.out.println("x = " + editorModelService.getCursorX());
     } else if (key.equals("j")) {
       System.out.println("y before y increment = " + editorModelService.getCursorY());
       final Integer height = modelInt.get(canvasHeight.name());
       if(y < height - 1) {
         y++;
         System.out.println("y after y increment = " + editorModelService.getCursorY());
-//        modelInt.put(cursorY.name(), y);
         editorModelService.putCursorY(y);
       }
     } else if (key.equals("k")) {
@@ -55,12 +54,15 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       editorModelService.putCursorY(y);
     } else if (key.equals("l")) {
       final Integer width = modelInt.get(canvasWidth.name());
+      System.out.println("width = " + width);
       System.out.println("x = " + x);
       if(x < width - 1) {
         x++;
       }
+      System.out.println("x = " + x);
 //      modelInt.put(cursorX.name(), x);
       editorModelService.putCursorX(x);
+      System.out.println("x = " + editorModelService.getCursorX());
     }
     System.out.println(key + " key pressed");
   }

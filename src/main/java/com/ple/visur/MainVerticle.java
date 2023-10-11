@@ -17,10 +17,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
-import static com.ple.visur.ModelIntKey.cursorX;
-import static com.ple.visur.ModelIntKey.cursorY;
-import static com.ple.visur.ModelStringKey.content;
-
 public class MainVerticle extends AbstractVisurVerticle {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MainVerticle.class);
@@ -34,7 +30,7 @@ public class MainVerticle extends AbstractVisurVerticle {
 
     vertx.deployVerticle(new CanvasWasChangedVerticle());
 
-    vertx.deployVerticle(new ViewWasChangedVerticle());
+    vertx.deployVerticle(new ModelChangeVerticle());
 
     Router router = Router.router(vertx);
 
