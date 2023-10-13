@@ -57,6 +57,8 @@ public class MainVerticle extends AbstractVisurVerticle {
     });
 
     vertx.createHttpServer().requestHandler(router).listen(8888);
+
+    editorModelService.putCurrentLineNumber(0);
   }
 
   private void staticHandler(RoutingContext context) {

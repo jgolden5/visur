@@ -18,13 +18,16 @@ public class EditorModelService {
   }
 
   public int getCanvasWidth() {
-    return (int)sharedData.getLocalMap("canvasWidth").get(canvasWidth.name());
+    return (int)sharedData.getLocalMap("modelInt").get(canvasWidth.name());
   }
 
   public int getCanvasHeight() {
-    return (int)sharedData.getLocalMap("canvasHeight").get(canvasHeight.name());
+    return (int)sharedData.getLocalMap("modelInt").get(canvasHeight.name());
   }
 
+  public int getCurrentLineNumber() {
+    return (int)sharedData.getLocalMap("modelInt").get(currentLineNumber.name());
+  }
 
   public void putCursorX(int x) {
     sharedData.getLocalMap("modelInt").put(cursorX.name(), x);
@@ -35,12 +38,17 @@ public class EditorModelService {
   }
 
   public void putCanvasWidth(int width) {
-    sharedData.getLocalMap("canvasWidth").put(canvasWidth.name(), width);
+    sharedData.getLocalMap("modelInt").put(canvasWidth.name(), width);
   }
 
   public void putCanvasHeight(int height) {
-    sharedData.getLocalMap("canvasHeight").put(canvasHeight.name(), height);
+    sharedData.getLocalMap("modelInt").put(canvasHeight.name(), height);
   }
+
+  public void putCurrentLineNumber(int lineNumber) {
+    sharedData.getLocalMap("modelInt").put(currentLineNumber.name(), lineNumber);
+  }
+
 
   EditorModelService(SharedData sharedData) {
     this.sharedData = sharedData;

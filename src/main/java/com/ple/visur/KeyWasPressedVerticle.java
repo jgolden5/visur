@@ -31,6 +31,11 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   public void mapKeys(String key) {
     int x = editorModelService.getCursorX();
     int y = editorModelService.getCursorY();
+    String currentLine = dataModelService.getContentLines()[editorModelService.getCurrentLineNumber()];
+    int currentLineLength = currentLine.length();
+    final int canvasWidth = editorModelService.getCanvasWidth();
+//    int lineEndY = currentLineLength / canvasWidth;
+//    int lineEndX = lineEndY + currentLineLength % canvasWidth;
     if(key.equals("h")) {
       System.out.println("x = " + editorModelService.getCursorX());
       if(x > 0) {
