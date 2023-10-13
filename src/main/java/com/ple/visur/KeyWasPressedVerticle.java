@@ -34,8 +34,11 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     String currentLine = dataModelService.getContentLines()[editorModelService.getCurrentLineNumber()];
     int currentLineLength = currentLine.length();
     final int canvasWidth = editorModelService.getCanvasWidth();
-//    int lineEndY = currentLineLength / canvasWidth;
-//    int lineEndX = lineEndY + currentLineLength % canvasWidth;
+    int lineEndY = currentLineLength / canvasWidth;
+    int lineEndX = currentLineLength % canvasWidth - 1;
+    System.out.println("line end x = " + lineEndX);
+    System.out.println("line end y = " + lineEndY);
+    System.out.println("canvas width = " + canvasWidth);
     if(key.equals("h")) {
       System.out.println("x = " + editorModelService.getCursorX());
       if(x > 0) {
@@ -61,7 +64,10 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       System.out.println("width = " + width);
       System.out.println("x = " + x);
       if(x < width - 1) {
-        x++;
+        boolean shouldGoRight = !(editorModelService.getCursorX() == lineEndX && editorModelService.getCursorY() >= lineEndY);
+        if(shouldGoRight) {
+          x++;
+        }
       }
       System.out.println("x = " + x);
       editorModelService.putCursorX(x);

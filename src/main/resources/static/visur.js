@@ -86,6 +86,9 @@ function drawCanvas() {
           contentX++
         }
       }
+      if(contentY + 1 == contentLines.length && contentLines[contentY].length == canvasWidth * (y + 1)) {
+        fullContentWasDrawn = true
+      }
       if(!fullContentWasDrawn) {
         if(canvasWidth * (numberOfWrappedLines + 1) >= line.length) {
           numberOfWrappedLines = 0
