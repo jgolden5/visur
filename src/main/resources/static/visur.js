@@ -18,18 +18,17 @@ ctx.font = cellWidth + "px courier"
 var eb = new EventBus('http://localhost:8888/eventbus');
 eb.onopen = function() {
   eb.registerHandler('viewWasChanged', (error, message) => {
-    console.log("view was changed. message = " + (JSON.stringify(message)))
     cursorX = message["body"]["cursorX"]
     cursorY = message["body"]["cursorY"]
     contentLines = message["body"]["contentLines"]
 
     console.log("CursorX = " + (message["body"]["cursorX"]))
     console.log("CursorY = " + (message["body"]["cursorY"]))
-    console.log("Content = " + (message["body"]["contentLines"]))
+    console.log("")
+//    console.log("Content = " + (message["body"]["contentLines"]))
 
     clearCanvas()
     drawCanvas()
-    console.log("Canvas should have been drawn")
 
   })
   let canvasInfo = {
@@ -46,10 +45,10 @@ document.addEventListener('keydown', (event) => {
     key: event.key
   }
   eb.send("keyWasPressed", JSON.stringify(keyPressedInfo))
+  console.log(keyPressedInfo.key + " key was pressed")
 })
 
 function drawCanvas() {
-  console.log("before drawCanvas()")
   let contentX = 0
   let contentY = 0
   lineContinuing = false
@@ -100,11 +99,6 @@ function drawCanvas() {
       }
     }
 
-  console.log("canvas x = " + x)
-  console.log("canvas y = " + y)
-  console.log("cursor x = " + cursorX + ", cursor y = " + cursorY)
-  console.log("contentLines = " + contentLines + ". contentLines length = " + contentLines.length)
-  console.log("after drawCanvas()")
 }
 
 let i = 0
@@ -122,9 +116,7 @@ function toY(y) {
 }
 
 function drawCharacter(x, y, characterToDraw) {
-//  console.log("before drawCharacter()")
   ctx.fillText(characterToDraw, toXContent(x), toY(y));
-//  console.log("after drawCharacter(), " + i + " characters have been drawn")
 }
 
 function drawCursor(x, y, cursorIcon) {
@@ -132,7 +124,5 @@ function drawCursor(x, y, cursorIcon) {
 }
 
 function clearCanvas() {
-  console.log("before clearCanvas()")
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  console.log("after clearCanvas()")
 }

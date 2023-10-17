@@ -14,18 +14,14 @@ public class CanvasWasChangedVerticle extends AbstractVisurVerticle {
   public void handle(Message event) {
     JsonObject canvasJson = new JsonObject((String)event.body());
     final Integer width = canvasJson.getInteger("width");
-//    modelInt.put("canvasWidth", width);
     editorModelService.putCanvasWidth(width);
     final Integer height = canvasJson.getInteger("height");
-//    modelInt.put("canvasHeight", height);
     editorModelService.putCanvasHeight(height);
     int lineNumber = 1;
     for(String line : dataModelService.getContentLines()) {
       System.out.println("Line " + lineNumber + ": " + line);
       lineNumber++;
     }
-    System.out.println("canvas width = " + width);
-    System.out.println("canvas height = " + height);
   }
 
 }

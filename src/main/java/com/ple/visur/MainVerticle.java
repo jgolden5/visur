@@ -23,7 +23,6 @@ public class MainVerticle extends AbstractVisurVerticle {
 
   @Override
   public void start() {
-    System.out.println("System out works");
     LOGGER.debug("Starting main verticle");
 
     vertx.deployVerticle(new KeyWasPressedVerticle());
