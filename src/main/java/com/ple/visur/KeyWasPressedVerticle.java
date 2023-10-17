@@ -36,6 +36,9 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     final int canvasWidth = editorModelService.getCanvasWidth();
     int lineEndY = currentLineLength / canvasWidth;
     int lineEndX = currentLineLength % canvasWidth - 1;
+    if(lineEndX == -1) {
+      lineEndX = canvasWidth - 1; //weird workaround
+    }
     System.out.println("line end x = " + lineEndX);
     System.out.println("line end y = " + lineEndY);
     System.out.println("canvas width = " + canvasWidth);
@@ -47,13 +50,23 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       editorModelService.putCursorX(x);
       System.out.println("x = " + editorModelService.getCursorX());
     } else if (key.equals("j")) {
-      System.out.println("y before y increment = " + editorModelService.getCursorY());
       final Integer height = editorModelService.getCanvasHeight();
+      System.out.println("height = " + height);
+      System.out.println("y = " + y);
       if(y < height - 1) {
-        y++;
-        System.out.println("y after y increment = " + editorModelService.getCursorY());
-        editorModelService.putCursorY(y);
+        boolean shouldGoDown = !(y + 1 > lineEndY || currentLineLength == canvasWidth * (y + 1));
+        boolean shouldAdjustX = shouldGoDown && x > lineEndX && y == lineEndY - 1;
+        if(shouldGoDown) {
+          y++;
+          if(shouldAdjustX) {
+            x = lineEndX;
+          }
+        }
       }
+      System.out.println("y = " + y);
+      editorModelService.putCursorY(y);
+      editorModelService.putCursorX(x);
+      System.out.println("y = " + editorModelService.getCursorY());
     } else if (key.equals("k")) {
       if(y > 0) {
         y--;
