@@ -67,7 +67,7 @@ function drawCanvas() {
             fullContentWasDrawn = true
           }
         }
-        if(!cursorWasDrawn) {
+        if(!cursorWasDrawn) { //what's up with this?
           if(cursorX < x && cursorY < y) {
             cursorWasDrawn = true
           }
