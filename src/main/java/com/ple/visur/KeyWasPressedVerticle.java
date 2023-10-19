@@ -36,9 +36,6 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     int currentLineNumber = editorModelService.getCurrentLineNumber();
     String currentLine = dataModelService.getContentLines()[currentLineNumber];
     int currentLineLength = currentLine.length();
-    String nextLine = currentLineNumber + 1 == dataModelService.getContentLines().length ?
-      "" : dataModelService.getContentLines()[currentLineNumber + 1];
-    int nextLineLength = nextLine.length();
     final int canvasWidth = editorModelService.getCanvasWidth();
     final int canvasHeight = editorModelService.getCanvasHeight();
     int lineEndY = lineStartY + currentLineLength / canvasWidth;
@@ -63,6 +60,10 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       editorModelService.putCursorX(x);
       System.out.println("x = " + editorModelService.getCursorX());
     } else if (key.equals("j")) {
+      String nextLine = currentLineNumber + 1 == dataModelService.getContentLines().length ?
+        "" : dataModelService.getContentLines()[currentLineNumber + 1];
+      int nextLineLength = nextLine.length();
+
       System.out.println("height = " + canvasHeight);
       System.out.println("y = " + y);
       if(y < canvasHeight - 1) {
@@ -97,16 +98,40 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       editorModelService.putCursorX(x);
       System.out.println("y = " + editorModelService.getCursorY());
     } else if (key.equals("k")) {
+      String previousLine = currentLineNumber - 1 < 0 ?
+        "" : dataModelService.getContentLines()[currentLineNumber - 1];
+      int previousLineLength = previousLine.length();
+
+      System.out.println("height = " + canvasHeight);
+      System.out.println("y = " + y);
       if(y > 0) {
-        y--;
-        if(y < lineStartY) {
-          editorModelService.putCurrentLineNumber(currentLineNumber - 1);
-          lineEndY = y;
-          updateLineStartY(lineEndY);
+        boolean beginningOfCurrentLine = y == lineStartY;
+        boolean shouldGoUp;
+        boolean shouldAdjustX;
+        if(beginningOfCurrentLine) {
+          shouldGoUp = currentLineNumber - 1 >= 0;
+          shouldAdjustX = previousLineLength % canvasWidth < x + 1 && shouldGoUp;
+        } else {
+          shouldGoUp = true;
+          shouldAdjustX = false;
         }
-        System.out.println("current line number = " + editorModelService.getCurrentLineNumber());
+        if(shouldGoUp) {
+          y--;
+          if(y < lineStartY) {
+            editorModelService.putCurrentLineNumber(currentLineNumber - 1);
+            lineEndY = y;
+            updateLineStartY(lineEndY);
+          }
+          if(shouldAdjustX) {
+            x = previousLineLength % canvasWidth - 1;
+          }
+        }
       }
+      System.out.println("y = " + y);
       editorModelService.putCursorY(y);
+      System.out.println("current line number = " + editorModelService.getCurrentLineNumber());
+      editorModelService.putCursorX(x);
+      System.out.println("y = " + editorModelService.getCursorY());
     } else if (key.equals("l")) {
       final Integer width = editorModelService.getCanvasWidth();
       System.out.println("width = " + width);
