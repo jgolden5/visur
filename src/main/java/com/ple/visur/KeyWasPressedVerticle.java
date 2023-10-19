@@ -36,9 +36,11 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     int currentLineNumber = editorModelService.getCurrentLineNumber();
     String currentLine = dataModelService.getContentLines()[currentLineNumber];
     int currentLineLength = currentLine.length();
-    String nextLine = currentLineNumber + 1 == dataModelService.getContentLines().length ? "" : dataModelService.getContentLines()[currentLineNumber + 1];
+    String nextLine = currentLineNumber + 1 == dataModelService.getContentLines().length ?
+      "" : dataModelService.getContentLines()[currentLineNumber + 1];
     int nextLineLength = nextLine.length();
     final int canvasWidth = editorModelService.getCanvasWidth();
+    final int canvasHeight = editorModelService.getCanvasHeight();
     int lineEndY = lineStartY + currentLineLength / canvasWidth;
     if(currentLineLength % canvasWidth == 0) {
       lineEndY--;
@@ -52,6 +54,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     System.out.println("line end x = " + lineEndX);
     System.out.println("line end y = " + lineEndY);
     System.out.println("canvas width = " + canvasWidth);
+
     if(key.equals("h")) {
       System.out.println("x = " + editorModelService.getCursorX());
       if(x > 0) {
@@ -60,16 +63,15 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       editorModelService.putCursorX(x);
       System.out.println("x = " + editorModelService.getCursorX());
     } else if (key.equals("j")) {
-      final Integer height = editorModelService.getCanvasHeight();
-      System.out.println("height = " + height);
+      System.out.println("height = " + canvasHeight);
       System.out.println("y = " + y);
-      if(y < height - 1) {
-        boolean shouldGoToNextLine = y == lineEndY && currentLineNumber + 1 < currentLineLength;
+      if(y < canvasHeight - 1) {
+        boolean endOfCurrentLine = y == lineEndY && currentLineNumber + 1 < dataModelService.getContentLines().length;
         boolean shouldGoDown;
         boolean shouldAdjustX;
-        if(shouldGoToNextLine) {
-          shouldGoDown = !(currentLineNumber + 1 >= dataModelService.getContentLines().length);
-          shouldAdjustX = nextLine.length() < x + 1 && shouldGoDown;
+        if(endOfCurrentLine) {
+          shouldGoDown = currentLineNumber + 1 < dataModelService.getContentLines().length;
+          shouldAdjustX = nextLineLength < x + 1 && shouldGoDown;
         } else {
           shouldGoDown = !(y + 1 > lineEndY || currentLineLength == canvasWidth * (y + 1));
           shouldAdjustX = shouldGoDown && x > lineEndX && y == lineEndY - 1;
@@ -81,7 +83,11 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
             lineStartY = y;
           }
           if(shouldAdjustX) {
-            x = lineEndX;
+            if(endOfCurrentLine) {
+              x = nextLineLength - 1;
+            } else {
+              x = lineEndX;
+            }
           }
         }
       }
