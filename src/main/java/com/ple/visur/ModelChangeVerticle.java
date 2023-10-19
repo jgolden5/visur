@@ -18,8 +18,8 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
     editorModelService.putCursorX(0);
     editorModelService.putCursorY(0);
     final String initialContentLines = "xxxx" + //4 x's
-      "\nyyyyy" + //5 y's
-      "\nzz"; //2 z's
+      "\nyyy" + //3 y's
+      "\nzzzzz"; //5 z's
     dataModelService.putContentLines(initialContentLines.split("\n"));
     System.out.println(dataModelService.getContentLines());
     vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
