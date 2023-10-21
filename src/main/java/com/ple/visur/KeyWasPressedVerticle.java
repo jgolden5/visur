@@ -55,8 +55,9 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     if(key.equals("h")) {
       if(x > 0) {
         x--;
+        editorModelService.putCursorX(x);
+        editorModelService.putMaxInterlinearX(x);
       }
-      editorModelService.putCursorX(x);
     } else if (key.equals("j")) {
       String nextLine = currentLineNumber + 1 == dataModelService.getContentLines().length ?
         "" : dataModelService.getContentLines()[currentLineNumber + 1];
@@ -85,7 +86,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
             if(endOfCurrentLine) {
               x = nextLineLength - 1;
             } else {
-              x = lineEndX;
+                x = lineEndX;
             }
           }
         }
@@ -137,9 +138,10 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
           editorModelService.getCursorY() >= lineEndY);
         if(shouldGoRight) {
           x++;
+          editorModelService.putCursorX(x);
+          editorModelService.putMaxInterlinearX(x);
         }
       }
-      editorModelService.putCursorX(x);
     }
   }
 

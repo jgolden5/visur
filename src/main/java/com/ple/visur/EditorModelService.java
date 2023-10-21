@@ -29,6 +29,10 @@ public class EditorModelService {
     return (int)sharedData.getLocalMap("modelInt").get(currentLineNumber.name());
   }
 
+  public int getMaxInterlinearX() {
+    return (int)sharedData.getLocalMap("modelInt").get(maxInterlinearX.name());
+  }
+
   public void putCursorX(int x) {
     sharedData.getLocalMap("modelInt").put(cursorX.name(), x);
   }
@@ -47,6 +51,10 @@ public class EditorModelService {
 
   public void putCurrentLineNumber(int lineNumber) {
     sharedData.getLocalMap("modelInt").put(currentLineNumber.name(), lineNumber);
+  }
+
+  public void putMaxInterlinearX(int x) {
+    sharedData.getLocalMap("modelInt").put(maxInterlinearX.name(), x);
   }
 
 

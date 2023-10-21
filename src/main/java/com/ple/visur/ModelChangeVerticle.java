@@ -17,13 +17,9 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
   public void start() {
     editorModelService.putCursorX(0);
     editorModelService.putCursorY(0);
-    final String initialContentLines = "Trog is an ancient god of anger and violence." +
-      "\nIn return, worshippers of Trog gain the ability to go berserk at will in combat, and will be granted assistance in the form of powerful weapons and mighty allies." +
-      "\nFollowers are absolutely forbidden the use of spell magic." +
-      "\nTrog offers various powers to help followers in battle." +
-      "\nFollowers will gain the ability to go berserk at will, and to rapidly heal their wounds while fortifying their willpower." +
-      "\nLater, followers may call in powerful raging allies." +
-      "\nEventually, Trog will gift followers with weapons, often with antimagic effects.";
+    final String initialContentLines = "xxxx" +
+      "\nyy" +
+      "\nzzzzzz";
     dataModelService.putContentLines(initialContentLines.split("\n"));
     vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
       handleChange(event);
