@@ -68,6 +68,22 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         boolean endOfCurrentLine = y == lineEndY && currentLineNumber + 1 < dataModelService.getContentLines().length;
         boolean shouldGoDown;
         boolean shouldAdjustX;
+        int nextMaxX = 0;
+        //
+        if(endOfCurrentLine) {
+          if(nextLineLength <= canvasWidth) {
+            nextMaxX = nextLineLength - 1;
+          } else {
+            nextMaxX = canvasWidth - 1;
+          }
+        } else {
+          if(y == lineEndY) {
+            nextMaxX = lineEndX;
+          } else {
+            nextMaxX = currentLineLength % canvasWidth - 1;
+          }
+        }
+        //
         if(endOfCurrentLine) {
           shouldGoDown = currentLineNumber + 1 < dataModelService.getContentLines().length;
           shouldAdjustX = nextLineLength != x + 1 && shouldGoDown;
@@ -82,10 +98,10 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
             lineStartY = y;
           }
           if(shouldAdjustX) {
-            if(y == lineEndY) {
-              x = lineEndX;
-            } else {
+            if(nextMaxX >= interlinearX) {
               x = interlinearX;
+            } else {
+              x = nextMaxX;
             }
           }
         }

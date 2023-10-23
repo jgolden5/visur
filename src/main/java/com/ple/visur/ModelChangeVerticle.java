@@ -18,10 +18,14 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
     editorModelService.putCursorX(0);
     editorModelService.putCursorY(0);
     editorModelService.putInterlinearX(0);
-    final String initialContentLines = "xxxx" + //4x
-      "\nyyyyy" + //5y
-      "\nz" + //z
-      "\naaaa"; //4a
+    final String initialContentLines = "xxx" + //3x
+      "\nyyyy" + //4y
+      "\nzzzzz"; //5z
+//    final String initialContentLines = "Okawaru is a dangerous and powerful god of battle." +
+//      "\nFollowers are expected to constantly prove themselves in combat, and may channel Okawaru's might to enhance their prowess." +
+//      "\nOkawaru demands that followers prove themselves by their own strength alone, and so worshippers are forbidden from gaining allies by any means." +
+//      "\nOkawaru pays little heed to easy victories, but will reward worshippers for heroic feats against mighty foes." +
+//      "\n\"Bring me glory in combat!\"";
     dataModelService.putContentLines(initialContentLines.split("\n"));
     vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
       handleChange(event);
