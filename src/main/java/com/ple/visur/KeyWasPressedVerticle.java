@@ -4,9 +4,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava3.core.eventbus.Message;
 
-import static com.ple.visur.ModelIntKey.*;
-import static com.ple.visur.ModelStringKey.*;
-
 public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   int lineStartY = 0;
   int lineStartX = 0;
@@ -46,6 +43,8 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     if(lineEndX == -1) {
       lineEndX = canvasWidth - 1; //weird workaround
     }
+    int interlinearX = editorModelService.getInterlinearX();
+
     System.out.println("line start x = " + lineStartX);
     System.out.println("line start y = " + lineStartY);
     System.out.println("line end x = " + lineEndX);
@@ -56,7 +55,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       if(x > 0) {
         x--;
         editorModelService.putCursorX(x);
-        editorModelService.putMaxInterlinearX(x);
+        editorModelService.putInterlinearX(x);
       }
     } else if (key.equals("j")) {
       String nextLine = currentLineNumber + 1 == dataModelService.getContentLines().length ?
@@ -71,10 +70,10 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         boolean shouldAdjustX;
         if(endOfCurrentLine) {
           shouldGoDown = currentLineNumber + 1 < dataModelService.getContentLines().length;
-          shouldAdjustX = nextLineLength < x + 1 && shouldGoDown;
+          shouldAdjustX = nextLineLength != x + 1 && shouldGoDown;
         } else {
           shouldGoDown = !(y + 1 > lineEndY || currentLineLength == canvasWidth * (y + 1));
-          shouldAdjustX = shouldGoDown && x > lineEndX && y == lineEndY - 1;
+          shouldAdjustX = shouldGoDown && x != lineEndX && y == lineEndY - 1;
         }
         if(shouldGoDown) {
           y++;
@@ -83,10 +82,10 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
             lineStartY = y;
           }
           if(shouldAdjustX) {
-            if(endOfCurrentLine) {
-              x = nextLineLength - 1;
+            if(y == lineEndY) {
+              x = lineEndX;
             } else {
-                x = lineEndX;
+              x = interlinearX;
             }
           }
         }
@@ -139,7 +138,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         if(shouldGoRight) {
           x++;
           editorModelService.putCursorX(x);
-          editorModelService.putMaxInterlinearX(x);
+          editorModelService.putInterlinearX(x);
         }
       }
     }

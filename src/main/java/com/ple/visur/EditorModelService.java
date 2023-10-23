@@ -3,7 +3,6 @@ package com.ple.visur;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
 import static com.ple.visur.ModelIntKey.*;
-import static com.ple.visur.ModelStringArrayKey.*;
 
 public class EditorModelService {
 
@@ -29,8 +28,8 @@ public class EditorModelService {
     return (int)sharedData.getLocalMap("modelInt").get(currentLineNumber.name());
   }
 
-  public int getMaxInterlinearX() {
-    return (int)sharedData.getLocalMap("modelInt").get(maxInterlinearX.name());
+  public int getInterlinearX() {
+    return (int)sharedData.getLocalMap("modelInt").get(interlinearX.name());
   }
 
   public void putCursorX(int x) {
@@ -53,8 +52,8 @@ public class EditorModelService {
     sharedData.getLocalMap("modelInt").put(currentLineNumber.name(), lineNumber);
   }
 
-  public void putMaxInterlinearX(int x) {
-    sharedData.getLocalMap("modelInt").put(maxInterlinearX.name(), x);
+  public void putInterlinearX(int x) {
+    sharedData.getLocalMap("modelInt").put(interlinearX.name(), x);
   }
 
 
