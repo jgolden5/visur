@@ -67,7 +67,6 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       if(y < canvasHeight - 1) {
         boolean endOfCurrentLine = y == lineEndY && currentLineNumber + 1 < dataModelService.getContentLines().length;
         boolean shouldGoDown;
-        boolean shouldAdjustX;
         int nextMaxX = 0;
         //
         if(endOfCurrentLine) {
@@ -79,17 +78,21 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         } else {
           if(y == lineEndY) {
             nextMaxX = lineEndX;
+          } else if(y + 1 == lineEndY) {
+            if(currentLineLength % canvasWidth == 0) {
+              nextMaxX = canvasWidth - 1;
+            } else {
+              nextMaxX = currentLineLength % canvasWidth - 1;
+            }
           } else {
-            nextMaxX = currentLineLength % canvasWidth - 1;
+            nextMaxX = canvasWidth - 1;
           }
         }
         //
         if(endOfCurrentLine) {
           shouldGoDown = currentLineNumber + 1 < dataModelService.getContentLines().length;
-          shouldAdjustX = nextLineLength != x + 1 && shouldGoDown;
         } else {
           shouldGoDown = !(y + 1 > lineEndY || currentLineLength == canvasWidth * (y + 1));
-          shouldAdjustX = shouldGoDown && x != lineEndX && y == lineEndY - 1;
         }
         if(shouldGoDown) {
           y++;
@@ -97,12 +100,10 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
             editorModelService.putCurrentLineNumber(currentLineNumber + 1);
             lineStartY = y;
           }
-          if(shouldAdjustX) {
-            if(nextMaxX >= interlinearX) {
-              x = interlinearX;
-            } else {
-              x = nextMaxX;
-            }
+          if(nextMaxX >= interlinearX) {
+            x = interlinearX;
+          } else {
+            x = nextMaxX;
           }
         }
       }
@@ -121,13 +122,18 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       if(y > 0) {
         boolean beginningOfCurrentLine = y == lineStartY;
         boolean shouldGoUp;
-        boolean shouldAdjustX;
+        int lastMaxX = 0;
+        //
+        if(beginningOfCurrentLine && previousLineLength % canvasWidth != 0) {
+          lastMaxX = previousLineLength % canvasWidth - 1;
+        } else {
+          lastMaxX = canvasWidth - 1;
+        }
+        //
         if(beginningOfCurrentLine) {
           shouldGoUp = currentLineNumber - 1 >= 0;
-          shouldAdjustX = previousLineLength % canvasWidth < x + 1 && shouldGoUp;
         } else {
           shouldGoUp = true;
-          shouldAdjustX = false;
         }
         if(shouldGoUp) {
           y--;
@@ -136,8 +142,10 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
             lineEndY = y;
             updateLineStartY(lineEndY);
           }
-          if(shouldAdjustX) {
-            x = previousLineLength % canvasWidth - 1;
+          if(lastMaxX >= interlinearX) {
+            x = interlinearX;
+          } else {
+            x = lastMaxX;
           }
         }
       }
