@@ -25,7 +25,8 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
 //      "\nFollowers are expected to constantly prove themselves in combat, and may channel Okawaru's might to enhance their prowess." +
 //      "\nOkawaru demands that followers prove themselves by their own strength alone, and so worshippers are forbidden from gaining allies by any means." +
 //      "\nOkawaru pays little heed to easy victories, but will reward worshippers for heroic feats against mighty foes." +
-//      "\n\"Bring me glory in combat!\"";
+//      "\n\"Bring me glory in combat!\"" +
+//      "\nThe most favoured of Okawaru may challenge their foes to honourable single combat.";
     dataModelService.putContentLines(initialContentLines.split("\n"));
     vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
       handleChange(event);

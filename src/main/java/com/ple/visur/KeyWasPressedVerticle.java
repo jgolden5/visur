@@ -93,17 +93,11 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
             nextMaxX = canvasWidth - 1;
           }
         }
-        if(endOfCurrentLine) {
-          shouldGoDown = currentLineNumber + 1 < dataModelService.getContentLines().length;
-        } else {
-          shouldGoDown = !(y + 1 > lineEndY || currentLineLength == canvasWidth * (y + 1));
-        }
+        shouldGoDown = currentLineNumber < dataModelService.getContentLines().length - 1;
         if(shouldGoDown) {
-          y++;
-          if(y > lineEndY) {
-            editorModelService.putCurrentLineNumber(currentLineNumber + 1);
-            lineStartY = y;
-          }
+          y = lineEndY + 1;
+          editorModelService.putCurrentLineNumber(currentLineNumber + 1);
+          lineStartY = y;
           if(nextMaxX >= interlinearX) {
             x = interlinearX;
           } else {
