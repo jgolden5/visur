@@ -52,11 +52,17 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     System.out.println("canvas width = " + canvasWidth);
 
     if(key.equals("h")) {
-      if(x > 0) {
+      boolean shouldGoUp = y > lineStartY && x == 0;
+      boolean shouldGoLeft = !shouldGoUp && x > 0;
+      if(shouldGoLeft) {
         x--;
-        editorModelService.putCursorX(x);
-        editorModelService.putInterlinearX(x);
+      } else if(shouldGoUp) {
+        y--;
+        x = canvasWidth - 1;
+        editorModelService.putCursorY(y);
       }
+      editorModelService.putCursorX(x);
+      editorModelService.putInterlinearX(x);
     } else if (key.equals("j")) {
       String nextLine = currentLineNumber + 1 == dataModelService.getContentLines().length ?
         "" : dataModelService.getContentLines()[currentLineNumber + 1];
