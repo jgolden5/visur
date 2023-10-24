@@ -32,6 +32,10 @@ public class EditorModelService {
     return (int)sharedData.getLocalMap("modelInt").get(interlinearX.name());
   }
 
+  public int getInterlinearY() {
+    return (int)sharedData.getLocalMap("modelInt").get(interlinearY.name());
+  }
+
   public void putCursorX(int x) {
     sharedData.getLocalMap("modelInt").put(cursorX.name(), x);
   }
@@ -55,6 +59,11 @@ public class EditorModelService {
   public void putInterlinearX(int x) {
     sharedData.getLocalMap("modelInt").put(interlinearX.name(), x);
   }
+
+  public void putInterlinearY(int y) {
+    sharedData.getLocalMap("modelInt").put(interlinearY.name(), y);
+  }
+
 
 
   EditorModelService(SharedData sharedData) {

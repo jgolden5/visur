@@ -1,5 +1,5 @@
 package com.ple.visur;
 
 public enum ModelIntKey {
-  cursorX, cursorY, canvasWidth, canvasHeight, currentLineNumber, interlinearX
+  cursorX, cursorY, canvasWidth, canvasHeight, currentLineNumber, interlinearX, interlinearY
 }
