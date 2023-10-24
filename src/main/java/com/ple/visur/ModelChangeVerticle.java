@@ -18,9 +18,9 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
     editorModelService.putCursorX(0);
     editorModelService.putCursorY(0);
     editorModelService.putInterlinearX(0);
-    final String initialContentLines = "xxx" + //3x
-      "\ny" + //y
-      "\nzz"; //2z
+    final String initialContentLines = "xxxxx" + //5x
+      "\nyyyyyyyy" + //8y
+      "\nzzzz"; //4z
 //    final String initialContentLines = "Okawaru is a dangerous and powerful god of battle." +
 //      "\nFollowers are expected to constantly prove themselves in combat, and may channel Okawaru's might to enhance their prowess." +
 //      "\nOkawaru demands that followers prove themselves by their own strength alone, and so worshippers are forbidden from gaining allies by any means." +

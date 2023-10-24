@@ -68,7 +68,6 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         boolean endOfCurrentLine = y == lineEndY && currentLineNumber + 1 < dataModelService.getContentLines().length;
         boolean shouldGoDown;
         int nextMaxX = 0;
-        //
         if(endOfCurrentLine) {
           if(nextLineLength <= canvasWidth) {
             nextMaxX = nextLineLength - 1;
@@ -88,7 +87,6 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
             nextMaxX = canvasWidth - 1;
           }
         }
-        //
         if(endOfCurrentLine) {
           shouldGoDown = currentLineNumber + 1 < dataModelService.getContentLines().length;
         } else {
@@ -156,15 +154,30 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       System.out.println("y = " + editorModelService.getCursorY());
     } else if (key.equals("l")) {
       final Integer width = editorModelService.getCanvasWidth();
-      if(x < width - 1) {
-        boolean shouldGoRight = !(editorModelService.getCursorX() == lineEndX &&
-          editorModelService.getCursorY() >= lineEndY);
-        if(shouldGoRight) {
-          x++;
-          editorModelService.putCursorX(x);
-          editorModelService.putInterlinearX(x);
+      boolean shouldGoRight;
+      boolean shouldGoDown;
+      if(y < lineEndY) {
+        if(x < canvasWidth - 1) {
+          shouldGoRight = true;
+          shouldGoDown = false;
+        } else {
+          shouldGoRight = false;
+          shouldGoDown = true;
         }
+      } else {
+        shouldGoRight = x < lineEndX;
+        shouldGoDown = false;
       }
+
+      if(shouldGoRight) {
+        x++;
+      } else if(shouldGoDown) {
+        y++;
+        x = 0;
+        editorModelService.putCursorY(y);
+      }
+      editorModelService.putCursorX(x);
+      editorModelService.putInterlinearX(x);
     }
   }
 
