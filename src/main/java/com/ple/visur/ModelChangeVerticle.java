@@ -22,12 +22,12 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
     final String initialContentLines = "xxxxx" + //5x
       "\nyyyyyyyy" + //8y
       "\nzzzz"; //4z
-//    final String initialContentLines = "While it seems inconceivable that the divine could be shackled, Ashenzari is just that: bound to the sky for eternity, the unbudging god is all-knowing, all-seeing." +
-//      "\nDevoted worshippers are allowed to grasp shreds of this knowledge and foresight, but be warned: to Ashenzari, power and blessing and curse are all the same thing." +
-//      "\nAshenzari exhorts followers to curse their possessions, periodically offering these curses to worshipers as they explore." +
-//      "\nCursed equipment cannot be enchanted and only be removed by shattering it forever. However, these curses enhance specific skills." +
-//      "\nThey will also please Ashenzari, who will reveal the invisible and grant clarity of mind." +
-//      "\nThe truly devout will gain a fragment of Ashenzari's astral sight, letting them see through walls.";
+//    final String initialContentLines = "Jiyva is the ancient deity of the slimes." +
+//      "\nFollowers are expected to support the spread and satiation of their fellow slimes by allowing them to consume items, and are forbidden from harming any slimes." +
+//      "\nEspecially favoured followers will become as shapeless as their god, mutating wildly." +
+//      "\nJiyva will gradually fill the dungeon with jellies, which will rapidly consume nearby items as well as slowly consuming items from elsewhere in the dungeon." +
+//      "\nAs they spread slime across more of the dungeon, Jiyva will grant followers increasingly rapid health and magic regeneration, and will begin mutating them to better reflect Jiyva's image." +
+//      "\nFollowers will later become able to call forth acidic ooze from the walls of the dungeon, and to turn monsters to slime with a touch.";
     dataModelService.putContentLines(initialContentLines.split("\n"));
     vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
       handleChange(event);

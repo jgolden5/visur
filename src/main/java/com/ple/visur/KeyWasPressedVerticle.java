@@ -6,7 +6,6 @@ import io.vertx.rxjava3.core.eventbus.Message;
 
 public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   int lineStartY = 0;
-  int lineStartX = 0;
 
   @Override
   public void start() {
@@ -40,7 +39,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     if(currentLineLength % canvasWidth == 0) {
       lineEndY--;
     }
-    int lineEndX = lineStartX + currentLineLength % canvasWidth - 1;
+    int lineEndX = currentLineLength % canvasWidth - 1;
     if(lineEndX == -1) {
       lineEndX = canvasWidth - 1; //weird workaround
     }
@@ -97,19 +96,23 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
           } else {
             x = interlinearX;
           }
+          editorModelService.putCurrentLineNumber(currentLineNumber + 1);
         }
       }
       editorModelService.putCursorX(x);
       editorModelService.putCursorY(y);
-      editorModelService.putCurrentLineNumber(currentLineNumber + 1);
+
     } else if (key.equals("k")) {
       String previousLine = currentLineNumber - 1 < 0 ?
         "" : dataModelService.getContentLines()[currentLineNumber - 1];
       int previousLineLength = previousLine.length();
 
-      if(y > 0) {
+      if(currentLineNumber > 0) {
         boolean shouldGoUp;
         int numberOfRowsInPreviousLine = previousLineLength / canvasWidth;
+        if(previousLineLength % canvasWidth != 0) {
+          numberOfRowsInPreviousLine++; //for the remainder
+        }
         int previousLineStartY = lineStartY - numberOfRowsInPreviousLine;
         int previousLineEndX = 0;
         int previousLineEndY = previousLineLength > 0 ? lineStartY - 1 : 0;
@@ -121,24 +124,29 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         }
         shouldGoUp = lineStartY > 0;
         if(shouldGoUp) {
-          boolean lineTooShortForInterlinearY = previousLineEndY < interlinearY + previousLineStartY;
-          if(lineTooShortForInterlinearY) {
+          boolean interlinearYTooBig = interlinearY + previousLineStartY > previousLineEndY;
+          if(interlinearYTooBig) {
             y = previousLineEndY;
           } else {
             y = interlinearY + previousLineStartY;
           }
-          editorModelService.putCurrentLineNumber(currentLineNumber - 1);
           if(previousLineLength > 0) {
             lineStartY = previousLineStartY;
           }
-          boolean lineTooNarrowForInterlinearX = previousLineEndX < interlinearX &&
-            previousLineEndY <= interlinearY + previousLineStartY;
-          if(lineTooNarrowForInterlinearX) {
+          boolean shouldGoToEndOfPreviousLine = interlinearY + previousLineStartY >= previousLineEndY;
+          boolean interlinearXTooBig;
+          if(shouldGoToEndOfPreviousLine) {
+            interlinearXTooBig = interlinearX > previousLineEndX;
+          } else {
+            interlinearXTooBig = false;
+          }
+          if(shouldGoToEndOfPreviousLine && interlinearXTooBig || interlinearYTooBig) {
             x = previousLineEndX;
           } else {
             x = interlinearX;
           }
         }
+        editorModelService.putCurrentLineNumber(currentLineNumber - 1);
       }
       editorModelService.putCursorX(x);
       editorModelService.putCursorY(y);
@@ -167,9 +175,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         editorModelService.putCursorY(y);
       }
       editorModelService.putCursorX(x);
-      if(shouldGoRight) {
-        editorModelService.putInterlinearX(x);
-      }
+      editorModelService.putInterlinearX(x);
       if(shouldGoDown) {
         editorModelService.putInterlinearY(y - lineStartY);
       }
