@@ -151,7 +151,6 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       editorModelService.putCursorX(x);
       editorModelService.putCursorY(y);
     } else if (key.equals("l")) {
-      final Integer width = editorModelService.getCanvasWidth();
       boolean shouldGoRight;
       boolean shouldGoDown;
       if(y < lineEndY) {
@@ -180,69 +179,69 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         editorModelService.putInterlinearY(y - lineStartY);
       }
     } else if(key.equals("w") || key.equals("W")) {
-      int indexOfCurrentLine = canvasWidth * (y - lineStartY) + x;
-      System.out.println("current index = " + indexOfCurrentLine);
-      int nextWordStartIndex = 0;
-      final String punctuation = ".,!:";
-      boolean spaceOrPunctuationFound = false;
-      wCommandLoop:
-      while(!spaceOrPunctuationFound) {
-        for(int i = indexOfCurrentLine; i < currentLineLength - 1; i++) {
-          if(currentLine.charAt(i) == ' ' && currentLine.charAt(i + 1) != ' ') {
-            nextWordStartIndex = i + 1;
-            spaceOrPunctuationFound = true;
-            break;
-          } else if(key.equals("w") && punctuation.contains(String.valueOf(currentLine.charAt(i + 1)))) {
-            nextWordStartIndex = i + 1;
-            spaceOrPunctuationFound = true;
+      int cursorDestinationIndex = 0;
+      final String punctuation = ".,!?:\"\'";
+      boolean cursorDestinationFoundOnFirstLine = false;
+      int currentPositionInContentLine = canvasWidth * (y - lineStartY) + x;
+//      char startingChar = currentLine.charAt(currentPositionInContentLine);
+//      String startingCharAsString = String.valueOf(startingChar);
+//      boolean startingCharIsSpecial = punctuation.contains(startingCharAsString);
+//      if(startingCharIsSpecial && currentLine.charAt(currentPositionInContentLine + 1) != ' ') {
+//        cursorDestinationFoundOnFirstLine = true;
+//        cursorDestinationIndex = currentPositionInContentLine + 1;
+//      }
+//
+
+      //iterate through current line
+//      if(!cursorDestinationFoundOnFirstLine) {
+        for (int i = currentPositionInContentLine; i < currentLineLength - 1; i++) {
+          char currentChar = currentLine.charAt(i);
+          char nextChar = currentLine.charAt(i + 1);
+          String nextCharAsString = String.valueOf(nextChar);
+          boolean nextCharIsSpecial = punctuation.contains(nextCharAsString);
+          //determine cursorDestinationIndex
+          if (currentChar == ' ' && nextChar != ' ') {
+            cursorDestinationIndex = i + 1;
+          } else if (nextCharIsSpecial && key.equals("w")) {
+            cursorDestinationIndex = i + 1;
+          }
+
+          if (cursorDestinationIndex > 0) {
+            cursorDestinationFoundOnFirstLine = true;
             break;
           }
         }
-        boolean anotherWordSkipIsPossible = false;
-//        if(!spaceOrPunctuationFound) {
-//          for (int i = currentLineNumber + 1; i < dataModelService.getContentLines().length - 1; i++) {
-//            String iteratedLine = dataModelService.getContentLines()[i];
-//            boolean targetFoundInNextLine = iteratedLine.contains(" ") || key.equals("w") && (iteratedLine.contains(",") ||
-//              iteratedLine.contains(".") || iteratedLine.contains(";") || iteratedLine.contains(":"));
-//            if (targetFoundInNextLine) {
-//              currentLineNumber = i;
-//              editorModelService.putCurrentLineNumber(currentLineNumber);
-//              anotherWordSkipIsPossible = true;
-//              break;
-//            }
-//          }
-//        }
-        if(!anotherWordSkipIsPossible) {
-          break wCommandLoop;
-        }
-      }
-      if(nextWordStartIndex > 0 && nextWordStartIndex < currentLineLength) {
-        if(nextWordStartIndex > canvasWidth - 1) {
-          y = lineStartY + nextWordStartIndex / (canvasWidth - 1);
-          if(y > lineEndY) { //still not sure if this works yet!
-            y = lineEndY;
-          } else if(nextWordStartIndex % (canvasWidth - 1) == 0) {
-            y--;
+//      }
+
+      //draw cursor based on cursorDestinationIndex
+      boolean notOnLastLine = currentLineNumber + 1 < dataModelService.getContentLines().length;
+      if (cursorDestinationFoundOnFirstLine) {
+        if (cursorDestinationIndex > 0 && cursorDestinationIndex < currentLineLength) {
+          if (cursorDestinationIndex > canvasWidth - 1) {
+            y = lineStartY + cursorDestinationIndex / canvasWidth;
+            if (y > lineEndY) {
+              y = lineEndY;
+            } else if (cursorDestinationIndex % canvasWidth == 0) {
+              y--;
+            }
+            x = cursorDestinationIndex - canvasWidth * (y - lineStartY);
+          } else {
+            x = cursorDestinationIndex;
           }
-          x = nextWordStartIndex - canvasWidth * (y - lineStartY);
-        } else {
-          x = nextWordStartIndex;
         }
+      } else if (notOnLastLine) {
+        x = 0;
+        y = lineEndY + 1;
+        lineStartY = y;
+        editorModelService.putCurrentLineNumber(currentLineNumber + 1);
+      } else {
+        x = lineEndX;
+        y = lineEndY;
       }
       editorModelService.putCursorX(x);
       editorModelService.putCursorY(y);
       editorModelService.putInterlinearX(x);
-      editorModelService.putInterlinearY(y);
-    }
-  }
-
-  private void updateLineStartY(int lineEndY) {
-    String currentContentLine = dataModelService.getContentLines()[editorModelService.getCurrentLineNumber()];
-    int currentContentLineLength = currentContentLine.length();
-    int canvasWidth = editorModelService.getCanvasWidth();
-    lineStartY = lineEndY - currentContentLineLength / canvasWidth;
-    if(currentContentLineLength % canvasWidth == 0) {
-      lineStartY++;
+      editorModelService.putInterlinearY(y - lineStartY);
     }
   }
 
