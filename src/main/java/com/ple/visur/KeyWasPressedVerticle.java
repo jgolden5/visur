@@ -183,17 +183,18 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       final String punctuation = ".,!?:\"\'";
       boolean cursorDestinationFoundOnFirstLine = false;
       int currentPositionInContentLine = canvasWidth * (y - lineStartY) + x;
-//      char startingChar = currentLine.charAt(currentPositionInContentLine);
-//      String startingCharAsString = String.valueOf(startingChar);
-//      boolean startingCharIsSpecial = punctuation.contains(startingCharAsString);
-//      if(startingCharIsSpecial && currentLine.charAt(currentPositionInContentLine + 1) != ' ') {
-//        cursorDestinationFoundOnFirstLine = true;
-//        cursorDestinationIndex = currentPositionInContentLine + 1;
-//      }
-//
+      char startingChar = currentLine.charAt(currentPositionInContentLine);
+      String startingCharAsString = String.valueOf(startingChar);
+      boolean startingCharIsSpecial = punctuation.contains(startingCharAsString);
+      if(currentPositionInContentLine + 1 < currentLineLength) {
+        if (startingCharIsSpecial && currentLine.charAt(currentPositionInContentLine + 1) != ' ') {
+          cursorDestinationFoundOnFirstLine = true;
+          cursorDestinationIndex = currentPositionInContentLine + 1;
+        }
+      }
 
       //iterate through current line
-//      if(!cursorDestinationFoundOnFirstLine) {
+      if(!cursorDestinationFoundOnFirstLine) {
         for (int i = currentPositionInContentLine; i < currentLineLength - 1; i++) {
           char currentChar = currentLine.charAt(i);
           char nextChar = currentLine.charAt(i + 1);
@@ -211,7 +212,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
             break;
           }
         }
-//      }
+      }
 
       //draw cursor based on cursorDestinationIndex
       boolean notOnLastLine = currentLineNumber + 1 < dataModelService.getContentLines().length;
@@ -221,8 +222,8 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
             y = lineStartY + cursorDestinationIndex / canvasWidth;
             if (y > lineEndY) {
               y = lineEndY;
-            } else if (cursorDestinationIndex % canvasWidth == 0) {
-              y--;
+//            } else if(cursorDestinationIndex % canvasWidth == 0) {
+//              y--;
             }
             x = cursorDestinationIndex - canvasWidth * (y - lineStartY);
           } else {
