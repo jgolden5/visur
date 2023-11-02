@@ -179,6 +179,60 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       if(shouldGoDown) {
         editorModelService.putInterlinearY(y - lineStartY);
       }
+    } else if(key.equals("w") || key.equals("W")) {
+      int indexOfCurrentLine = canvasWidth * (y - lineStartY) + x;
+      System.out.println("current index = " + indexOfCurrentLine);
+      int nextWordStartIndex = 0;
+      final String punctuation = ".,!:";
+      boolean spaceOrPunctuationFound = false;
+      wCommandLoop:
+      while(!spaceOrPunctuationFound) {
+        for(int i = indexOfCurrentLine; i < currentLineLength - 1; i++) {
+          if(currentLine.charAt(i) == ' ' && currentLine.charAt(i + 1) != ' ') {
+            nextWordStartIndex = i + 1;
+            spaceOrPunctuationFound = true;
+            break;
+          } else if(key.equals("w") && punctuation.contains(String.valueOf(currentLine.charAt(i + 1)))) {
+            nextWordStartIndex = i + 1;
+            spaceOrPunctuationFound = true;
+            break;
+          }
+        }
+        boolean anotherWordSkipIsPossible = false;
+//        if(!spaceOrPunctuationFound) {
+//          for (int i = currentLineNumber + 1; i < dataModelService.getContentLines().length - 1; i++) {
+//            String iteratedLine = dataModelService.getContentLines()[i];
+//            boolean targetFoundInNextLine = iteratedLine.contains(" ") || key.equals("w") && (iteratedLine.contains(",") ||
+//              iteratedLine.contains(".") || iteratedLine.contains(";") || iteratedLine.contains(":"));
+//            if (targetFoundInNextLine) {
+//              currentLineNumber = i;
+//              editorModelService.putCurrentLineNumber(currentLineNumber);
+//              anotherWordSkipIsPossible = true;
+//              break;
+//            }
+//          }
+//        }
+        if(!anotherWordSkipIsPossible) {
+          break wCommandLoop;
+        }
+      }
+      if(nextWordStartIndex > 0 && nextWordStartIndex < currentLineLength) {
+        if(nextWordStartIndex > canvasWidth - 1) {
+          y = lineStartY + nextWordStartIndex / (canvasWidth - 1);
+          if(y > lineEndY) { //still not sure if this works yet!
+            y = lineEndY;
+          } else if(nextWordStartIndex % (canvasWidth - 1) == 0) {
+            y--;
+          }
+          x = nextWordStartIndex - canvasWidth * (y - lineStartY);
+        } else {
+          x = nextWordStartIndex;
+        }
+      }
+      editorModelService.putCursorX(x);
+      editorModelService.putCursorY(y);
+      editorModelService.putInterlinearX(x);
+      editorModelService.putInterlinearY(y);
     }
   }
 

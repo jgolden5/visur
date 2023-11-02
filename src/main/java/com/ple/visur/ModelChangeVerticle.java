@@ -19,9 +19,9 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
     editorModelService.putCursorY(0);
     editorModelService.putInterlinearX(0);
     editorModelService.putInterlinearY(0);
-    final String initialContentLines = "xxxxx" + //5x
-      "\nyyyyyyyy" + //8y
-      "\nzzzz"; //4z
+    final String initialContentLines = "Hello world ?" +
+      "\nGoodbye world." +
+      "\nSee you later!";
 //    final String initialContentLines = "Jiyva is the ancient deity of the slimes." +
 //      "\nFollowers are expected to support the spread and satiation of their fellow slimes by allowing them to consume items, and are forbidden from harming any slimes." +
 //      "\nEspecially favoured followers will become as shapeless as their god, mutating wildly." +
