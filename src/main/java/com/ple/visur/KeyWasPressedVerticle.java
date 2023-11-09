@@ -179,99 +179,119 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         editorModelService.putInterlinearY(y - lineStartY);
       }
     } else if (key.equals("w") || key.equals("W")) {
-      int cursorDestinationIndex = 0;
-      final String punctuation = ".,!?:\"\'";
-      boolean cursorDestinationFoundOnFirstLine = false;
-      int currentPositionInContentLine = canvasWidth * (y - lineStartY) + x;
-      char startingChar = currentLine.charAt(currentPositionInContentLine);
-      String startingCharAsString = String.valueOf(startingChar);
-      boolean startingCharIsSpecial = punctuation.contains(startingCharAsString);
-      if(currentPositionInContentLine + 1 < currentLineLength) {
-        if (startingCharIsSpecial && currentLine.charAt(currentPositionInContentLine + 1) != ' ') {
-          cursorDestinationFoundOnFirstLine = true;
-          cursorDestinationIndex = currentPositionInContentLine + 1;
-        }
-      }
-
-      //iterate through current line
-      if(!cursorDestinationFoundOnFirstLine) {
-        for (int i = currentPositionInContentLine; i < currentLineLength - 1; i++) {
-          char currentChar = currentLine.charAt(i);
-          char nextChar = currentLine.charAt(i + 1);
-          String nextCharAsString = String.valueOf(nextChar);
-          boolean nextCharIsSpecial = punctuation.contains(nextCharAsString);
-          //determine cursorDestinationIndex
-          if (currentChar == ' ' && nextChar != ' ') {
-            cursorDestinationIndex = i + 1;
-          } else if (nextCharIsSpecial && key.equals("w")) {
-            cursorDestinationIndex = i + 1;
-          }
-
-          if (cursorDestinationIndex > 0) {
-            cursorDestinationFoundOnFirstLine = true;
-            break;
-          }
-        }
-      }
-
-      //draw cursor based on cursorDestinationIndex
-      boolean notOnLastLine = currentLineNumber + 1 < dataModelService.getContentLines().length;
-      if (cursorDestinationFoundOnFirstLine) {
-        if (cursorDestinationIndex > 0 && cursorDestinationIndex < currentLineLength) {
-          if (cursorDestinationIndex > canvasWidth - 1) {
-            y = lineStartY + cursorDestinationIndex / canvasWidth;
-            if (y > lineEndY) {
-              y = lineEndY;
-            }
-            x = cursorDestinationIndex - canvasWidth * (y - lineStartY);
-          } else {
-            x = cursorDestinationIndex;
-          }
-        }
-      } else if (notOnLastLine) {
-        x = 0;
-        y = lineEndY + 1;
-        lineStartY = y;
-        editorModelService.putCurrentLineNumber(currentLineNumber + 1);
-      } else {
-        x = lineEndX;
-        y = lineEndY;
-      }
-      editorModelService.putCursorX(x);
-      editorModelService.putCursorY(y);
-      editorModelService.putInterlinearX(x);
-      editorModelService.putInterlinearY(y - lineStartY);
-    } else if (key.equals("b") || key.equals("B")) {
       int startingPositionInContentLine = canvasWidth * (y - lineStartY) + x;
-      int cursorDestinationIndex = findCursorDestinationIndex(startingPositionInContentLine, key, true);
-      System.out.println("cursor destination index = " + cursorDestinationIndex);
+      int cursorDestinationIndex = wFindCursorDestinationIndex(startingPositionInContentLine, key, true);
 
       assignCursorCoordinates(cursorDestinationIndex);
-      System.out.println("x = " + editorModelService.getCursorX());
-      System.out.println("y = " + editorModelService.getCursorY());
-      System.out.println("interlinear x = " + editorModelService.getInterlinearX());
-      System.out.println("interlinear y = " + editorModelService.getInterlinearY());
+
+    } else if (key.equals("b") || key.equals("B")) {
+      int startingPositionInContentLine = canvasWidth * (y - lineStartY) + x;
+      int cursorDestinationIndex = bFindCursorDestinationIndex(startingPositionInContentLine, key, true);
+
+      assignCursorCoordinates(cursorDestinationIndex);
 
     }
   }
 
-  public int findCursorDestinationIndex(int startingPositionInContentLine, String key, boolean firstIteration) {
+  public int wFindCursorDestinationIndex(int startingPositionInContentLine, String key, boolean firstIteration) {
     int cursorDestinationIndex = -1;
-    String specialCharacters = ".,!?:\"\'";
+    String specialCharacters = ".,!?:;\"\'";
+    int currentLineNumber = editorModelService.getCurrentLineNumber();
+    String currentLine = dataModelService.getContentLines()[currentLineNumber];
+    int currentLineLength = currentLine.length();
+    char startingChar = currentLine.charAt(startingPositionInContentLine);
+    String startingCharAsString = String.valueOf(startingChar);
+    boolean startedOnSpecialChar = specialCharacters.contains(startingCharAsString);
+    if(startingPositionInContentLine == 0) {
+      startingPositionInContentLine++;
+    }
+
+    if(!firstIteration) {
+      cursorDestinationIndex = 0;
+    } else if(currentLineLength > 1) {
+      for (int i = startingPositionInContentLine; i <= currentLineLength - 1; i++) {
+        char currentChar = currentLine.charAt(i);
+        String currentCharAsString = String.valueOf(currentChar);
+        char previousChar = currentLine.charAt(i - 1);
+        String previousCharAsString = String.valueOf(previousChar);
+
+        boolean currentCharIsSpecialAndShouldBeDestination =
+          specialCharacters.contains(currentCharAsString) &&
+            !specialCharacters.contains(previousCharAsString) &&
+            i != startingPositionInContentLine && key.equals("w");
+        boolean currentCharIsRegularNonspaceAndRightAfterSpecial =
+          !specialCharacters.contains(currentCharAsString) && key.equals("w") && currentChar != ' ';
+
+        if (currentChar != ' ' && previousChar == ' ' && i != startingPositionInContentLine) {
+          cursorDestinationIndex = i;
+        } else if (currentCharIsSpecialAndShouldBeDestination) {
+          cursorDestinationIndex = i;
+        } else if(startedOnSpecialChar) {
+          if(currentCharIsRegularNonspaceAndRightAfterSpecial) {
+            cursorDestinationIndex = i;
+          }
+        }
+        if (cursorDestinationIndex > -1) {
+          break;
+        }
+      }
+      if(cursorDestinationIndex == -1) {
+        if(currentLineNumber < dataModelService.getContentLines().length - 1) {
+          int nextLineNumber = currentLineNumber + 1;
+          editorModelService.putCurrentLineNumber(nextLineNumber);
+          String nextLine = dataModelService.getContentLines()[nextLineNumber];
+          int nextLineLength = nextLine.length();
+          int canvasWidth = editorModelService.getCanvasWidth();
+          int numberOfRowsInCurrentLine = currentLineLength / canvasWidth;
+          if (nextLineLength % canvasWidth != 0) {
+            numberOfRowsInCurrentLine++;
+          }
+          int lineEndY = lineStartY + numberOfRowsInCurrentLine - 1;
+          lineStartY = lineEndY + 1;
+          cursorDestinationIndex = wFindCursorDestinationIndex(0, key, false);
+        } else {
+          cursorDestinationIndex = currentLineLength - 1;
+        }
+      }
+    } else {
+      cursorDestinationIndex = 0;
+    }
+    return cursorDestinationIndex;
+  }
+
+  public int bFindCursorDestinationIndex(int startingPositionInContentLine, String key, boolean firstIteration) {
+    int cursorDestinationIndex = -1;
+    String specialCharacters = ".,!?:;\"\'";
     boolean spaceOrSpecialFound = key.equals("b") && !firstIteration;
     int currentLineNumber = editorModelService.getCurrentLineNumber();
     String currentLine = dataModelService.getContentLines()[currentLineNumber];
+    if(currentLine.charAt(startingPositionInContentLine) == ' ') {
+      spaceOrSpecialFound = true;
+    }
 
     for (int i = startingPositionInContentLine; i > 0; i--) {
       char currentChar = currentLine.charAt(i);
       String currentCharAsString = String.valueOf(currentChar);
       char previousChar = currentLine.charAt(i - 1);
       String previousCharAsString = String.valueOf(previousChar);
-      if (previousChar == ' ' && currentChar != ' ' || specialCharacters.contains(currentCharAsString)) {
+
+      boolean spaceOrSpecialDestinationTargettedToBeFound =
+        previousChar == ' ' && currentChar != ' ' ||
+          specialCharacters.contains(currentCharAsString) && !specialCharacters.contains(previousCharAsString);
+      boolean atBeginningOfWordAndDestination =
+        previousChar == ' ' && currentChar != ' ' && (i != startingPositionInContentLine || !firstIteration);
+      boolean previousCharWasSpecialCurrentIsNotAndLowercaseWasPressed =
+        specialCharacters.contains(previousCharAsString) &&
+          !specialCharacters.contains(currentCharAsString) &&
+          key.equals("b") && spaceOrSpecialFound && currentChar != ' ';
+
+      if (spaceOrSpecialDestinationTargettedToBeFound) {
         if (!spaceOrSpecialFound) {
-          if (specialCharacters.contains(currentCharAsString) && i != startingPositionInContentLine && key.equals("b")) {
+          if (specialCharacters.contains(currentCharAsString) &&
+            !specialCharacters.contains(previousCharAsString) &&
+            i != startingPositionInContentLine && key.equals("b")) {
             cursorDestinationIndex = i;
-          } else if (previousChar == ' ' && currentChar != ' ' && i != startingPositionInContentLine) {
+          } else if (atBeginningOfWordAndDestination) {
             cursorDestinationIndex = i;
           } else {
             spaceOrSpecialFound = true;
@@ -281,7 +301,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
             cursorDestinationIndex = i;
           }
         }
-      } else if (specialCharacters.contains(previousCharAsString) && key.equals("b") && spaceOrSpecialFound && currentChar != ' ') {
+      } else if (previousCharWasSpecialCurrentIsNotAndLowercaseWasPressed) {
         cursorDestinationIndex = i;
       }
       if (cursorDestinationIndex > -1) {
@@ -300,14 +320,13 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
           numberOfRowsInPreviousLine++;
         }
         lineStartY = lineStartY - numberOfRowsInPreviousLine;
-        cursorDestinationIndex = findCursorDestinationIndex(previousLineLength - 1, key, false);
+        cursorDestinationIndex = bFindCursorDestinationIndex(previousLineLength - 1, key, false);
       } else {
         cursorDestinationIndex = 0;
       }
     }
     return cursorDestinationIndex;
   }
-
   public void assignCursorCoordinates(int cursorDestinationIndex) {
     int canvasWidth = editorModelService.getCanvasWidth();
     int interlinearY = cursorDestinationIndex / canvasWidth;
