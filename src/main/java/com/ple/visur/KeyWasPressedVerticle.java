@@ -190,6 +190,8 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
       assignCursorCoordinates(cursorDestinationIndex);
 
+    } else if(key.equals("0")) {
+      assignCursorCoordinates(0);
     }
   }
 
