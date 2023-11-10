@@ -192,8 +192,16 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
     } else if(key.equals("0")) {
       assignCursorCoordinates(0);
+    } else if(key.equals("$")) {
+      x = lineEndX;
+      y = lineEndY;
+      int cursorDestinationIndex = (y - lineStartY) * canvasWidth + x;
+      assignCursorCoordinates(cursorDestinationIndex);
+      editorModelService.putInterlinearX(1000);
+      editorModelService.putInterlinearY(1000);
     }
-  }
+
+}
 
   public int wFindCursorDestinationIndex(int startingPositionInContentLine, String key, boolean firstIteration) {
     int cursorDestinationIndex = -1;
