@@ -199,6 +199,15 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       assignCursorCoordinates(cursorDestinationIndex);
       editorModelService.putInterlinearX(1000);
       editorModelService.putInterlinearY(1000);
+    } else if(key.equals("^")) {
+      int cursorDestination = 0;
+      for(int i = 0; i < canvasWidth; i++) {
+        if(currentLine.charAt(i) != ' ' && currentLine.charAt(i) != '\t') {
+          cursorDestination = i;
+          break;
+        }
+      }
+      assignCursorCoordinates(cursorDestination);
     }
 
 }
