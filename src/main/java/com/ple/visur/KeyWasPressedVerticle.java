@@ -38,8 +38,13 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     String currentContentLine = contentLines[contentY];
     int currentContentLineLength = currentContentLine.length();
     int numberOfRowsInCurrentContentLine = currentContentLineLength / canvasWidth;
+    boolean atEndOfLine = editorModelService.getAtEndOfLine();
     if(currentContentLineLength % canvasWidth != 0) {
       numberOfRowsInCurrentContentLine++;
+    }
+    String keysThatMakeAtEndOfLineFalse = "hl0";
+    if(atEndOfLine && keysThatMakeAtEndOfLineFalse.contains(key)) {
+      editorModelService.putAtEndOfLine(false);
     }
 
     if (key.equals("h")) {
@@ -65,10 +70,11 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         String nextLine = contentLines[contentY + 1];
         int nextLineLength = nextLine.length();
         contentY++;
-        if(nextLineLength - 1 >= virtualX) {
-          contentX = virtualX;
-        } else {
+        if(nextLineLength - 1 < virtualX || atEndOfLine) {
           contentX = nextLineLength - 1;
+        }
+        else {
+          contentX = virtualX;
         }
         assignCursorCoordinates(contentX, contentY);
       }
@@ -77,10 +83,11 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         String previousLine = contentLines[contentY - 1];
         int previousLineLength = previousLine.length();
         contentY--;
-        if(previousLineLength - 1 >= virtualX) {
-          contentX = virtualX;
-        } else {
+        if(previousLineLength - 1 < virtualX || atEndOfLine) {
           contentX = previousLineLength - 1;
+        }
+        else {
+          contentX = virtualX;
         }
         assignCursorCoordinates(contentX, contentY);
       }
@@ -99,13 +106,10 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     } else if(key.equals("0")) {
       editorModelService.putContentX(0);
       editorModelService.putVirtualX(0);
-//    } else if(key.equals("$")) {
-//      contentX = lineEndX;
-//      contentY = lineEndY;
-//      int cursorDestinationIndex = (contentY - lineStartY) * canvasWidth + contentX;
-//      assignCursorCoordinates(cursorDestinationIndex);
-//      editorModelService.putInterlinearX(1000);
-//      editorModelService.putInterlinearY(1000);
+    } else if(key.equals("$")) {
+      contentX = currentContentLineLength - 1;
+      editorModelService.putContentX(contentX);
+      editorModelService.putAtEndOfLine(true);
 //    } else if(key.equals("^")) {
 //      int cursorDestination = 0;
 //      for(int i = 0; i < canvasWidth; i++) {

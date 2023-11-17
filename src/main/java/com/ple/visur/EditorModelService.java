@@ -4,6 +4,7 @@ import io.vertx.rxjava3.core.shareddata.SharedData;
 
 import static com.ple.visur.ModelIntKey.*;
 import static com.ple.visur.ModelStringArrayKey.*;
+import static com.ple.visur.ModelBooleanKey.*;
 
 public class EditorModelService {
 
@@ -25,6 +26,19 @@ public class EditorModelService {
     return (int)sharedData.getLocalMap("modelInt").get(virtualX.name());
   }
 
+  public boolean getAtEndOfLine() {
+    return (boolean)sharedData.getLocalMap("modelBoolean").get(atEndOfLine.name());
+  }
+
+  public int getCanvasWidth() {
+    return (int)sharedData.getLocalMap("modelInt").get(canvasWidth.name());
+  }
+
+  public int getCanvasHeight() {
+    return (int)sharedData.getLocalMap("modelInt").get(canvasHeight.name());
+  }
+
+  //only getters, no setters
   public int getCanvasX() {
     int contentX = getContentX();
     int contentY = getContentY();
@@ -54,13 +68,6 @@ public class EditorModelService {
     return rows;
   }
 
-  public int getCanvasWidth() {
-    return (int)sharedData.getLocalMap("modelInt").get(canvasWidth.name());
-  }
-
-  public int getCanvasHeight() {
-    return (int)sharedData.getLocalMap("modelInt").get(canvasHeight.name());
-  }
 
   public void putContentLines(String[] editorContentLines) {
     sharedData.getLocalMap("modelStringArray").put(contentLines.name(), editorContentLines);
@@ -76,6 +83,10 @@ public class EditorModelService {
 
   public void putVirtualX(int x) {
     sharedData.getLocalMap("modelInt").put(virtualX.name(), x);
+  }
+
+  public void putAtEndOfLine(boolean isAtEndOfLine) {
+    sharedData.getLocalMap("modelBoolean").put(atEndOfLine.name(), isAtEndOfLine);
   }
 
   public void putCanvasWidth(int width) {
