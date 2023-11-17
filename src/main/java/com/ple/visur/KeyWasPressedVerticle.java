@@ -27,6 +27,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   }
 
   public void mapKeys(String key) {
+    //define variables
     int contentX = editorModelService.getContentX();
     int virtualX = editorModelService.getVirtualX();
     int contentY = editorModelService.getContentY();
@@ -42,11 +43,12 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     if(currentContentLineLength % canvasWidth != 0) {
       numberOfRowsInCurrentContentLine++;
     }
-    String keysThatMakeAtEndOfLineFalse = "hl0";
+    String keysThatMakeAtEndOfLineFalse = "hl0^";
     if(atEndOfLine && keysThatMakeAtEndOfLineFalse.contains(key)) {
       editorModelService.putAtEndOfLine(false);
     }
 
+    //map key
     if (key.equals("h")) {
       if(contentX >= currentContentLineLength) {
         contentX = currentContentLineLength - 1;
@@ -110,15 +112,19 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       contentX = currentContentLineLength - 1;
       editorModelService.putContentX(contentX);
       editorModelService.putAtEndOfLine(true);
-//    } else if(key.equals("^")) {
-//      int cursorDestination = 0;
-//      for(int i = 0; i < canvasWidth; i++) {
-//        if(currentContentLine.charAt(i) != ' ' && currentContentLine.charAt(i) != '\t') {
-//          cursorDestination = i;
-//          break;
-//        }
-//      }
-//      assignCursorCoordinates(cursorDestination);
+    } else if(key.equals("^")) {
+      int firstNonSpaceIndex = -1;
+      for(int i = 0; i < currentContentLineLength; i++) {
+        if(currentContentLine.charAt(i) != ' ' && currentContentLine.charAt(i) != '\t') {
+          firstNonSpaceIndex = i;
+          break;
+        }
+      }
+      if(firstNonSpaceIndex == -1) {
+        firstNonSpaceIndex = currentContentLineLength - 1;
+      }
+      editorModelService.putContentX(firstNonSpaceIndex);
+      editorModelService.putVirtualX(firstNonSpaceIndex);
     }
 
 }
