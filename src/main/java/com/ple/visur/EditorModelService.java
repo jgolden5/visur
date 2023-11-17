@@ -45,15 +45,13 @@ public class EditorModelService {
     int rows = 0;
     for(int i = 0; i < contentY; i++) {
       String currentLine = contentLines[i];
-      rows += currentLine.length() / canvasWidth + 1;
+      rows += currentLine.length() / canvasWidth;
+      if(currentLine.length() % canvasWidth != 0) {
+        rows++;
+      }
     }
-    if(contentX >= contentLines[contentY].length()) {
-      rows += (contentLines.length - 1) / canvasWidth;
-    } else {
-      rows += contentX / canvasWidth;
-    }
-    int canvasY = rows;
-    return canvasY;
+    rows += contentX / canvasWidth;
+    return rows;
   }
 
   public int getCanvasWidth() {
