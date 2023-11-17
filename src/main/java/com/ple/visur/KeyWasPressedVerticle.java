@@ -28,8 +28,8 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
   public void mapKeys(String key) {
     int contentX = editorModelService.getContentX();
-    int contentY = editorModelService.getContentY();
     int virtualX = editorModelService.getVirtualX();
+    int contentY = editorModelService.getContentY();
     final int canvasWidth = editorModelService.getCanvasWidth();
     final int canvasHeight = editorModelService.getCanvasHeight();
     int canvasX = editorModelService.getCanvasX();
@@ -62,21 +62,25 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       }
     } else if (key.equals("j")) {
       if(contentY < contentLines.length - 1) {
+        String nextLine = contentLines[contentY + 1];
+        int nextLineLength = nextLine.length();
         contentY++;
-        if(contentX >= virtualX) {
+        if(nextLineLength - 1 >= virtualX) {
           contentX = virtualX;
         } else {
-          contentX = currentContentLineLength - 1;
+          contentX = nextLineLength - 1;
         }
         assignCursorCoordinates(contentX, contentY);
       }
     } else if (key.equals("k")) {
       if(contentY > 0) {
+        String previousLine = contentLines[contentY - 1];
+        int previousLineLength = previousLine.length();
         contentY--;
-        if(contentX >= virtualX) {
+        if(previousLineLength - 1 >= virtualX) {
           contentX = virtualX;
         } else {
-          contentX = currentContentLineLength - 1;
+          contentX = previousLineLength - 1;
         }
         assignCursorCoordinates(contentX, contentY);
       }
@@ -251,20 +255,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
   public void assignCursorCoordinates(int contentX, int contentY) {
     editorModelService.putContentX(contentX);
-    editorModelService.putVirtualX(contentX);
     editorModelService.putContentY(contentY);
   }
 
-//  public void assignCursorCoordinates(int cursorDestinationIndex) {
-//    int canvasWidth = editorModelService.getCanvasWidth();
-//    int interlinearY = cursorDestinationIndex / canvasWidth;
-//    int x = cursorDestinationIndex % canvasWidth;
-//    int y = lineStartY + interlinearY;
-//
-//    editorModelService.putCursorX(x);
-//    editorModelService.putCursorY(y);
-//    editorModelService.putInterlinearX(x);
-//    editorModelService.putInterlinearY(interlinearY);
-//
-//  }
 }
