@@ -96,8 +96,9 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 //
 //      assignCursorCoordinates(cursorDestinationIndex);
 //
-//    } else if(key.equals("0")) {
-//      assignCursorCoordinates(0);
+    } else if(key.equals("0")) {
+      editorModelService.putContentX(0);
+      editorModelService.putVirtualX(0);
 //    } else if(key.equals("$")) {
 //      contentX = lineEndX;
 //      contentY = lineEndY;
