@@ -37,7 +37,7 @@ public class EditorModelService {
     int canvasY = 0;
     for(int i = 0; i < contentY; i++) {
       String currentLine = contentLines[i];
-      numberOfRowsBeforeCurrent += currentLine.length() - 1 / canvasWidth;
+      numberOfRowsBeforeCurrent += (currentLine.length() - 1) / canvasWidth;
       if(currentLine.length() - 1 % canvasWidth != 0) {
         numberOfRowsBeforeCurrent++;
       }

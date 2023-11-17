@@ -33,7 +33,8 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     final int canvasHeight = editorModelService.getCanvasHeight();
     int canvasX = editorModelService.getCanvasX();
     int canvasY = editorModelService.getCanvasY();
-    String currentContentLine = dataModelService.getContentLines()[contentY];
+    String[] contentLines = dataModelService.getContentLines();
+    String currentContentLine = contentLines[contentY];
     int currentLineLength = currentContentLine.length();
     int numberOfRowsInCurrentContentLine = currentLineLength / canvasWidth;
     if(currentLineLength % canvasWidth != 0) {
@@ -50,97 +51,19 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         contentX++;
         editorModelService.putContentLineX(contentX);
       }
-//    } else if (key.equals("j")) {
-//      String nextLine = currentLineNumber + 1 == dataModelService.getContentLines().length ?
-//        "" : dataModelService.getContentLines()[currentLineNumber + 1];
-//      int nextLineLength = nextLine.length();
-//
-//      if (contentY < canvasHeight - 1) {
-//        boolean shouldGoDown;
-//        int numberOfRowsInNextLine = nextLineLength / canvasWidth + 1;
-//        int nextLineStartY = nextLineLength > 0 ? lineEndY + 1 : -1;
-//        int nextLineEndX = nextLineLength % canvasWidth - 1;
-//        int nextLineEndY = numberOfRowsInNextLine - 1 + nextLineStartY;
-//        if (nextLineEndX == -1) {
-//          nextLineEndX = canvasWidth - 1;
-//        }
-//        shouldGoDown = currentLineNumber < dataModelService.getContentLines().length - 1;
-//        if (shouldGoDown) {
-//          boolean interlinearYTooBig = interlinearY + nextLineStartY > nextLineEndY;
-//          if (interlinearYTooBig) {
-//            contentY = nextLineEndY;
-//          } else {
-//            contentY = interlinearY + nextLineStartY;
-//          }
-//          if (nextLineLength > 0) {
-//            lineStartY = nextLineStartY;
-//          }
-//          boolean shouldGoToEndOfNextLine = interlinearY + nextLineStartY >= nextLineEndY;
-//          boolean interlinearXTooBig;
-//          if (shouldGoToEndOfNextLine) {
-//            interlinearXTooBig = interlinearX > nextLineEndX;
-//          } else {
-//            interlinearXTooBig = false;
-//          }
-//          if (shouldGoToEndOfNextLine && interlinearXTooBig || interlinearYTooBig) {
-//            contentX = nextLineEndX;
-//          } else {
-//            contentX = interlinearX;
-//          }
-//          editorModelService.putCurrentLineNumber(currentLineNumber + 1);
-//        }
-//      }
-//      editorModelService.putCursorX(contentX);
-//      editorModelService.putCursorY(contentY);
-//
+    } else if (key.equals("j")) {
+      if(contentY < contentLines.length - 1) {
+        contentY++;
+        String nextContentLine = contentLines[contentY];
+        int nextContentLineLength = nextContentLine.length();
+        if(contentX > nextContentLineLength - 1) {
+          contentX = nextContentLineLength - 1;
+        }
+      }
+      assignCursorCoordinates(contentX, contentY);
+
 //    } else if (key.equals("k")) {
-//      String previousLine = currentLineNumber - 1 < 0 ?
-//        "" : dataModelService.getContentLines()[currentLineNumber - 1];
-//      int previousLineLength = previousLine.length();
-//
-//      if (currentLineNumber > 0) {
-//        boolean shouldGoUp;
-//        int numberOfRowsInPreviousLine = previousLineLength / canvasWidth;
-//        if (previousLineLength % canvasWidth != 0) {
-//          numberOfRowsInPreviousLine++; //for the remainder
-//        }
-//        int previousLineStartY = lineStartY - numberOfRowsInPreviousLine;
-//        int previousLineEndX = 0;
-//        int previousLineEndY = previousLineLength > 0 ? lineStartY - 1 : 0;
-//        if (currentLineNumber > 0) {
-//          previousLineEndX = previousLineLength % canvasWidth - 1;
-//          if (previousLineLength % canvasWidth == 0) {
-//            previousLineEndX = canvasWidth - 1;
-//          }
-//        }
-//        shouldGoUp = lineStartY > 0;
-//        if (shouldGoUp) {
-//          boolean interlinearYTooBig = interlinearY + previousLineStartY > previousLineEndY;
-//          if (interlinearYTooBig) {
-//            contentY = previousLineEndY;
-//          } else {
-//            contentY = interlinearY + previousLineStartY;
-//          }
-//          if (previousLineLength > 0) {
-//            lineStartY = previousLineStartY;
-//          }
-//          boolean shouldGoToEndOfPreviousLine = interlinearY + previousLineStartY >= previousLineEndY;
-//          boolean interlinearXTooBig;
-//          if (shouldGoToEndOfPreviousLine) {
-//            interlinearXTooBig = interlinearX > previousLineEndX;
-//          } else {
-//            interlinearXTooBig = false;
-//          }
-//          if (shouldGoToEndOfPreviousLine && interlinearXTooBig || interlinearYTooBig) {
-//            contentX = previousLineEndX;
-//          } else {
-//            contentX = interlinearX;
-//          }
-//        }
-//        editorModelService.putCurrentLineNumber(currentLineNumber - 1);
-//      }
-//      editorModelService.putCursorX(contentX);
-//      editorModelService.putCursorY(contentY);
+      
 //    } else if (key.equals("w") || key.equals("W")) {
 //      int startingPositionInContentLine = canvasWidth * (contentY - lineStartY) + contentX;
 //      int cursorDestinationIndex = wFindCursorDestinationIndex(startingPositionInContentLine, key, true);
