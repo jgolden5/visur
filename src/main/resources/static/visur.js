@@ -46,8 +46,8 @@ document.addEventListener('keydown', (event) => {
 })
 
 function drawCanvas() {
-  let contentX = 0
-  let contentY = 0
+  let drawContentX = 0
+  let drawContentY = 0
   lineContinuing = false
   let x
   let y
@@ -56,10 +56,10 @@ function drawCanvas() {
   let fullContentWasDrawn = false
   contentLoop:
     for(y = 0; y < canvasHeight; y++) {
-      let line = contentLines[contentY]
+      let line = contentLines[drawContentY]
       for(x = 0; x < canvasWidth; x++) {
         if(!fullContentWasDrawn) {
-          if(contentY == contentLines.length - 1 && contentX == line.length) {
+          if(drawContentY == contentLines.length - 1 && drawContentX == line.length) {
             fullContentWasDrawn = true
           }
         }
@@ -77,19 +77,19 @@ function drawCanvas() {
           }
         }
         if(!fullContentWasDrawn) {
-          let char = line.charAt(contentX)
+          let char = line.charAt(drawContentX)
           drawCharacter(x, y, char)
-          contentX++
+          drawContentX++
         }
       }
-      if(contentY + 1 == contentLines.length && contentLines[contentY].length == canvasWidth * (y + 1)) {
+      if(drawContentY + 1 == contentLines.length && contentLines[drawContentY].length == canvasWidth * (y + 1)) {
         fullContentWasDrawn = true
       }
       if(!fullContentWasDrawn) {
         if(canvasWidth * (numberOfWrappedLines + 1) >= line.length) {
           numberOfWrappedLines = 0
-          contentX = 0
-          contentY++
+          drawContentX = 0
+          drawContentY++
         } else {
           numberOfWrappedLines++
         }

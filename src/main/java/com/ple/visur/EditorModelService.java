@@ -2,48 +2,57 @@ package com.ple.visur;
 
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
-import javax.swing.*;
-
-import com.ple.visur.DataModelService;
-
 import static com.ple.visur.ModelIntKey.*;
+import static com.ple.visur.ModelStringArrayKey.*;
 
 public class EditorModelService {
 
   private final SharedData sharedData;
 
+  public String[] getContentLines() {
+    return (String[])sharedData.getLocalMap("modelStringArray").get(contentLines.name());
+  }
 
-  public int getContentLineX() {
+  public int getContentX() {
     return (int)sharedData.getLocalMap("modelInt").get(contentLineX.name());
   }
 
-  public int getContentLineY() {
+  public int getContentY() {
     return (int)sharedData.getLocalMap("modelInt").get(contentLineY.name());
   }
 
+  public int getVirtualX() {
+    return (int)sharedData.getLocalMap("modelInt").get(virtualX.name());
+  }
+
   public int getCanvasX() {
-    int contentX = getContentLineX();
+    int contentX = getContentX();
+    int contentY = getContentY();
+    int adjustedContentX = contentX;
+    String[] contentLines = getContentLines();
+    if(contentX > contentLines[contentY].length() - 1) {
+      adjustedContentX = contentLines[contentY].length() - 1;
+    }
     int canvasWidth = getCanvasWidth();
-    return contentX % canvasWidth;
+    return adjustedContentX % canvasWidth;
   }
 
   public int getCanvasY() {
-    DataModelService dataModelService = new DataModelService(sharedData);
-    String[] contentLines = dataModelService.getContentLines();
-    int contentX = getContentLineX();
-    int contentY = getContentLineY();
-    int numberOfRowsBeforeCurrent = 0;
+    String[] contentLines = getContentLines();
     int canvasWidth = getCanvasWidth();
-    int canvasY = 0;
+    int contentX = getContentX();
+    int contentY = getContentY();
+    int rows = 0;
     for(int i = 0; i < contentY; i++) {
       String currentLine = contentLines[i];
-      numberOfRowsBeforeCurrent += (currentLine.length() - 1) / canvasWidth;
-      if(currentLine.length() - 1 % canvasWidth != 0) {
-        numberOfRowsBeforeCurrent++;
-      }
+      rows += currentLine.length() / canvasWidth + 1;
     }
-    numberOfRowsBeforeCurrent += contentX / canvasWidth;
-    canvasY = numberOfRowsBeforeCurrent;
+    if(contentX >= contentLines[contentY].length()) {
+      rows += (contentLines.length - 1) / canvasWidth;
+    } else {
+      rows += contentX / canvasWidth;
+    }
+    int canvasY = rows;
     return canvasY;
   }
 
@@ -55,12 +64,20 @@ public class EditorModelService {
     return (int)sharedData.getLocalMap("modelInt").get(canvasHeight.name());
   }
 
-  public void putContentLineX(int x) {
+  public void putContentLines(String[] editorContentLines) {
+    sharedData.getLocalMap("modelStringArray").put(contentLines.name(), editorContentLines);
+  }
+
+  public void putContentX(int x) {
     sharedData.getLocalMap("modelInt").put(contentLineX.name(), x);
   }
 
-  public void putContentLineY(int y) {
+  public void putContentY(int y) {
     sharedData.getLocalMap("modelInt").put(contentLineY.name(), y);
+  }
+
+  public void putVirtualX(int x) {
+    sharedData.getLocalMap("modelInt").put(virtualX.name(), x);
   }
 
   public void putCanvasWidth(int width) {
