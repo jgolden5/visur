@@ -1,6 +1,6 @@
-var cursorX;
-var cursorY;
-var contentLines;
+let canvasX;
+let canvasY;
+let contentLines;
 
 let canvas = document.getElementById("mainCanvas")
 
@@ -18,13 +18,10 @@ ctx.font = cellWidth + "px courier"
 var eb = new EventBus('http://localhost:8888/eventbus');
 eb.onopen = function() {
   eb.registerHandler('viewWasChanged', (error, message) => {
-    cursorX = message["body"]["cursorX"]
-    cursorY = message["body"]["cursorY"]
+    canvasX = message["body"]["canvasX"]
+    canvasY = message["body"]["canvasY"]
     contentLines = message["body"]["contentLines"]
 
-    console.log("CursorX = " + (message["body"]["cursorX"]))
-    console.log("CursorY = " + (message["body"]["cursorY"]))
-    console.log("")
 //    console.log("Content = " + (message["body"]["contentLines"]))
 
     clearCanvas()
@@ -67,7 +64,7 @@ function drawCanvas() {
           }
         }
         if(!cursorWasDrawn) { //what's up with this?
-          if(cursorX < x && cursorY < y) {
+          if(canvasX < x && canvasY < y) {
             cursorWasDrawn = true
           }
         }
@@ -75,7 +72,7 @@ function drawCanvas() {
           break contentLoop
         }
         if(!cursorWasDrawn) {
-          if(x == cursorX && y == cursorY) {
+          if(x == canvasX && y == canvasY) {
             drawCursor(x, y, "⬜️")
           }
         }

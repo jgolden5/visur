@@ -2,8 +2,7 @@ package com.ple.visur;
 
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
-import static com.ple.visur.ModelIntKey.cursorX;
-import static com.ple.visur.ModelIntKey.cursorY;
+import static com.ple.visur.ModelIntKey.*;
 import static com.ple.visur.ModelStringArrayKey.contentLines;
 
 public class DataModelService {

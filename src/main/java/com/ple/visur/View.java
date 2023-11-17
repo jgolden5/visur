@@ -1,7 +1,7 @@
 package com.ple.visur;
 
 public class View {
-  public int cursorX;
-  public int cursorY;
+  public int contentLineX;
+  public int contentLineY;
   public String[] contentLines;
 }
