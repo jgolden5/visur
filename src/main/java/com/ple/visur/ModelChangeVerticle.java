@@ -16,6 +16,7 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
   @Override
   public void start() {
     editorModelService.putContentX(0);
+    editorModelService.putVirtualX(0);
     editorModelService.putContentY(0);
     final String initialContentLines = "Hello world!" +
       "\nWho's there??" +

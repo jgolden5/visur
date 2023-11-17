@@ -29,50 +29,57 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   public void mapKeys(String key) {
     int contentX = editorModelService.getContentX();
     int contentY = editorModelService.getContentY();
+    int virtualX = editorModelService.getVirtualX();
     final int canvasWidth = editorModelService.getCanvasWidth();
     final int canvasHeight = editorModelService.getCanvasHeight();
     int canvasX = editorModelService.getCanvasX();
     int canvasY = editorModelService.getCanvasY();
     String[] contentLines = editorModelService.getContentLines();
     String currentContentLine = contentLines[contentY];
-    int currentLineLength = currentContentLine.length();
-    int numberOfRowsInCurrentContentLine = currentLineLength / canvasWidth;
-    if(currentLineLength % canvasWidth != 0) {
+    int currentContentLineLength = currentContentLine.length();
+    int numberOfRowsInCurrentContentLine = currentContentLineLength / canvasWidth;
+    if(currentContentLineLength % canvasWidth != 0) {
       numberOfRowsInCurrentContentLine++;
     }
 
     if (key.equals("h")) {
-      if(contentX >= currentLineLength) {
-        contentX = currentLineLength - 1;
+      if(contentX >= currentContentLineLength) {
+        contentX = currentContentLineLength - 1;
       }
       if(contentX > 0) {
         contentX--;
         editorModelService.putContentX(contentX);
+        editorModelService.putVirtualX(contentX);
       }
     } else if (key.equals("l")) {
-      if(contentX >= currentLineLength) {
-        contentX = currentLineLength - 1;
+      if(contentX >= currentContentLineLength) {
+        contentX = currentContentLineLength - 1;
       }
-      if(contentX < currentLineLength - 1) {
+      if(contentX < currentContentLineLength - 1) {
         contentX++;
         editorModelService.putContentX(contentX);
+        editorModelService.putVirtualX(contentX);
       }
     } else if (key.equals("j")) {
       if(contentY < contentLines.length - 1) {
         contentY++;
-        String nextContentLine = contentLines[contentY];
-        int nextContentLineLength = nextContentLine.length();
+        if(contentX >= virtualX) {
+          contentX = virtualX;
+        } else {
+          contentX = currentContentLineLength - 1;
+        }
+        assignCursorCoordinates(contentX, contentY);
       }
-
-      editorModelService.putContentY(contentY);
-
     } else if (key.equals("k")) {
       if(contentY > 0) {
         contentY--;
+        if(contentX >= virtualX) {
+          contentX = virtualX;
+        } else {
+          contentX = currentContentLineLength - 1;
+        }
+        assignCursorCoordinates(contentX, contentY);
       }
-
-      editorModelService.putContentY(contentY);
-
 //    } else if (key.equals("w") || key.equals("W")) {
 //      int startingPositionInContentLine = canvasWidth * (contentY - lineStartY) + contentX;
 //      int cursorDestinationIndex = wFindCursorDestinationIndex(startingPositionInContentLine, key, true);
@@ -244,6 +251,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
   public void assignCursorCoordinates(int contentX, int contentY) {
     editorModelService.putContentX(contentX);
+    editorModelService.putVirtualX(contentX);
     editorModelService.putContentY(contentY);
   }
 
