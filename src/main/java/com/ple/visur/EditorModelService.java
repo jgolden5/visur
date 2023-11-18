@@ -26,8 +26,8 @@ public class EditorModelService {
     return (int)sharedData.getLocalMap("modelInt").get(virtualX.name());
   }
 
-  public boolean getAtEndOfLine() {
-    return (boolean)sharedData.getLocalMap("modelBoolean").get(atEndOfLine.name());
+  public boolean getVirtualXIsAtEndOfLine() {
+    return (boolean)sharedData.getLocalMap("modelBoolean").get(virtualXIsAtEndOfLine.name());
   }
 
   public int getCanvasWidth() {
@@ -85,8 +85,8 @@ public class EditorModelService {
     sharedData.getLocalMap("modelInt").put(virtualX.name(), x);
   }
 
-  public void putAtEndOfLine(boolean isAtEndOfLine) {
-    sharedData.getLocalMap("modelBoolean").put(atEndOfLine.name(), isAtEndOfLine);
+  public void putVirtualXIsAtEndOfLine(boolean isAtEndOfLine) {
+    sharedData.getLocalMap("modelBoolean").put(virtualXIsAtEndOfLine.name(), isAtEndOfLine);
   }
 
   public void putCanvasWidth(int width) {

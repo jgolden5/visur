@@ -39,13 +39,13 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     String currentContentLine = contentLines[contentY];
     int currentContentLineLength = currentContentLine.length();
     int numberOfRowsInCurrentContentLine = currentContentLineLength / canvasWidth;
-    boolean atEndOfLine = editorModelService.getAtEndOfLine();
+    boolean virtualXIsAtEndOfLine = editorModelService.getVirtualXIsAtEndOfLine();
     if(currentContentLineLength % canvasWidth != 0) {
       numberOfRowsInCurrentContentLine++;
     }
     String keysThatMakeAtEndOfLineFalse = "hl0^";
-    if(atEndOfLine && keysThatMakeAtEndOfLineFalse.contains(key)) {
-      editorModelService.putAtEndOfLine(false);
+    if(virtualXIsAtEndOfLine && keysThatMakeAtEndOfLineFalse.contains(key)) {
+      editorModelService.putVirtualXIsAtEndOfLine(false);
     }
 
     //map key
@@ -72,7 +72,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         String nextLine = contentLines[contentY + 1];
         int nextLineLength = nextLine.length();
         contentY++;
-        if(nextLineLength - 1 < virtualX || atEndOfLine) {
+        if(nextLineLength - 1 < virtualX || virtualXIsAtEndOfLine) {
           contentX = nextLineLength - 1;
         }
         else {
@@ -85,7 +85,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         String previousLine = contentLines[contentY - 1];
         int previousLineLength = previousLine.length();
         contentY--;
-        if(previousLineLength - 1 < virtualX || atEndOfLine) {
+        if(previousLineLength - 1 < virtualX || virtualXIsAtEndOfLine) {
           contentX = previousLineLength - 1;
         }
         else {
@@ -93,12 +93,34 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         }
         assignCursorCoordinates(contentX, contentY);
       }
-//    } else if (key.equals("w") || key.equals("W")) {
-//      int startingPositionInContentLine = canvasWidth * (contentY - lineStartY) + contentX;
-//      int cursorDestinationIndex = wFindCursorDestinationIndex(startingPositionInContentLine, key, true);
-//
-//      assignCursorCoordinates(cursorDestinationIndex);
-//
+    } else if (key.equals("w")) {
+      char currentChar = currentContentLine.charAt(contentX);
+      int i = 0;
+      boolean currentCharShouldBeWord;
+      while(i < 2) {
+        if(i == 0) {
+          currentCharShouldBeWord = true;
+        } else {
+          currentCharShouldBeWord = false;
+        }
+        while(contentX < currentContentLineLength && isWordChar(currentChar) == currentCharShouldBeWord) {
+          contentX++;
+          if(contentX < currentContentLineLength) {
+            currentChar = currentContentLine.charAt(contentX);
+          }
+        }
+        if(contentX >= currentContentLineLength) {
+          if(contentY < contentLines.length - 1) {
+            contentX = 0;
+            contentY++;
+          } else {
+            contentX--;
+          }
+          break;
+        }
+        i++;
+      }
+      assignCursorCoordinates(contentX, contentY);
 //    } else if (key.equals("b") || key.equals("B")) {
 //      int startingPositionInContentLine = canvasWidth * (contentY - lineStartY) + contentX;
 //      int cursorDestinationIndex = bFindCursorDestinationIndex(startingPositionInContentLine, key, true);
@@ -111,7 +133,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     } else if(key.equals("$")) {
       contentX = currentContentLineLength - 1;
       editorModelService.putContentX(contentX);
-      editorModelService.putAtEndOfLine(true);
+      editorModelService.putVirtualXIsAtEndOfLine(true);
     } else if(key.equals("^")) {
       int firstNonSpaceIndex = -1;
       for(int i = 0; i < currentContentLineLength; i++) {
@@ -127,7 +149,14 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       editorModelService.putVirtualX(firstNonSpaceIndex);
     }
 
+
 }
+
+private boolean isWordChar(char currentChar) {
+  String wordCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890_";
+  return wordCharacters.contains(String.valueOf(currentChar));
+}
+
 
 //  public int wFindCursorDestinationIndex(int startingPositionInContentLine, String key, boolean firstIteration) {
 //    int cursorDestinationIndex = -1;
