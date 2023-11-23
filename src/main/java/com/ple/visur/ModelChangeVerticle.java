@@ -15,10 +15,10 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
 
   @Override
   public void start() {
-    editorModelService.putContentX(0);
-    editorModelService.putVirtualX(0);
-    editorModelService.putContentY(0);
-    editorModelService.putVirtualXIsAtEndOfLine(false);
+    editorModel.putContentX(0);
+    editorModel.putVirtualX(0);
+    editorModel.putContentY(0);
+    editorModel.putVirtualXIsAtEndOfLine(false);
     final String initialContentLines = "Hello" +
       "\nWho's there?? Goodbye world." +
       "\nmore words";
@@ -27,7 +27,7 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
 //      "\n\t\t33 And now, as I said unto you before, as ye have had so many witnesses, therefore, I beseech of you that ye do not procrastinate the day of your repentance until the end; for after this day of life, which is given us to prepare for eternity, behold, if we do not improve our time while in this life, then cometh the night of darkness wherein there can be no labor performed." +
 //      "\n 34 Ye cannot say, when ye are brought to that awful crisis, that I will repent, that I will return to my God. Nay, ye cannot say this; for that same spirit which doth possess your bodies at the time that ye go out of this life, that same spirit will have power to possess your body in that eternal world.";
     dataModelService.putContentLines(initialContentLines.split("\n"));
-    editorModelService.putContentLines(dataModelService.getContentLines());
+    editorModel.putContentLines(dataModelService.getContentLines());
     vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
       handleChange(event);
     });
@@ -39,10 +39,10 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
       view.contentLineX = 0;
       view.contentLineY = 0;
     } else {
-      view.contentLineX = editorModelService.getContentX();
-      view.contentLineY = editorModelService.getContentY();
+      view.contentLineX = editorModel.getContentX();
+      view.contentLineY = editorModel.getContentY();
     }
-    view.contentLines = editorModelService.getContentLines();
+    view.contentLines = editorModel.getContentLines();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
   }
 
@@ -51,8 +51,8 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
     JsonObject output = new JsonObject();
     output.put(contentLineX.name(), view.contentLineX);
     output.put(contentLineY.name(), view.contentLineY);
-    output.put("canvasX", editorModelService.getCanvasX());
-    output.put("canvasY", editorModelService.getCanvasY());
+    output.put("canvasX", editorModel.getCanvasX());
+    output.put("canvasY", editorModel.getCanvasY());
     output.put(contentLines.name(), new JsonArray(Arrays.asList(view.contentLines)));
     return output;
   }
