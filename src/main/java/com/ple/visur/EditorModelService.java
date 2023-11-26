@@ -1,21 +1,41 @@
 package com.ple.visur;
 
+import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
+import static com.ple.visur.EditorModelKey.*;
+
 public class EditorModelService {
-  private final SharedData sharedData;
+  //declare editor model as localMap
+  final LocalMap<EditorModelKey, Object> editorModel;
 
-  private EditorModelService(SharedData sharedData) {
-    this.sharedData = sharedData;
+  //editorModelService constructor
+  private EditorModelService(LocalMap<EditorModelKey, Object> editorModel) {
+    this.editorModel = editorModel;
   }
 
-  public static EditorModelService make(SharedData sharedData) {
-    return new EditorModelService(sharedData);
+  //factory method to control constructor with more precision
+  public static EditorModelService make(LocalMap<EditorModelKey, Object> editorModel) {
+    // if editorModel variable is empty, set initial values for each of the variables in the editor model
+    // that require an initial value
+    if(editorModel.isEmpty()) {
+      editorModel = setInitialValues(editorModel);
+    }
+    return new EditorModelService(editorModel);
   }
 
+  private static LocalMap<EditorModelKey, Object> setInitialValues(LocalMap<EditorModelKey, Object> editorModel) {
+    editorModel.put(editorContentLines, "test words");
+    editorModel.put(contentX, 0);
+    editorModel.put(contentY, 0);
+    editorModel.put(virtualX, 0);
+    editorModel.put(virtualXIsAtEndOfLine, false);
+    return editorModel;
+  }
 
+  //get contentLines variable using
   public String[] getContentLines() {
-
+    return (String[])sharedData.getLocalMap("editorModel").get(editorContentLines.name());
   }
 
   public int getContentX() {
@@ -81,8 +101,8 @@ public class EditorModelService {
     Keymap keymap = getKeymapMap().get();
   }
 
-  public void putContentLines(String[] editorContentLines) {
-
+  public void putContentLines(String[] contentLines) {
+    sharedData.getLocalMap("editorModel").put(editorContentLines.name(), contentLines);
   }
 
   public void putContentX(int x) {

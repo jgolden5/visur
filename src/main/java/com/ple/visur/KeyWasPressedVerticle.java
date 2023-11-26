@@ -35,7 +35,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
 
 private boolean isWordChar(char currentChar) {
-  String wordCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890_";
+  String wordCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_";
   return wordCharacters.contains(String.valueOf(currentChar));
 }
 
