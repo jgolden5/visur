@@ -9,7 +9,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   private final OperatorService operatorService;
 
   public KeyWasPressedVerticle() {
-    operatorService = new OperatorService();
+    operatorService = OperatorService.make(editorModelService);
   }
 
   @Override
@@ -20,8 +20,9 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   public void handle(Message event) {
     JsonObject keyJson = new JsonObject((String) event.body());
     final String key = keyJson.getString("key");
+    final EditorMode editorMode = editorModelService.getEditorMode;
 
-    Operator operator = editorModelService.getOperator(key);
+    operatorService.getOperator(editorMode)
 
     boolean modelChanged = true;
     if(modelChanged) {
@@ -33,11 +34,6 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     return Future.succeededFuture();
   }
 
-
-private boolean isWordChar(char currentChar) {
-  String wordCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_";
-  return wordCharacters.contains(String.valueOf(currentChar));
-}
 
 
 //  public int wFindCursorDestinationIndex(int startingPositionInContentLine, String key, boolean firstIteration) {
@@ -174,10 +170,5 @@ private boolean isWordChar(char currentChar) {
 //    }
 //    return cursorDestinationIndex;
 //  }
-
-  public void assignCursorCoordinates(int contentX, int contentY) {
-    editorModel.putContentX(contentX);
-    editorModel.putContentY(contentY);
-  }
 
 }

@@ -1,23 +1,17 @@
 package com.ple.visur;
 
 import io.vertx.rxjava3.core.shareddata.LocalMap;
-import io.vertx.rxjava3.core.shareddata.SharedData;
 
 import static com.ple.visur.EditorModelKey.*;
 
 public class EditorModelService {
-  //declare editor model as localMap
   final LocalMap<EditorModelKey, Object> editorModel;
 
-  //editorModelService constructor
   private EditorModelService(LocalMap<EditorModelKey, Object> editorModel) {
     this.editorModel = editorModel;
   }
 
-  //factory method to control constructor with more precision
   public static EditorModelService make(LocalMap<EditorModelKey, Object> editorModel) {
-    // if editorModel variable is empty, set initial values for each of the variables in the editor model
-    // that require an initial value
     if(editorModel.isEmpty()) {
       editorModel = setInitialValues(editorModel);
     }
@@ -30,36 +24,43 @@ public class EditorModelService {
     editorModel.put(contentY, 0);
     editorModel.put(virtualX, 0);
     editorModel.put(virtualXIsAtEndOfLine, false);
+    KeymapMap startingKeymapMap;
+    editorModel.put(keymapMap, startingKeymapMap);
     return editorModel;
   }
 
   //get contentLines variable using
-  public String[] getContentLines() {
-    return (String[])sharedData.getLocalMap("editorModel").get(editorContentLines.name());
+  public String[] getEditorContentLines() {
+    //typecasting is necessary because of the generic Object type of the value
+    return (String[])editorModel.get(editorContentLines);
   }
 
   public int getContentX() {
-
+    return (int)editorModel.get(contentX);
   }
 
   public int getContentY() {
-
+    return (int)editorModel.get(contentY);
   }
 
   public int getVirtualX() {
-
+    return (int)editorModel.get(virtualX);
   }
 
   public boolean getVirtualXIsAtEndOfLine() {
-
+    return (boolean)editorModel.get(virtualXIsAtEndOfLine);
   }
 
   public int getCanvasWidth() {
-
+    return (int)editorModel.get(canvasWidth);
   }
 
   public int getCanvasHeight() {
+    return (int)editorModel.get(canvasHeight);
+  }
 
+  public EditorMode getEditorMode() {
+    return (EditorMode)editorModel.get(editorMode);
   }
 
   //only getters, no setters
@@ -67,7 +68,7 @@ public class EditorModelService {
     int contentX = getContentX();
     int contentY = getContentY();
     int adjustedContentX = contentX;
-    String[] contentLines = getContentLines();
+    String[] contentLines = getEditorContentLines();
     if(contentX > contentLines[contentY].length() - 1) {
       adjustedContentX = contentLines[contentY].length() - 1;
     }
@@ -76,7 +77,7 @@ public class EditorModelService {
   }
 
   public int getCanvasY() {
-    String[] contentLines = getContentLines();
+    String[] contentLines = getEditorContentLines();
     int canvasWidth = getCanvasWidth();
     int contentX = getContentX();
     int contentY = getContentY();
@@ -101,32 +102,37 @@ public class EditorModelService {
     Keymap keymap = getKeymapMap().get();
   }
 
-  public void putContentLines(String[] contentLines) {
-    sharedData.getLocalMap("editorModel").put(editorContentLines.name(), contentLines);
+
+  public void putEditorContentLines(String[] contentLines) {
+    editorModel.put(editorContentLines, contentLines);
   }
 
   public void putContentX(int x) {
-
+    editorModel.put(contentX, x);
   }
 
   public void putContentY(int y) {
-
+    editorModel.put(contentY, y);
   }
 
   public void putVirtualX(int x) {
-
+    editorModel.put(virtualX, x);
   }
 
   public void putVirtualXIsAtEndOfLine(boolean isAtEndOfLine) {
-
+    editorModel.put(virtualXIsAtEndOfLine, isAtEndOfLine);
   }
 
   public void putCanvasWidth(int width) {
-
+    editorModel.put(canvasWidth, width);
   }
 
   public void putCanvasHeight(int height) {
+    editorModel.put(canvasHeight, height);
+  }
 
+  public void putEditorMode(EditorMode mode) {
+    editorModel.put(editorMode, mode);
   }
 
 }

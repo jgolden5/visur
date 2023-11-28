@@ -8,6 +8,7 @@ public enum EditorModelKey {
   virtualXIsAtEndOfLine,
   canvasWidth,
   canvasHeight,
+  editorMode,
   keymapMap,
-  operator
+  operator,
 }

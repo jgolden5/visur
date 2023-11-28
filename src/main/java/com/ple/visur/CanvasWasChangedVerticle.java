@@ -16,7 +16,7 @@ public class CanvasWasChangedVerticle extends AbstractVisurVerticle {
     final Integer height = canvasJson.getInteger("height");
     editorModel.putCanvasHeight(height);
     int lineNumber = 1;
-    for(String line : dataModelService.getContentLines()) {
+    for(String line : dataModelService.getDataContentLines()) {
       System.out.println("Line " + lineNumber + ": " + line);
       lineNumber++;
     }
