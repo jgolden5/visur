@@ -2,6 +2,7 @@ package com.ple.visur;
 
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 
+import static com.ple.visur.EditorMode.*;
 import static com.ple.visur.EditorModelKey.*;
 
 public class EditorModelService {
@@ -24,8 +25,8 @@ public class EditorModelService {
     editorModel.put(contentY, 0);
     editorModel.put(virtualX, 0);
     editorModel.put(virtualXIsAtEndOfLine, false);
-    KeymapMap startingKeymapMap;
-    editorModel.put(keymapMap, startingKeymapMap);
+    editorModel.put(EditorModelKey.modeToKeymap, ModeToKeymap.make());
+    editorModel.put(editorMode, editing);
     return editorModel;
   }
 
@@ -63,6 +64,15 @@ public class EditorModelService {
     return (EditorMode)editorModel.get(editorMode);
   }
 
+  public ModeToKeymap getModeToKeymap() {
+    return (ModeToKeymap)editorModel.get(modeToKeymap);
+  }
+
+  public Operator getOperator(EditorMode editorMode) {
+    editorMode = getEditorMode();
+    KeyToOperator keymap = ModeToKeymap.
+  }
+
   //only getters, no setters
   public int getCanvasX() {
     int contentX = getContentX();
@@ -91,15 +101,6 @@ public class EditorModelService {
     }
     rows += contentX / canvasWidth;
     return rows;
-  }
-
-  public KeymapMap getKeymapMap() {
-
-  }
-
-  public Operator getOperator(EditorMode editorMode) {
-    editorMode = getEditorMode();
-    Keymap keymap = getKeymapMap().get();
   }
 
 

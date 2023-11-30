@@ -2,14 +2,17 @@ package com.ple.visur;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.rxjava3.core.MultiMap;
 import io.vertx.rxjava3.core.eventbus.Message;
 
 public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
-  private final OperatorService operatorService;
+  private final OperatorToService operatorToService;
+  private final CursorMovementService cursorMovementService;
 
   public KeyWasPressedVerticle() {
-    operatorService = OperatorService.make(editorModelService);
+    cursorMovementService = CursorMovementService.make(editorModelService);
+    operatorToService = OperatorToService.make(cursorMovementService);
   }
 
   @Override
@@ -20,9 +23,16 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   public void handle(Message event) {
     JsonObject keyJson = new JsonObject((String) event.body());
     final String key = keyJson.getString("key");
-    final EditorMode editorMode = editorModelService.getEditorMode;
+    final ModeToKeymap keymapMap = new ModeToKeymap();
+    final EditorMode editorMode = editorModelService.getEditorMode();
+    final KeyPressed keyPressed = KeyPressed.from(key);
 
-    operatorService.getOperator(editorMode)
+    KeyToOperator keyToOperator = KeyToOperator.make();
+    final Operator operator = keyToOperator.get(keyPressed);
+
+    OperatorService operatorService = operatorToService.get(operator);
+
+    operatorService.execute(operator);
 
     boolean modelChanged = true;
     if(modelChanged) {

@@ -9,6 +9,6 @@ public enum EditorModelKey {
   canvasWidth,
   canvasHeight,
   editorMode,
-  keymapMap,
+  modeToKeymap,
   operator,
 }

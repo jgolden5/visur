@@ -23,6 +23,7 @@ public abstract class AbstractVisurVerticle extends AbstractVerticle {
     bus = vertx.eventBus();
     editorModelService = EditorModelService.make(editorModel);
     cursorMovementService = CursorMovementService.make(editorModelService);
+    Operator operator = new Operator();
   }
 
 }

@@ -1,6 +1,6 @@
 package com.ple.visur;
 
-public class CursorMovementService {
+public class CursorMovementService implements OperatorService {
   protected final EditorModelService editorModelService;
 
   int contentX;
@@ -158,4 +158,11 @@ public class CursorMovementService {
     return wordCharacters.contains(String.valueOf(currentChar));
   }
 
+  @Override
+  public void execute(Operator operator) {
+    switch(operator) {
+
+
+    }
+  }
 }
