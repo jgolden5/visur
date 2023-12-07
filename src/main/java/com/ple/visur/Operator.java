@@ -1,15 +1,17 @@
 package com.ple.visur;
 
 public enum Operator {
-  moveLeft,
-  moveRight,
-  moveDown,
-  moveUp,
-  skipToBeginningOfNextWord,
-  goToBeginningOfCurrentLine,
-  goToEndOfCurrentLine,
-  goToFirstNonSpaceInCurrentLine,
+  cursorLeft,
+  cursorRight,
+  cursorDown,
+  cursorUp,
+  moveCursorToBeginningOfNextWord,
+  moveCursorToBeginningOfCurrentLine,
+  moveCursorToEndOfCurrentLine,
+  moveCursorToFirstNonSpaceInCurrentLine,
   enterInsertMode,
+  insertChar,
+  doNothing
   ;
 
 }

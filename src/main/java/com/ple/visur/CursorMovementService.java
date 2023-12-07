@@ -1,99 +1,62 @@
 package com.ple.visur;
 
 public class CursorMovementService implements OperatorService {
-  protected final EditorModelService editorModelService;
 
-  int contentX;
-  int virtualX;
-  int contentY;
-  int canvasWidth;
-  int canvasHeight;
-  int canvasX;
-  int canvasY;
-  String[] editorContentLines;
-  String currentContentLine;
+  final EditorModelService ems = ServiceHolder.editorModelService;
 
-  int currentContentLineLength;
-
-  int numberOfRowsInCurrentContentLine;
-  boolean virtualXIsAtEndOfLine;
-  String keysThatMakeAtEndOfLineFalse;
-
-  private CursorMovementService(EditorModelService editorModelService) {
-    this.editorModelService = editorModelService;
-    contentX = editorModelService.getContentX();
-    virtualX = editorModelService.getVirtualX();
-    contentY = editorModelService.getContentY();
-    canvasWidth = editorModelService.getCanvasWidth();
-    canvasHeight = editorModelService.getCanvasHeight();
-    canvasX = editorModelService.getCanvasX();
-    canvasY = editorModelService.getCanvasY();
-    editorContentLines = editorModelService.getEditorContentLines();
-    currentContentLine = editorContentLines[contentY];
-    currentContentLineLength = currentContentLine.length();
-    numberOfRowsInCurrentContentLine = currentContentLineLength / canvasWidth;
-    virtualXIsAtEndOfLine = editorModelService.getVirtualXIsAtEndOfLine();
-    if(currentContentLineLength % canvasWidth != 0) {
-      numberOfRowsInCurrentContentLine++;
-    }
-    keysThatMakeAtEndOfLineFalse = "hl0^";
-  }
-
-  public static CursorMovementService make(EditorModelService editorModelService) {
-    return new CursorMovementService(editorModelService);
+  public static CursorMovementService make() {
+    return new CursorMovementService();
   }
 
 
   //map key
-  public void moveLeft() { //h
-    if (contentX >= currentContentLineLength) {
-      contentX = currentContentLineLength - 1;
+  public void cursorLeft() { //h
+    if (ems.getContentX() >= ems.getCurrentContentLineLength()) {
+      ems.putContentX(ems.getCurrentContentLineLength() - 1);
     }
-    if (contentX > 0) {
-      contentX--;
-      editorModelService.putContentX(contentX);
-      editorModelService.putVirtualX(contentX);
-    }
-  }
-  public void moveRight() { //l
-    if(contentX >= currentContentLineLength) {
-      contentX = currentContentLineLength - 1;
-    }
-    if(contentX < currentContentLineLength - 1) {
-      contentX++;
-      editorModelService.putContentX(contentX);
-      editorModelService.putVirtualX(contentX);
+    if (ems.getContentX() > 0) {
+      ems.putContentX(ems.getContentX() - 1);
+      ems.putVirtualX(ems.getContentX());
     }
   }
-  public void moveDown() { //j
-    if (contentY < editorContentLines.length - 1) {
-      String nextLine = editorContentLines[contentY + 1];
+  public void cursorRight() { //l
+    if(ems.getContentX() >= ems.getCurrentContentLineLength()) {
+      ems.putContentX(ems.getCurrentContentLineLength() - 1);
+    }
+    if(ems.getContentX() < ems.getCurrentContentLineLength() - 1) {
+      ems.putContentX(ems.getContentX() + 1);
+      ems.putVirtualX(ems.getContentX());
+    }
+  }
+  public void cursorDown() { //j
+    if (ems.getContentY() < ems.getEditorContentLines().length - 1) {
+      String nextLine = ems.getEditorContentLines()[ems.getContentY() + 1];
       int nextLineLength = nextLine.length();
-      contentY++;
-      if (nextLineLength - 1 < virtualX || virtualXIsAtEndOfLine) {
-        contentX = nextLineLength - 1;
+      ems.putContentY(ems.getContentY() + 1);
+      if (nextLineLength - 1 < ems.getVirtualX() || ems.getVirtualXIsAtEndOfLine()) {
+        ems.putContentX(nextLineLength - 1);
       } else {
-        contentX = virtualX;
+        ems.putContentX(ems.getVirtualX());
       }
-      assignCursorCoordinates(contentX, contentY);
+      assignCursorCoordinates(ems.getContentX(), ems.getContentY());
     }
   }
-  public void moveUp() { //k
-    if(contentY > 0) {
-      String previousLine = editorContentLines[contentY - 1];
+  public void cursorUp() { //k
+    if(ems.getContentY() > 0) {
+      String previousLine = ems.getEditorContentLines()[ems.getContentY() - 1];
       int previousLineLength = previousLine.length();
-      contentY--;
-      if(previousLineLength - 1 < virtualX || virtualXIsAtEndOfLine) {
-        contentX = previousLineLength - 1;
+      ems.putContentY(ems.getContentY() - 1);
+      if(previousLineLength - 1 < ems.getVirtualX() || ems.getVirtualXIsAtEndOfLine()) {
+        ems.putContentX(previousLineLength - 1);
       }
       else {
-        contentX = virtualX;
+        ems.putContentX(ems.getVirtualX());
       }
-      assignCursorCoordinates(contentX, contentY);
+      assignCursorCoordinates(ems.getContentX(), ems.getContentY());
     }
   }
-  public void skipToBeginningOfNextWord() { //w
-    char currentChar = currentContentLine.charAt(contentX);
+  public void moveCursorToBeginningOfNextWord() { //w
+    char currentChar = ems.getCurrentContentLine().charAt(ems.getContentX());
     int i = 0;
     boolean currentCharShouldBeWord;
     while(i < 2) {
@@ -102,55 +65,58 @@ public class CursorMovementService implements OperatorService {
       } else {
         currentCharShouldBeWord = false;
       }
-      while(contentX < currentContentLineLength && isWordChar(currentChar) == currentCharShouldBeWord) {
-        contentX++;
-        if(contentX < currentContentLineLength) {
-          currentChar = currentContentLine.charAt(contentX);
+      while(ems.getContentX() < ems.getCurrentContentLineLength() && isWordChar(currentChar) == currentCharShouldBeWord) {
+        ems.putContentX(ems.getContentX() + 1);
+        if(ems.getContentX() < ems.getCurrentContentLineLength()) {
+          currentChar = ems.getCurrentContentLine().charAt(ems.getContentX());
         }
       }
-      if(contentX >= currentContentLineLength) {
-        if(contentY < editorContentLines.length - 1) {
-          contentX = 0;
-          contentY++;
+      if(ems.getContentX() >= ems.getCurrentContentLineLength()) {
+        if(ems.getContentY() < ems.getEditorContentLines().length - 1) {
+          ems.putContentX(0);
+          ems.putContentY(ems.getContentY() + 1);
         } else {
-          contentX--;
+          ems.putContentX(ems.getContentX() - 1);
         }
         break;
       }
       i++;
     }
-    assignCursorCoordinates(contentX, contentY);
+    assignCursorCoordinates(ems.getContentX(), ems.getContentY());
   }
-  public void goToBeginningOfCurrentLine() { //0
-    editorModelService.putContentX(0);
-    editorModelService.putVirtualX(0);
+
+  public void moveCursorToBeginningOfCurrentLine() { //0
+    ems.putContentX(0);
+    ems.putVirtualX(0);
   }
-  public void goToEndOfCurrentLine() { //$
-    contentX = currentContentLineLength - 1;
-    editorModelService.putContentX(contentX);
-    editorModelService.putVirtualXIsAtEndOfLine(true);
+
+  public void moveCursorToEndOfCurrentLine() { //$
+    ems.putContentX(ems.getCurrentContentLineLength() - 1);
+    ems.putContentX(ems.getContentX());
+    ems.putVirtualXIsAtEndOfLine(true);
   }
-  public void goToFirstNonSpaceInCurrentLine() { //^
+
+  public void moveCursorToFirstNonSpaceInCurrentLine() { //^
     int firstNonSpaceIndex = -1;
-    for(int i = 0; i < currentContentLineLength; i++) {
-      if(currentContentLine.charAt(i) != ' ' && currentContentLine.charAt(i) != '\t') {
+    for(int i = 0; i < ems.getCurrentContentLineLength(); i++) {
+      if(ems.getCurrentContentLine().charAt(i) != ' ' && ems.getCurrentContentLine().charAt(i) != '\t') {
         firstNonSpaceIndex = i;
         break;
       }
     }
     if(firstNonSpaceIndex == -1) {
-      firstNonSpaceIndex = currentContentLineLength - 1;
+      firstNonSpaceIndex = ems.getCurrentContentLineLength() - 1;
     }
-    editorModelService.putContentX(firstNonSpaceIndex);
-    editorModelService.putVirtualX(firstNonSpaceIndex);
+    ems.putContentX(firstNonSpaceIndex);
+    ems.putVirtualX(firstNonSpaceIndex);
   }
   public void enterInsertMode() { //i
 
   }
 
   public void assignCursorCoordinates(int contentX, int contentY) {
-    editorModelService.putContentX(contentX);
-    editorModelService.putContentY(contentY);
+    ems.putContentX(contentX);
+    ems.putContentY(contentY);
   }
 
   private boolean isWordChar(char currentChar) {
@@ -161,8 +127,35 @@ public class CursorMovementService implements OperatorService {
   @Override
   public void execute(Operator operator) {
     switch(operator) {
-
-
+      case cursorLeft:
+        cursorLeft();
+        break;
+      case cursorRight:
+        cursorRight();
+        break;
+      case cursorUp:
+        cursorUp();
+        break;
+      case cursorDown:
+        cursorDown();
+        break;
+      case moveCursorToBeginningOfNextWord:
+        moveCursorToBeginningOfNextWord();
+        break;
+      case moveCursorToBeginningOfCurrentLine:
+        moveCursorToBeginningOfCurrentLine();
+        break;
+      case moveCursorToEndOfCurrentLine:
+        moveCursorToEndOfCurrentLine();
+        break;
+      case moveCursorToFirstNonSpaceInCurrentLine:
+        moveCursorToFirstNonSpaceInCurrentLine();
+        break;
+      case enterInsertMode:
+        enterInsertMode();
+        break;
+      default:
+        System.out.println("Operator not recognized");
     }
   }
 }

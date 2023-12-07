@@ -6,18 +6,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class KeyToOperator implements Shareable {
-  final Map<KeyPressed, Operator> keyMap = new HashMap<>();
+  final Map<KeyPressed, Operator> keymap = new HashMap<>();
 
-  public static KeyToOperator make(EditorMode mode) {
+  public static KeyToOperator make() {
     return new KeyToOperator();
   }
 
 
   public void put(KeyPressed keyPressed, Operator operator) {
-    keyMap.put(keyPressed, operator);
+    keymap.put(keyPressed, operator);
   }
 
   public Operator get(KeyPressed keyPressed) {
-    return keyMap.get(keyPressed);
+    return keymap.get(keyPressed);
   }
 }

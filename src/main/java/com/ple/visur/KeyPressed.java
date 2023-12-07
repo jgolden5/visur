@@ -7,6 +7,10 @@ public class KeyPressed {
     this.key = key;
   }
 
+  public String getKey() {
+    return key;
+  }
+
   public static KeyPressed from(String key) {
     return new KeyPressed(key);
   }

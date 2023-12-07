@@ -11,4 +11,7 @@ public enum EditorModelKey {
   editorMode,
   modeToKeymap,
   operator,
+  keyPressed,
+  editingKeymap,
+  insertKeymap,
 }

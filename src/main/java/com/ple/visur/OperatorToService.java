@@ -1,27 +1,28 @@
 package com.ple.visur;
 
+import java.awt.*;
+
 public class OperatorToService {
-  public OperatorToService(OperatorService cursorMovementService) {
-    this.cursorMovementService = cursorMovementService;
+
+  public static OperatorToService make() {
+    return new OperatorToService();
   }
 
-  public static OperatorToService make(CursorMovementService cursorMovementService) {
-    return new OperatorToService(cursorMovementService);
-  }
-
-
-  private final OperatorService cursorMovementService;
+  private final CursorMovementService cursorMovementService = CursorMovementService.make();
 
   public OperatorService get(Operator operator) {
+    OperatorService targetService;
     switch(operator) {
-      case moveLeft, moveRight, moveDown, moveUp,
-        skipToBeginningOfNextWord, goToBeginningOfCurrentLine,
-        goToEndOfCurrentLine, goToFirstNonSpaceInCurrentLine:
-        return cursorMovementService;
-      break;
+      case cursorLeft, cursorRight, cursorDown, cursorUp,
+        moveCursorToBeginningOfNextWord, moveCursorToBeginningOfCurrentLine,
+        moveCursorToEndOfCurrentLine, moveCursorToFirstNonSpaceInCurrentLine:
+        targetService = cursorMovementService;
+        break;
       default:
         System.out.println("operator not recognized");
+        targetService = null;
     }
+    return targetService;
   }
 
 

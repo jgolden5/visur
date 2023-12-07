@@ -6,24 +6,18 @@ import io.vertx.rxjava3.core.eventbus.EventBus;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
-import javax.xml.crypto.Data;
-import java.awt.*;
+import java.util.HashMap;
 
-//one place for the shared verticle stuff to be
+import static com.ple.visur.EditorMode.editing;
+import static com.ple.visur.EditorModelKey.*;
+import static com.ple.visur.EditorModelKey.editorMode;
 
 public abstract class AbstractVisurVerticle extends AbstractVerticle {
   final EventBus bus;
-  final LocalMap<EditorModelKey, Object> editorModel = vertx.sharedData().getLocalMap("editorModel");
-
-  protected final EditorModelService editorModelService;
-  protected final CursorMovementService cursorMovementService;
 
   AbstractVisurVerticle() {
     init(Vertx.currentContext().owner(), Vertx.currentContext());
     bus = vertx.eventBus();
-    editorModelService = EditorModelService.make(editorModel);
-    cursorMovementService = CursorMovementService.make(editorModelService);
-    Operator operator = new Operator();
   }
 
 }

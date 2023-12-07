@@ -17,7 +17,7 @@ repositories {
 val vertxVersion = "4.4.4"
 val junitJupiterVersion = "5.9.1"
 
-val mainVerticleName = "com.ple.visur.MainVerticle"
+val mainName = "com.ple.visur.MainVerticle"
 val launcherClassName = "io.vertx.core.Launcher"
 
 val watchForChange = "src/**/*"
@@ -78,7 +78,7 @@ java {
 tasks.withType<ShadowJar> {
   archiveClassifier.set("fat")
   manifest {
-    attributes(mapOf("Main-Verticle" to mainVerticleName))
+    attributes(mapOf("MainVerticle-Verticle" to mainName))
   }
   mergeServiceFiles()
 }
@@ -91,5 +91,5 @@ tasks.withType<Test> {
 }
 
 tasks.withType<JavaExec> {
-  args = listOf("run", mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$launcherClassName", "--on-redeploy=$doOnChange")
+  args = listOf("run", mainName, "--redeploy=$watchForChange", "--launcher-class=$launcherClassName", "--on-redeploy=$doOnChange")
 }

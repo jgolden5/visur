@@ -3,12 +3,13 @@ package com.ple.visur;
 import io.vertx.codegen.annotations.Nullable;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
+import io.vertx.rxjava3.core.AbstractVerticle;
 import io.vertx.rxjava3.core.http.HttpServerRequest;
 import io.vertx.rxjava3.core.http.HttpServerResponse;
+import io.vertx.rxjava3.core.shareddata.SharedData;
 import io.vertx.rxjava3.ext.web.Router;
 import io.vertx.rxjava3.ext.web.RoutingContext;
 import io.vertx.rxjava3.ext.web.handler.sockjs.SockJSHandler;
-import org.apache.sshd.common.cipher.Cipher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,13 +19,16 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
-public class MainVerticle extends AbstractVisurVerticle {
+public class MainVerticle extends AbstractVerticle {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MainVerticle.class);
 
   @Override
   public void start() {
     LOGGER.debug("Starting main verticle");
+
+    final SharedData sharedData = vertx.sharedData();
+    ServiceHolder.init(sharedData);
 
     vertx.deployVerticle(new KeyWasPressedVerticle());
 
@@ -38,12 +42,6 @@ public class MainVerticle extends AbstractVisurVerticle {
       .addInboundPermitted(new PermittedOptions().setAddress(BusEvent.keyWasPressed.name()))
       .addInboundPermitted(new PermittedOptions().setAddress(BusEvent.canvasWasChanged.name()))
       .addOutboundPermitted(new PermittedOptions().setAddress(BusEvent.viewWasChanged.name()));
-
-    ModeToKeymap keymapMap = ModeToKeymap.make();
-    KeyToOperator editingKeymap = KeyToOperator.make(EditorMode.editing);
-    KeyToOperator insertKeymap = KeyToOperator.make(EditorMode.insert);
-    keymapMap.put(EditorMode.editing, editingKeymap);
-    keymapMap.put(EditorMode.editing, insertKeymap);
 
     router.get("/static/*").handler(this::staticHandler);
     router.mountSubRouter("/eventbus", SockJSHandler.create(vertx).bridge(opts));
