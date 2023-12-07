@@ -18,6 +18,9 @@ public class InitializerService {
     ModeToKeymap keymapMap = ModeToKeymap.make();
     keymapMap = initializeModeToKeymap(keymapMap, editingKeymap, insertKeymap);
     editorModelService.putKeymapMap(keymapMap);
+
+    OperatorToService opToService = OperatorToService.make();
+    editorModelService.putOperatorToService(opToService);
   }
 
   private KeyToOperator initializeEditingKeymap(KeyToOperator keyToOperator) {

@@ -7,13 +7,6 @@ import io.vertx.rxjava3.core.shareddata.LocalMap;
 
 public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
-  private final OperatorToService operatorToService;
-
-  public KeyWasPressedVerticle() {
-    ServiceHolder.cursorMovementService = CursorMovementService.make();
-    operatorToService = OperatorToService.make();
-  }
-
   @Override
   public void start() {
     InitializerService.make(ServiceHolder.editorModelService);

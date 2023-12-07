@@ -14,4 +14,5 @@ public enum EditorModelKey {
   keyPressed,
   editingKeymap,
   insertKeymap,
+  operatorToService,
 }

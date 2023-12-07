@@ -172,6 +172,10 @@ public class EditorModelService {
     editorModel.put(modeToKeymap, keymapMap);
   }
 
+  public void putOperatorToService(OperatorToService opToService) {
+    editorModel.put(operatorToService, opToService);
+  }
+
   private void setInitialValues(LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(editorContentLines, "test words");
     editorModel.put(contentX, 0);
@@ -188,4 +192,5 @@ public class EditorModelService {
 //      "\n 34 Ye cannot say, when ye are brought to that awful crisis, that I will repent, that I will return to my God. Nay, ye cannot say this; for that same spirit which doth possess your bodies at the time that ye go out of this life, that same spirit will have power to possess your body in that eternal world.";
     putEditorContentLines(initialContentLines.split("\n"));
   }
+
 }
