@@ -3,8 +3,6 @@ package com.ple.visur;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
-import java.util.HashMap;
-
 import static com.ple.visur.EditorMode.*;
 import static com.ple.visur.EditorModelKey.*;
 
@@ -65,10 +63,6 @@ public class EditorModelService {
 
   public EditorMode getEditorMode() {
     return (EditorMode)editorModel.get(editorMode);
-  }
-
-  public Operator getOperator() {
-    return (Operator)editorModel.get(operator);
   }
 
   public KeyPressed getKeyPressed() {
@@ -152,10 +146,6 @@ public class EditorModelService {
     editorModel.put(editorMode, mode);
   }
 
-  public void putOperator(Operator op) {
-    editorModel.put(operator, op);
-  }
-
   public void putKeyPressed(KeyPressed key) {
     editorModel.put(keyPressed, key.getKey());
   }
@@ -191,6 +181,21 @@ public class EditorModelService {
 //      "\n\t\t33 And now, as I said unto you before, as ye have had so many witnesses, therefore, I beseech of you that ye do not procrastinate the day of your repentance until the end; for after this day of life, which is given us to prepare for eternity, behold, if we do not improve our time while in this life, then cometh the night of darkness wherein there can be no labor performed." +
 //      "\n 34 Ye cannot say, when ye are brought to that awful crisis, that I will repent, that I will return to my God. Nay, ye cannot say this; for that same spirit which doth possess your bodies at the time that ye go out of this life, that same spirit will have power to possess your body in that eternal world.";
     putEditorContentLines(initialContentLines.split("\n"));
+  }
+
+  public boolean handleKeyPress(KeyPressed keyPressed) {
+    boolean keyPressWasHandled = false;
+    EditorModelService ems = ServiceHolder.editorModelService;
+    final ModeToKeymap modeToKeymap = ems.getKeymapMap();
+    final KeyToOperator keyToOperator = modeToKeymap.keymapMap.get(getEditorMode());
+    Operator operator = keyToOperator.keymap.get(keyPressed.getKey());
+    if(operator != null) {
+      OperatorToService operatorToService = OperatorToService.make();
+      OperatorService operatorService = operatorToService.get(operator);
+      operatorService.execute(operator);
+      keyPressWasHandled = true;
+    }
+    return keyPressWasHandled;
   }
 
 }

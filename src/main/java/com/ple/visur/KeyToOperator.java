@@ -18,7 +18,7 @@ public class KeyToOperator implements Shareable {
   }
 
   public Operator get(KeyPressed keyPressed) {
-    return keymap.get(keyPressed);
+    return keymap.get(keyPressed.getKey());
   }
 
 }

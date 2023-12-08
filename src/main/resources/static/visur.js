@@ -56,13 +56,13 @@ function drawCanvas() {
   let fullContentWasDrawn = false
   contentLoop:
     for(y = 0; y < canvasHeight; y++) {
-      let line = contentLines[drawContentY]
+      let line;
+      if(contentLines.length == drawContentY) {
+        fullContentWasDrawn = true
+      } else {
+        line = contentLines[drawContentY]
+      }
       for(x = 0; x < canvasWidth; x++) {
-        if(!fullContentWasDrawn) {
-          if(drawContentY == contentLines.length - 1 && drawContentX == line.length) {
-            fullContentWasDrawn = true
-          }
-        }
         if(!cursorWasDrawn) { //what's up with this?
           if(canvasX < x && canvasY < y) {
             cursorWasDrawn = true
@@ -81,9 +81,6 @@ function drawCanvas() {
           drawCharacter(x, y, char)
           drawContentX++
         }
-      }
-      if(drawContentY + 1 == contentLines.length && contentLines[drawContentY].length == canvasWidth * (y + 1)) {
-        fullContentWasDrawn = true
       }
       if(!fullContentWasDrawn) {
         if(canvasWidth * (numberOfWrappedLines + 1) >= line.length) {

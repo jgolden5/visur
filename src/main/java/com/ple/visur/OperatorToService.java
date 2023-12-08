@@ -1,8 +1,8 @@
 package com.ple.visur;
 
-import java.awt.*;
+import io.vertx.core.shareddata.Shareable;
 
-public class OperatorToService {
+public class OperatorToService implements Shareable {
 
   public static OperatorToService make() {
     return new OperatorToService();

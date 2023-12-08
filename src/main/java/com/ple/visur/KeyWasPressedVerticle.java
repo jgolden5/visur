@@ -3,7 +3,6 @@ package com.ple.visur;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava3.core.eventbus.Message;
-import io.vertx.rxjava3.core.shareddata.LocalMap;
 
 public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
@@ -14,13 +13,14 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   }
 
   public void handle(Message event) {
+    EditorModelService ems = ServiceHolder.editorModelService;
     JsonObject keyJson = new JsonObject((String) event.body());
     final String key = keyJson.getString("key");
-    final EditorMode editorMode = ServiceHolder.editorModelService.getEditorMode();
-    final KeyPressed keyPressed = KeyPressed.from(key);
-    ServiceHolder.editorModelService.putKeyPressed(KeyPressed.from(keyPressed.getKey()));
+    KeyPressed keyPressed = KeyPressed.from(key);
+    ems.putKeyPressed(keyPressed);
 
-    boolean modelChanged = true;
+    boolean modelChanged = ems.handleKeyPress(keyPressed);
+
     if(modelChanged) {
       bus.send(BusEvent.modelChange.name(), null);
     }
