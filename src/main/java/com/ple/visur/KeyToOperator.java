@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class KeyToOperator implements Shareable {
-  final Map<KeyPressed, Operator> keymap = new HashMap<>();
+  private final Map<KeyPressed, Operator> keymap = new HashMap<>();
 
   public static KeyToOperator make() {
     return new KeyToOperator();
@@ -18,7 +18,7 @@ public class KeyToOperator implements Shareable {
   }
 
   public Operator get(KeyPressed keyPressed) {
-    return keymap.get(keyPressed.getKey());
+    return keymap.get(keyPressed);
   }
 
 }

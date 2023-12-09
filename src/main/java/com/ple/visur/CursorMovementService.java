@@ -82,6 +82,7 @@ public class CursorMovementService implements OperatorService {
       }
       i++;
     }
+    ems.putVirtualX(ems.getContentX());
     assignCursorCoordinates(ems.getContentX(), ems.getContentY());
   }
 
