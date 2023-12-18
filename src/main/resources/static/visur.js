@@ -21,11 +21,13 @@ eb.onopen = function() {
     canvasX = message["body"]["canvasX"]
     canvasY = message["body"]["canvasY"]
     contentLines = message["body"]["contentLines"]
+    mode = message["body"]["editorMode"]
 
 //    console.log("Content = " + (message["body"]["contentLines"]))
 
     clearCanvas()
     drawCanvas()
+    document.getElementById("currentEditorModeDisplay").innerHTML = "-" + mode + " mode-"
 
   })
   let canvasInfo = {
@@ -110,6 +112,7 @@ function toY(y) {
 }
 
 function drawCharacter(x, y, characterToDraw) {
+  ctx.fillStyle = "white"
   ctx.fillText(characterToDraw, toXContent(x), toY(y));
 }
 

@@ -36,6 +36,7 @@ public class ModelChangeVerticle extends AbstractVisurVerticle {
     output.put("canvasX", ServiceHolder.editorModelService.getCanvasX());
     output.put("canvasY", ServiceHolder.editorModelService.getCanvasY());
     output.put("contentLines", new JsonArray(Arrays.asList(view.contentLines)));
+    output.put("editorMode", new JsonArray(Arrays.asList(ServiceHolder.editorModelService.getEditorMode())));
     return output;
   }
 

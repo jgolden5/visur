@@ -38,7 +38,12 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     if(operator != null) {
       OperatorToService operatorToService = OperatorToService.make();
       OperatorService operatorService = operatorToService.get(operator);
-      operatorService.execute(operator);
+      boolean operatorServiceIsInsertCharService = operatorService.getClass().getSimpleName().equals("InsertCharService");
+      if(operatorServiceIsInsertCharService) {
+        operatorService.execute(operator, keyPressed);
+      } else {
+        operatorService.execute(operator);
+      }
       bus.send(BusEvent.modelChange.name(), null);
     }
 

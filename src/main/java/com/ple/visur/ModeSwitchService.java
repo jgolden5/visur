@@ -21,9 +21,15 @@ public class ModeSwitchService implements OperatorService {
 
   @Override
   public void execute(Operator operator, Object... args) {
+    if(args.length > 0) {
+      throw new RuntimeException("input was of length " + args.length + ". Length should have been 0.");
+    }
     switch(operator) {
       case enterEditingMode:
         enterEditingMode();
+        if(ems.getContentX() > 0) {
+          ems.putContentX(ems.getContentX() - 1);
+        }
         break;
       case enterInsertMode:
         enterInsertMode();
