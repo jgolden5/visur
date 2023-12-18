@@ -75,7 +75,11 @@ function drawCanvas() {
         }
         if(!cursorWasDrawn) {
           if(x == canvasX && y == canvasY) {
-            drawCursor(x, y, "⬜️")
+            if(mode == "insert") {
+              drawCursor(x, y, "⎸️")
+            } else {
+              drawCursor(x, y, "⬜️")
+            }
           }
         }
         if(!fullContentWasDrawn) {
