@@ -116,11 +116,6 @@ public class CursorMovementService implements OperatorService {
     ems.putVirtualX(firstNonSpaceIndex);
   }
 
-  public void enterInsertMode() { //i
-    ems.putEditorMode(EditorMode.insert);
-    System.out.println("entered insert mode");
-  }
-
   public void assignCursorCoordinates(int contentX, int contentY) {
     ems.putContentX(contentX);
     ems.putContentY(contentY);
@@ -160,9 +155,6 @@ public class CursorMovementService implements OperatorService {
         break;
       case moveCursorToFirstNonSpaceInCurrentLine:
         moveCursorToFirstNonSpaceInCurrentLine();
-        break;
-      case enterInsertMode:
-        enterInsertMode();
         break;
       default:
         System.out.println("Operator not recognized");

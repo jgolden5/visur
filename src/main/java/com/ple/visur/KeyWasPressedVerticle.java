@@ -29,8 +29,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       if(i < handlerArray.length) {
         operator = handlerArray[i].toOperator(keyPressed);
       } else {
-        ems.reportError("Invalid key"); //make an error message line that displays onscreen eventually
-        bus.send(BusEvent.modelChange.name(), null);
+//        ems.reportError("Invalid key"); //make an error message line that displays onscreen eventually
         shouldExit = true;
       }
       i++;
@@ -40,6 +39,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       OperatorToService operatorToService = OperatorToService.make();
       OperatorService operatorService = operatorToService.get(operator);
       operatorService.execute(operator);
+      bus.send(BusEvent.modelChange.name(), null);
     }
 
   }
