@@ -11,10 +11,12 @@ public class ServiceHolder {
     editorModelService = EditorModelService.make(sharedData);
     cursorMovementService = CursorMovementService.make();
     initializerService = InitializerService.make(editorModelService);
+    insertCharService = InsertCharService.make();
   }
 
   public static EditorModelService editorModelService;
   public static CursorMovementService cursorMovementService;
   public static InitializerService initializerService;
+  public static InsertCharService insertCharService;
   //OperatorService is an interface, so I'm guessing it doesn't belong here, but all classes that use it will
 }

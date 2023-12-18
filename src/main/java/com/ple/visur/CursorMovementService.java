@@ -19,6 +19,7 @@ public class CursorMovementService implements OperatorService {
       ems.putVirtualX(ems.getContentX());
     }
   }
+
   public void cursorRight() { //l
     if(ems.getContentX() >= ems.getCurrentContentLineLength()) {
       ems.putContentX(ems.getCurrentContentLineLength() - 1);
@@ -28,6 +29,7 @@ public class CursorMovementService implements OperatorService {
       ems.putVirtualX(ems.getContentX());
     }
   }
+
   public void cursorDown() { //j
     if (ems.getContentY() < ems.getEditorContentLines().length - 1) {
       String nextLine = ems.getEditorContentLines()[ems.getContentY() + 1];
@@ -41,6 +43,7 @@ public class CursorMovementService implements OperatorService {
       assignCursorCoordinates(ems.getContentX(), ems.getContentY());
     }
   }
+
   public void cursorUp() { //k
     if(ems.getContentY() > 0) {
       String previousLine = ems.getEditorContentLines()[ems.getContentY() - 1];
@@ -55,6 +58,7 @@ public class CursorMovementService implements OperatorService {
       assignCursorCoordinates(ems.getContentX(), ems.getContentY());
     }
   }
+
   public void moveCursorToBeginningOfNextWord() { //w
     char currentChar = ems.getCurrentContentLine().charAt(ems.getContentX());
     int i = 0;
@@ -111,8 +115,10 @@ public class CursorMovementService implements OperatorService {
     ems.putContentX(firstNonSpaceIndex);
     ems.putVirtualX(firstNonSpaceIndex);
   }
-  public void enterInsertMode() { //i
 
+  public void enterInsertMode() { //i
+    ems.putEditorMode(EditorMode.insert);
+    System.out.println("entered insert mode");
   }
 
   public void assignCursorCoordinates(int contentX, int contentY) {
@@ -126,7 +132,10 @@ public class CursorMovementService implements OperatorService {
   }
 
   @Override
-  public void execute(Operator operator) {
+  public void execute(Operator operator, Object... args) {
+    if(args.length > 0) {
+      throw new RuntimeException("input was of length " + args.length + ". Length should have been 0.");
+    }
     switch(operator) {
       case cursorLeft:
         cursorLeft();

@@ -15,4 +15,5 @@ public enum EditorModelKey {
   editingKeymap,
   insertKeymap,
   operatorToService,
+  modeToHandlerArray,
 }

@@ -18,16 +18,16 @@ public class KeyPressed {
     return Objects.hash(key);
   }
 
+  public static KeyPressed from(String key) {
+    return new KeyPressed(key);
+  }
+
   public KeyPressed(String key) {
     this.key = key;
   }
 
   public String getKey() {
     return key;
-  }
-
-  public static KeyPressed from(String key) {
-    return new KeyPressed(key);
   }
 
 }

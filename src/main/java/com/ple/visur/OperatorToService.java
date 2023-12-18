@@ -13,8 +13,11 @@ public class OperatorToService implements Shareable {
     switch(operator) {
       case cursorLeft, cursorRight, cursorDown, cursorUp,
         moveCursorToBeginningOfNextWord, moveCursorToBeginningOfCurrentLine,
-        moveCursorToEndOfCurrentLine, moveCursorToFirstNonSpaceInCurrentLine:
+        moveCursorToEndOfCurrentLine, moveCursorToFirstNonSpaceInCurrentLine, enterInsertMode:
         targetService = ServiceHolder.cursorMovementService;
+        break;
+      case insertChar:
+        targetService = ServiceHolder.insertCharService;
         break;
       default:
         System.out.println("operator not recognized");

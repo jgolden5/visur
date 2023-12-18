@@ -10,8 +10,9 @@ public enum Operator {
   moveCursorToEndOfCurrentLine,
   moveCursorToFirstNonSpaceInCurrentLine,
   enterInsertMode,
+  enterEditingMode,
+  insertEmptyLineBelowCurrentLine,
   insertChar,
-  doNothing
-  ;
+  deleteCurrentChar,
 
 }
