@@ -6,11 +6,11 @@ let canvas = document.getElementById("mainCanvas")
 
 let cellWidth = 20
 let cellHeight = 20
-let canvasWidth = canvas.width / cellWidth
-let canvasHeight = canvas.height / cellHeight
+let canvasWidth = Math.floor(canvas.width / cellWidth)
+let canvasHeight = Math.floor(canvas.height / cellHeight)
 
-let canvasXOffset = 3
-let canvasYOffset = 25
+let canvasXOffset = 6
+let canvasYOffset = 20
 
 let ctx = canvas.getContext("2d")
 ctx.font = cellWidth + "px courier"
@@ -65,11 +65,6 @@ function drawCanvas() {
         line = contentLines[drawContentY]
       }
       for(x = 0; x < canvasWidth; x++) {
-        if(!cursorWasDrawn) { //what's up with this?
-          if(canvasX < x && canvasY < y) {
-            cursorWasDrawn = true
-          }
-        }
         if(fullContentWasDrawn && cursorWasDrawn) {
           break contentLoop
         }
@@ -77,6 +72,7 @@ function drawCanvas() {
           if(x == canvasX && y == canvasY) {
 //            if(mode == "insert") {
               drawCursor(x, y, "⎸️")
+              cursorWasDrawn = true
 //            } else {
 //              drawCursor(x, y, "⬜️")
 //            }
@@ -98,12 +94,11 @@ function drawCanvas() {
         }
       }
     }
-
 }
 
 let i = 0
 
-function toXContent(x) {
+function toXContent(x) { //as opposed to XCursor
   return x * cellWidth + canvasXOffset
 }
 

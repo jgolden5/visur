@@ -1,5 +1,7 @@
 package com.ple.visur;
 
+import java.security.Provider;
+
 public class InsertCharService implements OperatorService {
   final EditorModelService ems = ServiceHolder.editorModelService;
 
@@ -24,8 +26,7 @@ public class InsertCharService implements OperatorService {
     switch(operator) {
       case insertChar:
         insertChar((KeyPressed)args[0]);
-        ems.putContentX(ems.getContentX() + 1);
-        ems.putVirtualX(ems.getContentX());
+        ServiceHolder.cursorMovementService.cursorRight();
         break;
       case insertEmptyLineBelowCurrentLine:
 //        insertEmptyLineBelowCurrentLine();
