@@ -11,9 +11,6 @@ public class CursorMovementService implements OperatorService {
 
   //map key
   public void cursorLeft() { //h
-    if (ems.getContentX() >= ems.getCurrentContentLineLength()) {
-      ems.putContentX(ems.getCurrentContentLineLength() - 1);
-    }
     if (ems.getContentX() > 0) {
       ems.putContentX(ems.getContentX() - 1);
       ems.putVirtualX(ems.getContentX());
@@ -21,9 +18,6 @@ public class CursorMovementService implements OperatorService {
   }
 
   public void cursorRight() { //l
-    if(ems.getContentX() >= ems.getCurrentContentLineLength()) {
-      ems.putContentX(ems.getCurrentContentLineLength() - 1);
-    }
     if(ems.getContentX() < ems.getCurrentContentLineLength() - 1) {
       ems.putContentX(ems.getContentX() + 1);
       ems.putVirtualX(ems.getContentX());

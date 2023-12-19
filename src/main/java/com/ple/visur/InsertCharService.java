@@ -35,7 +35,7 @@ public class InsertCharService implements OperatorService {
 //        deleteCurrentChar();
         break;
       default:
-        ems.reportError("Operator not recognzied");
+        ems.reportError("Operator not recognized");
     }
 
   }
