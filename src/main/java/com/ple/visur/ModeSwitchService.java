@@ -27,9 +27,6 @@ public class ModeSwitchService implements OperatorService {
     switch(operator) {
       case enterEditingMode:
         enterEditingMode();
-        if(ems.getContentX() > 0) {
-          ems.putContentX(ems.getContentX() - 1);
-        }
         break;
       case enterInsertMode:
         enterInsertMode();

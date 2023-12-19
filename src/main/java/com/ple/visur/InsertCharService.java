@@ -19,6 +19,7 @@ public class InsertCharService implements OperatorService {
     String[] editorContentLines = ems.getEditorContentLines();
     editorContentLines[ems.getContentY()] = currentLine;
     ems.putEditorContentLines(editorContentLines);
+    ServiceHolder.cursorMovementService.cursorRight();
   }
 
   @Override
@@ -26,7 +27,6 @@ public class InsertCharService implements OperatorService {
     switch(operator) {
       case insertChar:
         insertChar((KeyPressed)args[0]);
-        ServiceHolder.cursorMovementService.cursorRight();
         break;
       case insertEmptyLineBelowCurrentLine:
 //        insertEmptyLineBelowCurrentLine();
