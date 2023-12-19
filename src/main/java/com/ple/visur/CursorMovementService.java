@@ -18,7 +18,7 @@ public class CursorMovementService implements OperatorService {
   }
 
   public void cursorRight() { //l
-    if(ems.getContentX() < ems.getCurrentContentLineLength() - 1) {
+    if(ems.getContentX() < ems.getCurrentContentLineLength()) {
       ems.putContentX(ems.getContentX() + 1);
       ems.putVirtualX(ems.getContentX());
     }
@@ -43,10 +43,9 @@ public class CursorMovementService implements OperatorService {
       String previousLine = ems.getEditorContentLines()[ems.getContentY() - 1];
       int previousLineLength = previousLine.length();
       ems.putContentY(ems.getContentY() - 1);
-      if(previousLineLength - 1 < ems.getVirtualX() || ems.getVirtualXIsAtEndOfLine()) {
-        ems.putContentX(previousLineLength - 1);
-      }
-      else {
+      if(previousLineLength < ems.getVirtualX() || ems.getVirtualXIsAtEndOfLine()) {
+        ems.putContentX(previousLineLength);
+      } else {
         ems.putContentX(ems.getVirtualX());
       }
       assignCursorCoordinates(ems.getContentX(), ems.getContentY());

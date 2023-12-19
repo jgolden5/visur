@@ -64,7 +64,7 @@ function drawCanvas() {
       } else {
         line = contentLines[drawContentY]
       }
-      for(x = 0; x < canvasWidth; x++) {
+      for(x = 0; x <= canvasWidth; x++) {
         if(fullContentWasDrawn && cursorWasDrawn) {
           break contentLoop
         }
@@ -74,7 +74,7 @@ function drawCanvas() {
               drawCursor(x, y, "⎸️")
               cursorWasDrawn = true
 //            } else {
-//              drawCursor(x, y, "⬜️")
+//              drawCursor(x, y, "⬜️") //may get used for span
 //            }
           }
         }

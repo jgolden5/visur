@@ -85,13 +85,16 @@ public class EditorModelService {
   public int getCanvasX() {
     int contentX = getContentX();
     int contentY = getContentY();
-    int adjustedContentX = contentX;
+    int canvasX;
     String[] contentLines = getEditorContentLines();
-    if(contentX > contentLines[contentY].length() - 1) {
-      adjustedContentX = contentLines[contentY].length() - 1;
-    }
+    int currentLineLength = contentLines[contentY].length();
     int canvasWidth = getCanvasWidth();
-    return adjustedContentX % canvasWidth;
+    if(contentX == currentLineLength && contentX % canvasWidth == 0) {
+      canvasX = contentX;
+    } else {
+      canvasX = contentX % canvasWidth;
+    }
+    return canvasX;
   }
 
   public int getCanvasY() {
