@@ -78,10 +78,12 @@ function drawCanvas() {
 //            }
           }
         }
-        if(!fullContentWasDrawn) {
-          let char = line.charAt(drawContentX)
-          drawCharacter(x, y, char)
-          drawContentX++
+        if(x != canvasWidth) {
+          if(!fullContentWasDrawn) {
+            let char = line.charAt(drawContentX)
+            drawCharacter(x, y, char)
+            drawContentX++
+          }
         }
       }
       if(!fullContentWasDrawn) {
