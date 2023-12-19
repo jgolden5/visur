@@ -30,7 +30,7 @@ public class CursorMovementService implements OperatorService {
       int nextLineLength = nextLine.length();
       ems.putContentY(ems.getContentY() + 1);
       if (nextLineLength - 1 < ems.getVirtualX() || ems.getVirtualXIsAtEndOfLine()) {
-        ems.putContentX(nextLineLength - 1);
+        ems.putContentX(nextLineLength);
       } else {
         ems.putContentX(ems.getVirtualX());
       }
@@ -89,7 +89,7 @@ public class CursorMovementService implements OperatorService {
   }
 
   public void moveCursorToEndOfCurrentLine() { //$
-    ems.putContentX(ems.getCurrentContentLineLength() - 1);
+    ems.putContentX(ems.getCurrentContentLineLength());
     ems.putContentX(ems.getContentX());
     ems.putVirtualXIsAtEndOfLine(true);
   }
