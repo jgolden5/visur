@@ -103,6 +103,7 @@ public class EditorModelService {
     int contentX = getContentX();
     int contentY = getContentY();
     int rows = 0;
+    int currentLineLength = getCurrentContentLineLength();
     for(int i = 0; i < contentY; i++) {
       String currentLine = contentLines[i];
       rows += currentLine.length() / canvasWidth;
@@ -110,7 +111,9 @@ public class EditorModelService {
         rows++;
       }
     }
-    rows += contentX / canvasWidth;
+    if(currentLineLength % canvasWidth != 0 || currentLineLength != contentX) {
+      rows += contentX / canvasWidth;
+    }
     return rows;
   }
 
