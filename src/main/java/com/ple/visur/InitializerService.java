@@ -26,7 +26,7 @@ public class InitializerService {
     ems.putVirtualX(0);
     ems.putVirtualXIsAtEndOfLine(false);
     ems.putEditorMode(editing);
-    final String initialContentLines = "Hello" +
+    final String initialContentLines = "Hey" +
       "\nWho's there??" +
       "\nGoodbye world.";
 //    final String initialContentLines = "31 Yea, I would that ye would come forth and harden not your hearts any longer; for behold, now is the time and the day of your salvation; and therefore, if ye will repent and harden not your hearts, immediately shall the great plan of redemption be brought about unto you." +
