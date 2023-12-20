@@ -16,7 +16,7 @@ public class OperatorToService implements Shareable {
         moveCursorToEndOfCurrentLine, moveCursorToFirstNonSpaceInCurrentLine:
         targetService = ServiceHolder.cursorMovementService;
         break;
-      case insertChar:
+      case insertChar, insertNewLine, deleteCurrentChar:
         targetService = ServiceHolder.insertCharService;
         break;
       case enterEditingMode, enterInsertMode:

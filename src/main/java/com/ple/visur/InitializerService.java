@@ -84,7 +84,7 @@ public class InitializerService {
 
   private KeyToOperator initializeInsertKeymap(KeyToOperator keyToOperator) {
     keyToOperator.put(KeyPressed.from("Escape"), Operator.enterEditingMode);
-    keyToOperator.put(KeyPressed.from("Enter"), Operator.insertEmptyLineBelowCurrentLine);
+    keyToOperator.put(KeyPressed.from("Enter"), Operator.insertNewLine);
     keyToOperator.put(KeyPressed.from("Backspace"), Operator.deleteCurrentChar);
     return keyToOperator;
   }

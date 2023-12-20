@@ -11,7 +11,7 @@ public enum Operator {
   moveCursorToFirstNonSpaceInCurrentLine,
   enterInsertMode,
   enterEditingMode,
-  insertEmptyLineBelowCurrentLine,
+  insertNewLine,
   insertChar,
   deleteCurrentChar,
 

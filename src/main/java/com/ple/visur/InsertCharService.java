@@ -1,7 +1,5 @@
 package com.ple.visur;
 
-import java.security.Provider;
-
 public class InsertCharService implements OperatorService {
   final EditorModelService ems = ServiceHolder.editorModelService;
 
@@ -22,14 +20,38 @@ public class InsertCharService implements OperatorService {
     ServiceHolder.cursorMovementService.cursorRight();
   }
 
+  private void insertNewLine() {
+    String currentLine = ems.getCurrentContentLine();
+    int contentX = ems.getContentX();
+    int contentY = ems.getContentY();
+    String substrBeforeNewLine = currentLine.substring(0, contentX);
+    String substrAtNewLine = currentLine.substring(contentX, ems.getCurrentContentLineLength());
+    String[] oldEditorContentLines = ems.getEditorContentLines();
+    String[] newEditorContentLines = new String[ems.getEditorContentLines().length + 1];
+    for(int i = 0; i < oldEditorContentLines.length; i++) {
+      if(i < contentY) {
+        newEditorContentLines[i] = oldEditorContentLines[i];
+      } else if(i == contentY) {
+        newEditorContentLines[i] = substrBeforeNewLine;
+      } else {
+        newEditorContentLines[i + 1] = oldEditorContentLines[i];
+      }
+    }
+    contentY++;
+    newEditorContentLines[contentY] = substrAtNewLine;
+    ems.putContentX(0);
+    ems.putContentY(contentY);
+    ems.putEditorContentLines(newEditorContentLines);
+  }
+
   @Override
   public void execute(Operator operator, Object... args) {
     switch(operator) {
       case insertChar:
         insertChar((KeyPressed)args[0]);
         break;
-      case insertEmptyLineBelowCurrentLine:
-//        insertEmptyLineBelowCurrentLine();
+      case insertNewLine:
+        insertNewLine();
         break;
       case deleteCurrentChar:
 //        deleteCurrentChar();
@@ -39,5 +61,6 @@ public class InsertCharService implements OperatorService {
     }
 
   }
+
 
 }
