@@ -84,13 +84,11 @@ public class EditorModelService {
   //only getters, no setters
   public int getCanvasX() {
     int contentX = getContentX();
-    int contentY = getContentY();
     int canvasX;
-    String[] contentLines = getEditorContentLines();
-    int currentLineLength = contentLines[contentY].length();
+    int currentLineLength = getCurrentContentLineLength();
     int canvasWidth = getCanvasWidth();
     if(contentX == currentLineLength && contentX % canvasWidth == 0) {
-      canvasX = contentX;
+      canvasX = canvasWidth;
     } else {
       canvasX = contentX % canvasWidth;
     }
@@ -114,8 +112,9 @@ public class EditorModelService {
     if(currentLineLength % canvasWidth != 0 || currentLineLength != contentX) {
       rows += contentX / canvasWidth;
     }
-    return rows;
+      return rows;
   }
+
 
   public void putEditorContentLines(String[] contentLines) {
     editorModel.put(editorContentLines, contentLines);

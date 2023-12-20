@@ -90,7 +90,6 @@ public class CursorMovementService implements OperatorService {
 
   public void moveCursorToEndOfCurrentLine() { //$
     ems.putContentX(ems.getCurrentContentLineLength());
-    ems.putContentX(ems.getContentX());
     ems.putVirtualXIsAtEndOfLine(true);
   }
 
