@@ -101,15 +101,15 @@ public class EditorModelService {
     int contentX = getContentX();
     int contentY = getContentY();
     int rows = 0;
-    int currentLineLength = getCurrentContentLineLength();
+    int currentContentLineLength = getCurrentContentLineLength();
     for(int i = 0; i < contentY; i++) {
-      String currentLine = contentLines[i];
-      rows += currentLine.length() / canvasWidth;
-      if(currentLine.length() % canvasWidth != 0) {
+      String currentIteratedLine = contentLines[i];
+      rows += currentIteratedLine.length() / canvasWidth;
+      if(currentIteratedLine.length() % canvasWidth != 0) {
         rows++;
       }
     }
-    if(currentLineLength % canvasWidth != 0 || currentLineLength != contentX) {
+    if(currentContentLineLength % canvasWidth != 0 || currentContentLineLength != contentX) {
       rows += contentX / canvasWidth;
     }
       return rows;
