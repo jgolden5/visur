@@ -23,7 +23,7 @@ eb.onopen = function() {
     contentLines = message["body"]["contentLines"]
     mode = message["body"]["editorMode"]
 
-//    console.log("Content = " + (message["body"]["contentLines"]))
+//    console.log("Content = " + (contentLines))
 
     clearCanvas()
     drawCanvas()
