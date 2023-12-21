@@ -87,7 +87,7 @@ public class EditorModelService {
     int canvasX;
     int currentLineLength = getCurrentContentLineLength();
     int canvasWidth = getCanvasWidth();
-    if(contentX == currentLineLength && contentX % canvasWidth == 0) {
+    if(contentX == currentLineLength && contentX % canvasWidth == 0 && currentLineLength > 0) {
       canvasX = canvasWidth;
     } else {
       canvasX = contentX % canvasWidth;
@@ -105,13 +105,12 @@ public class EditorModelService {
     for(int i = 0; i < contentY; i++) {
       String currentIteratedLine = contentLines[i];
       canvasY += currentIteratedLine.length() / canvasWidth;
-      if(currentIteratedLine.length() % canvasWidth != 0) {
+      if(currentIteratedLine.length() % canvasWidth != 0 || currentIteratedLine.length() == 0) {
         canvasY++;
       }
     }
-    canvasY += contentX / canvasWidth;
-    if(contentX == currentContentLineLength && contentX % canvasWidth == 0) {
-      canvasY--;
+    if(contentX != currentContentLineLength || contentX % canvasWidth != 0) {
+      canvasY += contentX / canvasWidth;
     }
     return canvasY;
   }

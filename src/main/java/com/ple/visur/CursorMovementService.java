@@ -95,14 +95,19 @@ public class CursorMovementService implements OperatorService {
 
   public void moveCursorToFirstNonSpaceInCurrentLine() { //^
     int firstNonSpaceIndex = -1;
-    for(int i = 0; i < ems.getCurrentContentLineLength(); i++) {
+    int currentLineLength = ems.getCurrentContentLineLength();
+    for(int i = 0; i < currentLineLength; i++) {
       if(ems.getCurrentContentLine().charAt(i) != ' ' && ems.getCurrentContentLine().charAt(i) != '\t') {
         firstNonSpaceIndex = i;
         break;
       }
     }
     if(firstNonSpaceIndex == -1) {
-      firstNonSpaceIndex = ems.getCurrentContentLineLength() - 1;
+      if(currentLineLength > 0) {
+        firstNonSpaceIndex = currentLineLength - 1;
+      } else {
+        firstNonSpaceIndex = 0;
+      }
     }
     ems.putContentX(firstNonSpaceIndex);
     ems.putVirtualX(firstNonSpaceIndex);

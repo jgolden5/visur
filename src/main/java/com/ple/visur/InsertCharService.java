@@ -40,6 +40,7 @@ public class InsertCharService implements OperatorService {
     contentY++;
     newEditorContentLines[contentY] = substrAtNewLine;
     ems.putContentX(0);
+    ems.putVirtualX(0);
     ems.putContentY(contentY);
     ems.putEditorContentLines(newEditorContentLines);
   }
