@@ -3,7 +3,6 @@ package com.ple.visur;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
-import static com.ple.visur.EditorMode.*;
 import static com.ple.visur.EditorModelKey.*;
 
 public class EditorModelService {
@@ -96,25 +95,35 @@ public class EditorModelService {
   }
 
   public int getCanvasY() {
-    String[] contentLines = getEditorContentLines();
-    int canvasWidth = getCanvasWidth();
-    int contentX = getContentX();
-    int contentY = getContentY();
     int canvasY = 0;
-    int currentContentLineLength = getCurrentContentLineLength();
-    for(int i = 0; i < contentY; i++) {
-      String currentIteratedLine = contentLines[i];
-      canvasY += currentIteratedLine.length() / canvasWidth;
-      if(currentIteratedLine.length() % canvasWidth != 0 || currentIteratedLine.length() == 0) {
+    canvasY += calculateCanvasYBeforeCurrentLine();
+    canvasY += calculateCanvasYAtCurrentLine();
+    return canvasY;
+  }
+
+  private int calculateCanvasYBeforeCurrentLine() {
+    int canvasY = 0;
+    for(int i = 0; i < getContentY(); i++) {
+      String currentIteratedLine = getEditorContentLines()[i];
+      canvasY += currentIteratedLine.length() / getCanvasWidth();
+      if(currentIteratedLine.length() % getCanvasWidth() != 0 || currentIteratedLine.length() == 0) {
         canvasY++;
       }
-    }
-    if(contentX != currentContentLineLength || contentX % canvasWidth != 0) {
-      canvasY += contentX / canvasWidth;
     }
     return canvasY;
   }
 
+  private int calculateCanvasYAtCurrentLine() {
+    int contentX = getContentX();
+    int canvasWidth = getCanvasWidth();
+    int canvasY = 0;
+    if(contentX != getCurrentContentLineLength() || contentX % canvasWidth != 0) {
+      canvasY += contentX / canvasWidth;
+    } else if(contentX > canvasWidth) {
+      canvasY += contentX / canvasWidth - 1;
+    }
+    return canvasY;
+  }
 
   public void putEditorContentLines(String[] contentLines) {
     editorModel.put(editorContentLines, contentLines);

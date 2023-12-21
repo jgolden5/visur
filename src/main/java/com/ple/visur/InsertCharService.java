@@ -20,6 +20,22 @@ public class InsertCharService implements OperatorService {
     ServiceHolder.cursorMovementService.cursorRight();
   }
 
+//  private void deleteCurrentChar() {
+//    String currentLine = ems.getCurrentContentLine();
+//    int contentX = ems.getContentX();
+//    if(contentX > 0) {
+//      String substrBeforeDeletedChar = currentLine.substring(0, contentX - 1);
+//      String substrAfterDeletedChar = currentLine.substring(contentX, ems.getCurrentContentLineLength());
+//      currentLine = substrBeforeDeletedChar + substrAfterDeletedChar;
+//      String[] editorContentLines = ems.getEditorContentLines();
+//      editorContentLines[ems.getContentY()] = currentLine;
+//      ems.putEditorContentLines(editorContentLines);
+//      ServiceHolder.cursorMovementService.cursorLeft();
+//    } else {
+//
+//    }
+//  }
+
   private void insertNewLine() {
     String currentLine = ems.getCurrentContentLine();
     int contentX = ems.getContentX();
