@@ -3,7 +3,11 @@ let canvasY;
 let contentLines;
 
 let canvas = document.getElementById("mainCanvas")
-canvas.width = window.innerWidth
+if((window.innerWidth - 5) % 20 == 0) {
+  canvas.width = window.innerWidth
+} else {
+  canvas.width = window.innerWidth - (window.innerWidth - 5) % 20
+}
 canvas.height = window.innerHeight
 console.log("canvas width = " + canvas.width)
 console.log("canvas height = " + canvas.height)
