@@ -3,6 +3,10 @@ let canvasY;
 let contentLines;
 
 let canvas = document.getElementById("mainCanvas")
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
+console.log("canvas width = " + canvas.width)
+console.log("canvas height = " + canvas.height)
 
 let cellWidth = 20
 let cellHeight = 20
