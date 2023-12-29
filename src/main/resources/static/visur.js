@@ -23,6 +23,19 @@ let canvasYOffset = 20
 let ctx = canvas.getContext("2d")
 ctx.font = cellWidth + "px courier"
 
+function refreshEditor() {
+  setCanvas()
+  console.log("editor refreshed")
+}
+
+function setCanvas() {
+  clearCanvas()
+  drawCanvas()
+  document.getElementById("currentEditorModeDisplay").innerHTML = "-" + mode + " mode-"
+}
+
+document.getElementById("visurEditor").onload = function() { refreshEditor() }
+
 var eb = new EventBus('http://localhost:8888/eventbus');
 eb.onopen = function() {
   eb.registerHandler('viewWasChanged', (error, message) => {
@@ -33,9 +46,7 @@ eb.onopen = function() {
 
 //    console.log("Content = " + (contentLines))
 
-    clearCanvas()
-    drawCanvas()
-    document.getElementById("currentEditorModeDisplay").innerHTML = "-" + mode + " mode-"
+    setCanvas()
 
   })
   let canvasInfo = {
@@ -45,14 +56,17 @@ eb.onopen = function() {
   eb.send("canvasWasChanged", JSON.stringify(canvasInfo))
 }
 
-document.addEventListener('keydown', (event) => {
-//  var svc = new BrowserInputService(eb, "keyWasPressed");
-//  svc.keyPress(event.key);
+function sendKeyPressedEvent(keyPressed) {
+  console.log("keyPressed = " + keyPressed)
   let keyPressedInfo = {
-    key: event.key
+    key: keyPressed
   }
   eb.send("keyWasPressed", JSON.stringify(keyPressedInfo))
   console.log(keyPressedInfo.key + " key was pressed")
+}
+
+document.addEventListener('keydown', (event) => {
+  sendKeyPressedEvent(event.key)
 })
 
 function drawCanvas() {
