@@ -24,14 +24,7 @@ let ctx = canvas.getContext("2d")
 ctx.font = cellWidth + "px courier"
 
 function refreshEditor() {
-  setCanvas()
   console.log("editor refreshed")
-}
-
-function setCanvas() {
-  clearCanvas()
-  drawCanvas()
-  document.getElementById("currentEditorModeDisplay").innerHTML = "-" + mode + " mode-"
 }
 
 document.getElementById("visurEditor").onload = function() { refreshEditor() }
@@ -46,7 +39,9 @@ eb.onopen = function() {
 
 //    console.log("Content = " + (contentLines))
 
-    setCanvas()
+    clearCanvas()
+    drawCanvas()
+    document.getElementById("currentEditorModeDisplay").innerHTML = "-" + mode + " mode-"
 
   })
   let canvasInfo = {
