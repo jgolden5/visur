@@ -44,7 +44,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       } else {
         operatorService.execute(operator);
       }
-      bus.send(BusEvent.modelChange.name(), null);
+      bus.send(BusEvent.modelWasChanged.name(), null);
     }
 
   }

@@ -2,17 +2,16 @@ package com.ple.visur;
 
 import io.vertx.core.json.*;
 import io.vertx.rxjava3.core.eventbus.Message;
-import io.vertx.rxjava3.core.shareddata.LocalMap;
 
 import java.util.Arrays;
 
-public class ModelChangeVerticle extends AbstractVisurVerticle {
+public class ModelWasChangedVerticle extends AbstractVisurVerticle {
 
   View view;
 
   @Override
   public void start() {
-    vertx.eventBus().consumer(BusEvent.modelChange.name(), event -> {
+    vertx.eventBus().consumer(BusEvent.modelWasChanged.name(), event -> {
       handleChange(event);
     });
   }

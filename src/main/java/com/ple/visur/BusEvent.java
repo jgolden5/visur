@@ -7,10 +7,10 @@ public enum BusEvent {
   //sent in js in keyDown event listener, consumed by KeyWasPressedVerticle
   keyWasPressed,
 
-  //sent in KeyWasPressedVerticle, consumed by ModelChangeVerticle
-  modelChange,
+  //sent in KeyWasPressedVerticle, consumed by ModelWasChangedVerticle
+  modelWasChanged,
 
-  //sent in ModelChangeVerticle, consumed in visur.js in eventbus.onopen
+  //sent in ModelWasChangedVerticle, consumed in visur.js in eventbus.onopen
   viewWasChanged
 }
 
