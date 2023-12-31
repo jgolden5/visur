@@ -18,7 +18,7 @@ public class ServiceHolder {
 
   public static EditorModelService editorModelService;
   public static CursorMovementService cursorMovementService;
-  public static OperatorService modeSwitchService;
+  public static ModeSwitchService modeSwitchService;
   public static InitializerService initializerService;
   public static InsertCharService insertCharService;
   //OperatorService is an interface, so I'm guessing it doesn't belong here, but all classes that use it will
