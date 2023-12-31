@@ -23,14 +23,9 @@ let canvasYOffset = 20
 let ctx = canvas.getContext("2d")
 ctx.font = cellWidth + "px courier"
 
-function refreshEditor() {
-  console.log("editor refreshed")
-}
-
-document.getElementById("visurEditor").onload = function() { refreshEditor() }
-
 var eb = new EventBus('http://localhost:8888/eventbus');
 eb.onopen = function() {
+  console.log("connection established with js' event bus")
   eb.registerHandler('viewWasChanged', (error, message) => {
     canvasX = message["body"]["canvasX"]
     canvasY = message["body"]["canvasY"]
@@ -49,7 +44,14 @@ eb.onopen = function() {
     height: (canvas.height - canvasYOffset) / cellHeight + 1
   };
   eb.send("canvasWasChanged", JSON.stringify(canvasInfo))
+  eb.send("modelWasChanged", null)
 }
+
+function refreshEditor() {
+  console.log("editor refreshed")
+}
+
+document.getElementById("visurEditor").onload = function() { refreshEditor() }
 
 function sendKeyPressedEvent(keyPressed) {
   console.log("keyPressed = " + keyPressed)
