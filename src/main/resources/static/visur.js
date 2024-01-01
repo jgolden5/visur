@@ -20,8 +20,17 @@ let canvasHeight = Math.floor(canvas.height / cellHeight)
 let canvasXOffset = 6
 let canvasYOffset = 20
 
+let numberOfTimesPageWasLoaded = 0
+
 let ctx = canvas.getContext("2d")
 ctx.font = cellWidth + "px courier"
+
+function refreshEditor() {
+  numberOfTimesPageWasLoaded++
+  console.log("editor refreshed " + numberOfTimesPageWasLoaded + " times")
+}
+
+document.getElementById("visurEditor").onload = function() { refreshEditor() }
 
 var eb = new EventBus('http://localhost:8888/eventbus');
 eb.onopen = function() {
@@ -35,6 +44,7 @@ eb.onopen = function() {
 //    console.log("Content = " + (contentLines))
 
     clearCanvas()
+    ctx.fillStyle = "white"
     drawCanvas()
     document.getElementById("currentEditorModeDisplay").innerHTML = "-" + mode + " mode-"
 
@@ -46,12 +56,6 @@ eb.onopen = function() {
   eb.send("canvasWasChanged", JSON.stringify(canvasInfo))
   eb.send("modelWasChanged", null)
 }
-
-function refreshEditor() {
-  console.log("editor refreshed")
-}
-
-document.getElementById("visurEditor").onload = function() { refreshEditor() }
 
 function sendKeyPressedEvent(keyPressed) {
   console.log("keyPressed = " + keyPressed)
@@ -132,7 +136,6 @@ function toY(y) {
 }
 
 function drawCharacter(x, y, characterToDraw) {
-  ctx.fillStyle = "white"
   ctx.fillText(characterToDraw, toXContent(x), toY(y));
 }
 
