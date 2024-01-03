@@ -20,31 +20,37 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     ems.putKeyPressed(keyPressed);
 
     //go from keyPressed to handlers to operator
-    ModeToHandlerArray modeToHandlerArrayMap = ems.getModeToHandlerArray();
-    KeyToOperatorHandler[] handlerArray = modeToHandlerArrayMap.get(mode);
-    int i = 0;
-    Operator operator = null;
-    boolean shouldExit = false;
-    while(operator == null && !shouldExit) {
-      if(i < handlerArray.length) {
-        operator = handlerArray[i].toOperator(keyPressed);
-      } else {
+    if(keyPressed.getKey().equals(";")) {
+      ems.putIsInCommandState(true);
+      System.out.println("Is in command state");
+    } else {
+      ModeToHandlerArray modeToHandlerArrayMap = ems.getModeToHandlerArray();
+      KeyToOperatorHandler[] handlerArray = modeToHandlerArrayMap.get(mode);
+      int i = 0;
+      Operator operator = null;
+      boolean shouldExit = false;
+      while (operator == null && !shouldExit) {
+        if (i < handlerArray.length) {
+          operator = handlerArray[i].toOperator(keyPressed);
+        } else {
 //        ems.reportError("Invalid key"); //make an error message line that displays onscreen eventually
-        shouldExit = true;
+          shouldExit = true;
+        }
+        i++;
       }
-      i++;
-    }
 
-    if(operator != null) {
-      OperatorToService operatorToService = OperatorToService.make();
-      OperatorService operatorService = operatorToService.get(operator);
-      boolean operatorServiceIsInsertCharService = operatorService.getClass().getSimpleName().equals("InsertCharService");
-      if(operatorServiceIsInsertCharService) {
-        operatorService.execute(operator, keyPressed);
-      } else {
-        operatorService.execute(operator);
+      if (operator != null) {
+        OperatorToService operatorToService = OperatorToService.make();
+        OperatorService operatorService = operatorToService.get(operator);
+        boolean operatorServiceIsInsertCharService = operatorService.getClass().getSimpleName().equals("InsertCharService");
+        if (operatorServiceIsInsertCharService) {
+          operatorService.execute(operator, keyPressed);
+        } else {
+          operatorService.execute(operator);
+        }
+        bus.send(BusEvent.modelWasChanged.name(), null);
       }
-      bus.send(BusEvent.modelWasChanged.name(), null);
+
     }
 
   }

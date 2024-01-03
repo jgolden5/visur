@@ -77,6 +77,10 @@ public class EditorModelService {
     return (ModeToHandlerArray)editorModel.get(modeToHandlerArray);
   }
 
+  public boolean getIsInCommandState() {
+    return (boolean)editorModel.get(isInCommandState);
+  }
+
 // add/improve getters and setters for:
 // Operator, KeyPressed, (not sure: KeyToOperator, OperatorService)
 
@@ -172,6 +176,10 @@ public class EditorModelService {
 
   public void putModeToHandlerArray(ModeToHandlerArray modeToHandlerArrayMap) {
     editorModel.put(modeToHandlerArray, modeToHandlerArrayMap);
+  }
+
+  public void putIsInCommandState(boolean inCommandState) {
+    editorModel.put(isInCommandState, inCommandState);
   }
 
   public void reportError(String message) {
