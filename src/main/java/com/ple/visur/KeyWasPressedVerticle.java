@@ -18,6 +18,11 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     KeyPressed keyPressed = KeyPressed.from(key);
     EditorMode mode = ems.getEditorMode();
     ems.putKeyPressed(keyPressed);
+    boolean matchPossible;
+    KeyPressed[] keyPressedArray = new KeyPressed[]{keyPressed};
+    KeysPressed keysPressed = KeysPressed.make(keyPressedArray);
+    KeyBuffer keyBuffer = KeyBuffer.make(keysPressed);
+    ems.putKeyBuffer(keyBuffer);
 
     //go from keyPressed to handlers to operator
     if(keyPressed.getKey().equals(";")) {

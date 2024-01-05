@@ -51,6 +51,10 @@ public class EditorModelService {
     return (boolean)editorModel.get(virtualXIsAtEndOfLine);
   }
 
+  public KeyBuffer getKeyBuffer() {
+    return (KeyBuffer)editorModel.get(keyBuffer);
+  }
+
   public int getCanvasWidth() {
     return (int)editorModel.get(canvasWidth);
   }
@@ -148,6 +152,10 @@ public class EditorModelService {
 
   public void putVirtualXIsAtEndOfLine(boolean isAtEndOfLine) {
     editorModel.put(virtualXIsAtEndOfLine, isAtEndOfLine);
+  }
+
+  public void putKeyBuffer(KeyBuffer buffer) {
+    editorModel.put(keyBuffer, buffer);
   }
 
   public void putCanvasWidth(int width) {
