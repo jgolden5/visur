@@ -1,5 +1,5 @@
 package com.ple.visur;
 
 public interface KeyToOperatorHandler {
-  public Operator toOperator(KeyPressed keyPressed);
+  public Operator toOperator(KeysPressed keysPressed);
 }

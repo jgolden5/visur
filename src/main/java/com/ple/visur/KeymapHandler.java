@@ -13,11 +13,11 @@ public class KeymapHandler implements KeyToOperatorHandler {
   }
 
   @Override
-  public Operator toOperator(KeyPressed keyPressed) {
+  public Operator toOperator(KeysPressed keysPressed) {
     final ModeToKeymap keymapMap = ems.getKeymapMap();
     final EditorMode mode = ems.getEditorMode();
-    final KeyToOperator keymap = keymapMap.get(mode);
-    Operator operator = keymap.get(keyPressed);
+    final KeysToOperator keymap = keymapMap.get(mode);
+    Operator operator = keymap.get(keysPressed);
     return operator;
   }
 

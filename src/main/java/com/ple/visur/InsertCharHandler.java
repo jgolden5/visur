@@ -13,8 +13,8 @@ public class InsertCharHandler implements KeyToOperatorHandler {
   }
 
   @Override
-  public Operator toOperator(KeyPressed keyPressed) {
-    boolean keyPressedIsValid = keyPressed.getKey().length() == 1;
+  public Operator toOperator(KeysPressed keysPressed) {
+    boolean keyPressedIsValid = keysPressed.keysPressed.length == 1;
     if(keyPressedIsValid) {
       return Operator.insertChar;
     } else {

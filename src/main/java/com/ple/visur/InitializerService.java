@@ -1,10 +1,6 @@
 package com.ple.visur;
 
-import io.vertx.rxjava3.core.shareddata.LocalMap;
-
 import static com.ple.visur.EditorMode.editing;
-import static com.ple.visur.EditorModelKey.*;
-import static com.ple.visur.EditorModelKey.editorMode;
 
 public class InitializerService {
 
@@ -37,11 +33,11 @@ public class InitializerService {
 
     ModeToKeymap keymapMap = ModeToKeymap.make();
 
-    KeyToOperator editingKeymap = KeyToOperator.make();
+    KeysToOperator editingKeymap = KeysToOperator.make();
     editingKeymap = initializeEditingKeymap(editingKeymap);
     keymapMap.put(EditorMode.editing, editingKeymap);
 
-    KeyToOperator insertKeymap = KeyToOperator.make();
+    KeysToOperator insertKeymap = KeysToOperator.make();
     insertKeymap = initializeInsertKeymap(insertKeymap);
     keymapMap.put(EditorMode.insert, insertKeymap);
 
@@ -69,23 +65,23 @@ public class InitializerService {
     ems.putModeToHandlerArray(modeToHandlerArray);
   }
 
-  private KeyToOperator initializeEditingKeymap(KeyToOperator keyToOperator) {
-    keyToOperator.put(KeyPressed.from("h"), Operator.cursorLeft);
-    keyToOperator.put(KeyPressed.from("l"), Operator.cursorRight);
-    keyToOperator.put(KeyPressed.from("j"), Operator.cursorDown);
-    keyToOperator.put(KeyPressed.from("k"), Operator.cursorUp);
-    keyToOperator.put(KeyPressed.from("w"), Operator.moveCursorToBeginningOfNextWord);
-    keyToOperator.put(KeyPressed.from("0"), Operator.moveCursorToBeginningOfCurrentLine);
-    keyToOperator.put(KeyPressed.from("^"), Operator.moveCursorToFirstNonSpaceInCurrentLine);
-    keyToOperator.put(KeyPressed.from("$"), Operator.moveCursorToEndOfCurrentLine);
-    keyToOperator.put(KeyPressed.from("i"), Operator.enterInsertMode);
-    return keyToOperator;
+  private KeysToOperator initializeEditingKeymap(KeysToOperator keysToOperator) {
+    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("h")}), Operator.cursorLeft);
+    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("l")}), Operator.cursorRight);
+    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
+    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
+    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("w")}), Operator.moveCursorToBeginningOfNextWord);
+    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("0")}), Operator.moveCursorToBeginningOfCurrentLine);
+    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("^")}), Operator.moveCursorToFirstNonSpaceInCurrentLine);
+    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("$")}), Operator.moveCursorToEndOfCurrentLine);
+    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("i")}), Operator.enterInsertMode);
+    return keysToOperator;
   }
 
-  private KeyToOperator initializeInsertKeymap(KeyToOperator keyToOperator) {
-    keyToOperator.put(KeyPressed.from("Escape"), Operator.enterEditingMode);
-    keyToOperator.put(KeyPressed.from("Enter"), Operator.insertNewLine);
-    keyToOperator.put(KeyPressed.from("Backspace"), Operator.deleteCurrentChar);
+  private KeysToOperator initializeInsertKeymap(KeysToOperator keyToOperator) {
+    keyToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("Escape")}), Operator.enterEditingMode);
+    keyToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("Enter")}), Operator.insertNewLine);
+    keyToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("Backspace")}), Operator.deleteCurrentChar);
     return keyToOperator;
   }
 
