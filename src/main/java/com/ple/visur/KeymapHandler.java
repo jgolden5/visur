@@ -1,6 +1,6 @@
 package com.ple.visur;
 
-public class KeymapHandler implements KeyToOperatorHandler {
+public class KeymapHandler implements KeysToOperatorHandler {
 
   EditorModelService ems;
 

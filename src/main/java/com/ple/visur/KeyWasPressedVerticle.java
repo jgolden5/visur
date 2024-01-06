@@ -18,25 +18,30 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     KeyPressed keyPressed = KeyPressed.from(key);
     EditorMode mode = ems.getEditorMode();
     ems.putKeyPressed(keyPressed);
-    boolean matchPossible;
+    boolean matchPossible; //if false, buffer gets erased and replaced, else buffer gets saved
+    KeysPressed keyBuffer;
     KeyPressed[] keyPressedArray = new KeyPressed[]{keyPressed};
-    KeysPressed keysPressed = KeysPressed.make(keyPressedArray);
-    KeyBuffer keyBuffer = KeyBuffer.make(keysPressed);
+    keyBuffer = KeysPressed.from(keyPressedArray);
     ems.putKeyBuffer(keyBuffer);
+    KeysPressed keysRequiredToEnterCommandState = new KeysPressed(
+      new KeyPressed[]{KeyPressed.from("Shift"), KeyPressed.from("Escape")}
+    );
 
     //go from keyPressed to handlers to operator
-    if(keyPressed.getKey().equals(";")) {
+    if(keyBuffer.matchExact(keysRequiredToEnterCommandState)) {
       ems.putIsInCommandState(true);
       System.out.println("Is in command state");
+    } else if(keyBuffer.matchExact(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Shift")}))) {
+      matchPossible = true;
     } else {
       ModeToHandlerArray modeToHandlerArrayMap = ems.getModeToHandlerArray();
-      KeyToOperatorHandler[] handlerArray = modeToHandlerArrayMap.get(mode);
+      KeysToOperatorHandler[] handlerArray = modeToHandlerArrayMap.get(mode);
       int i = 0;
       Operator operator = null;
       boolean shouldExit = false;
       while (operator == null && !shouldExit) {
         if (i < handlerArray.length) {
-          operator = handlerArray[i].toOperator(keyPressed);
+          operator = handlerArray[i].toOperator(keyBuffer);
         } else {
 //        ems.reportError("Invalid key"); //make an error message line that displays onscreen eventually
           shouldExit = true;

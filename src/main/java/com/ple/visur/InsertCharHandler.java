@@ -1,6 +1,6 @@
 package com.ple.visur;
 
-public class InsertCharHandler implements KeyToOperatorHandler {
+public class InsertCharHandler implements KeysToOperatorHandler {
 
   EditorModelService ems;
 
@@ -14,7 +14,7 @@ public class InsertCharHandler implements KeyToOperatorHandler {
 
   @Override
   public Operator toOperator(KeysPressed keysPressed) {
-    boolean keyPressedIsValid = keysPressed.keysPressed.length == 1;
+    boolean keyPressedIsValid = keysPressed.getKeysPressed().length == 1;
     if(keyPressedIsValid) {
       return Operator.insertChar;
     } else {

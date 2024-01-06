@@ -31,6 +31,31 @@ public class InitializerService {
 //      "\nFollowers of Qazlal are protected from the clouds they create.";
     ems.putEditorContentLines(initialContentLines.split("\n"));
 
+    initializeKeymaps();
+
+    initializeHandlers();
+
+    OperatorToService opToService = OperatorToService.make();
+    ems.putOperatorToService(opToService);
+  }
+
+  private void initializeHandlers() {
+    final KeysToOperatorHandler[] editorKeyToOperatorHandlers = new KeysToOperatorHandler[1];
+    editorKeyToOperatorHandlers[0] = KeymapHandler.make(ems);
+
+    final KeysToOperatorHandler[] insertKeyToOperatorHandlers = new KeysToOperatorHandler[2];
+    insertKeyToOperatorHandlers[0] = KeymapHandler.make(ems);
+    insertKeyToOperatorHandlers[1] = InsertCharHandler.make(ems);
+
+    ModeToHandlerArray modeToHandlerArray = ModeToHandlerArray.make();
+    modeToHandlerArray.put(EditorMode.editing, editorKeyToOperatorHandlers);
+    modeToHandlerArray.put(EditorMode.insert, insertKeyToOperatorHandlers);
+
+    ems.putModeToHandlerArray(modeToHandlerArray);
+  }
+
+  private void initializeKeymaps() {
+
     ModeToKeymap keymapMap = ModeToKeymap.make();
 
     KeysToOperator editingKeymap = KeysToOperator.make();
@@ -43,45 +68,25 @@ public class InitializerService {
 
     ems.putKeymapMap(keymapMap);
 
-    initializeHandlers();
-
-    OperatorToService opToService = OperatorToService.make();
-    ems.putOperatorToService(opToService);
-  }
-
-
-  private void initializeHandlers() {
-    final KeyToOperatorHandler[] editorKeyToOperatorHandlers = new KeyToOperatorHandler[1];
-    editorKeyToOperatorHandlers[0] = KeymapHandler.make(ems);
-
-    final KeyToOperatorHandler[] insertKeyToOperatorHandlers = new KeyToOperatorHandler[2];
-    insertKeyToOperatorHandlers[0] = KeymapHandler.make(ems);
-    insertKeyToOperatorHandlers[1] = InsertCharHandler.make(ems);
-
-    ModeToHandlerArray modeToHandlerArray = ModeToHandlerArray.make();
-    modeToHandlerArray.put(EditorMode.editing, editorKeyToOperatorHandlers);
-    modeToHandlerArray.put(EditorMode.insert, insertKeyToOperatorHandlers);
-
-    ems.putModeToHandlerArray(modeToHandlerArray);
   }
 
   private KeysToOperator initializeEditingKeymap(KeysToOperator keysToOperator) {
-    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("h")}), Operator.cursorLeft);
-    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("l")}), Operator.cursorRight);
-    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
-    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
-    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("w")}), Operator.moveCursorToBeginningOfNextWord);
-    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("0")}), Operator.moveCursorToBeginningOfCurrentLine);
-    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("^")}), Operator.moveCursorToFirstNonSpaceInCurrentLine);
-    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("$")}), Operator.moveCursorToEndOfCurrentLine);
-    keysToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("i")}), Operator.enterInsertMode);
+    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("h")}), Operator.cursorLeft);
+    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}), Operator.cursorRight);
+    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
+    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
+    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("w")}), Operator.moveCursorToBeginningOfNextWord);
+    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("0")}), Operator.moveCursorToBeginningOfCurrentLine);
+    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("^")}), Operator.moveCursorToFirstNonSpaceInCurrentLine);
+    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("$")}), Operator.moveCursorToEndOfCurrentLine);
+    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("i")}), Operator.enterInsertMode);
     return keysToOperator;
   }
 
   private KeysToOperator initializeInsertKeymap(KeysToOperator keyToOperator) {
-    keyToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("Escape")}), Operator.enterEditingMode);
-    keyToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("Enter")}), Operator.insertNewLine);
-    keyToOperator.put(KeysPressed.make(new KeyPressed[]{KeyPressed.from("Backspace")}), Operator.deleteCurrentChar);
+    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Escape")}), Operator.enterEditingMode);
+    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Enter")}), Operator.insertNewLine);
+    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Backspace")}), Operator.deleteCurrentChar);
     return keyToOperator;
   }
 

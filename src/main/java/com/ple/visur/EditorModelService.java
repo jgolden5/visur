@@ -51,8 +51,8 @@ public class EditorModelService {
     return (boolean)editorModel.get(virtualXIsAtEndOfLine);
   }
 
-  public KeyBuffer getKeyBuffer() {
-    return (KeyBuffer)editorModel.get(keyBuffer);
+  public KeysPressed getKeyBuffer() {
+    return (KeysPressed)editorModel.get(keyBuffer);
   }
 
   public int getCanvasWidth() {
@@ -73,8 +73,8 @@ public class EditorModelService {
 
 
 
-  public KeyToOperatorHandler[] getKeyToOperatorHandlers(EditorMode mode) {
-    return (KeyToOperatorHandler[])editorModel.get(mode);
+  public KeysToOperatorHandler[] getKeyToOperatorHandlers(EditorMode mode) {
+    return (KeysToOperatorHandler[])editorModel.get(mode);
   }
 
   public ModeToHandlerArray getModeToHandlerArray() {
@@ -154,7 +154,7 @@ public class EditorModelService {
     editorModel.put(virtualXIsAtEndOfLine, isAtEndOfLine);
   }
 
-  public void putKeyBuffer(KeyBuffer buffer) {
+  public void putKeyBuffer(KeysPressed buffer) {
     editorModel.put(keyBuffer, buffer);
   }
 
