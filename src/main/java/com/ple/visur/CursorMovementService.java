@@ -154,7 +154,7 @@ public class CursorMovementService implements OperatorService {
         moveCursorToFirstNonSpaceInCurrentLine();
         break;
       default:
-        System.out.println("Operator not recognized");
+        ems.reportError("Operator not recognized in " + this.getClass().getSimpleName());
     }
   }
 }

@@ -29,13 +29,13 @@ public class MainVerticle extends AbstractVerticle {
 
     final SharedData sharedData = vertx.sharedData();
     ServiceHolder.init(sharedData);
-    System.out.println("1");
+
     vertx.deployVerticle(new KeyWasPressedVerticle());
-    System.out.println("2");
+
     vertx.deployVerticle(new CanvasWasChangedVerticle());
-    System.out.println("3");
+
     vertx.deployVerticle(new ModelWasChangedVerticle());
-    System.out.println("4");
+
 
     Router router = Router.router(vertx);
 

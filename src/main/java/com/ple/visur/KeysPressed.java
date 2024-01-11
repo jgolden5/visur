@@ -37,8 +37,11 @@ public class KeysPressed implements Shareable {
     return this.keysPressed.equals(keysPressed);
   }
 
-  public boolean matchPrefix(KeyPressed[] prefix) {
-    return true;
+  public boolean matchPrefix() {
+    return false;
   }
 
+  public void putKeysPressed(KeyPressed[] keysPressed) {
+    this.keysPressed = keysPressed;
+  }
 }

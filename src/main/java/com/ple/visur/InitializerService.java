@@ -16,12 +16,12 @@ public class InitializerService {
   }
 
   public void initializeEditorModel() {
-    ems.putEditorContentLines(new String[0]);
     ems.putContentX(0);
     ems.putContentY(0);
     ems.putVirtualX(0);
     ems.putVirtualXIsAtEndOfLine(false);
     ems.putEditorMode(editing);
+    ems.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
     final String initialContentLines = "Hello world" +
       "\nHow are you?" +
       "\nGoodbye";
