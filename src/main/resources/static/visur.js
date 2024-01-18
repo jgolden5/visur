@@ -48,9 +48,9 @@ eb.onopen = function() {
     ctx.fillStyle = "white"
     drawCanvas()
     if(isInCommandState) {
-      document.getElementById("currentEditorModeDisplay").innerHTML = "COMMAND; "
+      document.getElementById("currentEditorModeDisplay").innerHTML = ";"
     } else {
-      document.getElementById("currentEditorModeDisplay").innerHTML = mode[0].toUpperCase() + " MODE"
+      document.getElementById("currentEditorModeDisplay").innerHTML = mode.toUpperCase() + " MODE"
     }
 
   })
