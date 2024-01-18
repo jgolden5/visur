@@ -41,6 +41,7 @@ eb.onopen = function() {
     contentLines = message["body"]["contentLines"]
     mode = message["body"]["editorMode"]
     isInCommandState = message["body"]["isInCommandState"]
+    commandStateContent = message["body"]["commandStateContent"]
 
 //    console.log("Content = " + (contentLines))
 
@@ -48,7 +49,12 @@ eb.onopen = function() {
     ctx.fillStyle = "white"
     drawCanvas()
     if(isInCommandState) {
-      document.getElementById("currentEditorModeDisplay").innerHTML = ";"
+      let commandStateDisplay = ";"
+      for(let x = 0; x < commandStateContent.length; x++) {
+        commandStateDisplay += commandStateContent[x];
+        commandStateDisplay += " ";
+      }
+      document.getElementById("currentEditorModeDisplay").innerHTML = commandStateDisplay
     } else {
       document.getElementById("currentEditorModeDisplay").innerHTML = mode.toUpperCase() + " MODE"
     }

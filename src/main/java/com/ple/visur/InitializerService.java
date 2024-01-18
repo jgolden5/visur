@@ -22,7 +22,6 @@ public class InitializerService {
     ems.putVirtualXIsAtEndOfLine(false);
     ems.putEditorMode(editing);
     ems.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
-    ems.putIsInCommandState(false);
     final String initialContentLines = "Hello world" +
       "\nHow are you?" +
       "\nGoodbye";
@@ -31,6 +30,9 @@ public class InitializerService {
 //      "\nPious worshippers of Qazlal will gain the ability to direct and control the destructive might of the storm." +
 //      "\nFollowers of Qazlal are protected from the clouds they create.";
     ems.putEditorContentLines(initialContentLines.split("\n"));
+
+    ems.putIsInCommandState(false);
+    ems.putCommandStateContent("test...");
 
     initializeKeymaps();
 

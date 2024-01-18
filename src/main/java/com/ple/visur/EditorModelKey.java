@@ -3,12 +3,11 @@ package com.ple.visur;
 public enum EditorModelKey {
   canvasHeight,
   canvasWidth,
+  commandStateContent,
   contentX,
   contentY,
-  editingKeymap,
   editorContentLines,
   editorMode,
-  insertKeymap,
   isInCommandState,
   keyBuffer,
   keyPressed,
