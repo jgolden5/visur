@@ -41,7 +41,27 @@ public class KeysPressed implements Shareable {
     return false;
   }
 
+  public boolean contains(KeyPressed key) {
+    boolean keysPressedContainsKey = false;
+    for(int i = 0; i < keysPressed.length; i++) {
+      if(keysPressed[i].equals(key)) {
+        keysPressedContainsKey = true;
+        break;
+      }
+    }
+    return keysPressedContainsKey;
+  }
+
   public void putKeysPressed(KeyPressed[] keysPressed) {
     this.keysPressed = keysPressed;
   }
+
+  public void removeFirstElement() {
+    KeyPressed[] newKeysPressed = new KeyPressed[keysPressed.length - 1];
+    for(int i = 0; i < keysPressed.length - 1; i++) {
+      newKeysPressed[i] = keysPressed[i + 1];
+    }
+    keysPressed = newKeysPressed;
+  }
+
 }

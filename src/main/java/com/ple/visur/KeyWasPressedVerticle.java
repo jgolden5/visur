@@ -38,6 +38,10 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       } else if (currentKeyBuffer.matchExact(onlyShiftKeyPressed)) {
         matchPossible = true;
       } else {
+        if(currentKeyBuffer.contains(KeyPressed.from("Shift"))) {
+          currentKeyBuffer.removeFirstElement();
+          ems.putKeyBuffer(currentKeyBuffer);
+        }
         Operator operator = getOperatorFromKeyBuffer();
         determineOperatorAndExecuteCommand(keyPressed, operator);
 
