@@ -59,6 +59,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     EditorModelService ems = ServiceHolder.editorModelService;
     if(keyPressed.getKey().equals("Enter") || keyPressed.getKey().equals("Escape")) {
       ems.putIsInCommandState(false);
+      ems.putCommandStateContent("");
       System.out.println("Is out of command state");
     } else { //insert char into command line
       int commandCursor = ems.getCommandCursor();
