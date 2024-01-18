@@ -47,7 +47,11 @@ eb.onopen = function() {
     clearCanvas()
     ctx.fillStyle = "white"
     drawCanvas()
-    document.getElementById("currentEditorModeDisplay").innerHTML = "-" + mode + " mode-"
+    if(isInCommandState) {
+      document.getElementById("currentEditorModeDisplay").innerHTML = "COMMAND; "
+    } else {
+      document.getElementById("currentEditorModeDisplay").innerHTML = mode[0].toUpperCase() + " MODE"
+    }
 
   })
   let canvasInfo = {

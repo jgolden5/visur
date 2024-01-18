@@ -54,6 +54,8 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
     }
 
+    bus.send(BusEvent.modelWasChanged.name(), null);
+
   }
 
   private void determineOperatorAndExecuteCommand(KeyPressed keyPressed, Operator operator) {
@@ -66,7 +68,6 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       } else {
         operatorService.execute(operator);
       }
-      bus.send(BusEvent.modelWasChanged.name(), null);
     }
   }
 
