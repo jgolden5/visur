@@ -37,7 +37,7 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
     output.put("canvasX", ems.getCanvasX());
     output.put("canvasY", ems.getCanvasY());
     output.put("contentLines", new JsonArray(Arrays.asList(view.contentLines)));
-    output.put("editorMode", new JsonArray(Arrays.asList(ems.getEditorMode())));
+    output.put("editorMode", ems.getEditorMode());
     output.put("isInCommandState", ems.getIsInCommandState());
     return output;
   }
