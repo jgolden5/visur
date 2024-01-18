@@ -17,10 +17,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     KeyPressed keyPressed = KeyPressed.from(key);
     EditorModelService ems = ServiceHolder.editorModelService;
     if(ems.getIsInCommandState()) {
-      if(keyPressed.getKey().equals("Enter") || keyPressed.getKey().equals("Escape")) {
-        ems.putIsInCommandState(false);
-        System.out.println("Is out of command state");
-      }
+      executeCommandState(keyPressed);
     } else {
       boolean matchPossible; //if false, buffer gets erased and replaced, else buffer gets saved
       KeysPressed previousKeyBuffer = ems.getKeyBuffer();
@@ -56,6 +53,23 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
     bus.send(BusEvent.modelWasChanged.name(), null);
 
+  }
+
+  private void executeCommandState(KeyPressed keyPressed) {
+    EditorModelService ems = ServiceHolder.editorModelService;
+    if(keyPressed.getKey().equals("Enter") || keyPressed.getKey().equals("Escape")) {
+      ems.putIsInCommandState(false);
+      System.out.println("Is out of command state");
+    } else { //insert char into command line
+      int commandCursor = ems.getCommandCursor();
+      String oldCommandStateContent = ems.getCommandStateContent();
+      char charToInsert = keyPressed.getKey().charAt(0);
+      String substrBeforeInsertedChar = oldCommandStateContent.substring(0, commandCursor);
+      String substrAfterInsertedChar = oldCommandStateContent.substring(commandCursor, oldCommandStateContent.length());
+      String newCommandStateContent = substrBeforeInsertedChar + charToInsert + substrAfterInsertedChar;
+
+      ems.putCommandStateContent(newCommandStateContent);
+    }
   }
 
   private void determineOperatorAndExecuteCommand(KeyPressed keyPressed, Operator operator) {
