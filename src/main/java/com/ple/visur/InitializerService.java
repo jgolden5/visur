@@ -22,6 +22,7 @@ public class InitializerService {
     ems.putVirtualXIsAtEndOfLine(false);
     ems.putEditorMode(editing);
     ems.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
+    ems.putIsInCommandState(false);
     final String initialContentLines = "Hello world" +
       "\nHow are you?" +
       "\nGoodbye";

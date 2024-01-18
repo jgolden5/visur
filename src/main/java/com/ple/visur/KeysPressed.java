@@ -34,7 +34,7 @@ public class KeysPressed implements Shareable {
   }
 
   public boolean matchExact(KeysPressed keysPressed) {
-    return this.keysPressed.equals(keysPressed);
+    return this.equals(keysPressed);
   }
 
   public boolean matchPrefix() {

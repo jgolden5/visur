@@ -40,6 +40,7 @@ eb.onopen = function() {
     canvasY = message["body"]["canvasY"]
     contentLines = message["body"]["contentLines"]
     mode = message["body"]["editorMode"]
+    isInCommandState = message["body"]["isInCommandState"]
 
 //    console.log("Content = " + (contentLines))
 

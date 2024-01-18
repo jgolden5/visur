@@ -32,11 +32,13 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
 
 
   public JsonObject toJson() {
+    EditorModelService ems = ServiceHolder.editorModelService;
     JsonObject output = new JsonObject();
-    output.put("canvasX", ServiceHolder.editorModelService.getCanvasX());
-    output.put("canvasY", ServiceHolder.editorModelService.getCanvasY());
+    output.put("canvasX", ems.getCanvasX());
+    output.put("canvasY", ems.getCanvasY());
     output.put("contentLines", new JsonArray(Arrays.asList(view.contentLines)));
-    output.put("editorMode", new JsonArray(Arrays.asList(ServiceHolder.editorModelService.getEditorMode())));
+    output.put("editorMode", new JsonArray(Arrays.asList(ems.getEditorMode())));
+    output.put("isInCommandState", ems.getIsInCommandState());
     return output;
   }
 
