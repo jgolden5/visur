@@ -58,10 +58,8 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   private void executeCommandState(KeyPressed keyPressed) {
     EditorModelService ems = ServiceHolder.editorModelService;
     if(keyPressed.getKey().equals("Enter") || keyPressed.getKey().equals("Escape")) {
-      ems.putIsInCommandState(false);
-      ems.putCommandStateContent("");
-      System.out.println("Is out of command state");
-    } else { //insert char into command line
+      exitCommandState();
+    } else if(keyPressed.getKey().length() == 1) { //insert char into command line
       int commandCursor = ems.getCommandCursor();
       String oldCommandStateContent = ems.getCommandStateContent();
       char charToInsert = keyPressed.getKey().charAt(0);
@@ -70,7 +68,16 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       String newCommandStateContent = substrBeforeInsertedChar + charToInsert + substrAfterInsertedChar;
 
       ems.putCommandStateContent(newCommandStateContent);
+      ems.putCommandCursor(commandCursor + 1);
     }
+  }
+
+  private void exitCommandState() {
+    EditorModelService ems = ServiceHolder.editorModelService;
+    ems.putIsInCommandState(false);
+    ems.putCommandStateContent("");
+    ems.putCommandCursor(0);
+    System.out.println("Is out of command state");
   }
 
   private void determineOperatorAndExecuteCommand(KeyPressed keyPressed, Operator operator) {
