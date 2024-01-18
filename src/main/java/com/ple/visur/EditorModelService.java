@@ -89,6 +89,10 @@ public class EditorModelService {
     return (String)editorModel.get(commandStateContent);
   }
 
+  public int getCommandCursor() {
+    return (int)editorModel.get(commandCursor);
+  }
+
 // add/improve getters and setters for:
 // Operator, KeyPressed, (not sure: KeysToOperator, OperatorService)
 
@@ -198,7 +202,12 @@ public class EditorModelService {
     editorModel.put(commandStateContent, content);
   }
 
+  public void putCommandCursor(int x) {
+    editorModel.put(commandCursor, x);
+  }
+
   public void reportError(String message) {
     System.out.println(message);
   }
+
 }

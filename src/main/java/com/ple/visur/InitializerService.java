@@ -32,7 +32,8 @@ public class InitializerService {
     ems.putEditorContentLines(initialContentLines.split("\n"));
 
     ems.putIsInCommandState(false);
-    ems.putCommandStateContent("test...");
+    ems.putCommandStateContent("");
+    ems.putCommandCursor(ems.getCommandStateContent().length());
 
     initializeKeymaps();
 

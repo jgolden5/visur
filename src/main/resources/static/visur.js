@@ -42,6 +42,7 @@ eb.onopen = function() {
     mode = message["body"]["editorMode"]
     isInCommandState = message["body"]["isInCommandState"]
     commandStateContent = message["body"]["commandStateContent"]
+    commandCursor = message["body"]["commandCursor"]
 
 //    console.log("Content = " + (contentLines))
 
@@ -50,9 +51,18 @@ eb.onopen = function() {
     drawCanvas()
     if(isInCommandState) {
       let commandStateDisplay = ";"
+      let commandCursorWasDrawn = false;
       for(let x = 0; x < commandStateContent.length; x++) {
         commandStateDisplay += commandStateContent[x];
-        commandStateDisplay += " ";
+        if(x == commandCursor) {
+          commandStateDisplay += "|";
+          commandCursorWasDrawn = true;
+        } else {
+          commandStateDisplay += " ";
+        }
+      }
+      if(!commandCursorWasDrawn) {
+        commandStateDisplay += "|"
       }
       document.getElementById("currentEditorModeDisplay").innerHTML = commandStateDisplay
     } else {
