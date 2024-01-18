@@ -53,13 +53,13 @@ eb.onopen = function() {
       let commandStateDisplay = ";"
       let commandCursorWasDrawn = false;
       for(let x = 0; x < commandStateContent.length; x++) {
-        commandStateDisplay += commandStateContent[x];
         if(x == commandCursor) {
           commandStateDisplay += "|";
           commandCursorWasDrawn = true;
         } else {
           commandStateDisplay += " ";
         }
+        commandStateDisplay += commandStateContent[x];
       }
       if(!commandCursorWasDrawn) {
         commandStateDisplay += "|"
