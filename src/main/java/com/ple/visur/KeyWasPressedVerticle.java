@@ -57,14 +57,31 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
   private void executeCommandState(KeyPressed keyPressed) {
     EditorModelService ems = ServiceHolder.editorModelService;
+    int commandCursor = ems.getCommandCursor();
     if(keyPressed.getKey().equals("Enter") || keyPressed.getKey().equals("Escape")) {
       exitCommandState();
+    } else if(keyPressed.getKey().equals("ArrowLeft") || keyPressed.getKey().equals("ArrowRight")) {
+      switch(keyPressed.getKey()) {
+        case "ArrowLeft":
+          if(commandCursor > 0) {
+            commandCursor--;
+            ems.putCommandCursor(commandCursor);
+          }
+          break;
+        case "ArrowRight":
+          if(commandCursor < ems.getCommandStateContent().length()) {
+            commandCursor++;
+            ems.putCommandCursor(commandCursor);
+          }
+          break;
+        default:
+          ems.reportError("unexpected error in switch statement for arrow movement in command state");
+      }
     } else if(keyPressed.getKey().length() == 1) {
-      int commandCursor = ems.getCommandCursor();
       String oldCommandStateContent = ems.getCommandStateContent();
       char charToInsert = keyPressed.getKey().charAt(0);
       String substrBeforeInsertedChar = oldCommandStateContent.substring(0, commandCursor);
-      String substrAfterInsertedChar = oldCommandStateContent.substring(commandCursor, oldCommandStateContent.length());
+      String substrAfterInsertedChar = oldCommandStateContent.substring(commandCursor);
       String newCommandStateContent = substrBeforeInsertedChar + charToInsert + substrAfterInsertedChar;
 
       ems.putCommandStateContent(newCommandStateContent);
