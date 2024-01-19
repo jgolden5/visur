@@ -58,10 +58,11 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
   private void executeCommandState(KeyPressed keyPressed) {
     EditorModelService ems = ServiceHolder.editorModelService;
     int commandCursor = ems.getCommandCursor();
-    if(keyPressed.getKey().equals("Enter") || keyPressed.getKey().equals("Escape")) {
+    String commandStateKeyPressed = keyPressed.getKey();
+    if(commandStateKeyPressed.equals("Enter") || commandStateKeyPressed.equals("Escape")) {
       exitCommandState();
-    } else if(keyPressed.getKey().equals("ArrowLeft") || keyPressed.getKey().equals("ArrowRight")) {
-      switch(keyPressed.getKey()) {
+    } else if(commandStateKeyPressed.equals("ArrowLeft") || commandStateKeyPressed.equals("ArrowRight")) {
+      switch(commandStateKeyPressed) {
         case "ArrowLeft":
           if(commandCursor > 0) {
             commandCursor--;
@@ -77,9 +78,18 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         default:
           ems.reportError("unexpected error in switch statement for arrow movement in command state");
       }
-    } else if(keyPressed.getKey().length() == 1) {
+    } else if(commandStateKeyPressed.equals("Backspace")) {
+      String commandStateContent = ems.getCommandStateContent();
+      if(commandCursor > 0) {
+        String substrBeforeDeletedChar = commandStateContent.substring(0, commandCursor - 1);
+        String substrAfterDeletedChar = commandStateContent.substring(commandCursor);
+        String newCommandStateContent = substrBeforeDeletedChar + substrAfterDeletedChar;
+        ems.putCommandStateContent(newCommandStateContent);
+        ems.putCommandCursor(--commandCursor);
+      }
+    } else if(commandStateKeyPressed.length() == 1) {
       String oldCommandStateContent = ems.getCommandStateContent();
-      char charToInsert = keyPressed.getKey().charAt(0);
+      char charToInsert = commandStateKeyPressed.charAt(0);
       String substrBeforeInsertedChar = oldCommandStateContent.substring(0, commandCursor);
       String substrAfterInsertedChar = oldCommandStateContent.substring(commandCursor);
       String newCommandStateContent = substrBeforeInsertedChar + charToInsert + substrAfterInsertedChar;
