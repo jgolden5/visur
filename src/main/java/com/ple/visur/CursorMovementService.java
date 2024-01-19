@@ -27,7 +27,9 @@ public class CursorMovementService implements OperatorService {
   }
 
   public void cursorDown() { //j
-    if (ems.getContentY() < ems.getCanvasHeight() - 2) {
+    boolean isAtBottomOfLine = ems.getContentY() >= ems.getEditorContentLines().length - 1;
+    boolean isAtLineLimit = ems.getContentY() >= ems.getCanvasHeight() - 2;
+    if (!isAtBottomOfLine && !isAtLineLimit) {
       String nextLine = ems.getEditorContentLines()[ems.getContentY() + 1];
       int nextLineLength = nextLine.length();
       ems.putContentY(ems.getContentY() + 1);

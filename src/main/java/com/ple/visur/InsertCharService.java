@@ -59,28 +59,31 @@ public class InsertCharService implements OperatorService {
   }
 
   private void insertNewLine() {
-    String currentLine = ems.getCurrentContentLine();
-    int contentX = ems.getContentX();
-    int contentY = ems.getContentY();
-    String substrBeforeNewLine = currentLine.substring(0, contentX);
-    String substrAtNewLine = currentLine.substring(contentX, ems.getCurrentContentLineLength());
-    String[] oldEditorContentLines = ems.getEditorContentLines();
-    String[] newEditorContentLines = new String[ems.getEditorContentLines().length + 1];
-    for(int i = 0; i < oldEditorContentLines.length; i++) {
-      if(i < contentY) {
-        newEditorContentLines[i] = oldEditorContentLines[i];
-      } else if(i == contentY) {
-        newEditorContentLines[i] = substrBeforeNewLine;
-      } else {
-        newEditorContentLines[i + 1] = oldEditorContentLines[i];
+    int highestYAllowed = ems.getEditorContentLines().length - 1;
+    if(highestYAllowed < ems.getCanvasHeight() - 2) {
+      int contentX = ems.getContentX();
+      int contentY = ems.getContentY();
+      String currentLine = ems.getCurrentContentLine();
+      String substrBeforeNewLine = currentLine.substring(0, contentX);
+      String substrAtNewLine = currentLine.substring(contentX, ems.getCurrentContentLineLength());
+      String[] oldEditorContentLines = ems.getEditorContentLines();
+      String[] newEditorContentLines = new String[ems.getEditorContentLines().length + 1];
+      for (int i = 0; i < oldEditorContentLines.length; i++) {
+        if (i < contentY) {
+          newEditorContentLines[i] = oldEditorContentLines[i];
+        } else if (i == contentY) {
+          newEditorContentLines[i] = substrBeforeNewLine;
+        } else {
+          newEditorContentLines[i + 1] = oldEditorContentLines[i];
+        }
       }
+      contentY++;
+      newEditorContentLines[contentY] = substrAtNewLine;
+      ems.putContentX(0);
+      ems.putVirtualX(0);
+      ems.putContentY(contentY);
+      ems.putEditorContentLines(newEditorContentLines);
     }
-    contentY++;
-    newEditorContentLines[contentY] = substrAtNewLine;
-    ems.putContentX(0);
-    ems.putVirtualX(0);
-    ems.putContentY(contentY);
-    ems.putEditorContentLines(newEditorContentLines);
   }
 
   @Override
