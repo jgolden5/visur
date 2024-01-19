@@ -1,5 +1,7 @@
 package com.ple.visur;
 
+import static com.ple.visur.EditorModelKey.canvasHeight;
+
 public class CursorMovementService implements OperatorService {
 
   final EditorModelService ems = ServiceHolder.editorModelService;
@@ -25,7 +27,7 @@ public class CursorMovementService implements OperatorService {
   }
 
   public void cursorDown() { //j
-    if (ems.getContentY() < ems.getEditorContentLines().length - 1) {
+    if (ems.getContentY() < ems.getCanvasHeight() - 2) {
       String nextLine = ems.getEditorContentLines()[ems.getContentY() + 1];
       int nextLineLength = nextLine.length();
       ems.putContentY(ems.getContentY() + 1);
