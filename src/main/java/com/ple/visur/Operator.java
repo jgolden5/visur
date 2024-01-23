@@ -14,5 +14,4 @@ public enum Operator {
   insertNewLine,
   insertChar,
   deleteCurrentChar,
-
 }

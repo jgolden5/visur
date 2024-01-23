@@ -59,7 +59,10 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     EditorModelService ems = ServiceHolder.editorModelService;
     int commandCursor = ems.getCommandCursor();
     String commandStateKeyPressed = keyPressed.getKey();
-    if(commandStateKeyPressed.equals("Enter") || commandStateKeyPressed.equals("Escape")) {
+    if(commandStateKeyPressed.equals("Escape")) {
+      exitCommandState();
+    } else if(commandStateKeyPressed.equals("Enter")) {
+      handleCommandStateSentence();
       exitCommandState();
     } else if(commandStateKeyPressed.equals("ArrowLeft") || commandStateKeyPressed.equals("ArrowRight")) {
       switch(commandStateKeyPressed) {
@@ -97,6 +100,36 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       ems.putCommandStateContent(newCommandStateContent);
       ems.putCommandCursor(commandCursor + 1);
     }
+  }
+
+  private void handleCommandStateSentence() {
+    EditorModelService ems = ServiceHolder.editorModelService;
+    String commandStateContent = ems.getCommandStateContent();
+    String[] sentence = commandStateContent.split(" ");
+    for(String word : sentence) {
+      if(word.contains("=")) {
+        System.out.println("Should split and assign");
+      } else {
+        if(isValidOperator(word)) {
+          Operator wordOperator = Operator.valueOf(word);
+          OperatorToService operatorToService = OperatorToService.make();
+          OperatorService operatorService = operatorToService.get(wordOperator);
+          operatorService.execute(wordOperator);
+        } else {
+          ems.reportError("operator in command state is not valid");
+        }
+      }
+    }
+  }
+
+  private boolean isValidOperator(String opToTest) {
+    boolean opIsValid = false;
+    for(Operator op : Operator.values()) {
+      if(op.name().equals(opToTest)) {
+        opIsValid = true;
+      }
+    }
+    return opIsValid;
   }
 
   private void exitCommandState() {
