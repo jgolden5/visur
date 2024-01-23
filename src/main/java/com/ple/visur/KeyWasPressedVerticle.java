@@ -108,7 +108,14 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     String[] sentence = commandStateContent.split(" ");
     for(String word : sentence) {
       if(word.contains("=")) {
-        System.out.println("Should split and assign");
+        String[] assignmentArray = word.split("=");
+        String varToAssignAsString = assignmentArray[0];
+        if(isValidVarToAssign(varToAssignAsString)) {
+          EditorModelKey varToAssign = EditorModelKey.valueOf(varToAssignAsString);
+          System.out.println("var that should be assigned = " + varToAssign);
+        } else {
+          ems.reportError("assignment variable in command state is not valid");
+        }
       } else {
         if(isValidOperator(word)) {
           Operator wordOperator = Operator.valueOf(word);
@@ -120,6 +127,16 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         }
       }
     }
+  }
+
+  private boolean isValidVarToAssign(String varToTest) {
+    boolean varIsValid = false;
+    for(EditorModelKey v : EditorModelKey.values()) {
+      if(v.name().equals(varToTest)) {
+        varIsValid = true;
+      }
+    }
+    return varIsValid;
   }
 
   private boolean isValidOperator(String opToTest) {
