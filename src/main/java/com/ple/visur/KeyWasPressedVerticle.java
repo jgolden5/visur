@@ -4,6 +4,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava3.core.eventbus.Message;
 
+import java.security.Provider;
+
 public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
   @Override
@@ -62,7 +64,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     if(commandStateKeyPressed.equals("Escape")) {
       exitCommandState();
     } else if(commandStateKeyPressed.equals("Enter")) {
-      handleCommandStateSentence();
+      ServiceHolder.commandService.handleSentence();
       exitCommandState();
     } else if(commandStateKeyPressed.equals("ArrowLeft") || commandStateKeyPressed.equals("ArrowRight")) {
       switch(commandStateKeyPressed) {
@@ -102,53 +104,6 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     }
   }
 
-  private void handleCommandStateSentence() {
-    EditorModelService ems = ServiceHolder.editorModelService;
-    String commandStateContent = ems.getCommandStateContent();
-    String[] sentence = commandStateContent.split(" ");
-    for(String word : sentence) {
-      if(word.contains("=")) {
-        String[] assignmentArray = word.split("=");
-        String varToAssignAsString = assignmentArray[0];
-        if(isValidVarToAssign(varToAssignAsString)) {
-          EditorModelKey varToAssign = EditorModelKey.valueOf(varToAssignAsString);
-          System.out.println("var that should be assigned = " + varToAssign);
-        } else {
-          ems.reportError("assignment variable in command state is not valid");
-        }
-      } else {
-        if(isValidOperator(word)) {
-          Operator wordOperator = Operator.valueOf(word);
-          OperatorToService operatorToService = OperatorToService.make();
-          OperatorService operatorService = operatorToService.get(wordOperator);
-          operatorService.execute(wordOperator);
-        } else {
-          ems.reportError("operator in command state is not valid");
-        }
-      }
-    }
-  }
-
-  private boolean isValidVarToAssign(String varToTest) {
-    boolean varIsValid = false;
-    for(EditorModelKey v : EditorModelKey.values()) {
-      if(v.name().equals(varToTest)) {
-        varIsValid = true;
-      }
-    }
-    return varIsValid;
-  }
-
-  private boolean isValidOperator(String opToTest) {
-    boolean opIsValid = false;
-    for(Operator op : Operator.values()) {
-      if(op.name().equals(opToTest)) {
-        opIsValid = true;
-      }
-    }
-    return opIsValid;
-  }
-
   private void exitCommandState() {
     EditorModelService ems = ServiceHolder.editorModelService;
     ems.putIsInCommandState(false);
@@ -169,6 +124,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       }
     }
   }
+
 
   private Operator getOperatorFromKeyBuffer() {
     EditorModelService ems = ServiceHolder.editorModelService;

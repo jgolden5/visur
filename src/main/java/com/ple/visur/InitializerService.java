@@ -16,6 +16,7 @@ public class InitializerService {
   }
 
   public void initializeEditorModel() {
+
     ems.putContentX(0);
     ems.putContentY(0);
     ems.putVirtualX(0);
