@@ -35,14 +35,6 @@ public class EditorModelService {
     return contentLines[currentContentLineIndex];
   }
 
-  public int getContentX() {
-    return (int)editorModel.get(contentX);
-  }
-
-  public int getContentY() {
-    return (int)editorModel.get(contentY);
-  }
-
   public int getVirtualX() {
     return (int)editorModel.get(virtualX);
   }
@@ -145,14 +137,6 @@ public class EditorModelService {
     editorModel.put(editorContentLines, contentLines);
   }
 
-  public void putContentX(int x) {
-    editorModel.put(contentX, x);
-  }
-
-  public void putContentY(int y) {
-    editorModel.put(contentY, y);
-  }
-
   public void putVirtualX(int x) {
     editorModel.put(virtualX, x);
     putVirtualXIsAtEndOfLine(false);
@@ -176,10 +160,6 @@ public class EditorModelService {
 
   public void putEditorMode(EditorMode mode) {
     editorModel.put(editorMode, mode);
-  }
-
-  public void putKeyPressed(KeyPressed key) {
-    editorModel.put(keyPressed, key.getKey());
   }
 
   public void putKeymapMap(ModeToKeymap keymapMap) {
