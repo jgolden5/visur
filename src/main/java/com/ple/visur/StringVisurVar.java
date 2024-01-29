@@ -3,6 +3,10 @@ package com.ple.visur;
 public class StringVisurVar implements VisurVar {
   String val;
 
+  StringVisurVar(String val) {
+    this.val = val;
+  }
+
   @Override
   public String getString() {
     return null;

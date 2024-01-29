@@ -1,17 +1,24 @@
 package com.ple.visur;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class VariableMap {
-  Map<String, VisurVar> val = new HashMap<String, VisurVar>();
+  HashMap<String, StringVisurVar> val;
 
-  public VariableMap(Map<String, VisurVar> map) {
+  public VariableMap(HashMap<String, StringVisurVar> map) {
     val = map;
   }
 
-  public static VariableMap make(Map<String, VisurVar> map) {
+  public static VariableMap make(HashMap<String, StringVisurVar> map) {
     return new VariableMap(map);
+  }
+
+  public void put(String key, StringVisurVar var) {
+    val.put(key, var);
+  }
+
+  public StringVisurVar get(String key) {
+    return val.get(key);
   }
 
 }

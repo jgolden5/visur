@@ -9,6 +9,7 @@ public enum EditorModelKey {
   contentY,
   editorContentLines,
   editorMode,
+  globalVariableMap,
   isInCommandState,
   keyBuffer,
   keyPressed,

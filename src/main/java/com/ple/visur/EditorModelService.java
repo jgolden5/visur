@@ -3,14 +3,20 @@ package com.ple.visur;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
+import java.util.HashMap;
+
 import static com.ple.visur.EditorModelKey.*;
 
 public class EditorModelService {
 
   LocalMap<EditorModelKey, Object> editorModel;
+  VariableMap gvm; //globalVariableMap
 
   private EditorModelService(SharedData sharedData) {
     this.editorModel = sharedData.getLocalMap("editorModel");
+    gvm = (VariableMap)editorModel.get(globalVariableMap);
+    gvm.put("contentX", new StringVisurVar("0"));
+    gvm.put("contentY", new StringVisurVar("0"));
   }
 
   public static EditorModelService make(SharedData sharedData) {
