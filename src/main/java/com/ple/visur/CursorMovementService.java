@@ -16,17 +16,19 @@ public class CursorMovementService implements OperatorService {
 
   //map key
   public void cursorLeft() { //h
-    final int contentX = contentXVisurVar.getInt();
+    int contentX = contentXVisurVar.getInt();
     if (contentX > 0) {
-      contentXVisurVar.put(contentX - 1);
+      contentX--;
+      contentXVisurVar.put(contentX);
       ems.putVirtualX(contentX);
     }
   }
 
   public void cursorRight() { //l
-    final int contentX = contentXVisurVar.getInt();
+    int contentX = contentXVisurVar.getInt();
     if(contentX < ems.getCurrentContentLineLength()) {
-      contentXVisurVar.put(contentX + 1);
+      contentX++;
+      contentXVisurVar.put(contentX);
       ems.putVirtualX(contentX);
     }
   }
