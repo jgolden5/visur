@@ -2,6 +2,8 @@ package com.ple.visur;
 
 public class InsertCharService implements OperatorService {
   final EditorModelService ems = ServiceHolder.editorModelService;
+  final VisurVar contentXVisurVar = ems.getGlobalVar("contentX");
+  final VisurVar contentYVisurVar = ems.getGlobalVar("contentY");
 
   public static InsertCharService make() {
     return new InsertCharService();
@@ -9,30 +11,31 @@ public class InsertCharService implements OperatorService {
 
   private void insertChar(KeyPressed keyPressed) {
     String currentLine = ems.getCurrentContentLine();
-    int contentX = ems.getContentX();
+    int contentX = contentXVisurVar.getInt();
     char charToInsert = keyPressed.getKey().charAt(0);
     String substrBeforeInsertedChar = currentLine.substring(0, contentX);
     String substrAfterInsertedChar = currentLine.substring(contentX, ems.getCurrentContentLineLength());
     currentLine = substrBeforeInsertedChar + charToInsert + substrAfterInsertedChar;
     String[] editorContentLines = ems.getEditorContentLines();
-    editorContentLines[ems.getContentY()] = currentLine;
+    editorContentLines[contentYVisurVar.getInt()] = currentLine;
     ems.putEditorContentLines(editorContentLines);
     ServiceHolder.cursorMovementService.cursorRight();
   }
 
   private void deleteCurrentChar() {
     String currentLine = ems.getCurrentContentLine();
-    int contentX = ems.getContentX();
+    int contentX = contentXVisurVar.getInt();
+    int contentY = contentYVisurVar.getInt();
     if(contentX > 0) {
       String substrBeforeDeletedChar = currentLine.substring(0, contentX - 1);
       String substrAfterDeletedChar = currentLine.substring(contentX, ems.getCurrentContentLineLength());
       currentLine = substrBeforeDeletedChar + substrAfterDeletedChar;
       String[] editorContentLines = ems.getEditorContentLines();
-      editorContentLines[ems.getContentY()] = currentLine;
+      editorContentLines[contentY] = currentLine;
       ems.putEditorContentLines(editorContentLines);
       ServiceHolder.cursorMovementService.cursorLeft();
     } else {
-      if(ems.getContentY() > 0) {
+      if(contentY > 0) {
         deleteToEndOfPreviousLine();
       }
     }
@@ -41,8 +44,8 @@ public class InsertCharService implements OperatorService {
   private void deleteToEndOfPreviousLine() {
     String[] oldContentLines = ems.getEditorContentLines();
     String[] newContentLines = new String[oldContentLines.length - 1];
-    int contentY = ems.getContentY();
-    int newCursorX = oldContentLines[contentY - 1].length();
+    int contentY = contentYVisurVar.getInt();
+    int newContentX = oldContentLines[contentY - 1].length();
     for(int i = 0; i < newContentLines.length; i++) {
       if(i < contentY - 1) {
         newContentLines[i] = oldContentLines[i];
@@ -52,17 +55,17 @@ public class InsertCharService implements OperatorService {
         newContentLines[i] = oldContentLines[i + 1];
       }
     }
-    ems.putContentX(newCursorX);
-    ems.putVirtualX(newCursorX);
-    ems.putContentY(contentY - 1);
+    contentXVisurVar.put(newContentX);
+    ems.putVirtualX(newContentX);
+    contentYVisurVar.put(contentY - 1);
     ems.putEditorContentLines(newContentLines);
   }
 
   private void insertNewLine() {
-    int highestYAllowed = ems.getEditorContentLines().length - 1;
-    if(highestYAllowed < ems.getCanvasHeight() - 2) {
-      int contentX = ems.getContentX();
-      int contentY = ems.getContentY();
+    int maxYBeforeFooter = ems.getEditorContentLines().length - 1;
+    if(maxYBeforeFooter < ems.getCanvasHeight() - 2) {
+      int contentX = contentXVisurVar.getInt();
+      int contentY = contentYVisurVar.getInt();
       String currentLine = ems.getCurrentContentLine();
       String substrBeforeNewLine = currentLine.substring(0, contentX);
       String substrAtNewLine = currentLine.substring(contentX, ems.getCurrentContentLineLength());
@@ -79,9 +82,9 @@ public class InsertCharService implements OperatorService {
       }
       contentY++;
       newEditorContentLines[contentY] = substrAtNewLine;
-      ems.putContentX(0);
+      contentXVisurVar.put(0);
       ems.putVirtualX(0);
-      ems.putContentY(contentY);
+      contentYVisurVar.put(contentY);
       ems.putEditorContentLines(newEditorContentLines);
     }
   }
