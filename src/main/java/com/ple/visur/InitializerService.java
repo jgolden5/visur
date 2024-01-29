@@ -1,6 +1,7 @@
 package com.ple.visur;
 
 import static com.ple.visur.EditorMode.editing;
+import static com.ple.visur.EditorModelKey.globalVariableMap;
 
 public class InitializerService {
 
@@ -16,9 +17,9 @@ public class InitializerService {
   }
 
   public void initializeEditorModel() {
-
-    ems.putContentX(0);
-    ems.putContentY(0);
+    VariableMap gvm = (VariableMap)ems.editorModel.get(globalVariableMap);
+    gvm.put("contentX", new IntVisurVar(0));
+    gvm.put("contentY", new IntVisurVar(0));
     ems.putVirtualX(0);
     ems.putVirtualXIsAtEndOfLine(false);
     ems.putEditorMode(editing);

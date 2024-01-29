@@ -10,13 +10,9 @@ import static com.ple.visur.EditorModelKey.*;
 public class EditorModelService {
 
   LocalMap<EditorModelKey, Object> editorModel;
-  VariableMap gvm; //globalVariableMap
 
   private EditorModelService(SharedData sharedData) {
     this.editorModel = sharedData.getLocalMap("editorModel");
-    gvm = (VariableMap)editorModel.get(globalVariableMap);
-    gvm.put("contentX", new IntVisurVar(0));
-    gvm.put("contentY", new IntVisurVar(0));
   }
 
   public static EditorModelService make(SharedData sharedData) {
