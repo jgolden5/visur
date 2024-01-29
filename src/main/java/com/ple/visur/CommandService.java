@@ -13,12 +13,13 @@ public class CommandService {
     for(String word : sentence) {
       if(word.contains("=")) {
         String[] assignmentArray = word.split("=");
-        String varToAssignAsString = assignmentArray[0];
-        if(isValidVarToAssign(varToAssignAsString)) {
-          EditorModelKey varNameToAssign = EditorModelKey.valueOf(varToAssignAsString);
-          ServiceHolder.editorModelService.editorModel.put(varNameToAssign, (Object)assignmentArray[1]);
+        String key = assignmentArray[0];
+        String val = assignmentArray[1];
+        if(isValidVarToAssign(key, val)) {
+          VisurVar visurVar = ems.getGlobalVar(key);
+          visurVar.put(val);
         } else {
-          ems.reportError("assignment variable in command state is not valid");
+          ems.reportError("assignment variable " + key + " = " + val + " in command state is not valid");
         }
       } else {
         if(isValidOperator(word)) {
@@ -33,14 +34,31 @@ public class CommandService {
     }
   }
 
-  private boolean isValidVarToAssign(String varToTest) {
-    boolean varIsValid = false;
-    for(EditorModelKey v : EditorModelKey.values()) {
-      if(v.name().equals(varToTest)) {
-        varIsValid = true;
+  private boolean isValidVarToAssign(String key, String val) {
+    boolean keyIsValid = false;
+    String[] validVars = new String[]{"contentX", "contentY"};
+    for(int i = 0; i < validVars.length; i++) {
+      if(validVars[i].equals(key)) {
+        keyIsValid = true;
+        break;
       }
     }
-    return varIsValid;
+    boolean valIsValid = false;
+    EditorModelService ems = ServiceHolder.editorModelService;
+    switch(key) {
+      case "contentX":
+        int contentX = Integer.parseInt(val);
+        valIsValid = contentX >= 0 && contentX <= ems.getCurrentContentLineLength();
+        ems.putVirtualX(contentX); //for now
+        break;
+      case "contentY":
+        int contentY = Integer.parseInt(val);
+        valIsValid = contentY >= 0 && contentY < ems.getEditorContentLines().length;
+        break;
+      default:
+        ems.reportError("value type not recognized for command assignment");
+    }
+    return keyIsValid && valIsValid;
   }
 
   private boolean isValidOperator(String opToTest) {
