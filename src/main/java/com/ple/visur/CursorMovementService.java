@@ -32,7 +32,6 @@ public class CursorMovementService implements OperatorService {
   }
 
   public void cursorDown() { //j
-    final int contentX = contentXVisurVar.getInt();
     final int contentY = contentYVisurVar.getInt();
     boolean isAtBottomOfLine = contentY >= ems.getEditorContentLines().length - 1;
     boolean isAtLineLimit = contentY >= ems.getCanvasHeight() - 2;
@@ -45,7 +44,6 @@ public class CursorMovementService implements OperatorService {
       } else {
         contentXVisurVar.put(ems.getVirtualX());
       }
-      assignCursorCoordinates(contentX, contentY);
     }
   }
 
@@ -61,7 +59,6 @@ public class CursorMovementService implements OperatorService {
       } else {
         contentXVisurVar.put(ems.getVirtualX());
       }
-      assignCursorCoordinates(contentX, contentY);
     }
   }
 
@@ -95,7 +92,6 @@ public class CursorMovementService implements OperatorService {
       i++;
     }
     ems.putVirtualX(contentX);
-    assignCursorCoordinates(contentX, contentY);
   }
 
   public void moveCursorToBeginningOfCurrentLine() { //0
@@ -126,11 +122,6 @@ public class CursorMovementService implements OperatorService {
     }
     contentXVisurVar.put(firstNonSpaceIndex);
     ems.putVirtualX(firstNonSpaceIndex);
-  }
-
-  public void assignCursorCoordinates(int contentX, int contentY) {
-    contentXVisurVar.put(contentX);
-    contentYVisurVar.put(contentY);
   }
 
   private boolean isWordChar(char currentChar) {
