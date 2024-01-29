@@ -1,6 +1,7 @@
 package com.ple.visur;
 
 import static com.ple.visur.EditorModelKey.canvasHeight;
+import static com.ple.visur.EditorModelKey.contentX;
 
 public class CursorMovementService implements OperatorService {
 
@@ -13,13 +14,16 @@ public class CursorMovementService implements OperatorService {
 
   //map key
   public void cursorLeft() { //h
-    if (ems.getContentX() > 0) {
-      ems.putContentX(ems.getContentX() - 1);
-      ems.putVirtualX(ems.getContentX());
+    final VisurVar contentXVisurVar = ems.getGlobalVar("contentX");
+    final int contentX = contentXVisurVar.getInt();
+    if (contentX > 0) {
+      contentXVisurVar.put(contentX - 1);
+      ems.putVirtualX(contentX);
     }
   }
 
   public void cursorRight() { //l
+    final VisurVar contentYVisurVar = ems.getGlobalVar("contentY");
     if(ems.getContentX() < ems.getCurrentContentLineLength()) {
       ems.putContentX(ems.getContentX() + 1);
       ems.putVirtualX(ems.getContentX());

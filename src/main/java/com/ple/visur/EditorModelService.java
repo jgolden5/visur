@@ -15,8 +15,8 @@ public class EditorModelService {
   private EditorModelService(SharedData sharedData) {
     this.editorModel = sharedData.getLocalMap("editorModel");
     gvm = (VariableMap)editorModel.get(globalVariableMap);
-    gvm.put("contentX", new StringVisurVar("0"));
-    gvm.put("contentY", new StringVisurVar("0"));
+    gvm.put("contentX", new IntVisurVar(0));
+    gvm.put("contentY", new IntVisurVar(0));
   }
 
   public static EditorModelService make(SharedData sharedData) {
