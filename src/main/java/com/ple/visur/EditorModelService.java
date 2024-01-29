@@ -29,6 +29,11 @@ public class EditorModelService {
     return (String[])editorModel.get(editorContentLines);
   }
 
+  public VisurVar getGlobalVar(String varName) {
+    VariableMap globalVarMap = (VariableMap)editorModel.get(globalVariableMap);
+    return globalVarMap.get(varName);
+  }
+
   public int getCurrentContentLineLength() {
     final String[] editorContentLines = getEditorContentLines();
     final String currentContentLine = editorContentLines[getContentY()];
