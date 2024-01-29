@@ -1,8 +1,10 @@
 package com.ple.visur;
 
+import io.vertx.core.shareddata.Shareable;
+
 import java.util.HashMap;
 
-public class VariableMap {
+public class VariableMap implements Shareable {
   HashMap<String, VisurVar> val;
 
   public VariableMap(HashMap<String, VisurVar> map) {

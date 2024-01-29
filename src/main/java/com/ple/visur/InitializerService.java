@@ -1,5 +1,7 @@
 package com.ple.visur;
 
+import java.util.HashMap;
+
 import static com.ple.visur.EditorMode.editing;
 import static com.ple.visur.EditorModelKey.globalVariableMap;
 
@@ -17,6 +19,8 @@ public class InitializerService {
   }
 
   public void initializeEditorModel() {
+    VariableMap initialGvm = new VariableMap(new HashMap<>());
+    ems.editorModel.put(globalVariableMap, initialGvm);
     VariableMap gvm = (VariableMap)ems.editorModel.get(globalVariableMap);
     gvm.put("contentX", new IntVisurVar(0));
     gvm.put("contentY", new IntVisurVar(0));

@@ -10,10 +10,10 @@ public class ServiceHolder {
 
   ServiceHolder(SharedData sharedData) {
     editorModelService = EditorModelService.make(sharedData);
+    initializerService = InitializerService.make(editorModelService);
     commandService = CommandService.make();
     cursorMovementService = CursorMovementService.make();
     modeSwitchService = ModeSwitchService.make();
-    initializerService = InitializerService.make(editorModelService);
     insertCharService = InsertCharService.make();
   }
 
