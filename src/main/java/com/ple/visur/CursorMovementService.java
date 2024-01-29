@@ -48,7 +48,6 @@ public class CursorMovementService implements OperatorService {
   }
 
   public void cursorUp() { //k
-    final int contentX = contentXVisurVar.getInt();
     final int contentY = contentYVisurVar.getInt();
     if(contentY > 0) {
       String previousLine = ems.getEditorContentLines()[contentY - 1];
@@ -63,9 +62,7 @@ public class CursorMovementService implements OperatorService {
   }
 
   public void moveCursorToBeginningOfNextWord() { //w
-    final int contentX = contentXVisurVar.getInt();
-    final int contentY = contentYVisurVar.getInt();
-    char currentChar = ems.getCurrentContentLine().charAt(contentX);
+    char currentChar = ems.getCurrentContentLine().charAt(contentXVisurVar.getInt());
     int i = 0;
     boolean currentCharShouldBeWord;
     while(i < 2) {
@@ -74,24 +71,24 @@ public class CursorMovementService implements OperatorService {
       } else {
         currentCharShouldBeWord = false;
       }
-      while(contentX < ems.getCurrentContentLineLength() && isWordChar(currentChar) == currentCharShouldBeWord) {
-        contentXVisurVar.put(contentX + 1);
-        if(contentX < ems.getCurrentContentLineLength()) {
-          currentChar = ems.getCurrentContentLine().charAt(contentX);
+      while(contentXVisurVar.getInt() < ems.getCurrentContentLineLength() && isWordChar(currentChar) == currentCharShouldBeWord) {
+        contentXVisurVar.put(contentXVisurVar.getInt() + 1);
+        if(contentXVisurVar.getInt() < ems.getCurrentContentLineLength()) {
+          currentChar = ems.getCurrentContentLine().charAt(contentXVisurVar.getInt());
         }
       }
-      if(contentX >= ems.getCurrentContentLineLength()) {
-        if(contentY < ems.getEditorContentLines().length - 1) {
+      if(contentXVisurVar.getInt() >= ems.getCurrentContentLineLength()) {
+        if(contentYVisurVar.getInt() < ems.getEditorContentLines().length - 1) {
           contentXVisurVar.put(0);
-          contentYVisurVar.put(contentY + 1);
+          contentYVisurVar.put(contentYVisurVar.getInt() + 1);
         } else {
-          contentXVisurVar.put(contentX - 1);
+          contentXVisurVar.put(contentXVisurVar.getInt() - 1);
         }
         break;
       }
       i++;
     }
-    ems.putVirtualX(contentX);
+    ems.putVirtualX(contentXVisurVar.getInt());
   }
 
   public void moveCursorToBeginningOfCurrentLine() { //0
