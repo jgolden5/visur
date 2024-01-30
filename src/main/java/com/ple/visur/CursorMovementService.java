@@ -1,8 +1,5 @@
 package com.ple.visur;
 
-import static com.ple.visur.EditorModelKey.canvasHeight;
-import static com.ple.visur.EditorModelKey.contentX;
-
 public class CursorMovementService implements OperatorService {
 
   final EditorModelService ems = ServiceHolder.editorModelService;
@@ -12,7 +9,6 @@ public class CursorMovementService implements OperatorService {
   public static CursorMovementService make() {
     return new CursorMovementService();
   }
-
 
   //map key
   public void cursorLeft() { //h
@@ -162,4 +158,5 @@ public class CursorMovementService implements OperatorService {
         ems.reportError("Operator not recognized in " + this.getClass().getSimpleName());
     }
   }
+
 }

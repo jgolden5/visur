@@ -19,4 +19,5 @@ public enum EditorModelKey {
   operatorToService,
   virtualX,
   virtualXIsAtEndOfLine,
+  quantum,
 }

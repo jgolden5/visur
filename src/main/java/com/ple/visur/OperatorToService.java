@@ -11,7 +11,7 @@ public class OperatorToService implements Shareable {
   public OperatorService get(Operator operator) {
     OperatorService targetService;
     switch(operator) {
-      case cursorLeft, cursorRight, cursorDown, cursorUp,
+      case moveRight, cursorLeft, cursorRight, cursorDown, cursorUp,
         moveCursorToBeginningOfNextWord, moveCursorToBeginningOfCurrentLine,
         moveCursorToEndOfCurrentLine, moveCursorToFirstNonSpaceInCurrentLine:
         targetService = ServiceHolder.cursorMovementService;

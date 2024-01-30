@@ -1,2 +1,4 @@
-package com.ple.visur;public class MovementVector {
+package com.ple.visur;
+
+public class MovementVector {
 }

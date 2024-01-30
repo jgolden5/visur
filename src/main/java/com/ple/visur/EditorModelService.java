@@ -3,8 +3,6 @@ package com.ple.visur;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
-import java.util.HashMap;
-
 import static com.ple.visur.EditorModelKey.*;
 
 public class EditorModelService {
@@ -91,6 +89,10 @@ public class EditorModelService {
 
   public int getCommandCursor() {
     return (int)editorModel.get(commandCursor);
+  }
+
+  public SimpleQuantum getQuantum() {
+    return (SimpleQuantum)editorModel.get(quantum);
   }
 
 // add/improve getters and setters for:
@@ -194,8 +196,11 @@ public class EditorModelService {
     editorModel.put(commandCursor, x);
   }
 
+  public void putQuantum(SimpleQuantum q) {
+    editorModel.put(quantum, q);
+  }
+
   public void reportError(String message) {
     System.out.println(message);
   }
-
 }

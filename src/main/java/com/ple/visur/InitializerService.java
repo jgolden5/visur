@@ -28,6 +28,7 @@ public class InitializerService {
     ems.putVirtualXIsAtEndOfLine(false);
     ems.putEditorMode(editing);
     ems.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
+    ems.putQuantum(new SimpleQuantum("character"));
     final String initialContentLines = "Hello world" +
       "\nHow are you?" +
       "\nGoodbye";
@@ -81,15 +82,15 @@ public class InitializerService {
   }
 
   private KeysToOperator initializeEditingKeymap(KeysToOperator keysToOperator) {
-    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("h")}), Operator.cursorLeft);
-    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}), Operator.cursorRight);
-    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
-    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
-    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("w")}), Operator.moveCursorToBeginningOfNextWord);
-    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("0")}), Operator.moveCursorToBeginningOfCurrentLine);
-    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("^")}), Operator.moveCursorToFirstNonSpaceInCurrentLine);
-    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("$")}), Operator.moveCursorToEndOfCurrentLine);
-    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("i")}), Operator.enterInsertMode);
+//    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("h")}), Operator.cursorLeft);
+    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}), Operator.moveRight);
+//    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
+//    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
+//    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("w")}), Operator.moveCursorToBeginningOfNextWord);
+//    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("0")}), Operator.moveCursorToBeginningOfCurrentLine);
+//    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("^")}), Operator.moveCursorToFirstNonSpaceInCurrentLine);
+//    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("$")}), Operator.moveCursorToEndOfCurrentLine);
+//    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("i")}), Operator.enterInsertMode);
     return keysToOperator;
   }
 

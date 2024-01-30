@@ -1,2 +1,4 @@
-package com.ple.visur;public class CursorPosition {
+package com.ple.visur;
+
+public class CursorPosition {
 }
