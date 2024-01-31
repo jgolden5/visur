@@ -6,18 +6,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class KeysToVisurCommand implements Shareable {
-  private final Map<KeysPressed, Operator> keymap = new HashMap<>();
+  private final Map<KeysPressed, VisurCommand> keymap = new HashMap<>();
 
   public static KeysToVisurCommand make() {
     return new KeysToVisurCommand();
   }
 
 
-  public void put(KeysPressed keysPressed, Operator operator) {
-    keymap.put(keysPressed, operator);
+  public void put(KeysPressed keysPressed, VisurCommand visurCommand) {
+    keymap.put(keysPressed, visurCommand);
   }
 
-  public Operator get(KeysPressed keysPressed) {
+  public VisurCommand get(KeysPressed keysPressed) {
     return keymap.get(keysPressed);
   }
 
