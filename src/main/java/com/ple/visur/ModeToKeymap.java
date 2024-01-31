@@ -7,17 +7,17 @@ import java.util.Map;
 
 public class ModeToKeymap implements Shareable {
 
-  final Map<EditorMode, KeysToOperator> keymapMap = new HashMap<>();
+  final Map<EditorMode, KeysToVisurCommand> keymapMap = new HashMap<>();
 
   public static ModeToKeymap make() {
     return new ModeToKeymap();
   }
 
-  public void put(EditorMode editorMode, KeysToOperator keyToOperator) {
+  public void put(EditorMode editorMode, KeysToVisurCommand keyToOperator) {
     keymapMap.put(editorMode, keyToOperator);
   }
 
-  public KeysToOperator get(EditorMode editorMode) {
+  public KeysToVisurCommand get(EditorMode editorMode) {
     return keymapMap.get(editorMode);
   }
 

@@ -16,7 +16,7 @@ public class KeymapHandler implements KeysToOperatorHandler {
   public Operator toOperator(KeysPressed keysPressed) {
     final ModeToKeymap keymapMap = ems.getKeymapMap();
     final EditorMode mode = ems.getEditorMode();
-    final KeysToOperator keymap = keymapMap.get(mode);
+    final KeysToVisurCommand keymap = keymapMap.get(mode);
     Operator operator = keymap.get(keysPressed);
     return operator;
   }

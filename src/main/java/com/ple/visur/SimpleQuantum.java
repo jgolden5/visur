@@ -26,7 +26,7 @@ public class SimpleQuantum implements Quantum {
   @Override
   public CursorPosition move(CursorPosition pos, String[] contentLines, MovementVector m) {
     switch(type) {
-
+      
     }
   }
 }

@@ -96,7 +96,7 @@ public class EditorModelService {
   }
 
 // add/improve getters and setters for:
-// Operator, KeyPressed, (not sure: KeysToOperator, OperatorService)
+// Operator, KeyPressed, (not sure: KeysToVisurCommand, OperatorService)
 
   //only getters, no setters
   public int getCanvasX() {

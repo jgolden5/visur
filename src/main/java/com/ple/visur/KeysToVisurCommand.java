@@ -5,11 +5,11 @@ import io.vertx.core.shareddata.Shareable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KeysToOperator implements Shareable {
+public class KeysToVisurCommand implements Shareable {
   private final Map<KeysPressed, Operator> keymap = new HashMap<>();
 
-  public static KeysToOperator make() {
-    return new KeysToOperator();
+  public static KeysToVisurCommand make() {
+    return new KeysToVisurCommand();
   }
 
 
