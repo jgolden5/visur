@@ -83,7 +83,7 @@ public class InitializerService {
 
   private KeysToVisurCommand initializeEditingKeymap(KeysToVisurCommand keysToOperator) {
 //    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("h")}), Operator.cursorLeft);
-    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}), Operator.moveRight);
+//    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}), Operator.moveRight);
 //    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
 //    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
 //    keysToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("w")}), Operator.moveCursorToBeginningOfNextWord);
@@ -95,9 +95,9 @@ public class InitializerService {
   }
 
   private KeysToVisurCommand initializeInsertKeymap(KeysToVisurCommand keyToOperator) {
-    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Escape")}), Operator.enterEditingMode);
-    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Enter")}), Operator.insertNewLine);
-    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Backspace")}), Operator.deleteCurrentChar);
+//    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Escape")}), Operator.enterEditingMode);
+//    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Enter")}), Operator.insertNewLine);
+//    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Backspace")}), Operator.deleteCurrentChar);
     return keyToOperator;
   }
 

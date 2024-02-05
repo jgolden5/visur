@@ -13,14 +13,14 @@ public class InsertCharHandler implements KeysToOperatorHandler {
   }
 
   @Override
-  public Operator toOperator(KeysPressed keysPressed) {
+  public VisurCommand toVisurCommand(KeysPressed keysPressed) { //this will be totally changed
     KeyPressed[] internalKeysPressed = keysPressed.getKeysPressed();
     boolean keyPressedIsValid = internalKeysPressed.length == 1 && internalKeysPressed[0].getKey().length() == 1;
-    if(keyPressedIsValid) {
-      return Operator.insertChar;
-    } else {
+//    if(keyPressedIsValid) {
+//      return Operator.insertChar;
+//    } else {
       return null;
-    }
+//    }
   }
 
 }

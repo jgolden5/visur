@@ -28,5 +28,6 @@ public class SimpleQuantum implements Quantum {
     switch(type) {
 
     }
+    return null;
   }
 }

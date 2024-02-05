@@ -4,8 +4,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava3.core.eventbus.Message;
 
-import java.security.Provider;
-
 public class KeyWasPressedVerticle extends AbstractVisurVerticle {
 
   @Override
@@ -41,8 +39,8 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
           currentKeyBuffer.removeFirstElement();
           ems.putKeyBuffer(currentKeyBuffer);
         }
-        Operator operator = getOperatorFromKeyBuffer();
-        determineOperatorAndExecuteCommand(keyPressed, operator);
+//        Operator operator = getOperatorFromKeyBuffer();
+//        determineOperatorAndExecuteCommand(keyPressed, operator);
 
         matchPossible = currentKeyBuffer.matchPrefix();
       }
@@ -133,18 +131,18 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     ModeToHandlerArray modeToHandlerArrayMap = ems.getModeToHandlerArray();
     KeysToOperatorHandler[] handlerArray = modeToHandlerArrayMap.get(mode);
     int i = 0;
-    Operator operator = null;
+    VisurCommand visurCommand = null;
     boolean shouldExit = false;
-    while (operator == null && !shouldExit) {
+    while (visurCommand == null && !shouldExit) {
       if (i < handlerArray.length) {
-        operator = handlerArray[i].toOperator(currentKeyBuffer);
+        visurCommand = handlerArray[i].toVisurCommand(currentKeyBuffer);
       } else {
         ems.reportError("Invalid key");
         shouldExit = true;
       }
       i++;
     }
-    return operator;
+    return null;
   }
 
   private KeysPressed determineCurrentKeyBuffer(KeysPressed previousKeyBuffer, KeyPressed keyPressed) {
