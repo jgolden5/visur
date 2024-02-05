@@ -15,4 +15,5 @@ public enum Operator {
   insertChar,
   deleteCurrentChar,
   moveRight,
+  literalNumberOperator,
 }
