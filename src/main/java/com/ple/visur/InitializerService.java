@@ -82,7 +82,7 @@ public class InitializerService {
   }
 
   private KeysToVisurCommand initializeEditingKeymap(KeysToVisurCommand keysToVisurCommand) {
-    CommandCompileService scs = CommandCompileService.make();
+    CommandCompileService scs = ServiceHolder.commandCompileService;
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("h")}),
 //      scs.compile("-1 ->dx relativeMove")
 //    );

@@ -10,6 +10,7 @@ public class ServiceHolder {
 
   ServiceHolder(SharedData sharedData) {
     editorModelService = EditorModelService.make(sharedData);
+    commandCompileService = CommandCompileService.make();
     initializerService = InitializerService.make(editorModelService);
     commandService = CommandService.make();
     cursorMovementService = CursorMovementService.make();
@@ -19,6 +20,8 @@ public class ServiceHolder {
 
   public static EditorModelService editorModelService;
   public static CommandService commandService;
+  public static CommandCompileService commandCompileService;
+
   public static CursorMovementService cursorMovementService;
   public static ModeSwitchService modeSwitchService;
   public static InitializerService initializerService;
