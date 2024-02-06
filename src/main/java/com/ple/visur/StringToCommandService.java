@@ -11,9 +11,8 @@ public class StringToCommandService {
   public VisurCommand compile(String sentence) {
     VisurCommand command = new VisurCommand(sentence);
     String currentSentence = sentence;
-    boolean sentenceCanStillBeCompiled = true;
 
-    while(currentSentence != "" && sentenceCanStillBeCompiled) {
+    while(currentSentence != "") {
       int i = 0;
       while (i <= 5) {
         Pattern pattern;
@@ -30,7 +29,9 @@ public class StringToCommandService {
             currentSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
             break;
           case 2:
-            //AssignmentWord
+            pattern = Pattern.compile("(->*[^\s]+)(.*)");
+            wordToAddToCommand = AssignmentWord.make();
+            currentSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
             break;
           case 3:
             //OperatorWord
@@ -39,7 +40,6 @@ public class StringToCommandService {
             //RecallWord
             break;
           default:
-            sentenceCanStillBeCompiled = false;
             System.out.println("word not recognized!");
         }
         currentSentence = currentSentence.stripLeading();
@@ -57,6 +57,7 @@ public class StringToCommandService {
       switch(operatorFromWord) {
         case literalNumberOperator -> wordValue = Integer.parseInt(matcher.group(1));
         case literalStringOperator -> wordValue = matcher.group(1);
+        case assignmentWordOperator -> wordValue = EditorModelKey.valueOf(matcher.group(1).substring(2)); //chop off the ->
         default -> System.out.println("Word Operator " + wordToAddToCommand.toOperator() + " not recognized");
       }
       if(wordValue != null) {

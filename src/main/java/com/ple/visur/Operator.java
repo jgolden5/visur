@@ -17,4 +17,5 @@ public enum Operator {
   moveRight,
   literalNumberOperator,
   literalStringOperator,
+  assignmentWordOperator,
 }
