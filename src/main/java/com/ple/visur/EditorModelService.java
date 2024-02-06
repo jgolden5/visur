@@ -98,7 +98,8 @@ public class EditorModelService {
   }
 
   private Stack<Object> getExecutionStateStack() {
-    return (Stack<Object>)editorModel.get(executionState);
+    ExecutionState es = (ExecutionState)editorModel.get(executionState);
+    return es.stack;
   }
 
   public SimpleQuantum getQuantum() {
