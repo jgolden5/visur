@@ -1,6 +1,8 @@
 package com.ple.visur;
 
-public enum Operator {
+public interface Operator {
+  public void execute(VisurCommand command);
+  /*
   absoluteMove,
   add,
   cursorLeft,
@@ -22,4 +24,5 @@ public enum Operator {
   assignmentOperator,
   nativeOperator,
   recallOperator,
+   */
 }
