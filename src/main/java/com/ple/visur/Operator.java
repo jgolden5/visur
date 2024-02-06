@@ -1,6 +1,7 @@
 package com.ple.visur;
 
 public enum Operator {
+  absoluteMove,
   cursorLeft,
   cursorRight,
   cursorDown,
@@ -18,4 +19,5 @@ public enum Operator {
   literalNumberOperator,
   literalStringOperator,
   assignmentWordOperator,
+  nativeOperatorWordOperator,
 }

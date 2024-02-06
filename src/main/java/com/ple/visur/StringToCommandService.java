@@ -34,7 +34,11 @@ public class StringToCommandService {
             currentSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
             break;
           case 3:
-            //OperatorWord
+            pattern = Pattern.compile("([^\\s]+)(.*)");
+            wordToAddToCommand = NativeOperatorWord.make();
+            if(operatorExistsForWord(currentSentence)) {
+              currentSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
+            }
             break;
           case 4:
             //RecallWord
@@ -49,15 +53,26 @@ public class StringToCommandService {
     return command;
   }
 
+  private boolean operatorExistsForWord(String currentSentence) {
+    for (Operator op : Operator.values()) {
+      if (op.name().equals(currentSentence)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private String modifyCommandAndGetRemainingSentence(String currentSentence, Pattern pattern, VisurCommand command, Word wordToAddToCommand) {
     Matcher matcher = pattern.matcher(currentSentence);
     if (matcher.matches()) {
       Object wordValue = null;
-      Operator operatorFromWord = wordToAddToCommand.toOperator();
+      Operator operatorFromWord;
+      operatorFromWord = wordToAddToCommand.toOperator();
       switch(operatorFromWord) {
         case literalNumberOperator -> wordValue = Integer.parseInt(matcher.group(1));
         case literalStringOperator -> wordValue = matcher.group(1);
         case assignmentWordOperator -> wordValue = EditorModelKey.valueOf(matcher.group(1).substring(2)); //chop off the ->
+        case nativeOperatorWordOperator -> wordValue = Operator.valueOf(matcher.group(1));
         default -> System.out.println("Word Operator " + wordToAddToCommand.toOperator() + " not recognized");
       }
       if(wordValue != null) {
