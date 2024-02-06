@@ -4,7 +4,7 @@ import static com.ple.visur.Operator.*;
 
 public class LiteralNumberWord implements Word {
 
-  public static Word make() {
+  public static LiteralNumberWord make() {
     return new LiteralNumberWord();
   }
 

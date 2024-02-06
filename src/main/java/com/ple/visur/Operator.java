@@ -16,4 +16,5 @@ public enum Operator {
   deleteCurrentChar,
   moveRight,
   literalNumberOperator,
+  literalStringOperator,
 }

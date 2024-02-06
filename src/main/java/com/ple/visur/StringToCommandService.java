@@ -13,25 +13,21 @@ public class StringToCommandService {
     String currentSentence = sentence;
     boolean sentenceCanStillBeCompiled = true;
 
-    while(sentenceCanStillBeCompiled) {
+    while(currentSentence != "" && sentenceCanStillBeCompiled) {
       int i = 0;
-      while (i < 5) {
-        Matcher matcher;
-        Word wordToAddToCommand = null;
+      while (i <= 5) {
+        Pattern pattern;
+        Word wordToAddToCommand;
         switch (i) {
           case 0:
-            Pattern pattern = Pattern.compile("^(-?[0-9]+\\.?[0-9]*)(.*)");
-            matcher = pattern.matcher(currentSentence);
-            if (matcher.matches()) {
-              int value = Integer.parseInt(matcher.group(1));
-              currentSentence = matcher.group(2);
-              wordToAddToCommand = LiteralNumberWord.make();
-              Object[] opAndOpInfo = new Object[]{wordToAddToCommand.toOperator(), value};
-              command.addOperatorWithInfo(opAndOpInfo);
-            }
+            pattern = Pattern.compile("^(-?[0-9]+\\.?[0-9]*)(.*)");
+            wordToAddToCommand = LiteralNumberWord.make();
+            currentSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
             break;
           case 1:
-            //LiteralStringWord
+            pattern = Pattern.compile("(\"[^\"]*\")(.*)");
+            wordToAddToCommand = LiteralStringWord.make();
+            currentSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
             break;
           case 2:
             //AssignmentWord
@@ -43,13 +39,34 @@ public class StringToCommandService {
             //RecallWord
             break;
           default:
-            System.out.println("iterator id not recognized");
+            sentenceCanStillBeCompiled = false;
+            System.out.println("word not recognized!");
         }
+        currentSentence = currentSentence.stripLeading();
         i++;
       }
-      sentenceCanStillBeCompiled = false;
     }
     return command;
+  }
+
+  private String modifyCommandAndGetRemainingSentence(String currentSentence, Pattern pattern, VisurCommand command, Word wordToAddToCommand) {
+    Matcher matcher = pattern.matcher(currentSentence);
+    if (matcher.matches()) {
+      Object wordValue = null;
+      Operator operatorFromWord = wordToAddToCommand.toOperator();
+      switch(operatorFromWord) {
+        case literalNumberOperator -> wordValue = Integer.parseInt(matcher.group(1));
+        case literalStringOperator -> wordValue = matcher.group(1);
+        default -> System.out.println("Word Operator " + wordToAddToCommand.toOperator() + " not recognized");
+      }
+      if(wordValue != null) {
+        currentSentence = matcher.group(2);
+        Object[] opAndOpInfo = new Object[]{operatorFromWord, wordValue};
+        command.addOperatorWithInfo(opAndOpInfo);
+        System.out.println("matched word = \"" + wordValue.toString() + "\", remaining = \"" + currentSentence + "\".");
+      }
+    }
+    return currentSentence;
   }
 
 }
