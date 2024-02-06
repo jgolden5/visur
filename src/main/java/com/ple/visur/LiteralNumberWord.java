@@ -10,7 +10,7 @@ public class LiteralNumberWord implements Word {
 
   @Override
   public Operator toOperator() {
-    return literalNumberOperator;
+    return LiteralNumberOperator.make();
   }
 
 }

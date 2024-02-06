@@ -1,7 +1,7 @@
 package com.ple.visur;
 
 public interface Operator {
-  public void execute(VisurCommand command);
+  public void execute(Object opInfo);
   /*
   absoluteMove,
   add,
