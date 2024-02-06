@@ -3,51 +3,57 @@ package com.ple.visur;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StringToCommandService {
-  public static StringToCommandService make() {
-    return new StringToCommandService();
+public class CommandCompileService {
+  public static CommandCompileService make() {
+    return new CommandCompileService();
   }
 
   public VisurCommand compile(String sentence) {
     VisurCommand command = new VisurCommand(sentence);
     String currentSentence = sentence;
 
+    int i = 0;
+    compileLoop:
     while(currentSentence != "") {
-      int i = 0;
-      while (i <= 5) {
-        Pattern pattern;
-        Word wordToAddToCommand;
-        switch (i) {
-          case 0:
-            pattern = Pattern.compile("^(-?[0-9]+\\.?[0-9]*)(.*)");
-            wordToAddToCommand = LiteralNumberWord.make();
-            currentSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
-            break;
-          case 1:
-            pattern = Pattern.compile("(\"[^\"]*\")(.*)");
-            wordToAddToCommand = LiteralStringWord.make();
-            currentSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
-            break;
-          case 2:
-            pattern = Pattern.compile("(->*[^\s]+)(.*)");
-            wordToAddToCommand = AssignmentWord.make();
-            currentSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
-            break;
-          case 3:
-            pattern = Pattern.compile("([^\\s]+)(.*)");
-            wordToAddToCommand = NativeOperatorWord.make();
-            currentSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
-            break;
-          case 4:
-            pattern = Pattern.compile("([^\\s]+)(.*)");
-            wordToAddToCommand = RecallWord.make();
-            currentSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
-            break;
-          default:
-            System.out.println("word not recognized!");
-        }
-        currentSentence = currentSentence.stripLeading();
+      Pattern pattern;
+      Word wordToAddToCommand;
+      String newSentence = "";
+      switch (i) {
+        case 0:
+          pattern = Pattern.compile("^(-?[0-9]+\\.?[0-9]*)(.*)");
+          wordToAddToCommand = LiteralNumberWord.make();
+          newSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
+          break;
+        case 1:
+          pattern = Pattern.compile("(\"[^\"]*\")(.*)");
+          wordToAddToCommand = LiteralStringWord.make();
+          newSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
+          break;
+        case 2:
+          pattern = Pattern.compile("(->*[^\s]+)(.*)");
+          wordToAddToCommand = AssignmentWord.make();
+          newSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
+          break;
+        case 3:
+          pattern = Pattern.compile("([^\\s]+)(.*)");
+          wordToAddToCommand = NativeOperatorWord.make();
+          newSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
+          break;
+        case 4:
+          pattern = Pattern.compile("([^\\s]+)(.*)");
+          wordToAddToCommand = RecallWord.make();
+          newSentence = modifyCommandAndGetRemainingSentence(currentSentence, pattern, command, wordToAddToCommand);
+          break;
+        default:
+          System.out.println("word not recognized!");
+          command = null;
+          break compileLoop;
+      }
+      if(currentSentence.equals(newSentence)) {
         i++;
+      } else {
+        i = 0;
+        currentSentence = newSentence.stripLeading();
       }
     }
     return command;

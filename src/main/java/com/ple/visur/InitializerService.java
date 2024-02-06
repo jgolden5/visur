@@ -82,12 +82,12 @@ public class InitializerService {
   }
 
   private KeysToVisurCommand initializeEditingKeymap(KeysToVisurCommand keysToVisurCommand) {
-    StringToCommandService scs = StringToCommandService.make();
+    CommandCompileService scs = CommandCompileService.make();
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("h")}),
 //      scs.compile("-1 ->dx relativeMove")
 //    );
     keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}),
-      scs.compile("\"log message\" ->commandStateContent")
+      scs.compile("contentX 1 + ->contentX absoluteMove")
     );
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
