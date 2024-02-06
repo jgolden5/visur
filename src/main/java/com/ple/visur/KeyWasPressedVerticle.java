@@ -39,8 +39,13 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
           currentKeyBuffer.removeFirstElement();
           ems.putKeyBuffer(currentKeyBuffer);
         }
-//        Operator operator = getOperatorFromKeyBuffer();
-//        determineOperatorAndExecuteCommand(keyPressed, operator);
+        ModeToKeymap keymapMap = ems.getKeymapMap();
+        //get key from previously specified keymap
+        KeysToVisurCommand keymap = keymapMap.get(ems.getEditorMode());
+        //get the command stored in the keymap under keybuffer's key
+        VisurCommand currentCommand = keymap.get(currentKeyBuffer);
+        CommandExecutionService ces = ServiceHolder.commandExecutionService.make();
+        ces.execute(currentCommand);
 
         matchPossible = currentKeyBuffer.matchPrefix();
       }
@@ -110,40 +115,6 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     System.out.println("Is out of command state");
   }
 
-  private void determineOperatorAndExecuteCommand(KeyPressed keyPressed, Operator operator) {
-    if(operator != null) {
-      OperatorToService operatorToService = OperatorToService.make();
-      OperatorService operatorService = operatorToService.get(operator);
-      boolean operatorServiceIsInsertCharService = operatorService.getClass().getSimpleName().equals("InsertCharService");
-      if (operatorServiceIsInsertCharService) {
-        operatorService.execute(operator, keyPressed);
-      } else {
-        operatorService.execute(operator);
-      }
-    }
-  }
-
-
-  private Operator getOperatorFromKeyBuffer() {
-    EditorModelService ems = ServiceHolder.editorModelService;
-    KeysPressed currentKeyBuffer = ems.getKeyBuffer();
-    EditorMode mode = ems.getEditorMode();
-    ModeToHandlerArray modeToHandlerArrayMap = ems.getModeToHandlerArray();
-    KeysToOperatorHandler[] handlerArray = modeToHandlerArrayMap.get(mode);
-    int i = 0;
-    VisurCommand visurCommand = null;
-    boolean shouldExit = false;
-    while (visurCommand == null && !shouldExit) {
-      if (i < handlerArray.length) {
-        visurCommand = handlerArray[i].toVisurCommand(currentKeyBuffer);
-      } else {
-        ems.reportError("Invalid key");
-        shouldExit = true;
-      }
-      i++;
-    }
-    return null;
-  }
 
   private KeysPressed determineCurrentKeyBuffer(KeysPressed previousKeyBuffer, KeyPressed keyPressed) {
     KeysPressed currentKeyBuffer;
