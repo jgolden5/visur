@@ -1,6 +1,7 @@
 package com.ple.visur;
 
 import java.util.HashMap;
+import java.util.Stack;
 
 import static com.ple.visur.EditorMode.editing;
 import static com.ple.visur.EditorModelKey.globalVariableMap;
@@ -28,6 +29,7 @@ public class InitializerService {
     ems.putVirtualXIsAtEndOfLine(false);
     ems.putEditorMode(editing);
     ems.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
+    ems.putExecutionStateStack(new ExecutionState());
     ems.putQuantum(new SimpleQuantum("character"));
     final String initialContentLines = "Hello world" +
       "\nHow are you?" +

@@ -98,7 +98,7 @@ public class EditorModelService {
   }
 
   private Stack<Object> getExecutionStateStack() {
-    return (Stack<Object>)editorModel.get(executionStateStack);
+    return (Stack<Object>)editorModel.get(executionState);
   }
 
   public SimpleQuantum getQuantum() {
@@ -206,10 +206,14 @@ public class EditorModelService {
     editorModel.put(commandCursor, x);
   }
 
+  public void putExecutionStateStack(ExecutionState stack) {
+    editorModel.put(executionState, stack);
+  }
+
   public void putOnExecutionStateStack(Object element) {
-    Stack<Object> executionStateStack = getExecutionStateStack();
-    executionStateStack.push(element);
-    editorModel.put(EditorModelKey.executionStateStack, executionStateStack); //may not be necessary?
+    Stack<Object> newExecutionStateStack = getExecutionStateStack();
+    newExecutionStateStack.push(element);
+    editorModel.put(executionState, newExecutionStateStack); //this line may not be necessary?
   }
 
   public void putQuantum(SimpleQuantum q) {
