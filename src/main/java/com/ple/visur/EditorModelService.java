@@ -28,6 +28,10 @@ public class EditorModelService {
     return globalVarMap.get(varName);
   }
 
+  public VariableMap getGlobalVariableMap() {
+    return (VariableMap)editorModel.get(globalVariableMap);
+  }
+
   public int getCurrentContentLineLength() {
     final String[] editorContentLines = getEditorContentLines();
     int contentY = getGlobalVar("contentY").getInt();

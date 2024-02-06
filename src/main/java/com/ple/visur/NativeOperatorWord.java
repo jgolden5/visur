@@ -1,6 +1,6 @@
 package com.ple.visur;
 
-import static com.ple.visur.Operator.nativeOperatorWordOperator;
+import static com.ple.visur.Operator.nativeOperator;
 
 public class NativeOperatorWord implements Word {
 
@@ -10,6 +10,6 @@ public class NativeOperatorWord implements Word {
 
   @Override
   public Operator toOperator() {
-    return nativeOperatorWordOperator;
+    return nativeOperator;
   }
 }
