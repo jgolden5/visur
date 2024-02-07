@@ -24,6 +24,14 @@ public class CommandExecutionService {
         case "AssignmentOperator":
           AssignmentOperator.make().execute(currentOpInfo);
           break;
+        case "NativeOperator":
+          //get and execute operator based on opInfo. We want to work on this one when we can test it
+          break;
+        case "RecallOperator":
+          RecallOperator.make().execute(currentOpInfo);
+          break;
+        default:
+          System.out.println();
       }
     }
   }

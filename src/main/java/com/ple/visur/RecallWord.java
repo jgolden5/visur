@@ -1,7 +1,5 @@
 package com.ple.visur;
 
-import static com.ple.visur.Operator.recallOperator;
-
 public class RecallWord implements Word {
 
   public static RecallWord make() {
@@ -10,7 +8,7 @@ public class RecallWord implements Word {
 
   @Override
   public Operator toOperator() {
-    return recallOperator;
+    return RecallOperator.make();
   }
 
 }

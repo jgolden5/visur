@@ -12,8 +12,8 @@ public class AssignmentOperator implements Operator {
     ExecutionState es = ems.getExecutionState();
     Object topElementFromStack = es.stack.pop();
     VariableMap gvm = ems.getGlobalVariableMap();
-    VisurVar gvmVal = gvm.get((String)opInfo);
-    gvmVal.put(topElementFromStack);
+    VisurVar globalVar = gvm.get((String)opInfo);
+    globalVar.put(topElementFromStack);
   }
 
 }

@@ -1,7 +1,5 @@
 package com.ple.visur;
 
-import static com.ple.visur.Operator.assignmentOperator;
-
 public class AssignmentWord implements Word {
 
   public static AssignmentWord make() {
