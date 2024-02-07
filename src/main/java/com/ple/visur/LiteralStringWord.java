@@ -9,7 +9,7 @@ public class LiteralStringWord implements Word {
 
   @Override
   public Operator toOperator() {
-    return literalStringOperator;
+    return LiteralStringOperator.make();
   }
 
 }

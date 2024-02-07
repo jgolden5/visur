@@ -12,9 +12,13 @@ public class CommandExecutionService {
     ArrayList<Operator> ops = command.ops;
     for(int i = 0; i < command.ops.size(); i++) {
       Operator currentOp = ops.get(i);
+      Object currentOpInfo = command.opInfo.get(i);
       switch(currentOp.getClass().getSimpleName()) {
         case "LiteralNumberOperator":
-          LiteralNumberOperator.make().execute(command.opInfo.get(i));
+          LiteralNumberOperator.make().execute(currentOpInfo);
+          break;
+        case "LiteralStringOperator":
+          LiteralStringOperator.make().execute(currentOpInfo);
           break;
       }
     }
