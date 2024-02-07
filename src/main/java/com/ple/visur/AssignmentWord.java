@@ -10,6 +10,6 @@ public class AssignmentWord implements Word {
 
   @Override
   public Operator toOperator() {
-    return assignmentOperator;
+    return AssignmentOperator.make();
   }
 }

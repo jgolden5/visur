@@ -1,10 +1,11 @@
 package com.ple.visur;
 
 public interface VisurVar {
-  public String getString();
-  public int getInt();
-  public boolean getBoolean();
-  public void put(String v);
-  public void put(int v);
-  public void put(boolean v);
+  String getString();
+  int getInt();
+  boolean getBoolean();
+  void put(String v);
+  void put(int v);
+  void put(boolean v);
+  void put(Object v);
 }

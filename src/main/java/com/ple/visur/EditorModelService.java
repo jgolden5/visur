@@ -3,6 +3,7 @@ package com.ple.visur;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
+import java.util.HashMap;
 import java.util.Stack;
 
 import static com.ple.visur.EditorModelKey.*;
@@ -98,8 +99,12 @@ public class EditorModelService {
   }
 
   private Stack<Object> getExecutionStateStack() {
-    ExecutionState es = (ExecutionState)editorModel.get(executionState);
+    ExecutionState es = getExecutionState();
     return es.stack;
+  }
+
+  public ExecutionState getExecutionState() {
+    return (ExecutionState)editorModel.get(executionState);
   }
 
   public SimpleQuantum getQuantum() {
@@ -156,6 +161,12 @@ public class EditorModelService {
 
   public void putEditorContentLines(String[] contentLines) {
     editorModel.put(editorContentLines, contentLines);
+  }
+
+  public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
+    VariableMap gvm = getGlobalVariableMap();
+    gvm.put(globalVarName, globalVarValue); //updates value that was previously at associated key
+    editorModel.put(globalVariableMap, gvm);
   }
 
   public void putVirtualX(int x) {

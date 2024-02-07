@@ -36,4 +36,24 @@ public class StringVisurVar implements VisurVar {
   public void put(boolean v) {
 
   }
+
+  @Override
+  public void put(Object v) {
+    switch(v) {
+      case null -> {
+        val = String.valueOf(null);
+      }
+      case String s -> {
+        val = s;
+      }
+      case Integer i -> {
+        val = String.valueOf(i);
+      }
+      case Boolean b -> {
+        val = String.valueOf(b);
+      }
+      default -> throw new IllegalStateException("Unexpected value: " + v);
+    }
+  }
+
 }
