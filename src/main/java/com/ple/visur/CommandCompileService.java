@@ -80,31 +80,30 @@ public class CommandCompileService {
       Operator operatorFromWord;
       operatorFromWord = wordToAddToCommand.toOperator();
       switch(operatorFromWord) {
-        case literalNumberOperator:
+        case LiteralNumberOperator n -> {
           wordValue = Integer.parseInt(matcher.group(1));
-          break;
-        case literalStringOperator:
+        }
+        case LiteralStringOperator s -> {
           wordValue = matcher.group(1);
-          break;
-        case assignmentOperator:
+        }
+        case AssignmentOperator a -> {
           wordValue = EditorModelKey.valueOf(matcher.group(1).substring(2)); //chop off the ->
-          break;
-        case nativeOperator:
-          String currentWord = matcher.group(1);
-          if(currentWord.equals("+")) {
-            currentWord = "add";
-          }
-          if(operatorExistsForWord(currentWord)) {
-            wordValue = Operator.valueOf(currentWord);
-          }
-          break;
-        case recallOperator:
-          if(globalVarExistsForWord(matcher.group(1))) {
+        }
+//        case NativeOperator n ->
+//          String currentWord = matcher.group(1);
+//          if(currentWord.equals("+")) {
+//            currentWord = "add";
+//          }
+//          if(operatorExistsForWord(currentWord)) {
+//            wordValue = Operator.valueOf(currentWord);
+//          }
+//          break;
+        case RecallOperator r -> {
+          if (globalVarExistsForWord(matcher.group(1))) {
             wordValue = matcher.group(1);
           }
-          break;
-        default:
-          System.out.println("Word Operator " + wordToAddToCommand.toOperator() + " not recognized");
+        }
+        default -> System.out.println("Word Operator " + wordToAddToCommand.toOperator() + " not recognized");
       }
       if(wordValue != null) {
         currentSentence = matcher.group(2);

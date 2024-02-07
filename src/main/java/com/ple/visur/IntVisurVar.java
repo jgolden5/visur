@@ -43,18 +43,14 @@ public class IntVisurVar implements VisurVar {
   @Override
   public void put(Object v) {
     switch(v) {
-      case null -> {
+      case null ->
         val = Integer.parseInt(null);
-      }
-      case String s -> {
+      case String s ->
         val = Integer.parseInt(s);
-      }
-      case Integer i -> {
+      case Integer i ->
         val = i;
-      }
-      case Boolean b -> {
+      case Boolean b ->
         val = b ? 0 : 1;
-      }
       default -> throw new IllegalStateException("Unexpected value: " + v);
     }
   }
