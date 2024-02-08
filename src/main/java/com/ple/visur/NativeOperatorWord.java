@@ -2,8 +2,6 @@ package com.ple.visur;
 
 import java.sql.SQLOutput;
 
-import static com.ple.visur.Operator.nativeOperator;
-
 public class NativeOperatorWord implements Word {
 
   String opSource;

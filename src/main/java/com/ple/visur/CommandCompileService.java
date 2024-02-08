@@ -15,18 +15,10 @@ public class CommandCompileService {
     int i = 0;
     compileLoop:
     while(currentSentence != "") {
-      Pattern pattern;
-      Word wordToAddToCommand;
-      String newSentence = "";
-      Operator op;
-      Matcher matcher;
-      Object opInfo = null;
       switch (i) {
         case 0:
-          pattern = Pattern.compile("^(-?[0-9]+\\.?[0-9]*)(.*)");
-          matcher = getMatcher(pattern, currentSentence);
-          opInfo = Integer.parseInt(matcher.group(1));
-          op = LiteralNumberWord.make().toOperator();
+          LiteralNumberWord literalNumberWord = new LiteralNumberWord();
+          CompiledWord compiledWord = literalNumberWord.toOperator();
           break;
         case 1:
           pattern = Pattern.compile("(\"[^\"]*\")(.*)");
@@ -71,6 +63,9 @@ public class CommandCompileService {
     return command;
   }
 
+  private Matcher getMatcher(Pattern pattern, String currentSentence) {
+  }
+
   private boolean varExistsInEditorModel(String varName) {
     for(EditorModelKey k : EditorModelKey.values()) {
       if(k.getClass().getSimpleName().equals(varName)) {
@@ -78,15 +73,6 @@ public class CommandCompileService {
       }
     }
     return false;
-  }
-
-  private Matcher getMatcher(Pattern pattern, String currentSentence) {
-    Matcher m = pattern.matcher(currentSentence);
-    if(m.matches()) {
-      return m;
-    } else {
-      return null;
-    }
   }
 
 }

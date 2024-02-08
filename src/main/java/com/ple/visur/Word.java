@@ -1,5 +1,5 @@
 package com.ple.visur;
 
 public interface Word {
-  public Operator toOperator();
+  public CompiledWord compile(String sentence);
 }
