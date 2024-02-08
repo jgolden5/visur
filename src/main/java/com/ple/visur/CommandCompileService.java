@@ -49,7 +49,7 @@ public class CommandCompileService {
         case 4:
           pattern = Pattern.compile("([^\\s]+)(.*)");
           matcher = getMatcher(pattern, currentSentence);
-          if(varExistsInEditorModel()) {
+          if(varExistsInEditorModel(matcher.group(1))) {
             opInfo = matcher.group(1);
           }
           op = RecallWord.make().toOperator();
@@ -67,6 +67,15 @@ public class CommandCompileService {
       }
     }
     return command;
+  }
+
+  private boolean varExistsInEditorModel(String varName) {
+    for(EditorModelKey k : EditorModelKey.values()) {
+      if(k.getClass().getSimpleName().equals(varName)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private Matcher getMatcher(Pattern pattern, String currentSentence) {
