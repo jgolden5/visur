@@ -20,7 +20,7 @@ public class CommandCompileService {
       String newSentence = "";
       Operator op;
       Matcher matcher;
-      Object opInfo;
+      Object opInfo = null;
       switch (i) {
         case 0:
           pattern = Pattern.compile("^(-?[0-9]+\\.?[0-9]*)(.*)");
@@ -64,6 +64,8 @@ public class CommandCompileService {
       } else {
         i = 0;
         currentSentence = newSentence.stripLeading();
+        command.ops.add(op);
+        command.opInfo.add(opInfo);
       }
     }
     return command;
