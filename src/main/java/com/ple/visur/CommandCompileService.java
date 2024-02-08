@@ -63,7 +63,7 @@ public class CommandCompileService {
         i++;
       } else {
         i = 0;
-        currentSentence = newSentence.stripLeading();
+        currentSentence = matcher.group(2).stripLeading();
         command.ops.add(op);
         command.opInfo.add(opInfo);
       }
