@@ -19,33 +19,39 @@ public class CommandCompileService {
       Word wordToAddToCommand;
       String newSentence = "";
       Operator op;
+      Matcher matcher;
       switch (i) {
         case 0:
           pattern = Pattern.compile("^(-?[0-9]+\\.?[0-9]*)(.*)");
           op = LiteralNumberWord.make().toOperator();
+          matcher = getMatcher(pattern, currentSentence);
           break;
         case 1:
           pattern = Pattern.compile("(\"[^\"]*\")(.*)");
           op = LiteralStringWord.make().toOperator();
+          matcher = getMatcher(pattern, currentSentence);
           break;
         case 2:
           pattern = Pattern.compile("(->*[^\s]+)(.*)");
           op = AssignmentWord.make().toOperator();
+          matcher = getMatcher(pattern, currentSentence);
           break;
         case 3:
           pattern = Pattern.compile("([^\\s]+)(.*)");
           op = NativeOperatorWord.make().toOperator();
+          matcher = getMatcher(pattern, currentSentence);
           break;
         case 4:
           pattern = Pattern.compile("([^\\s]+)(.*)");
           op = RecallWord.make().toOperator();
+          matcher = getMatcher(pattern, currentSentence);
           break;
         default:
           System.out.println("word not recognized!");
           command = null;
           break compileLoop;
       }
-      if(noMatchFound) {
+      if(matcher == null) {
         i++;
       } else {
         i = 0;
@@ -53,6 +59,15 @@ public class CommandCompileService {
       }
     }
     return command;
+  }
+
+  private Matcher getMatcher(Pattern pattern, String currentSentence) {
+    Matcher m = pattern.matcher(currentSentence);
+    if(m.matches()) {
+      return m;
+    } else {
+      return null;
+    }
   }
 
 }
