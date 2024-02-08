@@ -10,10 +10,6 @@ public class NativeOperatorWord implements Word {
     this.opSource = opSource;
   }
 
-  public static NativeOperatorWord make(String opSource) {
-    return new NativeOperatorWord(opSource);
-  }
-
   @Override
   public Operator toOperator() {
     Operator op = null;

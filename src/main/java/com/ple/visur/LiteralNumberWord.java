@@ -5,10 +5,6 @@ import java.util.regex.Pattern;
 
 public class LiteralNumberWord implements Word {
 
-  public static LiteralNumberWord make() {
-    return new LiteralNumberWord();
-  }
-
   @Override
   public CompiledWordResponse compile(String sentence) {
     Pattern pattern = Pattern.compile("^(-?[0-9]+\\.?[0-9]*)(.*)");

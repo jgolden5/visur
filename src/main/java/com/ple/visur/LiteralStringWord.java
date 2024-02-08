@@ -5,10 +5,6 @@ import java.util.regex.Pattern;
 
 public class LiteralStringWord implements Word {
 
-  public static LiteralStringWord make() {
-    return new LiteralStringWord();
-  }
-
   @Override
   public CompiledWordResponse compile(String sentence) {
     Pattern pattern = Pattern.compile("(\"[^\"]*\")(.*)");
