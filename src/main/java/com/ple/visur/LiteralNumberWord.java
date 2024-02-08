@@ -10,13 +10,13 @@ public class LiteralNumberWord implements Word {
   }
 
   @Override
-  public CompiledWord compile(String sentence) {
+  public CompiledWordResponse compile(String sentence) {
     Pattern pattern = Pattern.compile("^(-?[0-9]+\\.?[0-9]*)(.*)");
     Matcher matcher = pattern.matcher(sentence);
     if(matcher.matches()) {
       Operator op = new LiteralNumberOperator();
       Object opInfo = Integer.parseInt(matcher.group(1));
-      CompiledWord compiledWord = new CompiledWord(op, opInfo, matcher.group(2));
+      CompiledWordResponse compiledWord = new CompiledWordResponse(op, opInfo, matcher.group(2));
       return compiledWord;
     }
       return null;

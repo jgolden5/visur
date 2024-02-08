@@ -15,16 +15,15 @@ public class CommandCompileService {
     int i = 0;
     compileLoop:
     while(currentSentence != "") {
+      CompiledWordResponse compiledWord;
       switch (i) {
         case 0:
           LiteralNumberWord literalNumberWord = new LiteralNumberWord();
-          CompiledWord compiledWord = literalNumberWord.toOperator();
+          compiledWord = literalNumberWord.compile(currentSentence);
           break;
         case 1:
-          pattern = Pattern.compile("(\"[^\"]*\")(.*)");
-          matcher = getMatcher(pattern, currentSentence);
-          opInfo = matcher.group(1);
-          op = LiteralStringWord.make().toOperator();
+          LiteralStringWord literalStringWord = new LiteralStringWord();
+          compiledWord = literalStringWord.compile(currentSentence);
           break;
         case 2:
           pattern = Pattern.compile("(->*[^\s]+)(.*)");
