@@ -42,17 +42,14 @@ public class StringVisurVar implements VisurVar {
       if(v == null) {
         val = String.valueOf(null);
       }
-      case String s -> {
-        val = s;
+      if(v instanceof String) {
+        val = (String)v;
       }
-      case Integer i -> {
-        val = String.valueOf(i);
+      if(v instanceof Integer || v instanceof Boolean) {
+        val = String.valueOf(v);
+      } else {
+        throw new IllegalStateException("Unexpected value: " + v);
       }
-      case Boolean b -> {
-        val = String.valueOf(b);
-      }
-      default -> throw new IllegalStateException("Unexpected value: " + v);
-    }
   }
 
 }
