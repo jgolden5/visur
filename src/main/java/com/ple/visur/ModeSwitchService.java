@@ -22,16 +22,16 @@ public class ModeSwitchService implements OperatorService {
     if(args.length > 0) {
       throw new RuntimeException("input was of length " + args.length + ". Length should have been 0.");
     }
-    switch(operator) {
-      case enterEditingMode:
-        enterEditingMode();
-        break;
-      case enterInsertMode:
-        enterInsertMode();
-        break;
-      default:
-        ems.reportError("Operator not recognized in " + this.getClass().getSimpleName());
-    }
+//    switch(operator) {
+//      case enterEditingMode:
+//        enterEditingMode();
+//        break;
+//      case enterInsertMode:
+//        enterInsertMode();
+//        break;
+//      default:
+//        ems.reportError("Operator not recognized in " + this.getClass().getSimpleName());
+//    }
 
   }
 

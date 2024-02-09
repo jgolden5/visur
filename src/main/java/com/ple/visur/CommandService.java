@@ -7,31 +7,31 @@ public class CommandService {
   }
 
   public void handleSentence() {
-    EditorModelService ems = ServiceHolder.editorModelService;
-    String commandStateContent = ems.getCommandStateContent();
-    String[] sentence = commandStateContent.split(" ");
-    for(String word : sentence) {
-      if(word.contains("=")) {
-        String[] assignmentArray = word.split("=");
-        String key = assignmentArray[0];
-        String val = assignmentArray[1];
-        if(isValidVarToAssign(key, val)) {
-          VisurVar visurVar = ems.getGlobalVar(key);
-          visurVar.put(val);
-        } else {
-          ems.reportError("assignment variable " + key + " = " + val + " in command state is not valid");
-        }
-      } else {
-        if(isValidOperator(word)) {
-          Operator wordOperator = Operator.valueOf(word);
-          OperatorToService operatorToService = OperatorToService.make();
-          OperatorService operatorService = operatorToService.get(wordOperator);
-          operatorService.execute(wordOperator);
-        } else {
-          ems.reportError("operator in command state is not valid");
-        }
-      }
-    }
+//    EditorModelService ems = ServiceHolder.editorModelService;
+//    String commandStateContent = ems.getCommandStateContent();
+//    String[] sentence = commandStateContent.split(" ");
+//    for(String word : sentence) {
+//      if(word.contains("=")) {
+//        String[] assignmentArray = word.split("=");
+//        String key = assignmentArray[0];
+//        String val = assignmentArray[1];
+//        if(isValidVarToAssign(key, val)) {
+//          VisurVar visurVar = ems.getGlobalVar(key);
+//          visurVar.put(val);
+//        } else {
+//          ems.reportError("assignment variable " + key + " = " + val + " in command state is not valid");
+//        }
+//      } else {
+//        if(isValidOperator(word)) {
+//          Operator wordOperator = Operator.valueOf(word);
+//          OperatorToService operatorToService = OperatorToService.make();
+//          OperatorService operatorService = operatorToService.get(wordOperator);
+//          operatorService.execute(wordOperator);
+//        } else {
+//          ems.reportError("operator in command state is not valid");
+//        }
+//      }
+//    }
   }
 
   private boolean isValidVarToAssign(String key, String val) {
@@ -59,16 +59,6 @@ public class CommandService {
         ems.reportError("value type not recognized for command assignment");
     }
     return keyIsValid && valIsValid;
-  }
-
-  private boolean isValidOperator(String opToTest) {
-    boolean opIsValid = false;
-    for(Operator op : Operator.values()) {
-      if(op.name().equals(opToTest)) {
-        opIsValid = true;
-      }
-    }
-    return opIsValid;
   }
 
 }

@@ -129,34 +129,34 @@ public class CursorMovementService implements OperatorService {
     if(args.length > 0) {
       throw new RuntimeException("input was of length " + args.length + ". Length should have been 0.");
     }
-    switch(operator) {
-      case cursorLeft:
-        cursorLeft();
-        break;
-      case cursorRight:
-        cursorRight();
-        break;
-      case cursorUp:
-        cursorUp();
-        break;
-      case cursorDown:
-        cursorDown();
-        break;
-      case moveCursorToBeginningOfNextWord:
-        moveCursorToBeginningOfNextWord();
-        break;
-      case moveCursorToBeginningOfCurrentLine:
-        moveCursorToBeginningOfCurrentLine();
-        break;
-      case moveCursorToEndOfCurrentLine:
-        moveCursorToEndOfCurrentLine();
-        break;
-      case moveCursorToFirstNonSpaceInCurrentLine:
-        moveCursorToFirstNonSpaceInCurrentLine();
-        break;
-      default:
-        ems.reportError("Operator not recognized in " + this.getClass().getSimpleName());
-    }
+//    switch(operator) {
+//      case cursorLeft:
+//        cursorLeft();
+//        break;
+//      case cursorRight:
+//        cursorRight();
+//        break;
+//      case cursorUp:
+//        cursorUp();
+//        break;
+//      case cursorDown:
+//        cursorDown();
+//        break;
+//      case moveCursorToBeginningOfNextWord:
+//        moveCursorToBeginningOfNextWord();
+//        break;
+//      case moveCursorToBeginningOfCurrentLine:
+//        moveCursorToBeginningOfCurrentLine();
+//        break;
+//      case moveCursorToEndOfCurrentLine:
+//        moveCursorToEndOfCurrentLine();
+//        break;
+//      case moveCursorToFirstNonSpaceInCurrentLine:
+//        moveCursorToFirstNonSpaceInCurrentLine();
+//        break;
+//      default:
+//        ems.reportError("Operator not recognized in " + this.getClass().getSimpleName());
+//    }
   }
 
 }

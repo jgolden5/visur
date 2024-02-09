@@ -91,19 +91,19 @@ public class InsertCharService implements OperatorService {
 
   @Override
   public void execute(Operator operator, Object... args) {
-    switch(operator) {
-      case insertChar:
-        insertChar((KeyPressed)args[0]);
-        break;
-      case insertNewLine:
-        insertNewLine();
-        break;
-      case deleteCurrentChar:
-        deleteCurrentChar();
-        break;
-      default:
-        ems.reportError("Operator not recognized");
-    }
+//    switch(operator) {
+//      case insertChar:
+//        insertChar((KeyPressed)args[0]);
+//        break;
+//      case insertNewLine:
+//        insertNewLine();
+//        break;
+//      case deleteCurrentChar:
+//        deleteCurrentChar();
+//        break;
+//      default:
+//        ems.reportError("Operator not recognized");
+//    }
 
   }
 
