@@ -18,7 +18,7 @@ public class CommandCompileService {
       LiteralNumberWord literalNumberWord = new LiteralNumberWord();
       LiteralStringWord literalStringWord = new LiteralStringWord();
       AssignmentWord assignmentWord = new AssignmentWord();
-      NativeOperatorWord nativeOperatorWord = new NativeOperatorWord();
+      NativeOperatorWord nativeOperatorWord = new NativeOperatorWord("");
       RecallWord recallWord = new RecallWord();
       Word[] words = new Word[] {
         literalNumberWord, literalStringWord, assignmentWord, nativeOperatorWord, recallWord
@@ -33,16 +33,5 @@ public class CommandCompileService {
     return command;
   }
 
-  private Matcher getMatcher(Pattern pattern, String currentSentence) {
-  }
-
-  private boolean varExistsInEditorModel(String varName) {
-    for(EditorModelKey k : EditorModelKey.values()) {
-      if(k.getClass().getSimpleName().equals(varName)) {
-        return true;
-      }
-    }
-    return false;
-  }
 
 }

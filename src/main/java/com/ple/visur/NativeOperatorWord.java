@@ -11,14 +11,15 @@ public class NativeOperatorWord implements Word {
   }
 
   @Override
-  public Operator toOperator() {
-    Operator op = null;
+  public CompiledWordResponse compile(String sentence) {
+    CompiledWordResponse cwr;
+    Operator op;
     switch(opSource) {
       case "absoluteMove":
         op = new AbsoluteMoveOperator();
       default:
         System.out.println("operator " + opSource + " not recognized.");
     }
-    return op;
+    return null;
   }
 }

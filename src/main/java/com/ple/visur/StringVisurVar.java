@@ -39,8 +39,7 @@ public class StringVisurVar implements VisurVar {
 
   @Override
   public void put(Object v) {
-    switch(v) {
-      case null -> {
+      if(v == null) {
         val = String.valueOf(null);
       }
       case String s -> {
