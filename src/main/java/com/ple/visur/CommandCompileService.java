@@ -26,7 +26,9 @@ public class CommandCompileService {
 
       for(Word word : words) {
         compiledWordResponse = word.compile(currentSentence);
-        currentSentence = compiledWordResponse.remainingSentence;
+        if(compiledWordResponse != null) {
+          currentSentence = compiledWordResponse.remainingSentence;
+        }
       }
 
     }
