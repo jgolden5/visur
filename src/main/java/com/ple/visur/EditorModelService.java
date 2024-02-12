@@ -97,13 +97,8 @@ public class EditorModelService {
     return (int)editorModel.get(commandCursor);
   }
 
-  private Stack<Object> getExecutionStateStack() {
-    ExecutionData es = getExecutionState();
-    return es.stack;
-  }
-
-  public ExecutionData getExecutionState() {
-    return (ExecutionData)editorModel.get(executionState);
+  public ExecutionData getExecutionData() {
+    return (ExecutionData)editorModel.get(executionData);
   }
 
   public SimpleQuantum getQuantum() {
@@ -217,14 +212,15 @@ public class EditorModelService {
     editorModel.put(commandCursor, x);
   }
 
-  public void putExecutionStateStack(ExecutionData stack) {
-    editorModel.put(executionState, stack);
+  public void putExecutionDataStack(ExecutionData stack) {
+    editorModel.put(executionData, stack);
   }
 
-  public void putOnExecutionStateStack(Object element) {
-    Stack<Object> newExecutionStateStack = getExecutionStateStack();
-    newExecutionStateStack.push(element);
-    editorModel.put(executionState, newExecutionStateStack); //this line may not be necessary?
+  public void putOnExecutionDataStack(Object element) {
+    ExecutionData newExecutionData = getExecutionData();
+    newExecutionData.stack.push(element);
+
+    editorModel.put(executionData, newExecutionData); //this line may not be necessary?
   }
 
   public void putQuantum(SimpleQuantum q) {

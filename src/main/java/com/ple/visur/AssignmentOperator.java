@@ -9,7 +9,7 @@ public class AssignmentOperator implements Operator {
   @Override
   public void execute(Object opInfo) {
     EditorModelService ems = ServiceHolder.editorModelService;
-    ExecutionData es = ems.getExecutionState();
+    ExecutionData es = ems.getExecutionData();
     Object topElementFromStack = es.stack.pop();
     VariableMap gvm = ems.getGlobalVariableMap();
     VisurVar globalVar = gvm.get((String)opInfo);

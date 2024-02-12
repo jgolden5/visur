@@ -20,5 +20,5 @@ public enum EditorModelKey {
   virtualX,
   virtualXIsAtEndOfLine,
   quantum,
-  executionState,
+  executionData,
 }
