@@ -8,10 +8,8 @@ public class RecallOperator implements Operator {
   @Override
   public void execute(Object opInfo) {
     EditorModelService ems = ServiceHolder.editorModelService;
-    VariableMap gvm = ems.getGlobalVariableMap();
-    VisurVar globalVar = gvm.get((String)opInfo);
-    ExecutionData es = ems.getExecutionData();
-    es.stack.push(globalVar.getInt());
+    VisurVar globalVar = ems.getGlobalVar((String)opInfo);
+    ems.putOnExecutionDataStack(globalVar.getInt());
   }
 
 }

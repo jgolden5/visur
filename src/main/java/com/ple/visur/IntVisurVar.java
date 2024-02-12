@@ -5,6 +5,9 @@ public class IntVisurVar implements VisurVar {
   public IntVisurVar(int val) {
     this.val = val;
   }
+  public IntVisurVar() {
+    this.val = val;
+  }
 
   @Override
   public String getString() {
