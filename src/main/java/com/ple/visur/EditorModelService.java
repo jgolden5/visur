@@ -3,8 +3,6 @@ package com.ple.visur;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
-import java.util.Stack;
-
 import static com.ple.visur.EditorModelKey.*;
 
 public class EditorModelService {
@@ -97,8 +95,8 @@ public class EditorModelService {
     return (int)editorModel.get(commandCursor);
   }
 
-  public ExecutionData getExecutionData() {
-    return (ExecutionData)editorModel.get(executionData);
+  public ExecutionDataStack getExecutionData() {
+    return (ExecutionDataStack)editorModel.get(executionData);
   }
 
   public SimpleQuantum getQuantum() {
@@ -212,13 +210,13 @@ public class EditorModelService {
     editorModel.put(commandCursor, x);
   }
 
-  public void putExecutionDataStack(ExecutionData stack) {
+  public void putExecutionDataStack(ExecutionDataStack stack) {
     editorModel.put(executionData, stack);
   }
 
   public void putOnExecutionDataStack(Object element) {
-    ExecutionData executionData = getExecutionData();
-    executionData.stack.push(element);
+    ExecutionDataStack executionData = getExecutionData();
+    executionData.push(element);
 
     editorModel.put(EditorModelKey.executionData, executionData);
   }

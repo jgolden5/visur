@@ -17,6 +17,9 @@ public class NativeOperatorWord implements Word {
         case "absoluteMove":
           op = new AbsoluteMoveOperator();
           break;
+        case "+":
+          op = new AddOperator();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }
