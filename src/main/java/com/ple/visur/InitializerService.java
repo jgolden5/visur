@@ -88,7 +88,7 @@ public class InitializerService {
 //      scs.compile("-1 ->dx relativeMove")
 //    );
     keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}),
-      scs.compile("1 ->contentX 2 ->contentY")
+      scs.compile("contentX 1 + ->contentX contentX contentY absoluteMove")
     );
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
