@@ -31,7 +31,7 @@ public class CommandExecutionService {
           RecallOperator.make().execute(currentOpInfo);
           break;
         default:
-          System.out.println();
+          currentOp.execute(currentOpInfo); //should be null
       }
     }
   }

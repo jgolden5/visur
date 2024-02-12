@@ -217,10 +217,10 @@ public class EditorModelService {
   }
 
   public void putOnExecutionDataStack(Object element) {
-    ExecutionData newExecutionData = getExecutionData();
-    newExecutionData.stack.push(element);
+    ExecutionData executionData = getExecutionData();
+    executionData.stack.push(element);
 
-    editorModel.put(executionData, newExecutionData); //this line may not be necessary?
+    editorModel.put(EditorModelKey.executionData, executionData); //this line may not be necessary?
   }
 
   public void putQuantum(SimpleQuantum q) {

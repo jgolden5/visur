@@ -11,7 +11,7 @@ public class RecallOperator implements Operator {
     VariableMap gvm = ems.getGlobalVariableMap();
     VisurVar globalVar = gvm.get((String)opInfo);
     ExecutionData es = ems.getExecutionData();
-    es.stack.push(globalVar);
+    es.stack.push(globalVar.getInt());
   }
 
 }

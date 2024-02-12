@@ -45,7 +45,9 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
         //get the command stored in the keymap under keybuffer's key
         VisurCommand currentCommand = keymap.get(currentKeyBuffer);
         CommandExecutionService ces = ServiceHolder.commandExecutionService.make();
-        ces.execute(currentCommand);
+        if(currentCommand != null) {
+          ces.execute(currentCommand);
+        }
 
         matchPossible = currentKeyBuffer.matchPrefix();
       }
