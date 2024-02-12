@@ -21,13 +21,19 @@ public class CommandCompileService {
       literalNumberWord, literalStringWord, assignmentWord, nativeOperatorWord, recallWord
     };
 
+    compileLoop:
     while(currentSentence != "") {
       CompiledWordResponse compiledWordResponse;
       for(Word word : words) {
         compiledWordResponse = word.compile(currentSentence);
         if(compiledWordResponse != null) {
+          command.ops.add(compiledWordResponse.op);
+          command.opInfo.add(compiledWordResponse.opInfo);
           currentSentence = compiledWordResponse.remainingSentence.stripLeading();
           break;
+        }
+        if(word.getClass().getSimpleName().equals("RecallWord")) {
+          break compileLoop;
         }
       }
 

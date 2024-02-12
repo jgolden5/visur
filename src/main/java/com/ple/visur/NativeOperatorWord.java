@@ -9,8 +9,8 @@ public class NativeOperatorWord implements Word {
   public CompiledWordResponse compile(String sentence) {
     Pattern pattern = Pattern.compile("([^\\s]+)(.*)");
     Matcher matcher = pattern.matcher(sentence);
-    String opSource = matcher.group(1);
     if(matcher.matches()) {
+      String opSource = matcher.group(1);
       CompiledWordResponse cwr;
       Operator op = null;
       switch (opSource) {
