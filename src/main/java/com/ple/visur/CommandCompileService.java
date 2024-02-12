@@ -12,22 +12,22 @@ public class CommandCompileService {
     VisurCommand command = new VisurCommand(sentence);
     String currentSentence = sentence;
 
+    LiteralNumberWord literalNumberWord = new LiteralNumberWord();
+    LiteralStringWord literalStringWord = new LiteralStringWord();
+    AssignmentWord assignmentWord = new AssignmentWord();
+    NativeOperatorWord nativeOperatorWord = new NativeOperatorWord();
+    RecallWord recallWord = new RecallWord();
+    Word[] words = new Word[] {
+      literalNumberWord, literalStringWord, assignmentWord, nativeOperatorWord, recallWord
+    };
+
     while(currentSentence != "") {
       CompiledWordResponse compiledWordResponse;
-
-      LiteralNumberWord literalNumberWord = new LiteralNumberWord();
-      LiteralStringWord literalStringWord = new LiteralStringWord();
-      AssignmentWord assignmentWord = new AssignmentWord();
-      NativeOperatorWord nativeOperatorWord = new NativeOperatorWord("");
-      RecallWord recallWord = new RecallWord();
-      Word[] words = new Word[] {
-        literalNumberWord, literalStringWord, assignmentWord, nativeOperatorWord, recallWord
-      };
-
       for(Word word : words) {
         compiledWordResponse = word.compile(currentSentence);
         if(compiledWordResponse != null) {
-          currentSentence = compiledWordResponse.remainingSentence;
+          currentSentence = compiledWordResponse.remainingSentence.stripLeading();
+          break;
         }
       }
 

@@ -5,26 +5,26 @@ import java.util.regex.Pattern;
 
 public class NativeOperatorWord implements Word {
 
-  String opSource;
-
-  public NativeOperatorWord(String opSource) {
-    this.opSource = opSource;
-  }
-
   @Override
   public CompiledWordResponse compile(String sentence) {
     Pattern pattern = Pattern.compile("([^\\s]+)(.*)");
     Matcher matcher = pattern.matcher(sentence);
+    String opSource = matcher.group(1);
     if(matcher.matches()) {
       CompiledWordResponse cwr;
       Operator op = null;
       switch (opSource) {
         case "absoluteMove":
           op = new AbsoluteMoveOperator();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }
-      cwr = new CompiledWordResponse(op, null, matcher.group(2));
+      if(op != null) {
+        cwr = new CompiledWordResponse(op, null, matcher.group(2));
+      } else {
+        cwr = null;
+      }
       return cwr;
     } else {
       return null;
