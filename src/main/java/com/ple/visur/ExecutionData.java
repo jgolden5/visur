@@ -4,6 +4,6 @@ import io.vertx.core.shareddata.Shareable;
 
 import java.util.Stack;
 
-public class ExecutionState implements Shareable {
+public class ExecutionData implements Shareable {
   Stack<Object> stack = new Stack<>();
 }

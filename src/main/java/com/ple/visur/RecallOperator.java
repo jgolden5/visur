@@ -10,7 +10,7 @@ public class RecallOperator implements Operator {
     EditorModelService ems = ServiceHolder.editorModelService;
     VariableMap gvm = ems.getGlobalVariableMap();
     VisurVar globalVar = gvm.get((String)opInfo);
-    ExecutionState es = ems.getExecutionState();
+    ExecutionData es = ems.getExecutionState();
     es.stack.push(globalVar);
   }
 
