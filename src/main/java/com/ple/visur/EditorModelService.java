@@ -220,7 +220,7 @@ public class EditorModelService {
     ExecutionData executionData = getExecutionData();
     executionData.stack.push(element);
 
-    editorModel.put(EditorModelKey.executionData, executionData); //this line may not be necessary?
+    editorModel.put(EditorModelKey.executionData, executionData);
   }
 
   public void putQuantum(SimpleQuantum q) {
