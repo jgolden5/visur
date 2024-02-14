@@ -17,6 +17,9 @@ public class NativeOperatorWord implements Word {
         case "absoluteMove":
           op = new AbsoluteMoveOperator();
           break;
+        case "relativeMove":
+          op = new RelativeMoveOperator();
+          break;
         case "+":
           op = new AddOperator();
           break;
