@@ -1,33 +1,38 @@
 package com.ple.visur;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SimpleQuantum implements Quantum {
+  Pattern pattern;
 
-  String type;
-
-  public SimpleQuantum(String type) {
-    this.type = type;
+  public SimpleQuantum(String regexSource) {
+    pattern = Pattern.compile(regexSource);
   }
 
   @Override
   public int[] getBoundaries() {
     int[] bounds = new int[2];
-    EditorModelService ems = ServiceHolder.editorModelService;
-    int contentX = ems.getGlobalVar("contentX").getInt();
-    switch(type) {
-      case "character":
-        bounds[0] = contentX;
-        bounds[1] = contentX + 1;
-      default:
-        ems.reportError("Quantum not recognized");
-    }
+    //get bounds
     return bounds;
   }
 
   @Override
   public CursorPosition move(CursorPosition pos, String[] contentLines, MovementVector m) {
-    switch(type) {
+    CursorPosition endingCursorPosition;
+    EditorModelService ems = ServiceHolder.editorModelService;
+    String currentLine = ems.getCurrentContentLine();
+    Matcher matcher = pattern.matcher(currentLine);
+    boolean xShouldIncrement = m.dx > 0;
+    boolean yShouldIncrement = m.dy > 0;
+    if(xShouldIncrement) {
+
+    } else {
 
     }
-    return null;
+    if(matcher.find()) {
+      int x = matcher.start();
+    }
+    return endingCursorPosition;
   }
 }

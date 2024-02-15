@@ -12,6 +12,8 @@ public class RelativeMoveOperator implements Operator {
     int contentY = ems.getGlobalVar("contentY").getInt();
     CursorPosition cursorPosition = new CursorPosition(contentX, contentY);
     MovementVector movementVector = new MovementVector(dx, dy);
-    q.move(cursorPosition, ems.getEditorContentLines(), movementVector);
+    CursorPosition newCursorPosition = q.move(cursorPosition, ems.getEditorContentLines(), movementVector);
+    ems.putGlobalVar("contentX", new IntVisurVar(newCursorPosition.x));
+    ems.putGlobalVar("contentY", new IntVisurVar(newCursorPosition.y));
   }
 }
