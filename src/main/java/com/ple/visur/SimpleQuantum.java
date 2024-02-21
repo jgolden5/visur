@@ -34,7 +34,7 @@ public class SimpleQuantum implements Quantum {
       if(xShouldIncrement) {
         regex = ".{" + absDx + "}(.)"; //.{2}(.)
       } else {
-        regex = "(.{" + absDx + "}$)"; //(.){2}.$
+        regex = "(.{" + absDx + "}$)"; //(.{2}.$)
       }
       Pattern pattern = Pattern.compile(regex);
       Matcher matcher = pattern.matcher(portionOfLineToSearch);

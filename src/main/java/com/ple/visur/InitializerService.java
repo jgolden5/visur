@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import static com.ple.visur.EditorMode.editing;
 import static com.ple.visur.EditorModelKey.globalVariableMap;
+import static com.ple.visur.EditorModelKey.quantumMap;
 
 public class InitializerService {
 
@@ -29,7 +30,6 @@ public class InitializerService {
     ems.putEditorMode(editing);
     ems.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
     ems.putExecutionDataStack(new ExecutionDataStack());
-    ems.putQuantum(new SimpleQuantum("character"));
     final String initialContentLines = "Hello world" +
       "\nHow are you?" +
       "\nGoodbye";
@@ -43,12 +43,21 @@ public class InitializerService {
     ems.putCommandStateContent("");
     ems.putCommandCursor(ems.getCommandStateContent().length());
 
+    initializeQuantums();
+
     initializeKeymaps();
 
     initializeHandlers();
 
     OperatorToService opToService = OperatorToService.make();
     ems.putOperatorToService(opToService);
+  }
+
+  private void initializeQuantums() {
+    QuantumMap qm = new QuantumMap();
+    qm.put("character", new SimpleQuantum("."));
+    ems.putQuantumMap(qm);
+    ems.putCurrentQuantum(ems.getQuantumMap().get("character"));
   }
 
   private void initializeHandlers() {
@@ -106,6 +115,5 @@ public class InitializerService {
 //    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Backspace")}), Operator.deleteCurrentChar);
     return keyToOperator;
   }
-
 
 }

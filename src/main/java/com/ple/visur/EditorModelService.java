@@ -103,7 +103,7 @@ public class EditorModelService {
     return (QuantumMap)editorModel.get(quantumMap);
   }
 
-  public SimpleQuantum getQuantum() {
+  public SimpleQuantum getCurrentQuantum() {
     return (SimpleQuantum)editorModel.get(quantum);
   }
 
@@ -229,7 +229,7 @@ public class EditorModelService {
     editorModel.put(quantumMap, qm);
   }
 
-  public void putQuantum(SimpleQuantum q) {
+  public void putCurrentQuantum(Quantum q) {
     editorModel.put(quantum, q);
   }
 
