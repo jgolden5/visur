@@ -4,5 +4,5 @@ import io.vertx.core.shareddata.Shareable;
 
 public interface Quantum extends Shareable {
   int[] getBoundaries();
-  CursorPosition move(String regex, String[] contentLines, CursorPosition pos, MovementVector m);
+  CursorPosition move(String[] contentLines, CursorPosition pos, MovementVector m);
 }
