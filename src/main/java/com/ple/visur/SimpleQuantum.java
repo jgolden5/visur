@@ -18,21 +18,36 @@ public class SimpleQuantum implements Quantum {
   }
 
   @Override
-  public CursorPosition move(CursorPosition pos, String[] contentLines, MovementVector m) {
-    CursorPosition endingCursorPosition = pos;
-    EditorModelService ems = ServiceHolder.editorModelService;
-    String currentLine = ems.getCurrentContentLine();
-    Matcher matcher = pattern.matcher(currentLine);
-    boolean xShouldIncrement = m.dx > 0;
-    boolean yShouldIncrement = m.dy > 0;
-    if(xShouldIncrement) {
-
-    } else {
-
+  public CursorPosition move(String regex, String[] contentLines, CursorPosition pos, MovementVector m) {
+    CursorPosition endingPos = pos;
+    String line = "abcdef";
+    boolean xShouldDecrement = m.dx < 0 && pos.x > 0;
+    boolean xShouldIncrement = m.dx > 0 && pos.x < line.length();
+    if(xShouldIncrement || xShouldDecrement) {
+      String portionOfLineToSearch;
+      if(xShouldIncrement) {
+        portionOfLineToSearch = line.substring(pos.x);
+      } else {
+        portionOfLineToSearch = line.substring(0, pos.x);
+      }
+      int absDx = (m.dx > 0) ? m.dx : -m.dx;
+      if(xShouldIncrement) {
+        regex = ".{" + absDx + "}(.)"; //.{2}(.)
+      } else {
+        regex = "(.{" + absDx + "}$)"; //(.){2}.$
+      }
+      Pattern pattern = Pattern.compile(regex);
+      Matcher matcher = pattern.matcher(portionOfLineToSearch);
+      if(matcher.find()) {
+        if(xShouldIncrement) {
+          endingPos.x = pos.x + matcher.start(1);
+        } else {
+          endingPos.x = matcher.start(1);
+        }
+      } else if(xShouldIncrement) {
+        endingPos.x = line.length();
+      }
     }
-    if(matcher.find()) {
-      int x = matcher.start();
-    }
-    return endingCursorPosition;
+    return endingPos;
   }
 }
