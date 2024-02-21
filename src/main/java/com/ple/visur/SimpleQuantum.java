@@ -19,7 +19,7 @@ public class SimpleQuantum implements Quantum {
 
   @Override
   public CursorPosition move(CursorPosition pos, String[] contentLines, MovementVector m) {
-    CursorPosition endingCursorPosition;
+    CursorPosition endingCursorPosition = pos;
     EditorModelService ems = ServiceHolder.editorModelService;
     String currentLine = ems.getCurrentContentLine();
     Matcher matcher = pattern.matcher(currentLine);
