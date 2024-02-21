@@ -99,6 +99,10 @@ public class EditorModelService {
     return (ExecutionDataStack)editorModel.get(executionData);
   }
 
+  public QuantumMap getQuantumMap() {
+    return (QuantumMap)editorModel.get(quantumMap);
+  }
+
   public SimpleQuantum getQuantum() {
     return (SimpleQuantum)editorModel.get(quantum);
   }
@@ -219,6 +223,10 @@ public class EditorModelService {
     executionData.push(element);
 
     editorModel.put(EditorModelKey.executionData, executionData);
+  }
+
+  public void putQuantumMap(QuantumMap qm) {
+    editorModel.put(quantumMap, qm);
   }
 
   public void putQuantum(SimpleQuantum q) {
