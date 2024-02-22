@@ -23,7 +23,7 @@ public class InitializerService {
     VariableMap initialGvm = new VariableMap(new HashMap<>());
     ems.editorModel.put(globalVariableMap, initialGvm);
     VariableMap gvm = (VariableMap)ems.editorModel.get(globalVariableMap);
-    gvm.put("contentX", new IntVisurVar(0));
+    gvm.put("contentX", new IntVisurVar(5));
     gvm.put("contentY", new IntVisurVar(0));
     ems.putVirtualX(0);
     ems.putVirtualXIsAtEndOfLine(false);
@@ -55,9 +55,17 @@ public class InitializerService {
 
   private void initializeQuantums() {
     QuantumMap qm = new QuantumMap();
+    String startingQuantumName = "word";
     qm.put("character", new SimpleQuantum("."));
+    qm.put("word", new SimpleQuantum("\\S+"));
     ems.putQuantumMap(qm);
-    ems.putCurrentQuantum(ems.getQuantumMap().get("character"));
+    ems.putCurrentQuantum(ems.getQuantumMap().get(startingQuantumName));
+    String[] contentLines = ems.getEditorContentLines();
+    int contentX = ems.getGlobalVar("contentX").getInt();
+    int contentY = ems.getGlobalVar("contentY").getInt();
+    int bounds[] = ems.getQuantumMap().get(startingQuantumName).getBoundaries(contentLines, contentX, contentY);
+    ems.putQuantumStart(bounds[0]);
+    ems.putQuantumEnd(bounds[1]);
   }
 
   private void initializeHandlers() {

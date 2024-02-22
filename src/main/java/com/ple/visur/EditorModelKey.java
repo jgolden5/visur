@@ -22,4 +22,6 @@ public enum EditorModelKey {
   quantum,
   executionData,
   quantumMap,
+  quantumStart,
+  quantumEnd,
 }

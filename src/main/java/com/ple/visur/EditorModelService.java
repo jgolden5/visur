@@ -107,6 +107,14 @@ public class EditorModelService {
     return (SimpleQuantum)editorModel.get(quantum);
   }
 
+  public int getQuantumStart() {
+    return (int)editorModel.get(quantumStart);
+  }
+
+  public int getQuantumEnd() {
+    return (int)editorModel.get(quantumEnd);
+  }
+
 // add/improve getters and setters for:
 // Operator, KeyPressed, (not sure: KeysToVisurCommand, OperatorService)
 
@@ -235,6 +243,14 @@ public class EditorModelService {
 
   public void reportError(String message) {
     System.out.println(message);
+  }
+
+  public void putQuantumStart(int startBound) {
+    editorModel.put(quantumStart, startBound);
+  }
+
+  public void putQuantumEnd(int endBound) {
+    editorModel.put(quantumEnd, endBound);
   }
 
 }
