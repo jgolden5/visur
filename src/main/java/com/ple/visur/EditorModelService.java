@@ -95,7 +95,7 @@ public class EditorModelService {
     return (int)editorModel.get(commandCursor);
   }
 
-  public ExecutionDataStack getExecutionData() {
+  public ExecutionDataStack getExecutionDataStack() {
     return (ExecutionDataStack)editorModel.get(executionData);
   }
 
@@ -227,7 +227,7 @@ public class EditorModelService {
   }
 
   public void putOnExecutionDataStack(Object element) {
-    ExecutionDataStack executionData = getExecutionData();
+    ExecutionDataStack executionData = getExecutionDataStack();
     executionData.push(element);
 
     editorModel.put(EditorModelKey.executionData, executionData);
