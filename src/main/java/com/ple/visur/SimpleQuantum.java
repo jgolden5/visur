@@ -13,22 +13,35 @@ public class SimpleQuantum implements Quantum {
   @Override
   public int[] getBoundaries(String[] contentLines, int contentX, int contentY) {
     String currentContentLine = contentLines[contentY];
-    int[] bounds = new int[]{contentX, currentContentLine.length()};
-    boolean keepGoing = true;
-    while(keepGoing) {
+    boolean lowerBoundFound = false; //check for lowerBound first
+    boolean upperBoundFound = false; //if lowerBoundFound, check for upperBound
+    int[] bounds = new int[]{contentX, contentX};
+    while(!(lowerBoundFound && upperBoundFound)) {
+      if(bounds[0] == 0) {
+        lowerBoundFound = true;
+      }
+      if(bounds[1] == currentContentLine.length()) {
+        upperBoundFound = true;
+      }
+      if(lowerBoundFound) {
+        if(!upperBoundFound) {
+          bounds[1]++;
+        } else {
+          break;
+        }
+      } else {
+        bounds[0]--;
+      }
       String strToMatch = currentContentLine.substring(bounds[0], bounds[1]);
       Matcher matcher = pattern.matcher(strToMatch);
-      if(matcher.matches()) {
-        if(bounds[0] > 0) {
-          bounds[0]--;
+      if(!matcher.matches()) {
+        if(!lowerBoundFound) {
+          lowerBoundFound = true;
+          bounds[0]++;
         } else {
-          keepGoing = false;
+          upperBoundFound = true;
+          bounds[1]--;
         }
-      } else if(matcher.find()) {
-        bounds[0] = matcher.start() + contentX;
-        bounds[1] = matcher.end() + contentX;
-      } else {
-        keepGoing = false;
       }
     }
     return bounds;
