@@ -49,12 +49,33 @@ public class SimpleQuantum implements Quantum {
 
   @Override
   public CursorPosition move(String[] contentLines, CursorPosition startingPos, MovementVector mv, int[] quantumBounds) {
-    CursorPosition endingPos = null;
+    CursorPosition destination = startingPos;
     String currentLine = contentLines[startingPos.y];
-    int currentSearchIndex = quantumBounds[1];
-    Matcher matcher = pattern.matcher(currentLine);
-//    while(!matcher.matches())
-    return endingPos;
+    destination.x = quantumBounds[1];
+    while(true) {
+      if(destination.x + mv.dx > currentLine.length() || destination.x + mv.dx < 0) {
+        if(mv.dx > 0) {
+          if (destination.y < contentLines.length - 1) {
+            destination.y++;
+            destination.x = 0;
+          }
+        } else {
+          if(destination.y > 0) {
+            destination.y--;
+            destination.x = contentLines[destination.y].length();
+          }
+        }
+        break;
+      }
+      String strToMatch = currentLine.substring(destination.x, destination.x + 1);
+      Matcher matcher = pattern.matcher(strToMatch);
+      if(matcher.matches()) {
+        break;
+      } else {
+        destination.x += mv.dx;
+      }
+    }
+    return destination;
   }
 
 }
