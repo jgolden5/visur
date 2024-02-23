@@ -48,25 +48,11 @@ public class SimpleQuantum implements Quantum {
   }
 
   @Override
-  public CursorPosition move(String[] contentLines, CursorPosition startingPos, MovementVector mv) {
-    EditorModelService ems = ServiceHolder.editorModelService;
-    int contentY = ems.getGlobalVar("contentY").getInt();
-    CursorPosition endingPos = startingPos;
-    String strToMatch = contentLines[contentY];
-    int[] bounds = new int[]{ems.getQuantumStart(), ems.getQuantumEnd()};
-    if(bounds != null) {
-      System.out.println("start bound = " + bounds[0]);
-      System.out.println("end bound = " + bounds[1]);
-    } else {
-      System.out.println("bounds = null");
-    }
-    //comments prevent potential infinite loop for stable commit
-//    while(!strToMatch.equals("")) {
-//      Matcher matcher = pattern.matcher(strToMatch);
-//      if(matcher.matches()) {
-//        strToMatch.substring(matcher.start());
-//      }
-//    }
+  public CursorPosition move(String[] contentLines, MovementVector mv, int[] quantumBounds) {
+    CursorPosition endingPos = null;
+    int startingX = quantumBounds[1];
+    //search for pattern after startingX
     return endingPos;
   }
+
 }
