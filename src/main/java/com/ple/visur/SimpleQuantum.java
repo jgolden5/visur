@@ -52,6 +52,8 @@ public class SimpleQuantum implements Quantum {
     CursorPosition destination = startingPos;
     String currentLine = contentLines[startingPos.y];
     destination.x = quantumBounds[1];
+    boolean shouldMoveLeft;
+    boolean shouldMoveRight;
     while(true) {
       if(destination.x + mv.dx > currentLine.length() || destination.x + mv.dx < 0) {
         if(mv.dx > 0) {
