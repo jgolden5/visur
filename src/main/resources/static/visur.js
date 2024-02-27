@@ -75,7 +75,10 @@ eb.onopen = function() {
     height: (canvas.height - canvasYOffset) / cellHeight + 1
   };
   eb.send("canvasWasChanged", JSON.stringify(canvasInfo))
-  eb.send("modelWasChanged", null)
+  setTimeout(() => {
+    eb.send("modelWasChanged", null)
+    console.log("model was changed event sent")
+  }, 50)
 }
 
 function sendKeyPressedEvent(keyPressed) {
