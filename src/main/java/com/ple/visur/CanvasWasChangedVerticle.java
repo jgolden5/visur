@@ -22,7 +22,7 @@ public class CanvasWasChangedVerticle extends AbstractVisurVerticle {
       System.out.println("Line " + lineNumber + ": " + line);
       lineNumber++;
     }
-    vertx.eventBus().send("canvasWasChangedEventComplete", "true");
+    vertx.eventBus().send(BusEvent.canvasWasChangedEventComplete.name(), "true");
   }
 
 }

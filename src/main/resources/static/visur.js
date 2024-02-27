@@ -74,11 +74,13 @@ eb.onopen = function() {
     width: (canvas.width - canvasXOffset) / cellWidth + 1,
     height: (canvas.height - canvasYOffset) / cellHeight + 1
   };
-  eb.send("canvasWasChanged", JSON.stringify(canvasInfo))
-  setTimeout(() => {
+  /*canvasWasChangedEventComplete ensures that canvasWasChanged gets called before modelWasChanged so that
+  getCanvasWidth is not called before putCanvasWidth */
+  eb.registerHandler("canvasWasChangedEventComplete", (error, message) => {
+    console.log("canvasWasChangedEventComplete message: " + JSON.stringify(message));
     eb.send("modelWasChanged", null)
-    console.log("model was changed event sent")
-  }, 50)
+  });
+  eb.send("canvasWasChanged", JSON.stringify(canvasInfo));
 }
 
 function sendKeyPressedEvent(keyPressed) {

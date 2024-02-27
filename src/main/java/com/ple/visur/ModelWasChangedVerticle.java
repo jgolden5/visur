@@ -17,7 +17,6 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
   }
 
   public void handleChange(Message<Object> event) {
-    System.out.println("Model Changed event was received");
     if(view == null) {
       view = new View();
       view.contentLineX = 0;

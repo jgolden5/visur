@@ -43,6 +43,7 @@ public class MainVerticle extends AbstractVerticle {
       .addInboundPermitted(new PermittedOptions().setAddress(BusEvent.keyWasPressed.name()))
       .addInboundPermitted(new PermittedOptions().setAddress(BusEvent.canvasWasChanged.name()))
       .addInboundPermitted(new PermittedOptions().setAddress(BusEvent.modelWasChanged.name()))
+      .addOutboundPermitted(new PermittedOptions().setAddress(BusEvent.canvasWasChangedEventComplete.name()))
       .addOutboundPermitted(new PermittedOptions().setAddress(BusEvent.viewWasChanged.name()));
 
     router.get("/static/*").handler(this::staticHandler);
