@@ -76,8 +76,8 @@ eb.onopen = function() {
   };
   /*canvasWasChangedEventComplete ensures that canvasWasChanged gets called before modelWasChanged so that
   getCanvasWidth is not called before putCanvasWidth */
-  eb.registerHandler("canvasWasChangedEventComplete", (error, message) => {
-    console.log("canvasWasChangedEventComplete message: " + JSON.stringify(message));
+  eb.registerHandler("modelWasChanged", (error, message) => {
+    console.log("modelWasChanged message: " + JSON.stringify(message));
     eb.send("modelWasChanged", null)
   });
   eb.send("canvasWasChanged", JSON.stringify(canvasInfo));
