@@ -13,8 +13,8 @@ public class RelativeMoveOperator implements Operator {
     int contentX = ems.getGlobalVar("contentX").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
     CursorPosition pos = new CursorPosition(contentX, contentY);
-    int[] quantumBounds = currentQuantum.getBoundaries(contentLines, contentX, contentY);
-    CursorPosition newCursorPosition = currentQuantum.move(contentLines, pos, movementVector, quantumBounds);
+    int[] bounds = currentQuantum.getBoundaries(contentLines, contentX, contentY);
+    CursorPosition newCursorPosition = currentQuantum.move(contentLines, pos, movementVector, bounds);
     ems.putGlobalVar("contentX", new IntVisurVar(newCursorPosition.x));
     ems.putGlobalVar("contentY", new IntVisurVar(newCursorPosition.y));
   }

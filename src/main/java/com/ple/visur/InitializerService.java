@@ -29,13 +29,13 @@ public class InitializerService {
     ems.putEditorMode(editing);
     ems.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
     ems.putExecutionDataStack(new ExecutionDataStack());
-//    final String initialContentLines = "Hello world" +
-//      "\nHow are you?" +
-//      "\nGoodbye";
-    final String initialContentLines = "Qazlal Stormbringer is a violent god of tempests, who delights in unleashing the forces of nature against the unsuspecting." +
-      "\nThose who invite Qazlal's gaze will find themselves the eye in a storm of elemental destruction, from which only their god can protect them." +
-      "\nPious worshippers of Qazlal will gain the ability to direct and control the destructive might of the storm." +
-      "\nFollowers of Qazlal are protected from the clouds they create.";
+    final String initialContentLines = "Hello world" +
+      "\nHow are you?" +
+      "\nGoodbye";
+//    final String initialContentLines = "Qazlal Stormbringer is a violent god of tempests, who delights in unleashing the forces of nature against the unsuspecting." +
+//      "\nThose who invite Qazlal's gaze will find themselves the eye in a storm of elemental destruction, from which only their god can protect them." +
+//      "\nPious worshippers of Qazlal will gain the ability to direct and control the destructive might of the storm." +
+//      "\nFollowers of Qazlal are protected from the clouds they create.";
     ems.putEditorContentLines(initialContentLines.split("\n"));
 
     ems.putIsInCommandState(false);
