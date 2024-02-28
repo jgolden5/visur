@@ -11,11 +11,11 @@ public class SimpleQuantum implements Quantum {
   }
 
   @Override
-  public int[] getBoundaries(String[] contentLines, int contentX, int contentY) {
-    String currentContentLine = contentLines[contentY];
+  public int[] getBoundaries(String[] contentLines, int x, int y) {
+    String currentContentLine = contentLines[y];
     boolean lowerBoundFound = false; //check for lowerBound first
     boolean upperBoundFound = false; //if lowerBoundFound, check for upperBound
-    int[] bounds = new int[]{contentX, contentX};
+    int[] bounds = new int[]{x, x};
     while(!(lowerBoundFound && upperBoundFound)) {
       if(bounds[0] == 0) {
         lowerBoundFound = true;
@@ -53,21 +53,22 @@ public class SimpleQuantum implements Quantum {
     CursorPosition destination = startingPos;
     int iterator = currentMv.dx > 0 ? 1 : -1;
     while(currentMv.dx != 0 || currentMv.dy != 0) {
-      destination.x = bounds[1];
+      destination.x = currentMv.dx > 0 ? bounds[1] : bounds[0];
       String currentLine = contentLines[destination.y];
       boolean keepGoing = !contentBoundsReached(currentMv.dx, destination.x, destination.y, contentLines);
       boolean matchFound;
       while(keepGoing) {
-        String strToMatch = getStrToMatch(currentMv.dx, destination.x, destination.y, contentLines, false);
-        matchFound = matchFound(strToMatch);
-        if(!matchFound) {
-          if(currentLineBoundsReached(currentMv.dx, destination.x, currentLine)) {
-            destination = getDestinationOnFollowingLine(currentMv.dx, destination.y, contentLines, destination);
-          } else {
-            destination.x++;
-          }
+        if(currentLineBoundsReached(currentMv.dx, destination.x, currentLine)) {
+          destination = getDestinationOnFollowingLine(currentMv.dx, destination.y, contentLines, destination);
         }
-        keepGoing = !matchFound && !contentBoundsReached(currentMv.dx, destination.x, destination.y, contentLines);
+        String strToMatch = getStrToMatch(currentMv.dx, destination.x, destination.y, contentLines);
+        matchFound = matchFound(strToMatch);
+        if(!matchFound && !contentBoundsReached(currentMv.dx, destination.x, destination.y, contentLines)) {
+          destination.x++;
+          keepGoing = true;
+        } else {
+          keepGoing = false;
+        }
       }
       currentMv.dx -= iterator;
     }
@@ -99,23 +100,26 @@ public class SimpleQuantum implements Quantum {
     return matcher.matches();
   }
 
-  private String getStrToMatch(int dx, int x, int y, String[] contentLines, boolean calledRecursively) {
+  private String getStrToMatch(int dx, int x, int y, String[] contentLines) {
     String currentLine = contentLines[y];
     if(dx == 0 || contentBoundsReached(dx, x, y, contentLines)) {
       return "";
     } else if(dx > 0) {
-      if(currentLineBoundsReached(dx, x, currentLine) && !calledRecursively) {
-        return getStrToMatch(dx - 1, 0, y + 1, contentLines, true);
-      } else {
-        return currentLine.substring(x, x + 1);
-      }
+      return currentLine.substring(x, x + 1);
     } else { //dx < 0
-      if(currentLineBoundsReached(dx, x, currentLine) && !calledRecursively) {
-        String previousLine = contentLines[y - 1];
-        return getStrToMatch(dx + 1, previousLine.length(), y - 1, contentLines, true);
-      } else {
-        return currentLine.substring(x, x + 1);
-      }
+      return currentLine.substring(x - 1, x);
+    }
+  }
+
+  private String getFollowingLine(int dx, int y, String[] contentLines) {
+    /* note that contentBounds are guaranteed NOT to have been reached yet at
+    this point, therefore y can be incremented/decremented without problems */
+    if(dx > 0) {
+      return contentLines[y + 1];
+    } else if(dx < 0) {
+      return contentLines[y - 1];
+    } else {
+      return "";
     }
   }
 
@@ -126,7 +130,9 @@ public class SimpleQuantum implements Quantum {
       newDestination.x = 0;
     } else if(dx < 0) {
       newDestination.y--;
-      newDestination.x = contentLines[newDestination.y].length();
+      int endOfPreviousLine = contentLines[newDestination.y].length();
+      int[] bounds = getBoundaries(contentLines, endOfPreviousLine, newDestination.y);
+      newDestination.x = bounds[0];
     }
     return newDestination;
   }
