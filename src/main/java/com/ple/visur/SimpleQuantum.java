@@ -55,24 +55,27 @@ public class SimpleQuantum implements Quantum {
     while(currentMv.dx != 0 || currentMv.dy != 0) {
       destination.x = currentMv.dx > 0 ? bounds[1] : bounds[0];
       String currentLine = contentLines[destination.y];
-      boolean keepGoing = !contentBoundsReached(currentMv.dx, destination.x, destination.y, contentLines);
+      boolean startingXIsOutOfBounds = contentBoundsReached(currentMv.dx, destination.x, destination.y, contentLines);
+      boolean keepGoing = !startingXIsOutOfBounds;
       boolean matchFound;
-      while(keepGoing) {
-        if(currentLineBoundsReached(currentMv.dx, destination.x, currentLine)) {
-          destination = getDestinationOnFollowingLine(currentMv.dx, destination.y, contentLines, destination);
+      if (!startingXIsOutOfBounds) {
+        while (keepGoing) {
+          if (currentLineBoundsReached(currentMv.dx, destination.x, currentLine)) {
+            destination = getDestinationOnFollowingLine(currentMv.dx, destination.y, contentLines, destination);
+          }
+          String strToMatch = getStrToMatch(currentMv.dx, destination.x, destination.y, contentLines);
+          matchFound = matchFound(strToMatch);
+          if (!matchFound && !contentBoundsReached(currentMv.dx, destination.x, destination.y, contentLines)) {
+            destination.x += iterator;
+          } else {
+            keepGoing = false;
+          }
         }
-        String strToMatch = getStrToMatch(currentMv.dx, destination.x, destination.y, contentLines);
-        matchFound = matchFound(strToMatch);
-        if(!matchFound && !contentBoundsReached(currentMv.dx, destination.x, destination.y, contentLines)) {
-          destination.x += iterator;
-        } else {
-          keepGoing = false;
-        }
+        int[] newBounds = getBoundaries(contentLines, destination.x, destination.y);
+        destination.x = newBounds[0];
       }
       currentMv.dx -= iterator;
     }
-    int[] newBounds = getBoundaries(contentLines, destination.x, destination.y);
-    destination.x = newBounds[0];
     return destination;
   }
 
