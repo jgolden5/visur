@@ -64,14 +64,15 @@ public class SimpleQuantum implements Quantum {
         String strToMatch = getStrToMatch(currentMv.dx, destination.x, destination.y, contentLines);
         matchFound = matchFound(strToMatch);
         if(!matchFound && !contentBoundsReached(currentMv.dx, destination.x, destination.y, contentLines)) {
-          destination.x++;
-          keepGoing = true;
+          destination.x += iterator;
         } else {
           keepGoing = false;
         }
       }
       currentMv.dx -= iterator;
     }
+    int[] newBounds = getBoundaries(contentLines, destination.x, destination.y);
+    destination.x = newBounds[0];
     return destination;
   }
 
@@ -89,7 +90,7 @@ public class SimpleQuantum implements Quantum {
     if(dx > 0) {
       return x == contentLines[y].length() && y + 1 >= contentLines.length;
     } else if(dx < 0) {
-      return x == 0 && y - 1 <= 0;
+      return x == 0 && y - 1 < 0;
     } else {
       return true;
     }
@@ -132,7 +133,7 @@ public class SimpleQuantum implements Quantum {
       newDestination.y--;
       int endOfPreviousLine = contentLines[newDestination.y].length();
       int[] bounds = getBoundaries(contentLines, endOfPreviousLine, newDestination.y);
-      newDestination.x = bounds[0];
+      newDestination.x = endOfPreviousLine;
     }
     return newDestination;
   }
