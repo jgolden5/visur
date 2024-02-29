@@ -49,32 +49,31 @@ public class SimpleQuantum implements Quantum {
 
   @Override
   public CursorPosition move(String[] contentLines, CursorPosition startingPos, MovementVector mv, int[] bounds) {
-    MovementVector currentMv = mv;
     CursorPosition destination = startingPos;
-    int iterator = currentMv.dx > 0 ? 1 : -1;
-    while(currentMv.dx != 0 || currentMv.dy != 0) {
-      destination.x = currentMv.dx > 0 ? bounds[1] : bounds[0];
+    int iterator = mv.dx > 0 ? 1 : -1;
+    while(mv.dx != 0 || mv.dy != 0) {
+      destination.x = mv.dx > 0 ? bounds[1] : bounds[0];
       String currentLine = contentLines[destination.y];
-      boolean startingXIsOutOfBounds = contentBoundsReached(currentMv.dx, destination.x, destination.y, contentLines);
+      boolean startingXIsOutOfBounds = contentBoundsReached(mv.dx, destination.x, destination.y, contentLines);
       boolean keepGoing = !startingXIsOutOfBounds;
       boolean matchFound;
-      if (!startingXIsOutOfBounds) {
+      if(!startingXIsOutOfBounds) {
         while (keepGoing) {
-          if (currentLineBoundsReached(currentMv.dx, destination.x, currentLine)) {
-            destination = getDestinationOnFollowingLine(currentMv.dx, destination.y, contentLines, destination);
+          if (currentLineBoundsReached(mv.dx, destination.x, currentLine)) {
+            destination = getDestinationOnFollowingLine(mv.dx, destination.y, contentLines, destination);
           }
-          String strToMatch = getStrToMatch(currentMv.dx, destination.x, destination.y, contentLines);
+          String strToMatch = getStrToMatch(mv.dx, destination.x, destination.y, contentLines);
           matchFound = matchFound(strToMatch);
-          if (!matchFound && !contentBoundsReached(currentMv.dx, destination.x, destination.y, contentLines)) {
+          if (!matchFound && !contentBoundsReached(mv.dx, destination.x, destination.y, contentLines)) {
             destination.x += iterator;
           } else {
             keepGoing = false;
           }
         }
         int[] newBounds = getBoundaries(contentLines, destination.x, destination.y);
-        destination.x = newBounds[0];
+        bounds = newBounds;
       }
-      currentMv.dx -= iterator;
+      mv.dx -= iterator;
     }
     return destination;
   }
@@ -106,7 +105,7 @@ public class SimpleQuantum implements Quantum {
 
   private String getStrToMatch(int dx, int x, int y, String[] contentLines) {
     String currentLine = contentLines[y];
-    if(dx == 0 || contentBoundsReached(dx, x, y, contentLines)) {
+    if(contentBoundsReached(dx, x, y, contentLines)) {
       return "";
     } else if(dx > 0) {
       return currentLine.substring(x, x + 1);
