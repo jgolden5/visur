@@ -57,21 +57,22 @@ public class SimpleQuantum implements Quantum {
       boolean startingXIsOutOfBounds = contentBoundsReached(mv.dx, destination.x, destination.y, contentLines);
       boolean keepGoing = !startingXIsOutOfBounds;
       boolean matchFound;
-      if(!startingXIsOutOfBounds) {
-        while (keepGoing) {
-          if (currentLineBoundsReached(mv.dx, destination.x, currentLine)) {
-            destination = getDestinationOnFollowingLine(mv.dx, destination.y, contentLines, destination);
-          }
-          String strToMatch = getStrToMatch(mv.dx, destination.x, destination.y, contentLines);
-          matchFound = matchFound(strToMatch);
-          if (!matchFound && !contentBoundsReached(mv.dx, destination.x, destination.y, contentLines)) {
-            destination.x += iterator;
-          } else {
-            keepGoing = false;
-          }
+      while (keepGoing) {
+        if (currentLineBoundsReached(mv.dx, destination.x, currentLine)) {
+          destination = getDestinationOnFollowingLine(mv.dx, contentLines, destination);
         }
+        String strToMatch = getStrToMatch(mv.dx, destination.x, destination.y, contentLines);
+        matchFound = matchFound(strToMatch);
+        if (!matchFound && !contentBoundsReached(mv.dx, destination.x, destination.y, contentLines)) {
+          destination.x += iterator;
+        } else {
+          keepGoing = false;
+        }
+      }
+      if(!startingXIsOutOfBounds) {
         int[] newBounds = getBoundaries(contentLines, destination.x, destination.y);
         bounds = newBounds;
+        destination.x = bounds[0];
       }
       mv.dx -= iterator;
     }
@@ -126,7 +127,7 @@ public class SimpleQuantum implements Quantum {
     }
   }
 
-  private CursorPosition getDestinationOnFollowingLine(int dx, int y, String[] contentLines, CursorPosition prev) {
+  private CursorPosition getDestinationOnFollowingLine(int dx, String[] contentLines, CursorPosition prev) {
     CursorPosition newDestination = prev;
     if(dx > 0) {
       newDestination.y++;
@@ -134,7 +135,6 @@ public class SimpleQuantum implements Quantum {
     } else if(dx < 0) {
       newDestination.y--;
       int endOfPreviousLine = contentLines[newDestination.y].length();
-      int[] bounds = getBoundaries(contentLines, endOfPreviousLine, newDestination.y);
       newDestination.x = endOfPreviousLine;
     }
     return newDestination;
