@@ -7,10 +7,9 @@ public class ChangeQuantumOp implements Operator {
     EditorModelService ems = ServiceHolder.editorModelService;
     String quantumName = (String)ems.getExecutionDataStack().pop();
     Quantum targetQuantum = ems.getQuantumMap().get(quantumName);
-    String editorContent = ems.getEditorContent();
     int contentX = ems.getGlobalVar("contentX").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
-    int[] bounds = targetQuantum.getBoundaries(editorContent, contentX, contentY);
+    int[] bounds = targetQuantum.getBoundaries(ems.getEditorContent(), ems.getNewlineIndices(), contentX, contentY);
     ems.putQuantumStart(bounds[0]);
     ems.putQuantumEnd(bounds[1]);
   }

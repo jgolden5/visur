@@ -11,70 +11,55 @@ public class RegexQuantum implements Quantum {
   }
 
   @Override
-  public int[] getBoundaries(String contentLines, int[] newlineIndices, int x, int y) {
+  public int[] getBoundaries(String editorContent, int[] newlineIndices, int x, int y) {
     boolean lowerBoundFound = false; //check for lowerBound first
     boolean upperBoundFound = false; //if lowerBoundFound, check for upperBound
     int[] bounds = new int[]{x, x};
-    while(!(lowerBoundFound && upperBoundFound)) {
-      if(bounds[0] == 0) {
-        lowerBoundFound = true;
-      }
-      if(bounds[1] == currentContentLine.length()) {
-        upperBoundFound = true;
-      }
-      if(lowerBoundFound) {
-        if(!upperBoundFound) {
-          bounds[1]++;
-        } else {
-          break;
-        }
-      } else {
-        bounds[0]--;
-      }
-      String strToMatch = currentContentLine.substring(bounds[0], bounds[1]);
-      Matcher matcher = pattern.matcher(strToMatch);
-      if(!matcher.matches()) {
-        if(!lowerBoundFound) {
-          lowerBoundFound = true;
-          bounds[0]++;
-        } else {
-          upperBoundFound = true;
-          bounds[1]--;
-        }
-      }
-    }
+//    while(!(lowerBoundFound && upperBoundFound)) {
+//      String strToMatch = currentContentLine.substring(bounds[0], bounds[1]);
+//      Matcher matcher = pattern.matcher(strToMatch);
+//      if(!matcher.matches()) {
+//        if(!lowerBoundFound) {
+//          lowerBoundFound = true;
+//          bounds[0]++;
+//        } else {
+//          upperBoundFound = true;
+//          bounds[1]--;
+//        }
+//      }
+//    }
     return bounds;
   }
 
   @Override
-  public CursorPosition move(String contentLines, int[] newlineIndices, CursorPosition startingPos, MovementVector mv, int[] bounds) {
+  public CursorPosition move(String editorContent, int[] newlineIndices, CursorPosition startingPos, MovementVector mv, int[] bounds) {
     CursorPosition destination = startingPos;
-    int iterator = mv.dx > 0 ? 1 : -1;
-    while(mv.dx != 0 || mv.dy != 0) {
-      destination.x = mv.dx > 0 ? bounds[1] : bounds[0];
-      String currentLine = contentLines[destination.y];
-      boolean startingXIsOutOfBounds = contentBoundsReached(mv.dx, destination.x, destination.y, contentLines);
-      boolean keepGoing = !startingXIsOutOfBounds;
-      boolean matchFound;
-      while (keepGoing) {
-        if (currentLineBoundsReached(mv.dx, destination.x, currentLine)) {
-          destination = getDestinationOnFollowingLine(mv.dx, contentLines, destination);
-        }
-        String strToMatch = getStrToMatch(mv.dx, destination.x, destination.y, contentLines);
-        matchFound = matchFound(strToMatch);
-        if (!matchFound && !contentBoundsReached(mv.dx, destination.x, destination.y, contentLines)) {
-          destination.x += iterator;
-        } else {
-          keepGoing = false;
-        }
-      }
-      if(!startingXIsOutOfBounds) {
-        int[] newBounds = getBoundaries(contentLines, destination.x, destination.y);
-        bounds = newBounds;
-        destination.x = bounds[0];
-      }
-      mv.dx -= iterator;
-    }
+//    int iterator = mv.dx > 0 ? 1 : -1;
+//    while(mv.dx != 0 || mv.dy != 0) {
+//      destination.x = mv.dx > 0 ? bounds[1] : bounds[0];
+//      String currentLine = contentLines[destination.y];
+//      boolean startingXIsOutOfBounds = contentBoundsReached(mv.dx, destination.x, destination.y, contentLines);
+//      boolean keepGoing = !startingXIsOutOfBounds;
+//      boolean matchFound;
+//      while (keepGoing) {
+//        if (currentLineBoundsReached(mv.dx, destination.x, currentLine)) {
+//          destination = getDestinationOnFollowingLine(mv.dx, contentLines, destination);
+//        }
+//        String strToMatch = getStrToMatch(mv.dx, destination.x, destination.y, contentLines);
+//        matchFound = matchFound(strToMatch);
+//        if (!matchFound && !contentBoundsReached(mv.dx, destination.x, destination.y, contentLines)) {
+//          destination.x += iterator;
+//        } else {
+//          keepGoing = false;
+//        }
+//      }
+//      if(!startingXIsOutOfBounds) {
+//        int[] newBounds = getBoundaries(contentLines, destination.x, destination.y);
+//        bounds = newBounds;
+//        destination.x = bounds[0];
+//      }
+//      mv.dx -= iterator;
+//    }
     return destination;
   }
 

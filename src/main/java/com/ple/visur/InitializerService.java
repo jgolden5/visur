@@ -60,10 +60,9 @@ public class InitializerService {
     qm.put("word", new RegexQuantum("\\S+"));
     ems.putQuantumMap(qm);
     ems.putCurrentQuantum(ems.getQuantumMap().get(startingQuantumName));
-    String contentLines = ems.getEditorContent();
     int contentX = ems.getGlobalVar("contentX").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
-    int bounds[] = ems.getQuantumMap().get(startingQuantumName).getBoundaries(contentLines, contentX, contentY);
+    int bounds[] = ems.getQuantumMap().get(startingQuantumName).getBoundaries(ems.getEditorContent(), ems.getNewlineIndices(), contentX, contentY);
     ems.putQuantumStart(bounds[0]);
     ems.putQuantumEnd(bounds[1]);
     System.out.println("start bound = " + bounds[0]);

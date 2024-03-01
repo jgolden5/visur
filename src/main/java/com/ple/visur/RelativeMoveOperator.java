@@ -6,6 +6,7 @@ public class RelativeMoveOperator implements Operator {
     EditorModelService ems = ServiceHolder.editorModelService;
     ExecutionDataStack eds = ems.getExecutionDataStack();
     String editorContent = ems.getEditorContent();
+    int[] newlineIndices = ems.getNewlineIndices();
     int dy = (int)eds.pop();
     int dx = (int)eds.pop();
     Quantum currentQuantum = ems.getCurrentQuantum();
@@ -13,8 +14,8 @@ public class RelativeMoveOperator implements Operator {
     int contentX = ems.getGlobalVar("contentX").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
     CursorPosition pos = new CursorPosition(contentX, contentY);
-    int[] bounds = currentQuantum.getBoundaries(editorContent, contentX, contentY);
-    CursorPosition newCursorPosition = currentQuantum.move(editorContent, pos, movementVector, bounds);
+    int[] bounds = currentQuantum.getBoundaries(editorContent, newlineIndices, contentX, contentY);
+    CursorPosition newCursorPosition = currentQuantum.move(editorContent, newlineIndices, pos, movementVector, bounds);
     ems.putGlobalVar("contentX", new IntVisurVar(newCursorPosition.x));
     ems.putGlobalVar("contentY", new IntVisurVar(newCursorPosition.y));
   }
