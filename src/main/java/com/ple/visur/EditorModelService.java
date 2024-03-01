@@ -3,7 +3,6 @@ package com.ple.visur;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static com.ple.visur.EditorModelKey.*;
@@ -38,18 +37,18 @@ public class EditorModelService {
 
   public String getCurrentContentLine() {
     int contentY = getGlobalVar("contentY").getInt();
-    return getContentLineAtIndex(contentY);
+    return getContentLineAtY(contentY);
   }
 
-  public String getContentLineAtIndex(int index) {
+  public String getContentLineAtY(int y) {
     final String content = getEditorContent();
-    ArrayList<int> newlineIndices = getNewlineIndices();
+    ArrayList<Integer> newlineIndices = getNewlineIndices();
     final String currentContentLine;
-    if(index < newlineIndices.size()) {
-      if(index > 0) {
-        currentContentLine = content.substring(newlineIndices.get(index - 1) + 1, newlineIndices.get(index));
+    if(y < newlineIndices.size()) {
+      if(y > 0) {
+        currentContentLine = content.substring(newlineIndices.get(y - 1) + 1, newlineIndices.get(y));
       } else {
-        currentContentLine = content.substring(0, newlineIndices.get(index));
+        currentContentLine = content.substring(0, newlineIndices.get(y));
       }
     } else {
       currentContentLine = content.substring(newlineIndices.get(newlineIndices.size() - 1) + 1);
@@ -61,9 +60,9 @@ public class EditorModelService {
     return getCurrentContentLine().length();
   }
 
-  public ArrayList<int> getNewlineIndices() {
+  public ArrayList<Integer> getNewlineIndices() {
     String content = getEditorContent();
-    ArrayList<int> newlineIndices = new ArrayList<int>();
+    ArrayList<Integer> newlineIndices = new ArrayList<>();
     boolean keepGoing = true;
     while(keepGoing) {
       int indexOfNextNewline = content.indexOf("\n");
@@ -175,7 +174,7 @@ public class EditorModelService {
     int canvasY = 0;
     int contentY = getGlobalVar("contentY").getInt();
     for(int i = 0; i < contentY; i++) {
-      String currentIteratedLine = getContentLineAtIndex(i);
+      String currentIteratedLine = getContentLineAtY(i);
       canvasY += currentIteratedLine.length() / getCanvasWidth();
       if(currentIteratedLine.length() % getCanvasWidth() != 0 || currentIteratedLine.length() == 0) {
         canvasY++;

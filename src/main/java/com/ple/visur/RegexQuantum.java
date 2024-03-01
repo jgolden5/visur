@@ -1,5 +1,6 @@
 package com.ple.visur;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,7 +12,7 @@ public class RegexQuantum implements Quantum {
   }
 
   @Override
-  public int[] getBoundaries(String editorContent, int[] newlineIndices, int x, int y) {
+  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int x, int y) {
     boolean lowerBoundFound = false; //check for lowerBound first
     boolean upperBoundFound = false; //if lowerBoundFound, check for upperBound
     int[] bounds = new int[]{x, x};
@@ -32,7 +33,7 @@ public class RegexQuantum implements Quantum {
   }
 
   @Override
-  public CursorPosition move(String editorContent, int[] newlineIndices, CursorPosition startingPos, MovementVector mv, int[] bounds) {
+  public CursorPosition move(String editorContent, ArrayList<Integer> newlineIndices, CursorPosition startingPos, MovementVector mv, int[] bounds) {
     CursorPosition destination = startingPos;
 //    int iterator = mv.dx > 0 ? 1 : -1;
 //    while(mv.dx != 0 || mv.dy != 0) {

@@ -1,12 +1,14 @@
 package com.ple.visur;
 
+import java.util.ArrayList;
+
 public class RelativeMoveOperator implements Operator {
   @Override
   public void execute(Object opInfo) {
     EditorModelService ems = ServiceHolder.editorModelService;
     ExecutionDataStack eds = ems.getExecutionDataStack();
     String editorContent = ems.getEditorContent();
-    int[] newlineIndices = ems.getNewlineIndices();
+    ArrayList<Integer> newlineIndices = ems.getNewlineIndices();
     int dy = (int)eds.pop();
     int dx = (int)eds.pop();
     Quantum currentQuantum = ems.getCurrentQuantum();

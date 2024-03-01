@@ -1,5 +1,7 @@
 package com.ple.visur;
 
+import java.util.ArrayList;
+
 public class ChangeQuantumOp implements Operator {
 
   @Override

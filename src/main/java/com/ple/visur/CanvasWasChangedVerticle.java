@@ -3,6 +3,8 @@ package com.ple.visur;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava3.core.eventbus.Message;
 
+import java.util.ArrayList;
+
 public class CanvasWasChangedVerticle extends AbstractVisurVerticle {
 
   @Override
@@ -17,9 +19,9 @@ public class CanvasWasChangedVerticle extends AbstractVisurVerticle {
     ems.putCanvasWidth(width);
     final Integer height = canvasJson.getInteger("height");
     ems.putCanvasHeight(height);
-    int[] newlineIndices = ems.getNewlineIndices();
-    for(int i = 0; i <= newlineIndices.length; i++) {
-      String line = ems.getContentLineAtIndex(i);
+    ArrayList<Integer> newlineIndices = ems.getNewlineIndices();
+    for(int i = 0; i <= newlineIndices.size(); i++) {
+      String line = ems.getContentLineAtY(i);
       System.out.println("Line " + i + ": " + line);
     }
     vertx.eventBus().send(BusEvent.modelWasChanged.name(), "true");
