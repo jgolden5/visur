@@ -10,7 +10,7 @@ public class InsertCharService implements OperatorService {
   }
 
   private void insertChar(KeyPressed keyPressed) {
-    String currentLine = ems.getLineAtY(i);
+    String currentLine = ems.getCurrentContentLine();
     int contentX = contentXVisurVar.getInt();
     char charToInsert = keyPressed.getKey().charAt(0);
     String substrBeforeInsertedChar = currentLine.substring(0, contentX);
@@ -23,7 +23,7 @@ public class InsertCharService implements OperatorService {
   }
 
   private void deleteCurrentChar() {
-    String currentLine = ems.getLineAtY(i);
+    String currentLine = ems.getCurrentContentLine();
     int contentX = contentXVisurVar.getInt();
     int contentY = contentYVisurVar.getInt();
     if(contentX > 0) {
@@ -66,7 +66,7 @@ public class InsertCharService implements OperatorService {
     if(maxYBeforeFooter < ems.getCanvasHeight() - 2) {
       int contentX = contentXVisurVar.getInt();
       int contentY = contentYVisurVar.getInt();
-      String currentLine = ems.getLineAtY(i);
+      String currentLine = ems.getCurrentContentLine();
       String substrBeforeNewLine = currentLine.substring(0, contentX);
       String substrAtNewLine = currentLine.substring(contentX, ems.getCurrentContentLineLength());
       String[] oldEditorContentLines = ems.getEditorContent();

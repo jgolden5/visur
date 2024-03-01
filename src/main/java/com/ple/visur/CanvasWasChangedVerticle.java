@@ -17,10 +17,10 @@ public class CanvasWasChangedVerticle extends AbstractVisurVerticle {
     ems.putCanvasWidth(width);
     final Integer height = canvasJson.getInteger("height");
     ems.putCanvasHeight(height);
-    int lineNumber = 1;
-    for(String line : ems.getEditorContent()) {
-      System.out.println("Line " + lineNumber + ": " + line);
-      lineNumber++;
+    int[] newlineIndices = ems.getNewlineIndices();
+    for(int i = 0; i <= newlineIndices.length; i++) {
+      String line = ems.getContentLineAtIndex(i);
+      System.out.println("Line " + i + ": " + line);
     }
     vertx.eventBus().send(BusEvent.modelWasChanged.name(), "true");
   }
