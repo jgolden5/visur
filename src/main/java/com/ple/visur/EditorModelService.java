@@ -32,11 +32,25 @@ public class EditorModelService {
     return (VariableMap)editorModel.get(globalVariableMap);
   }
 
-  public int getCurrentContentLineLength() {
-    final String editorContentLines = getEditorContentLines();
+  public String getCurrentContentLine() {
+    final String content = getEditorContentLines();
     int contentY = getGlobalVar("contentY").getInt();
-    final String currentContentLine = editorContentLines[contentY];
-    return currentContentLine.length();
+    int[] newlineIndices = getNewlineIndices();
+    final String currentContentLine;
+    if(contentY < newlineIndices.length) {
+      if(contentY > 0) {
+        currentContentLine = content.substring(newlineIndices[contentY - 1] + 1, newlineIndices[contentY]);
+      } else {
+        currentContentLine = content.substring(0, newlineIndices[contentY]);
+      }
+    } else {
+      currentContentLine = content.substring(newlineIndices[newlineIndices.length - 1] + 1);
+    }
+    return currentContentLine;
+  }
+
+  public int getCurrentContentLineLength() {
+    return getCurrentContentLine().length();
   }
 
   public int[] getNewlineIndices() {
