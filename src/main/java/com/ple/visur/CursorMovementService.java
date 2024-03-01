@@ -60,7 +60,7 @@ public class CursorMovementService implements OperatorService {
   }
 
   public void moveCursorToBeginningOfNextWord() { //w
-    char currentChar = ems.getCurrentContentLine().charAt(contentXVisurVar.getInt());
+    char currentChar = ems.getLineAtY(i).charAt(contentXVisurVar.getInt());
     int i = 0;
     boolean currentCharShouldBeWord;
     while(i < 2) {
@@ -72,7 +72,7 @@ public class CursorMovementService implements OperatorService {
       while(contentXVisurVar.getInt() < ems.getCurrentContentLineLength() && isWordChar(currentChar) == currentCharShouldBeWord) {
         contentXVisurVar.put(contentXVisurVar.getInt() + 1);
         if(contentXVisurVar.getInt() < ems.getCurrentContentLineLength()) {
-          currentChar = ems.getCurrentContentLine().charAt(contentXVisurVar.getInt());
+          currentChar = ems.getLineAtY(i).charAt(contentXVisurVar.getInt());
         }
       }
       if(contentXVisurVar.getInt() >= ems.getCurrentContentLineLength()) {
@@ -103,7 +103,7 @@ public class CursorMovementService implements OperatorService {
     int firstNonSpaceIndex = -1;
     int currentLineLength = ems.getCurrentContentLineLength();
     for(int i = 0; i < currentLineLength; i++) {
-      if(ems.getCurrentContentLine().charAt(i) != ' ' && ems.getCurrentContentLine().charAt(i) != '\t') {
+      if(ems.getLineAtY(i).charAt(i) != ' ' && ems.getLineAtY(i).charAt(i) != '\t') {
         firstNonSpaceIndex = i;
         break;
       }

@@ -19,14 +19,14 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
   public void handleChange(Message<Object> event) {
     if(view == null) {
       view = new View();
-      view.contentLineX = 0;
-      view.contentLineY = 0;
+      view.contentX = 0;
+      view.contentY = 0;
     } else {
       EditorModelService ems = ServiceHolder.editorModelService;
-      view.contentLineX = ems.getGlobalVar("contentX").getInt();
-      view.contentLineY = ems.getGlobalVar("contentY").getInt();
+      view.contentX = ems.getGlobalVar("contentX").getInt();
+      view.contentY = ems.getGlobalVar("contentY").getInt();
     }
-    view.contentLines = ServiceHolder.editorModelService.getEditorContent();
+    view.editorContent = ServiceHolder.editorModelService.getEditorContent();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
   }
 
@@ -36,7 +36,7 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
     JsonObject output = new JsonObject();
     output.put("canvasX", ems.getCanvasX());
     output.put("canvasY", ems.getCanvasY());
-    output.put("contentLines", new JsonArray(Arrays.asList(view.contentLines)));
+    output.put("editorContent", ems.getEditorContent());
     output.put("editorMode", ems.getEditorMode());
     output.put("isInCommandState", ems.getIsInCommandState());
     output.put("commandStateContent", ems.getCommandStateContent());

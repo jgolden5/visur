@@ -32,16 +32,15 @@ public class EditorModelService {
     return (VariableMap)editorModel.get(globalVariableMap);
   }
 
-  public String getCurrentContentLine() {
+  public String getLineAtY(int y) {
     final String content = getEditorContent();
-    int contentY = getGlobalVar("contentY").getInt();
     int[] newlineIndices = getNewlineIndices();
     final String currentContentLine;
-    if(contentY < newlineIndices.length) {
-      if(contentY > 0) {
-        currentContentLine = content.substring(newlineIndices[contentY - 1] + 1, newlineIndices[contentY]);
+    if(y < newlineIndices.length) {
+      if(y > 0) {
+        currentContentLine = content.substring(newlineIndices[y - 1] + 1, newlineIndices[y]);
       } else {
-        currentContentLine = content.substring(0, newlineIndices[contentY]);
+        currentContentLine = content.substring(0, newlineIndices[y]);
       }
     } else {
       currentContentLine = content.substring(newlineIndices[newlineIndices.length - 1] + 1);
@@ -50,7 +49,7 @@ public class EditorModelService {
   }
 
   public int getCurrentContentLineLength() {
-    return getCurrentContentLine().length();
+    return getLineAtY(i).length();
   }
 
   public int[] getNewlineIndices() {
@@ -166,8 +165,9 @@ public class EditorModelService {
 
   private int calculateCanvasYBeforeCurrentLine() {
     int canvasY = 0;
-    for(int i = 0; i < getGlobalVar("contentY").getInt(); i++) {
-      String currentIteratedLine = getEditorContent()[i];
+    int contentY = getGlobalVar("contentY").getInt();
+    for(int i = 0; i < contentY; i++) {
+      String currentIteratedLine = getLineAtY(i);
       canvasY += currentIteratedLine.length() / getCanvasWidth();
       if(currentIteratedLine.length() % getCanvasWidth() != 0 || currentIteratedLine.length() == 0) {
         canvasY++;
