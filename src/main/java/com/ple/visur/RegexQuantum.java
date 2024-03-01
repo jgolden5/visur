@@ -3,16 +3,15 @@ package com.ple.visur;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SimpleQuantum implements Quantum {
+public class RegexQuantum implements Quantum {
   Pattern pattern;
 
-  public SimpleQuantum(String regexSource) {
+  public RegexQuantum(String regexSource) {
     pattern = Pattern.compile(regexSource);
   }
 
   @Override
-  public int[] getBoundaries(String[] contentLines, int x, int y) {
-    String currentContentLine = contentLines[y];
+  public int[] getBoundaries(String contentLines, int[] newlineIndices, int x, int y) {
     boolean lowerBoundFound = false; //check for lowerBound first
     boolean upperBoundFound = false; //if lowerBoundFound, check for upperBound
     int[] bounds = new int[]{x, x};
@@ -48,7 +47,7 @@ public class SimpleQuantum implements Quantum {
   }
 
   @Override
-  public CursorPosition move(String[] contentLines, CursorPosition startingPos, MovementVector mv, int[] bounds) {
+  public CursorPosition move(String contentLines, int[] newlineIndices, CursorPosition startingPos, MovementVector mv, int[] bounds) {
     CursorPosition destination = startingPos;
     int iterator = mv.dx > 0 ? 1 : -1;
     while(mv.dx != 0 || mv.dy != 0) {

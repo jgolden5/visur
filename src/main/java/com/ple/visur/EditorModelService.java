@@ -133,8 +133,8 @@ public class EditorModelService {
     return (QuantumMap)editorModel.get(quantumMap);
   }
 
-  public SimpleQuantum getCurrentQuantum() {
-    return (SimpleQuantum)editorModel.get(quantum);
+  public RegexQuantum getCurrentQuantum() {
+    return (RegexQuantum)editorModel.get(quantum);
   }
 
   public int getQuantumStart() {
