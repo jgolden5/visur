@@ -51,8 +51,8 @@ public class EditorModelService {
       } else {
         currentContentLine = content.substring(0, newlineIndices.get(y));
       }
-    } else if(content.length() > newlineIndices.get(lastNewlineIndex)) {
-      currentContentLine = content.substring(newlineIndices.get(lastNewlineIndex) + 1);
+    } else if(content.length() > lastNewlineIndex + 1) {
+      currentContentLine = content.substring(lastNewlineIndex + 1);
     } else {
       currentContentLine = null;
     }

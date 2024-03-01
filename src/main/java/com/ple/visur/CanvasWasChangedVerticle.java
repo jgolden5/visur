@@ -22,7 +22,9 @@ public class CanvasWasChangedVerticle extends AbstractVisurVerticle {
     ArrayList<Integer> newlineIndices = ems.getNewlineIndices();
     for(int i = 0; i <= newlineIndices.size(); i++) {
       String line = ems.getContentLineAtY(i);
-      System.out.println("Line " + i + ": " + line);
+      if(line != null) {
+        System.out.println("Line " + i + ": " + line);
+      }
     }
     vertx.eventBus().send(BusEvent.modelWasChanged.name(), "true");
   }
