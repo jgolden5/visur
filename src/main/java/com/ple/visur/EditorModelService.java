@@ -49,7 +49,8 @@ public class EditorModelService {
   }
 
   public int getCurrentContentLineLength() {
-    return getLineAtY(i).length();
+    int contentY = getGlobalVar("contentY").getInt();
+    return getLineAtY(contentY).length();
   }
 
   public int[] getNewlineIndices() {
