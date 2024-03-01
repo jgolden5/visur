@@ -44,14 +44,17 @@ public class EditorModelService {
     final String content = getEditorContent();
     ArrayList<Integer> newlineIndices = getNewlineIndices();
     final String currentContentLine;
+    int lastNewlineIndex = newlineIndices.get(newlineIndices.size() - 1);
     if(y < newlineIndices.size()) {
       if(y > 0) {
         currentContentLine = content.substring(newlineIndices.get(y - 1) + 1, newlineIndices.get(y));
       } else {
         currentContentLine = content.substring(0, newlineIndices.get(y));
       }
+    } else if(content.length() > newlineIndices.get(lastNewlineIndex)) {
+      currentContentLine = content.substring(newlineIndices.get(lastNewlineIndex) + 1);
     } else {
-      currentContentLine = content.substring(newlineIndices.get(newlineIndices.size() - 1) + 1);
+      currentContentLine = null;
     }
     return currentContentLine;
   }
@@ -64,11 +67,14 @@ public class EditorModelService {
     String content = getEditorContent();
     ArrayList<Integer> newlineIndices = new ArrayList<>();
     boolean keepGoing = true;
+    int fullStringIndex = 0;
     while(keepGoing) {
-      int indexOfNextNewline = content.indexOf("\n");
-      if(indexOfNextNewline != -1) {
-        newlineIndices.add(indexOfNextNewline);
-        content = content.substring(indexOfNextNewline + 1);
+      int substringIndex = content.indexOf("\n");
+      if(substringIndex != -1) {
+        fullStringIndex += substringIndex;
+        newlineIndices.add(fullStringIndex);
+        content = content.substring(substringIndex + 1);
+        fullStringIndex++; //because of newline char
       } else {
         keepGoing = false;
       }
