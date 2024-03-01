@@ -3,6 +3,9 @@ package com.ple.visur;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import static com.ple.visur.EditorModelKey.*;
 
 public class EditorModelService {
@@ -40,16 +43,16 @@ public class EditorModelService {
 
   public String getContentLineAtIndex(int index) {
     final String content = getEditorContent();
-    int[] newlineIndices = getNewlineIndices();
+    ArrayList<int> newlineIndices = getNewlineIndices();
     final String currentContentLine;
-    if(index < newlineIndices.length) {
+    if(index < newlineIndices.size()) {
       if(index > 0) {
-        currentContentLine = content.substring(newlineIndices[index - 1] + 1, newlineIndices[index]);
+        currentContentLine = content.substring(newlineIndices.get(index - 1) + 1, newlineIndices.get(index));
       } else {
-        currentContentLine = content.substring(0, newlineIndices[index]);
+        currentContentLine = content.substring(0, newlineIndices.get(index));
       }
     } else {
-      currentContentLine = content.substring(newlineIndices[newlineIndices.length - 1] + 1);
+      currentContentLine = content.substring(newlineIndices.get(newlineIndices.size() - 1) + 1);
     }
     return currentContentLine;
   }
@@ -58,19 +61,18 @@ public class EditorModelService {
     return getCurrentContentLine().length();
   }
 
-  public int[] getNewlineIndices() {
+  public ArrayList<int> getNewlineIndices() {
     String content = getEditorContent();
-    int[] newlineIndices = new int[]{};
+    ArrayList<int> newlineIndices = new ArrayList<int>();
     boolean keepGoing = true;
-    int i = 0;
     while(keepGoing) {
       int indexOfNextNewline = content.indexOf("\n");
       if(indexOfNextNewline != -1) {
-        newlineIndices[i] = indexOfNextNewline;
+        newlineIndices.add(indexOfNextNewline);
+        content = content.substring(indexOfNextNewline + 1);
       } else {
         keepGoing = false;
       }
-      i++;
     }
     return newlineIndices;
   }
