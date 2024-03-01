@@ -39,10 +39,21 @@ public class EditorModelService {
     return currentContentLine.length();
   }
 
-  public String getCurrentContentLine() {
-    String[] contentLines = getEditorContentLines();
-    int currentContentLineIndex = getGlobalVar("contentY").getInt();
-    return contentLines[currentContentLineIndex];
+  public int[] getNewlineIndices() {
+    String content = getEditorContentLines();
+    int[] newlineIndices = new int[]{};
+    boolean keepGoing = true;
+    int i = 0;
+    while(keepGoing) {
+      int indexOfNextNewline = content.indexOf("\n");
+      if(indexOfNextNewline != -1) {
+        newlineIndices[i] = indexOfNextNewline;
+      } else {
+        keepGoing = false;
+      }
+      i++;
+    }
+    return newlineIndices;
   }
 
   public int getVirtualX() {
