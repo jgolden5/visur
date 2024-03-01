@@ -29,15 +29,15 @@ public class InitializerService {
     ems.putEditorMode(editing);
     ems.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
     ems.putExecutionDataStack(new ExecutionDataStack());
-//    final String initialContentLines = "Hello world" +
-//      "\nHow are you?" +
-////      "\n" +
-//      "\nGoodbye";
-    final String initialContentLines = "Qazlal Stormbringer is a violent god of tempests, who delights in unleashing the forces of nature against the unsuspecting." +
-      "\nThose who invite Qazlal's gaze will find themselves the eye in a storm of elemental destruction, from which only their god can protect them." +
-      "\nPious worshippers of Qazlal will gain the ability to direct and control the destructive might of the storm." +
-      "\nFollowers of Qazlal are protected from the clouds they create.";
-    ems.putEditorContentLines(initialContentLines.split("\n"));
+//    final String initialContentLines = "Hello world\n" +
+//      "How are you?\n" +
+//      "\n" +
+//      "Goodbye\n";
+    final String initialContentLines = "Qazlal Stormbringer is a violent god of tempests, who delights in unleashing the forces of nature against the unsuspecting.\n" +
+      "Those who invite Qazlal's gaze will find themselves the eye in a storm of elemental destruction, from which only their god can protect them.\n" +
+      "Pious worshippers of Qazlal will gain the ability to direct and control the destructive might of the storm.\n" +
+      "Followers of Qazlal are protected from the clouds they create.\n";
+    ems.putEditorContentLines(initialContentLines);
 
     ems.putIsInCommandState(false);
     ems.putCommandStateContent("");
@@ -60,7 +60,7 @@ public class InitializerService {
     qm.put("word", new SimpleQuantum("\\S+"));
     ems.putQuantumMap(qm);
     ems.putCurrentQuantum(ems.getQuantumMap().get(startingQuantumName));
-    String[] contentLines = ems.getEditorContentLines();
+    String contentLines = ems.getEditorContentLines();
     int contentX = ems.getGlobalVar("contentX").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
     int bounds[] = ems.getQuantumMap().get(startingQuantumName).getBoundaries(contentLines, contentX, contentY);

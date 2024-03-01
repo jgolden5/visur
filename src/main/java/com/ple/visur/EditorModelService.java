@@ -18,9 +18,9 @@ public class EditorModelService {
   }
 
   //get contentLines variable using
-  public String[] getEditorContentLines() {
+  public String getEditorContentLines() {
     //typecasting is necessary because of the generic Object type of the value
-    return (String[])editorModel.get(editorContentLines);
+    return (String)editorModel.get(editorContentLines);
   }
 
   public VisurVar getGlobalVar(String varName) {
@@ -33,7 +33,7 @@ public class EditorModelService {
   }
 
   public int getCurrentContentLineLength() {
-    final String[] editorContentLines = getEditorContentLines();
+    final String editorContentLines = getEditorContentLines();
     int contentY = getGlobalVar("contentY").getInt();
     final String currentContentLine = editorContentLines[contentY];
     return currentContentLine.length();
@@ -163,7 +163,7 @@ public class EditorModelService {
     return canvasY;
   }
 
-  public void putEditorContentLines(String[] contentLines) {
+  public void putEditorContentLines(String contentLines) {
     editorModel.put(editorContentLines, contentLines);
   }
 
