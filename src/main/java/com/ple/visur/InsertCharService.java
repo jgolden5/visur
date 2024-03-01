@@ -16,9 +16,9 @@ public class InsertCharService implements OperatorService {
     String substrBeforeInsertedChar = currentLine.substring(0, contentX);
     String substrAfterInsertedChar = currentLine.substring(contentX, ems.getCurrentContentLineLength());
     currentLine = substrBeforeInsertedChar + charToInsert + substrAfterInsertedChar;
-    String[] editorContentLines = ems.getEditorContentLines();
+    String[] editorContentLines = ems.getEditorContent();
     editorContentLines[contentYVisurVar.getInt()] = currentLine;
-    ems.putEditorContentLines(editorContentLines);
+    ems.putEditorContent(editorContentLines);
     ServiceHolder.cursorMovementService.cursorRight();
   }
 
@@ -30,9 +30,9 @@ public class InsertCharService implements OperatorService {
       String substrBeforeDeletedChar = currentLine.substring(0, contentX - 1);
       String substrAfterDeletedChar = currentLine.substring(contentX, ems.getCurrentContentLineLength());
       currentLine = substrBeforeDeletedChar + substrAfterDeletedChar;
-      String[] editorContentLines = ems.getEditorContentLines();
+      String[] editorContentLines = ems.getEditorContent();
       editorContentLines[contentY] = currentLine;
-      ems.putEditorContentLines(editorContentLines);
+      ems.putEditorContent(editorContentLines);
       ServiceHolder.cursorMovementService.cursorLeft();
     } else {
       if(contentY > 0) {
@@ -42,7 +42,7 @@ public class InsertCharService implements OperatorService {
   }
 
   private void deleteToEndOfPreviousLine() {
-    String[] oldContentLines = ems.getEditorContentLines();
+    String[] oldContentLines = ems.getEditorContent();
     String[] newContentLines = new String[oldContentLines.length - 1];
     int contentY = contentYVisurVar.getInt();
     int newContentX = oldContentLines[contentY - 1].length();
@@ -58,19 +58,19 @@ public class InsertCharService implements OperatorService {
     contentXVisurVar.put(newContentX);
     ems.putVirtualX(newContentX);
     contentYVisurVar.put(contentY - 1);
-    ems.putEditorContentLines(newContentLines);
+    ems.putEditorContent(newContentLines);
   }
 
   private void insertNewLine() {
-    int maxYBeforeFooter = ems.getEditorContentLines().length - 1;
+    int maxYBeforeFooter = ems.getEditorContent().length - 1;
     if(maxYBeforeFooter < ems.getCanvasHeight() - 2) {
       int contentX = contentXVisurVar.getInt();
       int contentY = contentYVisurVar.getInt();
       String currentLine = ems.getCurrentContentLine();
       String substrBeforeNewLine = currentLine.substring(0, contentX);
       String substrAtNewLine = currentLine.substring(contentX, ems.getCurrentContentLineLength());
-      String[] oldEditorContentLines = ems.getEditorContentLines();
-      String[] newEditorContentLines = new String[ems.getEditorContentLines().length + 1];
+      String[] oldEditorContentLines = ems.getEditorContent();
+      String[] newEditorContentLines = new String[ems.getEditorContent().length + 1];
       for (int i = 0; i < oldEditorContentLines.length; i++) {
         if (i < contentY) {
           newEditorContentLines[i] = oldEditorContentLines[i];
@@ -85,7 +85,7 @@ public class InsertCharService implements OperatorService {
       contentXVisurVar.put(0);
       ems.putVirtualX(0);
       contentYVisurVar.put(contentY);
-      ems.putEditorContentLines(newEditorContentLines);
+      ems.putEditorContent(newEditorContentLines);
     }
   }
 

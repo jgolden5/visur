@@ -7,7 +7,7 @@ public enum EditorModelKey {
   commandStateContent,
   contentX,
   contentY,
-  editorContentLines,
+  editorContent,
   editorMode,
   globalVariableMap,
   isInCommandState,

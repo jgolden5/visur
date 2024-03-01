@@ -5,7 +5,7 @@ public class RelativeMoveOperator implements Operator {
   public void execute(Object opInfo) {
     EditorModelService ems = ServiceHolder.editorModelService;
     ExecutionDataStack eds = ems.getExecutionDataStack();
-    String[] contentLines = ems.getEditorContentLines();
+    String[] contentLines = ems.getEditorContent();
     int dy = (int)eds.pop();
     int dx = (int)eds.pop();
     Quantum currentQuantum = ems.getCurrentQuantum();

@@ -7,7 +7,7 @@ public class ChangeQuantum implements Operator {
     EditorModelService ems = ServiceHolder.editorModelService;
     String quantumName = (String)ems.getExecutionDataStack().pop();
     Quantum targetQuantum = ems.getQuantumMap().get(quantumName);
-    String[] contentLines = ems.getEditorContentLines();
+    String[] contentLines = ems.getEditorContent();
     int contentX = ems.getGlobalVar("contentX").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
     int[] bounds = targetQuantum.getBoundaries(contentLines, contentX, contentY);

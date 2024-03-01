@@ -31,10 +31,10 @@ public class CursorMovementService implements OperatorService {
 
   public void cursorDown() { //j
     final int contentY = contentYVisurVar.getInt();
-    boolean isAtBottomOfLine = contentY >= ems.getEditorContentLines().length - 1;
+    boolean isAtBottomOfLine = contentY >= ems.getEditorContent().length - 1;
     boolean isAtLineLimit = contentY >= ems.getCanvasHeight() - 2;
     if (!isAtBottomOfLine && !isAtLineLimit) {
-      String nextLine = ems.getEditorContentLines()[contentY + 1];
+      String nextLine = ems.getEditorContent()[contentY + 1];
       int nextLineLength = nextLine.length();
       contentYVisurVar.put(contentY + 1);
       if (nextLineLength - 1 < ems.getVirtualX() || ems.getVirtualXIsAtEndOfLine()) {
@@ -48,7 +48,7 @@ public class CursorMovementService implements OperatorService {
   public void cursorUp() { //k
     final int contentY = contentYVisurVar.getInt();
     if(contentY > 0) {
-      String previousLine = ems.getEditorContentLines()[contentY - 1];
+      String previousLine = ems.getEditorContent()[contentY - 1];
       int previousLineLength = previousLine.length();
       contentYVisurVar.put(contentY - 1);
       if(previousLineLength < ems.getVirtualX() || ems.getVirtualXIsAtEndOfLine()) {
@@ -76,7 +76,7 @@ public class CursorMovementService implements OperatorService {
         }
       }
       if(contentXVisurVar.getInt() >= ems.getCurrentContentLineLength()) {
-        if(contentYVisurVar.getInt() < ems.getEditorContentLines().length - 1) {
+        if(contentYVisurVar.getInt() < ems.getEditorContent().length - 1) {
           contentXVisurVar.put(0);
           contentYVisurVar.put(contentYVisurVar.getInt() + 1);
         } else {

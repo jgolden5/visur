@@ -37,7 +37,7 @@ public class InitializerService {
       "Those who invite Qazlal's gaze will find themselves the eye in a storm of elemental destruction, from which only their god can protect them.\n" +
       "Pious worshippers of Qazlal will gain the ability to direct and control the destructive might of the storm.\n" +
       "Followers of Qazlal are protected from the clouds they create.\n";
-    ems.putEditorContentLines(initialContentLines);
+    ems.putEditorContent(initialContentLines);
 
     ems.putIsInCommandState(false);
     ems.putCommandStateContent("");
@@ -60,7 +60,7 @@ public class InitializerService {
     qm.put("word", new SimpleQuantum("\\S+"));
     ems.putQuantumMap(qm);
     ems.putCurrentQuantum(ems.getQuantumMap().get(startingQuantumName));
-    String contentLines = ems.getEditorContentLines();
+    String contentLines = ems.getEditorContent();
     int contentX = ems.getGlobalVar("contentX").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
     int bounds[] = ems.getQuantumMap().get(startingQuantumName).getBoundaries(contentLines, contentX, contentY);

@@ -18,9 +18,9 @@ public class EditorModelService {
   }
 
   //get contentLines variable using
-  public String getEditorContentLines() {
+  public String getEditorContent() {
     //typecasting is necessary because of the generic Object type of the value
-    return (String)editorModel.get(editorContentLines);
+    return (String)editorModel.get(editorContent);
   }
 
   public VisurVar getGlobalVar(String varName) {
@@ -33,7 +33,7 @@ public class EditorModelService {
   }
 
   public String getCurrentContentLine() {
-    final String content = getEditorContentLines();
+    final String content = getEditorContent();
     int contentY = getGlobalVar("contentY").getInt();
     int[] newlineIndices = getNewlineIndices();
     final String currentContentLine;
@@ -54,7 +54,7 @@ public class EditorModelService {
   }
 
   public int[] getNewlineIndices() {
-    String content = getEditorContentLines();
+    String content = getEditorContent();
     int[] newlineIndices = new int[]{};
     boolean keepGoing = true;
     int i = 0;
@@ -167,7 +167,7 @@ public class EditorModelService {
   private int calculateCanvasYBeforeCurrentLine() {
     int canvasY = 0;
     for(int i = 0; i < getGlobalVar("contentY").getInt(); i++) {
-      String currentIteratedLine = getEditorContentLines()[i];
+      String currentIteratedLine = getEditorContent()[i];
       canvasY += currentIteratedLine.length() / getCanvasWidth();
       if(currentIteratedLine.length() % getCanvasWidth() != 0 || currentIteratedLine.length() == 0) {
         canvasY++;
@@ -188,8 +188,8 @@ public class EditorModelService {
     return canvasY;
   }
 
-  public void putEditorContentLines(String contentLines) {
-    editorModel.put(editorContentLines, contentLines);
+  public void putEditorContent(String contentLines) {
+    editorModel.put(editorContent, contentLines);
   }
 
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {

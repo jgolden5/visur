@@ -26,7 +26,7 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
       view.contentLineX = ems.getGlobalVar("contentX").getInt();
       view.contentLineY = ems.getGlobalVar("contentY").getInt();
     }
-    view.contentLines = ServiceHolder.editorModelService.getEditorContentLines();
+    view.contentLines = ServiceHolder.editorModelService.getEditorContent();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
   }
 
