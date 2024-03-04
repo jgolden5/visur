@@ -22,7 +22,7 @@ public class InitializerService {
     VariableMap initialGvm = new VariableMap(new HashMap<>());
     ems.editorModel.put(globalVariableMap, initialGvm);
     VariableMap gvm = (VariableMap)ems.editorModel.get(globalVariableMap);
-    gvm.put("contentX", new IntVisurVar(0));
+    gvm.put("contentX", new IntVisurVar(25));
     gvm.put("contentY", new IntVisurVar(0));
     ems.putVirtualX(0);
     ems.putVirtualXIsAtEndOfLine(false);

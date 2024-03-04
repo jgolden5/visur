@@ -16,19 +16,34 @@ public class RegexQuantum implements Quantum {
     boolean lowerBoundFound = false; //check for lowerBound first
     boolean upperBoundFound = false; //if lowerBoundFound, check for upperBound
     int[] bounds = new int[]{x, x};
-//    while(!(lowerBoundFound && upperBoundFound)) {
-//      String strToMatch = currentContentLine.substring(bounds[0], bounds[1]);
-//      Matcher matcher = pattern.matcher(strToMatch);
-//      if(!matcher.matches()) {
-//        if(!lowerBoundFound) {
-//          lowerBoundFound = true;
-//          bounds[0]++;
-//        } else {
-//          upperBoundFound = true;
-//          bounds[1]--;
-//        }
-//      }
-//    }
+    while(!(lowerBoundFound && upperBoundFound)) {
+      if(!lowerBoundFound) {
+        if(bounds[0] > 0) {
+          bounds[0]--;
+        } else {
+          lowerBoundFound = true;
+          continue;
+        }
+      } else {
+        if(bounds[1] < editorContent.length()) {
+          bounds[1]++;
+        } else {
+          upperBoundFound = true;
+          continue;
+        }
+      }
+      String strToMatch = editorContent.substring(bounds[0], bounds[1]);
+      Matcher matcher = pattern.matcher(strToMatch);
+      if(!matcher.matches()) {
+        if(!lowerBoundFound) {
+          lowerBoundFound = true;
+          bounds[0]++;
+        } else {
+          upperBoundFound = true;
+          bounds[1]--;
+        }
+      }
+    }
     return bounds;
   }
 
