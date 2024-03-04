@@ -22,7 +22,7 @@ public class InitializerService {
     VariableMap initialGvm = new VariableMap(new HashMap<>());
     ems.editorModel.put(globalVariableMap, initialGvm);
     VariableMap gvm = (VariableMap)ems.editorModel.get(globalVariableMap);
-    gvm.put("contentX", new IntVisurVar(12));
+    gvm.put("contentX", new IntVisurVar(25));
     gvm.put("contentY", new IntVisurVar(0));
     ems.putVirtualX(0);
     ems.putVirtualXIsAtEndOfLine(false);
@@ -31,7 +31,7 @@ public class InitializerService {
     ems.putExecutionDataStack(new ExecutionDataStack());
     final String initialEditorContent = "Hello world\n" +
       "How are you?\n" +
-      "Goodbye";
+      "Goodbye\n";
 //    final String initialEditorContent = "Qazlal Stormbringer is a violent god of tempests, who delights in unleashing the forces of nature against the unsuspecting.\n" +
 //      "Those who invite Qazlal's gaze will find themselves the eye in a storm of elemental destruction, from which only their god can protect them.\n" +
 //      "Pious worshippers of Qazlal will gain the ability to direct and control the destructive might of the storm.\n" +

@@ -72,7 +72,7 @@ public class RegexQuantum implements Quantum {
       }
       mv.dx -= iterator;
     }
-//    destination.y = getY(editorContent, newlineIndices, destination.x);
+    destination.y = getY(editorContent, newlineIndices, destination.x);
     System.out.println("destination x = " + destination.x);
     System.out.println("destination y = " + destination.y);
     return destination;
@@ -80,9 +80,9 @@ public class RegexQuantum implements Quantum {
 
   public boolean contentBoundsReached(int dx, int x, String contentLines) {
     if(dx > 0) {
-      return x == contentLines.length();
+      return x >= contentLines.length() - 1;
     } else if(dx < 0) {
-      return x == 0;
+      return x <= 0;
     } else {
       return true;
     }
@@ -101,6 +101,21 @@ public class RegexQuantum implements Quantum {
     } else { //dx < 0
       return contentLines.substring(x - 1, x);
     }
+  }
+
+  private int getY(String editorContent, ArrayList<Integer> newlineIndices, int x) { //eventually change to binary search
+    boolean yFound = false;
+    int y = 0;
+    boolean newlineCharIsAtEndOfLine = editorContent.charAt(editorContent.length() - 1) == '\n';
+    while(!yFound) {
+      if(x > newlineIndices.get(y) || y == newlineIndices.size() - 1 && !newlineCharIsAtEndOfLine) {
+        y++;
+      } else {
+        yFound = true;
+      }
+
+    }
+    return y;
   }
 
 }
