@@ -50,50 +50,39 @@ public class RegexQuantum implements Quantum {
   @Override
   public CursorPosition move(String editorContent, ArrayList<Integer> newlineIndices, CursorPosition startingPos, MovementVector mv, int[] bounds) {
     CursorPosition destination = startingPos;
-//    int iterator = mv.dx > 0 ? 1 : -1;
-//    while(mv.dx != 0 || mv.dy != 0) {
-//      destination.x = mv.dx > 0 ? bounds[1] : bounds[0];
-//      String currentLine = contentLines[destination.y];
-//      boolean startingXIsOutOfBounds = contentBoundsReached(mv.dx, destination.x, destination.y, contentLines);
-//      boolean keepGoing = !startingXIsOutOfBounds;
-//      boolean matchFound;
-//      while (keepGoing) {
-//        if (currentLineBoundsReached(mv.dx, destination.x, currentLine)) {
-//          destination = getDestinationOnFollowingLine(mv.dx, contentLines, destination);
-//        }
-//        String strToMatch = getStrToMatch(mv.dx, destination.x, destination.y, contentLines);
-//        matchFound = matchFound(strToMatch);
-//        if (!matchFound && !contentBoundsReached(mv.dx, destination.x, destination.y, contentLines)) {
-//          destination.x += iterator;
-//        } else {
-//          keepGoing = false;
-//        }
-//      }
-//      if(!startingXIsOutOfBounds) {
-//        int[] newBounds = getBoundaries(contentLines, destination.x, destination.y);
-//        bounds = newBounds;
-//        destination.x = bounds[0];
-//      }
-//      mv.dx -= iterator;
-//    }
+    int iterator = mv.dx > 0 ? 1 : -1;
+    while(mv.dx != 0) {
+      destination.x = mv.dx > 0 ? bounds[1] : bounds[0];
+      boolean startingXIsOutOfBounds = contentBoundsReached(mv.dx, destination.x, editorContent);
+      boolean keepGoing = !startingXIsOutOfBounds;
+      boolean matchFound;
+      while(keepGoing) {
+        String strToMatch = getStrToMatch(mv.dx, destination.x, editorContent);
+        matchFound = matchFound(strToMatch);
+        if(!matchFound && !contentBoundsReached(mv.dx, destination.x, editorContent)) {
+          destination.x += iterator;
+        } else {
+          keepGoing = false;
+        }
+      }
+      if(!startingXIsOutOfBounds) {
+        int[] newBounds = getBoundaries(editorContent, newlineIndices, destination.x, destination.y);
+        bounds = newBounds;
+        destination.x = bounds[0];
+      }
+      mv.dx -= iterator;
+    }
+//    destination.y = getY(editorContent, newlineIndices, destination.x);
+    System.out.println("destination x = " + destination.x);
+    System.out.println("destination y = " + destination.y);
     return destination;
   }
 
-  public boolean currentLineBoundsReached(int dx, int x, String currentLine) {
+  public boolean contentBoundsReached(int dx, int x, String contentLines) {
     if(dx > 0) {
-      return x >= currentLine.length();
+      return x == contentLines.length();
     } else if(dx < 0) {
-      return x <= 0;
-    } else {
-      return true;
-    }
-  }
-
-  public boolean contentBoundsReached(int dx, int x, int y, String[] contentLines) {
-    if(dx > 0) {
-      return x == contentLines[y].length() && y + 1 >= contentLines.length;
-    } else if(dx < 0) {
-      return x == 0 && y - 1 < 0;
+      return x == 0;
     } else {
       return true;
     }
@@ -104,40 +93,14 @@ public class RegexQuantum implements Quantum {
     return matcher.matches();
   }
 
-  private String getStrToMatch(int dx, int x, int y, String[] contentLines) {
-    String currentLine = contentLines[y];
-    if(contentBoundsReached(dx, x, y, contentLines)) {
+  private String getStrToMatch(int dx, int x, String contentLines) {
+    if(contentBoundsReached(dx, x, contentLines)) {
       return "";
     } else if(dx > 0) {
-      return currentLine.substring(x, x + 1);
+      return contentLines.substring(x, x + 1);
     } else { //dx < 0
-      return currentLine.substring(x - 1, x);
+      return contentLines.substring(x - 1, x);
     }
-  }
-
-  private String getFollowingLine(int dx, int y, String[] contentLines) {
-    /* note that contentBounds are guaranteed NOT to have been reached yet at
-    this point, therefore y can be incremented/decremented without problems */
-    if(dx > 0) {
-      return contentLines[y + 1];
-    } else if(dx < 0) {
-      return contentLines[y - 1];
-    } else {
-      return "";
-    }
-  }
-
-  private CursorPosition getDestinationOnFollowingLine(int dx, String[] contentLines, CursorPosition prev) {
-    CursorPosition newDestination = prev;
-    if(dx > 0) {
-      newDestination.y++;
-      newDestination.x = 0;
-    } else if(dx < 0) {
-      newDestination.y--;
-      int endOfPreviousLine = contentLines[newDestination.y].length();
-      newDestination.x = endOfPreviousLine;
-    }
-    return newDestination;
   }
 
 }
