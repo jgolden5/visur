@@ -5,9 +5,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegexQuantum implements Quantum {
+  String name;
   Pattern pattern;
 
-  public RegexQuantum(String regexSource) {
+  public RegexQuantum(String name, String regexSource) {
+    this.name = name;
     pattern = Pattern.compile(regexSource);
   }
 
@@ -78,7 +80,11 @@ public class RegexQuantum implements Quantum {
     return destination;
   }
 
-  public boolean contentBoundsReached(int dx, int x, String contentLines) {
+  public String getName() {
+    return name;
+  }
+
+  private boolean contentBoundsReached(int dx, int x, String contentLines) {
     if(dx > 0) {
       return x >= contentLines.length() - 1;
     } else if(dx < 0) {

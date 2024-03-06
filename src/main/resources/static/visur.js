@@ -3,6 +3,7 @@ let contentY;
 let editorContent;
 let quantumStart;
 let quantumEnd;
+let currentQuantum;
 
 let canvas = document.getElementById("mainCanvas")
 if((window.innerWidth - 5) % 20 == 0) {
@@ -44,6 +45,7 @@ eb.onopen = function() {
     quantumStart = message["body"]["quantumStart"]
     quantumEnd = message["body"]["quantumEnd"]
     mode = message["body"]["editorMode"]
+    currentQuantum = message["body"]["currentQuantum"]
     isInCommandState = message["body"]["isInCommandState"]
     commandStateContent = message["body"]["commandStateContent"]
     commandCursor = message["body"]["commandCursor"]
@@ -74,6 +76,7 @@ eb.onopen = function() {
       document.getElementById("currentEditorModeDisplay").innerHTML = commandStateDisplay
     } else {
       document.getElementById("currentEditorModeDisplay").innerHTML = mode.toUpperCase() + " MODE"
+      document.getElementById("currentQuantumDisplay").innerHTML = currentQuantum + " quantum"
     }
 
   })

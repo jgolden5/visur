@@ -55,7 +55,7 @@ public class InitializerService {
   private void initializeQuantums() {
     QuantumMap qm = new QuantumMap();
     String startingQuantumName = "word";
-    qm.put("word", new RegexQuantum("\\S+"));
+    qm.put("word", new RegexQuantum("word", "\\S+"));
     ems.putQuantumMap(qm);
     ems.putCurrentQuantum(ems.getQuantumMap().get(startingQuantumName));
     int contentX = ems.getGlobalVar("contentX").getInt();
