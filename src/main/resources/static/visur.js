@@ -114,9 +114,12 @@ function drawCanvas() {
   let fullContentWasDrawn = false
   contentLoop:
   for(let absX = 0; absX < editorContent.length; absX++) {
-    if(absX == contentX && !cursorWasDrawn) {
-      drawCursor(x, y, "⎸");
-      cursorWasDrawn = true;
+//    if(absX == contentX && !cursorWasDrawn) {
+//      drawCursor(x, y, "⎸");
+//      cursorWasDrawn = true;
+//    }
+    if(absX >= quantumStart && absX < quantumEnd) {
+      drawCursor(x, y, "🟨️")
     }
     characterToDraw = editorContent[absX];
     drawCharacter(x, y, characterToDraw);
@@ -127,10 +130,10 @@ function drawCanvas() {
       x = 0
     }
   }
-  if(!cursorWasDrawn) {
-    drawCursor(x, y, "⎸");
-    cursorWasDrawn = true
-  }
+//  if(!cursorWasDrawn) {
+//    drawCursor(x, y, "⎸");
+//    cursorWasDrawn = true
+//  }
 }
 
 function toXContent(x) { //as opposed to XCursor
