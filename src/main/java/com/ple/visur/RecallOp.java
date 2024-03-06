@@ -1,8 +1,8 @@
 package com.ple.visur;
 
-public class RecallOperator implements Operator {
-  public static RecallOperator make() {
-    return new RecallOperator();
+public class RecallOp implements Operator {
+  public static RecallOp make() {
+    return new RecallOp();
   }
 
   @Override

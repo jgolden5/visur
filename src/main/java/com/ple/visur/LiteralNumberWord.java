@@ -10,7 +10,7 @@ public class LiteralNumberWord implements Word {
     Pattern pattern = Pattern.compile("^(-?[0-9]+\\.?[0-9]*)(.*)");
     Matcher matcher = pattern.matcher(sentence);
     if(matcher.matches()) {
-      Operator op = new LiteralNumberOperator();
+      Operator op = new LiteralNumberOp();
       Object opInfo = Integer.parseInt(matcher.group(1));
       CompiledWordResponse compiledWord = new CompiledWordResponse(op, opInfo, matcher.group(2));
       return compiledWord;

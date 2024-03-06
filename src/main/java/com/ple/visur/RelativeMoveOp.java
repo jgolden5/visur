@@ -2,7 +2,7 @@ package com.ple.visur;
 
 import java.util.ArrayList;
 
-public class RelativeMoveOperator implements Operator {
+public class RelativeMoveOp implements Operator {
   @Override
   public void execute(Object opInfo) {
     EditorModelService ems = ServiceHolder.editorModelService;

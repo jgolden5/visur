@@ -10,7 +10,7 @@ public class AssignmentWord implements Word {
     Pattern pattern = Pattern.compile("(->*[^\s]+)(.*)");
     Matcher matcher = pattern.matcher(sentence);
     if(matcher.matches()) {
-      Operator op = new AssignmentOperator();
+      Operator op = new AssignmentOp();
       Object opInfo = matcher.group(1).substring(2);
       CompiledWordResponse compiledWordResponse = new CompiledWordResponse(op, opInfo, matcher.group(2));
       return compiledWordResponse;

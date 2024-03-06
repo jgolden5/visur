@@ -10,7 +10,7 @@ public class LiteralStringWord implements Word {
     Pattern pattern = Pattern.compile("(\"[^\"]*\")(.*)");
     Matcher matcher = pattern.matcher(sentence);
     if(matcher.matches()) {
-      Operator op = new LiteralStringOperator();
+      Operator op = new LiteralStringOp();
       Object opInfo = matcher.group(1);
       CompiledWordResponse compiledWord = new CompiledWordResponse(op, opInfo, matcher.group(2));
       return compiledWord;

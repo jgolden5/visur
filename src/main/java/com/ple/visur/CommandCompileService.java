@@ -1,8 +1,5 @@
 package com.ple.visur;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class CommandCompileService {
   public static CommandCompileService make() {
     return new CommandCompileService();
@@ -15,7 +12,7 @@ public class CommandCompileService {
     LiteralNumberWord literalNumberWord = new LiteralNumberWord();
     LiteralStringWord literalStringWord = new LiteralStringWord();
     AssignmentWord assignmentWord = new AssignmentWord();
-    NativeOperatorWord nativeOperatorWord = new NativeOperatorWord();
+    NativeOpWord nativeOperatorWord = new NativeOpWord();
     RecallWord recallWord = new RecallWord();
     Word[] words = new Word[] {
       literalNumberWord, literalStringWord, assignmentWord, nativeOperatorWord, recallWord

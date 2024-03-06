@@ -1,6 +1,6 @@
 package com.ple.visur;
 
-public class AbsoluteMoveOperator implements Operator {
+public class AbsoluteMoveOp implements Operator {
   @Override
   public void execute(Object opInfo) {
     EditorModelService ems = ServiceHolder.editorModelService;

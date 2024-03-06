@@ -15,20 +15,20 @@ public class CommandExecutionService {
       Object currentOpInfo = command.opInfo.get(i);
       String operatorInstanceName = currentOp.getClass().getSimpleName();
       switch(operatorInstanceName) {
-        case "LiteralNumberOperator":
-          LiteralNumberOperator.make().execute(currentOpInfo);
+        case "LiteralNumberOp":
+          LiteralNumberOp.make().execute(currentOpInfo);
           break;
-        case "LiteralStringOperator":
-          LiteralStringOperator.make().execute(currentOpInfo);
+        case "LiteralStringOp":
+          LiteralStringOp.make().execute(currentOpInfo);
           break;
-        case "AssignmentOperator":
-          AssignmentOperator.make().execute(currentOpInfo);
+        case "AssignmentOp":
+          AssignmentOp.make().execute(currentOpInfo);
           break;
         case "NativeOperator":
           //get and execute operator based on opInfo. We want to work on this one when we can test it
           break;
-        case "RecallOperator":
-          RecallOperator.make().execute(currentOpInfo);
+        case "RecallOp":
+          RecallOp.make().execute(currentOpInfo);
           break;
         default:
           currentOp.execute(currentOpInfo); //should be null

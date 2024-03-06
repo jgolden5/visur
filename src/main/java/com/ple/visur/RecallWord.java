@@ -11,7 +11,7 @@ public class RecallWord implements Word {
     Matcher matcher = pattern.matcher(sentence);
     if(matcher.matches()) {
       CompiledWordResponse cwr;
-      Operator op = new RecallOperator();
+      Operator op = new RecallOp();
       VariableMap gvm = ServiceHolder.editorModelService.getGlobalVariableMap();
       String recallWordName = matcher.group(1);
       if(gvm.get(recallWordName) != null) {

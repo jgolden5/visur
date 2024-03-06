@@ -3,7 +3,7 @@ package com.ple.visur;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NativeOperatorWord implements Word {
+public class NativeOpWord implements Word {
 
   @Override
   public CompiledWordResponse compile(String sentence) {
@@ -15,10 +15,10 @@ public class NativeOperatorWord implements Word {
       Operator op = null;
       switch (opSource) {
         case "absoluteMove":
-          op = new AbsoluteMoveOperator();
+          op = new AbsoluteMoveOp();
           break;
         case "relativeMove":
-          op = new RelativeMoveOperator();
+          op = new RelativeMoveOp();
           break;
         case "+":
           op = new AddOperator();

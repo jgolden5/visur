@@ -1,9 +1,9 @@
 package com.ple.visur;
 
-public class AssignmentOperator implements Operator {
+public class AssignmentOp implements Operator {
 
-  public static AssignmentOperator make() {
-    return new AssignmentOperator();
+  public static AssignmentOp make() {
+    return new AssignmentOp();
   }
 
   @Override
