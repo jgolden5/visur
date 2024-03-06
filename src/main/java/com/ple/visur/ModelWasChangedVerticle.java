@@ -26,8 +26,6 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
       view.contentX = ems.getGlobalVar("contentX").getInt();
       view.contentY = ems.getGlobalVar("contentY").getInt();
     }
-    int quantumStart = ems.getQuantumStart();
-    int quantumEnd = ems.getQuantumEnd();
     view.editorContent = ServiceHolder.editorModelService.getEditorContent();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
   }
@@ -39,6 +37,8 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
     output.put("contentX", ems.getGlobalVar("contentX").getInt());
     output.put("contentY", ems.getGlobalVar("contentY").getInt());
     output.put("editorContent", ems.getEditorContent());
+    output.put("quantumStart", ems.getQuantumStart());
+    output.put("quantumEnd", ems.getQuantumEnd());
     output.put("editorMode", ems.getEditorMode());
     output.put("isInCommandState", ems.getIsInCommandState());
     output.put("commandStateContent", ems.getCommandStateContent());

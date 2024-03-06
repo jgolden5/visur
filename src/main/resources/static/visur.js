@@ -1,6 +1,8 @@
 let contentX;
 let contentY;
 let editorContent;
+let quantumStart;
+let quantumEnd;
 
 let canvas = document.getElementById("mainCanvas")
 if((window.innerWidth - 5) % 20 == 0) {
@@ -39,10 +41,15 @@ eb.onopen = function() {
     contentX = message["body"]["contentX"]
     contentY = message["body"]["contentY"]
     editorContent = message["body"]["editorContent"]
+    quantumStart = message["body"]["quantumStart"]
+    quantumEnd = message["body"]["quantumEnd"]
     mode = message["body"]["editorMode"]
     isInCommandState = message["body"]["isInCommandState"]
     commandStateContent = message["body"]["commandStateContent"]
     commandCursor = message["body"]["commandCursor"]
+
+    console.log("quantum start = " + quantumStart)
+    console.log("quantum end = " + quantumEnd)
 
 //    console.log("Content = " + (editorContent))
 
