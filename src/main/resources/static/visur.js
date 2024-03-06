@@ -114,7 +114,8 @@ function drawCanvas() {
     characterToDraw = editorContent[absX];
     drawCharacter(x, y, characterToDraw);
     x++
-    if(editorContent[absX] === "\n") {
+    let isAtEndOfCurrentLine = x % canvasWidth == 0
+    if(editorContent[absX] === "\n" || isAtEndOfCurrentLine) {
       y++
       x = 0
     }
