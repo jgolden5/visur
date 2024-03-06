@@ -20,5 +20,8 @@ public class RelativeMoveOperator implements Operator {
     CursorPosition newCursorPosition = currentQuantum.move(editorContent, newlineIndices, pos, movementVector, bounds);
     ems.putGlobalVar("contentX", new IntVisurVar(newCursorPosition.x));
     ems.putGlobalVar("contentY", new IntVisurVar(newCursorPosition.y));
+    int[] newBounds = currentQuantum.getBoundaries(editorContent, newlineIndices, newCursorPosition.x, newCursorPosition.y);
+    ems.putQuantumStart(newBounds[0]);
+    ems.putQuantumEnd(newBounds[1]);
   }
 }

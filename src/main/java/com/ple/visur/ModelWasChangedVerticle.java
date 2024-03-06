@@ -17,15 +17,17 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
   }
 
   public void handleChange(Message<Object> event) {
+    EditorModelService ems = ServiceHolder.editorModelService;
     if(view == null) {
       view = new View();
       view.contentX = 0;
       view.contentY = 0;
     } else {
-      EditorModelService ems = ServiceHolder.editorModelService;
       view.contentX = ems.getGlobalVar("contentX").getInt();
       view.contentY = ems.getGlobalVar("contentY").getInt();
     }
+    int quantumStart = ems.getQuantumStart();
+    int quantumEnd = ems.getQuantumEnd();
     view.editorContent = ServiceHolder.editorModelService.getEditorContent();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
   }
