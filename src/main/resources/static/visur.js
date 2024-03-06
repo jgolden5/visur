@@ -1,6 +1,6 @@
-let canvasX;
-let canvasY;
-let contentLines;
+let contentX;
+let contentY;
+let editorContent;
 
 let canvas = document.getElementById("mainCanvas")
 if((window.innerWidth - 5) % 20 == 0) {
@@ -17,8 +17,8 @@ let cellHeight = 20
 let canvasWidth = Math.floor(canvas.width / cellWidth)
 let canvasHeight = Math.floor(canvas.height / cellHeight)
 
-let canvasXOffset = 6
-let canvasYOffset = 20
+let contentXOffset = 6
+let contentYOffset = 20
 
 let numberOfTimesPageWasLoaded = 0
 
@@ -36,15 +36,15 @@ var eb = new EventBus('http://localhost:8888/eventbus');
 eb.onopen = function() {
   console.log("connection established with js' event bus")
   eb.registerHandler('viewWasChanged', (error, message) => {
-    canvasX = message["body"]["canvasX"]
-    canvasY = message["body"]["canvasY"]
-    contentLines = message["body"]["contentLines"]
+    contentX = message["body"]["contentX"]
+    contentY = message["body"]["contentY"]
+    editorContent = message["body"]["editorContent"]
     mode = message["body"]["editorMode"]
     isInCommandState = message["body"]["isInCommandState"]
     commandStateContent = message["body"]["commandStateContent"]
     commandCursor = message["body"]["commandCursor"]
 
-//    console.log("Content = " + (contentLines))
+//    console.log("Content = " + (editorContent))
 
     clearCanvas()
     ctx.fillStyle = "white"
@@ -71,8 +71,8 @@ eb.onopen = function() {
 
   })
   let canvasInfo = {
-    width: (canvas.width - canvasXOffset) / cellWidth + 1,
-    height: (canvas.height - canvasYOffset) / cellHeight + 1
+    width: (canvas.width - contentXOffset) / cellWidth + 1,
+    height: (canvas.height - contentYOffset) / cellHeight + 1
   };
   /*canvasWasChangedEventComplete ensures that canvasWasChanged gets called before modelWasChanged so that
   getCanvasWidth is not called before putCanvasWidth */
@@ -100,65 +100,37 @@ function drawCanvas() {
   let drawContentX = 0
   let drawContentY = 0
   lineContinuing = false
-  let x
-  let y
+  let x = 0
+  let y = 0
   let numberOfWrappedLines = 0
   let cursorWasDrawn = false
   let fullContentWasDrawn = false
   contentLoop:
-    for(y = 0; y < canvasHeight; y++) {
-      let line;
-      if(contentLines.length == drawContentY) {
-        fullContentWasDrawn = true
-      } else {
-        line = contentLines[drawContentY]
-      }
-      for(x = 0; x <= canvasWidth; x++) {
-        if(fullContentWasDrawn && cursorWasDrawn) {
-          break contentLoop
-        }
-        if(!cursorWasDrawn) {
-          if(x == canvasX && y == canvasY) {
-//            if(mode == "insert") {
-              drawCursor(x, y, "⎸️")
-              cursorWasDrawn = true
-//            } else {
-//              drawCursor(x, y, "⬜️") //may get used for span
-//            }
-          }
-        }
-        if(x != canvasWidth) {
-          if(!fullContentWasDrawn) {
-            let char = line.charAt(drawContentX)
-            drawCharacter(x, y, char)
-            drawContentX++
-          }
-        }
-      }
-      if(!fullContentWasDrawn) {
-        if(canvasWidth * (numberOfWrappedLines + 1) >= line.length) {
-          numberOfWrappedLines = 0
-          drawContentX = 0
-          drawContentY++
-        } else {
-          numberOfWrappedLines++
-        }
-      }
+  for(let absX = 0; absX < editorContent.length; absX++) {
+    if(absX == contentX && !cursorWasDrawn) {
+      drawCursor(x, y, "⎸");
+      cursorWasDrawn = true;
     }
+    characterToDraw = editorContent[absX];
+    drawCharacter(x, y, characterToDraw);
+    x++
+    if(editorContent[absX] === "\n") {
+      y++
+      x = 0
+    }
+  }
 }
 
-let i = 0
-
 function toXContent(x) { //as opposed to XCursor
-  return x * cellWidth + canvasXOffset
+  return x * cellWidth + contentXOffset
 }
 
 function toXCursor(x) {
-  return x * cellWidth + canvasXOffset - 6
+  return x * cellWidth + contentXOffset - 6
 }
 
 function toY(y) {
-  return y * cellHeight + canvasYOffset
+  return y * cellHeight + contentYOffset
 }
 
 function drawCharacter(x, y, characterToDraw) {
