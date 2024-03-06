@@ -56,6 +56,7 @@ public class InitializerService {
     QuantumMap qm = new QuantumMap();
     String startingQuantumName = "word";
     qm.put("word", new RegexQuantum("word", "\\S+"));
+    qm.put("character", new CharacterQuantum());
     ems.putQuantumMap(qm);
     ems.putCurrentQuantum(ems.getQuantumMap().get(startingQuantumName));
     int contentX = ems.getGlobalVar("contentX").getInt();
@@ -105,6 +106,12 @@ public class InitializerService {
     );
     keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}),
       scs.compile("1 0 relativeMove")
+    );
+    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("q")}),
+      scs.compile("\"character\" changeQuantum")
+    );
+    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("w")}),
+      scs.compile("\"word\" changeQuantum")
     );
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);

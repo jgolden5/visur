@@ -140,8 +140,8 @@ public class EditorModelService {
     return (QuantumMap)editorModel.get(quantumMap);
   }
 
-  public RegexQuantum getCurrentQuantum() {
-    return (RegexQuantum)editorModel.get(quantum);
+  public Quantum getCurrentQuantum() {
+    return (Quantum)editorModel.get(quantum);
   }
 
   public int getQuantumStart() {
