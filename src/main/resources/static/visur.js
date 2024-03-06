@@ -119,6 +119,10 @@ function drawCanvas() {
       x = 0
     }
   }
+  if(!cursorWasDrawn) {
+    drawCursor(x, y, "⎸");
+    cursorWasDrawn = true
+  }
 }
 
 function toXContent(x) { //as opposed to XCursor

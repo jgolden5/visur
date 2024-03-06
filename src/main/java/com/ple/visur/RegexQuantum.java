@@ -108,12 +108,15 @@ public class RegexQuantum implements Quantum {
     int y = 0;
     boolean newlineCharIsAtEndOfLine = editorContent.charAt(editorContent.length() - 1) == '\n';
     while(!yFound) {
-      if(x > newlineIndices.get(y) || y == newlineIndices.size() - 1 && !newlineCharIsAtEndOfLine) {
-        y++;
-      } else {
+      if(y < newlineIndices.size()) {
+        if (x > newlineIndices.get(y)) {
+          y++;
+        } else {
+          yFound = true;
+        }
+      } else if(!newlineCharIsAtEndOfLine) {
         yFound = true;
       }
-
     }
     return y;
   }
