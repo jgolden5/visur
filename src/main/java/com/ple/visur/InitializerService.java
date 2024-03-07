@@ -61,7 +61,7 @@ public class InitializerService {
     ems.putCurrentQuantum(ems.getQuantumMap().get(startingQuantumName));
     int contentX = ems.getGlobalVar("contentX").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
-    int bounds[] = ems.getQuantumMap().get(startingQuantumName).getBoundaries(ems.getEditorContent(), ems.getNewlineIndices(), contentX, contentY);
+    int bounds[] = ems.getQuantumMap().get(startingQuantumName).getBoundaries(ems.getEditorContent(), ems.getNewlineIndices(), contentX, contentY, false);
     ems.putQuantumStart(bounds[0]);
     ems.putQuantumEnd(bounds[1]);
     System.out.println("start bound = " + bounds[0]);

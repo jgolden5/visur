@@ -16,13 +16,13 @@ public class RelativeMoveOp implements Operator {
     int contentX = ems.getGlobalVar("contentX").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
     CursorPosition pos = new CursorPosition(contentX, contentY);
-    int[] bounds = currentQuantum.getBoundaries(editorContent, newlineIndices, contentX, contentY);
+    int[] bounds = currentQuantum.getBoundaries(editorContent, newlineIndices, contentX, contentY, false);
     CursorPosition newCursorPosition = currentQuantum.move(editorContent, newlineIndices, pos, movementVector, bounds);
     if(newCursorPosition.x < editorContent.length()) {
       ems.putGlobalVar("contentX", new IntVisurVar(newCursorPosition.x));
     }
     ems.putGlobalVar("contentY", new IntVisurVar(newCursorPosition.y));
-    int[] newBounds = currentQuantum.getBoundaries(editorContent, newlineIndices, newCursorPosition.x, newCursorPosition.y);
+    int[] newBounds = currentQuantum.getBoundaries(editorContent, newlineIndices, newCursorPosition.x, newCursorPosition.y, false);
     ems.putQuantumStart(newBounds[0]);
     ems.putQuantumEnd(newBounds[1]);
   }

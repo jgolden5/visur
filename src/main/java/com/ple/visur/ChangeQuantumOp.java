@@ -12,7 +12,7 @@ public class ChangeQuantumOp implements Operator {
     Quantum targetQuantum = ems.getQuantumMap().get(quantumNameWithoutQuotes);
     int contentX = ems.getGlobalVar("contentX").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
-    int[] bounds = targetQuantum.getBoundaries(ems.getEditorContent(), ems.getNewlineIndices(), contentX, contentY);
+    int[] bounds = targetQuantum.getBoundaries(ems.getEditorContent(), ems.getNewlineIndices(), contentX, contentY, false);
     ems.putQuantumStart(bounds[0]);
     ems.putQuantumEnd(bounds[1]);
     ems.putCurrentQuantum(targetQuantum);

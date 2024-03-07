@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class CharacterQuantum implements Quantum {
   @Override
-  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int x, int y) {
+  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int x, int y, boolean includeTail) {
     return new int[]{x, x + 1};
   }
 
