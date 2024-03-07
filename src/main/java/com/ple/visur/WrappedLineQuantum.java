@@ -1,33 +1,35 @@
 package com.ple.visur;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 public class WrappedLineQuantum implements Quantum {
 
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int x, int y, boolean includeTail) {
-    boolean lowerBoundFound = false; //check for lowerBound first
-    boolean upperBoundFound = false; //if lowerBoundFound, check for upperBound
-    int[] bounds = new int[]{x, x};
-    boolean lowerAndUpperBoundsFound = false;
-    while (!lowerAndUpperBoundsFound) {
-      if(!lowerBoundFound) {
-        if (x <= 0 || editorContent.charAt(x - 1) == '\n') {
-          lowerBoundFound = true;
+    int lowerBound = 0;
+    int upperBound = 0;
+    if(editorContent.length() > 0) {
+      if (y > 0) {
+        lowerBound = newlineIndices.get(y - 1) + 1;
+        boolean editorContentEndsWithNewlineChar = newlineIndices.size() < y;
+        if (editorContentEndsWithNewlineChar) {
+          upperBound = newlineIndices.get(y);
         } else {
-          bounds[x]--;
+          upperBound = editorContent.length() - 1;
         }
       } else {
-        if(x >= editorContent.length() - 1 && editorContent.charAt(x + 1) != '\n') {
-          bounds[x]++;
+        if (newlineIndices.size() > 0) {
+          if (includeTail) {
+            upperBound = newlineIndices.get(0) + 1;
+          } else {
+            upperBound = newlineIndices.get(0);
+          }
         } else {
-          upperBoundFound = true;
+          upperBound = editorContent.length() - 1;
         }
       }
-      lowerAndUpperBoundsFound = lowerBoundFound && upperBoundFound;
     }
-    return bounds;
+    return new int[]{lowerBound, upperBound};
   }
 
   @Override

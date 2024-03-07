@@ -24,6 +24,7 @@ public class InitializerService {
     VariableMap gvm = (VariableMap)ems.editorModel.get(globalVariableMap);
     gvm.put("contentX", new IntVisurVar(0));
     gvm.put("contentY", new IntVisurVar(0));
+    //gvm.put("contentY", ems.getContentY());
     ems.putVirtualX(0);
     ems.putVirtualXIsAtEndOfLine(false);
     ems.putEditorMode(editing);
@@ -54,9 +55,10 @@ public class InitializerService {
 
   private void initializeQuantums() {
     QuantumMap qm = new QuantumMap();
-    String startingQuantumName = "character";
+    String startingQuantumName = "wrappedLine";
     qm.put("word", new RegexQuantum("word", "\\S+"));
     qm.put("character", new CharacterQuantum());
+    qm.put("wrappedLine", new WrappedLineQuantum());
     ems.putQuantumMap(qm);
     ems.putCurrentQuantum(ems.getQuantumMap().get(startingQuantumName));
     int contentX = ems.getGlobalVar("contentX").getInt();
@@ -113,9 +115,11 @@ public class InitializerService {
     keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("w")}),
       scs.compile("\"word\" changeQuantum")
     );
+    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("e")}),
+      scs.compile("\"wrappedLine\" changeQuantum")
+    );
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
-//    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("w")}), Operator.moveCursorToBeginningOfNextWord);
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("0")}), Operator.moveCursorToBeginningOfCurrentLine);
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("^")}), Operator.moveCursorToFirstNonSpaceInCurrentLine);
 //    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("$")}), Operator.moveCursorToEndOfCurrentLine);
