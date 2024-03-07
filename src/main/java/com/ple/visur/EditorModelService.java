@@ -152,55 +152,6 @@ public class EditorModelService {
     return (int)editorModel.get(quantumEnd);
   }
 
-// add/improve getters and setters for:
-// Operator, KeyPressed, (not sure: KeysToVisurCommand, OperatorService)
-
-  //only getters, no setters
-  public int getCanvasX() {
-    int contentX = getGlobalVar("contentX").getInt();
-    int canvasX;
-    int currentLineLength = getCurrentContentLineLength();
-    int canvasWidth = getCanvasWidth();
-    if(contentX == currentLineLength && contentX % canvasWidth == 0 && currentLineLength > 0) {
-      canvasX = canvasWidth;
-    } else {
-      canvasX = contentX % canvasWidth;
-    }
-    return canvasX;
-  }
-
-  public int getCanvasY() {
-    int canvasY = 0;
-    canvasY += calculateCanvasYBeforeCurrentLine();
-    canvasY += calculateCanvasYAtCurrentLine();
-    return canvasY;
-  }
-
-  private int calculateCanvasYBeforeCurrentLine() {
-    int canvasY = 0;
-    int contentY = getGlobalVar("contentY").getInt();
-    for(int i = 0; i < contentY; i++) {
-      String currentIteratedLine = getContentLineAtY(i);
-      canvasY += currentIteratedLine.length() / getCanvasWidth();
-      if(currentIteratedLine.length() % getCanvasWidth() != 0 || currentIteratedLine.length() == 0) {
-        canvasY++;
-      }
-    }
-    return canvasY;
-  }
-
-  private int calculateCanvasYAtCurrentLine() {
-    int contentX = getGlobalVar("contentX").getInt();
-    int canvasWidth = getCanvasWidth();
-    int canvasY = 0;
-    if(contentX != getCurrentContentLineLength() || contentX % canvasWidth != 0) {
-      canvasY += contentX / canvasWidth;
-    } else if(contentX > canvasWidth) {
-      canvasY += contentX / canvasWidth - 1;
-    }
-    return canvasY;
-  }
-
   public void putEditorContent(String contentLines) {
     editorModel.put(editorContent, contentLines);
   }
