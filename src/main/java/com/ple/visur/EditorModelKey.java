@@ -5,7 +5,6 @@ public enum EditorModelKey {
   canvasWidth,
   commandCursor,
   commandStateContent,
-  contentX,
   contentY,
   editorContent,
   editorMode,

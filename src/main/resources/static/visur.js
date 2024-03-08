@@ -1,4 +1,4 @@
-let contentX;
+let ca;
 let contentY;
 let editorContent;
 let quantumStart;
@@ -20,7 +20,7 @@ let cellHeight = 20
 let canvasWidth = Math.floor(canvas.width / cellWidth)
 let canvasHeight = Math.floor(canvas.height / cellHeight)
 
-let contentXOffset = 6
+let caOffset = 6
 let contentYOffset = 20
 
 let numberOfTimesPageWasLoaded = 0
@@ -39,7 +39,7 @@ var eb = new EventBus('http://localhost:8888/eventbus');
 eb.onopen = function() {
   console.log("connection established with js' event bus")
   eb.registerHandler('viewWasChanged', (error, message) => {
-    contentX = message["body"]["contentX"]
+    ca = message["body"]["ca"]
     contentY = message["body"]["contentY"]
     editorContent = message["body"]["editorContent"]
     quantumStart = message["body"]["quantumStart"]
@@ -81,7 +81,7 @@ eb.onopen = function() {
 
   })
   let canvasInfo = {
-    width: (canvas.width - contentXOffset) / cellWidth + 1,
+    width: (canvas.width - caOffset) / cellWidth + 1,
     height: (canvas.height - contentYOffset) / cellHeight + 1
   };
   /*canvasWasChangedEventComplete ensures that canvasWasChanged gets called before modelWasChanged so that
@@ -117,7 +117,7 @@ function drawCanvas() {
   let fullContentWasDrawn = false
   contentLoop:
   for(let absX = 0; absX < editorContent.length; absX++) {
-//    if(absX == contentX && !cursorWasDrawn) {
+//    if(absX == ca && !cursorWasDrawn) {
 //      drawCursor(x, y, "⎸");
 //      cursorWasDrawn = true;
 //    }
@@ -140,11 +140,11 @@ function drawCanvas() {
 }
 
 function toXContent(x) { //as opposed to XCursor
-  return x * cellWidth + contentXOffset
+  return x * cellWidth + caOffset
 }
 
 function toXCursor(x) {
-  return x * cellWidth + contentXOffset - 6
+  return x * cellWidth + caOffset - 6
 }
 
 function toY(y) {

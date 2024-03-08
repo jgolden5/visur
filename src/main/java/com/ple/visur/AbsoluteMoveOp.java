@@ -9,7 +9,7 @@ public class AbsoluteMoveOp implements Operator {
     IntVisurVar contentX = new IntVisurVar();
     contentY.put(eds.pop());
     contentX.put(eds.pop());
-    ems.putGlobalVar("contentX", contentX);
+    ems.putGlobalVar("ca", contentX);
     ems.putGlobalVar("contentY", contentY);
   }
 }

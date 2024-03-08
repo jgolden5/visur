@@ -20,10 +20,10 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
     EditorModelService ems = ServiceHolder.editorModelService;
     if(view == null) {
       view = new View();
-      view.contentX = 0;
+      view.ca = 0;
       view.contentY = 0;
     } else {
-      view.contentX = ems.getGlobalVar("contentX").getInt();
+      view.ca = ems.getGlobalVar("ca").getInt();
       view.contentY = ems.getGlobalVar("contentY").getInt();
     }
     view.editorContent = ServiceHolder.editorModelService.getEditorContent();
@@ -34,7 +34,7 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
   public JsonObject toJson() {
     EditorModelService ems = ServiceHolder.editorModelService;
     JsonObject output = new JsonObject();
-    output.put("contentX", ems.getGlobalVar("contentX").getInt());
+    output.put("ca", ems.getGlobalVar("ca").getInt());
     output.put("contentY", ems.getGlobalVar("contentY").getInt());
     output.put("editorContent", ems.getEditorContent());
     output.put("quantumStart", ems.getQuantumStart());
