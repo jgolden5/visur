@@ -43,6 +43,8 @@ public class InitializerService {
     ems.putCommandStateContent("");
     ems.putCommandCursor(ems.getCommandStateContent().length());
 
+    initializeDataClassesAndForms();
+
     initializeQuantums();
 
     initializeKeymaps();
@@ -51,6 +53,13 @@ public class InitializerService {
 
     OperatorToService opToService = OperatorToService.make();
     ems.putOperatorToService(opToService);
+  }
+
+  private void initializeDataClassesAndForms() {
+    DataClass coordinateDC = new DataClass();
+    DataForm ca = new DataForm(coordinateDC);
+    DataForm cxy = new DataForm(coordinateDC);
+    DataForm qxy = new DataForm(coordinateDC);
   }
 
   private void initializeQuantums() {
