@@ -58,7 +58,7 @@ eb.onopen = function() {
     clearCanvas()
     ctx.fillStyle = "white"
     drawCanvas()
-    document.getElementById("currentQuantumDisplay").innerHTML = currentQuantum + " quantum"
+    document.getElementById("currentQuantumDisplay").innerHTML = currentQuantum.toUpperCase() + " QUANTUM"
     if(isInCommandState) {
       let commandStateDisplay = ";"
       let commandCursorWasDrawn = false;
