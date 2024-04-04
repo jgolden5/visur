@@ -50,16 +50,16 @@ public class DFDCInitializerService {
     wholePairDC.putSub("cx", wholeNumberDC);
     wholePairDC.putSub("cy", wholeNumberDC);
 
-    Deriver aToCXCY = (cdcb) -> {
-      return DataFormBrick.make();
-    };
+//    Deriver aToCXCY = (cdcb) -> {
+//      return DataFormBrick.make();
+//    };
+//
+//    Deriver cxcyToA = (cdcb) -> {
+//      return DataFormBrick.make();
+//    };
 
-    Deriver cxcyToA = (cdcb) -> {
-      return DataFormBrick.make();
-    };
-
-    cursorPosDC.putDeriver("a", aToCXCY);
-    cursorPosDC.putDeriver("cxcy", cxcyToA);
+//    cursorPosDC.putDeriver("a", aToCXCY);
+//    cursorPosDC.putDeriver("cxcy", cxcyToA);
 
     cursorPosDataClasses[0] = cursorPosDC;
     cursorPosDataClasses[1] = wholePairDC;
