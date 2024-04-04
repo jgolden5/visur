@@ -4,7 +4,7 @@ package com.ple.visur;
 import java.util.HashMap;
 
 public class DFDCInitializerService {
-  public DFDCInitializerService make() {
+  public static DFDCInitializerService make() {
     return new DFDCInitializerService();
   }
 
