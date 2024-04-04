@@ -2,11 +2,13 @@ package com.ple.visur;
 
 
 public abstract class DataClassBrick {
-  DataClass parent;
-  public DataClassBrick(DataClass parent) {
+  DataClass dc;
+  CompoundDataClassBrick parent;
+  public DataClassBrick(DataClass dc, CompoundDataClassBrick parent) {
+    this.dc = dc;
     this.parent = parent;
   }
-  public DataClass getParent() {
+  public CompoundDataClassBrick getParent() {
     return parent;
   }
 }

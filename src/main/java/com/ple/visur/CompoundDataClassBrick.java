@@ -5,19 +5,21 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CompoundDataClassBrick extends DataClassBrick {
-  private final CompoundDataClass fromDC;
+  private final CompoundDataClass dc;
+  private final CompoundDataClassBrick parent;
   private final HashMap<String, DataClassBrick> subs;
   private final int minimumRequiredSetValues;
 
-  private CompoundDataClassBrick(CompoundDataClass fromDC, HashMap<String, DataClassBrick> subs, int minimumRequiredSetValues) {
-    super(fromDC);
-    this.fromDC = fromDC;
+  private CompoundDataClassBrick(CompoundDataClass dc, CompoundDataClassBrick parent, HashMap<String, DataClassBrick> subs, int minimumRequiredSetValues) {
+    super(dc, parent);
+    this.dc = dc;
+    this.parent = parent;
     this.subs = subs;
     this.minimumRequiredSetValues = minimumRequiredSetValues;
   }
 
-  public static CompoundDataClassBrick make(CompoundDataClass dc, HashMap<String, DataClassBrick> subs, int minimumRequiredSetValues) {
-    return new CompoundDataClassBrick(dc, subs, minimumRequiredSetValues);
+  public static CompoundDataClassBrick make(CompoundDataClass dc, CompoundDataClassBrick parent, HashMap<String, DataClassBrick> subs, int minimumRequiredSetValues) {
+    return new CompoundDataClassBrick(dc, parent, subs, minimumRequiredSetValues);
   }
 
   public CompoundDataClassBrick putSub(String name, DataClassBrick dcb) {
@@ -26,7 +28,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
       newSubs.put(entry.getKey(), entry.getValue());
     }
     newSubs.put(name, dcb);
-    return make(fromDC, newSubs, minimumRequiredSetValues);
+    return make(dc, parent, newSubs, minimumRequiredSetValues);
   }
 
   public DataClassBrick getSub(String name) {
@@ -36,8 +38,8 @@ public class CompoundDataClassBrick extends DataClassBrick {
         DataFormBrick targetSubDFB = ((PrimitiveDataClassBrick) targetSub).getVal();
         Object targetSubDFBVal = targetSubDFB.getVal();
         if (targetSubDFBVal == null) {
-          PrimitiveDataClass targetSubDC = (PrimitiveDataClass) fromDC.getSub(name);
-          Deriver deriver = fromDC.getDeriver(name);
+          PrimitiveDataClass targetSubDC = (PrimitiveDataClass) dc.getSub(name);
+          Deriver deriver = dc.getDeriver(name);
           DataFormBrick targetSubVal = deriver.derive(this);
           targetSub = PrimitiveDataClassBrick.make(targetSubDC, targetSubVal);
         }
@@ -63,12 +65,12 @@ public class CompoundDataClassBrick extends DataClassBrick {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof CompoundDataClassBrick that)) return false;
-    return Objects.equals(fromDC, that.fromDC) && Objects.equals(subs, that.subs);
+    return Objects.equals(dc, that.dc) && Objects.equals(subs, that.subs);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fromDC, subs);
+    return Objects.hash(dc, subs);
   }
 
 }

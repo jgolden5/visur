@@ -3,18 +3,20 @@ package com.ple.visur;
 import java.util.Objects;
 
 public class PrimitiveDataClassBrick extends DataClassBrick {
-  PrimitiveDataClass fromDC;
+  PrimitiveDataClass dc;
+  CompoundDataClassBrick parent;
   DataFormBrick val;
 
-  public PrimitiveDataClassBrick(PrimitiveDataClass fromDC, DataFormBrick val) {
-    super(fromDC);
-    this.fromDC = fromDC;
+  public PrimitiveDataClassBrick(PrimitiveDataClass dc, CompoundDataClassBrick parent, DataFormBrick val) {
+    super(dc, parent);
+    this.dc = dc;
+    this.parent = parent;
     this.val = val;
   }
 
-  public static PrimitiveDataClassBrick make(PrimitiveDataClass pdc, DataFormBrick dfbVal) {
+  public static PrimitiveDataClassBrick make(PrimitiveDataClass pdc, CompoundDataClassBrick parent, DataFormBrick dfbVal) {
     DataFormBrick referenceDFB = pdc.getReference(dfbVal);
-    return new PrimitiveDataClassBrick(pdc, referenceDFB);
+    return new PrimitiveDataClassBrick(pdc, parent, referenceDFB);
   }
 
   public void putVal(DataFormBrick dfb) {
@@ -33,11 +35,11 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (!(o instanceof PrimitiveDataClassBrick that)) return false;
-    return Objects.equals(fromDC, that.fromDC) && Objects.equals(val, that.val);
+    return Objects.equals(parent, that.parent) && Objects.equals(val, that.val);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fromDC, val);
+    return Objects.hash(parent, val);
   }
 }
