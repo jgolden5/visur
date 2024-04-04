@@ -10,8 +10,8 @@ public class DataForm {
   DataClass dc;
   HashMap<DataForm, Converter> converters;
 
-  public static DataForm make(String name, DataClass dc, HashMap<DataForm, Converter> conversions) {
-    return new DataForm(name, dc, conversions);
+  public static DataForm make(String name, DataClass dc) {
+    return new DataForm(name, dc, new HashMap<>());
   }
 
   private DataForm(String name, DataClass dc, HashMap<DataForm, Converter> converters) {

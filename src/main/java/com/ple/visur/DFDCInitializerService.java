@@ -8,105 +8,30 @@ public class DFDCInitializerService {
     return new DFDCInitializerService();
   }
 
-  private static DataForm initializeTfStringBooleanDF(DataClass booleanDC) {
-    return DataForm.make("TfStringBoolean", booleanDC, new HashMap<>());
-  }
+  private static DataForm[] getCursorPosDataForms(DataClass cursorPosDC, DataClass cxcyDC) {
+    DataForm[] cursorPosDataForms = new DataForm[3];
+    DataForm aDF = DataForm.make("a", cursorPosDC);
+    DataForm cxcyDF = DataForm.make("cx", cxcyDC);
 
-  private static DataForm initializeTrueFalseBooleanDF(DataClass booleanDC) {
-    return DataForm.make("TrueFalseBoolean", booleanDC, new HashMap<>());
-  }
+    //I need to learn the difference between the Converters and the Derivers because there's a chance that both are doing the same thing in this case
 
-  private static DataForm initializeIntBooleanDF(DataClass booleanDC) {
-    return DataForm.make("IntBoolean", booleanDC, new HashMap<>());
-  }
-
-  private static DataForm initializeJavaBooleanDF(DataClass booleanDC) {
-    return DataForm.make("JavaBoolean", booleanDC, new HashMap<>());
-  }
-
-  public static DataForm[] getBooleanDataForms(DataClass booleanDC) {
-    DataForm[] booleanDataForms = new DataForm[4];
-    DataForm tfStringBooleanDF = DFDCInitializerService.initializeTfStringBooleanDF(booleanDC);
-    DataForm trueFalseStringBooleanDF = DFDCInitializerService.initializeTrueFalseBooleanDF(booleanDC);
-    DataForm intBooleanDF = DFDCInitializerService.initializeIntBooleanDF(booleanDC);
-    DataForm javaBooleanDF = DFDCInitializerService.initializeJavaBooleanDF(booleanDC);
-
-    Converter tfToTrueFalse = (val) -> {
+    Converter aToCXCY = (val) -> {
       Object newVal = null;
-      if(val != null) {
-        if (val.equals("t")) {
-          newVal = "true";
-        } else if (val.equals("f")) {
-          newVal = "false";
-        }
-      }
       return newVal;
     };
 
-    Converter trueFalseToTf = (val) -> {
+    Converter cxcyToA = (val) -> {
       Object newVal = null;
-      if(val != null) {
-        if (val.equals("true")) {
-          newVal = "t";
-        } else if (val.equals("false")) {
-          newVal = "f";
-        }
-      }
       return newVal;
     };
 
-    Converter trueFalseToInt = (val) -> {
-      Object newVal = null;
-      if(val != null) {
-        if (val.equals("true")) {
-          newVal = 0;
-        } else if (val.equals("false")) {
-          newVal = 1;
-        }
-      }
-      return newVal;
-    };
+    aDF.putConverter(cxcyDF, aToCXCY);
+    cxcyDF.putConverter(aDF, cxcyToA);
 
-    Converter intToTrueFalse = (val) -> {
-      Object newVal = null;
-      if(val != null) {
-        if (val.equals(0)) {
-          newVal = "true";
-        } else if (val.equals(1)) {
-          newVal = "false";
-        }
-      }
-      return newVal;
-    };
-
-    Converter javaToTrueFalse = (val) -> {
-      Object newVal = null;
-      if(val != null) {
-        if ((Boolean)val) {
-          newVal = "true";
-        } else {
-          newVal = "false";
-        }
-      }
-      return newVal;
-    };
-
-    tfStringBooleanDF.putConverter(trueFalseStringBooleanDF, tfToTrueFalse);
-
-    trueFalseStringBooleanDF.putConverter(tfStringBooleanDF, trueFalseToTf);
-    trueFalseStringBooleanDF.putConverter(intBooleanDF, trueFalseToInt);
-
-    intBooleanDF.putConverter(trueFalseStringBooleanDF, intToTrueFalse);
-
-    javaBooleanDF.putConverter(trueFalseStringBooleanDF, javaToTrueFalse);
-
-    booleanDataForms[0] = tfStringBooleanDF;
-    booleanDataForms[1] = trueFalseStringBooleanDF;
-    booleanDataForms[2] = intBooleanDF;
-    booleanDataForms[3] = javaBooleanDF;
-    return booleanDataForms;
+    cursorPosDataForms[0] = aDF;
+    cursorPosDataForms[1] = cxcyDF;
+    return cursorPosDataForms;
   }
-
 
   private static DataClass[] getCursorPosDataClasses() {
     DataClass[] cursorPosDataClasses = new DataClass[3];
@@ -115,7 +40,7 @@ public class DFDCInitializerService {
     CompoundDataClass wholePairDC = CompoundDataClass.make();
 
     DFReferenceGetter getAbsoluteReferenceDF = (dfb) -> {
-      DataForm[] cursorPosDataForms = getCursorPosDataForms(dfb.fromDF.dc); //<-- is dc argument necessary now that we have parent dcb's?
+      DataForm[] cursorPosDataForms = getCursorPosDataForms(cursorPosDC, wholePairDC);
       return cursorPosDataForms[0]; //should be absolute form (a). cursorPosDataForms[1] would be cxcy form
     };
 
