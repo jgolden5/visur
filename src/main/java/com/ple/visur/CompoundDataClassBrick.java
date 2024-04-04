@@ -41,7 +41,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
           PrimitiveDataClass targetSubDC = (PrimitiveDataClass) dc.getSub(name);
           Deriver deriver = dc.getDeriver(name);
           DataFormBrick targetSubVal = deriver.derive(this);
-          targetSub = PrimitiveDataClassBrick.make(targetSubDC, targetSubVal);
+          targetSub = PrimitiveDataClassBrick.make(targetSubDC, this, targetSubVal);
         }
       }
       return targetSub;
