@@ -1,5 +1,5 @@
 package com.ple.visur;
 
-public class DataClass {
+public interface DataClass {
 
 }

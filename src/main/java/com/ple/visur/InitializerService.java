@@ -56,10 +56,7 @@ public class InitializerService {
   }
 
   private void initializeDataClassesAndForms() {
-    DataClass coordinateDC = new DataClass();
-    DataForm ca = new DataForm(coordinateDC);
-    DataForm cxy = new DataForm(coordinateDC);
-    DataForm qxy = new DataForm(coordinateDC);
+
   }
 
   private void initializeQuantums() {
