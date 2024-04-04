@@ -107,6 +107,11 @@ public class DFDCInitializerService {
     return booleanDataForms;
   }
 
+
+  private static DataClass[] getCursorPosDataClasses() {
+    DataClass[] cursorPosDataClasses = new DataClass[5];
+
+  }
   public static DataClass[] getBooleanDataClasses() {
     DataClass[] booleanDataClasses = new DataClass[3];
     CompoundDataClass notBoolDC = CompoundDataClass.make(new HashMap<>());
@@ -167,10 +172,8 @@ public class DFDCInitializerService {
 
     DataClass[] cursorPosDataClasses = getCursorPosDataClasses();
     CompoundDataClass cursorPosDC = (CompoundDataClass) cursorPosDataClasses[0];
-    PrimitiveDataClass aDC = (PrimitiveDataClass) cursorPosDataClasses[1];
-    CompoundDataClass cxcyDC = (CompoundDataClass) cursorPosDataClasses[2];
-    PrimitiveDataClass cxDC = (PrimitiveDataClass) cursorPosDataClasses[3];
-    PrimitiveDataClass cyDC = (PrimitiveDataClass) cursorPosDataClasses[4];
+    CompoundDataClass wholePairDC = (CompoundDataClass) cursorPosDataClasses[1];
+    PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) cursorPosDataClasses[2];
 
     HashMap<String, DataClassBrick> startingSubsCursorPos = new HashMap<>();
     startingSubsCursorPos.put("a", null);
@@ -178,19 +181,19 @@ public class DFDCInitializerService {
 
     CompoundDataClassBrick cursorPosDCB = CompoundDataClassBrick.make(cursorPosDC, null, startingSubsCursorPos, 1);
 
-    PrimitiveDataClassBrick aDCB = PrimitiveDataClassBrick.make(aDC, cursorPosDCB, aDFB);
+    PrimitiveDataClassBrick aDCB = PrimitiveDataClassBrick.make(wholeNumberDC, cursorPosDCB, aDFB);
 
     HashMap<String, DataClassBrick> startingSubsCXCY = new HashMap<>();
     startingSubsCXCY.put("cx", null);
     startingSubsCXCY.put("cy", null);
 
-    CompoundDataClassBrick cxcyDCB = CompoundDataClassBrick.make(cxcyDC, cursorPosDCB, startingSubsCXCY, 2);
+    CompoundDataClassBrick cxcyDCB = CompoundDataClassBrick.make(wholePairDC, cursorPosDCB, startingSubsCXCY, 2);
 
     cursorPosDCB.putSub("a", aDCB);
     cursorPosDCB.putSub("cxcy", cxcyDCB);
 
-    PrimitiveDataClassBrick cxDCB = PrimitiveDataClassBrick.make(cxDC, cxcyDCB, cxDFB);
-    PrimitiveDataClassBrick cyDCB = PrimitiveDataClassBrick.make(cyDC, cxcyDCB, cyDFB);
+    PrimitiveDataClassBrick cxDCB = PrimitiveDataClassBrick.make(wholeNumberDC, cxcyDCB, cxDFB);
+    PrimitiveDataClassBrick cyDCB = PrimitiveDataClassBrick.make(wholeNumberDC, cxcyDCB, cyDFB);
 
     cxcyDCB.putSub("cx", cxDCB);
     cxcyDCB.putSub("cy", cyDCB);
