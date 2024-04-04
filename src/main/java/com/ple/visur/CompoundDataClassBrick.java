@@ -22,13 +22,8 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return new CompoundDataClassBrick(dc, parent, subs, minimumRequiredSetValues);
   }
 
-  public CompoundDataClassBrick putSub(String name, DataClassBrick dcb) {
-    HashMap<String, DataClassBrick> newSubs = new HashMap<>();
-    for(HashMap.Entry<String, DataClassBrick> entry : subs.entrySet()) {
-      newSubs.put(entry.getKey(), entry.getValue());
-    }
-    newSubs.put(name, dcb);
-    return make(dc, parent, newSubs, minimumRequiredSetValues);
+  public void putSub(String name, DataClassBrick dcb) {
+    subs.put(name, dcb);
   }
 
   public DataClassBrick getSub(String name) {

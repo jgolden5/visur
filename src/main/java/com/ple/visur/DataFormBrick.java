@@ -7,7 +7,7 @@ public class DataFormBrick {
   Object val;
 
 
-  public DataFormBrick(DataForm fromDF, Object val) {
+  private DataFormBrick(DataForm fromDF, Object val) {
     this.fromDF = fromDF;
     this.val = val;
   }

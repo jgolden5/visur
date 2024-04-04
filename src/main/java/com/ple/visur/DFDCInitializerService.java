@@ -107,106 +107,6 @@ public class DFDCInitializerService {
     return booleanDataForms;
   }
 
-  public static DataForm[] getStringDataForms(DataClass letterStringDC) {
-    DataForm[] stringDataForms = new DataForm[8];
-
-    DataForm aStringDF = DataForm.make("a", letterStringDC, new HashMap<>());
-    DataForm bStringDF = DataForm.make("b", letterStringDC, new HashMap<>());
-    DataForm cStringDF = DataForm.make("c", letterStringDC, new HashMap<>());
-    DataForm dStringDF = DataForm.make("d", letterStringDC, new HashMap<>());
-    DataForm eStringDF = DataForm.make("e", letterStringDC, new HashMap<>());
-    DataForm fStringDF = DataForm.make("f", letterStringDC, new HashMap<>());
-    DataForm gStringDF = DataForm.make("g", letterStringDC, new HashMap<>());
-    DataForm hStringDF = DataForm.make("h", letterStringDC, new HashMap<>());
-
-    Converter aToB = (val) -> {
-      Object newVal = null;
-      if (val.equals("a")) {
-        newVal = "b";
-      }
-      return newVal;
-    };
-
-    Converter aToC = (val) -> {
-      Object newVal = null;
-      if (val.equals("a")) {
-        newVal = "c";
-      }
-      return newVal;
-    };
-
-    Converter bToD = (val) -> {
-      Object newVal = null;
-      if (val.equals("b")) {
-        newVal = "d";
-      }
-      return newVal;
-    };
-
-    Converter bToE = (val) -> {
-      Object newVal = null;
-      if (val.equals("b")) {
-        newVal = "e";
-      }
-      return newVal;
-    };
-
-    Converter bToF = (val) -> {
-      Object newVal = null;
-      if (val.equals("b")) {
-        newVal = "f";
-      }
-      return newVal;
-    };
-
-    Converter cToG = (val) -> {
-      Object newVal = null;
-      if (val.equals("c")) {
-        newVal = "g";
-      }
-      return newVal;
-    };
-
-    Converter cToA = (val) -> {
-      Object newVal = null;
-      if (val.equals("c")) {
-        newVal = "a";
-      }
-      return newVal;
-    };
-
-    Converter eToH = (val) -> {
-      Object newVal = null;
-      if (val.equals("e")) {
-        newVal = "h";
-      }
-      return newVal;
-    };
-
-    aStringDF.putConverter(bStringDF, aToB);
-    aStringDF.putConverter(cStringDF, aToC);
-
-    bStringDF.putConverter(dStringDF, bToD);
-    bStringDF.putConverter(eStringDF, bToE);
-    bStringDF.putConverter(fStringDF, bToF);
-
-    cStringDF.putConverter(gStringDF, cToG);
-    cStringDF.putConverter(aStringDF, cToA);
-
-    eStringDF.putConverter(hStringDF, eToH);
-
-    stringDataForms[0] = aStringDF;
-    stringDataForms[1] = bStringDF;
-    stringDataForms[2] = cStringDF;
-    stringDataForms[3] = dStringDF;
-    stringDataForms[4] = eStringDF;
-    stringDataForms[5] = fStringDF;
-    stringDataForms[6] = gStringDF;
-    stringDataForms[7] = hStringDF;
-
-    return stringDataForms;
-  }
-
   public static DataClass[] getBooleanDataClasses() {
     DataClass[] booleanDataClasses = new DataClass[3];
     CompoundDataClass notBoolDC = CompoundDataClass.make(new HashMap<>());
@@ -262,31 +162,46 @@ public class DFDCInitializerService {
     return booleanDataClasses;
   }
 
-  public static DataClassBrick[] getBooleanDataClassBricks(DataFormBrick aDFB, DataFormBrick bDFB) {
-    DataClassBrick[] booleanDataClassBricks = new DataClassBrick[3];
+  public static DataClassBrick[] getCursorPosDataClassBricks(DataFormBrick aDFB, DataFormBrick cxDFB, DataFormBrick cyDFB) {
+    DataClassBrick[] cursorPosDataClassBricks = new DataClassBrick[5];
 
-    DataClass[] booleanDataClasses = getBooleanDataClasses();
-    CompoundDataClass notBoolDC = (CompoundDataClass) booleanDataClasses[0];
-    PrimitiveDataClass aBoolDC = (PrimitiveDataClass) booleanDataClasses[1];
-    PrimitiveDataClass bBoolDC = (PrimitiveDataClass) booleanDataClasses[2];
+    DataClass[] cursorPosDataClasses = getCursorPosDataClasses();
+    CompoundDataClass cursorPosDC = (CompoundDataClass) cursorPosDataClasses[0];
+    PrimitiveDataClass aDC = (PrimitiveDataClass) cursorPosDataClasses[1];
+    CompoundDataClass cxcyDC = (CompoundDataClass) cursorPosDataClasses[2];
+    PrimitiveDataClass cxDC = (PrimitiveDataClass) cursorPosDataClasses[3];
+    PrimitiveDataClass cyDC = (PrimitiveDataClass) cursorPosDataClasses[4];
 
-    HashMap<String, DataClassBrick> startingSubs = new HashMap<>();
-    startingSubs.put("a", null);
-    startingSubs.put("b", null);
+    HashMap<String, DataClassBrick> startingSubsCursorPos = new HashMap<>();
+    startingSubsCursorPos.put("a", null);
+    startingSubsCursorPos.put("cxcy", null);
 
-    CompoundDataClassBrick booleanNotDCB = CompoundDataClassBrick.make(notBoolDC, startingSubs, 1);
+    CompoundDataClassBrick cursorPosDCB = CompoundDataClassBrick.make(cursorPosDC, null, startingSubsCursorPos, 1);
 
-    PrimitiveDataClassBrick notBoolA = PrimitiveDataClassBrick.make(aBoolDC, aDFB);
-    PrimitiveDataClassBrick notBoolB = PrimitiveDataClassBrick.make(bBoolDC, bDFB);
+    PrimitiveDataClassBrick aDCB = PrimitiveDataClassBrick.make(aDC, cursorPosDCB, aDFB);
 
-    booleanNotDCB = booleanNotDCB.putSub("a", notBoolA);
-    booleanNotDCB = booleanNotDCB.putSub("b", notBoolB);
+    HashMap<String, DataClassBrick> startingSubsCXCY = new HashMap<>();
+    startingSubsCXCY.put("cx", null);
+    startingSubsCXCY.put("cy", null);
 
-    booleanDataClassBricks[0] = booleanNotDCB;
-    booleanDataClassBricks[1] = notBoolA;
-    booleanDataClassBricks[2] = notBoolB;
+    CompoundDataClassBrick cxcyDCB = CompoundDataClassBrick.make(cxcyDC, cursorPosDCB, startingSubsCXCY, 2);
 
-    return booleanDataClassBricks;
+    cursorPosDCB.putSub("a", aDCB);
+    cursorPosDCB.putSub("cxcy", cxcyDCB);
+
+    PrimitiveDataClassBrick cxDCB = PrimitiveDataClassBrick.make(cxDC, cxcyDCB, cxDFB);
+    PrimitiveDataClassBrick cyDCB = PrimitiveDataClassBrick.make(cyDC, cxcyDCB, cyDFB);
+
+    cxcyDCB.putSub("cx", cxDCB);
+    cxcyDCB.putSub("cy", cyDCB);
+
+    cursorPosDataClassBricks[0] = cursorPosDCB;
+    cursorPosDataClassBricks[1] = aDCB;
+    cursorPosDataClassBricks[2] = cxcyDCB;
+    cursorPosDataClassBricks[3] = cxDCB;
+    cursorPosDataClassBricks[4] = cyDCB;
+
+    return cursorPosDataClassBricks;
   }
 
 }
