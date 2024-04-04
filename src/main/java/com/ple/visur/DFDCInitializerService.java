@@ -109,62 +109,37 @@ public class DFDCInitializerService {
 
 
   private static DataClass[] getCursorPosDataClasses() {
-    DataClass[] cursorPosDataClasses = new DataClass[5];
+    DataClass[] cursorPosDataClasses = new DataClass[3];
 
-  }
-  public static DataClass[] getBooleanDataClasses() {
-    DataClass[] booleanDataClasses = new DataClass[3];
-    CompoundDataClass notBoolDC = CompoundDataClass.make(new HashMap<>());
+    CompoundDataClass cursorPosDC = CompoundDataClass.make();
+    CompoundDataClass wholePairDC = CompoundDataClass.make();
 
-    DFReferenceGetter getBooleanReferenceDF = (dfb) -> {
-      DataForm[] booleanDataForms = DFDCInitializerService.getBooleanDataForms(dfb.fromDF.dc);
-      return booleanDataForms[1]; //trueFalseStringBool
+    DFReferenceGetter getAbsoluteReferenceDF = (dfb) -> {
+      DataForm[] cursorPosDataForms = getCursorPosDataForms(dfb.fromDF.dc); //<-- is dc argument necessary now that we have parent dcb's?
+      return cursorPosDataForms[0]; //should be absolute form (a). cursorPosDataForms[1] would be cxcy form
     };
 
-    PrimitiveDataClass aBoolDC = PrimitiveDataClass.make(getBooleanReferenceDF);
-    PrimitiveDataClass bBoolDC = PrimitiveDataClass.make(getBooleanReferenceDF);
-    notBoolDC.putSub("a", aBoolDC);
-    notBoolDC.putSub("b", bBoolDC);
+    PrimitiveDataClass wholeNumberDC = PrimitiveDataClass.make(getAbsoluteReferenceDF);
+    cursorPosDC.putSub("a", wholeNumberDC);
+    cursorPosDC.putSub("cxcy", wholePairDC);
+    wholePairDC.putSub("cx", wholeNumberDC);
+    wholePairDC.putSub("cy", wholeNumberDC);
 
-    Deriver boolNotAToB = (cdcb) -> {
-      PrimitiveDataClassBrick subA = (PrimitiveDataClassBrick) cdcb.getSub("a");
-      DataFormBrick aSubDFB = subA.getVal();
-      Object aSubDFBVal = aSubDFB.getVal();
-      Object dfbResVal = null;
-      if (aSubDFBVal.equals("true")) {
-        dfbResVal = "false";
-      } else if (aSubDFBVal.equals("false")) {
-        dfbResVal = "true";
-      }
-      return DataFormBrick.make(aSubDFB.getDF(), dfbResVal);
+    Deriver aToCXCY = (cdcb) -> {
+      return DataFormBrick.make();
     };
 
-    Deriver boolNotBToA = (cdcb) -> {
-      PrimitiveDataClassBrick subB = (PrimitiveDataClassBrick) cdcb.getSub("b");
-      if(subB.getVal() == null) {
-        PrimitiveDataClassBrick subA = (PrimitiveDataClassBrick) cdcb.getSub("a");
-        if(subA == null) {
-          return null;
-        }
-      }
-      DataFormBrick bSubDFB = subB.getVal();
-      Object bSubDFBVal = bSubDFB.getVal();
-      Object dfbResVal = null;
-      if (bSubDFBVal.equals("true")) {
-        dfbResVal = "false";
-      } else if (bSubDFBVal.equals("false")) {
-        dfbResVal = "true";
-      }
-      return DataFormBrick.make(bSubDFB.getDF(), dfbResVal);
+    Deriver cxcyToA = (cdcb) -> {
+      return DataFormBrick.make();
     };
 
-    notBoolDC.putDeriver("a", boolNotBToA);
-    notBoolDC.putDeriver("b", boolNotAToB);
+    cursorPosDC.putDeriver("a", aToCXCY);
+    cursorPosDC.putDeriver("cxcy", cxcyToA);
 
-    booleanDataClasses[0] = notBoolDC;
-    booleanDataClasses[1] = aBoolDC;
-    booleanDataClasses[2] = bBoolDC;
-    return booleanDataClasses;
+    cursorPosDataClasses[0] = cursorPosDC;
+    cursorPosDataClasses[1] = wholePairDC;
+    cursorPosDataClasses[2] = wholeNumberDC;
+    return cursorPosDataClasses;
   }
 
   public static DataClassBrick[] getCursorPosDataClassBricks(DataFormBrick aDFB, DataFormBrick cxDFB, DataFormBrick cyDFB) {

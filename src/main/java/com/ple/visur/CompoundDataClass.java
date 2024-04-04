@@ -6,11 +6,11 @@ import java.util.Objects;
 public class CompoundDataClass implements DataClass {
   HashMap<String, DataClass> subs;
   HashMap<String, Deriver> derivers;
-  public static CompoundDataClass make(HashMap<String, DataClass> subs) {
-    return new CompoundDataClass(subs);
+  public static CompoundDataClass make() {
+    return new CompoundDataClass(new HashMap<>());
   }
 
-  public CompoundDataClass(HashMap<String, DataClass> subs) {
+  private CompoundDataClass(HashMap<String, DataClass> subs) {
     this.subs = subs;
     derivers = new HashMap<>();
   }
