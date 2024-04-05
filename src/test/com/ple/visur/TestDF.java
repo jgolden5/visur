@@ -60,5 +60,20 @@ public class TestDF {
     assertEquals(DataFormBrick.make(aDF, 28), aDFB);
   }
 
+  @Test void nullTests() {
+    DataClass[] cursorPosDataClasses = DFDCInitializerService.getCursorPosDataClasses();
+    DataForm[] cursorPosDataForms = DFDCInitializerService.getCursorPosDataForms(cursorPosDataClasses[0], cursorPosDataClasses[1]);
+    DataForm aDF = cursorPosDataForms[0];
+    DataForm cxcyDF = cursorPosDataForms[1];
+    DataFormBrick aDFB = DataFormBrick.make(aDF, null);
+    DataFormBrick cxcyDFB = aDFB.convert(cxcyDF);
+
+    assertEquals(DataFormBrick.make(cxcyDF, null), cxcyDFB);
+
+    cxcyDFB = DataFormBrick.make(cxcyDF, null);
+    aDFB = cxcyDFB.convert(aDF);
+
+    assertEquals(DataFormBrick.make(aDF, null), aDFB);
+  }
 
 }

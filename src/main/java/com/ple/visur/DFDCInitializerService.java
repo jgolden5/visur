@@ -23,36 +23,44 @@ public class DFDCInitializerService {
       newlineIndices.add(24);
 //    not test:  ArrayList<Integer> newlineIndices = ems.getNewlineIndices();
 
-      int a = (int)val;
-      int cx = 0;
-      int cy = 0;
-
-      if(a <= newlineIndices.get(0)) {
-        cx = a;
+      if(val == null) {
+        return null;
       } else {
-        for (int i = 0; i < newlineIndices.size(); i++) {
-          if (a > newlineIndices.get(i)) {
-            cy++;
-            cx = a - (newlineIndices.get(i) + 1);
+        int a = (int) val;
+        int cx = 0;
+        int cy = 0;
+
+        if (a <= newlineIndices.get(0)) {
+          cx = a;
+        } else {
+          for (int i = 0; i < newlineIndices.size(); i++) {
+            if (a > newlineIndices.get(i)) {
+              cy++;
+              cx = a - (newlineIndices.get(i) + 1);
+            }
           }
         }
-      }
 
-      CursorPosition cursorPos = new CursorPosition(cx, cy);
-      return cursorPos;
+        CursorPosition cursorPos = new CursorPosition(cx, cy);
+        return cursorPos;
+      }
     };
 
     Converter cxcyToA = (val) -> {
-      CursorPosition cxcy = (CursorPosition) val;
-      int a = 0;
-      ArrayList<Integer> newlineIndices = new ArrayList<>();
-      newlineIndices.add(11);
-      newlineIndices.add(24);
-      if(cxcy.y > 0) {
-        a += newlineIndices.get(cxcy.y - 1) + 1;
+      if(val == null) {
+        return null;
+      } else {
+        CursorPosition cxcy = (CursorPosition) val;
+        int a = 0;
+        ArrayList<Integer> newlineIndices = new ArrayList<>();
+        newlineIndices.add(11);
+        newlineIndices.add(24);
+        if (cxcy.y > 0) {
+          a += newlineIndices.get(cxcy.y - 1) + 1;
+        }
+        a += cxcy.x;
+        return a;
       }
-      a += cxcy.x;
-      return a;
     };
 
     aDF.putConverter(cxcyDF, aToCXCY);
