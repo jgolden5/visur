@@ -1,6 +1,7 @@
 package com.ple.visur;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DFDCInitializerService {
@@ -8,16 +9,37 @@ public class DFDCInitializerService {
     return new DFDCInitializerService();
   }
 
-  private static DataForm[] getCursorPosDataForms(DataClass cursorPosDC, DataClass cxcyDC) {
+  public static DataForm[] getCursorPosDataForms(DataClass cursorPosDC, DataClass cxcyDC) {
     DataForm[] cursorPosDataForms = new DataForm[3];
     DataForm aDF = DataForm.make("a", cursorPosDC);
-    DataForm cxcyDF = DataForm.make("cx", cxcyDC);
+    DataForm cxcyDF = DataForm.make("cxcy", cxcyDC);
 
     //I need to learn the difference between the Converters and the Derivers because there's a chance that both are doing the same thing in this case
 
     Converter aToCXCY = (val) -> {
-      Object newVal = null;
-      return newVal;
+      //for test:
+      ArrayList<Integer> newlineIndices = new ArrayList<>();
+      newlineIndices.add(11);
+      newlineIndices.add(24);
+//    not test:  ArrayList<Integer> newlineIndices = ems.getNewlineIndices();
+
+      int a = (int)val;
+      int cx = 0;
+      int cy = 0;
+
+      if(a <= newlineIndices.get(0)) {
+        cx = a;
+      } else {
+        for (int i = 0; i < newlineIndices.size(); i++) {
+          if (a > newlineIndices.get(i)) {
+            cy++;
+            cx = a - (newlineIndices.get(i) + 1);
+          }
+        }
+      }
+
+      CursorPosition cursorPos = new CursorPosition(cx, cy);
+      return cursorPos;
     };
 
     Converter cxcyToA = (val) -> {
@@ -33,7 +55,7 @@ public class DFDCInitializerService {
     return cursorPosDataForms;
   }
 
-  private static DataClass[] getCursorPosDataClasses() {
+  public static DataClass[] getCursorPosDataClasses() {
     DataClass[] cursorPosDataClasses = new DataClass[3];
 
     CompoundDataClass cursorPosDC = CompoundDataClass.make();

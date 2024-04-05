@@ -23,4 +23,5 @@ public enum EditorModelKey {
   quantumMap,
   quantumStart,
   quantumEnd,
+  newlineIndices,
 }

@@ -64,22 +64,8 @@ public class EditorModelService {
   }
 
   public ArrayList<Integer> getNewlineIndices() {
-    String content = getEditorContent();
-    ArrayList<Integer> newlineIndices = new ArrayList<>();
-    boolean keepGoing = true;
-    int fullStringIndex = 0;
-    while(keepGoing) {
-      int substringIndex = content.indexOf("\n");
-      if(substringIndex != -1) {
-        fullStringIndex += substringIndex;
-        newlineIndices.add(fullStringIndex);
-        content = content.substring(substringIndex + 1);
-        fullStringIndex++; //because of newline char
-      } else {
-        keepGoing = false;
-      }
-    }
-    return newlineIndices;
+    //note that this must be re-updated every time editorContent is changed
+    return (ArrayList<Integer>) editorModel.get(newlineIndices);
   }
 
   public int getVirtualX() {
@@ -154,12 +140,32 @@ public class EditorModelService {
 
   public void putEditorContent(String contentLines) {
     editorModel.put(editorContent, contentLines);
+    updateNewlineIndices();
   }
 
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
     VariableMap gvm = getGlobalVariableMap();
     gvm.put(globalVarName, globalVarValue); //updates value that was previously at associated key
     editorModel.put(globalVariableMap, gvm);
+  }
+
+  public void updateNewlineIndices() {
+    String content = getEditorContent();
+    ArrayList<Integer> indices = new ArrayList<>();
+    boolean keepGoing = true;
+    int fullStringIndex = 0;
+    while(keepGoing) {
+      int substringIndex = content.indexOf("\n");
+      if(substringIndex != -1) {
+        fullStringIndex += substringIndex;
+        indices.add(fullStringIndex);
+        content = content.substring(substringIndex + 1);
+        fullStringIndex++; //because of newline char
+      } else {
+        keepGoing = false;
+      }
+    }
+    editorModel.put(newlineIndices, indices);
   }
 
   public void putVirtualX(int x) {
