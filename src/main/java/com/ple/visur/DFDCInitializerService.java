@@ -43,8 +43,16 @@ public class DFDCInitializerService {
     };
 
     Converter cxcyToA = (val) -> {
-      Object newVal = null;
-      return newVal;
+      CursorPosition cxcy = (CursorPosition) val;
+      int a = 0;
+      ArrayList<Integer> newlineIndices = new ArrayList<>();
+      newlineIndices.add(11);
+      newlineIndices.add(24);
+      if(cxcy.y > 0) {
+        a += newlineIndices.get(cxcy.y - 1) + 1;
+      }
+      a += cxcy.x;
+      return a;
     };
 
     aDF.putConverter(cxcyDF, aToCXCY);
