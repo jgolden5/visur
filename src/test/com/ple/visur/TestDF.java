@@ -38,11 +38,16 @@ public class TestDF {
     DataForm[] cursorPosDataForms = DFDCInitializerService.getCursorPosDataForms(cursorPosDataClasses[0], cursorPosDataClasses[1]);
     DataForm aDF = cursorPosDataForms[0];
     DataForm cxcyDF = cursorPosDataForms[1];
+
     DataFormBrick cxcyDFB = DataFormBrick.make(cxcyDF, new CursorPosition(5, 1));
     DataFormBrick aDFB = cxcyDFB.convert(aDF);
 
     assertEquals(DataFormBrick.make(aDF, 17), aDFB);
 
+    cxcyDFB = DataFormBrick.make(cxcyDF, new CursorPosition(6, 0));
+    aDFB = cxcyDFB.convert(aDF);
+
+    assertEquals(DataFormBrick.make(aDF, 6), aDFB);
   }
 
 
