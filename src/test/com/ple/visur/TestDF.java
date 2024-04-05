@@ -53,6 +53,11 @@ public class TestDF {
     aDFB = cxcyDFB.convert(aDF);
 
     assertEquals(DataFormBrick.make(aDF, 13), aDFB);
+
+    cxcyDFB = DataFormBrick.make(cxcyDF, new CursorPosition(3, 2));
+    aDFB = cxcyDFB.convert(aDF);
+
+    assertEquals(DataFormBrick.make(aDF, 28), aDFB);
   }
 
 
