@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDF {
 
-  @Test void dataFormsDirectConversion() {
+  @Test void aDFToCXCYDF() {
     DataClass[] cursorPosDataClasses = DFDCInitializerService.getCursorPosDataClasses();
     DataForm[] cursorPosDataForms = DFDCInitializerService.getCursorPosDataForms(cursorPosDataClasses[0], cursorPosDataClasses[1]);
     DataForm aDF = cursorPosDataForms[0];
@@ -31,13 +31,19 @@ public class TestDF {
 
     assertEquals(DataFormBrick.make(cxcyDF, new CursorPosition(5, 2)), cxcyDFB);
 
-    cxcyDFB = DataFormBrick.make(cxcyDF, new CursorPosition(5, 1));
-    aDFB = cxcyDFB.convert(aDF);
-
-    assertEquals(DataFormBrick.make(aDF, 17), aDFB);
   }
 
-  @Test
+  @Test void cxcyDFToADF() {
+    DataClass[] cursorPosDataClasses = DFDCInitializerService.getCursorPosDataClasses();
+    DataForm[] cursorPosDataForms = DFDCInitializerService.getCursorPosDataForms(cursorPosDataClasses[0], cursorPosDataClasses[1]);
+    DataForm aDF = cursorPosDataForms[0];
+    DataForm cxcyDF = cursorPosDataForms[1];
+    DataFormBrick cxcyDFB = DataFormBrick.make(cxcyDF, new CursorPosition(5, 1));
+    DataFormBrick aDFB = cxcyDFB.convert(aDF);
+
+    assertEquals(DataFormBrick.make(aDF, 17), aDFB);
+
+  }
 
 
 }
