@@ -6,9 +6,13 @@ public class CursorPosition {
   int x;
   int y;
 
-  public CursorPosition(int x, int y) {
+  private CursorPosition(int x, int y) {
     this.x = x;
     this.y = y;
+  }
+
+  public static CursorPosition make(int x, int y) {
+    return new CursorPosition(x, y);
   }
 
   @Override

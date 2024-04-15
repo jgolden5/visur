@@ -13,7 +13,9 @@ public class TestDF {
   CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
   @Test
   public void directConversion() {
-
+    DataFormBrick aDFB = cursorPositionDCHolder.aDF.makeBrick(5).get();
+    DataFormBrick cxcyDFB = aDFB.convertTo(cursorPositionDCHolder.cxcyDF, cursorPositionDCHolder);
+    assertEquals(cursorPositionDCHolder.cxcyDF.makeBrick(CursorPosition.make(0, 5)).get(), cxcyDFB);
   }
 
   @Test

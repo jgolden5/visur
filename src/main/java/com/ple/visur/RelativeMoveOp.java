@@ -15,7 +15,7 @@ public class RelativeMoveOp implements Operator {
     MovementVector movementVector = new MovementVector(dx, dy);
     int contentX = ems.getGlobalVar("ca").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
-    CursorPosition pos = new CursorPosition(contentX, contentY);
+    CursorPosition pos = CursorPosition.make(contentX, contentY);
     int[] bounds = currentQuantum.getBoundaries(editorContent, newlineIndices, contentX, contentY, false);
     CursorPosition newCursorPosition = currentQuantum.move(editorContent, newlineIndices, pos, movementVector, bounds);
     if(newCursorPosition.x < editorContent.length()) {
