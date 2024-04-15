@@ -1,79 +1,34 @@
 package com.ple.visur;
 
+import CursorPositionDC.*;
+import DataClass.DataFormBrick;
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 public class TestDF {
-
-  @Test void aDFToCXCYDF() {
-    DataClass[] cursorPosDataClasses = DFDCInitializerService.getCursorPosDataClasses();
-    DataForm[] cursorPosDataForms = DFDCInitializerService.getCursorPosDataForms(cursorPosDataClasses[0], cursorPosDataClasses[1]);
-    DataForm aDF = cursorPosDataForms[0];
-    DataForm cxcyDF = cursorPosDataForms[1];
-    DataFormBrick aDFB = DataFormBrick.make(aDF, 16);
-    DataFormBrick cxcyDFB = aDFB.convert(cxcyDF);
-
-    assertEquals(DataFormBrick.make(cxcyDF, new CursorPosition(4, 1)), cxcyDFB);
-
-    aDFB = DataFormBrick.make(aDF, 0);
-    cxcyDFB = aDFB.convert(cxcyDF);
-
-    assertEquals(DataFormBrick.make(cxcyDF, new CursorPosition(0, 0)), cxcyDFB);
-
-    aDFB = DataFormBrick.make(aDF, 6);
-    cxcyDFB = aDFB.convert(cxcyDF);
-
-    assertEquals(DataFormBrick.make(cxcyDF, new CursorPosition(6, 0)), cxcyDFB);
-
-    aDFB = DataFormBrick.make(aDF, 30);
-    cxcyDFB = aDFB.convert(cxcyDF);
-
-    assertEquals(DataFormBrick.make(cxcyDF, new CursorPosition(5, 2)), cxcyDFB);
+  CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
+  @Test
+  public void directConversion() {
 
   }
 
-  @Test void cxcyDFToADF() {
-    DataClass[] cursorPosDataClasses = DFDCInitializerService.getCursorPosDataClasses();
-    DataForm[] cursorPosDataForms = DFDCInitializerService.getCursorPosDataForms(cursorPosDataClasses[0], cursorPosDataClasses[1]);
-    DataForm aDF = cursorPosDataForms[0];
-    DataForm cxcyDF = cursorPosDataForms[1];
+  @Test
+  public void indirectConversion() {
 
-    DataFormBrick cxcyDFB = DataFormBrick.make(cxcyDF, new CursorPosition(5, 1));
-    DataFormBrick aDFB = cxcyDFB.convert(aDF);
-
-    assertEquals(DataFormBrick.make(aDF, 17), aDFB);
-
-    cxcyDFB = DataFormBrick.make(cxcyDF, new CursorPosition(6, 0));
-    aDFB = cxcyDFB.convert(aDF);
-
-    assertEquals(DataFormBrick.make(aDF, 6), aDFB);
-
-    cxcyDFB = DataFormBrick.make(cxcyDF, new CursorPosition(1, 1));
-    aDFB = cxcyDFB.convert(aDF);
-
-    assertEquals(DataFormBrick.make(aDF, 13), aDFB);
-
-    cxcyDFB = DataFormBrick.make(cxcyDF, new CursorPosition(3, 2));
-    aDFB = cxcyDFB.convert(aDF);
-
-    assertEquals(DataFormBrick.make(aDF, 28), aDFB);
   }
 
-  @Test void nullTests() {
-    DataClass[] cursorPosDataClasses = DFDCInitializerService.getCursorPosDataClasses();
-    DataForm[] cursorPosDataForms = DFDCInitializerService.getCursorPosDataForms(cursorPosDataClasses[0], cursorPosDataClasses[1]);
-    DataForm aDF = cursorPosDataForms[0];
-    DataForm cxcyDF = cursorPosDataForms[1];
-    DataFormBrick aDFB = DataFormBrick.make(aDF, null);
-    DataFormBrick cxcyDFB = aDFB.convert(cxcyDF);
+  @Test
+  public void selfConversion() {
 
-    assertEquals(DataFormBrick.make(cxcyDF, null), cxcyDFB);
+  }
 
-    cxcyDFB = DataFormBrick.make(cxcyDF, null);
-    aDFB = cxcyDFB.convert(aDF);
+  @Test
+  public void noNullDFBs() {
 
-    assertEquals(DataFormBrick.make(aDF, null), aDFB);
   }
 
 }

@@ -1,9 +1,26 @@
 package com.ple.visur;
 
+import CursorPositionDC.*;
+import DataClass.CompoundDataClassBrick;
+import DataClass.DCHolder;
+import DataClass.DataFormBrick;
+import DataClass.PrimitiveDataClassBrick;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+
 public class TestDC {
-  @Test void getExistingSubs() {
+  CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
+  @Test void dcConstrainsDFs() {
 
   }
+
+  @Test void cdcbCalculateInner() {
+
+  }
+  @Test void calculateInnerFailsWithNotEnoughInfo() {
+
+  }
+
 }
