@@ -5,8 +5,8 @@ import DataClass.DataForm;
 
 public class CursorPositionDCHolder extends DCHolder {
 
-  public DataForm aDF = new Adf(1);
-  public DataForm cxcyDF = new CXCYdf(1);
+  public DataForm javaIntDF = new JavaIntDF(0);
+  public DataForm cursorPosDF = new CursorPosDF(0);
 
   public static CursorPositionDCHolder make() {
     return new CursorPositionDCHolder();

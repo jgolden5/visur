@@ -6,8 +6,8 @@ import DataClass.DataFormBrick;
 
 import java.util.Optional;
 
-public class Adf extends DataForm {
-  public Adf(int numberOfConvertibleForms) {
+public class CursorPosDF extends DataForm {
+  public CursorPosDF(int numberOfConvertibleForms) {
     super(numberOfConvertibleForms);
   }
 
