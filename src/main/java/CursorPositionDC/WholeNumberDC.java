@@ -1,13 +1,20 @@
 package CursorPositionDC;
 
-import DataClass.CompoundDataClassBrick;
-import DataClass.DCHolder;
-import DataClass.PrimitiveDataClass;
-import DataClass.PrimitiveDataClassBrick;
+import DataClass.*;
 
 public class WholeNumberDC extends PrimitiveDataClass {
   @Override
   public PrimitiveDataClassBrick makeBrick(Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
-    return null;
+    CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
+    DataForm targetDF = null;
+    Object res = null;
+    Integer valAsInt = (Integer)val;
+    if(valAsInt != null) {
+      if(valAsInt >= 0) {
+        targetDF = cursorPositionDCHolder.javaIntDF;
+        res = val;
+      }
+    }
+    return PrimitiveDataClassBrick.make(this, outerBrick, DataFormBrick.make(targetDF, res));
   }
 }
