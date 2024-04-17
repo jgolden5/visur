@@ -10,6 +10,7 @@ import static com.ple.visur.EditorModelKey.*;
 public class EditorModelService {
 
   LocalMap<EditorModelKey, Object> editorModel;
+  EditorContentService editorContentService = ServiceHolder.editorContentService;
 
   private EditorModelService(SharedData sharedData) {
     this.editorModel = sharedData.getLocalMap("editorModel");
@@ -33,7 +34,6 @@ public class EditorModelService {
   public VariableMap getGlobalVariableMap() {
     return (VariableMap)editorModel.get(globalVariableMap);
   }
-
 
   public String getCurrentContentLine() {
     int contentY = getGlobalVar("contentY").getInt();

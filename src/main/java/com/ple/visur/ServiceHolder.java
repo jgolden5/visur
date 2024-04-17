@@ -5,11 +5,13 @@ import io.vertx.rxjava3.core.shareddata.SharedData;
 public class ServiceHolder {
 
 
+
   public static ServiceHolder init(SharedData sharedData) {
     return new ServiceHolder(sharedData);
   }
 
   ServiceHolder(SharedData sharedData) {
+    editorContentService = EditorContentService.make();
     editorModelService = EditorModelService.make(sharedData);
     commandCompileService = CommandCompileService.make();
     initializerService = InitializerService.make(editorModelService);
@@ -20,6 +22,7 @@ public class ServiceHolder {
     insertCharService = InsertCharService.make();
   }
 
+  public static EditorContentService editorContentService;
   public static EditorModelService editorModelService;
   public static CommandCompileService commandCompileService;
   public static CommandExecutionService commandExecutionService;
