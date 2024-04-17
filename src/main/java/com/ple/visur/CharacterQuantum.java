@@ -9,9 +9,9 @@ public class CharacterQuantum implements Quantum {
   }
 
   @Override
-  public CursorPosition move(String editorContent, ArrayList<Integer> newlineIndices, CursorPosition startingPos, MovementVector mv, int[] bounds) {
+  public Coordinate move(String editorContent, ArrayList<Integer> newlineIndices, Coordinate startingPos, MovementVector mv, int[] bounds) {
     int x = startingPos.x;
-    CursorPosition destination = startingPos;
+    Coordinate destination = startingPos;
     int endLimit = editorContent.length() - 1;
     while(mv.dx != 0) {
       if(mv.dx > 0) {

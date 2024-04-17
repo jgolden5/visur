@@ -50,8 +50,8 @@ public class RegexQuantum implements Quantum {
   }
 
   @Override
-  public CursorPosition move(String editorContent, ArrayList<Integer> newlineIndices, CursorPosition startingPos, MovementVector mv, int[] bounds) {
-    CursorPosition destination = startingPos;
+  public Coordinate move(String editorContent, ArrayList<Integer> newlineIndices, Coordinate startingPos, MovementVector mv, int[] bounds) {
+    Coordinate destination = startingPos;
     int iterator = mv.dx > 0 ? 1 : -1;
     while(mv.dx != 0) {
       destination.x = mv.dx > 0 ? bounds[1] : bounds[0];

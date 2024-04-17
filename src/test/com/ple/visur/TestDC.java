@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestDC {
   CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
   @Test void dcConstrainsDFs() {
-
+    CompoundDataClassBrick CursorPosDCB = cursorPositionDCHolder.cursorPosDC.makeBrick(cursorPositionDCHolder);
   }
 
   @Test void cdcbCalculateInner() {

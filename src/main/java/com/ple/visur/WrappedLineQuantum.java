@@ -33,8 +33,8 @@ public class WrappedLineQuantum implements Quantum {
   }
 
   @Override
-  public CursorPosition move(String editorContent, ArrayList<Integer> newlineIndices, CursorPosition startingPos, MovementVector m, int[] bounds) {
-    CursorPosition destination = startingPos;
+  public Coordinate move(String editorContent, ArrayList<Integer> newlineIndices, Coordinate startingPos, MovementVector m, int[] bounds) {
+    Coordinate destination = startingPos;
     return destination;
   }
 

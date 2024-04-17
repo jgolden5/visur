@@ -15,14 +15,14 @@ public class RelativeMoveOp implements Operator {
     MovementVector movementVector = new MovementVector(dx, dy);
     int contentX = ems.getGlobalVar("ca").getInt();
     int contentY = ems.getGlobalVar("contentY").getInt();
-    CursorPosition pos = CursorPosition.make(contentX, contentY);
+    Coordinate pos = Coordinate.make(contentX, contentY);
     int[] bounds = currentQuantum.getBoundaries(editorContent, newlineIndices, contentX, contentY, false);
-    CursorPosition newCursorPosition = currentQuantum.move(editorContent, newlineIndices, pos, movementVector, bounds);
-    if(newCursorPosition.x < editorContent.length()) {
-      ems.putGlobalVar("ca", new IntVisurVar(newCursorPosition.x));
+    Coordinate newCoordinate = currentQuantum.move(editorContent, newlineIndices, pos, movementVector, bounds);
+    if(newCoordinate.x < editorContent.length()) {
+      ems.putGlobalVar("ca", new IntVisurVar(newCoordinate.x));
     }
-    ems.putGlobalVar("contentY", new IntVisurVar(newCursorPosition.y));
-    int[] newBounds = currentQuantum.getBoundaries(editorContent, newlineIndices, newCursorPosition.x, newCursorPosition.y, false);
+    ems.putGlobalVar("contentY", new IntVisurVar(newCoordinate.y));
+    int[] newBounds = currentQuantum.getBoundaries(editorContent, newlineIndices, newCoordinate.x, newCoordinate.y, false);
     ems.putQuantumStart(newBounds[0]);
     ems.putQuantumEnd(newBounds[1]);
   }
