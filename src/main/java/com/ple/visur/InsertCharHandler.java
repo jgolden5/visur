@@ -2,13 +2,13 @@ package com.ple.visur;
 
 public class InsertCharHandler implements KeysToOperatorHandler {
 
-  EditorModelService ems;
+  EditorModelCoupler ems;
 
-  public InsertCharHandler(EditorModelService ems) {
+  public InsertCharHandler(EditorModelCoupler ems) {
     this.ems = ems;
   }
 
-  public static InsertCharHandler make(EditorModelService ems) {
+  public static InsertCharHandler make(EditorModelCoupler ems) {
     return new InsertCharHandler(ems);
   }
 

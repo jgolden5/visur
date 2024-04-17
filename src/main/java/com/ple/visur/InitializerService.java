@@ -7,14 +7,14 @@ import static com.ple.visur.EditorModelKey.globalVariableMap;
 
 public class InitializerService {
 
-  private final EditorModelService ems;
+  private final EditorModelCoupler ems;
 
-  public static InitializerService make(EditorModelService editorModelService) {
-    return new InitializerService(editorModelService);
+  public static InitializerService make(EditorModelCoupler editorModelCoupler) {
+    return new InitializerService(editorModelCoupler);
   }
 
-  private InitializerService(EditorModelService editorModelService) {
-    this.ems = editorModelService;
+  private InitializerService(EditorModelCoupler editorModelCoupler) {
+    this.ems = editorModelCoupler;
     initializeEditorModel();
   }
 

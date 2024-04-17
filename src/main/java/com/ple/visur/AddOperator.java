@@ -3,7 +3,7 @@ package com.ple.visur;
 public class AddOperator implements Operator {
   @Override
   public void execute(Object opInfo) {
-    EditorModelService ems = ServiceHolder.editorModelService;
+    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     ExecutionDataStack es = ems.getExecutionDataStack();
     int a = (int)es.pop();
     int b = (int)es.pop();

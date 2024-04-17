@@ -7,7 +7,7 @@ public class CommandStateService {
   }
 
   public void executeCommandState(KeyPressed keyPressed) {
-    EditorModelService ems = ServiceHolder.editorModelService;
+    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     int commandCursor = ems.getCommandCursor();
     String commandStateKeyPressed = keyPressed.getKey();
     if(commandStateKeyPressed.equals("Escape")) {
@@ -55,7 +55,7 @@ public class CommandStateService {
   }
 
   private void exitCommandState() {
-    EditorModelService ems = ServiceHolder.editorModelService;
+    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     ems.putIsInCommandState(false);
     ems.putCommandStateContent("");
     ems.putCommandCursor(0);

@@ -8,7 +8,7 @@ public class LiteralStringOp implements Operator {
 
   @Override
   public void execute(Object opInfo) {
-    ServiceHolder.editorModelService.putOnExecutionDataStack(opInfo);
+    ServiceHolder.editorModelCoupler.putOnExecutionDataStack(opInfo);
   }
 
 }

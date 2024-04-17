@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class RelativeMoveOp implements Operator {
   @Override
   public void execute(Object opInfo) {
-    EditorModelService ems = ServiceHolder.editorModelService;
+    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     ExecutionDataStack eds = ems.getExecutionDataStack();
     String editorContent = ems.getEditorContent();
     ArrayList<Integer> newlineIndices = ems.getNewlineIndices();

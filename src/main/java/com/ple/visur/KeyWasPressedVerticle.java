@@ -15,7 +15,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     JsonObject keyJson = new JsonObject((String) event.body());
     final String key = keyJson.getString("key");
     KeyPressed keyPressed = KeyPressed.from(key);
-    EditorModelService ems = ServiceHolder.editorModelService;
+    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     if(ems.getIsInCommandState()) {
       ServiceHolder.commandStateService.executeCommandState(keyPressed);
     } else {

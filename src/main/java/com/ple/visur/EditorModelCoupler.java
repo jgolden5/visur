@@ -1,5 +1,6 @@
 package com.ple.visur;
 
+import CursorPositionDC.EditorContentService;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
@@ -7,85 +8,62 @@ import java.util.ArrayList;
 
 import static com.ple.visur.EditorModelKey.*;
 
-public class EditorModelService {
+public class EditorModelCoupler {
 
   LocalMap<EditorModelKey, Object> editorModel;
-  EditorContentService editorContentService = ServiceHolder.editorContentService;
+  private EditorContentService editorContentService = ServiceHolder.editorContentService;
 
-  private EditorModelService(SharedData sharedData) {
+  private EditorModelCoupler(SharedData sharedData) {
     this.editorModel = sharedData.getLocalMap("editorModel");
   }
 
-  public static EditorModelService make(SharedData sharedData) {
-    return new EditorModelService(sharedData);
+  public static EditorModelCoupler make(SharedData sharedData) {
+    return new EditorModelCoupler(sharedData);
   }
 
-  //get contentLines variable using
   public String getEditorContent() {
-    //typecasting is necessary because of the generic Object type of the value
-    return (String)editorModel.get(editorContent);
+    return editorContentService.getEditorContent(editorModel);
   }
 
   public VisurVar getGlobalVar(String varName) {
-    VariableMap globalVarMap = (VariableMap)editorModel.get(globalVariableMap);
-    return globalVarMap.get(varName);
+    return editorContentService.getGlobalVar(varName, editorModel);
   }
 
   public VariableMap getGlobalVariableMap() {
-    return (VariableMap)editorModel.get(globalVariableMap);
+    return editorContentService.getGlobalVariableMap(editorModel);
   }
 
   public String getCurrentContentLine() {
-    int contentY = getGlobalVar("contentY").getInt();
-    return getContentLineAtY(contentY);
+    return editorContentService.getCurrentContentLine(editorModel);
   }
 
   public String getContentLineAtY(int y) {
-    final String content = getEditorContent();
-    ArrayList<Integer> newlineIndices = getNewlineIndices();
-    final String currentContentLine;
-    int lastNewlineIndex = newlineIndices.get(newlineIndices.size() - 1);
-    if(y < newlineIndices.size()) {
-      if(y > 0) {
-        currentContentLine = content.substring(newlineIndices.get(y - 1) + 1, newlineIndices.get(y));
-      } else {
-        currentContentLine = content.substring(0, newlineIndices.get(y));
-      }
-    } else if(content.length() > lastNewlineIndex + 1) {
-      currentContentLine = content.substring(lastNewlineIndex + 1);
-    } else {
-      currentContentLine = null;
-    }
-    return currentContentLine;
-  }
-
-  public int getCurrentContentLineLength() {
-    return getCurrentContentLine().length();
+    return editorContentService.getContentLineAtY(y, editorModel);
   }
 
   public ArrayList<Integer> getNewlineIndices() {
     //note that this must be re-updated every time editorContent is changed
-    return (ArrayList<Integer>) editorModel.get(newlineIndices);
+    return editorContentService.getNewlineIndices(editorModel);
   }
 
   public int getVirtualX() {
-    return (int)editorModel.get(virtualX);
+    return editorContentService.getVirtualX(editorModel);
   }
 
   public boolean getVirtualXIsAtEndOfLine() {
-    return (boolean)editorModel.get(virtualXIsAtEndOfLine);
-  }
-
-  public KeysPressed getKeyBuffer() {
-    return (KeysPressed)editorModel.get(keyBuffer);
+    return editorContentService.getVirtualXIsAtEndOfLine(editorModel);
   }
 
   public int getCanvasWidth() {
-    return (int)editorModel.get(canvasWidth);
+    return editorContentService.getCanvasWidth(editorModel);
   }
 
   public int getCanvasHeight() {
-    return (int)editorModel.get(canvasHeight);
+    return editorContentService.getCanvasHeight(editorModel);
+  }
+
+  public KeysPressed getKeyBuffer() {
+    return (KeysPressed) editorModel.get(keyBuffer);
   }
 
   public EditorMode getEditorMode() {
@@ -93,10 +71,8 @@ public class EditorModelService {
   }
 
   public ModeToKeymap getKeymapMap() {
-    return (ModeToKeymap)editorModel.get(modeToKeymap);
+    return (ModeToKeymap) editorModel.get(modeToKeymap);
   }
-
-
 
   public KeysToOperatorHandler[] getKeyToOperatorHandlers(EditorMode mode) {
     return (KeysToOperatorHandler[])editorModel.get(mode);
@@ -139,54 +115,35 @@ public class EditorModelService {
   }
 
   public void putEditorContent(String contentLines) {
-    editorModel.put(editorContent, contentLines);
-    updateNewlineIndices();
+    editorContentService.putEditorContent(contentLines, editorModel);
   }
 
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
-    VariableMap gvm = getGlobalVariableMap();
-    gvm.put(globalVarName, globalVarValue); //updates value that was previously at associated key
-    editorModel.put(globalVariableMap, gvm);
+    editorContentService.putGlobalVar(globalVarName, globalVarValue, editorModel);
   }
 
   public void updateNewlineIndices() {
-    String content = getEditorContent();
-    ArrayList<Integer> indices = new ArrayList<>();
-    boolean keepGoing = true;
-    int fullStringIndex = 0;
-    while(keepGoing) {
-      int substringIndex = content.indexOf("\n");
-      if(substringIndex != -1) {
-        fullStringIndex += substringIndex;
-        indices.add(fullStringIndex);
-        content = content.substring(substringIndex + 1);
-        fullStringIndex++; //because of newline char
-      } else {
-        keepGoing = false;
-      }
-    }
-    editorModel.put(newlineIndices, indices);
+    editorContentService.updateNewlineIndices(editorModel);
   }
 
   public void putVirtualX(int x) {
-    editorModel.put(virtualX, x);
-    putVirtualXIsAtEndOfLine(false);
+    editorContentService.putVirtualX(x, editorModel);
   }
 
   public void putVirtualXIsAtEndOfLine(boolean isAtEndOfLine) {
-    editorModel.put(virtualXIsAtEndOfLine, isAtEndOfLine);
+    editorContentService.putVirtualXIsAtEndOfLine(isAtEndOfLine, editorModel);
+  }
+
+  public void putCanvasWidth(int width) {
+    editorContentService.putCanvasWidth(width, editorModel);
+  }
+
+  public void putCanvasHeight(int height) {
+    editorContentService.putCanvasHeight(height, editorModel);
   }
 
   public void putKeyBuffer(KeysPressed buffer) {
     editorModel.put(keyBuffer, buffer);
-  }
-
-  public void putCanvasWidth(int width) {
-    editorModel.put(canvasWidth, width);
-  }
-
-  public void putCanvasHeight(int height) {
-    editorModel.put(canvasHeight, height);
   }
 
   public void putEditorMode(EditorMode mode) {
@@ -217,15 +174,14 @@ public class EditorModelService {
     editorModel.put(commandCursor, x);
   }
 
-  public void putExecutionDataStack(ExecutionDataStack stack) {
-    editorModel.put(executionData, stack);
+  public void putOnExecutionDataStack(Object element) {
+    ExecutionDataStack eds = (ExecutionDataStack) editorModel.get(executionData);
+    eds.push(element);
+    putExecutionDataStack(eds);
   }
 
-  public void putOnExecutionDataStack(Object element) {
-    ExecutionDataStack executionData = getExecutionDataStack();
-    executionData.push(element);
-
-    editorModel.put(EditorModelKey.executionData, executionData);
+  public void putExecutionDataStack(ExecutionDataStack stack) {
+    editorModel.put(executionData, stack);
   }
 
   public void putQuantumMap(QuantumMap qm) {
@@ -236,16 +192,16 @@ public class EditorModelService {
     editorModel.put(quantum, q);
   }
 
-  public void reportError(String message) {
-    System.out.println(message);
-  }
-
   public void putQuantumStart(int startBound) {
     editorModel.put(quantumStart, startBound);
   }
 
   public void putQuantumEnd(int endBound) {
     editorModel.put(quantumEnd, endBound);
+  }
+
+  public void reportError(String message) {
+    System.out.println(message);
   }
 
 }

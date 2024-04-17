@@ -1,12 +1,10 @@
 package com.ple.visur;
 
-import java.util.ArrayList;
-
 public class ChangeQuantumOp implements Operator {
 
   @Override
   public void execute(Object opInfo) {
-    EditorModelService ems = ServiceHolder.editorModelService;
+    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     String quantumName = (String)ems.getExecutionDataStack().pop();
     String quantumNameWithoutQuotes = quantumName.substring(1, quantumName.length() - 1);
     Quantum targetQuantum = ems.getQuantumMap().get(quantumNameWithoutQuotes);

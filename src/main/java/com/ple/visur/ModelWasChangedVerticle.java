@@ -3,8 +3,6 @@ package com.ple.visur;
 import io.vertx.core.json.*;
 import io.vertx.rxjava3.core.eventbus.Message;
 
-import java.util.Arrays;
-
 public class ModelWasChangedVerticle extends AbstractVisurVerticle {
 
   View view;
@@ -17,7 +15,7 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
   }
 
   public void handleChange(Message<Object> event) {
-    EditorModelService ems = ServiceHolder.editorModelService;
+    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     if(view == null) {
       view = new View();
       view.ca = 0;
@@ -26,13 +24,13 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
       view.ca = ems.getGlobalVar("ca").getInt();
       view.contentY = ems.getGlobalVar("contentY").getInt();
     }
-    view.editorContent = ServiceHolder.editorModelService.getEditorContent();
+    view.editorContent = ServiceHolder.editorModelCoupler.getEditorContent();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
   }
 
 
   public JsonObject toJson() {
-    EditorModelService ems = ServiceHolder.editorModelService;
+    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     JsonObject output = new JsonObject();
     output.put("ca", ems.getGlobalVar("ca").getInt());
     output.put("contentY", ems.getGlobalVar("contentY").getInt());

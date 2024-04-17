@@ -2,7 +2,7 @@ package com.ple.visur;
 
 public class ModeSwitchService implements OperatorService {
 
-  final EditorModelService ems = ServiceHolder.editorModelService;
+  final EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
 
   public static ModeSwitchService make() {
     return new ModeSwitchService();

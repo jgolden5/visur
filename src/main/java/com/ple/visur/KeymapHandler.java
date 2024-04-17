@@ -2,13 +2,13 @@ package com.ple.visur;
 
 public class KeymapHandler implements KeysToOperatorHandler {
 
-  EditorModelService ems;
+  EditorModelCoupler ems;
 
-  public KeymapHandler(EditorModelService ems) {
+  public KeymapHandler(EditorModelCoupler ems) {
     this.ems = ems;
   }
 
-  public static KeymapHandler make(EditorModelService ems) {
+  public static KeymapHandler make(EditorModelCoupler ems) {
     return new KeymapHandler(ems);
   }
 

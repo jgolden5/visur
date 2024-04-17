@@ -15,7 +15,7 @@ public class CanvasWasChangedVerticle extends AbstractVisurVerticle {
   public void handle(Message event) {
     JsonObject canvasJson = new JsonObject((String)event.body());
     final Integer width = canvasJson.getInteger("width");
-    final EditorModelService ems = ServiceHolder.editorModelService;
+    final EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     ems.putCanvasWidth(width);
     final Integer height = canvasJson.getInteger("height");
     ems.putCanvasHeight(height);
