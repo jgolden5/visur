@@ -6,9 +6,8 @@ import DataClass.DCHolder;
 import DataClass.DataClassBrick;
 
 public class CursorPosDC extends CompoundDataClass {
-  @Override
-  public boolean minimumValuesAreSet(CompoundDataClassBrick cdcb, DCHolder dcHolder) {
-      return true;
+  public CursorPosDC(int minimumRequiredSetValues) {
+    super(minimumRequiredSetValues);
   }
 
   @Override

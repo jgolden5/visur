@@ -6,9 +6,8 @@ import DataClass.DCHolder;
 import DataClass.DataClassBrick;
 
 public class WholePairDC extends CompoundDataClass {
-  @Override
-  public boolean minimumValuesAreSet(CompoundDataClassBrick cdcb, DCHolder dcHolder) {
-    return false;
+  public WholePairDC(int minimumRequiredSetValues) {
+    super(minimumRequiredSetValues);
   }
 
   @Override

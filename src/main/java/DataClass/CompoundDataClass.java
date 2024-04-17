@@ -4,7 +4,19 @@ import java.util.HashMap;
 
 public abstract class CompoundDataClass implements DataClass {
     HashMap<String, DataClass> inners = new HashMap<>();
-    public abstract boolean minimumValuesAreSet(CompoundDataClassBrick cdcb, DCHolder dcHolder);
+    int minimumRequiredSetValues;
+    public CompoundDataClass(int minimumRequiredSetValues) {
+      this.minimumRequiredSetValues = minimumRequiredSetValues;
+    }
+    public boolean minimumValuesAreSet(CompoundDataClassBrick cdcb, DCHolder dcHolder) {
+      int setValues = 0;
+      for(DataClassBrick innerPDCB : cdcb.inners.values()) {
+        if(innerPDCB != null) {
+          setValues++;
+        }
+      }
+      return setValues >= minimumRequiredSetValues;
+    }
     public DataClass getInner(String innerName) {
         return inners.get(innerName);
     }
