@@ -1,19 +1,22 @@
 package com.ple.visur;
 
 import CursorPositionDC.*;
-import DataClass.CompoundDataClassBrick;
-import DataClass.DCHolder;
-import DataClass.DataFormBrick;
-import DataClass.PrimitiveDataClassBrick;
+import DataClass.*;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 public class TestDC {
   CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
   @Test void dcConstrainsDFs() {
-    CompoundDataClassBrick CursorPosDCB = cursorPositionDCHolder.cursorPosDC.makeBrick(cursorPositionDCHolder);
+    CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPosDC.makeBrick(cursorPositionDCHolder);
+    PrimitiveDataClassBrick aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cursorPosDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cursorPositionDCHolder);
+    cursorPosDCB.putInner("a", aDCB);
+    DataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(null, cxcyDCB, cursorPositionDCHolder);
+    DataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(null, cxcyDCB, cursorPositionDCHolder);
+    cxcyDCB.putInner("cx", cxDCB);
+    cxcyDCB.putInner("cy", cyDCB);
+    cursorPosDCB.putInner("cxcy", cxcyDCB);
   }
 
   @Test void cdcbCalculateInner() {
