@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestDC {
   CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
   @Test void dcConstrainsDFs() {
-    CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPosDC.makeBrick(cursorPositionDCHolder, null);
+    CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(cursorPositionDCHolder, null);
     PrimitiveDataClassBrick aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(-1, cursorPosDCB, cursorPositionDCHolder);
 
     assertNull(aDCB.getVal().getVal());

@@ -7,8 +7,8 @@ import DataClass.DataClassBrick;
 
 import java.util.HashMap;
 
-public class CursorPosDC extends CompoundDataClass {
-  public CursorPosDC(int minimumRequiredSetValues) {
+public class CursorPositionDC extends CompoundDataClass {
+  public CursorPositionDC(int minimumRequiredSetValues) {
     super(minimumRequiredSetValues);
   }
 
