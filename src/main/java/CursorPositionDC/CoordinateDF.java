@@ -17,6 +17,11 @@ public class CoordinateDF extends DataForm {
   }
 
   @Override
+  public Object getValAs(DCHolder dcHolder) {
+    return null;
+  }
+
+  @Override
   public Object convertTo(DataForm toDF, Object fromDFVal, DCHolder dcHolder) {
     return null;
   }

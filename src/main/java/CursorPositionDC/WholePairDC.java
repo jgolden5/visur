@@ -5,6 +5,8 @@ import DataClass.CompoundDataClassBrick;
 import DataClass.DCHolder;
 import DataClass.DataClassBrick;
 
+import java.util.HashMap;
+
 public class WholePairDC extends CompoundDataClass {
   public WholePairDC(int minimumRequiredSetValues) {
     super(minimumRequiredSetValues);
@@ -16,7 +18,8 @@ public class WholePairDC extends CompoundDataClass {
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(DCHolder dcHolder) {
-    return null;
+  public CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer) {
+    CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder)dcHolder;
+    return CompoundDataClassBrick.make(this, outer, new HashMap<>());
   }
 }

@@ -19,28 +19,34 @@ public abstract class DataForm {
         }
         return false;
     }
-    public abstract Object convertTo(DataForm toDF, Object fromDFVal, DCHolder dcHolder);
+  public abstract Object getValAs(DCHolder dcHolder);
+  public abstract Object convertTo(DataForm toDF, Object fromDFVal, DCHolder dcHolder);
     public abstract Object convertFrom(DataForm fromDF, Object toDFVal);
-    public DataForm[] getConvertibleForms() {
+  private boolean convertibleFormsContainDF(DataForm df) {
+    for(int i = 0; i < convertibleForms.length; i++) {
+      if(convertibleForms[i] != null && convertibleForms[i].equals(df)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public DataForm[] getConvertibleForms() {
         return convertibleForms;
     }
-    public void putConvertibleForm(DataForm cdf) {
-        for(int i = 0; i < convertibleForms.length; i++) {
-            if (!convertibleFormsContainDF(cdf)) {
-                if (convertibleForms[i] == null) {
-                    convertibleForms[i] = cdf;
-                }
-            } else {
-                System.out.println("Error: convertible form already set");
-            }
+    public void putConvertibleForm(DataForm convertibleDF) {
+      boolean convertibleDFSetInternally = false;
+      for(int i = 0; i < convertibleForms.length; i++) {
+        if (convertibleForms[i] == null) {
+          convertibleForms[i] = convertibleDF;
         }
-    }
-    private boolean convertibleFormsContainDF(DataForm df) {
-        for(int i = 0; i < convertibleForms.length; i++) {
-            if(convertibleForms[i] != null && convertibleForms[i].equals(df)) {
-                return true;
-            }
+        if(convertibleDFSetInternally) {
+          break;
         }
-        return false;
+      }
+      if(!convertibleDFSetInternally) {
+        System.out.println("Error: convertible form already set");
+      }
     }
+
 }
