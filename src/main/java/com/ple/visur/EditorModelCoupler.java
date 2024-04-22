@@ -11,7 +11,7 @@ import static com.ple.visur.EditorModelKey.*;
 public class EditorModelCoupler {
 
   LocalMap<EditorModelKey, Object> editorModel;
-  private EditorContentService editorContentService = ServiceHolder.editorContentService;
+  private EditorContentService ecs = ServiceHolder.editorContentService;
 
   private EditorModelCoupler(SharedData sharedData) {
     this.editorModel = sharedData.getLocalMap("editorModel");
@@ -22,44 +22,44 @@ public class EditorModelCoupler {
   }
 
   public String getEditorContent() {
-    return editorContentService.getEditorContent(editorModel);
+    return ecs.getEditorContent(editorModel);
   }
 
   public VisurVar getGlobalVar(String varName) {
-    return editorContentService.getGlobalVar(varName, editorModel);
+    return ecs.getGlobalVar(varName, editorModel);
   }
 
   public VariableMap getGlobalVariableMap() {
-    return editorContentService.getGlobalVariableMap(editorModel);
+    return ecs.getGlobalVariableMap(editorModel);
   }
 
   public String getCurrentContentLine() {
-    return editorContentService.getCurrentContentLine(editorModel);
+    return ecs.getCurrentContentLine(editorModel);
   }
 
   public String getContentLineAtY(int y) {
-    return editorContentService.getContentLineAtY(y, editorModel);
+    return ecs.getContentLineAtY(y, editorModel);
   }
 
   public ArrayList<Integer> getNewlineIndices() {
     //note that this must be re-updated every time editorContent is changed
-    return editorContentService.getNewlineIndices(editorModel);
+    return ecs.getNewlineIndices(editorModel);
   }
 
   public int getVirtualX() {
-    return editorContentService.getVirtualX(editorModel);
+    return ecs.getVirtualX(editorModel);
   }
 
   public boolean getVirtualXIsAtEndOfLine() {
-    return editorContentService.getVirtualXIsAtEndOfLine(editorModel);
+    return ecs.getVirtualXIsAtEndOfLine(editorModel);
   }
 
   public int getCanvasWidth() {
-    return editorContentService.getCanvasWidth(editorModel);
+    return ecs.getCanvasWidth(editorModel);
   }
 
   public int getCanvasHeight() {
-    return editorContentService.getCanvasHeight(editorModel);
+    return ecs.getCanvasHeight(editorModel);
   }
 
   public KeysPressed getKeyBuffer() {
@@ -115,31 +115,31 @@ public class EditorModelCoupler {
   }
 
   public void putEditorContent(String contentLines) {
-    editorContentService.putEditorContent(contentLines, editorModel);
+    ecs.putEditorContent(contentLines, editorModel);
   }
 
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
-    editorContentService.putGlobalVar(globalVarName, globalVarValue, editorModel);
+    ecs.putGlobalVar(globalVarName, globalVarValue, editorModel);
   }
 
   public void updateNewlineIndices() {
-    editorContentService.updateNewlineIndices(editorModel);
+    ecs.updateNewlineIndices(editorModel);
   }
 
   public void putVirtualX(int x) {
-    editorContentService.putVirtualX(x, editorModel);
+    ecs.putVirtualX(x, editorModel);
   }
 
   public void putVirtualXIsAtEndOfLine(boolean isAtEndOfLine) {
-    editorContentService.putVirtualXIsAtEndOfLine(isAtEndOfLine, editorModel);
+    ecs.putVirtualXIsAtEndOfLine(isAtEndOfLine, editorModel);
   }
 
   public void putCanvasWidth(int width) {
-    editorContentService.putCanvasWidth(width, editorModel);
+    ecs.putCanvasWidth(width, editorModel);
   }
 
   public void putCanvasHeight(int height) {
-    editorContentService.putCanvasHeight(height, editorModel);
+    ecs.putCanvasHeight(height, editorModel);
   }
 
   public void putKeyBuffer(KeysPressed buffer) {
