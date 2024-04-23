@@ -3,7 +3,6 @@ package DataClass;
 import java.util.HashMap;
 
 public class CompoundDataClassBrick extends DataClassBrick {
-  CompoundDataClass dc;
   HashMap<String, DataClassBrick> inners;
   private CompoundDataClassBrick(DataClass dc, CompoundDataClassBrick outer, HashMap<String, DataClassBrick> inners) {
       super(dc, outer);
