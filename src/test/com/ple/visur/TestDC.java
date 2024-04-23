@@ -15,12 +15,19 @@ public class TestDC {
 
     assertNull(aDCB.getVal().getVal());
 
+    aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cursorPosDCB, cursorPositionDCHolder);
+
+    assertEquals(0, aDCB.getVal().getVal());
+
     CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cursorPositionDCHolder, cursorPosDCB);
     cursorPosDCB.putInner("a", aDCB);
-    DataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(null, cxcyDCB, cursorPositionDCHolder);
-    DataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(null, cxcyDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(-1, cxcyDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(2, cxcyDCB, cursorPositionDCHolder);
     cxcyDCB.putInner("cx", cxDCB);
     cxcyDCB.putInner("cy", cyDCB);
+
+    assertNull(cxDCB.getVal().getVal());
+
     cursorPosDCB.putInner("cxcy", cxcyDCB);
   }
 
