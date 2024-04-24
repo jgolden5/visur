@@ -17,4 +17,9 @@ public class WholeNumberDC extends PrimitiveDataClass {
     }
     return PrimitiveDataClassBrick.make(this, outerBrick, DataFormBrick.make(targetDF, res));
   }
+
+  @Override
+  public boolean isValidInput(Object val) {
+    return false;
+  }
 }
