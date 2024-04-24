@@ -4,22 +4,21 @@ import DataClass.*;
 
 public class WholeNumberDC extends PrimitiveDataClass {
   @Override
-  public PrimitiveDataClassBrick makeBrick(Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
-    CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
+  public PrimitiveDataClassBrick makeBrick(Object val, CompoundDataClassBrick outerBrick) {
     DataForm targetDF = null;
     Object res = null;
-    Integer valAsInt = (Integer)val;
-    if(valAsInt != null) {
-      if(valAsInt >= 0) {
-        targetDF = cursorPositionDCHolder.javaIntDF;
-        res = val;
-      }
+    if(isValidInput(val)) {
+      res = val;
     }
     return PrimitiveDataClassBrick.make(this, outerBrick, DataFormBrick.make(targetDF, res));
   }
 
   @Override
   public boolean isValidInput(Object val) {
-    return false;
+    if(val instanceof Integer && (Integer) val >= 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
