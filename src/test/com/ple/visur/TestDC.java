@@ -30,6 +30,12 @@ public class TestDC {
 
     assertEquals(2, cyDCB.getVal().getVal());
 
+    long stupidlyLongNumber = 9876543210L;
+
+    aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(stupidlyLongNumber, cursorPosDCB);
+
+    assertNull(aDCB.getVal().getVal());
+
     cursorPosDCB.putInner("cxcy", cxcyDCB);
   }
 
