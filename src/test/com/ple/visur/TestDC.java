@@ -49,6 +49,14 @@ public class TestDC {
 
     assertEquals(cursorPositionDCHolder.javaIntDF, aDCB.getVal().getDF());
 
+    aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(9999999999999L, cursorPosDCB, cursorPositionDCHolder);
+
+    assertNull(aDCB);
+
+    aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(null, cursorPosDCB, cursorPositionDCHolder);
+
+    assertEquals(cursorPositionDCHolder.javaIntDF, aDCB.getVal().getDF());
+
   }
 
   @Test void cdcbCalculateInner() {
