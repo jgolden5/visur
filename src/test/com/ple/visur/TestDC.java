@@ -13,7 +13,7 @@ public class TestDC {
     CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(cursorPositionDCHolder, null);
     PrimitiveDataClassBrick aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(-1, cursorPosDCB);
 
-    assertNull(aDCB.getVal().getVal());
+    assertNull(aDCB);
 
     aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cursorPosDCB);
 
@@ -26,7 +26,7 @@ public class TestDC {
     cxcyDCB.putInner("cx", cxDCB);
     cxcyDCB.putInner("cy", cyDCB);
 
-    assertNull(cxDCB.getVal().getVal());
+    assertNull(cxDCB);
 
     assertEquals(2, cyDCB.getVal().getVal());
 
@@ -34,7 +34,7 @@ public class TestDC {
 
     aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(stupidlyLongNumber, cursorPosDCB);
 
-    assertNull(aDCB.getVal().getVal());
+    assertNull(aDCB);
 
     cursorPosDCB.putInner("cxcy", cxcyDCB);
   }
