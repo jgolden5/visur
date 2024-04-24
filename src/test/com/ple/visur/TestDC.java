@@ -28,6 +28,8 @@ public class TestDC {
 
     assertNull(cxDCB.getVal().getVal());
 
+    assertEquals(2, cyDCB.getVal().getVal());
+
     cursorPosDCB.putInner("cxcy", cxcyDCB);
   }
 
