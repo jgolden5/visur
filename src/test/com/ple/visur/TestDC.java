@@ -59,9 +59,14 @@ public class TestDC {
 
     assertEquals(cursorPositionDCHolder.javaIntDF, aDCB.getVal().getDF());
 
-//    ArrayList<Integer> newlineIndicesExample = new ArrayList<>();
-//
-//    PrimitiveDataClassBrick niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick();
+    ArrayList<Integer> newlineIndicesExample = new ArrayList<>();
+    newlineIndicesExample.add(0);
+    newlineIndicesExample.add(50);
+    newlineIndicesExample.add(100);
+
+    PrimitiveDataClassBrick niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick(newlineIndicesExample, cursorPosDCB, cursorPositionDCHolder);
+
+    assertEquals(newlineIndicesExample, niDCB.getVal().getVal());
 
   }
 
