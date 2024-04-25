@@ -59,7 +59,12 @@ public class TestDC {
 
   }
 
+  @Test void dfMakeBrick() {
+  }
+
   @Test void cdcbCalculateInner() {
+
+
 
   }
   @Test void calculateInnerFailsWithNotEnoughInfo() {
