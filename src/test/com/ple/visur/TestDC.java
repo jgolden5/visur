@@ -4,6 +4,8 @@ import CursorPositionDC.*;
 import DataClass.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -56,6 +58,10 @@ public class TestDC {
     aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(null, cursorPosDCB, cursorPositionDCHolder);
 
     assertEquals(cursorPositionDCHolder.javaIntDF, aDCB.getVal().getDF());
+
+//    ArrayList<Integer> newlineIndicesExample = new ArrayList<>();
+//
+//    PrimitiveDataClassBrick niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick();
 
   }
 

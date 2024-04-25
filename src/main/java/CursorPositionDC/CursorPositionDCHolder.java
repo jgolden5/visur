@@ -10,6 +10,7 @@ public class CursorPositionDCHolder extends DCHolder {
   public CursorPositionDC cursorPositionDC = new CursorPositionDC(2);
   public WholeNumberDC wholeNumberDC = new WholeNumberDC();
   public WholePairDC wholePairDC = new WholePairDC(2);
+  public WholeNumberListDC wholeNumberListDC = new WholeNumberListDC();
 
   public static CursorPositionDCHolder make() {
     return new CursorPositionDCHolder();
