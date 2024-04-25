@@ -59,9 +59,6 @@ public class TestDC {
 
   }
 
-  @Test void dfMakeBrick() {
-  }
-
   @Test void cdcbCalculateInner() {
 
 

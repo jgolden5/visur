@@ -11,6 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDF {
   CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
+  @Test void dfMakeBrick() {
+    
+  }
+
   @Test
   public void directConversion() {
 
