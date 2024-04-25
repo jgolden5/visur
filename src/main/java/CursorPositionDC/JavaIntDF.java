@@ -13,7 +13,13 @@ public class JavaIntDF extends DataForm {
 
   @Override
   public Optional<DataFormBrick> makeBrick(Object val) {
-    return Optional.empty();
+    Optional<DataFormBrick> res;
+    if(val instanceof Integer) {
+      res = Optional.of(DataFormBrick.make(this, val));
+    } else {
+      res = Optional.empty();
+    }
+    return res;
   }
 
   @Override
