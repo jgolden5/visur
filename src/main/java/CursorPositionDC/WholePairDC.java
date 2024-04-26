@@ -13,14 +13,14 @@ public class WholePairDC extends CompoundDataClass {
   }
 
   @Override
-  public DataClassBrick derive(CompoundDataClassBrick cdcb, String innerName, DCHolder dcHolder) {
-    return null;
-  }
-
-  @Override
   public CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer) {
     CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder)dcHolder;
     return CompoundDataClassBrick.make(outer, this, new HashMap<>());
+  }
+
+  @Override
+  public DataClassBrick calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder) {
+    return null;
   }
 
 }

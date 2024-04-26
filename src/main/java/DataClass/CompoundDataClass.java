@@ -25,7 +25,6 @@ public abstract class CompoundDataClass implements DataClass {
   public void putInner(String innerName, DataClass innerVal) {
     inners.put(innerName, innerVal);
   }
-  public abstract DataClassBrick derive(CompoundDataClassBrick cdcb, String innerName, DCHolder dcHolder); //where dcb = the dcb being derived
   public abstract CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer);
 
   public abstract DataClassBrick calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder);

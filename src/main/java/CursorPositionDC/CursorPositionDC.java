@@ -13,13 +13,13 @@ public class CursorPositionDC extends CompoundDataClass {
   }
 
   @Override
-  public DataClassBrick derive(CompoundDataClassBrick cdcb, String innerName, DCHolder dcHolder) {
-    return null;
+  public CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer) {
+    return CompoundDataClassBrick.make(outer, this, new HashMap<>());
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer) {
-    return CompoundDataClassBrick.make(outer, this, new HashMap<>());
+  public DataClassBrick calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder) {
+    return null;
   }
 
 }

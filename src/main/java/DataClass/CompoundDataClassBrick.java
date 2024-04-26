@@ -21,20 +21,6 @@ public class CompoundDataClassBrick extends DataClassBrick {
   public void putInner(String innerName, DataClassBrick innerVal) {
     inners.put(innerName, innerVal);
   }
-  public DataClassBrick calculateInner(String name, DCHolder dcHolder) {
-    DataClassBrick inner = getInner(name);
-    CompoundDataClass outerDC = getCDC();
-    DataClassBrick res = null;
-    if(outerDC.minimumValuesAreSet(this, dcHolder)) {
-        if (inner instanceof PrimitiveDataClassBrick &&
-                ((PrimitiveDataClassBrick) inner).getVal() == null) {
-            res = outerDC.derive(this, name, dcHolder);
-        } else {
-            res = inner;
-        }
-    }
-    return res;
-  }
 
   public CompoundDataClass getCDC() {
     return cdc;
