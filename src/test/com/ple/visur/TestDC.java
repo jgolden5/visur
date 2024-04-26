@@ -81,19 +81,20 @@ public class TestDC {
   @Test void cdcbCalculateInner() {
     CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(cursorPositionDCHolder, null);
     PrimitiveDataClassBrick aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cursorPosDCB, cursorPositionDCHolder);
+    cursorPosDCB.putInner("a", aDCB);
+
     CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cursorPositionDCHolder, cursorPosDCB);
     PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(null, cursorPosDCB, cursorPositionDCHolder);
     PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(null, cursorPosDCB, cursorPositionDCHolder);
     cxcyDCB.putInner("cx", cxDCB);
     cxcyDCB.putInner("cy", cyDCB);
+    cursorPosDCB.putInner("cxcy", cxcyDCB);
+
     ArrayList<Integer> exampleNewlineIndices = new ArrayList<>();
     exampleNewlineIndices.add(11);
     exampleNewlineIndices.add(24);
     exampleNewlineIndices.add(32);
     PrimitiveDataClassBrick niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick(exampleNewlineIndices, cursorPosDCB, cursorPositionDCHolder);
-
-    cursorPosDCB.putInner("a", aDCB);
-    cursorPosDCB.putInner("cxcy", cxcyDCB);
     cursorPosDCB.putInner("ni", niDCB);
 
   }
