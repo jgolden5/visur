@@ -1,5 +1,7 @@
 package DataClass;
 
+import CursorPositionDC.CursorPositionDCHolder;
+
 import java.util.HashMap;
 
 public class CompoundDataClassBrick extends DataClassBrick {
@@ -32,4 +34,11 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return res;
   }
 
+  public DataClassBrick getOrCalculateInner(String name, CursorPositionDCHolder cursorPositionDCHolder) {
+    DataClassBrick inner = getInner(name);
+    if(!inner.checkMinimumValuesSet()) {
+      inner = getCDC().calculateInner(name, this, cursorPositionDCHolder);
+    }
+    return inner;
+  }
 }
