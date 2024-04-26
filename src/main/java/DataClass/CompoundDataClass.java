@@ -1,5 +1,7 @@
 package DataClass;
 
+import CursorPositionDC.CursorPositionDCHolder;
+
 import java.util.HashMap;
 
 public abstract class CompoundDataClass implements DataClass {
@@ -25,4 +27,6 @@ public abstract class CompoundDataClass implements DataClass {
   }
   public abstract DataClassBrick derive(CompoundDataClassBrick cdcb, String innerName, DCHolder dcHolder); //where dcb = the dcb being derived
   public abstract CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer);
+
+  public abstract DataClassBrick calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder);
 }

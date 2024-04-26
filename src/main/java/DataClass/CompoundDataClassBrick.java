@@ -44,7 +44,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     DataClassBrick inner = getInner(name);
     if(inner != null) {
       if(inner.isComplete()) {
-        inner = getCDC().calculateInner(name, this, cursorPositionDCHolder);
+        inner = getCDC().calculateInnerBrick(name, this, cursorPositionDCHolder);
       }
     }
     return inner;
