@@ -22,4 +22,5 @@ public class WholePairDC extends CompoundDataClass {
     CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder)dcHolder;
     return CompoundDataClassBrick.make(outer, this, new HashMap<>());
   }
+
 }

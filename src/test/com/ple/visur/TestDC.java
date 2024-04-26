@@ -78,7 +78,7 @@ public class TestDC {
 
   }
 
-  @Test void cdcbCalculateInner() {
+  @Test void cdcbGetOrCalculateInner() {
     CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(cursorPositionDCHolder, null);
     PrimitiveDataClassBrick aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cursorPosDCB, cursorPositionDCHolder);
     cursorPosDCB.putInner("a", aDCB);

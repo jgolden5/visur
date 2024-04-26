@@ -49,4 +49,15 @@ public class CompoundDataClassBrick extends DataClassBrick {
     }
     return inner;
   }
+
+  @Override
+  public boolean isComplete() {
+    int numberOfSetValues = 0;
+    for(DataClassBrick inner : inners.values()) {
+      if(inner.isComplete()) {
+        numberOfSetValues++;
+      }
+    }
+    return numberOfSetValues >= cdc.minimumRequiredSetValues;
+  }
 }
