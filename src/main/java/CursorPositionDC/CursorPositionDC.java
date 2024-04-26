@@ -4,6 +4,7 @@ import DataClass.CompoundDataClass;
 import DataClass.CompoundDataClassBrick;
 import DataClass.DCHolder;
 import DataClass.DataClassBrick;
+import com.ple.visur.Result;
 
 import java.util.HashMap;
 
@@ -18,7 +19,7 @@ public class CursorPositionDC extends CompoundDataClass {
   }
 
   @Override
-  public DataClassBrick calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder) {
+  public Result<DataClassBrick> calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder) {
     return null;
   }
 

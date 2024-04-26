@@ -1,6 +1,7 @@
 package DataClass;
 
 import CursorPositionDC.CursorPositionDCHolder;
+import com.ple.visur.Result;
 
 import java.util.HashMap;
 
@@ -26,7 +27,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return cdc;
   }
 
-  public DataClassBrick getOrCalculateInner(String name, CursorPositionDCHolder cursorPositionDCHolder) {
+  public Result<DataClassBrick> getOrCalculateInner(String name, CursorPositionDCHolder cursorPositionDCHolder) {
     DataClassBrick inner = getInner(name);
     if(inner != null) {
       if(inner.isComplete()) {

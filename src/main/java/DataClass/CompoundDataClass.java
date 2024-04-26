@@ -1,6 +1,7 @@
 package DataClass;
 
 import CursorPositionDC.CursorPositionDCHolder;
+import com.ple.visur.Result;
 
 import java.util.HashMap;
 
@@ -27,5 +28,5 @@ public abstract class CompoundDataClass implements DataClass {
   }
   public abstract CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer);
 
-  public abstract DataClassBrick calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder);
+  public abstract Result<DataClassBrick> calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder);
 }
