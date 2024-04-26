@@ -19,7 +19,7 @@ public class CursorPositionDC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer) {
-    return CompoundDataClassBrick.make(this, outer, new HashMap<>());
+    return CompoundDataClassBrick.make(outer, this, new HashMap<>());
   }
 
 }

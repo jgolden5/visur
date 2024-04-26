@@ -5,13 +5,15 @@ import CursorPositionDC.CursorPositionDCHolder;
 import java.util.HashMap;
 
 public class CompoundDataClassBrick extends DataClassBrick {
+  private CompoundDataClass cdc;
   HashMap<String, DataClassBrick> inners;
-  private CompoundDataClassBrick(DataClass dc, CompoundDataClassBrick outer, HashMap<String, DataClassBrick> inners) {
-      super(dc, outer);
+  private CompoundDataClassBrick(CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
+      super(outer);
+      this.cdc = cdc;
       this.inners = inners;
   }
-  public static CompoundDataClassBrick make(DataClass dc, CompoundDataClassBrick outer, HashMap<String, DataClassBrick> inners) {
-      return new CompoundDataClassBrick(dc, outer, inners);
+  public static CompoundDataClassBrick make(CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
+      return new CompoundDataClassBrick(outer, cdc, inners);
   }
   public DataClassBrick getInner(String name) {
       return inners.get(name);
@@ -21,7 +23,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
   }
   public DataClassBrick calculateInner(String name, DCHolder dcHolder) {
     DataClassBrick inner = getInner(name);
-    CompoundDataClass outerDC = (CompoundDataClass) getDC();
+    CompoundDataClass outerDC = getCDC();
     DataClassBrick res = null;
     if(outerDC.minimumValuesAreSet(this, dcHolder)) {
         if (inner instanceof PrimitiveDataClassBrick &&
@@ -32,6 +34,10 @@ public class CompoundDataClassBrick extends DataClassBrick {
         }
     }
     return res;
+  }
+
+  public CompoundDataClass getCDC() {
+    return cdc;
   }
 
   public DataClassBrick getOrCalculateInner(String name, CursorPositionDCHolder cursorPositionDCHolder) {

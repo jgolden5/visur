@@ -2,15 +2,20 @@ package DataClass;
 
 
 public class PrimitiveDataClassBrick extends DataClassBrick {
-    private DataFormBrick val;
-    private PrimitiveDataClassBrick(DataClass dc, CompoundDataClassBrick outer, DataFormBrick val) {
-        super(dc, outer);
+  private final PrimitiveDataClass pdc;
+  private DataFormBrick val;
+    private PrimitiveDataClassBrick(CompoundDataClassBrick outer, PrimitiveDataClass pdc, DataFormBrick val) {
+        super(outer);
+        this.pdc = pdc;
         this.val = val;
     }
-    public static PrimitiveDataClassBrick make(DataClass dc, CompoundDataClassBrick outer, DataFormBrick val) {
-        return new PrimitiveDataClassBrick(dc, outer, val);
+    public static PrimitiveDataClassBrick make(CompoundDataClassBrick outer, PrimitiveDataClass pdc, DataFormBrick val) {
+        return new PrimitiveDataClassBrick(outer, pdc, val);
     }
     public DataFormBrick getVal() {
         return val;
+    }
+    public PrimitiveDataClass getPDC() {
+      return pdc;
     }
 }

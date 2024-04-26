@@ -9,7 +9,7 @@ public class WholeNumberDC extends PrimitiveDataClass {
     if(isValidInput(val)) {
       CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
       DataForm targetDF = cursorPositionDCHolder.javaIntDF;
-      res = PrimitiveDataClassBrick.make(this, outerBrick, DataFormBrick.make(targetDF, val));
+      res = PrimitiveDataClassBrick.make(outerBrick, this, DataFormBrick.make(targetDF, val));
     } else {
       res = null;
     }

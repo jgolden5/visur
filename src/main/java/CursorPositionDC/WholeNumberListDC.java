@@ -11,7 +11,7 @@ public class WholeNumberListDC extends PrimitiveDataClass {
     CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
     PrimitiveDataClassBrick res = null;
     if(isValidInput(val)) {
-      res = PrimitiveDataClassBrick.make(this, outerBrick, DataFormBrick.make(cursorPositionDCHolder.intArrayListDF, val));
+      res = PrimitiveDataClassBrick.make(outerBrick, this, DataFormBrick.make(cursorPositionDCHolder.intArrayListDF, val));
     }
     return res;
   }
