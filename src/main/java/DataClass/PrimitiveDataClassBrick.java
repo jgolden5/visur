@@ -18,4 +18,9 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     public PrimitiveDataClass getPDC() {
       return pdc;
     }
+
+  @Override
+  public boolean isComplete() {
+    return true;
+  }
 }

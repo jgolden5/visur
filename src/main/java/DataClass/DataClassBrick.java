@@ -11,4 +11,6 @@ public abstract class DataClassBrick {
         return outer;
     }
 
+    public abstract boolean isComplete();
+
 }

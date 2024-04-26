@@ -42,8 +42,10 @@ public class CompoundDataClassBrick extends DataClassBrick {
 
   public DataClassBrick getOrCalculateInner(String name, CursorPositionDCHolder cursorPositionDCHolder) {
     DataClassBrick inner = getInner(name);
-    if(!inner.checkMinimumValuesSet()) {
-      inner = getCDC().calculateInner(name, this, cursorPositionDCHolder);
+    if(inner != null) {
+      if(inner.isComplete()) {
+        inner = getCDC().calculateInner(name, this, cursorPositionDCHolder);
+      }
     }
     return inner;
   }
