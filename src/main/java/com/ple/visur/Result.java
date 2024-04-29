@@ -7,4 +7,16 @@ public class Result<T> {
     this.val = val;
     this.error = error;
   }
+  public static <T> Result make(T val, String error) {
+    return new Result(val, error);
+  }
+
+  public T getVal() {
+    return val;
+  }
+
+  public String getError() {
+    return error;
+  }
+
 }
