@@ -11,6 +11,14 @@ public class Result<T> {
     return new Result(val, error);
   }
 
+  public void putVal(T val) {
+    this.val = val;
+  }
+
+  public void putError(String error) {
+    this.error = error;
+  }
+
   public T getVal() {
     return val;
   }

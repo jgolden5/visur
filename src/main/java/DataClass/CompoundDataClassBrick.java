@@ -29,9 +29,9 @@ public class CompoundDataClassBrick extends DataClassBrick {
 
   public Result<DataClassBrick> getOrCalculateInner(String name, CursorPositionDCHolder cursorPositionDCHolder) {
     Result res = Result.make(getInner(name), null);
-    DataClassBrick inner = (DataClassBrick) res.getVal();
-    if(inner == null) {
-      if(inner.isComplete()) {
+    DataClassBrick innerTarget = (DataClassBrick) res.getVal();
+    if(innerTarget != null) {
+      if(isComplete()) {
         res = getCDC().calculateInnerBrick(name, this, cursorPositionDCHolder);
       }
     }
@@ -42,7 +42,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
   public boolean isComplete() {
     int numberOfSetValues = 0;
     for(DataClassBrick inner : inners.values()) {
-      if(inner.isComplete()) {
+      if(inner != null && inner.isComplete()) {
         numberOfSetValues++;
       }
     }

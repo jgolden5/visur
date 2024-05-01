@@ -20,7 +20,17 @@ public class CursorPositionDC extends CompoundDataClass {
 
   @Override
   public Result<DataClassBrick> calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder) {
-    return null;
+    Result<DataClassBrick> res = Result.make(null, null);
+    if(name.equals("cxcy")) {
+
+    } else if(name.equals("a")) {
+      
+    } else if(name.equals("ni")) {
+      res.putError("newline indices brick is required to be set and is therefore uncalculable");
+    } else {
+      res.putError("inner brick not recognized");
+    }
+    return res;
   }
 
 }
