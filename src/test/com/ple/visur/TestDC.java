@@ -113,10 +113,21 @@ public class TestDC {
 
     assertEquals(19, aDCB.getDFB().getVal());
 
+    aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(12, cursorPosDCB, cursorPositionDCHolder);
+    cursorPosDCB.putInner("a", aDCB);
+    cxcyDCB = (CompoundDataClassBrick) cursorPosDCB.getOrCalculateInner("cxcy", cursorPositionDCHolder).getVal();
+
+    cursorPosDCB.putInner("cxcy", cxcyDCB);
+
+    cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getOrCalculateInner("cx", cursorPositionDCHolder).getVal();
+    cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getOrCalculateInner("cy", cursorPositionDCHolder).getVal();
+
+    assertEquals(0, cxDCB.getDFB().getVal());
+    assertEquals(1, cyDCB.getDFB().getVal());
 
   }
 
-  @Test void calculateInnerFailsWithNotEnoughInfo() {
+  @Test void cdcbPutInnerClearsUnsetValues() {
 
   }
 

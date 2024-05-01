@@ -46,7 +46,7 @@ public class CursorPositionDC extends CompoundDataClass {
       }
     }
     if(cy > 0) {
-      cx = a - newlineIndices.get(cy - 1);
+      cx = a - (newlineIndices.get(cy - 1) + 1);
     } else {
       cx = a;
     }
