@@ -24,7 +24,7 @@ public class CursorPositionDC extends CompoundDataClass {
     if(name.equals("cxcy")) {
       res = calculateCXCY(newlineIndices, thisAsBrick, cursorPositionDCHolder);
     } else if(name.equals("a")) {
-
+      res = calculateA(newlineIndices, thisAsBrick, cursorPositionDCHolder);
     } else if(name.equals("ni")) {
       res.putError("newline indices cannot be calculated when unset");
     } else {
@@ -33,14 +33,13 @@ public class CursorPositionDC extends CompoundDataClass {
     return res;
   }
 
-  public Result<DataClassBrick> calculateCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick, CursorPositionDCHolder cursorPositionDCHolder) {
+  private Result<DataClassBrick> calculateCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick, CursorPositionDCHolder cursorPositionDCHolder) {
     PrimitiveDataClassBrick aDCB = (PrimitiveDataClassBrick) thisAsBrick.getInner("a");
     int a = (int)aDCB.getDFB().getVal();
     int cx;
     int cy = 0;
-    String error = null;
     for(int i = 0; i < newlineIndices.size(); i++) {
-      if(a >= newlineIndices.get(i)) {
+      if(a > newlineIndices.get(i)) {
         cy++;
       } else {
         break;
@@ -56,7 +55,22 @@ public class CursorPositionDC extends CompoundDataClass {
     PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, cxcyDCB, cursorPositionDCHolder);
     cxcyDCB.putInner("cx", cxDCB);
     cxcyDCB.putInner("cy", cyDCB);
-    return Result.make(cxcyDCB, error);
+    return Result.make(cxcyDCB, null);
+  }
+
+  private Result<DataClassBrick> calculateA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick, CursorPositionDCHolder cursorPositionDCHolder) {
+    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) thisAsBrick.getInner("cxcy");
+    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
+    int cx = (int) cxDCB.getDFB().getVal();
+    int cy = (int) cyDCB.getDFB().getVal();
+    int a = 0;
+    if(cy > 0) {
+      a += newlineIndices.get(cy - 1) + 1;
+    }
+    a += cx;
+    PrimitiveDataClassBrick aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(a, thisAsBrick, cursorPositionDCHolder);
+    return Result.make(aDCB, null);
   }
 
 }

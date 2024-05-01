@@ -84,8 +84,6 @@ public class TestDC {
     cursorPosDCB.putInner("a", aDCB);
 
     CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cursorPositionDCHolder, cursorPosDCB);
-    cxcyDCB.putInner("cx", null);
-    cxcyDCB.putInner("cy", null);
     cursorPosDCB.putInner("cxcy", cxcyDCB);
 
     ArrayList<Integer> exampleNewlineIndices = new ArrayList<>();
@@ -101,6 +99,19 @@ public class TestDC {
     assertEquals(10, cxDCB.getDFB().getVal()); //if pass-by-reference is not working as expected, a) understand why, and
     assertEquals(0, cyDCB.getDFB().getVal()); // b) manually get cx and cy after having calculating the new cxcyDCB
 
+    cursorPosDCB.putInner("a", null);
+
+    cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(7, cxcyDCB, cursorPositionDCHolder);
+    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(1, cxcyDCB, cursorPositionDCHolder);
+
+    cxcyDCB.putInner("cx", cxDCB);
+    cxcyDCB.putInner("cy", cyDCB);
+
+    cursorPosDCB.putInner("cxcy", cxcyDCB);
+
+    aDCB = (PrimitiveDataClassBrick) cursorPosDCB.getOrCalculateInner("a", cursorPositionDCHolder).getVal();
+
+    assertEquals(19, aDCB.getDFB().getVal());
 
 
   }
