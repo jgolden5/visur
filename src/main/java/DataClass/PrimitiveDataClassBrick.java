@@ -12,7 +12,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     public static PrimitiveDataClassBrick make(CompoundDataClassBrick outer, PrimitiveDataClass pdc, DataFormBrick val) {
         return new PrimitiveDataClassBrick(outer, pdc, val);
     }
-    public DataFormBrick getVal() {
+    public DataFormBrick getDFB() {
         return val;
     }
     public PrimitiveDataClass getPDC() {
