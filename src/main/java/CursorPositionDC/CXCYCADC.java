@@ -6,8 +6,8 @@ import DataClass.Result;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CXCYADC extends CompoundDataClass {
-  public CXCYADC(int minimumRequiredSetValues) {
+public class CXCYCADC extends CompoundDataClass {
+  public CXCYCADC(int minimumRequiredSetValues) {
     super(minimumRequiredSetValues);
   }
 
@@ -31,7 +31,7 @@ public class CXCYADC extends CompoundDataClass {
     }
     return r;
   }
-  
+
   private Result<DataClassBrick> calculateCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcyDCB, CursorPositionDCHolder cursorPositionDCHolder) {
     PrimitiveDataClassBrick aDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("a");
     int a = (int)aDCB.getDFB().getVal();

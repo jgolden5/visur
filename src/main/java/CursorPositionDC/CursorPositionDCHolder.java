@@ -11,7 +11,7 @@ public class CursorPositionDCHolder extends DCHolder {
   public WholeNumberDC wholeNumberDC = new WholeNumberDC();
   public WholePairDC wholePairDC = new WholePairDC(2);
   public WholeNumberListDC wholeNumberListDC = new WholeNumberListDC();
-  public CXCYADC cxcyaDC = new CXCYADC(1);
+  public CXCYCADC cxcyaDC = new CXCYCADC(1);
 
   public static CursorPositionDCHolder make() {
     return new CursorPositionDCHolder();
