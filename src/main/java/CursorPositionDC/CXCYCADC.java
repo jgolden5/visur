@@ -3,6 +3,7 @@ package CursorPositionDC;
 import DataClass.*;
 import DataClass.Result;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,26 +19,20 @@ public class CXCYCADC extends CompoundDataClass {
 
   @Override
   public Result<DataClassBrick> calcInternal(DataClassBrick dcb, DCHolder dcHolder) {
-    Result<DataClassBrick> r = Result.make(null, null);
+    Result<DataClassBrick> r;
     CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
-    switch(dcb.name) {
-      case "cxcy", "cx", "cy":
-        PrimitiveDataClassBrick niDCB;
-        CompoundDataClassBrick thisAsDCB;
-        if(dcb.name.equals("cxcy")) {
-          thisAsDCB = dcb.getOuter();
-        } else {
-          thisAsDCB = dcb.getOuter().getOuter();
-        }
-        niDCB = (PrimitiveDataClassBrick) thisAsDCB.getInner("ni");
-        ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.getDFB().getVal();
-        r = calculateCXCY(newlineIndices, thisAsDCB, cursorPositionDCHolder);
-        break;
-      case "ca":
-        r.putVal(calculateCA());
-        break;
-      default:
-        r.putError("name not recognized");
+    CompoundDataClassBrick thisAsDCB;
+    if(dcb.name.equals("ca") || dcb.name.equals("cxcy")) {
+      thisAsDCB = dcb.getOuter().getOuter();
+    } else {
+      thisAsDCB = dcb.getOuter();
+    }
+    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) thisAsDCB.getInner("ni");
+    ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.getDFB().getVal();
+    if(dcb.name.equals("ca")) {
+      r = calculateCXCY(newlineIndices, thisAsDCB, cursorPositionDCHolder);
+    } else {
+      r = calculateCA(newlineIndices, thisAsDCB, cursorPositionDCHolder);
     }
     return r;
   }
