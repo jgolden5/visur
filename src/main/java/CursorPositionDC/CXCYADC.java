@@ -16,27 +16,6 @@ public class CXCYADC extends CompoundDataClass {
     return CompoundDataClassBrick.make(outer, this, new HashMap<>());
   }
 
-  @Override
-  public Result<DataClassBrick> calculateInternal(String name, CompoundDataClassBrick thisAsBrick, DCHolder dcHolder) {
-    CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
-    Result<DataClassBrick> res = Result.make(null, null);
-    PrimitiveDataClassBrick newlineIndicesDCB = (PrimitiveDataClassBrick) thisAsBrick.getOuter().getInner("ni");
-    ArrayList<Integer> newlineIndices = (ArrayList<Integer>) newlineIndicesDCB.getDFB().getVal();
-    if("cxcy".contains(name)) {
-      res = calculateCXCY(newlineIndices, thisAsBrick, cursorPositionDCHolder);
-      CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) res.getVal();
-      if(name.equals("cx")) {
-        res.putVal(cxcyDCB.getInner("cx"));
-      } else if(name.equals("cy")) {
-        res.putVal(cxcyDCB.getInner("cy"));
-      }
-    } else if(name.equals("a")) {
-      res = calculateA(newlineIndices, thisAsBrick, cursorPositionDCHolder);
-    } else {
-      res.putError("inner brick not recognized");
-    }
-    return res;
-  }
   private Result<DataClassBrick> calculateCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick, CursorPositionDCHolder cursorPositionDCHolder) {
     PrimitiveDataClassBrick aDCB = (PrimitiveDataClassBrick) thisAsBrick.getInner("a");
     int a = (int)aDCB.getDFB().getVal();
@@ -77,4 +56,8 @@ public class CXCYADC extends CompoundDataClass {
     return Result.make(aDCB, null);
   }
 
+  @Override
+  public Result<DataClassBrick> calcInternal(DataClassBrick dcb) {
+    return null; //actual calculations possible for this one
+  }
 }

@@ -32,4 +32,8 @@ public class WholeNumberListDC extends PrimitiveDataClass {
     return res;
   }
 
+  @Override
+  public Result<DataClassBrick> calcInternal(DataClassBrick dcb) {
+    return Result.make(null, "incalculable");
+  }
 }

@@ -3,7 +3,7 @@ package DataClass;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class CompoundDataClass implements DataClass {
+public abstract class CompoundDataClass extends DataClass {
   HashMap<String, DataClass> inners = new HashMap<>();
   int minimumRequiredSetValues;
   public CompoundDataClass(int minimumRequiredSetValues) {
@@ -34,16 +34,6 @@ public abstract class CompoundDataClass implements DataClass {
   }
   public abstract CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer);
 
-  public abstract Result<DataClassBrick> calculateInternal(String innerName, CompoundDataClassBrick thisAsBrick, DCHolder dcHolder);
-  public Result<DataClassBrick> calculate(String innerName, CompoundDataClassBrick thisAsBrick, DCHolder dcHolder) {
-    Result<DataClassBrick> r = calculateInternal(innerName, thisAsBrick, dcHolder);
-    while(r.getError() != null && thisAsBrick.getOuter() != null) {
-      if (r.getError() != null) {
-        r = thisAsBrick.getOuter().calculate(innerName, dcHolder);
-      }
-    }
-    return r;
-  }
   public boolean brickCanBeSet(String nameOfThisBrick, HashMap<String, DataClassBrick> innerBricks) {
     int numberOfSetValues = 1; //represents by the value that is currently being set
     for(Map.Entry innerBrick : innerBricks.entrySet()) {

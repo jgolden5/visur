@@ -24,4 +24,9 @@ public class WholeNumberDC extends PrimitiveDataClass {
       return false;
     }
   }
+
+  @Override
+  public Result<DataClassBrick> calcInternal(DataClassBrick dcb) {
+    return Result.make(null, "incalculable");
+  }
 }
