@@ -8,7 +8,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
   private CompoundDataClass cdc;
   HashMap<String, DataClassBrick> inners;
   private CompoundDataClassBrick(CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
-      super(dc, outer);
+      super(cdc, outer);
       this.cdc = cdc;
       this.inners = inners;
   }
@@ -44,17 +44,13 @@ public class CompoundDataClassBrick extends DataClassBrick {
       DataClassBrick innerTarget = (DataClassBrick) res.getVal();
       if (innerTarget == null || innerTarget instanceof CompoundDataClassBrick) {
         if (isComplete()) {
-          res = getCDC().calculateInternal(name, this, cursorPositionDCHolder);
+//          res = getCDC().calcInternal(name, this, cursorPositionDCHolder);
         }
       }
     } else {
       res = Result.make(null,"minimum required values not set");
     }
     return res;
-  }
-
-  public Result<DataClassBrick> calculate(String innerName, DCHolder dcHolder) {
-    return getCDC().calculate(innerName, this, dcHolder);
   }
 
   @Override
