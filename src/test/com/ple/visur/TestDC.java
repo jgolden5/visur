@@ -117,6 +117,9 @@ public class TestDC {
     r = cxcyDCB.putInner("cx", cxDCB);
     assertNull(r.error);
 
+    r = cxcyDCB.putInner("cy", cyDCB);
+    assertNull(r.error);
+
   }
 
   @Test void cdcbGetOrCalculateInner() {
