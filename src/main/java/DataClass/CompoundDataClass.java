@@ -31,10 +31,10 @@ public abstract class CompoundDataClass implements DataClass {
 
   public abstract Result<DataClassBrick> calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder);
 
-  public boolean brickCanBeSet(String nameOfThisBrick) {
+  public boolean brickCanBeSet(String nameOfThisBrick, HashMap<String, DataClassBrick> innerBricks) {
     int numberOfSetValues = 1; //represents by the value that is currently being set
-    for(Map.Entry inner : inners.entrySet()) {
-      if(inner != null && !inner.getKey().equals(nameOfThisBrick)) {
+    for(Map.Entry innerBrick : innerBricks.entrySet()) {
+      if(innerBrick.getValue() != null && !innerBrick.getKey().equals(nameOfThisBrick)) {
         numberOfSetValues++;
       }
     }
