@@ -135,6 +135,7 @@ public class TestDC {
 
     Result r = cxcyaDCB.getOrCalculateInner("a", cursorPositionDCHolder);
     assertNotNull(r.error);
+    assertNull(r.val);
 
 
   }
