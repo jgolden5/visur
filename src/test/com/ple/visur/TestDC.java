@@ -146,12 +146,12 @@ public class TestDC {
 
     cursorPosDCB.putInner("ni", niDCB);
 
+    //test 2
     r = cxcyaDCB.getOrCalculateInner("cxcy", cursorPositionDCHolder);
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.val;
     PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
 
-    //test 2
     assertNull(r.error);
     assertEquals(10, cxDCB.getDFB().getVal());
     assertEquals(0, cyDCB.getDFB().getVal());

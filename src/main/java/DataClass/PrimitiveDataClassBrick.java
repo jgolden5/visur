@@ -5,7 +5,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   private final PrimitiveDataClass pdc;
   private DataFormBrick val;
     private PrimitiveDataClassBrick(CompoundDataClassBrick outer, PrimitiveDataClass pdc, DataFormBrick val) {
-        super(outer);
+        super(dc, outer);
         this.pdc = pdc;
         this.val = val;
     }

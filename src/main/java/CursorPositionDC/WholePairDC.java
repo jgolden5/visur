@@ -4,7 +4,7 @@ import DataClass.CompoundDataClass;
 import DataClass.CompoundDataClassBrick;
 import DataClass.DCHolder;
 import DataClass.DataClassBrick;
-import com.ple.visur.Result;
+import DataClass.Result;
 
 import java.util.HashMap;
 
@@ -20,8 +20,8 @@ public class WholePairDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder) {
-    return null;
+  public Result<DataClassBrick> calculateInternal(String innerName, CompoundDataClassBrick thisAsBrick, DCHolder dcHolder) {
+    return Result.make(null, "incalculable");
   }
 
 }

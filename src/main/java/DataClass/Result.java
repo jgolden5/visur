@@ -1,4 +1,4 @@
-package com.ple.visur;
+package DataClass;
 
 public class Result<T> {
   T val;

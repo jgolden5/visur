@@ -1,7 +1,6 @@
 package DataClass;
 
 import CursorPositionDC.CursorPositionDCHolder;
-import com.ple.visur.Result;
 
 import java.util.HashMap;
 
@@ -9,7 +8,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
   private CompoundDataClass cdc;
   HashMap<String, DataClassBrick> inners;
   private CompoundDataClassBrick(CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
-      super(outer);
+      super(dc, outer);
       this.cdc = cdc;
       this.inners = inners;
   }
@@ -45,13 +44,17 @@ public class CompoundDataClassBrick extends DataClassBrick {
       DataClassBrick innerTarget = (DataClassBrick) res.getVal();
       if (innerTarget == null || innerTarget instanceof CompoundDataClassBrick) {
         if (isComplete()) {
-          res = getCDC().calculateInnerBrick(name, this, cursorPositionDCHolder);
+          res = getCDC().calculateInternal(name, this, cursorPositionDCHolder);
         }
       }
     } else {
       res = Result.make(null,"minimum required values not set");
     }
     return res;
+  }
+
+  public Result<DataClassBrick> calculate(String innerName, DCHolder dcHolder) {
+    return getCDC().calculate(innerName, this, dcHolder);
   }
 
   @Override
