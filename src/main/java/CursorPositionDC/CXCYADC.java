@@ -16,8 +16,24 @@ public class CXCYADC extends CompoundDataClass {
     return CompoundDataClassBrick.make(outer, this, new HashMap<>());
   }
 
-  private Result<DataClassBrick> calculateCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick, CursorPositionDCHolder cursorPositionDCHolder) {
-    PrimitiveDataClassBrick aDCB = (PrimitiveDataClassBrick) thisAsBrick.getInner("a");
+  @Override
+  public Result<DataClassBrick> calcInternal(DataClassBrick dcb) {
+    Result<DataClassBrick> r;
+    switch(dcb.name) {
+      case "cxcy", "cx", "cy":
+        r.putVal(calculateCXCY());
+        break;
+      case "ca":
+        r.putVal(calculateCA());
+        break;
+      default:
+        r.putError("name not recognized");
+    }
+    return r;
+  }
+  
+  private Result<DataClassBrick> calculateCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcyDCB, CursorPositionDCHolder cursorPositionDCHolder) {
+    PrimitiveDataClassBrick aDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("a");
     int a = (int)aDCB.getDFB().getVal();
     int cx;
     int cy = 0;
@@ -33,7 +49,7 @@ public class CXCYADC extends CompoundDataClass {
     } else {
       cx = a;
     }
-    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cursorPositionDCHolder, thisAsBrick);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cursorPositionDCHolder, cxcyDCB);
     PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, cxcyDCB, cursorPositionDCHolder);
     PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, cxcyDCB, cursorPositionDCHolder);
     cxcyDCB.putInner("cx", cxDCB);
@@ -41,7 +57,7 @@ public class CXCYADC extends CompoundDataClass {
     return Result.make(cxcyDCB, null);
   }
 
-  private Result<DataClassBrick> calculateA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick, CursorPositionDCHolder cursorPositionDCHolder) {
+  private Result<DataClassBrick> calculateCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick, CursorPositionDCHolder cursorPositionDCHolder) {
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) thisAsBrick.getInner("cxcy");
     PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
@@ -56,8 +72,4 @@ public class CXCYADC extends CompoundDataClass {
     return Result.make(aDCB, null);
   }
 
-  @Override
-  public Result<DataClassBrick> calcInternal(DataClassBrick dcb) {
-    return null; //actual calculations possible for this one
-  }
 }
