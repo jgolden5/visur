@@ -20,6 +20,9 @@ public class CompoundDataClassBrick extends DataClassBrick {
       return inners.get(name);
   }
   public void putInner(String innerName, DataClassBrick innerVal) {
+    if(innerVal != null) {
+      innerVal.name = innerName;
+    }
     inners.put(innerName, innerVal);
   }
 
