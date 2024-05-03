@@ -38,19 +38,15 @@ public class CompoundDataClassBrick extends DataClassBrick {
   }
 
   public Result<DataClassBrick> getOrCalculateInner(String name, CursorPositionDCHolder cursorPositionDCHolder) {
-    Result res;
-    if(cdc.checkCanSet(this, outer, cursorPositionDCHolder)) {
-      res = Result.make(getInner(name), null);
-      DataClassBrick innerTarget = (DataClassBrick) res.getVal();
-      if (innerTarget == null || innerTarget instanceof CompoundDataClassBrick) {
-        if (isComplete()) {
-//          res = getCDC().calcInternal(name, this, cursorPositionDCHolder);
-        }
-      }
+    DataClassBrick inner = getInner(name);
+    Result<DataClassBrick> r;
+    //if inner's value is set, return result whose value equals getInner(name)
+    if(inner == null) {
+      r = Result.make(inner, null);
     } else {
-      res = Result.make(null,"minimum required values not set");
+      r = Result.make(inner.calc(), null);
     }
-    return res;
+    return r;
   }
 
   @Override
