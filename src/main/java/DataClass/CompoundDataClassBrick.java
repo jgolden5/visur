@@ -23,14 +23,14 @@ public class CompoundDataClassBrick extends DataClassBrick {
     String error = null;
     if(innerVal != null) {
       if(innerVal instanceof CompoundDataClassBrick) {
-        CompoundDataClass innerValDC = ((CompoundDataClassBrick)innerVal).getCDC();
-        if(!innerValDC.brickCanBeSet()) {
+        CompoundDataClass thisCDC = getCDC();
+        if(!thisCDC.brickCanBeSet(innerName)) {
           error = "putInner failed, too many values set";
         }
       }
+      innerVal.name = innerName;
     }
     if(error == null) {
-      innerVal.name = innerName;
       inners.put(innerName, innerVal);
     }
     return Result.make(null, error);

@@ -4,6 +4,7 @@ import CursorPositionDC.CursorPositionDCHolder;
 import com.ple.visur.Result;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class CompoundDataClass implements DataClass {
   HashMap<String, DataClass> inners = new HashMap<>();
@@ -29,4 +30,15 @@ public abstract class CompoundDataClass implements DataClass {
   public abstract CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer);
 
   public abstract Result<DataClassBrick> calculateInnerBrick(String name, CompoundDataClassBrick compoundDataClassBrick, CursorPositionDCHolder cursorPositionDCHolder);
+
+  public boolean brickCanBeSet(String nameOfThisBrick) {
+    int numberOfSetValues = 1; //represents by the value that is currently being set
+    for(Map.Entry inner : inners.entrySet()) {
+      if(inner != null && !inner.getKey().equals(nameOfThisBrick)) {
+        numberOfSetValues++;
+      }
+    }
+    return numberOfSetValues <= minimumRequiredSetValues;
+  }
+
 }
