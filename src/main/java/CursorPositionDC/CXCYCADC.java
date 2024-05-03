@@ -17,11 +17,21 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calcInternal(DataClassBrick dcb) {
-    Result<DataClassBrick> r;
+  public Result<DataClassBrick> calcInternal(DataClassBrick dcb, DCHolder dcHolder) {
+    Result<DataClassBrick> r = Result.make(null, null);
+    CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
     switch(dcb.name) {
       case "cxcy", "cx", "cy":
-        r.putVal(calculateCXCY());
+        PrimitiveDataClassBrick niDCB;
+        CompoundDataClassBrick thisAsDCB;
+        if(dcb.name.equals("cxcy")) {
+          thisAsDCB = dcb.getOuter();
+        } else {
+          thisAsDCB = dcb.getOuter().getOuter();
+        }
+        niDCB = (PrimitiveDataClassBrick) thisAsDCB.getInner("ni");
+        ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.getDFB().getVal();
+        r = calculateCXCY(newlineIndices, thisAsDCB, cursorPositionDCHolder);
         break;
       case "ca":
         r.putVal(calculateCA());
@@ -32,26 +42,26 @@ public class CXCYCADC extends CompoundDataClass {
     return r;
   }
 
-  private Result<DataClassBrick> calculateCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcyDCB, CursorPositionDCHolder cursorPositionDCHolder) {
-    PrimitiveDataClassBrick aDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("a");
-    int a = (int)aDCB.getDFB().getVal();
+  private Result<DataClassBrick> calculateCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcyaDCB, CursorPositionDCHolder cursorPositionDCHolder) {
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcyaDCB.getInner("ca");
+    int ca = (int)caDCB.getDFB().getVal();
     int cx;
     int cy = 0;
     for(int i = 0; i < newlineIndices.size(); i++) {
-      if(a > newlineIndices.get(i)) {
+      if(ca > newlineIndices.get(i)) {
         cy++;
       } else {
         break;
       }
     }
     if(cy > 0) {
-      cx = a - (newlineIndices.get(cy - 1) + 1);
+      cx = ca - (newlineIndices.get(cy - 1) + 1);
     } else {
-      cx = a;
+      cx = ca;
     }
-    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cursorPositionDCHolder, cxcyDCB);
-    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, cxcyDCB, cursorPositionDCHolder);
-    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, cxcyDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cursorPositionDCHolder, cxcyaDCB);
+    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, cxcyaDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, cxcyaDCB, cursorPositionDCHolder);
     cxcyDCB.putInner("cx", cxDCB);
     cxcyDCB.putInner("cy", cyDCB);
     return Result.make(cxcyDCB, null);
