@@ -6,6 +6,8 @@ import DataClass.DCHolder;
 import DataClass.DataClassBrick;
 import com.ple.visur.Result;
 
+import java.util.HashMap;
+
 public class CXCYADC extends CompoundDataClass {
   public CXCYADC(int minimumRequiredSetValues) {
     super(minimumRequiredSetValues);
@@ -13,7 +15,7 @@ public class CXCYADC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer) {
-    return null;
+    return CompoundDataClassBrick.make(outer, this, new HashMap<>());
   }
 
   @Override

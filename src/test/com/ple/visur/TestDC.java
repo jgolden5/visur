@@ -129,6 +129,33 @@ public class TestDC {
 
   @Test void cdcbPutInnerClearsUnsetValues() {
 
+    CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(cursorPositionDCHolder, null);
+    Result r = cursorPosDCB.putInner("ni", null);
+    assertNull(r.error);
+
+    r = cursorPosDCB.putInner("cxcya", null);
+    assertNull(r.error);
+
+    ArrayList<Integer> startingNewlineIndices = new ArrayList<>();
+    startingNewlineIndices.add(11);
+    startingNewlineIndices.add(24);
+    startingNewlineIndices.add(32);
+    PrimitiveDataClassBrick niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick(startingNewlineIndices, cursorPosDCB, cursorPositionDCHolder);
+    r = cursorPosDCB.putInner("ni", niDCB);
+    assertNull(r.error);
+
+    CompoundDataClassBrick cxcyaDCB = cursorPositionDCHolder.cxcyaDC.makeBrick(cursorPositionDCHolder, cursorPosDCB);
+    cxcyaDCB.putInner("cxcy", null);
+    cxcyaDCB.putInner("a", null);
+    cursorPosDCB.putInner("cxcya", cxcyaDCB);
+    assertNull(r.error);
+
+    PrimitiveDataClassBrick aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(10, cxcyaDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cursorPositionDCHolder, cxcyaDCB);
+    r = cxcyaDCB.putInner("cxcy", cxcyDCB);
+
+    assertNotNull(r.error);
+
   }
 
 }
