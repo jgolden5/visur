@@ -124,6 +124,19 @@ public class TestDC {
 
   @Test void cdcbGetOrCalculateInner() {
 
+    CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(cursorPositionDCHolder, null);
+    CompoundDataClassBrick cxcyaDCB = cursorPositionDCHolder.cxcyaDC.makeBrick(cursorPositionDCHolder, cursorPosDCB);
+    PrimitiveDataClassBrick aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cursorPosDCB, cursorPositionDCHolder);
+    cxcyaDCB.putInner("a", aDCB);
+    cxcyaDCB.putInner("cxcy", null);
+
+    cursorPosDCB.putInner("cxcya", cxcyaDCB);
+    cursorPosDCB.putInner("ni", null);
+
+    Result r = cxcyaDCB.getOrCalculateInner("a", cursorPositionDCHolder);
+    assertNotNull(r.error);
+
+
   }
 
 }
