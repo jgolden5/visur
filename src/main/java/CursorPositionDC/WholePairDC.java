@@ -20,7 +20,7 @@ public class WholePairDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calcInternal(DataClassBrick dcb) {
+  public Result<DataClassBrick> calcInternal(DataClassBrick dcb, DCHolder dcHolder) {
     return Result.make(null, "incalculable");
   }
 

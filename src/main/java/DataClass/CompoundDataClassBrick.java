@@ -44,7 +44,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     if(inner == null) {
       r = Result.make(inner, null);
     } else {
-      r = Result.make(inner.calc(), null);
+      r = inner.calc(cursorPositionDCHolder);
     }
     return r;
   }
