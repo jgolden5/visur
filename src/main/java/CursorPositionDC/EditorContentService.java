@@ -17,6 +17,10 @@ public class EditorContentService {
     return (String)editorModel.get(editorContent);
   }
 
+  public CursorPositionDCHolder getCursorPositionDCHolder(LocalMap<EditorModelKey, Object> editorModel) {
+    return (CursorPositionDCHolder)editorModel.get(cursorPositionDCHolder);
+  }
+
   public VisurVar getGlobalVar(String varName, LocalMap<EditorModelKey, Object> editorModel) {
     VariableMap globalVarMap = getGlobalVarMap(editorModel);
     return globalVarMap.get(varName);
@@ -74,6 +78,10 @@ public class EditorContentService {
   public void putEditorContent(String contentLines, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(editorContent, contentLines);
     updateNewlineIndices(editorModel);
+  }
+
+  public void putCursorPositionDCHolder(CursorPositionDCHolder cpDCHolder, LocalMap<EditorModelKey, Object> editorModel) {
+    editorModel.put(cursorPositionDCHolder, cpDCHolder);
   }
 
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue, LocalMap<EditorModelKey, Object> editorModel) {

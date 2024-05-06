@@ -1,5 +1,8 @@
 package com.ple.visur;
 
+import CursorPositionDC.CursorPositionDCHolder;
+
+import java.awt.*;
 import java.util.HashMap;
 
 import static com.ple.visur.EditorMode.editing;
@@ -7,29 +10,29 @@ import static com.ple.visur.EditorModelKey.globalVariableMap;
 
 public class InitializerService {
 
-  private final EditorModelCoupler ems;
+  private final EditorModelCoupler emc;
 
   public static InitializerService make(EditorModelCoupler editorModelCoupler) {
     return new InitializerService(editorModelCoupler);
   }
 
   private InitializerService(EditorModelCoupler editorModelCoupler) {
-    this.ems = editorModelCoupler;
+    this.emc = editorModelCoupler;
     initializeEditorModel();
   }
 
   public void initializeEditorModel() {
     VariableMap initialGvm = new VariableMap(new HashMap<>());
-    ems.editorModel.put(globalVariableMap, initialGvm);
-    VariableMap gvm = (VariableMap)ems.editorModel.get(globalVariableMap);
+    emc.editorModel.put(globalVariableMap, initialGvm);
+    VariableMap gvm = (VariableMap) emc.editorModel.get(globalVariableMap);
     gvm.put("ca", new IntVisurVar(0));
     gvm.put("contentY", new IntVisurVar(0));
     //gvm.put("contentY", ems.getContentY());
-    ems.putVirtualX(0);
-    ems.putVirtualXIsAtEndOfLine(false);
-    ems.putEditorMode(editing);
-    ems.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
-    ems.putExecutionDataStack(new ExecutionDataStack());
+    emc.putVirtualX(0);
+    emc.putVirtualXIsAtEndOfLine(false);
+    emc.putEditorMode(editing);
+    emc.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
+    emc.putExecutionDataStack(new ExecutionDataStack());
     final String initialEditorContent = "Hello world\n" +
       "How are you?\n" +
       "Goodbye";
@@ -37,13 +40,13 @@ public class InitializerService {
 //      "Those who invite Qazlal's gaze will find themselves the eye in a storm of elemental destruction, from which only their god can protect them.\n" +
 //      "Pious worshippers of Qazlal will gain the ability to direct and control the destructive might of the storm.\n" +
 //      "Followers of Qazlal are protected from the clouds they create.\n";
-    ems.putEditorContent(initialEditorContent);
+    emc.putEditorContent(initialEditorContent);
 
-    ems.putIsInCommandState(false);
-    ems.putCommandStateContent("");
-    ems.putCommandCursor(ems.getCommandStateContent().length());
+    emc.putIsInCommandState(false);
+    emc.putCommandStateContent("");
+    emc.putCommandCursor(emc.getCommandStateContent().length());
 
-    initializeDataClassesAndForms();
+    initializeDataClasses();
 
     initializeQuantums();
 
@@ -52,11 +55,13 @@ public class InitializerService {
     initializeHandlers();
 
     OperatorToService opToService = OperatorToService.make();
-    ems.putOperatorToService(opToService);
+    emc.putOperatorToService(opToService);
   }
 
-  private void initializeDataClassesAndForms() {
-
+  private void initializeDataClasses() {
+    CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
+    emc.putCursorPositionDCHolder(cursorPositionDCHolder);
+    
   }
 
   private void initializeQuantums() {
@@ -65,30 +70,30 @@ public class InitializerService {
     qm.put("word", new RegexQuantum("word", "\\S+"));
     qm.put("character", new CharacterQuantum());
     qm.put("wrappedLine", new WrappedLineQuantum());
-    ems.putQuantumMap(qm);
-    ems.putCurrentQuantum(ems.getQuantumMap().get(startingQuantumName));
-    int contentX = ems.getGlobalVar("ca").getInt();
-    int contentY = ems.getGlobalVar("contentY").getInt();
-    int bounds[] = ems.getQuantumMap().get(startingQuantumName).getBoundaries(ems.getEditorContent(), ems.getNewlineIndices(), contentX, contentY, false);
-    ems.putQuantumStart(bounds[0]);
-    ems.putQuantumEnd(bounds[1]);
+    emc.putQuantumMap(qm);
+    emc.putCurrentQuantum(emc.getQuantumMap().get(startingQuantumName));
+    int contentX = emc.getGlobalVar("ca").getInt();
+    int contentY = emc.getGlobalVar("contentY").getInt();
+    int bounds[] = emc.getQuantumMap().get(startingQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), contentX, contentY, false);
+    emc.putQuantumStart(bounds[0]);
+    emc.putQuantumEnd(bounds[1]);
     System.out.println("start bound = " + bounds[0]);
     System.out.println("end bound = " + bounds[1]);
   }
 
   private void initializeHandlers() {
     final KeysToOperatorHandler[] editorKeyToOperatorHandlers = new KeysToOperatorHandler[1];
-    editorKeyToOperatorHandlers[0] = KeymapHandler.make(ems);
+    editorKeyToOperatorHandlers[0] = KeymapHandler.make(emc);
 
     final KeysToOperatorHandler[] insertKeyToOperatorHandlers = new KeysToOperatorHandler[2];
-    insertKeyToOperatorHandlers[0] = KeymapHandler.make(ems);
-    insertKeyToOperatorHandlers[1] = InsertCharHandler.make(ems);
+    insertKeyToOperatorHandlers[0] = KeymapHandler.make(emc);
+    insertKeyToOperatorHandlers[1] = InsertCharHandler.make(emc);
 
     ModeToHandlerArray modeToHandlerArray = ModeToHandlerArray.make();
     modeToHandlerArray.put(EditorMode.editing, editorKeyToOperatorHandlers);
     modeToHandlerArray.put(EditorMode.insert, insertKeyToOperatorHandlers);
 
-    ems.putModeToHandlerArray(modeToHandlerArray);
+    emc.putModeToHandlerArray(modeToHandlerArray);
   }
 
   private void initializeKeymaps() {
@@ -103,7 +108,7 @@ public class InitializerService {
     insertKeymap = initializeInsertKeymap(insertKeymap);
     keymapMap.put(EditorMode.insert, insertKeymap);
 
-    ems.putKeymapMap(keymapMap);
+    emc.putKeymapMap(keymapMap);
 
   }
 

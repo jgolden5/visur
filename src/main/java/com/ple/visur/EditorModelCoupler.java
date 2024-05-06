@@ -1,5 +1,6 @@
 package com.ple.visur;
 
+import CursorPositionDC.CursorPositionDCHolder;
 import CursorPositionDC.EditorContentService;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
@@ -23,6 +24,10 @@ public class EditorModelCoupler {
 
   public String getEditorContent() {
     return ecs.getEditorContent(editorModel);
+  }
+
+  public CursorPositionDCHolder getCursorPositionDCHolder() {
+    return ecs.getCursorPositionDCHolder(editorModel);
   }
 
   public VisurVar getGlobalVar(String varName) {
@@ -100,7 +105,6 @@ public class EditorModelCoupler {
   public int getQuantumStart() {
     return (int)editorModel.get(quantumStart);
   }
-
   public int getQuantumEnd() {
     return (int)editorModel.get(quantumEnd);
   }
@@ -108,7 +112,9 @@ public class EditorModelCoupler {
   public void putEditorContent(String contentLines) {
     ecs.putEditorContent(contentLines, editorModel);
   }
-
+  public void putCursorPositionDCHolder(CursorPositionDCHolder cursorPositionDCHolder) {
+    ecs.putCursorPositionDCHolder(cursorPositionDCHolder, editorModel);
+  }
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
     ecs.putGlobalVar(globalVarName, globalVarValue, editorModel);
   }
