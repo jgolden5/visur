@@ -135,6 +135,9 @@ public class EditorModelCoupler {
   public void putCY(int cy) {
     ecs.putCY(cy, editorModel);
   }
+  public void putCA(int ca) {
+    ecs.putCA(ca, editorModel);
+  }
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
     ecs.putGlobalVar(globalVarName, globalVarValue, editorModel);
   }

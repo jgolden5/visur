@@ -31,7 +31,7 @@ public class EditorContentService {
     CursorPositionDCHolder cursorPositionDCHolder = getCursorPositionDCHolder(editorModel);
     Result<DataClassBrick> r = cxDCB.getOuter().getOrCalculateInner(cxDCB.name, cursorPositionDCHolder);
     int cx;
-    if(r.getError() != null) {
+    if(r.getError() == null) {
       cxDCB = (PrimitiveDataClassBrick) r.getVal();
       cx = (int)cxDCB.getDFB().getVal();
     } else {
@@ -46,7 +46,7 @@ public class EditorContentService {
     CursorPositionDCHolder cursorPositionDCHolder = getCursorPositionDCHolder(editorModel);
     Result<DataClassBrick> r = cyDCB.getOuter().getOrCalculateInner(cyDCB.name, cursorPositionDCHolder);
     int cy;
-    if(r.getError() != null) {
+    if(r.getError() == null) {
       cyDCB = (PrimitiveDataClassBrick) r.getVal();
       cy = (int)cyDCB.getDFB().getVal();
     } else {
@@ -61,7 +61,7 @@ public class EditorContentService {
     CursorPositionDCHolder cursorPositionDCHolder = getCursorPositionDCHolder(editorModel);
     Result<DataClassBrick> r = caDCB.getOuter().getOrCalculateInner(caDCB.name, cursorPositionDCHolder);
     int ca;
-    if(r.getError() != null) {
+    if(r.getError() == null) {
       caDCB = (PrimitiveDataClassBrick) r.getVal();
       ca = (int)caDCB.getDFB().getVal();
     } else {
@@ -133,22 +133,50 @@ public class EditorContentService {
     editorModel.put(cursorPositionDCHolder, cpDCHolder);
   }
 
-  public void putCX(int cx, LocalMap<EditorModelKey, Object> editorModel) { //note, do not use these to set initial values for cx and cy in initializerService because outers must already be set
+  //note, do not use these to set initial values for cx and cy in initializerService because outers must already be set
+  public void putCX(int cx, LocalMap<EditorModelKey, Object> editorModel) {
     CursorPositionDCHolder cursorPositionDCHolder = getCursorPositionDCHolder(editorModel);
     VisurVar cxDCBAsVisurVar = getGlobalVar("cx", editorModel);
     PrimitiveDataClassBrick cxDCB = cxDCBAsVisurVar.getBrick();
     CompoundDataClassBrick outer = cxDCB.getOuter();
-    cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, outer, cursorPositionDCHolder);
-    putGlobalVar("cx", VisurVar.make(null, cxDCB), editorModel);
+    Result r = outer.putInner("cx", cxDCB);
+    if(r.getError() == null) {
+      cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, outer, cursorPositionDCHolder);
+      cxDCBAsVisurVar = VisurVar.make(cxDCB);
+      putGlobalVar("cx", cxDCBAsVisurVar, editorModel);
+    } else {
+      putGlobalVar("cx", null, editorModel);
+    }
   }
 
   public void putCY(int cy, LocalMap<EditorModelKey, Object> editorModel) {
     CursorPositionDCHolder cursorPositionDCHolder = getCursorPositionDCHolder(editorModel);
-    VisurVar cxDCBAsVisurVar = getGlobalVar("cy", editorModel);
-    PrimitiveDataClassBrick cyDCB = cxDCBAsVisurVar.getBrick();
+    VisurVar cyDCBAsVisurVar = getGlobalVar("cy", editorModel);
+    PrimitiveDataClassBrick cyDCB = cyDCBAsVisurVar.getBrick();
     CompoundDataClassBrick outer = cyDCB.getOuter();
-    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, outer, cursorPositionDCHolder);
-    putGlobalVar("cy", VisurVar.make(null, cyDCB), editorModel);
+    Result r = outer.putInner("cy", cyDCB);
+    if(r.getError() == null) {
+      cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, outer, cursorPositionDCHolder);
+      cyDCBAsVisurVar = VisurVar.make(cyDCB);
+      putGlobalVar("cy", cyDCBAsVisurVar, editorModel);
+    } else {
+      putGlobalVar("cy", null, editorModel);
+    }
+  }
+
+  public void putCA(int ca, LocalMap<EditorModelKey, Object> editorModel) {
+    CursorPositionDCHolder cursorPositionDCHolder = getCursorPositionDCHolder(editorModel);
+    VisurVar caDCBAsVisurVar = getGlobalVar("ca", editorModel);
+    PrimitiveDataClassBrick caDCB = caDCBAsVisurVar.getBrick();
+    CompoundDataClassBrick outer = caDCB.getOuter();
+    Result r = outer.putInner("ca", caDCB);
+    if(r.getError() == null) {
+      caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(ca, outer, cursorPositionDCHolder);
+      caDCBAsVisurVar = VisurVar.make(caDCB);
+      putGlobalVar("ca", caDCBAsVisurVar, editorModel);
+    } else {
+      putGlobalVar("ca", null, editorModel);
+    }
   }
 
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue, LocalMap<EditorModelKey, Object> editorModel) {
