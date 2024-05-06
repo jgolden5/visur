@@ -14,22 +14,20 @@ public abstract class DataClassBrick {
         return outer;
     }
 
-    public Result<DataClassBrick> calc(DCHolder dcHolder) {
+    public Result<DataClassBrick> calc(String name, DCHolder dcHolder) {
       Result r;
       CompoundDataClassBrick outerBrick = getOuter();
       CompoundDataClass outerDC = outerBrick.getCDC();
-      boolean canSet;
+      boolean canSet = true;
       if(outerDC != null) {
         CompoundDataClassBrick outerOuterBrick = outerBrick.getOuter();
         canSet = outerDC.checkCanSet(outerBrick, outerOuterBrick, dcHolder);
-      } else {
-        canSet = true;
       }
       CompoundDataClassBrick outerOuterBrick = outerBrick.getOuter();
       if(canSet) {
-        r = dc.calcInternal(this, dcHolder);
+        r = dc.calcInternal(name, this, dcHolder);
         if (r.getError() != null && outer != null) {
-          r = outer.calc(dcHolder);
+          r = outer.calc(name, dcHolder);
         }
       } else {
         r = Result.make(null, "can't set");

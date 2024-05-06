@@ -18,7 +18,7 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calcInternal(DataClassBrick dcb, DCHolder dcHolder) {
+  public Result<DataClassBrick> calcInternal(String name, DataClassBrick dcb, DCHolder dcHolder) {
     Result<DataClassBrick> r;
     CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
     CompoundDataClassBrick thisAsDCB;

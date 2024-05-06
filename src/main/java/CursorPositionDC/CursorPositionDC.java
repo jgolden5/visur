@@ -16,7 +16,8 @@ public class CursorPositionDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calcInternal(DataClassBrick dcb, DCHolder dcHolder) {
+  public Result<DataClassBrick> calcInternal(String name, DataClassBrick dcb, DCHolder dcHolder) {
     return Result.make(null, "incalculable");
   }
+
 }
