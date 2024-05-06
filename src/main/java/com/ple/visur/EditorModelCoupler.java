@@ -2,6 +2,8 @@ package com.ple.visur;
 
 import CursorPositionDC.CursorPositionDCHolder;
 import CursorPositionDC.EditorContentService;
+import DataClass.DataClassBrick;
+import DataClass.PrimitiveDataClassBrick;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
@@ -28,6 +30,14 @@ public class EditorModelCoupler {
 
   public CursorPositionDCHolder getCursorPositionDCHolder() {
     return ecs.getCursorPositionDCHolder(editorModel);
+  }
+
+  public int getCX() {
+    return ecs.getCX(editorModel);
+  }
+
+  public int getCY() {
+    return ecs.getCY(editorModel);
   }
 
   public VisurVar getGlobalVar(String varName) {
@@ -114,6 +124,12 @@ public class EditorModelCoupler {
   }
   public void putCursorPositionDCHolder(CursorPositionDCHolder cursorPositionDCHolder) {
     ecs.putCursorPositionDCHolder(cursorPositionDCHolder, editorModel);
+  }
+  public void putCX(int cx) {
+    ecs.putCX(cx, editorModel);
+  }
+  public void putCY(int cy) {
+    ecs.putCY(cy, editorModel);
   }
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
     ecs.putGlobalVar(globalVarName, globalVarValue, editorModel);

@@ -1,5 +1,8 @@
 package CursorPositionDC;
 
+import DataClass.CompoundDataClassBrick;
+import DataClass.DataClassBrick;
+import DataClass.PrimitiveDataClassBrick;
 import com.ple.visur.*;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 
@@ -19,6 +22,18 @@ public class EditorContentService {
 
   public CursorPositionDCHolder getCursorPositionDCHolder(LocalMap<EditorModelKey, Object> editorModel) {
     return (CursorPositionDCHolder)editorModel.get(cursorPositionDCHolder);
+  }
+
+  public int getCX(LocalMap<EditorModelKey, Object> editorModel) {
+    VisurVar cxDCBAsVisurVar = getGlobalVar("cx", editorModel);
+    PrimitiveDataClassBrick cxDCB = cxDCBAsVisurVar.getBrick();
+    return (int) cxDCB.getDFB().getVal();
+  }
+
+  public int getCY(LocalMap<EditorModelKey, Object> editorModel) {
+    VisurVar cxDCBAsVisurVar = getGlobalVar("cy", editorModel);
+    PrimitiveDataClassBrick cyDCB = cxDCBAsVisurVar.getBrick();
+    return (int) cyDCB.getDFB().getVal();
   }
 
   public VisurVar getGlobalVar(String varName, LocalMap<EditorModelKey, Object> editorModel) {
@@ -84,6 +99,24 @@ public class EditorContentService {
     editorModel.put(cursorPositionDCHolder, cpDCHolder);
   }
 
+  public void putCX(int cx, LocalMap<EditorModelKey, Object> editorModel) { //note, do not use these to set initial values for cx and cy in initializerService because outers must already be set
+    CursorPositionDCHolder cursorPositionDCHolder = getCursorPositionDCHolder(editorModel);
+    VisurVar cxDCBAsVisurVar = getGlobalVar("cx", editorModel);
+    PrimitiveDataClassBrick cxDCB = cxDCBAsVisurVar.getBrick();
+    CompoundDataClassBrick outer = cxDCB.getOuter();
+    cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, outer, cursorPositionDCHolder);
+    putGlobalVar("cx", VisurVar.make(null, cxDCB), editorModel);
+  }
+
+  public void putCY(int cy, LocalMap<EditorModelKey, Object> editorModel) {
+    CursorPositionDCHolder cursorPositionDCHolder = getCursorPositionDCHolder(editorModel);
+    VisurVar cxDCBAsVisurVar = getGlobalVar("cy", editorModel);
+    PrimitiveDataClassBrick cyDCB = cxDCBAsVisurVar.getBrick();
+    CompoundDataClassBrick outer = cyDCB.getOuter();
+    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, outer, cursorPositionDCHolder);
+    putGlobalVar("cy", VisurVar.make(null, cyDCB), editorModel);
+  }
+
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue, LocalMap<EditorModelKey, Object> editorModel) {
     VariableMap gvm = getGlobalVarMap(editorModel);
     gvm.put(globalVarName, globalVarValue); //updates value that was previously at associated key
@@ -129,5 +162,4 @@ public class EditorContentService {
   public void putCanvasHeight(int height, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(canvasHeight, height);
   }
-
 }
