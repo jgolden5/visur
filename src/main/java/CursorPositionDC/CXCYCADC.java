@@ -25,10 +25,10 @@ public class CXCYCADC extends CompoundDataClass {
     CompoundDataClassBrick cxcyaDCB = null;
     if(name.equals("ca") || name.equals("cxcy")) {
       cxcyaDCB = thisAsBrick;
-      cursorPositionDCB = thisAsBrick;
+      cursorPositionDCB = thisAsBrick.getOuter();
     } else if(name.equals("cx") || name.equals("cy")) {
       cxcyaDCB = thisAsBrick.getOuter();
-      cursorPositionDCB = thisAsBrick.getOuter();
+      cursorPositionDCB = thisAsBrick.getOuter().getOuter();
     } else {
       r.putError("inner name not recognized");
     }

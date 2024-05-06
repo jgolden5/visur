@@ -54,7 +54,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     CompoundDataClassBrick outerBrick = getOuter();
     boolean canSet = cdc.checkCanSet(this, outerBrick, dcHolder);
     if(canSet) {
-      r = dc.calcInternal(name, outerBrick, dcHolder);
+      r = dc.calcInternal(name, this, dcHolder);
       if (r.getError() != null && outer != null) {
         r = outer.calc(name, dcHolder);
       }
