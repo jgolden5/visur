@@ -152,6 +152,59 @@ public class TestDC {
     assertEquals(10, cxDCB.getDFB().getVal());
     assertEquals(0, cyDCB.getDFB().getVal());
 
+    //test 2
+    cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(7, cxcyDCB, cursorPositionDCHolder);
+    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(1, cxcyDCB, cursorPositionDCHolder);
+    cxcyDCB.putInner("cx", cxDCB);
+    cxcyDCB.putInner("cy", cyDCB);
+    cxcyaDCB.putInner("ca", null);
+    cxcyaDCB.putInner("cxcy", cxcyDCB);
+    r = cxcyaDCB.getOrCalculateInner("ca", cursorPositionDCHolder);
+    caDCB = (PrimitiveDataClassBrick) r.getVal();
+
+    assertNull(r.getError());
+    assertEquals(19, caDCB.getDFB().getVal());
+
+    //test 3
+    caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(12, cxcyaDCB, cursorPositionDCHolder);
+    cxcyaDCB.putInner("cxcy", null);
+    cxcyaDCB.putInner("ca", caDCB);
+    r = cxcyaDCB.getOrCalculateInner("cxcy", cursorPositionDCHolder);
+    cxcyDCB = (CompoundDataClassBrick) r.getVal();
+    cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
+    cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
+
+    assertNull(r.getError());
+    assertEquals(0, cxDCB.getDFB().getVal());
+    assertEquals(1, cyDCB.getDFB().getVal());
+
+    //test 4
+    caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(21, cxcyaDCB, cursorPositionDCHolder);
+    cxcyaDCB.putInner("cxcy", null);
+    cxcyaDCB.putInner("ca", caDCB);
+    r = cxcyaDCB.getOrCalculateInner("cxcy", cursorPositionDCHolder);
+    cxcyDCB = (CompoundDataClassBrick) r.getVal();
+    cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
+    cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
+
+    assertNull(r.getError());
+    assertEquals(9, cxDCB.getDFB().getVal());
+    assertEquals(1, cyDCB.getDFB().getVal());
+
+    //test 5
+    caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(32, cxcyaDCB, cursorPositionDCHolder);
+    cxcyaDCB.putInner("cxcy", null);
+    cxcyaDCB.putInner("ca", caDCB);
+    r = cxcyaDCB.getOrCalculateInner("cxcy", cursorPositionDCHolder);
+    cxcyDCB = (CompoundDataClassBrick) r.getVal();
+    cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
+    cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
+
+    assertNull(r.getError());
+    assertEquals(7, cxDCB.getDFB().getVal());
+    assertEquals(2, cyDCB.getDFB().getVal());
+
+
   }
 
 }
