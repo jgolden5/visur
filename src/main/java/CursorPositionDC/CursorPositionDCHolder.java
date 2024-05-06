@@ -1,8 +1,9 @@
 package CursorPositionDC;
 
 import DataClass.DCHolder;
+import io.vertx.core.shareddata.Shareable;
 
-public class CursorPositionDCHolder extends DCHolder {
+public class CursorPositionDCHolder extends DCHolder implements Shareable {
 
   public JavaIntDF javaIntDF = new JavaIntDF(0);
   public IntArrayListDF intArrayListDF = new IntArrayListDF(0);
