@@ -49,6 +49,21 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return r;
   }
 
+  public Result<DataClassBrick> calc(String name, DCHolder dcHolder) {
+    Result r;
+    CompoundDataClassBrick outerBrick = getOuter();
+    boolean canSet = cdc.checkCanSet(this, outerBrick, dcHolder);
+    if(canSet) {
+      r = dc.calcInternal(name, outerBrick, dcHolder);
+      if (r.getError() != null && outer != null) {
+        r = outer.calc(name, dcHolder);
+      }
+    } else {
+      r = Result.make(null, "can't set");
+    }
+    return r;
+  }
+
   @Override
   public boolean isComplete() {
     int numberOfSetValues = 0;

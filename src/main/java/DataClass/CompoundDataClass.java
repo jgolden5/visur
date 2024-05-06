@@ -10,12 +10,12 @@ public abstract class CompoundDataClass extends DataClass {
     this.minimumRequiredSetValues = minimumRequiredSetValues;
   }
   public boolean checkCanSet(CompoundDataClassBrick thisAsBrick, CompoundDataClassBrick outer, DCHolder dcHolder) {
-    boolean canSetThisBrick = minimumValuesAreSet(thisAsBrick, dcHolder);
+    boolean thisBrickIsSet = minimumValuesAreSet(thisAsBrick, dcHolder);
     boolean outerBrickIsSet = true;
     if(outer != null) {
       outerBrickIsSet = outer.getCDC().minimumValuesAreSet(outer, dcHolder);
     }
-    return canSetThisBrick && outerBrickIsSet;
+    return thisBrickIsSet && outerBrickIsSet;
   }
   public boolean minimumValuesAreSet(CompoundDataClassBrick thisAsBrick, DCHolder dcHolder) {
     int setValues = 0;

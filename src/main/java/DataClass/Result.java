@@ -10,6 +10,9 @@ public class Result<T> {
   public static <T> Result make(T val, String error) {
     return new Result(val, error);
   }
+  public static <T> Result make() {
+    return new Result(null, null);
+  }
 
   public void putVal(T val) {
     this.val = val;
