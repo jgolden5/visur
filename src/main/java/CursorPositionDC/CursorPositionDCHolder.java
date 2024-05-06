@@ -11,7 +11,7 @@ public class CursorPositionDCHolder extends DCHolder {
   public WholeNumberDC wholeNumberDC = new WholeNumberDC();
   public WholePairDC wholePairDC = new WholePairDC(2);
   public WholeNumberListDC wholeNumberListDC = new WholeNumberListDC();
-  public CXCYCADC cxcyaDC = new CXCYCADC(1);
+  public CXCYCADC cxcycaDC = new CXCYCADC(1);
 
   public static CursorPositionDCHolder make() {
     return new CursorPositionDCHolder();
@@ -20,10 +20,10 @@ public class CursorPositionDCHolder extends DCHolder {
   public CursorPositionDCHolder() {
     wholePairDC.putInner("cx", wholeNumberDC);
     wholePairDC.putInner("cy", wholeNumberDC);
-    cxcyaDC.putInner("cxcy", wholePairDC);
-    cxcyaDC.putInner("a", wholeNumberDC);
+    cxcycaDC.putInner("cxcy", wholePairDC);
+    cxcycaDC.putInner("a", wholeNumberDC);
     cursorPositionDC.putInner("ni", wholeNumberListDC);
-    cursorPositionDC.putInner("cxcya", cxcyaDC);
+    cursorPositionDC.putInner("cxcyca", cxcycaDC);
   }
 
 }
