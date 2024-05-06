@@ -8,12 +8,10 @@ public class AssignmentOp implements Operator {
 
   @Override
   public void execute(Object opInfo) {
-    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
-    ExecutionDataStack es = ems.getExecutionDataStack();
+    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
+    ExecutionDataStack es = emc.getExecutionDataStack();
     Object topElementFromStack = es.pop();
-    VariableMap gvm = ems.getGlobalVarMap();
-    VisurVar globalVar = gvm.get((String)opInfo);
-    globalVar.put(topElementFromStack);
+    emc.putGlobalVar((String)opInfo, VisurVar.make(topElementFromStack));
   }
 
 }

@@ -12,6 +12,14 @@ public class VisurVar {
     this.brick = brick;
   }
 
+  public static VisurVar make(Object objMaybeBrick) {
+    if(objMaybeBrick instanceof PrimitiveDataClassBrick) {
+      return new VisurVar(null, (PrimitiveDataClassBrick) objMaybeBrick);
+    } else {
+      return new VisurVar(objMaybeBrick, null);
+    }
+  }
+
   public static VisurVar make(Object obj, PrimitiveDataClassBrick brick) {
     return new VisurVar(obj, brick);
   }

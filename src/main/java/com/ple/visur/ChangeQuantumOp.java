@@ -8,8 +8,8 @@ public class ChangeQuantumOp implements Operator {
     String quantumName = (String)ems.getExecutionDataStack().pop();
     String quantumNameWithoutQuotes = quantumName.substring(1, quantumName.length() - 1);
     Quantum targetQuantum = ems.getQuantumMap().get(quantumNameWithoutQuotes);
-    int contentX = ems.getGlobalVar("ca").getInt();
-    int contentY = ems.getGlobalVar("contentY").getInt();
+    int contentX = ems.getCX();
+    int contentY = ems.getCY();
     int[] bounds = targetQuantum.getBoundaries(ems.getEditorContent(), ems.getNewlineIndices(), contentX, contentY, false);
     ems.putQuantumStart(bounds[0]);
     ems.putQuantumEnd(bounds[1]);
