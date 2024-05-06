@@ -23,12 +23,9 @@ public class CXCYCADC extends CompoundDataClass {
     CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
     CompoundDataClassBrick cursorPositionDCB = null;
     CompoundDataClassBrick cxcycaDCB = null;
-    if(name.equals("ca") || name.equals("cxcy")) {
+    if("cxcyca".contains(name)) {
       cxcycaDCB = thisAsBrick;
       cursorPositionDCB = thisAsBrick.getOuter();
-    } else if(name.equals("cx") || name.equals("cy")) {
-      cxcycaDCB = thisAsBrick.getOuter();
-      cursorPositionDCB = thisAsBrick.getOuter().getOuter();
     } else {
       r.putError("inner name not recognized");
     }
@@ -39,6 +36,12 @@ public class CXCYCADC extends CompoundDataClass {
         r = calculateCA(newlineIndices, cxcycaDCB, cursorPositionDCHolder);
       } else {
         r = calculateCXCY(newlineIndices, cxcycaDCB, cursorPositionDCHolder);
+        CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
+        if(name.equals("cx")) {
+          r.putVal(cxcyDCB.getInner("cx"));
+        } else if(name.equals("cy")) {
+          r.putVal(cxcyDCB.getInner("cy"));
+        }
       }
     }
     return r;

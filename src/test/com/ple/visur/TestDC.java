@@ -232,6 +232,29 @@ public class TestDC {
     assertNull(r.getError());
     assertEquals(26, caDCB.getDFB().getVal());
 
+    //test 8
+    caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(16, cxcycaDCB, cursorPositionDCHolder);
+    cxcycaDCB.putInner("cxcy", null);
+    cxcycaDCB.putInner("ca", caDCB);
+    cursorPosDCB.putInner("cxcyca", cxcycaDCB);
+    r = cursorPosDCB.getOrCalculateInner("cx", cursorPositionDCHolder);
+    cxDCB = (PrimitiveDataClassBrick) r.getVal();
+
+    assertNull(r.getError());
+    assertEquals(4, cxDCB.getDFB().getVal());
+
+    //test 9
+    caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(16, cxcycaDCB, cursorPositionDCHolder);
+    cxcycaDCB.putInner("cxcy", null);
+    cxcycaDCB.putInner("ca", caDCB);
+    cursorPosDCB.putInner("cxcyca", cxcycaDCB);
+    r = cursorPosDCB.getOrCalculateInner("cy", cursorPositionDCHolder);
+    cyDCB = (PrimitiveDataClassBrick) r.getVal();
+
+    assertNull(r.getError());
+    assertEquals(1, cyDCB.getDFB().getVal());
+
+    //test 10
 
   }
 
