@@ -29,12 +29,8 @@ public class EditorModelCoupler {
     return ecs.getGlobalVar(varName, editorModel);
   }
 
-  public VariableMap getGlobalVariableMap() {
-    return ecs.getGlobalVariableMap(editorModel);
-  }
-
-  public String getCurrentContentLine() {
-    return ecs.getCurrentContentLine(editorModel);
+  public VariableMap getGlobalVarMap() {
+    return ecs.getGlobalVarMap(editorModel);
   }
 
   public String getContentLineAtY(int y) {
@@ -73,13 +69,8 @@ public class EditorModelCoupler {
   public ModeToKeymap getKeymapMap() {
     return (ModeToKeymap) editorModel.get(modeToKeymap);
   }
-
-  public KeysToOperatorHandler[] getKeyToOperatorHandlers(EditorMode mode) {
-    return (KeysToOperatorHandler[])editorModel.get(mode);
-  }
-
-  public ModeToHandlerArray getModeToHandlerArray() {
-    return (ModeToHandlerArray)editorModel.get(modeToHandlerArray);
+  public OperatorToService getOperatorToService() {
+    return (OperatorToService) editorModel.get(operatorToService);
   }
 
   public boolean getIsInCommandState() {
@@ -121,6 +112,9 @@ public class EditorModelCoupler {
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
     ecs.putGlobalVar(globalVarName, globalVarValue, editorModel);
   }
+  public void putGlobalVarMap(VariableMap gvm) {
+    ecs.putGlobalVarMap(gvm, editorModel);
+  }
 
   public void updateNewlineIndices() {
     ecs.updateNewlineIndices(editorModel);
@@ -157,9 +151,8 @@ public class EditorModelCoupler {
   public void putOperatorToService(OperatorToService opToService) {
     editorModel.put(operatorToService, opToService);
   }
-
-  public void putModeToHandlerArray(ModeToHandlerArray modeToHandlerArrayMap) {
-    editorModel.put(modeToHandlerArray, modeToHandlerArrayMap);
+  public void putModeToHandlerArray(ModeToHandlerArray mToHA) {
+    editorModel.put(modeToHandlerArray, mToHA);
   }
 
   public void putIsInCommandState(boolean inCommandState) {

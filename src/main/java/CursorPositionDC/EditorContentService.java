@@ -2,7 +2,6 @@ package CursorPositionDC;
 
 import com.ple.visur.*;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
-import io.vertx.rxjava3.core.shareddata.SharedData;
 
 import java.util.ArrayList;
 
@@ -19,11 +18,11 @@ public class EditorContentService {
   }
 
   public VisurVar getGlobalVar(String varName, LocalMap<EditorModelKey, Object> editorModel) {
-    VariableMap globalVarMap = getGlobalVariableMap(editorModel);
+    VariableMap globalVarMap = getGlobalVarMap(editorModel);
     return globalVarMap.get(varName);
   }
 
-  public VariableMap getGlobalVariableMap(LocalMap<EditorModelKey, Object> editorModel) {
+  public VariableMap getGlobalVarMap(LocalMap<EditorModelKey, Object> editorModel) {
     return (VariableMap) editorModel.get(globalVariableMap);
   }
 
@@ -78,12 +77,12 @@ public class EditorContentService {
   }
 
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue, LocalMap<EditorModelKey, Object> editorModel) {
-    VariableMap gvm = getGlobalVariableMap(editorModel);
+    VariableMap gvm = getGlobalVarMap(editorModel);
     gvm.put(globalVarName, globalVarValue); //updates value that was previously at associated key
     putGlobalVarMap(gvm, editorModel);
   }
 
-  private void putGlobalVarMap(VariableMap gvm, LocalMap<EditorModelKey, Object> editorModel) {
+  public void putGlobalVarMap(VariableMap gvm, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(globalVariableMap, gvm);
   }
 

@@ -11,7 +11,7 @@ public class AssignmentOp implements Operator {
     EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     ExecutionDataStack es = ems.getExecutionDataStack();
     Object topElementFromStack = es.pop();
-    VariableMap gvm = ems.getGlobalVariableMap();
+    VariableMap gvm = ems.getGlobalVarMap();
     VisurVar globalVar = gvm.get((String)opInfo);
     globalVar.put(topElementFromStack);
   }
