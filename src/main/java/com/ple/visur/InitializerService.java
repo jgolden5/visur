@@ -26,10 +26,6 @@ public class InitializerService {
   public void initializeEditorModel() {
     VariableMap initialGvm = new VariableMap(new HashMap<>());
     emc.editorModel.put(globalVariableMap, initialGvm);
-    VariableMap gvm = (VariableMap) emc.editorModel.get(globalVariableMap);
-    gvm.put("ca", new IntVisurVar(0));
-    gvm.put("contentY", new IntVisurVar(0));
-    //gvm.put("contentY", ems.getContentY());
     emc.putVirtualX(0);
     emc.putVirtualXIsAtEndOfLine(false);
     emc.putEditorMode(editing);
@@ -48,7 +44,7 @@ public class InitializerService {
     emc.putCommandStateContent("");
     emc.putCommandCursor(emc.getCommandStateContent().length());
 
-    initializeDataClasses();
+    initializeCoordinates();
 
     initializeQuantums();
 
@@ -60,7 +56,7 @@ public class InitializerService {
     emc.putOperatorToService(opToService);
   }
 
-  private void initializeDataClasses() {
+  private void initializeCoordinates() {
     CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
     emc.putCursorPositionDCHolder(cursorPositionDCHolder);
     CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(null, cursorPositionDCHolder);
@@ -92,8 +88,8 @@ public class InitializerService {
     qm.put("wrappedLine", new WrappedLineQuantum());
     emc.putQuantumMap(qm);
     emc.putCurrentQuantum(emc.getQuantumMap().get(startingQuantumName));
-    int contentX = emc.getGlobalVar("ca").getInt();
-    int contentY = emc.getGlobalVar("contentY").getInt();
+    int contentX = emc.getCX();
+    int contentY = emc.getCY();
     int bounds[] = emc.getQuantumMap().get(startingQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), contentX, contentY, false);
     emc.putQuantumStart(bounds[0]);
     emc.putQuantumEnd(bounds[1]);

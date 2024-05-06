@@ -40,6 +40,10 @@ public class EditorModelCoupler {
     return ecs.getCY(editorModel);
   }
 
+  public int getCA() {
+    return ecs.getCA(editorModel);
+  }
+
   public VisurVar getGlobalVar(String varName) {
     return ecs.getGlobalVar(varName, editorModel);
   }

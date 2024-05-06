@@ -18,11 +18,11 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
     EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     if(view == null) {
       view = new View();
-      view.ca = 0;
-      view.contentY = 0;
+      view.cx = 0;
+      view.cy = 0;
     } else {
-      view.ca = ems.getGlobalVar("ca").getInt();
-      view.contentY = ems.getGlobalVar("contentY").getInt();
+      view.cx = ems.getCX();
+      view.cy = ems.getCY();
     }
     view.editorContent = ServiceHolder.editorModelCoupler.getEditorContent();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
@@ -32,8 +32,8 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
   public JsonObject toJson() {
     EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     JsonObject output = new JsonObject();
-    output.put("ca", ems.getGlobalVar("ca").getInt());
-    output.put("contentY", ems.getGlobalVar("contentY").getInt());
+    output.put("cx", ems.getCX());
+    output.put("cy", ems.getCY());
     output.put("editorContent", ems.getEditorContent());
     output.put("quantumStart", ems.getQuantumStart());
     output.put("quantumEnd", ems.getQuantumEnd());

@@ -3,6 +3,7 @@ package CursorPositionDC;
 import DataClass.CompoundDataClassBrick;
 import DataClass.DataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
+import DataClass.Result;
 import com.ple.visur.*;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 
@@ -27,13 +28,46 @@ public class EditorContentService {
   public int getCX(LocalMap<EditorModelKey, Object> editorModel) {
     VisurVar cxDCBAsVisurVar = getGlobalVar("cx", editorModel);
     PrimitiveDataClassBrick cxDCB = cxDCBAsVisurVar.getBrick();
-    return (int) cxDCB.getDFB().getVal();
+    CursorPositionDCHolder cursorPositionDCHolder = getCursorPositionDCHolder(editorModel);
+    Result<DataClassBrick> r = cxDCB.getOuter().getOrCalculateInner(cxDCB.name, cursorPositionDCHolder);
+    int cx;
+    if(r.getError() != null) {
+      cxDCB = (PrimitiveDataClassBrick) r.getVal();
+      cx = (int)cxDCB.getDFB().getVal();
+    } else {
+      cx = -1;
+    }
+    return cx;
   }
 
   public int getCY(LocalMap<EditorModelKey, Object> editorModel) {
-    VisurVar cxDCBAsVisurVar = getGlobalVar("cy", editorModel);
-    PrimitiveDataClassBrick cyDCB = cxDCBAsVisurVar.getBrick();
-    return (int) cyDCB.getDFB().getVal();
+    VisurVar cyDCBAsVisurVar = getGlobalVar("cy", editorModel);
+    PrimitiveDataClassBrick cyDCB = cyDCBAsVisurVar.getBrick();
+    CursorPositionDCHolder cursorPositionDCHolder = getCursorPositionDCHolder(editorModel);
+    Result<DataClassBrick> r = cyDCB.getOuter().getOrCalculateInner(cyDCB.name, cursorPositionDCHolder);
+    int cy;
+    if(r.getError() != null) {
+      cyDCB = (PrimitiveDataClassBrick) r.getVal();
+      cy = (int)cyDCB.getDFB().getVal();
+    } else {
+      cy = -1;
+    }
+    return cy;
+  }
+
+  public int getCA(LocalMap<EditorModelKey, Object> editorModel) {
+    VisurVar caDCBAsVisurVar = getGlobalVar("ca", editorModel);
+    PrimitiveDataClassBrick caDCB = caDCBAsVisurVar.getBrick();
+    CursorPositionDCHolder cursorPositionDCHolder = getCursorPositionDCHolder(editorModel);
+    Result<DataClassBrick> r = caDCB.getOuter().getOrCalculateInner(caDCB.name, cursorPositionDCHolder);
+    int ca;
+    if(r.getError() != null) {
+      caDCB = (PrimitiveDataClassBrick) r.getVal();
+      ca = (int)caDCB.getDFB().getVal();
+    } else {
+      ca = -1;
+    }
+    return ca;
   }
 
   public VisurVar getGlobalVar(String varName, LocalMap<EditorModelKey, Object> editorModel) {
@@ -46,7 +80,7 @@ public class EditorContentService {
   }
 
   public String getCurrentContentLine(LocalMap<EditorModelKey, Object> editorModel) {
-    int cy = getGlobalVar("cy", editorModel).getInt();
+    int cy = getCY(editorModel);
     return getContentLineAtY(cy, editorModel);
   }
 
@@ -162,4 +196,5 @@ public class EditorContentService {
   public void putCanvasHeight(int height, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(canvasHeight, height);
   }
+
 }
