@@ -255,6 +255,9 @@ public class TestDC {
     assertEquals(1, cyDCB.getDFB().getVal());
 
     //test 10
+    r = cursorPosDCB.getOrCalculateInner("cx", cursorPositionDCHolder);
+    cxDCB = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(4, cxDCB.getDFB().getVal());
 
   }
 
