@@ -41,10 +41,10 @@ public class CompoundDataClassBrick extends DataClassBrick {
     DataClassBrick inner = getInner(name);
     Result<DataClassBrick> r;
     //if inner's value is set, return result whose value equals getInner(name)
-    if(inner == null) {
-      r = Result.make(inner, null);
-    } else {
+    if(inner != null) {
       r = inner.calc(cursorPositionDCHolder);
+    } else {
+      r = Result.make(inner, null);
     }
     return r;
   }
