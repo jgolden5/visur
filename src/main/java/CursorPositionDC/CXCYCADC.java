@@ -3,7 +3,6 @@ package CursorPositionDC;
 import DataClass.*;
 import DataClass.Result;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,7 +12,7 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(DCHolder dcHolder, CompoundDataClassBrick outer) {
+  public CompoundDataClassBrick makeBrick(CompoundDataClassBrick outer, DCHolder dcHolder) {
     return CompoundDataClassBrick.make(outer, this, new HashMap<>());
   }
 
@@ -64,7 +63,7 @@ public class CXCYCADC extends CompoundDataClass {
     } else {
       cx = ca;
     }
-    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cursorPositionDCHolder, thisAsBrick);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(thisAsBrick, cursorPositionDCHolder);
     PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, thisAsBrick, cursorPositionDCHolder);
     PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, thisAsBrick, cursorPositionDCHolder);
     cxcyDCB.putInner("cx", cxDCB);

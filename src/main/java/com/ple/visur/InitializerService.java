@@ -1,8 +1,10 @@
 package com.ple.visur;
 
 import CursorPositionDC.CursorPositionDCHolder;
+import DataClass.CompoundDataClassBrick;
+import DataClass.PrimitiveDataClassBrick;
 
-import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.ple.visur.EditorMode.editing;
@@ -61,7 +63,25 @@ public class InitializerService {
   private void initializeDataClasses() {
     CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
     emc.putCursorPositionDCHolder(cursorPositionDCHolder);
-    
+    CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(null, cursorPositionDCHolder);
+    ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
+    PrimitiveDataClassBrick newlineIndicesDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick(newlineIndices, cursorPosDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick(cursorPosDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cxcycaDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cxcycaDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cxcycaDCB, cursorPositionDCHolder);
+    cxcyDCB.putInner("cx", cxDCB);
+    cxcyDCB.putInner("cy", cyDCB);
+    cxcycaDCB.putInner("ca", null);
+    cxcycaDCB.putInner("cxcy", cxcyDCB);
+    cursorPosDCB.putInner("ni", newlineIndicesDCB);
+    cursorPosDCB.putInner("cxcyca", cxcycaDCB);
+    VisurVar cxDCBAsVisurVar = VisurVar.make(null, cxDCB);
+    VisurVar cyDCBAsVisurVar = VisurVar.make(null, cyDCB);
+
+    emc.putGlobalVar("cx", cxDCBAsVisurVar);
+    emc.putGlobalVar("cy", cyDCBAsVisurVar);
+
   }
 
   private void initializeQuantums() {
