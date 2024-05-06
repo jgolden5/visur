@@ -1,11 +1,20 @@
 package com.ple.visur;
 
-public interface VisurVar {
-  String getString();
-  int getInt();
-  boolean getBoolean();
-  void put(String v);
-  void put(int v);
-  void put(boolean v);
-  void put(Object v);
+import DataClass.DataClassBrick;
+
+public class VisurVar {
+  Object obj;
+  DataClassBrick brick;
+  public Object getObj() {
+    return obj;
+  }
+  public DataClassBrick getBrick() {
+    return brick;
+  }
+  public void putObj(Object obj) {
+    this.obj = obj;
+  }
+  public void putBrick(DataClassBrick brick) {
+    this.brick = brick;
+  }
 }
