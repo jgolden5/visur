@@ -64,8 +64,8 @@ public class InitializerService {
     PrimitiveDataClassBrick newlineIndicesDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick(newlineIndices, cursorPosDCB, cursorPositionDCHolder);
     CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick(cursorPosDCB, cursorPositionDCHolder);
     CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cxcycaDCB, cursorPositionDCHolder);
-    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cxcycaDCB, cursorPositionDCHolder);
-    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cxcycaDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cxcyDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cxcyDCB, cursorPositionDCHolder);
     cxcyDCB.putInner("cx", cxDCB);
     cxcyDCB.putInner("cy", cyDCB);
     cxcycaDCB.putInner("ca", null);
