@@ -124,6 +124,12 @@ public class TestDC {
 
   @Test void cdcbGetOrCalculateInner() {
 
+    //note that these tests assume the following editorContent:
+//    final String initialEditorContent = "Hello world\n" +
+//      "How are you?\n" +
+//      "Goodbye";
+
+
     CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(null, cursorPositionDCHolder);
     CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick(cursorPosDCB, cursorPositionDCHolder);
     PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(10, cursorPosDCB, cursorPositionDCHolder);

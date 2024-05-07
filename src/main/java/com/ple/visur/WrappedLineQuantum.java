@@ -10,12 +10,9 @@ public class WrappedLineQuantum implements Quantum {
     int upperBound = 0;
     if(editorContent.length() > 0) {
       if (y > 0) {
-        lowerBound = newlineIndices.get(y - 1) + 1;
-        boolean editorContentEndsWithNewlineChar = newlineIndices.size() < y;
-        if (editorContentEndsWithNewlineChar) {
+        if(y < newlineIndices.size()) {
+          lowerBound = newlineIndices.get(y - 1) + 1;
           upperBound = newlineIndices.get(y);
-        } else {
-          upperBound = editorContent.length() - 1;
         }
       } else {
         if (newlineIndices.size() > 0) {

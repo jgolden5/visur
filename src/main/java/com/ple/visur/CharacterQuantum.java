@@ -12,10 +12,9 @@ public class CharacterQuantum implements Quantum {
   public Coordinate move(String editorContent, ArrayList<Integer> newlineIndices, Coordinate startingPos, MovementVector mv, int[] bounds) {
     int x = startingPos.x;
     Coordinate destination = startingPos;
-    int endLimit = editorContent.length() - 1;
     while(mv.dx != 0) {
       if(mv.dx > 0) {
-        if (x < endLimit) {
+        if (x < editorContent.length() - 1) {
           destination.x++;
         }
         mv.dx--;
