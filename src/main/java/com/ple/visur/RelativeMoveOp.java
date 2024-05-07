@@ -22,9 +22,6 @@ public class RelativeMoveOp implements Operator {
       emc.putCX(newCoordinate.x);
     }
     emc.putCY(newCoordinate.y);
-    //test
-    emc.getCX();
-    //test
     int[] newBounds = currentQuantum.getBoundaries(editorContent, newlineIndices, newCoordinate.x, newCoordinate.y, false);
     emc.putQuantumStart(newBounds[0]);
     emc.putQuantumEnd(newBounds[1]);

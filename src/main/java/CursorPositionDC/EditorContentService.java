@@ -139,9 +139,9 @@ public class EditorContentService {
     VisurVar cxDCBAsVisurVar = getGlobalVar("cx", editorModel);
     PrimitiveDataClassBrick cxDCB = cxDCBAsVisurVar.getBrick();
     CompoundDataClassBrick outer = cxDCB.getOuter();
+    cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, outer, cursorPositionDCHolder);
     Result r = outer.putInner("cx", cxDCB);
     if(r.getError() == null) {
-      cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, outer, cursorPositionDCHolder);
       cxDCBAsVisurVar = VisurVar.make(cxDCB);
       putGlobalVar("cx", cxDCBAsVisurVar, editorModel);
     } else {
@@ -154,9 +154,9 @@ public class EditorContentService {
     VisurVar cyDCBAsVisurVar = getGlobalVar("cy", editorModel);
     PrimitiveDataClassBrick cyDCB = cyDCBAsVisurVar.getBrick();
     CompoundDataClassBrick outer = cyDCB.getOuter();
+    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, outer, cursorPositionDCHolder);
     Result r = outer.putInner("cy", cyDCB);
     if(r.getError() == null) {
-      cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, outer, cursorPositionDCHolder);
       cyDCBAsVisurVar = VisurVar.make(cyDCB);
       putGlobalVar("cy", cyDCBAsVisurVar, editorModel);
     } else {
@@ -169,9 +169,9 @@ public class EditorContentService {
     VisurVar caDCBAsVisurVar = getGlobalVar("ca", editorModel);
     PrimitiveDataClassBrick caDCB = caDCBAsVisurVar.getBrick();
     CompoundDataClassBrick outer = caDCB.getOuter();
+    caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(ca, outer, cursorPositionDCHolder);
     Result r = outer.putInner("ca", caDCB);
     if(r.getError() == null) {
-      caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(ca, outer, cursorPositionDCHolder);
       caDCBAsVisurVar = VisurVar.make(caDCB);
       putGlobalVar("ca", caDCBAsVisurVar, editorModel);
     } else {
