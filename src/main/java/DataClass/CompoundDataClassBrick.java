@@ -38,7 +38,13 @@ public class CompoundDataClassBrick extends DataClassBrick {
   }
 
   public Result<DataClassBrick> getOrCalculateInner(String name, CursorPositionDCHolder cursorPositionDCHolder) {
-    DataClassBrick inner = getInner(name);
+    DataClassBrick inner;
+    if(name.equals("cx") || name.equals("cy")) {
+      CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick)getInner("cxcy");
+      inner = cxcyDCB.getInner(name);
+    } else {
+      inner = getInner(name);
+    }
     Result<DataClassBrick> r;
     //if inner's value is set, return result whose value equals getInner(name)
     if(inner == null) {
