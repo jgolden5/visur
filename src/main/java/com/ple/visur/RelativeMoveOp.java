@@ -13,7 +13,6 @@ public class RelativeMoveOp implements Operator {
     int dx = (int)eds.pop();
     Quantum currentQuantum = emc.getCurrentQuantum();
     MovementVector movementVector = new MovementVector(dx, dy);
-    int pos = emc.getCA();
     int[] bounds = currentQuantum.getBoundaries(editorContent, newlineIndices, false);
     int newCoordinate = currentQuantum.move(editorContent, newlineIndices, movementVector, bounds);
     emc.putCA(newCoordinate);

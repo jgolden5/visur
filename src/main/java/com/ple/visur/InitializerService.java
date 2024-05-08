@@ -131,6 +131,12 @@ public class InitializerService {
     keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}),
       scs.compile("1 0 relativeMove")
     );
+    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}),
+      scs.compile("0 1 relativeMove")
+    );
+    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}),
+      scs.compile("0 -1 relativeMove")
+    );
     keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("q")}),
       scs.compile("\"character\" changeQuantum")
     );
