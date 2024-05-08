@@ -21,6 +21,16 @@ public class CharacterQuantum implements Quantum {
         mv.dx++;
       }
     }
+    while(mv.dy != 0) {
+      if(mv.dy > 0) {
+        destination = moveDown(editorContent, newlineIndices, startingPos);
+        mv.dy--;
+      } else {
+        destination = moveUp(editorContent, newlineIndices, startingPos);
+        mv.dy++;
+      }
+
+    }
     return destination;
   }
 
@@ -38,6 +48,14 @@ public class CharacterQuantum implements Quantum {
       destination--;
     }
     return destination;
+  }
+
+  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices, int startingPos) {
+    return 0;
+  }
+
+  private int moveUp(String editorContent, ArrayList<Integer> newlineIndices, int startingPos) {
+    return 0;
   }
 
   @Override
