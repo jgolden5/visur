@@ -1,5 +1,4 @@
 let ca;
-let contentY;
 let editorContent;
 let quantumStart;
 let quantumEnd;
@@ -40,7 +39,6 @@ eb.onopen = function() {
   console.log("connection established with js' event bus")
   eb.registerHandler('viewWasChanged', (error, message) => {
     ca = message["body"]["ca"]
-    contentY = message["body"]["contentY"]
     editorContent = message["body"]["editorContent"]
     quantumStart = message["body"]["quantumStart"]
     quantumEnd = message["body"]["quantumEnd"]

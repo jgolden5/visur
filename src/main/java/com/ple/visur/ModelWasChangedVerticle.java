@@ -18,11 +18,9 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
     EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     if(view == null) {
       view = new View();
-      view.cx = 0;
-      view.cy = 0;
+      view.ca = 0;
     } else {
-      view.cx = ems.getCX();
-      view.cy = ems.getCY();
+      view.ca = ems.getCA();
     }
     view.editorContent = ServiceHolder.editorModelCoupler.getEditorContent();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
@@ -30,18 +28,17 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
 
 
   public JsonObject toJson() {
-    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
+    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     JsonObject output = new JsonObject();
-    output.put("cx", ems.getCX());
-    output.put("cy", ems.getCY());
-    output.put("editorContent", ems.getEditorContent());
-    output.put("quantumStart", ems.getQuantumStart());
-    output.put("quantumEnd", ems.getQuantumEnd());
-    output.put("editorMode", ems.getEditorMode());
-    output.put("currentQuantum", ems.getCurrentQuantum().getName());
-    output.put("isInCommandState", ems.getIsInCommandState());
-    output.put("commandStateContent", ems.getCommandStateContent());
-    output.put("commandCursor", ems.getCommandCursor());
+    output.put("ca", emc.getCA());
+    output.put("editorContent", emc.getEditorContent());
+    output.put("quantumStart", emc.getQuantumStart());
+    output.put("quantumEnd", emc.getQuantumEnd());
+    output.put("editorMode", emc.getEditorMode());
+    output.put("currentQuantum", emc.getCurrentQuantum().getName());
+    output.put("isInCommandState", emc.getIsInCommandState());
+    output.put("commandStateContent", emc.getCommandStateContent());
+    output.put("commandCursor", emc.getCommandCursor());
     return output;
   }
 
