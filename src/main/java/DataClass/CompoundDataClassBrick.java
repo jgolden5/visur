@@ -37,12 +37,12 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return cdc;
   }
 
-  public Result<DataClassBrick> getOrCalculateInner(String name, CursorPositionDCHolder cursorPositionDCHolder) {
+  public Result<DataClassBrick> getOrCalculateInner(String name, DCHolder dcHolder) {
     DataClassBrick inner = getInner(name);
     Result<DataClassBrick> r;
     //if inner's value is set, return result whose value equals getInner(name)
     if(inner == null) {
-      r = calc(name, cursorPositionDCHolder);
+      r = calc(name, dcHolder);
     } else {
       r = Result.make(inner, null);
     }
