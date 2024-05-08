@@ -31,9 +31,12 @@ public class WrappedLineQuantum implements Quantum {
   }
 
   @Override
-  public int move(String editorContent, ArrayList<Integer> newlineIndices, int startingPos, MovementVector m, int[] bounds) {
-    int destination = startingPos;
-    return destination;
+  public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m, int[] bounds) {
+    int cx = ServiceHolder.editorModelCoupler.getCX();
+    int cy = ServiceHolder.editorModelCoupler.getCY();
+    Coordinate destinationAsCoordinate = Coordinate.make(cx, cy);
+
+    return ServiceHolder.editorModelCoupler.getCA();
   }
 
   @Override

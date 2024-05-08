@@ -10,23 +10,23 @@ public class CharacterQuantum implements Quantum {
   }
 
   @Override
-  public int move(String editorContent, ArrayList<Integer> newlineIndices, int startingPos, MovementVector mv, int[] bounds) {
-    int destination = startingPos;
+  public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
+    int destination = ServiceHolder.editorModelCoupler.getCA();
     while(mv.dx != 0) {
       if(mv.dx > 0) {
-        destination = moveRight(editorContent, newlineIndices, startingPos);
+        destination = moveRight(editorContent, newlineIndices);
         mv.dx--;
       } else {
-        destination = moveLeft(editorContent, newlineIndices, startingPos);
+        destination = moveLeft(editorContent, newlineIndices);
         mv.dx++;
       }
     }
     while(mv.dy != 0) {
       if(mv.dy > 0) {
-        destination = moveDown(editorContent, newlineIndices, startingPos);
+        destination = moveDown(editorContent, newlineIndices);
         mv.dy--;
       } else {
-        destination = moveUp(editorContent, newlineIndices, startingPos);
+        destination = moveUp(editorContent, newlineIndices);
         mv.dy++;
       }
 
@@ -34,28 +34,36 @@ public class CharacterQuantum implements Quantum {
     return destination;
   }
 
-  private int moveRight(String editorContent, ArrayList<Integer> newlineIndices, int startingPos) {
-    int destination = startingPos;
+  private int moveRight(String editorContent, ArrayList<Integer> newlineIndices) {
+    int destination = ServiceHolder.editorModelCoupler.getCA();
     if (destination < editorContent.length() - 1) {
       destination++;
     }
     return destination;
   }
 
-  private int moveLeft(String editorContent, ArrayList<Integer> newlineIndices, int startingPos) {
-    int destination = startingPos;
+  private int moveLeft(String editorContent, ArrayList<Integer> newlineIndices) {
+    int destination = ServiceHolder.editorModelCoupler.getCA();
     if (destination > 0) {
       destination--;
     }
     return destination;
   }
 
-  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices, int startingPos) {
-    return 0;
+  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices) {
+    int cx = ServiceHolder.editorModelCoupler.getCX();
+    int cy = ServiceHolder.editorModelCoupler.getCY();
+    Coordinate destinationAsCoordinate = Coordinate.make(cx, cy);
+
+    return ServiceHolder.editorModelCoupler.getCA();
   }
 
-  private int moveUp(String editorContent, ArrayList<Integer> newlineIndices, int startingPos) {
-    return 0;
+  private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {
+    int cx = ServiceHolder.editorModelCoupler.getCX();
+    int cy = ServiceHolder.editorModelCoupler.getCY();
+    Coordinate destinationAsCoordinate = Coordinate.make(cx, cy);
+
+    return ServiceHolder.editorModelCoupler.getCA();
   }
 
   @Override

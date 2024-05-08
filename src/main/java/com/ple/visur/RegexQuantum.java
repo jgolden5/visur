@@ -51,8 +51,8 @@ public class RegexQuantum implements Quantum {
   }
 
   @Override
-  public int move(String editorContent, ArrayList<Integer> newlineIndices, int startingPos, MovementVector mv, int[] bounds) {
-    int destination = startingPos;
+  public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
+    int destination = ServiceHolder.editorModelCoupler.getCA();
     int iterator = mv.dx > 0 ? 1 : -1;
     while(mv.dx != 0) {
       destination = mv.dx > 0 ? bounds[1] : bounds[0];
