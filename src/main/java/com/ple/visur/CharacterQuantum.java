@@ -10,20 +10,31 @@ public class CharacterQuantum implements Quantum {
 
   @Override
   public Coordinate move(String editorContent, ArrayList<Integer> newlineIndices, Coordinate startingPos, MovementVector mv, int[] bounds) {
-    int x = startingPos.x;
     Coordinate destination = startingPos;
     while(mv.dx != 0) {
       if(mv.dx > 0) {
-        if (x < editorContent.length() - 1) {
-          destination.x++;
-        }
+        destination = moveRight(editorContent, newlineIndices, startingPos);
         mv.dx--;
       } else {
-        if(x > 0) {
-          destination.x--;
-        }
+        destination = moveLeft(editorContent, newlineIndices, startingPos);
         mv.dx++;
       }
+    }
+    return destination;
+  }
+
+  private Coordinate moveRight(String editorContent, ArrayList<Integer> newlineIndices, Coordinate startingPos) {
+    Coordinate destination = startingPos;
+    if (destination.x < editorContent.length() - 1) {
+      destination.x++;
+    }
+    return destination;
+  }
+
+  private Coordinate moveLeft(String editorContent, ArrayList<Integer> newlineIndices, Coordinate startingPos) {
+    Coordinate destination = startingPos;
+    if (destination.x > 0) {
+      destination.x--;
     }
     return destination;
   }
