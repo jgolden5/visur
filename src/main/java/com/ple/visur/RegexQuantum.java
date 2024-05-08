@@ -14,10 +14,11 @@ public class RegexQuantum implements Quantum {
   }
 
   @Override
-  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int x, int y, boolean includeTail) {
+  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
+    int ca = ServiceHolder.editorModelCoupler.getCA();
     boolean lowerBoundFound = false; //check for lowerBound first
     boolean upperBoundFound = false; //if lowerBoundFound, check for upperBound
-    int[] bounds = new int[]{x, x};
+    int[] bounds = new int[]{ca, ca};
     while(!(lowerBoundFound && upperBoundFound)) {
       if(!lowerBoundFound) {
         if(bounds[0] > 0) {
@@ -68,7 +69,7 @@ public class RegexQuantum implements Quantum {
         }
       }
       if(!startingXIsOutOfBounds) {
-        int[] newBounds = getBoundaries(editorContent, newlineIndices, destination, false);
+        int[] newBounds = getBoundaries(editorContent, newlineIndices, false);
         bounds = newBounds;
         destination = bounds[0];
       }

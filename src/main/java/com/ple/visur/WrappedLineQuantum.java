@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class WrappedLineQuantum implements Quantum {
 
   @Override
-  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int x, int y, boolean includeTail) {
+  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
+    int y = ServiceHolder.editorModelCoupler.getCY();
     int lowerBound = 0;
     int upperBound = 0;
     if(editorContent.length() > 0) {

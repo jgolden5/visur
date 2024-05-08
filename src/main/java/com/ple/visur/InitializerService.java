@@ -64,19 +64,16 @@ public class InitializerService {
     PrimitiveDataClassBrick newlineIndicesDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick(newlineIndices, cursorPosDCB, cursorPositionDCHolder);
     CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick(cursorPosDCB, cursorPositionDCHolder);
     CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cxcycaDCB, cursorPositionDCHolder);
-    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cxcyDCB, cursorPositionDCHolder);
-    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cxcyDCB, cursorPositionDCHolder);
-    cxcyDCB.putInner("cx", cxDCB);
-    cxcyDCB.putInner("cy", cyDCB);
-    cxcycaDCB.putInner("ca", null);
+    PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cxcycaDCB, cursorPositionDCHolder);
+    cxcyDCB.putInner("cx", null);
+    cxcyDCB.putInner("cy", null);
+    cxcycaDCB.putInner("ca", caDCB);
     cxcycaDCB.putInner("cxcy", cxcyDCB);
     cursorPosDCB.putInner("ni", newlineIndicesDCB);
     cursorPosDCB.putInner("cxcyca", cxcycaDCB);
-    VisurVar cxDCBAsVisurVar = VisurVar.make(null, cxDCB);
-    VisurVar cyDCBAsVisurVar = VisurVar.make(null, cyDCB);
+    VisurVar caDCBAsVisurVar = VisurVar.make(null, caDCB);
 
-    emc.putGlobalVar("cx", cxDCBAsVisurVar);
-    emc.putGlobalVar("cy", cyDCBAsVisurVar);
+    emc.putGlobalVar("ca", caDCBAsVisurVar);
 
   }
 
@@ -88,9 +85,7 @@ public class InitializerService {
     qm.put("wrappedLine", new WrappedLineQuantum());
     emc.putQuantumMap(qm);
     emc.putCurrentQuantum(emc.getQuantumMap().get(startingQuantumName));
-    int contentX = emc.getCX();
-    int contentY = emc.getCY();
-    int bounds[] = emc.getQuantumMap().get(startingQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), contentX, contentY, false);
+    int bounds[] = emc.getQuantumMap().get(startingQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
     emc.putQuantumStart(bounds[0]);
     emc.putQuantumEnd(bounds[1]);
     System.out.println("start bound = " + bounds[0]);

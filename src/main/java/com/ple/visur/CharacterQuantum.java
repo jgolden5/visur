@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class CharacterQuantum implements Quantum {
   @Override
-  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int x, int y, boolean includeTail) {
-    return new int[]{x, x + 1};
+  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
+    int ca = ServiceHolder.editorModelCoupler.getCA();
+    return new int[]{ca, ca + 1};
   }
 
   @Override
