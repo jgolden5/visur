@@ -50,33 +50,31 @@ public class RegexQuantum implements Quantum {
   }
 
   @Override
-  public Coordinate move(String editorContent, ArrayList<Integer> newlineIndices, Coordinate startingPos, MovementVector mv, int[] bounds) {
-    Coordinate destination = startingPos;
+  public int move(String editorContent, ArrayList<Integer> newlineIndices, int startingPos, MovementVector mv, int[] bounds) {
+    int destination = startingPos;
     int iterator = mv.dx > 0 ? 1 : -1;
     while(mv.dx != 0) {
-      destination.x = mv.dx > 0 ? bounds[1] : bounds[0];
-      boolean startingXIsOutOfBounds = contentBoundsReached(mv.dx, destination.x, editorContent);
+      destination = mv.dx > 0 ? bounds[1] : bounds[0];
+      boolean startingXIsOutOfBounds = contentBoundsReached(mv.dx, destination, editorContent);
       boolean keepGoing = !startingXIsOutOfBounds;
       boolean matchFound;
       while(keepGoing) {
-        String strToMatch = getStrToMatch(mv.dx, destination.x, editorContent);
+        String strToMatch = getStrToMatch(mv.dx, destination, editorContent);
         matchFound = matchFound(strToMatch);
-        if(!matchFound && !contentBoundsReached(mv.dx, destination.x, editorContent)) {
-          destination.x += iterator;
+        if(!matchFound && !contentBoundsReached(mv.dx, destination, editorContent)) {
+          destination += iterator;
         } else {
           keepGoing = false;
         }
       }
       if(!startingXIsOutOfBounds) {
-        int[] newBounds = getBoundaries(editorContent, newlineIndices, destination.x, destination.y, false);
+        int[] newBounds = getBoundaries(editorContent, newlineIndices, destination, false);
         bounds = newBounds;
-        destination.x = bounds[0];
+        destination = bounds[0];
       }
       mv.dx -= iterator;
     }
-    destination.y = getY(editorContent, newlineIndices, destination.x);
-    System.out.println("destination x = " + destination.x);
-    System.out.println("destination y = " + destination.y);
+    System.out.println("destination = " + destination);
     return destination;
   }
 
