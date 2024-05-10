@@ -65,12 +65,12 @@ public class InitializerService {
     CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick(cursorPosDCB, cursorPositionDCHolder);
     CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cxcycaDCB, cursorPositionDCHolder);
     PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cxcycaDCB, cursorPositionDCHolder);
-    cxcyDCB.putInner("cx", null);
-    cxcyDCB.putInner("cy", null);
-    cxcycaDCB.putInner("ca", caDCB);
-    cxcycaDCB.putInner("cxcy", cxcyDCB);
-    cursorPosDCB.putInner("ni", newlineIndicesDCB);
-    cursorPosDCB.putInner("cxcyca", cxcycaDCB);
+    cxcyDCB.put("cx", null);
+    cxcyDCB.put("cy", null);
+    cxcycaDCB.put("ca", caDCB);
+    cxcycaDCB.put("cxcy", cxcyDCB);
+    cursorPosDCB.put("ni", newlineIndicesDCB);
+    cursorPosDCB.put("cxcyca", cxcycaDCB);
     BrickVisurVar caDCBVV = BrickVisurVar.make(caDCB);
 
     emc.putGlobalVar("ca", caDCBVV);

@@ -20,8 +20,8 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     }
 
   @Override
-  public Result<DataClassBrick> getOrCalculate(String name, DCHolder dcHolder) {
-    return outer.getOrCalculate(name, dcHolder);
+  public Result<DataClassBrick> getOrCalc(String name, DCHolder dcHolder) {
+    return outer.getOrCalc(name, dcHolder);
   }
 
   @Override

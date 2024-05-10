@@ -66,8 +66,8 @@ public class CXCYCADC extends CompoundDataClass {
     CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(thisAsBrick, cursorPositionDCHolder);
     PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, thisAsBrick, cursorPositionDCHolder);
     PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, thisAsBrick, cursorPositionDCHolder);
-    cxcyDCB.putInner("cx", cxDCB);
-    cxcyDCB.putInner("cy", cyDCB);
+    cxcyDCB.put("cx", cxDCB);
+    cxcyDCB.put("cy", cyDCB);
     return Result.make(cxcyDCB, null);
   }
 
