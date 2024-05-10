@@ -2,8 +2,6 @@ package com.ple.visur;
 
 import CursorPositionDC.CursorPositionDCHolder;
 import CursorPositionDC.EditorContentService;
-import DataClass.DataClassBrick;
-import DataClass.PrimitiveDataClassBrick;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 

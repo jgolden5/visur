@@ -6,6 +6,7 @@ import io.vertx.rxjava3.core.eventbus.Message;
 public class ModelWasChangedVerticle extends AbstractVisurVerticle {
 
   View view;
+  EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
 
   @Override
   public void start() {
@@ -15,22 +16,22 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
   }
 
   public void handleChange(Message<Object> event) {
-    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     if(view == null) {
       view = new View();
       view.ca = 0;
     } else {
-      view.ca = ems.getCA();
+      BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("ca");
+      view.ca = bvv.getVal();
     }
-    view.editorContent = ServiceHolder.editorModelCoupler.getEditorContent();
+    view.editorContent = emc.getEditorContent();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
   }
 
 
   public JsonObject toJson() {
-    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     JsonObject output = new JsonObject();
-    output.put("ca", emc.getCA());
+    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("ca");
+    output.put("ca", bvv.getVal());
     output.put("editorContent", emc.getEditorContent());
     output.put("quantumStart", emc.getQuantumStart());
     output.put("quantumEnd", emc.getQuantumEnd());
