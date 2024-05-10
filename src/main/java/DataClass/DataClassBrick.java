@@ -3,7 +3,7 @@ package DataClass;
 public abstract class DataClassBrick {
     public final DataClass dc;
     public final CompoundDataClassBrick outer;
-    public String name;
+    private String name;
 
     DataClassBrick(DataClass dc, CompoundDataClassBrick outer) {
       this.dc = dc;
@@ -14,6 +14,17 @@ public abstract class DataClassBrick {
         return outer;
     }
 
+
+    public abstract Result<DataClassBrick> getOrCalculate(String name, DCHolder dcHolder);
+
     public abstract boolean isComplete();
+
+    public String getName() {
+      return name;
+    }
+
+    public void putName(String name) {
+      this.name = name;
+    }
 
 }

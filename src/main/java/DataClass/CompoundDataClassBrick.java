@@ -1,7 +1,5 @@
 package DataClass;
 
-import CursorPositionDC.CursorPositionDCHolder;
-
 import java.util.HashMap;
 
 public class CompoundDataClassBrick extends DataClassBrick {
@@ -37,7 +35,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return cdc;
   }
 
-  public Result<DataClassBrick> getOrCalculateInner(String name, DCHolder dcHolder) {
+  public Result<DataClassBrick> getOrCalculate(String name, DCHolder dcHolder) {
     DataClassBrick inner = getInner(name);
     Result<DataClassBrick> r;
     //if inner's value is set, return result whose value equals getInner(name)
@@ -45,6 +43,10 @@ public class CompoundDataClassBrick extends DataClassBrick {
       r = calc(name, dcHolder);
     } else {
       r = Result.make(inner, null);
+    }
+    CompoundDataClassBrick outer = getOuter();
+    if(r.getError() != null && outer != null) {
+      r = outer.getOrCalculate(name, dcHolder);
     }
     return r;
   }
