@@ -32,18 +32,6 @@ public class EditorModelCoupler {
     return ecs.getCursorPositionDCHolder(editorModel);
   }
 
-  public int getCX() {
-    return ecs.getCX(editorModel);
-  }
-
-  public int getCY() {
-    return ecs.getCY(editorModel);
-  }
-
-  public int getCA() {
-    return ecs.getCA(editorModel);
-  }
-
   public VisurVar getGlobalVar(String varName) {
     return ecs.getGlobalVar(varName, editorModel);
   }
@@ -128,15 +116,6 @@ public class EditorModelCoupler {
   }
   public void putCursorPositionDCHolder(CursorPositionDCHolder cursorPositionDCHolder) {
     ecs.putCursorPositionDCHolder(cursorPositionDCHolder, editorModel);
-  }
-  public void putCX(int cx) {
-    ecs.putCX(cx, editorModel);
-  }
-  public void putCY(int cy) {
-    ecs.putCY(cy, editorModel);
-  }
-  public void putCA(int ca) {
-    ecs.putCA(ca, editorModel);
   }
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
     ecs.putGlobalVar(globalVarName, globalVarValue, editorModel);
