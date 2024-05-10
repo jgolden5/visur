@@ -3,15 +3,18 @@ package com.ple.visur;
 import java.util.ArrayList;
 
 public class CharacterQuantum implements Quantum {
+  EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
-    int ca = ServiceHolder.editorModelCoupler.getCA();
+    BrickVisurVar bvv = (BrickVisurVar) emc.getGlobalVar("ca");
+    int ca = bvv.getVal();
     return new int[]{ca, ca + 1};
   }
 
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
-    int destination = ServiceHolder.editorModelCoupler.getCA();
+    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("ca");
+    int destination = bvv.getVal();
     while(mv.dx != 0) {
       if(mv.dx > 0) {
         destination = moveRight(editorContent, newlineIndices);
@@ -35,7 +38,8 @@ public class CharacterQuantum implements Quantum {
   }
 
   private int moveRight(String editorContent, ArrayList<Integer> newlineIndices) {
-    int destination = ServiceHolder.editorModelCoupler.getCA();
+    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("ca");
+    int destination = bvv.getVal();
     if (destination < editorContent.length() - 1) {
       destination++;
     }
@@ -43,7 +47,8 @@ public class CharacterQuantum implements Quantum {
   }
 
   private int moveLeft(String editorContent, ArrayList<Integer> newlineIndices) {
-    int destination = ServiceHolder.editorModelCoupler.getCA();
+    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("ca");
+    int destination = bvv.getVal();
     if (destination > 0) {
       destination--;
     }
@@ -51,19 +56,25 @@ public class CharacterQuantum implements Quantum {
   }
 
   private int moveDown(String editorContent, ArrayList<Integer> newlineIndices) {
-    int cx = ServiceHolder.editorModelCoupler.getCX();
-    int cy = ServiceHolder.editorModelCoupler.getCY();
+    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("cx");
+    int cx = bvv.getVal();
+    bvv = (BrickVisurVar)emc.getGlobalVar("cy");
+    int cy = bvv.getVal();
     Coordinate destinationAsCoordinate = Coordinate.make(cx, cy);
 
-    return ServiceHolder.editorModelCoupler.getCA();
+    bvv = (BrickVisurVar)emc.getGlobalVar("ca");
+    return bvv.getVal();
   }
 
   private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {
-    int cx = ServiceHolder.editorModelCoupler.getCX();
-    int cy = ServiceHolder.editorModelCoupler.getCY();
+    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("cx");
+    int cx = bvv.getVal();
+    bvv = (BrickVisurVar)emc.getGlobalVar("cy");
+    int cy = bvv.getVal();
     Coordinate destinationAsCoordinate = Coordinate.make(cx, cy);
 
-    return ServiceHolder.editorModelCoupler.getCA();
+    bvv = (BrickVisurVar)emc.getGlobalVar("ca");
+    return bvv.getVal();
   }
 
   @Override

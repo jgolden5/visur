@@ -71,9 +71,9 @@ public class InitializerService {
     cxcycaDCB.putInner("cxcy", cxcyDCB);
     cursorPosDCB.putInner("ni", newlineIndicesDCB);
     cursorPosDCB.putInner("cxcyca", cxcycaDCB);
-    VisurVar caDCBAsVisurVar = VisurVar.make(null, caDCB);
+    BrickVisurVar caDCBVV = BrickVisurVar.make(caDCB);
 
-    emc.putGlobalVar("ca", caDCBAsVisurVar);
+    emc.putGlobalVar("ca", caDCBVV);
 
   }
 

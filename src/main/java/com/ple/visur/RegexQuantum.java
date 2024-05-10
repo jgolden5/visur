@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 public class RegexQuantum implements Quantum {
   String name;
   Pattern pattern;
+  EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
 
   public RegexQuantum(String name, String regexSource) {
     this.name = name;
@@ -15,7 +16,8 @@ public class RegexQuantum implements Quantum {
 
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
-    int ca = ServiceHolder.editorModelCoupler.getCA();
+    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("ca");
+    int ca = bvv.getVal();
     boolean lowerBoundFound = false; //check for lowerBound first
     boolean upperBoundFound = false; //if lowerBoundFound, check for upperBound
     int[] bounds = new int[]{ca, ca};
@@ -52,7 +54,7 @@ public class RegexQuantum implements Quantum {
 
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
-    int destination = ServiceHolder.editorModelCoupler.getCA();
+    int destination = (int)ServiceHolder.editorModelCoupler.getGlobalVar("ca").getVal();
     int iterator = mv.dx > 0 ? 1 : -1;
     while(mv.dx != 0) {
       destination = mv.dx > 0 ? bounds[1] : bounds[0];

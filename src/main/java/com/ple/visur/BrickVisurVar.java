@@ -1,7 +1,9 @@
 package com.ple.visur;
 
 import CursorPositionDC.CursorPositionDCHolder;
+import DataClass.CompoundDataClassBrick;
 import DataClass.DataClassBrick;
+import DataClass.PrimitiveDataClassBrick;
 import DataClass.Result;
 
 public class BrickVisurVar implements VisurVar {
@@ -17,15 +19,16 @@ public class BrickVisurVar implements VisurVar {
   }
 
   @Override
-  public DataClassBrick getVal() {
+  public Integer getVal() {
     String brickName = val.getName();
     Result<DataClassBrick> r = val.getOrCalculate(brickName, cursorPositionDCHolder);
-    return r.getVal();
+    PrimitiveDataClassBrick dcb = (PrimitiveDataClassBrick) r.getVal();
+    return (Integer) dcb.getDFB().getVal();
   }
 
   @Override
-  public void putVal(Object brick) {
-    val = (DataClassBrick) brick;
+  public void putVal(Object o) {
+    
   }
 
 }

@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 public class WrappedLineQuantum implements Quantum {
 
+  EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
+
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
-    int y = ServiceHolder.editorModelCoupler.getCY();
+    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("y");
+    int y = bvv.getVal();
     int lowerBound = 0;
     int upperBound = 0;
     if(editorContent.length() > 0) {
@@ -32,11 +35,16 @@ public class WrappedLineQuantum implements Quantum {
 
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m, int[] bounds) {
-    int cx = ServiceHolder.editorModelCoupler.getCX();
-    int cy = ServiceHolder.editorModelCoupler.getCY();
+    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("cx");
+    int cx = bvv.getVal();
+
+    bvv = (BrickVisurVar)emc.getGlobalVar("cy");
+    int cy = bvv.getVal();
+
     Coordinate destinationAsCoordinate = Coordinate.make(cx, cy);
 
-    return ServiceHolder.editorModelCoupler.getCA();
+    bvv = (BrickVisurVar) emc.getGlobalVar("ca");
+    return bvv.getVal();
   }
 
   @Override
