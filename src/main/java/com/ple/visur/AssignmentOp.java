@@ -1,5 +1,7 @@
 package com.ple.visur;
 
+import DataClass.DataClassBrick;
+
 public class AssignmentOp implements Operator {
 
   public static AssignmentOp make() {
@@ -11,7 +13,13 @@ public class AssignmentOp implements Operator {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack es = emc.getExecutionDataStack();
     Object topElementFromStack = es.pop();
-    emc.putGlobalVar((String)opInfo, VisurVar.make(topElementFromStack));
+    VisurVar vv;
+    if(topElementFromStack instanceof DataClassBrick) {
+      vv = BrickVisurVar.make((DataClassBrick) topElementFromStack);
+    } else {
+      vv = ObjectVisurVar.make(topElementFromStack);
+    }
+    emc.putGlobalVar((String)opInfo, vv);
   }
 
 }

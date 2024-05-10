@@ -8,10 +8,16 @@ import DataClass.Result;
 
 public class BrickVisurVar implements VisurVar {
   DataClassBrick val;
-  CursorPositionDCHolder cursorPositionDCHolder = ServiceHolder.editorModelCoupler.getCursorPositionDCHolder();
+  static CursorPositionDCHolder cursorPositionDCHolder = ServiceHolder.editorModelCoupler.getCursorPositionDCHolder();
 
   public static BrickVisurVar make(DataClassBrick val) {
     return new BrickVisurVar(val);
+  }
+
+  public static BrickVisurVar make(String name, int val) {
+//    DataClassBrick brick = null;
+//    return new BrickVisurVar(cursorPositionDCHolder.wholeNumberDC.makeBrick(val));
+    return null;
   }
 
   public BrickVisurVar(DataClassBrick val) {
@@ -28,7 +34,7 @@ public class BrickVisurVar implements VisurVar {
 
   @Override
   public void putVal(Object o) {
-    
+
   }
 
 }
