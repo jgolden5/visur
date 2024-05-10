@@ -25,6 +25,16 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   @Override
+  public Result put(String name) {
+    return null;
+  }
+
+  @Override
+  public Result forcePut(String name) {
+    return null;
+  }
+
+  @Override
   public boolean isComplete() {
     return true;
   }

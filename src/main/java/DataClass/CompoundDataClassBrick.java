@@ -35,6 +35,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return cdc;
   }
 
+  @Override
   public Result<DataClassBrick> getOrCalculate(String name, DCHolder dcHolder) {
     DataClassBrick inner = getInner(name);
     Result<DataClassBrick> r;
@@ -49,6 +50,16 @@ public class CompoundDataClassBrick extends DataClassBrick {
       r = outer.getOrCalculate(name, dcHolder);
     }
     return r;
+  }
+
+  @Override
+  public Result put(String name) {
+    return null;
+  }
+
+  @Override
+  public Result forcePut(String name) {
+    return null;
   }
 
   public Result<DataClassBrick> calc(String name, DCHolder dcHolder) {
