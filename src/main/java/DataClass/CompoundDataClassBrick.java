@@ -23,7 +23,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
       if(!thisCDC.brickCanBeSet(innerName, inners)) {
         error = "putInner failed, too many values set";
       }
-      innerVal.name = innerName;
+      innerVal.putName(innerName);
     }
     if(error == null) {
       inners.put(innerName, innerVal);
