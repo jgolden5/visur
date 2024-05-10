@@ -16,7 +16,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
   public DataClassBrick getInner(String name) {
       return inners.get(name);
   }
-  public Result putInner(String innerName, DataClassBrick innerVal) {
+  public Result put(String innerName, DataClassBrick innerVal) {
     String error = null;
     if(innerVal != null) {
       CompoundDataClass thisCDC = getCDC();
@@ -25,10 +25,12 @@ public class CompoundDataClassBrick extends DataClassBrick {
       }
       innerVal.putName(innerName);
     }
-    if(error == null) {
+    if(error == null || outer == null) {
       inners.put(innerName, innerVal);
+      return Result.make(null, error);
+    } else {
+      return outer.put(innerName, innerVal);
     }
-    return Result.make(null, error);
   }
 
   public CompoundDataClass getCDC() {
