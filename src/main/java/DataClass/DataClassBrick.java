@@ -14,7 +14,6 @@ public abstract class DataClassBrick {
         return outer;
     }
 
-
     public abstract Result<DataClassBrick> getOrCalc(String name, DCHolder dcHolder);
 
     public abstract Result put(String name); //name is unused in the case of PDCB, for put and forcePut

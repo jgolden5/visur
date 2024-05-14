@@ -73,4 +73,24 @@ public class TestDC {
     assertEquals("ca", caDCB.getName());
   }
 
+  @Test void dcbGet() {
+    int cx = 3;
+    CompoundDataClassBrick cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(null, cursorPositionDCHolder);
+    ArrayList<Integer> newlineIndices = new ArrayList<>();
+    newlineIndices.add(11);
+    newlineIndices.add(24);
+    PrimitiveDataClassBrick niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick(newlineIndices, cursorPositionDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick(cursorPositionDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cxcycaDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, cxcyDCB, cursorPositionDCHolder);
+
+    //cxDCB.get produces accurate cx val
+    Result r = cxDCB.get();
+    assertEquals(cx, r.getVal());
+
+    //cyDCB.get accurately fetches an unset dcb, and includes a result with an error message
+
+
+  }
+
 }
