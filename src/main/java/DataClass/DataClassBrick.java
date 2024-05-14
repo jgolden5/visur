@@ -16,6 +16,10 @@ public abstract class DataClassBrick {
 
     public abstract Result<DataClassBrick> getOrCalc(String name, DCHolder dcHolder);
 
+    public Result remove(DCHolder dcHolder) {
+      return getOuter().removeInner(getName(), dcHolder);
+    }
+
     public abstract Result put(String name); //name is unused in the case of PDCB, for put and forcePut
 
     public abstract Result forcePut(String name);

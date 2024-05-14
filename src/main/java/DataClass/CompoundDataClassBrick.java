@@ -89,4 +89,14 @@ public class CompoundDataClassBrick extends DataClassBrick {
     }
     return numberOfSetValues >= cdc.minimumRequiredSetValues;
   }
+
+  public Result removeInner(String name, DCHolder dcHolder) {
+    DataClassBrick inner = inners.get(name);
+    if(inner instanceof PrimitiveDataClassBrick) {
+      PrimitiveDataClassBrick innerPDCB = (PrimitiveDataClassBrick) inner;
+      PrimitiveDataClassBrick newInner = innerPDCB.getPDC().makeBrick(null, inner.getOuter(), dcHolder);
+      inners.put(name, newInner);
+    }
+    return Result.make();
+  }
 }
