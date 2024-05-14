@@ -55,7 +55,7 @@ public class TestDC {
     assertEquals("cx", cxDCB.getName());
 
     //wholeNumberDC.makeBrick works for cyDCB
-    int cy = 0;
+    int cy = 1;
     PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, cxcyDCB, cursorPositionDCHolder);
     cyDCB.putName("cy");
     assertEquals(cursorPositionDCHolder.wholeNumberDC, cyDCB.getPDC());
@@ -63,6 +63,14 @@ public class TestDC {
     assertEquals(cursorPositionDCHolder.wholePairDC, cyDCB.getOuter().getCDC());
     assertEquals("cy", cyDCB.getName());
 
+    //wholeNumberDC.makeBrick works for caDCB
+    int ca = 2;
+    PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(ca, cxcycaDCB, cursorPositionDCHolder);
+    caDCB.putName("ca");
+    assertEquals(cursorPositionDCHolder.wholeNumberDC, caDCB.getPDC());
+    assertEquals(ca, caDCB.getDFB().getVal());
+    assertEquals(cursorPositionDCHolder.cxcycaDC, caDCB.getOuter().getCDC());
+    assertEquals("ca", caDCB.getName());
   }
 
 }
