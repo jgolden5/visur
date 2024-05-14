@@ -23,6 +23,10 @@ public class TestDC {
     assertEquals(cursorPositionDCHolder.cxcycaDC, cxcycaDCB.getCDC());
     assertEquals(cursorPositionDCHolder.cursorPositionDC, cxcycaDCB.getOuter().getCDC());
 
+    //cxcyDC.makeBrick works
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cxcycaDCB, cursorPositionDCHolder);
+    assertEquals(cursorPositionDCHolder.wholePairDC, cxcyDCB.getCDC());
+    assertEquals(cursorPositionDCHolder.cxcycaDC, cxcyDCB.getOuter().getCDC());
 
   }
 
