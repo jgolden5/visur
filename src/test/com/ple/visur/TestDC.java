@@ -95,10 +95,16 @@ public class TestDC {
     cursorPositionDCB.putInner(niDCB);
     cursorPositionDCB.putInner(cxcycaDCB);
 
+    //cxDCB.remove works when cxDCB was set
     Result r = cxDCB.remove(cursorPositionDCHolder);
     assertNull(cxDCB.getDFB());
     assertNull(r.getError());
 
+    //cyDCB.remove works when cyDCB was unset
+    cyDCB.remove(cursorPositionDCHolder);
+    r = cyDCB.remove(cursorPositionDCHolder);
+    assertNull(cyDCB.getDFB());
+    assertNull(r.getError());
   }
 
 //  @Test void dcbGet() {

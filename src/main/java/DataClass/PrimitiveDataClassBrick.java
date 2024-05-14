@@ -55,4 +55,8 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     }
     return Result.make(v, error);
   }
+
+  protected void putDFB(DataFormBrick newDFB) {
+    dfb = newDFB;
+  }
 }
