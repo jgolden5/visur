@@ -99,4 +99,10 @@ public class CompoundDataClassBrick extends DataClassBrick {
     }
     return Result.make();
   }
+
+  public void putInner(DataClassBrick innerVal) {
+    String innerName = innerVal.getName();
+    inners.put(innerName, innerVal);
+  }
+
 }
