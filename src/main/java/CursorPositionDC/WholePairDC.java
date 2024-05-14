@@ -15,7 +15,6 @@ public class WholePairDC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(CompoundDataClassBrick outer, DCHolder dcHolder) {
-    CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder)dcHolder;
     return CompoundDataClassBrick.make(outer, this, new HashMap<>());
   }
 
