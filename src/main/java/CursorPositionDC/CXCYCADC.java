@@ -14,7 +14,6 @@ public class CXCYCADC extends CompoundDataClass {
   @Override
   public CompoundDataClassBrick makeBrick(CompoundDataClassBrick outer, DCHolder dcHolder) {
     CompoundDataClassBrick cxcycaDCB = CompoundDataClassBrick.make(outer, this, new HashMap<>());
-    cxcycaDCB.putName("cxcyca");
     return cxcycaDCB;
   }
 
