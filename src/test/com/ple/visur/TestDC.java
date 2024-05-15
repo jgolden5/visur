@@ -97,13 +97,19 @@ public class TestDC {
     assertNull(cyDCB.getDFB());
     assertNull(r.getError());
 
-    //cxcyDCB.remove works when cxDCB and cyDCB are set
+    //cxcyDCB.remove works when complete
     int cx = 10;
     int cy = 1;
     cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", cx, cxcyDCB, cursorPositionDCHolder);
     cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", cy, cxcyDCB, cursorPositionDCHolder);
     cxcyDCB.putInner(cxDCB);
     cxcyDCB.putInner(cyDCB);
+    cxcyDCB.remove(cursorPositionDCHolder);
+    assertNull(cxDCB.getDFB());
+    assertNull(cyDCB.getDFB());
+    assertFalse(cxcyDCB.isComplete());
+
+    //cxcyDCB.remove works when incomplete
     cxcyDCB.remove(cursorPositionDCHolder);
     assertNull(cxDCB.getDFB());
     assertNull(cyDCB.getDFB());
