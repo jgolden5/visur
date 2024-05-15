@@ -177,7 +177,7 @@ public class TestDC {
     assertFalse(cursorPositionDCB.isComplete());
   }
 
-  @Test void dcbGet() {
+  @Test void pdcbGet() {
     int cx = 3;
     int cy = 1;
     CompoundDataClassBrick cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick("cursorPosition",  null, cursorPositionDCHolder);
@@ -205,31 +205,8 @@ public class TestDC {
     assertNotNull(r.getError());
     assertFalse(cyDCB.isComplete());
 
-    //cxcyDCB.get("cx") returns cx int val when cxcyDCB is complete
-    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", cy, cxcyDCB, cursorPositionDCHolder);
-    cxcyDCB.putInner(cyDCB);
-    cxcycaDCB.putInner(cxcyDCB);
-    cursorPositionDCB.putInner(cxcycaDCB);
-    Result cxResult = cxcyDCB.get("cx");
-    cx = (int)cxResult.getVal();
-    assertEquals(3, cx);
+    //caDCB.get() returns ca int val when cxcycaDCB is complete
 
-    //cxcyDCB.get("cy") returns cy int val when cxcyDCB is complete
-    Result cyResult = cxcyDCB.get("cy");
-    cy = (int)cyResult.getVal();
-    assertEquals(1, cy);
-
-    //cxcycaDCB.get("cx") returns cx int val when cxcycaDCB is complete
-    assertTrue(cxcycaDCB.isComplete());
-    r = cxcycaDCB.get("cx");
-    assertNull(r.getError());
-    assertEquals(3, r.getVal());
-
-//    //cxcycaDCB.get("cy") returns cy int val when cxcycaDCB is complete
-//    assertTrue(cxcycaDCB.isComplete());
-//    r = cxcycaDCB.get("cy");
-//    assertNull(r.getError());
-//    assertEquals(1, r.getVal());
   }
 
 }

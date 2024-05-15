@@ -111,29 +111,4 @@ public class CompoundDataClassBrick extends DataClassBrick {
     inners.put(innerName, innerVal);
   }
 
-  public Result<Object> get(String name) {
-    Object val = null;
-    String error = null;
-    PrimitiveDataClassBrick inner;
-    if(inners.containsKey(name)) {
-      inner = (PrimitiveDataClassBrick) getInner(name);
-      if (inner instanceof PrimitiveDataClassBrick) {
-        if (inner.getDFB() == null) {
-          val = null;
-        } else {
-          val = inner.getDFB().getVal();
-        }
-      }
-    } else {
-      //loop through the inners of the inners to try to find the inner whose name matches name
-      for(Map.Entry<String, DataClassBrick> currentInner : inners.entrySet()) {
-        CompoundDataClassBrick currentInnerAsCDCB = (CompoundDataClassBrick) currentInner;
-        Result r = currentInnerAsCDCB.get(name);
-        val = r.getVal();
-        error = r.getError();
-      }
-    }
-    return Result.make(val, error);
-  }
-
 }
