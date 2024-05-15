@@ -172,26 +172,40 @@ public class TestDC {
     assertFalse(cyDCB.isComplete());
     assertFalse(caDCB.isComplete());
     assertFalse(cursorPositionDCB.isComplete());
+
+    //cursorPositionDCB.remove works when cursorPositionDCB is unset
+    cursorPositionDCB.remove();
+    assertFalse(cursorPositionDCB.isComplete());
   }
 
-//  @Test void dcbGet() {
-//    int cx = 3;
-//    CompoundDataClassBrick cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(null, cursorPositionDCHolder);
-//    ArrayList<Integer> newlineIndices = new ArrayList<>();
-//    newlineIndices.add(11);
-//    newlineIndices.add(24);
-//    PrimitiveDataClassBrick niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick(newlineIndices, cursorPositionDCB, cursorPositionDCHolder);
-//    CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick(cursorPositionDCB, cursorPositionDCHolder);
-//    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cxcycaDCB, cursorPositionDCHolder);
-//    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, cxcyDCB, cursorPositionDCHolder);
-//
-//    //cxDCB.get produces accurate cx val
-//    Result r = cxDCB.get();
-//    assertEquals(cx, r.getVal());
-//
-//    //cyDCB.get accurately fetches an unset dcb, and includes a result with an error message
-//    Result r = cyDCB
-//
-//  }
+  @Test void dcbGet() {
+    int cx = 3;
+    int cy = 1;
+    CompoundDataClassBrick cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick("cursorPosition",  null, cursorPositionDCHolder);
+    ArrayList<Integer> newlineIndices = new ArrayList<>();
+    newlineIndices.add(11);
+    newlineIndices.add(24);
+    PrimitiveDataClassBrick niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick("ni", newlineIndices, cursorPositionDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick("cxcyca", cursorPositionDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick("cxcy", cxcycaDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", cx, cxcyDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", cy, cxcyDCB, cursorPositionDCHolder);
+    cxcyDCB.putInner(cxDCB);
+    cxcyDCB.putInner(cyDCB);
+    cxcycaDCB.putInner(cxcyDCB);
+    cursorPositionDCB.putInner(niDCB);
+    cursorPositionDCB.putInner(cxcycaDCB);
+
+    //cxDCB.get produces accurate cx val
+    Result r = cxDCB.get();
+    assertEquals(cx, r.getVal());
+
+    //cyDCB.get accurately fetches an unset dcb, and includes a result with an error message
+    cyDCB.remove();
+    r = cyDCB.get();
+    assertNotNull(r.getError());
+    assertFalse(cyDCB.isComplete());
+
+  }
 
 }
