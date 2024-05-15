@@ -38,7 +38,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
 
   @Override
   public boolean isComplete() {
-    return true;
+    return getDFB() != null;
   }
 
   public Object getVal() {

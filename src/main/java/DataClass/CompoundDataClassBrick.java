@@ -93,9 +93,14 @@ public class CompoundDataClassBrick extends DataClassBrick {
   public Result removeInner(String name, DCHolder dcHolder) {
     DataClassBrick inner = inners.get(name);
     if(inner instanceof PrimitiveDataClassBrick) {
-      PrimitiveDataClassBrick newInner = (PrimitiveDataClassBrick) inner;
-      newInner.putDFB(null);
-      inners.put(name, newInner);
+      PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
+      innerAsPDCB.putDFB(null);
+      inners.put(name, innerAsPDCB);
+    } else if(inner instanceof CompoundDataClassBrick){
+      CompoundDataClassBrick innerAsCDCB = (CompoundDataClassBrick) inner;
+      for(String innerInnerName : innerAsCDCB.inners.keySet()) {
+        innerAsCDCB.removeInner(innerInnerName, dcHolder);
+      }
     }
     return Result.make();
   }
