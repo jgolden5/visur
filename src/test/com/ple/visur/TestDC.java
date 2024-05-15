@@ -104,6 +104,7 @@ public class TestDC {
     cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", cy, cxcyDCB, cursorPositionDCHolder);
     cxcyDCB.putInner(cxDCB);
     cxcyDCB.putInner(cyDCB);
+    assertTrue(cxcyDCB.isComplete());
     cxcyDCB.remove(cursorPositionDCHolder);
     assertNull(cxDCB.getDFB());
     assertNull(cyDCB.getDFB());
