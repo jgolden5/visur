@@ -59,12 +59,12 @@ public class InitializerService {
   private void initializeCoordinates() {
     CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
     emc.putCursorPositionDCHolder(cursorPositionDCHolder);
-    CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick(null, cursorPositionDCHolder);
+    CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick("cursorPosition", null, cursorPositionDCHolder);
     ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
-    PrimitiveDataClassBrick newlineIndicesDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick(newlineIndices, cursorPosDCB, cursorPositionDCHolder);
-    CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick(cursorPosDCB, cursorPositionDCHolder);
-    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(cxcycaDCB, cursorPositionDCHolder);
-    PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(0, cxcycaDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick newlineIndicesDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick("ni", newlineIndices, cursorPosDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick("cursorPosition", cursorPosDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick("cxcy", cxcycaDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", 0, cxcycaDCB, cursorPositionDCHolder);
     cxcyDCB.put("cx", null);
     cxcyDCB.put("cy", null);
     cxcycaDCB.put("ca", caDCB);

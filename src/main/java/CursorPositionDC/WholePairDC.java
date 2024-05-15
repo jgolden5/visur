@@ -14,8 +14,10 @@ public class WholePairDC extends CompoundDataClass {
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(CompoundDataClassBrick outer, DCHolder dcHolder) {
-    return CompoundDataClassBrick.make(outer, this, new HashMap<>());
+  public CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer, DCHolder dcHolder) {
+    CompoundDataClassBrick wholePairDCB = CompoundDataClassBrick.make(outer, this, new HashMap<>());
+    wholePairDCB.putName(name);
+    return wholePairDCB;
   }
 
   @Override

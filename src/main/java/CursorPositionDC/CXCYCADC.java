@@ -12,8 +12,9 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(CompoundDataClassBrick outer, DCHolder dcHolder) {
+  public CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer, DCHolder dcHolder) {
     CompoundDataClassBrick cxcycaDCB = CompoundDataClassBrick.make(outer, this, new HashMap<>());
+    cxcycaDCB.putName(name);
     return cxcycaDCB;
   }
 
@@ -64,9 +65,9 @@ public class CXCYCADC extends CompoundDataClass {
     } else {
       cx = ca;
     }
-    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick(thisAsBrick, cursorPositionDCHolder);
-    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cx, thisAsBrick, cursorPositionDCHolder);
-    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(cy, thisAsBrick, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick("cxcy", thisAsBrick, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", cx, thisAsBrick, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", cy, thisAsBrick, cursorPositionDCHolder);
     cxcyDCB.put("cx", cxDCB);
     cxcyDCB.put("cy", cyDCB);
     return Result.make(cxcyDCB, null);
@@ -78,12 +79,12 @@ public class CXCYCADC extends CompoundDataClass {
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
     int cx = (int) cxDCB.getDFB().getVal();
     int cy = (int) cyDCB.getDFB().getVal();
-    int a = 0;
+    int ca = 0;
     if(cy > 0) {
-      a += newlineIndices.get(cy - 1) + 1;
+      ca += newlineIndices.get(cy - 1) + 1;
     }
-    a += cx;
-    PrimitiveDataClassBrick aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick(a, thisAsBrick, cursorPositionDCHolder);
+    ca += cx;
+    PrimitiveDataClassBrick aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", ca, thisAsBrick, cursorPositionDCHolder);
     return Result.make(aDCB, null);
   }
 

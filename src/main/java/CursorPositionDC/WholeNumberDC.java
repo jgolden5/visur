@@ -4,15 +4,16 @@ import DataClass.*;
 
 public class WholeNumberDC extends PrimitiveDataClass {
   @Override
-  public PrimitiveDataClassBrick makeBrick(Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
+  public PrimitiveDataClassBrick makeBrick(String name, Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
     PrimitiveDataClassBrick res;
     if(isValidInput(val)) {
       CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
       DataForm targetDF = cursorPositionDCHolder.javaIntDF;
       res = PrimitiveDataClassBrick.make(outerBrick, this, DataFormBrick.make(targetDF, val));
     } else {
-      res = null;
+      res = PrimitiveDataClassBrick.make(outerBrick, this, null);
     }
+    res.putName(name);
     return res;
   }
 

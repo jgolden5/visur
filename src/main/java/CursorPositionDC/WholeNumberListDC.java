@@ -7,12 +7,15 @@ import java.util.Optional;
 
 public class WholeNumberListDC extends PrimitiveDataClass {
   @Override
-  public PrimitiveDataClassBrick makeBrick(Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
+  public PrimitiveDataClassBrick makeBrick(String name, Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
     CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
-    PrimitiveDataClassBrick res = null;
+    PrimitiveDataClassBrick res;
     if(isValidInput(val)) {
       res = PrimitiveDataClassBrick.make(outerBrick, this, DataFormBrick.make(cursorPositionDCHolder.intArrayListDF, val));
+    } else {
+      res = PrimitiveDataClassBrick.make(outerBrick, this, null);
     }
+    res.putName(name);
     return res;
   }
 

@@ -32,7 +32,7 @@ public abstract class CompoundDataClass extends DataClass {
   public void putInner(String innerName, DataClass innerVal) {
     inners.put(innerName, innerVal);
   }
-  public abstract CompoundDataClassBrick makeBrick(CompoundDataClassBrick outer, DCHolder dcHolder);
+  public abstract CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer, DCHolder dcHolder);
 
   public boolean brickCanBeSet(String nameOfThisBrick, HashMap<String, DataClassBrick> innerBricks) {
     int numberOfSetValues = 1; //represents by the value that is currently being set
