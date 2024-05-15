@@ -229,6 +229,30 @@ public class TestDC {
     r = niDCB.get(); //actual test
     assertEquals(newlineIndices, r.getVal());
     assertNull(r.getError());
+
+  }
+
+  @Test void dcbPutSafe() {
+    int cx = 3;
+    int cy = 1;
+    CompoundDataClassBrick cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick("cursorPosition",  null, cursorPositionDCHolder);
+    ArrayList<Integer> newlineIndices = new ArrayList<>();
+    newlineIndices.add(11);
+    newlineIndices.add(24);
+    PrimitiveDataClassBrick niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick("ni", newlineIndices, cursorPositionDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick("cxcyca", cursorPositionDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick("cxcy", cxcycaDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", cx, cxcyDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", cy, cxcyDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", null, cxcycaDCB, cursorPositionDCHolder);
+    cxcyDCB.putInner(cxDCB);
+    cxcyDCB.putInner(cyDCB);
+    cxcycaDCB.putInner(cxcyDCB);
+    cxcycaDCB.putInner(caDCB);
+    cursorPositionDCB.putInner(niDCB);
+    cursorPositionDCB.putInner(cxcycaDCB);
+
+    cxDCB.putSafe();
   }
 
 }

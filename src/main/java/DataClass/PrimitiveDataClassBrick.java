@@ -25,9 +25,9 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   @Override
-  public Result put(String name) {
+  public Result putSafe(String name) {
 //    if(canSet) {
-      return outer.put(name);
+      return outer.putSafe(name);
 //    }
   }
 

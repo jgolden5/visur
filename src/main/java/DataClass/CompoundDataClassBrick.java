@@ -56,7 +56,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
   }
 
   @Override
-  public Result put(String name) {
+  public Result putSafe(String name) {
     return null;
   }
 

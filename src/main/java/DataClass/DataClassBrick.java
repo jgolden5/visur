@@ -30,7 +30,7 @@ public abstract class DataClassBrick {
       return Result.make();
     }
 
-    public abstract Result put(String name); //name is unused in the case of PDCB, for put and forcePut
+    public abstract Result putSafe(String name); //name is unused in the case of PDCB, for put and forcePut
 
     public abstract Result forcePut(String name);
 
