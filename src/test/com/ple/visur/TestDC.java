@@ -212,6 +212,23 @@ public class TestDC {
     assertNull(r.getVal());
     assertNotNull(r.getError());
 
+    //caDCB.get() returns ca int val when cxcycaDCB is complete and ca is set
+    cxcyDCB.remove();
+    caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", 10, cxcycaDCB, cursorPositionDCHolder);
+    cxcycaDCB.putInner(cxcyDCB);
+    cxcycaDCB.putInner(caDCB);
+    assertFalse(cxcyDCB.isComplete());
+    assertTrue(caDCB.isComplete());
+    assertTrue(cxcycaDCB.isComplete());
+    r = caDCB.get(); //actual test
+    assertEquals(10, r.getVal());
+    assertNull(r.getError());
+
+    //niDCB.get() returns newlineIndices arrayList exactly as declared when niDCB is complete
+    assertTrue(niDCB.isComplete());
+    r = niDCB.get(); //actual test
+    assertEquals(newlineIndices, r.getVal());
+    assertNull(r.getError());
   }
 
 }
