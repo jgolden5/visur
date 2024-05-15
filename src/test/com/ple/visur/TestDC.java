@@ -160,8 +160,7 @@ public class TestDC {
     cxcyDCB.putInner(cxDCB);
     cxcyDCB.putInner(cyDCB);
     cxcycaDCB.putInner(cxcyDCB);
-    cxcycaDCB.putInner(caDCB);
-    cursorPositionDCB.putInner(niDCB);
+    cxcycaDCB.putInner(caDCB); cursorPositionDCB.putInner(niDCB);
     cursorPositionDCB.putInner(cxcycaDCB);
     assertTrue(cursorPositionDCB.isComplete());
     cursorPositionDCB.remove(); //actual test begins here
@@ -215,6 +214,11 @@ public class TestDC {
     cx = (int)cxResult.getVal();
     assertEquals(3, cx);
 
+    //cxcyDCB.get("cy") returns cy int val when cxcyDCB is complete
+    Result cyResult = cxcyDCB.get("cy");
+    cy = (int)cyResult.getVal();
+    assertEquals(1, cy);
+    
   }
 
 }
