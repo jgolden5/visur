@@ -206,6 +206,15 @@ public class TestDC {
     assertNotNull(r.getError());
     assertFalse(cyDCB.isComplete());
 
+    //cxcyDCB.get("cx") returns cx int val when cxcyDCB is complete
+    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", cy, cxcyDCB, cursorPositionDCHolder);
+    cxcyDCB.putInner(cyDCB);
+    cxcycaDCB.putInner(cxcyDCB);
+    cursorPositionDCB.putInner(cxcycaDCB);
+    Result cxResult = cxcyDCB.get("cx");
+    cx = (int)cxResult.getVal();
+    assertEquals(3, cx);
+
   }
 
 }

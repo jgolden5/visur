@@ -110,4 +110,28 @@ public class CompoundDataClassBrick extends DataClassBrick {
     inners.put(innerName, innerVal);
   }
 
+  public Result<Object> get(String innerName) {
+    DataClassBrick inner = getInner(innerName);
+    Object val = null;
+    String error = null;
+    if (inner instanceof PrimitiveDataClassBrick) {
+      PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
+      if(innerAsPDCB.isComplete()) {
+        val = innerAsPDCB.getDFB().getVal();
+      }
+    } else if(inner instanceof CompoundDataClassBrick) {
+      CompoundDataClassBrick innerAsCDCB = (CompoundDataClassBrick) inner;
+      val = innerAsCDCB;
+    } else {
+      error = "inner not found";
+      for(String innerInnerName : inners.keySet()) {
+        if(innerInnerName.equals(innerName)) {
+          val = inners.get(innerInnerName);
+          error = null;
+        }
+      }
+    }
+    return Result.make(val, error);
+  }
+
 }
