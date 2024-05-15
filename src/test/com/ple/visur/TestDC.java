@@ -141,6 +141,12 @@ public class TestDC {
     assertFalse(cxcycaDCB.isComplete());
     assertTrue(niDCB.isComplete());
 
+    //niDCB.remove works when niDCB is set
+    assertTrue(niDCB.isComplete());
+    niDCB.remove();
+    assertFalse(niDCB.isComplete());
+
+    //
   }
 
 //  @Test void dcbGet() {
