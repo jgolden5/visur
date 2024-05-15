@@ -24,11 +24,12 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return outer.getOrCalc(name, dcHolder);
   }
 
-  @Override
-  public Result putSafe(String name) {
-//    if(canSet) {
-      return outer.putSafe(name);
-//    }
+  public Result putSafe() {
+    if(!outer.isComplete()) {
+      return outer.putSafe(this);
+    } else {
+      return Result.make();
+    }
   }
 
   @Override

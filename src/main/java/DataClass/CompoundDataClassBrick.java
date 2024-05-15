@@ -55,9 +55,9 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return r;
   }
 
-  @Override
-  public Result putSafe(String name) {
-    return null;
+  public Result putSafe(DataClassBrick dcb) {
+    putInner(dcb);
+    return Result.make();
   }
 
   @Override
@@ -84,7 +84,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
   public boolean isComplete() {
     int numberOfSetValues = 0;
     for(DataClassBrick inner : inners.values()) {
-      if(inner != null && inner.isComplete()) {
+      if(inner.isComplete()) {
         numberOfSetValues++;
       }
     }
