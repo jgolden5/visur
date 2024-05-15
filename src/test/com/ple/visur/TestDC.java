@@ -122,6 +122,25 @@ public class TestDC {
     assertNull(caDCB.getDFB()); //in future tests, this condition will be replaced by the next line, but this ensures they both work the same
     assertFalse(caDCB.isComplete());
 
+    //cxcycaDCB.remove works when complete [cxcy complete, ca incomplete]
+    cx = 0;
+    cy = 2;
+    cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", cx, cxcyDCB, cursorPositionDCHolder);
+    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", cy, cxcyDCB, cursorPositionDCHolder);
+    cxcyDCB.putInner(cxDCB);
+    cxcyDCB.putInner(cyDCB);
+    cxcycaDCB.putInner(cxcyDCB);
+    cxcycaDCB.putInner(caDCB);
+    assertFalse(caDCB.isComplete());
+    assertTrue(cxcyDCB.isComplete());
+    assertTrue(cxcycaDCB.isComplete());
+    assertTrue(niDCB.isComplete());
+    cxcycaDCB.remove(); //actual test starts here
+    assertFalse(caDCB.isComplete());
+    assertFalse(cxcyDCB.isComplete());
+    assertFalse(cxcycaDCB.isComplete());
+    assertTrue(niDCB.isComplete());
+
   }
 
 //  @Test void dcbGet() {
