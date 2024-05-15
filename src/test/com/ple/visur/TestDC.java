@@ -135,7 +135,7 @@ public class TestDC {
     assertTrue(cxcyDCB.isComplete());
     assertTrue(cxcycaDCB.isComplete());
     assertTrue(niDCB.isComplete());
-    cxcycaDCB.remove(); //actual test starts here
+    cxcycaDCB.remove(); //actual test post-setup starts here
     assertFalse(caDCB.isComplete());
     assertFalse(cxcyDCB.isComplete());
     assertFalse(cxcycaDCB.isComplete());
@@ -146,7 +146,32 @@ public class TestDC {
     niDCB.remove();
     assertFalse(niDCB.isComplete());
 
-    //
+    //cursorPositionDCB.remove works when cursorPositionDCB is set
+    cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick("cursorPosition", null, cursorPositionDCHolder);
+    newlineIndices = new ArrayList<>();
+    newlineIndices.add(11);
+    newlineIndices.add(24);
+    niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick("ni", newlineIndices, cursorPositionDCB, cursorPositionDCHolder);
+    cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick("cxcyca", cursorPositionDCB, cursorPositionDCHolder);
+    cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick("cxcy", cxcycaDCB, cursorPositionDCHolder);
+    cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", 12, cxcyDCB, cursorPositionDCHolder);
+    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", 1, cxcyDCB, cursorPositionDCHolder);
+    caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", 1, cxcycaDCB, cursorPositionDCHolder);
+    cxcyDCB.putInner(cxDCB);
+    cxcyDCB.putInner(cyDCB);
+    cxcycaDCB.putInner(cxcyDCB);
+    cxcycaDCB.putInner(caDCB);
+    cursorPositionDCB.putInner(niDCB);
+    cursorPositionDCB.putInner(cxcycaDCB);
+    assertTrue(cursorPositionDCB.isComplete());
+    cursorPositionDCB.remove(); //actual test begins here
+    assertFalse(niDCB.isComplete());
+    assertFalse(cxcycaDCB.isComplete());
+    assertFalse(cxcyDCB.isComplete());
+    assertFalse(cxDCB.isComplete());
+    assertFalse(cyDCB.isComplete());
+    assertFalse(caDCB.isComplete());
+    assertFalse(cursorPositionDCB.isComplete());
   }
 
 //  @Test void dcbGet() {

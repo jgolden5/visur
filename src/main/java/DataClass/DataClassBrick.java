@@ -17,7 +17,17 @@ public abstract class DataClassBrick {
     public abstract Result<DataClassBrick> getOrCalc(String name, DCHolder dcHolder);
 
     public Result remove() {
-      return getOuter().removeInner(getName());
+      if(getOuter() != null) {
+        getOuter().removeInner(getName());
+      } else if(this instanceof CompoundDataClassBrick) {
+        CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick)this;
+        for(String innerName : thisAsCDCB.inners.keySet()) {
+          thisAsCDCB.removeInner(innerName);
+        }
+      } else {
+        return Result.make(null, "no outer found for primitiveDataClassBrick");
+      }
+      return Result.make();
     }
 
     public abstract Result put(String name); //name is unused in the case of PDCB, for put and forcePut
