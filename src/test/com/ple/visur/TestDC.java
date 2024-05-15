@@ -219,8 +219,17 @@ public class TestDC {
     cy = (int)cyResult.getVal();
     assertEquals(1, cy);
 
-    //
+    //cxcycaDCB.get("cx") returns cx int val when cxcycaDCB is complete
+    assertTrue(cxcycaDCB.isComplete());
+    r = cxcycaDCB.get("cx");
+    assertNull(r.getError());
+    assertEquals(3, r.getVal());
 
+//    //cxcycaDCB.get("cy") returns cy int val when cxcycaDCB is complete
+//    assertTrue(cxcycaDCB.isComplete());
+//    r = cxcycaDCB.get("cy");
+//    assertNull(r.getError());
+//    assertEquals(1, r.getVal());
   }
 
 }
