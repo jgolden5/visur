@@ -90,7 +90,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return numberOfSetValues >= cdc.minimumRequiredSetValues;
   }
 
-  public Result removeInner(String name, DCHolder dcHolder) {
+  public Result removeInner(String name) {
     DataClassBrick inner = inners.get(name);
     if(inner instanceof PrimitiveDataClassBrick) {
       PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
@@ -99,7 +99,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     } else if(inner instanceof CompoundDataClassBrick){
       CompoundDataClassBrick innerAsCDCB = (CompoundDataClassBrick) inner;
       for(String innerInnerName : innerAsCDCB.inners.keySet()) {
-        innerAsCDCB.removeInner(innerInnerName, dcHolder);
+        innerAsCDCB.removeInner(innerInnerName);
       }
     }
     return Result.make();

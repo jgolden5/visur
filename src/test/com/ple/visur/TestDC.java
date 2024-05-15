@@ -78,7 +78,7 @@ public class TestDC {
     CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick("cxcy", cxcycaDCB, cursorPositionDCHolder);
     PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", 12, cxcyDCB, cursorPositionDCHolder);
     PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", 1, cxcyDCB, cursorPositionDCHolder);
-    PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", 1, cxcyDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", 1, cxcycaDCB, cursorPositionDCHolder);
     cxcyDCB.putInner(cxDCB);
     cxcyDCB.putInner(cyDCB);
     cxcycaDCB.putInner(cxcyDCB);
@@ -87,13 +87,13 @@ public class TestDC {
     cursorPositionDCB.putInner(cxcycaDCB);
 
     //cxDCB.remove works when cxDCB was set
-    Result r = cxDCB.remove(cursorPositionDCHolder);
+    Result r = cxDCB.remove();
     assertNull(cxDCB.getDFB());
     assertNull(r.getError());
 
     //cyDCB.remove works when cyDCB was unset
-    cyDCB.remove(cursorPositionDCHolder);
-    r = cyDCB.remove(cursorPositionDCHolder);
+    cyDCB.remove();
+    r = cyDCB.remove();
     assertNull(cyDCB.getDFB());
     assertNull(r.getError());
 
@@ -105,16 +105,22 @@ public class TestDC {
     cxcyDCB.putInner(cxDCB);
     cxcyDCB.putInner(cyDCB);
     assertTrue(cxcyDCB.isComplete());
-    cxcyDCB.remove(cursorPositionDCHolder);
+    cxcyDCB.remove();
     assertNull(cxDCB.getDFB());
     assertNull(cyDCB.getDFB());
     assertFalse(cxcyDCB.isComplete());
 
     //cxcyDCB.remove works when incomplete
-    cxcyDCB.remove(cursorPositionDCHolder);
+    cxcyDCB.remove();
     assertNull(cxDCB.getDFB());
     assertNull(cyDCB.getDFB());
     assertFalse(cxcyDCB.isComplete());
+
+    //caDCB.remove works when complete
+    assertTrue(caDCB.isComplete());
+    caDCB.remove();
+    assertNull(caDCB.getDFB()); //in future tests, this condition will be replaced by the next line, but this ensures they both work the same
+    assertFalse(caDCB.isComplete());
 
   }
 
