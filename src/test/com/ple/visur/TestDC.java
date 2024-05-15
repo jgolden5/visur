@@ -189,9 +189,11 @@ public class TestDC {
     CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick("cxcy", cxcycaDCB, cursorPositionDCHolder);
     PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", cx, cxcyDCB, cursorPositionDCHolder);
     PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", cy, cxcyDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", null, cxcycaDCB, cursorPositionDCHolder);
     cxcyDCB.putInner(cxDCB);
     cxcyDCB.putInner(cyDCB);
     cxcycaDCB.putInner(cxcyDCB);
+    cxcycaDCB.putInner(caDCB);
     cursorPositionDCB.putInner(niDCB);
     cursorPositionDCB.putInner(cxcycaDCB);
 
@@ -205,7 +207,10 @@ public class TestDC {
     assertNotNull(r.getError());
     assertFalse(cyDCB.isComplete());
 
-    //caDCB.get() returns ca int val when cxcycaDCB is complete
+    //caDCB.get() returns null when cxcycaDCB is complete but ca is unset
+    r = caDCB.get();
+    assertNull(r.getVal());
+    assertNotNull(r.getError());
 
   }
 

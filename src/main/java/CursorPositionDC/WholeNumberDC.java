@@ -19,7 +19,7 @@ public class WholeNumberDC extends PrimitiveDataClass {
 
   @Override
   public boolean isValidInput(Object val) {
-    if(val instanceof Integer && (Integer) val >= 0 || val == null) {
+    if(val != null && val instanceof Integer && (Integer) val >= 0) {
       return true;
     } else {
       return false;
