@@ -1,6 +1,7 @@
 package DataClass;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CompoundDataClassBrick extends DataClassBrick {
   private CompoundDataClass cdc;
@@ -110,25 +111,26 @@ public class CompoundDataClassBrick extends DataClassBrick {
     inners.put(innerName, innerVal);
   }
 
-  public Result<Object> get(String innerName) {
-    DataClassBrick inner = getInner(innerName);
+  public Result<Object> get(String name) {
     Object val = null;
     String error = null;
-    if (inner instanceof PrimitiveDataClassBrick) {
-      PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
-      if(innerAsPDCB.isComplete()) {
-        val = innerAsPDCB.getDFB().getVal();
-      }
-    } else if(inner instanceof CompoundDataClassBrick) {
-      CompoundDataClassBrick innerAsCDCB = (CompoundDataClassBrick) inner;
-      val = innerAsCDCB;
-    } else {
-      error = "inner not found";
-      for(String innerInnerName : inners.keySet()) {
-        if(innerInnerName.equals(innerName)) {
-          val = inners.get(innerInnerName);
-          error = null;
+    PrimitiveDataClassBrick inner;
+    if(inners.containsKey(name)) {
+      inner = (PrimitiveDataClassBrick) getInner(name);
+      if (inner instanceof PrimitiveDataClassBrick) {
+        if (inner.getDFB() == null) {
+          val = null;
+        } else {
+          val = inner.getDFB().getVal();
         }
+      }
+    } else {
+      //loop through the inners of the inners to try to find the inner whose name matches name
+      for(Map.Entry<String, DataClassBrick> currentInner : inners.entrySet()) {
+        CompoundDataClassBrick currentInnerAsCDCB = (CompoundDataClassBrick) currentInner;
+        Result r = currentInnerAsCDCB.get(name);
+        val = r.getVal();
+        error = r.getError();
       }
     }
     return Result.make(val, error);
