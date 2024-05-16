@@ -282,6 +282,23 @@ public class TestDC {
     caDCB = (PrimitiveDataClassBrick) caDCB.getOuter().getInner("ca");
     assertEquals(24, caDCB.get().getVal());
 
+    //cxDCB.putSafe(cx) and cyDCB.putSafe(cy) when cxcycaDCB is complete and all inners are set without conflicts
+    assertTrue(cxDCB.isComplete());
+    assertTrue(cyDCB.isComplete());
+    assertTrue(caDCB.isComplete());
+    cxcycaDCB.putInner(cxDCB);
+    cxcycaDCB.putInner(cyDCB);
+    cxcycaDCB.putInner(caDCB);
+    assertTrue(cxcycaDCB.isComplete());
+    r = cxDCB.putSafe(); //test 1/2
+    assertNull(r.getError());
+    r = cyDCB.putSafe(); //test 2/2
+    assertNull(r.getError());
+    cxDCB = (PrimitiveDataClassBrick) cxDCB.getOuter().getInner("cx");
+    cyDCB = (PrimitiveDataClassBrick) cyDCB.getOuter().getInner("cy");
+    assertEquals(12, cxDCB.get().getVal());
+    assertEquals(1, cyDCB.get().getVal());
+
   }
 
 }
