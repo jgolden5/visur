@@ -20,15 +20,15 @@ public class CXCYCADC extends CompoundDataClass {
 
   @Override
   public boolean conflicts(CompoundDataClassBrick cxcycaDCB) {
-    if(!cxcycaDCB.isComplete()) {
+    CompoundDataClassBrick cursorPositionDCB = cxcycaDCB.getOuter();
+    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
+    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
+    if(!(caDCB.isComplete() && cxcyDCB.isComplete())) {
       return false;
     } else {
-      CompoundDataClassBrick cursorPositionDCB = cxcycaDCB.getOuter();
-      PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
-      PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-      CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
-      PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
-      PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
       int ca = (int) caDCB.get().getVal();
       int cx = (int) cxDCB.get().getVal();
       int cy = (int) cyDCB.get().getVal();
