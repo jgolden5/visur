@@ -19,6 +19,39 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   @Override
+  public boolean conflicts(CompoundDataClassBrick cxcycaDCB) {
+    if(!cxcycaDCB.isComplete()) {
+      return false;
+    } else {
+      CompoundDataClassBrick cursorPositionDCB = cxcycaDCB.getOuter();
+      PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
+      PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+      CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
+      PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
+      PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
+      int ca = (int) caDCB.get().getVal();
+      int cx = (int) cxDCB.get().getVal();
+      int cy = (int) cyDCB.get().getVal();
+      ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
+      boolean caLinesUpWithCY;
+      boolean caLinesUpWithCX;
+      if (cy < 1) {
+        caLinesUpWithCX = ca == cx;
+        caLinesUpWithCY = ca <= newlineIndices.get(0);
+      } else {
+        caLinesUpWithCX = cx == ca - (newlineIndices.get(cy - 1) + 1);
+        boolean cyIsNotTooHigh = true;
+        boolean cyIsNotTooLow = ca > newlineIndices.get(cy - 1);
+        if (cy < newlineIndices.size()) {
+          cyIsNotTooHigh = ca <= newlineIndices.get(cy);
+        }
+        caLinesUpWithCY = cyIsNotTooLow && cyIsNotTooHigh;
+      }
+      return !(caLinesUpWithCX && caLinesUpWithCY);
+    }
+  }
+
+  @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick thisAsBrick, DCHolder dcHolder) {
     Result<DataClassBrick> r = Result.make();
     CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;

@@ -44,4 +44,6 @@ public abstract class CompoundDataClass extends DataClass {
     return numberOfSetValues <= minimumRequiredSetValues;
   }
 
+  public abstract boolean conflicts(CompoundDataClassBrick brick);
+
 }

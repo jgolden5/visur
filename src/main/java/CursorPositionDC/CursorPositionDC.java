@@ -18,6 +18,11 @@ public class CursorPositionDC extends CompoundDataClass {
   }
 
   @Override
+  public boolean conflicts(CompoundDataClassBrick brick) {
+    return false;
+  }
+
+  @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick, DCHolder dcHolder) {
     if("cxcyca".contains(name)){
       CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;

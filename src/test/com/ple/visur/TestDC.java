@@ -235,40 +235,52 @@ public class TestDC {
   @Test void dcbPutSafe() {
     int cx = 3;
     int cy = 1;
-    CompoundDataClassBrick initialCursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick("cursorPosition",  null, cursorPositionDCHolder);
+    CompoundDataClassBrick cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick("cursorPosition",  null, cursorPositionDCHolder);
     ArrayList<Integer> newlineIndices = new ArrayList<>();
     newlineIndices.add(11);
     newlineIndices.add(24);
-    PrimitiveDataClassBrick niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick("ni", newlineIndices, initialCursorPositionDCB, cursorPositionDCHolder);
-    CompoundDataClassBrick initialCXCYCADCB = cursorPositionDCHolder.cxcycaDC.makeBrick("cxcyca", initialCursorPositionDCB, cursorPositionDCHolder);
-    CompoundDataClassBrick initialCXCYDCB = cursorPositionDCHolder.wholePairDC.makeBrick("cxcy", initialCXCYCADCB, cursorPositionDCHolder);
-    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", null, initialCXCYDCB, cursorPositionDCHolder);
-    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", null, initialCXCYDCB, cursorPositionDCHolder);
-    PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", null, initialCXCYCADCB, cursorPositionDCHolder);
-    initialCXCYDCB.putInner(cxDCB);
-    initialCXCYDCB.putInner(cyDCB);
-    initialCXCYCADCB.putInner(initialCXCYDCB);
-    initialCXCYCADCB.putInner(caDCB);
-    initialCursorPositionDCB.putInner(niDCB);
-    initialCursorPositionDCB.putInner(initialCXCYCADCB);
+    PrimitiveDataClassBrick niDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick("ni", newlineIndices, cursorPositionDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick("cxcyca", cursorPositionDCB, cursorPositionDCHolder);
+    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick("cxcy", cxcycaDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", null, cxcyDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", null, cxcyDCB, cursorPositionDCHolder);
+    PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", null, cxcycaDCB, cursorPositionDCHolder);
+    cxcyDCB.putInner(cxDCB);
+    cxcyDCB.putInner(cyDCB);
+    cxcycaDCB.putInner(cxcyDCB);
+    cxcycaDCB.putInner(caDCB);
+    cursorPositionDCB.putInner(niDCB);
+    cursorPositionDCB.putInner(cxcycaDCB);
 
     //cxDCB.putSafe(cx) when cxcycaDCB is not complete (conflicts method is not used)
-    assertFalse(initialCXCYCADCB.isComplete());
-    cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", 0, initialCXCYDCB, cursorPositionDCHolder);
+    assertFalse(cxcycaDCB.isComplete());
+    cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", 12, cxcyDCB, cursorPositionDCHolder);
     Result r = cxDCB.putSafe(); //test
     assertNull(r.getError());
     Result cxResult = cxDCB.get();
-    assertEquals(0, cxResult.getVal());
+    assertEquals(12, cxResult.getVal());
 
     //cyDCB.putSafe(cy) when cxcycaDCB is not complete (conflicts method is not used)
     assertFalse(caDCB.getOuter().isComplete());
-    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", 1, initialCXCYDCB, cursorPositionDCHolder);
+    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", 1, cxcyDCB, cursorPositionDCHolder);
     r = cyDCB.putSafe(); //test
     assertNull(r.getError());
     cyDCB = (PrimitiveDataClassBrick) cyDCB.getOuter().getInner("cy");
     assertEquals(1, cyDCB.get().getVal());
 
-    //caDCB.putSafe(ca) when cxcycaDCB is complete [conflicts method is used]
+    //caDCB.putSafe(ca) when cxcycaDCB is complete and cxcyca are both set [conflicts method works]
+    caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", 24, cxcycaDCB, cursorPositionDCHolder);
+    assertTrue(cxDCB.isComplete());
+    assertTrue(cyDCB.isComplete());
+    assertTrue(caDCB.isComplete());
+    cxcycaDCB.putInner(cxDCB);
+    cxcycaDCB.putInner(cyDCB);
+    cxcycaDCB.putInner(caDCB);
+    assertTrue(cxcycaDCB.isComplete());
+    r = caDCB.putSafe(); //test
+    assertNull(r.getError());
+    caDCB = (PrimitiveDataClassBrick) caDCB.getOuter().getInner("ca");
+    assertEquals(24, caDCB.get().getVal());
 
   }
 

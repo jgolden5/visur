@@ -11,7 +11,7 @@ public abstract class DataClassBrick {
     }
 
     public CompoundDataClassBrick getOuter() {
-        return outer;
+      return outer;
     }
 
     public abstract Result<DataClassBrick> getOrCalc(String name, DCHolder dcHolder);

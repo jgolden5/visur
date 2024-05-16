@@ -21,6 +21,11 @@ public class WholePairDC extends CompoundDataClass {
   }
 
   @Override
+  public boolean conflicts(CompoundDataClassBrick brick) {
+    return false;
+  }
+
+  @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick, DCHolder dcHolder) {
     return Result.make(null, "incalculable");
   }

@@ -25,10 +25,11 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   public Result putSafe() {
-    if(!outer.isComplete()) {
+    boolean conflicts = outer.getCDC().conflicts(outer);
+    if(!conflicts) {
       return outer.putSafe(this);
     } else {
-      return Result.make();
+      return Result.make(null, "values conflict");
     }
   }
 
