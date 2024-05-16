@@ -1,6 +1,9 @@
 package DataClass;
 
 
+import CursorPositionDC.CursorPositionDCHolder;
+import CursorPositionDC.WholeNumberDC;
+
 public class PrimitiveDataClassBrick extends DataClassBrick {
   private final PrimitiveDataClass pdc;
   private DataFormBrick dfb;
@@ -24,10 +27,12 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return outer.getOrCalc(name, dcHolder);
   }
 
-  public Result putSafe() {
+  public Result putSafe(PrimitiveDataClass pdc, String innerName, Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
     boolean conflicts = outer.getCDC().conflicts(outer);
     if(!conflicts) {
-      return outer.putSafe(this);
+      PrimitiveDataClassBrick resultingBrick = pdc.makeBrick(innerName, val, outerBrick, dcHolder);
+      outerBrick.putInner(resultingBrick);
+      return Result.make();
     } else {
       return Result.make(null, "values conflict");
     }

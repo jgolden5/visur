@@ -254,16 +254,14 @@ public class TestDC {
 
     //cxDCB.putSafe(cx) when cxcycaDCB is not complete (conflicts method is not used)
     assertFalse(cxcycaDCB.isComplete());
-    cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", 12, cxcyDCB, cursorPositionDCHolder);
-    Result r = cxDCB.putSafe(); //test
+    Result r = cxDCB.putSafe(cursorPositionDCHolder.wholeNumberDC, "cx", 12, cxcyDCB, cursorPositionDCHolder); //test
     assertNull(r.getError());
     Result cxResult = cxDCB.get();
     assertEquals(12, cxResult.getVal());
 
     //cyDCB.putSafe(cy) when cxcycaDCB is not complete (conflicts method is not used)
     assertFalse(caDCB.getOuter().isComplete());
-    cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", 1, cxcyDCB, cursorPositionDCHolder);
-    r = cyDCB.putSafe(); //test
+    r = cyDCB.putSafe(cursorPositionDCHolder.wholeNumberDC, "cy", 1, cxcyDCB, cursorPositionDCHolder); //test
     assertNull(r.getError());
     cyDCB = (PrimitiveDataClassBrick) cyDCB.getOuter().getInner("cy");
     assertEquals(1, cyDCB.get().getVal());
@@ -277,28 +275,39 @@ public class TestDC {
     cxcycaDCB.putInner(cyDCB);
     cxcycaDCB.putInner(caDCB);
     assertTrue(cxcycaDCB.isComplete());
-    r = caDCB.putSafe(); //test
+    r = caDCB.putSafe(cursorPositionDCHolder.wholeNumberDC, "ca", 24, cxcycaDCB, cursorPositionDCHolder); //test
     assertNull(r.getError());
     caDCB = (PrimitiveDataClassBrick) caDCB.getOuter().getInner("ca");
     assertEquals(24, caDCB.get().getVal());
 
     //cxDCB.putSafe(cx) and cyDCB.putSafe(cy) when cxcycaDCB is complete and all inners are set without conflicts
-    assertTrue(cxDCB.isComplete());
-    assertTrue(cyDCB.isComplete());
+    cxDCB.remove();
+    cyDCB.remove();
+    assertFalse(cxDCB.isComplete());
+    assertFalse(cyDCB.isComplete());
     assertTrue(caDCB.isComplete());
     cxcycaDCB.putInner(cxDCB);
     cxcycaDCB.putInner(cyDCB);
     cxcycaDCB.putInner(caDCB);
     assertTrue(cxcycaDCB.isComplete());
-    r = cxDCB.putSafe(); //test 1/2
+    r = cxDCB.putSafe(cursorPositionDCHolder.wholeNumberDC, "cx", 12, cxcyDCB, cursorPositionDCHolder); //test 1/2
     assertNull(r.getError());
-    r = cyDCB.putSafe(); //test 2/2
+    r = cyDCB.putSafe(cursorPositionDCHolder.wholeNumberDC, "cy", 1, cxcyDCB, cursorPositionDCHolder); //test 2/2
     assertNull(r.getError());
     cxDCB = (PrimitiveDataClassBrick) cxDCB.getOuter().getInner("cx");
     cyDCB = (PrimitiveDataClassBrick) cyDCB.getOuter().getInner("cy");
     assertEquals(12, cxDCB.get().getVal());
     assertEquals(1, cyDCB.get().getVal());
 
+    //caDCB.putSafe(ca) does NOT work when cxcycaDCB is complete and all inners are set WITH conflicts
+    assertTrue(cxDCB.isComplete());
+    assertTrue(cyDCB.isComplete());
+    assertTrue(caDCB.isComplete());
+    assertTrue(cxcycaDCB.isComplete());
+    r = caDCB.putSafe(cursorPositionDCHolder.wholeNumberDC, "ca", 25, cxcycaDCB, cursorPositionDCHolder); //test
+    assertNotNull(r.getError());
+    caDCB = (PrimitiveDataClassBrick) caDCB.getOuter().getInner("ca");
+    assertEquals(24, caDCB.get().getVal());
   }
 
 }
