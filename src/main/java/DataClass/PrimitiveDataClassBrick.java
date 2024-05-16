@@ -27,12 +27,12 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return outer.getOrCalc(name, dcHolder);
   }
 
-  public Result putSafe(PrimitiveDataClass pdc, String innerName, Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
+  public Result<PrimitiveDataClassBrick> putSafe(PrimitiveDataClass pdc, String innerName, Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
     boolean conflicts = outer.getCDC().conflicts(outer);
     if(!conflicts) {
       PrimitiveDataClassBrick resultingBrick = pdc.makeBrick(innerName, val, outerBrick, dcHolder);
       outerBrick.putInner(resultingBrick);
-      return Result.make();
+      return Result.make(resultingBrick, null);
     } else {
       return Result.make(null, "values conflict");
     }
