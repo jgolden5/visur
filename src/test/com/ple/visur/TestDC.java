@@ -13,17 +13,23 @@ public class TestDC {
   CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
   final CompoundDataClassBrick initialCursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick();
 
-  @Test void cdcMakeBrick() {
+  @Test void dcMakeBrick() {
     //cursorPositionDC.makeBrick
     CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick)initialCursorPositionDCB.getInner("cxcyca");
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick)cxcycaDCB.getInner("cxcy");
     assertFalse(initialCursorPositionDCB.isComplete());
+    //test cxcycaDC.makeBrick
     assertFalse(initialCursorPositionDCB.getInner("cxcyca").isComplete());
+    //test wholeNumberListDC.makeBrick
     assertFalse(initialCursorPositionDCB.getInner("ni").isComplete());
+    //test wholePairDC.makeBrick
     assertFalse(cxcycaDCB.getInner("cxcy").isComplete());
+    //test wholeNumberDC.makeBrick
     assertFalse(cxcycaDCB.getInner("ca").isComplete());
     assertFalse(cxcyDCB.getInner("cx").isComplete());
     assertFalse(cxcyDCB.getInner("cy").isComplete());
+    //one last detailed test to prove and log that everything is working:
+
 
   }
 
