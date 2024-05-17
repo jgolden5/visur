@@ -24,19 +24,8 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return outer.getOrCalc(name, dcHolder);
   }
 
-  public Result<PrimitiveDataClassBrick> putSafe(PrimitiveDataClass pdc, String innerName, Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
-    boolean conflicts = outer.getCDC().conflicts(outer);
-    if(!conflicts) {
-      PrimitiveDataClassBrick resultingBrick = pdc.makeBrick(innerName, val, outerBrick);
-      outerBrick.putInner(resultingBrick);
-      return Result.make(resultingBrick, null);
-    } else {
-      return Result.make(null, "values conflict");
-    }
-  }
-
   @Override
-  public Result forcePut(String name) {
+  public Result putForce(String name) {
     return null;
   }
 

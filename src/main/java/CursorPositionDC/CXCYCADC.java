@@ -113,8 +113,8 @@ public class CXCYCADC extends CompoundDataClass {
     CompoundDataClassBrick cxcyDCB = wholePairDC.makeBrick("cxcy", thisAsBrick);
     PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("cx", cxcyDCB);
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick)wholeNumberDC.makeBrick("cy", cxcyDCB);
-    cxcyDCB.putInner(cxDCB);
-    cxcyDCB.putInner(cyDCB);
+//    cxDCB.putSafe(cxDCB); //figure out another way to set these without calling the now obsolete cdcb.putInner
+//    cyDCB.putSafe(cyDCB);
     return Result.make(cxcyDCB, null);
   }
 

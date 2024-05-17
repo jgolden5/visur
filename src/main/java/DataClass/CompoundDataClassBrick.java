@@ -37,14 +37,14 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return r;
   }
 
-  public Result putSafe(DataClassBrick dcb) {
-    putInner(dcb);
-    return Result.make();
+  @Override
+  public Result putForce(String name) {
+    return null;
   }
 
-  @Override
-  public Result forcePut(String name) {
-    return null;
+  public Result putSafe(DataClassBrick dcb) {
+//    putInner(dcb); this must be replaced by something that doesn't use cdcb.putInner, since we got rid of that method
+    return Result.make();
   }
 
   public Result<DataClassBrick> calc(String name, DCHolder dcHolder) {
@@ -86,11 +86,6 @@ public class CompoundDataClassBrick extends DataClassBrick {
       }
     }
     return Result.make();
-  }
-
-  public void putInner(DataClassBrick innerVal) {
-    String innerName = innerVal.getName();
-    inners.put(innerName, innerVal);
   }
 
   public CompoundDataClassBrick initInners(HashMap<String, DataClassBrick> cursorPositionDCBInners) {
