@@ -30,4 +30,15 @@ public class WholeNumberDC extends PrimitiveDataClass {
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick, DCHolder dcHolder) {
     return Result.make(null, "incalculable");
   }
+
+  @Override
+  public DataClassBrick makeBrick() {
+    return null;
+  }
+
+  @Override
+  public DataClassBrick makeBrick(CompoundDataClassBrick outer) {
+    return null;
+  }
+
 }

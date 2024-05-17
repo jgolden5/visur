@@ -17,23 +17,6 @@ public class CompoundDataClassBrick extends DataClassBrick {
   public DataClassBrick getInner(String name) {
       return inners.get(name);
   }
-  public Result put(String innerName, DataClassBrick innerVal) {
-    String error = null;
-    if(innerVal != null) {
-      CompoundDataClass thisCDC = getCDC();
-      if(!thisCDC.brickCanBeSet(innerName, inners)) {
-        error = "putInner failed, too many values set";
-      }
-      innerVal.putName(innerName);
-    }
-    if(error == null || outer == null) {
-      inners.put(innerName, innerVal);
-      return Result.make(null, error);
-    } else {
-      return outer.put(innerName, innerVal);
-    }
-  }
-
   public CompoundDataClass getCDC() {
     return cdc;
   }
@@ -70,7 +53,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     CompoundDataClassBrick outerBrick = getOuter();
     boolean canSet = cdc.checkCanSet(this, outerBrick, dcHolder);
     if(canSet) {
-      r = dc.calcInternal(name, this, dcHolder);
+      r = dc.calcInternal(name, this);
       if (r.getError() != null && outer != null) {
         r = outer.calc(name, dcHolder);
       }
