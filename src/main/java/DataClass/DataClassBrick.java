@@ -3,11 +3,12 @@ package DataClass;
 public abstract class DataClassBrick {
     public final DataClass dc;
     public final CompoundDataClassBrick outer;
-    private String name;
+    public String name;
 
-    DataClassBrick(DataClass dc, CompoundDataClassBrick outer) {
+    DataClassBrick(DataClass dc, CompoundDataClassBrick outer, String name) {
       this.dc = dc;
       this.outer = outer;
+      this.name = name;
     }
 
     public CompoundDataClassBrick getOuter() {

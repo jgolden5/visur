@@ -1,19 +1,16 @@
 package DataClass;
 
 
-import CursorPositionDC.CursorPositionDCHolder;
-import CursorPositionDC.WholeNumberDC;
-
 public class PrimitiveDataClassBrick extends DataClassBrick {
   private final PrimitiveDataClass pdc;
   private DataFormBrick dfb;
-    private PrimitiveDataClassBrick(CompoundDataClassBrick outer, PrimitiveDataClass pdc, DataFormBrick dfb) {
-        super(pdc, outer);
+    private PrimitiveDataClassBrick(String name, DataFormBrick dfb, PrimitiveDataClass pdc, CompoundDataClassBrick outer) {
+        super(pdc, outer, name);
         this.pdc = pdc;
         this.dfb = dfb;
     }
-    public static PrimitiveDataClassBrick make(DataFormBrick val, PrimitiveDataClass pdc, CompoundDataClassBrick outer) {
-        return new PrimitiveDataClassBrick(outer, pdc, val);
+    public static PrimitiveDataClassBrick make(String name, DataFormBrick dfb, PrimitiveDataClass pdc, CompoundDataClassBrick outer) {
+        return new PrimitiveDataClassBrick(name, dfb, pdc, outer);
     }
     public DataFormBrick getDFB() {
         return dfb;

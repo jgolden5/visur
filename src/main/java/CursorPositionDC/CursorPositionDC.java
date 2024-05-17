@@ -18,8 +18,7 @@ public class CursorPositionDC extends CompoundDataClass {
   @Override
   public CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
     HashMap<String, DataClassBrick> cursorPositionDCBInners = new HashMap<>();
-    CompoundDataClassBrick cursorPositionDCB = CompoundDataClassBrick.make(null, this, cursorPositionDCBInners);
-    cursorPositionDCB.putName(name);
+    CompoundDataClassBrick cursorPositionDCB = CompoundDataClassBrick.make(name, null, this, cursorPositionDCBInners);
     PrimitiveDataClass niDC = (PrimitiveDataClass) getInner("ni");
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) niDC.makeBrick("ni", cursorPositionDCB);
     cursorPositionDCBInners.put("ni", niDCB);

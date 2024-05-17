@@ -20,11 +20,10 @@ public class WholeNumberDC extends PrimitiveDataClass {
   public PrimitiveDataClassBrick makeBrick(String name, Object val, CompoundDataClassBrick outer) {
     PrimitiveDataClassBrick res;
     if(isValidInput(val)) {
-      res = PrimitiveDataClassBrick.make(DataFormBrick.make(defaultDF, val), this, outer);
+      res = PrimitiveDataClassBrick.make(name, DataFormBrick.make(defaultDF, val), this, outer);
     } else {
-      res = PrimitiveDataClassBrick.make(null, this, outer);
+      res = PrimitiveDataClassBrick.make(name, null, this, outer);
     }
-    res.putName(name);
     return res;
   }
 

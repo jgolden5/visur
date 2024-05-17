@@ -1,18 +1,17 @@
 package DataClass;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class CompoundDataClassBrick extends DataClassBrick {
   private CompoundDataClass cdc;
   HashMap<String, DataClassBrick> inners;
-  private CompoundDataClassBrick(CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
-      super(cdc, outer);
+  private CompoundDataClassBrick(String name, CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
+      super(cdc, outer, name);
       this.cdc = cdc;
       this.inners = inners;
   }
-  public static CompoundDataClassBrick make(CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
-      return new CompoundDataClassBrick(outer, cdc, inners);
+  public static CompoundDataClassBrick make(String name, CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
+      return new CompoundDataClassBrick(name, outer, cdc, inners);
   }
   public DataClassBrick getInner(String name) {
       return inners.get(name);
