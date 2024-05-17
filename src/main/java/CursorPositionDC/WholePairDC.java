@@ -1,10 +1,6 @@
 package CursorPositionDC;
 
-import DataClass.CompoundDataClass;
-import DataClass.CompoundDataClassBrick;
-import DataClass.DCHolder;
-import DataClass.DataClassBrick;
-import DataClass.Result;
+import DataClass.*;
 
 import java.util.HashMap;
 
@@ -20,7 +16,14 @@ public class WholePairDC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
-    return null;
+    HashMap<String, DataClassBrick> cxcyDCBInners = new HashMap<>();
+    CompoundDataClassBrick cxcyDCB = CompoundDataClassBrick.make(name, null, this, cxcyDCBInners);
+    PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) getInner("wholeNumber");
+    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("cx", cxcyDCB);
+    cxcyDCBInners.put("cx", cxDCB);
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("cy", cxcyDCB);
+    cxcyDCBInners.put("cy", cyDCB);
+    return cxcyDCB.initInners(cxcyDCBInners);
   }
 
   @Override

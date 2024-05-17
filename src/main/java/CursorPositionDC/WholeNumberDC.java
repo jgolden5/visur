@@ -29,7 +29,7 @@ public class WholeNumberDC extends PrimitiveDataClass {
 
   @Override
   public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
-    return null;
+    return PrimitiveDataClassBrick.make(name, null, this, outer);
   }
 
 }

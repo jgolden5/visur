@@ -34,7 +34,6 @@ public class WholeNumberListDC extends PrimitiveDataClass {
   @Override
   public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
     PrimitiveDataClassBrick wholeNumberListDCB = PrimitiveDataClassBrick.make(name, null, this, outer);
-    wholeNumberListDCB.putName(name);
     return wholeNumberListDCB;
   }
 
