@@ -11,11 +11,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDC {
   CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
-  final CompoundDataClassBrick initialCursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick("cursorPosition", null, cursorPositionDCHolder);
+  final CompoundDataClassBrick initialCursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick();
 
   @Test void cdcMakeBrick() {
-    //after running cursorPositionDC.makeBrick (the only method that directly gets called in TestDC), cursorPositionDCB is incomplete
+    //cursorPositionDC.makeBrick
+    CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick)initialCursorPositionDCB.getInner("cxcyca");
+    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick)cxcycaDCB.getInner("cxcy");
     assertFalse(initialCursorPositionDCB.isComplete());
+    assertFalse(initialCursorPositionDCB.getInner("cxcyca").isComplete());
+    assertFalse(initialCursorPositionDCB.getInner("ni").isComplete());
+    assertFalse(cxcycaDCB.getInner("cxcy").isComplete());
+    assertFalse(cxcycaDCB.getInner("ca").isComplete());
+    assertFalse(cxcyDCB.getInner("cx").isComplete());
+    assertFalse(cxcyDCB.getInner("cy").isComplete());
 
   }
 

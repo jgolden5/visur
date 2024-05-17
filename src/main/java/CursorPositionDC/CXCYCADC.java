@@ -47,7 +47,6 @@ public class CXCYCADC extends CompoundDataClass {
   @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick thisAsBrick) {
     Result<DataClassBrick> r = Result.make();
-    CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
     CompoundDataClassBrick cursorPositionDCB = null;
     CompoundDataClassBrick cxcycaDCB = null;
     if("cxcyca".contains(name)) {
@@ -60,9 +59,9 @@ public class CXCYCADC extends CompoundDataClass {
       PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
       ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.getDFB().getVal();
       if (name.equals("ca")) {
-        r = calculateCA(newlineIndices, cxcycaDCB, cursorPositionDCHolder);
+        r = calculateCA(newlineIndices, cxcycaDCB);
       } else {
-        r = calculateCXCY(newlineIndices, cxcycaDCB, cursorPositionDCHolder);
+        r = calculateCXCY(newlineIndices, cxcycaDCB);
         CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
         if(name.equals("cx")) {
           r.putVal(cxcyDCB.getInner("cx"));
@@ -80,8 +79,9 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   @Override
-  public DataClassBrick makeBrick(CompoundDataClassBrick outer) {
-    return null;
+  public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
+    HashMap<String, DataClassBrick> cxcycaDCBInners = new HashMap<>();
+    return CompoundDataClassBrick.make(outer, this, cxcycaDCBInners);
   }
 
   private Result<DataClassBrick> calculateCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
@@ -101,9 +101,11 @@ public class CXCYCADC extends CompoundDataClass {
     } else {
       cx = ca;
     }
-    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick("cxcy", thisAsBrick, cursorPositionDCHolder);
-    PrimitiveDataClassBrick cxDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cx", cx, thisAsBrick, cursorPositionDCHolder);
-    PrimitiveDataClassBrick cyDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("cy", cy, thisAsBrick, cursorPositionDCHolder);
+    WholePairDC wholePairDC = (WholePairDC)this.getInner("cxcy");
+    WholeNumberDC wholeNumberDC = (WholeNumberDC)this.getInner("wholeNumber");
+    CompoundDataClassBrick cxcyDCB = wholePairDC.makeBrick("cxcy", thisAsBrick);
+    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("cx", cxcyDCB);
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick)wholeNumberDC.makeBrick("cy", cxcyDCB);
     cxcyDCB.putInner(cxDCB);
     cxcyDCB.putInner(cyDCB);
     return Result.make(cxcyDCB, null);
@@ -120,8 +122,9 @@ public class CXCYCADC extends CompoundDataClass {
       ca += newlineIndices.get(cy - 1) + 1;
     }
     ca += cx;
-    PrimitiveDataClassBrick aDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", ca, thisAsBrick, cursorPositionDCHolder);
-    return Result.make(aDCB, null);
+    WholeNumberDC wholeNumberDC = (WholeNumberDC)this.getInner("wholeNumber");
+    PrimitiveDataClassBrick caDCB = wholeNumberDC.makeBrick("ca", ca, thisAsBrick);
+    return Result.make(caDCB, null);
   }
 
 }

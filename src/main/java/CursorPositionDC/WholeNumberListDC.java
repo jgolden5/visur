@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class WholeNumberListDC extends PrimitiveDataClass {
+  public WholeNumberListDC(DataForm defaultDF) {
+    super(defaultDF);
+  }
+
   @Override
   public boolean isValidInput(Object val) {
     boolean res = false;
@@ -23,17 +27,13 @@ public class WholeNumberListDC extends PrimitiveDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick, DCHolder dcHolder) {
-    return Result.make(null, "incalculable");
-  }
-
-  @Override
-  public DataClassBrick makeBrick() {
+  public PrimitiveDataClassBrick makeBrick(String name, Object val, CompoundDataClassBrick outer) {
     return null;
   }
 
   @Override
-  public DataClassBrick makeBrick(CompoundDataClassBrick outer) {
+  public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
     return null;
   }
+
 }

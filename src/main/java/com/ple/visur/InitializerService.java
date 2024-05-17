@@ -59,21 +59,24 @@ public class InitializerService {
   private void initializeCoordinates() {
     CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
     emc.putCursorPositionDCHolder(cursorPositionDCHolder);
-    CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick("cursorPosition", null, cursorPositionDCHolder);
+    CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick();
     ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
-    PrimitiveDataClassBrick newlineIndicesDCB = cursorPositionDCHolder.wholeNumberListDC.makeBrick("ni", newlineIndices, cursorPosDCB, cursorPositionDCHolder);
-    CompoundDataClassBrick cxcycaDCB = cursorPositionDCHolder.cxcycaDC.makeBrick("cursorPosition", cursorPosDCB, cursorPositionDCHolder);
-    CompoundDataClassBrick cxcyDCB = cursorPositionDCHolder.wholePairDC.makeBrick("cxcy", cxcycaDCB, cursorPositionDCHolder);
-    PrimitiveDataClassBrick caDCB = cursorPositionDCHolder.wholeNumberDC.makeBrick("ca", 0, cxcycaDCB, cursorPositionDCHolder);
-    cxcyDCB.put("cx", null);
-    cxcyDCB.put("cy", null);
-    cxcycaDCB.put("ca", caDCB);
-    cxcycaDCB.put("cxcy", cxcyDCB);
-    cursorPosDCB.put("ni", newlineIndicesDCB);
-    cursorPosDCB.put("cxcyca", cxcycaDCB);
+    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("ni");
+    CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPosDCB.getInner("cxcyca");
+    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
+    //the below 2 methods will be uncommented after putSafe is tested in TestDC
+//    niDCB.putSafe(newlineIndices);
+//    caDCB.putSafe(0);
     BrickVisurVar caDCBVV = BrickVisurVar.make(caDCB);
+    BrickVisurVar cxDCBVV = BrickVisurVar.make(cxDCB);
+    BrickVisurVar cyDCBVV = BrickVisurVar.make(cyDCB);
 
     emc.putGlobalVar("ca", caDCBVV);
+    emc.putGlobalVar("cx", cxDCBVV);
+    emc.putGlobalVar("cy", cyDCBVV);
 
   }
 

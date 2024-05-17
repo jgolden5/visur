@@ -53,7 +53,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     CompoundDataClassBrick outerBrick = getOuter();
     boolean canSet = cdc.checkCanSet(this, outerBrick, dcHolder);
     if(canSet) {
-      r = dc.calcInternal(name, this);
+      r = cdc.calcInternal(name, this);
       if (r.getError() != null && outer != null) {
         r = outer.calc(name, dcHolder);
       }
@@ -94,4 +94,8 @@ public class CompoundDataClassBrick extends DataClassBrick {
     inners.put(innerName, innerVal);
   }
 
+  public CompoundDataClassBrick initInners(HashMap<String, DataClassBrick> cursorPositionDCBInners) {
+    inners = cursorPositionDCBInners;
+    return this;
+  }
 }

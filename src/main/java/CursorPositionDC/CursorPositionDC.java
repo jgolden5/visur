@@ -17,15 +17,15 @@ public class CursorPositionDC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
-    HashMap<String, DataClassBrick> inners = new HashMap<>();
-    CompoundDataClassBrick cursorPositionDCB = CompoundDataClassBrick.make(null, this, inners);
-    getInner("ni").makeBrick("ni", cursorPositionDCB);
-    inners.put("ni", niDCB);
-    getInner("cxcyca").makeBrick("ni", cursorPositionDCB);
-    inners.put("cxcyca", cxcycaDCB);
-    cursorPositionDCB = CompoundDataClassBrick.make(null, this, inners);
+    HashMap<String, DataClassBrick> cursorPositionDCBInners = new HashMap<>();
+    CompoundDataClassBrick cursorPositionDCB = CompoundDataClassBrick.make(null, this, cursorPositionDCBInners);
     cursorPositionDCB.putName(name);
-    return cursorPositionDCB;
+    PrimitiveDataClass niDC = (PrimitiveDataClass) getInner("ni");
+    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) niDC.makeBrick("ni", cursorPositionDCB);
+    cursorPositionDCBInners.put("ni", niDCB);
+    PrimitiveDataClassBrick cxcycaDCB = (PrimitiveDataClassBrick) getInner("cxcyca").makeBrick("cxcyca", cursorPositionDCB);
+    cursorPositionDCBInners.put("cxcyca", cxcycaDCB);
+    return cursorPositionDCB.initInners(cursorPositionDCBInners);
   }
 
   @Override
@@ -36,8 +36,7 @@ public class CursorPositionDC extends CompoundDataClass {
   @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick) {
     if("cxcyca".contains(name)){
-      CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
-      return cursorPositionDCHolder.cxcycaDC.calcInternal(name, (CompoundDataClassBrick) outerAsBrick.getInner("cxcyca"), dcHolder);
+      return outerAsBrick.getCDC().calcInternal(name, (CompoundDataClassBrick) outerAsBrick.getInner("cxcyca"));
     }
     return Result.make(null, "incalculable");
   }

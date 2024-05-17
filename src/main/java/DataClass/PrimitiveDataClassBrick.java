@@ -12,7 +12,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
         this.pdc = pdc;
         this.dfb = dfb;
     }
-    public static PrimitiveDataClassBrick make(CompoundDataClassBrick outer, PrimitiveDataClass pdc, DataFormBrick val) {
+    public static PrimitiveDataClassBrick make(DataFormBrick val, PrimitiveDataClass pdc, CompoundDataClassBrick outer) {
         return new PrimitiveDataClassBrick(outer, pdc, val);
     }
     public DataFormBrick getDFB() {
@@ -30,7 +30,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   public Result<PrimitiveDataClassBrick> putSafe(PrimitiveDataClass pdc, String innerName, Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
     boolean conflicts = outer.getCDC().conflicts(outer);
     if(!conflicts) {
-      PrimitiveDataClassBrick resultingBrick = pdc.makeBrick(innerName, val, outerBrick, dcHolder);
+      PrimitiveDataClassBrick resultingBrick = pdc.makeBrick(innerName, val, outerBrick);
       outerBrick.putInner(resultingBrick);
       return Result.make(resultingBrick, null);
     } else {

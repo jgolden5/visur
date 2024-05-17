@@ -14,21 +14,24 @@ public class WholePairDC extends CompoundDataClass {
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer, DCHolder dcHolder) {
-    CompoundDataClassBrick wholePairDCB = CompoundDataClassBrick.make(outer, this, new HashMap<>());
-    wholePairDCB.putName(name);
-    return wholePairDCB;
+  public DataClassBrick makeBrick() {
+    return null;
+  }
+
+  @Override
+  public CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
+    return null;
+  }
+
+  @Override
+  public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick) {
+    return null;
   }
 
   @Override
   public boolean conflicts(CompoundDataClassBrick brick) {
     CompoundDataClassBrick outerBrick = brick.getOuter();
     return outerBrick.getCDC().conflicts(outerBrick);
-  }
-
-  @Override
-  public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick, DCHolder dcHolder) {
-    return Result.make(null, "incalculable");
   }
 
 }

@@ -3,18 +3,8 @@ package CursorPositionDC;
 import DataClass.*;
 
 public class WholeNumberDC extends PrimitiveDataClass {
-  @Override
-  public PrimitiveDataClassBrick makeBrick(String name, Object val, CompoundDataClassBrick outerBrick, DCHolder dcHolder) {
-    PrimitiveDataClassBrick res;
-    if(isValidInput(val)) {
-      CursorPositionDCHolder cursorPositionDCHolder = (CursorPositionDCHolder) dcHolder;
-      DataForm targetDF = cursorPositionDCHolder.javaIntDF;
-      res = PrimitiveDataClassBrick.make(outerBrick, this, DataFormBrick.make(targetDF, val));
-    } else {
-      res = PrimitiveDataClassBrick.make(outerBrick, this, null);
-    }
-    res.putName(name);
-    return res;
+  public WholeNumberDC(DataForm defaultDF) {
+    super(defaultDF);
   }
 
   @Override
@@ -27,17 +17,19 @@ public class WholeNumberDC extends PrimitiveDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick, DCHolder dcHolder) {
-    return Result.make(null, "incalculable");
+  public PrimitiveDataClassBrick makeBrick(String name, Object val, CompoundDataClassBrick outer) {
+    PrimitiveDataClassBrick res;
+    if(isValidInput(val)) {
+      res = PrimitiveDataClassBrick.make(DataFormBrick.make(defaultDF, val), this, outer);
+    } else {
+      res = PrimitiveDataClassBrick.make(null, this, outer);
+    }
+    res.putName(name);
+    return res;
   }
 
   @Override
-  public DataClassBrick makeBrick() {
-    return null;
-  }
-
-  @Override
-  public DataClassBrick makeBrick(CompoundDataClassBrick outer) {
+  public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
     return null;
   }
 

@@ -9,6 +9,7 @@ public abstract class CompoundDataClass implements DataClass {
   public CompoundDataClass(int minimumRequiredSetValues) {
     this.minimumRequiredSetValues = minimumRequiredSetValues;
   }
+  public abstract DataClassBrick makeBrick();
   public boolean checkCanSet(CompoundDataClassBrick thisAsBrick, CompoundDataClassBrick outer, DCHolder dcHolder) {
     boolean thisBrickIsSet = minimumValuesAreSet(thisAsBrick, dcHolder);
     boolean outerBrickIsSet = true;
@@ -32,6 +33,7 @@ public abstract class CompoundDataClass implements DataClass {
   public void putInner(String innerName, DataClass innerVal) {
     inners.put(innerName, innerVal);
   }
+  public abstract Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick);
 
   public abstract boolean conflicts(CompoundDataClassBrick brick);
 
