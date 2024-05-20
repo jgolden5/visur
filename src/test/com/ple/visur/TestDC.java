@@ -179,13 +179,13 @@ public class TestDC {
     caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
     assertFalse(caDCB.isComplete());
 
-//    //ca can be set when cxcy is unset
-//    cxDCB.remove();
-//    cyDCB.remove();
-//    ca = 30;
-//    r = caDCB.putForce(ca);
-//    assertNull(r.getError());
-//    assertEquals(ca, caDCB.get().getVal());
+    //ca can be set when cxcy is unset
+    cxDCB.remove();
+    cyDCB.remove();
+    ca = 30;
+    r = caDCB.putForce(ca);
+    assertNull(r.getError());
+    assertEquals(ca, caDCB.get().getVal());
 
 
   }
