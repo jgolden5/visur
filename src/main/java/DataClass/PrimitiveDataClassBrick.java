@@ -49,7 +49,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   public Result putForce(Object val) {
-    Result r = Result.make();
+    Result r;
     CompoundDataClassBrick outerDCB = getOuter();
     outerDCB.putInner(name, val);
     if(outerDCB.getCDC().conflicts(outerDCB)) {
@@ -57,6 +57,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       DataClassBrick otherBrick = outerDCB.getInner(otherName);
       otherBrick.remove();
       r = Result.make(null, "inners conflict");
+    } else {
+      DataFormBrick newValAsDFB = DataFormBrick.make(getPDC().defaultDF, val);
+      putDFB(newValAsDFB);
+      r = Result.make();
     }
     return r;
   }
