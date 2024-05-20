@@ -150,31 +150,33 @@ public class TestDC {
     assertFalse(cxcyDCB.isComplete());
     assertEquals(14, caDCB.get().getVal());
 
-//    //cxcy can be set when ca is set and no conflicts exist
-//    cxDCB.remove();
-//    cyDCB.remove();
-//    caDCB.putForce(ca);
-//    cx = 2;
-//    cy = 1;
-//    r = cxDCB.putForce(cx);
-//    assertNull(r.getError());
-//    r = cyDCB.putForce(cy);
-//    assertNull(r.getError());
-//    assertEquals(cx, cxDCB.get().getVal());
-//    assertEquals(cy, cyDCB.get().getVal());
-//
-//    //cxcy CAN'T be set when ca is set and conflicts DO exist
-//    int previousCX = cx;
-//    int previousCY = cy;
-//    cx = 1;
-//    cy = 0;
-//    r = cxDCB.putForce(cx);
-//    assertNotNull(r.getError());
-//    r = cyDCB.putForce(cy);
-//    assertNotNull(r.getError());
-//    assertEquals(previousCX, cxDCB.get().getVal());
-//    assertEquals(previousCY, cyDCB.get().getVal());
-//
+    //cxcy can be set when ca is set and no conflicts exist
+    cxDCB.remove();
+    cyDCB.remove();
+    caDCB.putForce(ca);
+    cx = 2;
+    cy = 1;
+    r = cxDCB.putForce(cx);
+    assertNull(r.getError());
+    assertTrue(caDCB.isComplete());
+    r = cyDCB.putForce(cy);
+    assertNull(r.getError());
+    assertEquals(cx, cxDCB.get().getVal());
+    assertEquals(cy, cyDCB.get().getVal());
+    assertTrue(caDCB.isComplete());
+
+    //cxcy CAN'T be set when ca is set and conflicts DO exist
+    int previousCX = cx;
+    int previousCY = cy;
+    cx = 1;
+    cy = 0;
+    r = cxDCB.putForce(cx);
+    assertNotNull(r.getError());
+    r = cyDCB.putForce(cy);
+    assertNotNull(r.getError());
+    assertEquals(previousCX, cxDCB.get().getVal());
+    assertEquals(previousCY, cyDCB.get().getVal());
+
 //    //ca can be set when cxcy is unset
 //    cxDCB.remove();
 //    cyDCB.remove();
