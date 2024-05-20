@@ -89,16 +89,17 @@ public class TestDC {
     assertEquals(cx, cxDCB.get().getVal());
     assertEquals(cy, cyDCB.get().getVal());
 
-//    //cxcy CAN'T be set when ca is set and conflicts DO exist
-//    cxDCB.remove();
-//    cyDCB.remove();
-//    cx = 1;
-//    cy = 0;
-//    r = cxDCB.putSafe(cx);
-//    assertNotNull(r.getError());
-//    r = cyDCB.putSafe(cy);
-//    assertNotNull(r.getError());
-//    assertEquals(null);
+    //cxcy CAN'T be set when ca is set and conflicts DO exist
+    int previousCX = cx;
+    int previousCY = cy;
+    cx = 1;
+    cy = 0;
+    r = cxDCB.putSafe(cx);
+    assertNotNull(r.getError());
+    r = cyDCB.putSafe(cy);
+    assertNotNull(r.getError());
+    assertEquals(previousCX, cxDCB.get().getVal());
+    assertEquals(previousCY, cyDCB.get().getVal());
 
   }
 
