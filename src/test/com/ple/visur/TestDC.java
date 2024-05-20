@@ -147,6 +147,7 @@ public class TestDC {
     ca = 14;
     r = caDCB.putForce(ca);
     assertNull(r.getError());
+    assertFalse(cxcyDCB.isComplete());
     assertEquals(14, caDCB.get().getVal());
 
 //    //cxcy can be set when ca is set and no conflicts exist
