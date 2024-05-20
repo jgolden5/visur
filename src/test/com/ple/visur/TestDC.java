@@ -50,9 +50,12 @@ public class TestDC {
     assertNull(r.getError());
     r = cyDCB.putSafe(cy);
     assertNull(r.getError());
-    assertEquals(cx, cxDCB.get());
-    assertEquals(cy, cyDCB.get());
+    cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
+    cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
+    assertEquals(cx, cxDCB.get().getVal());
+    assertEquals(cy, cyDCB.get().getVal());
 
+    
   }
 
 //  @Test void pdcbGet() {
