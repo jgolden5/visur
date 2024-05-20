@@ -49,20 +49,16 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   public Result putForce(Object val) {
-    Result r;
     CompoundDataClassBrick outerDCB = getOuter();
     outerDCB.putInner(name, val);
     if(outerDCB.getCDC().conflicts(outerDCB)) {
       String otherName = name == "ca" ? "cxcy" : "ca";
       DataClassBrick otherBrick = outerDCB.getInner(otherName);
       otherBrick.remove();
-      r = Result.make(null, "inners conflict");
-    } else {
-      DataFormBrick newValAsDFB = DataFormBrick.make(getPDC().defaultDF, val);
-      putDFB(newValAsDFB);
-      r = Result.make();
     }
-    return r;
+    DataFormBrick newValAsDFB = DataFormBrick.make(getPDC().defaultDF, val);
+    putDFB(newValAsDFB);
+    return Result.make();
   }
 
   @Override

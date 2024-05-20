@@ -143,13 +143,12 @@ public class TestDC {
     assertNull(r.getError());
     assertEquals(ca, caDCB.get().getVal());
 
-//    //ca CAN'T be set when cxcy is set and conflicts DO exist
-//    int previousCA = ca;
-//    ca = 14;
-//    r = caDCB.putForce(ca);
-//    assertNotNull(r.getError());
-//    assertEquals(previousCA, caDCB.get().getVal());
-//
+    //ca CAN'T be set when cxcy is set and conflicts DO exist, but cxcy needs to be UNSET
+    ca = 14;
+    r = caDCB.putForce(ca);
+    assertNull(r.getError());
+    assertEquals(14, caDCB.get().getVal());
+
 //    //cxcy can be set when ca is set and no conflicts exist
 //    cxDCB.remove();
 //    cyDCB.remove();
