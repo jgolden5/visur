@@ -28,7 +28,8 @@ public class WholeNumberListDC extends PrimitiveDataClass {
 
   @Override
   public PrimitiveDataClassBrick makeBrick(String name, Object val, CompoundDataClassBrick outer) {
-    return null;
+    DataFormBrick dfb = DataFormBrick.make(defaultDF, val);
+    return PrimitiveDataClassBrick.make(name, dfb, this, outer);
   }
 
   @Override

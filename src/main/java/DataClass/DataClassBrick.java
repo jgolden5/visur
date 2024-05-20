@@ -18,7 +18,7 @@ public abstract class DataClassBrick {
     public abstract Result<DataClassBrick> getOrCalc(String name, DCHolder dcHolder);
 
     public Result remove() {
-      if(getOuter() != null) {
+      if(this instanceof PrimitiveDataClassBrick) {
         getOuter().removeInner(getName());
       } else if(this instanceof CompoundDataClassBrick) {
         CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick)this;
