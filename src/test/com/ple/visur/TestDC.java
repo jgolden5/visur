@@ -136,13 +136,13 @@ public class TestDC {
     r = niDCB.putForce(newlineIndices);
     assertNull(r.getError());
     assertEquals(newlineIndices, niDCB.get().getVal());
-//
-//    //ca can be set when cxcy is set and no conflicts exist
-//    int ca = 4;
-//    r = caDCB.putForce(ca);
-//    assertNull(r.getError());
-//    assertEquals(ca, caDCB.get().getVal());
-//
+
+    //ca can be set when cxcy is set and no conflicts exist
+    int ca = 10;
+    r = caDCB.putForce(ca);
+    assertNull(r.getError());
+    assertEquals(ca, caDCB.get().getVal());
+
 //    //ca CAN'T be set when cxcy is set and conflicts DO exist
 //    int previousCA = ca;
 //    ca = 14;
