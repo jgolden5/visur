@@ -128,14 +128,14 @@ public class TestDC {
     assertEquals(cx, cxDCB.get().getVal());
     assertEquals(cy, cyDCB.get().getVal());
 
-//    //ni can be set always (because cursorPositionDC.minimumRequiredSetValues == 2)
-//    ArrayList<Integer> newlineIndices = new ArrayList<>();
-//    newlineIndices.add(11);
-//    newlineIndices.add(24);
-//    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
-//    r = niDCB.putForce(newlineIndices);
-//    assertNull(r.getError());
-//    assertEquals(newlineIndices, niDCB.get().getVal());
+    //ni can be set always (because cursorPositionDC.minimumRequiredSetValues == 2)
+    ArrayList<Integer> newlineIndices = new ArrayList<>();
+    newlineIndices.add(11);
+    newlineIndices.add(24);
+    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
+    r = niDCB.putForce(newlineIndices);
+    assertNull(r.getError());
+    assertEquals(newlineIndices, niDCB.get().getVal());
 //
 //    //ca can be set when cxcy is set and no conflicts exist
 //    int ca = 4;
