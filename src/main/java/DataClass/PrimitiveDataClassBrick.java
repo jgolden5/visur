@@ -48,25 +48,18 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return r;
   }
 
-//  public Result putForce(Object val) {
-//    Result r;
-//    CompoundDataClassBrick outerDCB = getOuter();
-//    boolean previousValWasSet = isComplete();
-//    outerDCB.putInner(name, val);
-//    if(outerDCB.getCDC().conflicts(outerDCB)) {
-//      String otherName = name == "ca" ? "cxcy" : "ca";
-//      DataClassBrick otherBrick = outerDCB.getInner(otherName);
-//      otherBrick.remove();
-//    } else {
-//      if(previousValWasSet) {
-//        putSafe(oldVal);
-//      } else {
-//        putDFB(null);
-//      }
-//      r = Result.make(null, "inners conflict");
-//    }
-//    return r;
-//  }
+  public Result putForce(Object val) {
+    Result r = Result.make();
+    CompoundDataClassBrick outerDCB = getOuter();
+    outerDCB.putInner(name, val);
+    if(outerDCB.getCDC().conflicts(outerDCB)) {
+      String otherName = name == "ca" ? "cxcy" : "ca";
+      DataClassBrick otherBrick = outerDCB.getInner(otherName);
+      otherBrick.remove();
+      r = Result.make(null, "inners conflict");
+    }
+    return r;
+  }
 
   @Override
   public boolean isComplete() {
