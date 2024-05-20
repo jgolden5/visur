@@ -27,14 +27,22 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   public Result putSafe(Object val) {
     Result r;
     CompoundDataClassBrick outerDCB = getOuter();
+    boolean previousValIsUnset = !isComplete();
+    Object oldVal = null;
+    if(!previousValIsUnset) {
+      oldVal = getVal();
+    }
     outerDCB.putInner(name, val);
     if(!outerDCB.getCDC().conflicts(outerDCB)) {
       DataFormBrick newValAsDFB = DataFormBrick.make(getPDC().defaultDF, val);
       putDFB(newValAsDFB);
       r = Result.make();
     } else {
-      outerDCB.getInner(name).remove();
-      putDFB(null);
+      if(previousValIsUnset) {
+        putDFB(null);
+      } else {
+        putSafe(oldVal);
+      }
       r = Result.make(null, "inners conflict");
     }
     return r;

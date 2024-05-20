@@ -74,9 +74,7 @@ public class TestDC {
     ca = 14;
     r = caDCB.putSafe(ca);
     assertNotNull(r.getError());
-    assertNotEquals(ca, caDCB.get().getVal());
-    r = caDCB.get();
-    assertNotNull(r.getError());
+    assertEquals(previousCA, caDCB.get().getVal());
 
     //cxcy can be set when ca is set and no conflicts exist
     cxDCB.remove();
@@ -84,14 +82,23 @@ public class TestDC {
     caDCB.putSafe(ca);
     cx = 2;
     cy = 1;
-    r = cxDCB.putSafe(2);
+    r = cxDCB.putSafe(cx);
     assertNull(r.getError());
-    r = cyDCB.putSafe(1);
+    r = cyDCB.putSafe(cy);
     assertNull(r.getError());
     assertEquals(cx, cxDCB.get().getVal());
     assertEquals(cy, cyDCB.get().getVal());
 
-    
+//    //cxcy CAN'T be set when ca is set and conflicts DO exist
+//    cxDCB.remove();
+//    cyDCB.remove();
+//    cx = 1;
+//    cy = 0;
+//    r = cxDCB.putSafe(cx);
+//    assertNotNull(r.getError());
+//    r = cyDCB.putSafe(cy);
+//    assertNotNull(r.getError());
+//    assertEquals(null);
 
   }
 
