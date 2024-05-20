@@ -51,8 +51,6 @@ public class TestDC {
     assertNull(r.getError());
     r = cyDCB.putSafe(cy);
     assertNull(r.getError());
-    cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
-    cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
     assertEquals(cx, cxDCB.get().getVal());
     assertEquals(cy, cyDCB.get().getVal());
 
@@ -63,14 +61,12 @@ public class TestDC {
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
     r = niDCB.putSafe(newlineIndices);
     assertNull(r.getError());
-    niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
     assertEquals(newlineIndices, niDCB.get().getVal());
 
     //ca can be set when cxcy is set and no conflicts exist
     int ca = 4;
     r = caDCB.putSafe(ca);
     assertNull(r.getError());
-    caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
     assertEquals(ca, caDCB.get().getVal());
 
     //ca CAN'T be set when cxcy is set and conflicts DO exist
@@ -78,7 +74,6 @@ public class TestDC {
     ca = 14;
     r = caDCB.putSafe(ca);
     assertNotNull(r.getError());
-    caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
     assertNotEquals(ca, caDCB.get().getVal());
     r = caDCB.get();
     assertNotNull(r.getError());
@@ -93,10 +88,10 @@ public class TestDC {
     assertNull(r.getError());
     r = cyDCB.putSafe(1);
     assertNull(r.getError());
-    cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
     assertEquals(cx, cxDCB.get().getVal());
-    cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
     assertEquals(cy, cyDCB.get().getVal());
+
+    
 
   }
 
