@@ -24,7 +24,17 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return outer.getOrCalc(name, dcHolder);
   }
 
-  @Override
+  public Result putSafe(Object val) {
+    Result r;
+    CompoundDataClassBrick outerDCB = getOuter();
+    if(!outerDCB.getCDC().conflicts(outerDCB)) {
+      r = outerDCB.putInner(getName(), val);
+    } else {
+      r = Result.make(null, "inners conflict");
+    }
+    return r;
+  }
+
   public Result putForce(String name) {
     return null;
   }

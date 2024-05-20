@@ -37,14 +37,22 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return r;
   }
 
-  @Override
-  public Result putForce(String name) {
-    return null;
-  }
-
-  public Result putSafe(DataClassBrick dcb) {
-//    putInner(dcb); this must be replaced by something that doesn't use cdcb.putInner, since we got rid of that method
-    return Result.make();
+  public Result putInner(String name, Object val) {
+    String error = null;
+    if(inners.containsKey(name)) {
+      DataClassBrick inner = inners.get(name);
+      if(inner instanceof PrimitiveDataClassBrick) {
+        PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
+        PrimitiveDataClass pdc = innerAsPDCB.getPDC();
+        PrimitiveDataClassBrick pdcb = pdc.makeBrick(name, val, this);
+        inners.put(name, pdcb);
+      } else {
+        error = "inner is cdcb and therefore unsettable"; //this should not be possible, because putSafe should only be able to be called on pdcb, and therefore, the inner of an outer that was called by a pdcb should always be a pdcb, and if not, an error occurred
+      }
+    } else {
+      error = "name not recognized";
+    }
+    return Result.make(null, error);
   }
 
   public Result<DataClassBrick> calc(String name, DCHolder dcHolder) {

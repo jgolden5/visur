@@ -81,7 +81,7 @@ public class CXCYCADC extends CompoundDataClass {
   @Override
   public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
     HashMap<String, DataClassBrick> cxcycaDCBInners = new HashMap<>();
-    CompoundDataClassBrick cxcycaDCB = CompoundDataClassBrick.make(name, null, this, cxcycaDCBInners);
+    CompoundDataClassBrick cxcycaDCB = CompoundDataClassBrick.make(name, outer, this, cxcycaDCBInners);
     PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) getInner("wholeNumber");
     CompoundDataClass wholePairDC = (CompoundDataClass) getInner("cxcy");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("ca", cxcycaDCB);

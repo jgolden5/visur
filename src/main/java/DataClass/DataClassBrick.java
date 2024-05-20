@@ -31,8 +31,6 @@ public abstract class DataClassBrick {
       return Result.make();
     }
 
-    public abstract Result putForce(String name);
-
     public abstract boolean isComplete();
 
     public String getName() {
