@@ -66,12 +66,12 @@ public class TestDC {
     niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
     assertEquals(newlineIndices, niDCB.get().getVal());
 
-//    //ca can be set when cxcy is set and no conflicts exist
-//    int ca = 4;
-//    r = caDCB.putSafe(ca);
-//    assertNull(r.getError());
-//    caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-//    assertEquals(ca, caDCB.get().getVal());
+    //ca can be set when cxcy is set and no conflicts exist
+    int ca = 4;
+    r = caDCB.putSafe(ca);
+    assertNull(r.getError());
+    caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    assertEquals(ca, caDCB.get().getVal());
 
   }
 
