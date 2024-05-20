@@ -27,9 +27,9 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   public Result putSafe(Object val) {
     Result r;
     CompoundDataClassBrick outerDCB = getOuter();
-    boolean previousValIsUnset = !isComplete();
+    boolean previousValWasSet = isComplete();
     Object oldVal = null;
-    if(!previousValIsUnset) {
+    if(previousValWasSet) {
       oldVal = getVal();
     }
     outerDCB.putInner(name, val);
@@ -38,10 +38,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       putDFB(newValAsDFB);
       r = Result.make();
     } else {
-      if(previousValIsUnset) {
-        putDFB(null);
-      } else {
+      if(previousValWasSet) {
         putSafe(oldVal);
+      } else {
+        putDFB(null);
       }
       r = Result.make(null, "inners conflict");
     }

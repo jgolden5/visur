@@ -101,6 +101,14 @@ public class TestDC {
     assertEquals(previousCX, cxDCB.get().getVal());
     assertEquals(previousCY, cyDCB.get().getVal());
 
+    //ca can be set when cxcy is unset
+    cxDCB.remove();
+    cyDCB.remove();
+    ca = 30;
+    r = caDCB.putSafe(ca);
+    assertNull(r.getError());
+    assertEquals(ca, caDCB.get().getVal());
+
   }
 
 //  @Test void pdcbGet() {
