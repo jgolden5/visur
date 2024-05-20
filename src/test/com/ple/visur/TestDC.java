@@ -190,5 +190,8 @@ public class TestDC {
 
   }
 
-
+  @Test void dcbGetOrCalc() {
+    //caDCB.getOrCalc when caDCB is set to 0
+    
+  }
 }
