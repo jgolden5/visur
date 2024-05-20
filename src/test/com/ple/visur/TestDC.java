@@ -73,6 +73,16 @@ public class TestDC {
     caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
     assertEquals(ca, caDCB.get().getVal());
 
+    //ca CAN'T be set when cxcy is set and conflicts DO exist
+    int previousCA = ca;
+    ca = 14;
+    r = caDCB.putSafe(ca);
+    assertNotNull(r.getError());
+    caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    assertNotEquals(ca, caDCB.get().getVal());
+    r = caDCB.get();
+    assertNotNull(r.getError());
+
   }
 
 //  @Test void pdcbGet() {
