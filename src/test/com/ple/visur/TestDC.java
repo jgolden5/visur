@@ -166,16 +166,18 @@ public class TestDC {
     assertTrue(caDCB.isComplete());
 
     //cxcy CAN'T be set when ca is set and conflicts DO exist
-    int previousCX = cx;
-    int previousCY = cy;
     cx = 1;
     cy = 0;
     r = cxDCB.putForce(cx);
-    assertNotNull(r.getError());
+    assertNull(r.getError());
+    assertFalse(cxcyDCB.isComplete());
     r = cyDCB.putForce(cy);
-    assertNotNull(r.getError());
-    assertEquals(previousCX, cxDCB.get().getVal());
-    assertEquals(previousCY, cyDCB.get().getVal());
+    assertTrue(cxcyDCB.isComplete());
+    assertNull(r.getError());
+    assertEquals(cx, cxDCB.get().getVal());
+    assertEquals(cy, cyDCB.get().getVal());
+    caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    assertFalse(caDCB.isComplete());
 
 //    //ca can be set when cxcy is unset
 //    cxDCB.remove();

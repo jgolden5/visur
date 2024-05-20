@@ -20,6 +20,8 @@ public abstract class DataClassBrick {
     public Result remove() {
       if(this instanceof PrimitiveDataClassBrick) {
         getOuter().removeInner(getName());
+        PrimitiveDataClassBrick thisAsPDCB = (PrimitiveDataClassBrick) this;
+        thisAsPDCB.putDFB(null);
       } else if(this instanceof CompoundDataClassBrick) {
         CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick)this;
         for(String innerName : thisAsCDCB.inners.keySet()) {
