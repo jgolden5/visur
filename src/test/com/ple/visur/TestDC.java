@@ -200,7 +200,9 @@ public class TestDC {
 
     //caDCB.getOrCalc when caDCB is set to 0
     caDCB.putForce(ca);
-    caDCB.getOrCalc();
+    Result r = caDCB.getOrCalc();
+    caDCB = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(ca, caDCB.getVal());
 
   }
 }

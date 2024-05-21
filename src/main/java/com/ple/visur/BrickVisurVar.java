@@ -25,8 +25,10 @@ public class BrickVisurVar implements VisurVar {
 
   @Override
   public Integer getVal() {
-    String brickName = val.getName();
-    Result<DataClassBrick> r = val.getOrCalc(brickName, cursorPositionDCHolder);
+    Result<DataClassBrick> r = Result.make();
+    if(val instanceof PrimitiveDataClassBrick) {
+      r = ((PrimitiveDataClassBrick)val).getOrCalc();
+    }
     PrimitiveDataClassBrick dcb = (PrimitiveDataClassBrick) r.getVal();
     return (Integer) dcb.getDFB().getVal();
   }
