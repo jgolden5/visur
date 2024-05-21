@@ -20,19 +20,18 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return cdc;
   }
 
-  @Override
-  public Result<DataClassBrick> getOrCalc(String name, DCHolder dcHolder) {
+  public Result<DataClassBrick> getOrCalc(String name) {
     DataClassBrick inner = getInner(name);
     Result<DataClassBrick> r;
     //if inner's value is set, return result whose value equals getInner(name)
     if(inner == null) {
-      r = calc(name, dcHolder);
+      r = calc(name);
     } else {
       r = Result.make(inner, null);
     }
     CompoundDataClassBrick outer = getOuter();
     if(r.getError() != null && outer != null) {
-      r = outer.getOrCalc(name, dcHolder);
+      r = outer.getOrCalc(name);
     }
     return r;
   }
@@ -53,21 +52,6 @@ public class CompoundDataClassBrick extends DataClassBrick {
       error = "name not recognized";
     }
     return Result.make(null, error);
-  }
-
-  public Result<DataClassBrick> calc(String name, DCHolder dcHolder) {
-    Result r;
-    CompoundDataClassBrick outerBrick = getOuter();
-    boolean canSet = cdc.checkCanSet(this, outerBrick, dcHolder);
-    if(canSet) {
-      r = cdc.calcInternal(name, this);
-      if (r.getError() != null && outer != null) {
-        r = outer.calc(name, dcHolder);
-      }
-    } else {
-      r = Result.make(null, "can't set");
-    }
-    return r;
   }
 
   @Override
@@ -99,5 +83,9 @@ public class CompoundDataClassBrick extends DataClassBrick {
   public CompoundDataClassBrick initInners(HashMap<String, DataClassBrick> cursorPositionDCBInners) {
     inners = cursorPositionDCBInners;
     return this;
+  }
+
+  public Result<DataClassBrick> calc(String innerName) {
+    return getCDC().calcInternal(innerName, this);
   }
 }

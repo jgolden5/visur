@@ -191,7 +191,16 @@ public class TestDC {
   }
 
   @Test void dcbGetOrCalc() {
+    int ca = 0;
+    CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPositionDCB.getInner("cxcyca");
+    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
+    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+
     //caDCB.getOrCalc when caDCB is set to 0
-    
+    caDCB.putForce(ca);
+    caDCB.getOrCalc();
+
   }
 }

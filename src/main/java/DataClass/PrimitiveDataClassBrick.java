@@ -19,9 +19,12 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       return pdc;
     }
 
-  @Override
-  public Result<DataClassBrick> getOrCalc(String name, DCHolder dcHolder) {
-    return outer.getOrCalc(name, dcHolder);
+    public Result<DataClassBrick> calc() {
+      return getOuter().calc(getName());
+    }
+
+  public Result<DataClassBrick> getOrCalc() {
+    return outer.getOrCalc(name);
   }
 
   public Result putSafe(Object val) {
