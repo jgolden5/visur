@@ -88,4 +88,13 @@ public class CompoundDataClassBrick extends DataClassBrick {
   public Result<DataClassBrick> calc(String innerName) {
     return getCDC().calcInternal(innerName, this);
   }
+
+  public void conflictsForce(String targetName, Object targetVal) {
+    getCDC().conflictsForce(this, targetName, targetVal);
+    CompoundDataClassBrick outerBrick = getOuter();
+    if(outerBrick != null) {
+      getOuter().conflictsForce(targetName, targetVal);
+    }
+  }
+
 }

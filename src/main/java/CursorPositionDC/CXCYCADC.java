@@ -12,7 +12,7 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   @Override
-  public boolean conflicts(CompoundDataClassBrick cxcycaDCB) {
+  public boolean conflictsCheck(CompoundDataClassBrick cxcycaDCB) {
     CompoundDataClassBrick cursorPositionDCB = cxcycaDCB.getOuter();
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");

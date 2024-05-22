@@ -32,9 +32,8 @@ public class WholePairDC extends CompoundDataClass {
   }
 
   @Override
-  public boolean conflicts(CompoundDataClassBrick brick) {
-    CompoundDataClassBrick outerBrick = brick.getOuter();
-    return outerBrick.getCDC().conflicts(outerBrick);
+  public boolean conflictsCheck(CompoundDataClassBrick brick) {
+    return false;
   }
 
 }

@@ -29,7 +29,7 @@ public class CursorPositionDC extends CompoundDataClass {
   }
 
   @Override
-  public boolean conflicts(CompoundDataClassBrick brick) {
+  public boolean conflictsCheck(CompoundDataClassBrick brick) {
     return false;
   }
 

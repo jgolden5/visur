@@ -36,7 +36,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       oldVal = getVal();
     }
     outerDCB.putInner(name, val);
-    if(outerDCB.getCDC().conflicts(outerDCB)) {
+    if(outerDCB.getCDC().conflictsCheck(outerDCB)) {
       if(previousValWasSet) {
         putSafe(oldVal);
       } else {
