@@ -32,7 +32,7 @@ public class WholePairDC extends CompoundDataClass {
   }
 
   @Override
-  public boolean conflictsCheck(CompoundDataClassBrick brick) {
+  public boolean conflictsCheck(CompoundDataClassBrick brick, String targetName, Object targetVal) {
     return false;
   }
 

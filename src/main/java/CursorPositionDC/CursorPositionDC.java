@@ -29,16 +29,16 @@ public class CursorPositionDC extends CompoundDataClass {
   }
 
   @Override
-  public boolean conflictsCheck(CompoundDataClassBrick brick) {
-    return false;
-  }
-
-  @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick) {
     if("cxcyca".contains(name)){
       return outerAsBrick.getCDC().calcInternal(name, (CompoundDataClassBrick) outerAsBrick.getInner("cxcyca"));
     }
     return Result.make(null, "incalculable");
+  }
+
+  @Override
+  public boolean conflictsCheck(CompoundDataClassBrick brick, String targetName, Object targetVal) {
+    return false;
   }
 
 }

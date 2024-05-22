@@ -65,6 +65,16 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return numberOfSetValues >= cdc.minimumRequiredSetValues;
   }
 
+  public boolean isComplete(String nameToForceCount) {
+    int numberOfSetValues = 0;
+    for(DataClassBrick inner : inners.values()) {
+      if(inner.isComplete() || inner.getName().equals(nameToForceCount)) {
+        numberOfSetValues++;
+      }
+    }
+    return numberOfSetValues >= cdc.minimumRequiredSetValues;
+  }
+
   public Result removeInner(String name) {
     DataClassBrick inner = inners.get(name);
     if(inner instanceof PrimitiveDataClassBrick) {

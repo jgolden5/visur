@@ -12,36 +12,75 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   @Override
-  public boolean conflictsCheck(CompoundDataClassBrick cxcycaDCB) {
-    CompoundDataClassBrick cursorPositionDCB = cxcycaDCB.getOuter();
-    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
-    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
-    if(!(caDCB.isComplete() && cxcyDCB.isComplete())) {
-      return false;
+  public boolean conflictsCheck(CompoundDataClassBrick cxcycaDCB, String targetName, Object targetVal) {
+    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cxcycaDCB.getOuter().getInner("ni");
+    ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
+    boolean cxcyAndCAAreComplete = checkCXCYAndCAAreComplete(cxcycaDCB, targetName);
+    if(cxcyAndCAAreComplete) {
+      int[] cxcyca = cxcycaInit(cxcycaDCB, targetName, targetVal);
+      int cx = cxcyca[0];
+      int cy = cxcyca[1];
+      int ca = cxcyca[2];
+      return checkCALinesUpWithCXCY(newlineIndices, cx, cy, ca);
     } else {
-      int ca = (int) caDCB.get().getVal();
-      int cx = (int) cxDCB.get().getVal();
-      int cy = (int) cyDCB.get().getVal();
-      ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
-      boolean caLinesUpWithCY;
-      boolean caLinesUpWithCX;
-      if (cy < 1) {
-        caLinesUpWithCX = ca == cx;
-        caLinesUpWithCY = ca <= newlineIndices.get(0);
-      } else {
-        caLinesUpWithCX = cx == ca - (newlineIndices.get(cy - 1) + 1);
-        boolean cyIsNotTooHigh = true;
-        boolean cyIsNotTooLow = ca > newlineIndices.get(cy - 1);
-        if (cy < newlineIndices.size()) {
-          cyIsNotTooHigh = ca <= newlineIndices.get(cy);
-        }
-        caLinesUpWithCY = cyIsNotTooLow && cyIsNotTooHigh;
-      }
-      return !(caLinesUpWithCX && caLinesUpWithCY);
+      return false;
     }
+  }
+
+  private boolean checkCXCYAndCAAreComplete(CompoundDataClassBrick cxcycaDCB, String targetName) {
+    boolean cxcyDCBIsComplete;
+    boolean caDCBIsComplete;
+    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    if(targetName.equals("ca")) {
+      cxcyDCBIsComplete = cxcyDCB.isComplete();
+      caDCBIsComplete = true;
+    } else {
+      cxcyDCBIsComplete = cxcyDCB.isComplete(targetName);
+      caDCBIsComplete = caDCB.isComplete();
+    }
+    return cxcyDCBIsComplete && caDCBIsComplete;
+  }
+
+  private int[] cxcycaInit(CompoundDataClassBrick cxcycaDCB, String targetName, Object targetVal) {
+    int[] cxcycaInts = new int[3];
+    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick)cxcyDCB.getInner("cx");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick)cxcyDCB.getInner("cy");
+    int cx = (int) cxDCB.get().getVal();
+    int cy = (int) cyDCB.get().getVal();
+    int ca = (int) caDCB.get().getVal();
+    if (targetName.equals("ca")) {
+      ca = (int) targetVal;
+    } else {
+      if (targetName.equals("cx")) {
+        cx = (int) targetVal;
+      } else {
+        cy = (int) targetVal;
+      }
+    }
+    cxcycaInts[0] = cx;
+    cxcycaInts[1] = cy;
+    cxcycaInts[2] = ca;
+    return cxcycaInts;
+  }
+
+  private boolean checkCALinesUpWithCXCY(ArrayList<Integer> newlineIndices, int cx, int cy, int ca) {
+    boolean caLinesUpWithCX;
+    boolean caLinesUpWithCY;
+    if (cy < 1) {
+      caLinesUpWithCX = cx == ca;
+      caLinesUpWithCY = true;
+    } else {
+      caLinesUpWithCX = cx == ca - newlineIndices.get(cy - 1);
+      if (cy < newlineIndices.size() - 1) {
+        caLinesUpWithCY = ca > newlineIndices.get(cy - 1);
+      } else {
+        caLinesUpWithCY = ca > newlineIndices.get(cy - 1) && ca < newlineIndices.get(cy);
+      }
+    }
+    return !(caLinesUpWithCX && caLinesUpWithCY);
   }
 
   @Override
