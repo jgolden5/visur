@@ -192,6 +192,11 @@ public class TestDC {
 
   @Test void dcbGetOrCalc() {
     int ca = 0;
+    ArrayList<Integer> newlineIndices = new ArrayList<>();
+    newlineIndices.add(11);
+    newlineIndices.add(24);
+    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
+    niDCB.putSafe(newlineIndices);
     CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPositionDCB.getInner("cxcyca");
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
     PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
@@ -214,5 +219,6 @@ public class TestDC {
     assertNull(r.getError());
     caDCB = (PrimitiveDataClassBrick) r.getVal();
     assertEquals(5, caDCB.get().getVal());
+
   }
 }
