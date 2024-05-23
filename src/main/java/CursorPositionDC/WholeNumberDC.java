@@ -3,8 +3,11 @@ package CursorPositionDC;
 import DataClass.*;
 
 public class WholeNumberDC extends PrimitiveDataClass {
+  private static int instanceCount = 0;
   public WholeNumberDC(DataForm defaultDF) {
     super(defaultDF);
+    instanceCount++;
+    System.out.println(instanceCount);
   }
 
   @Override

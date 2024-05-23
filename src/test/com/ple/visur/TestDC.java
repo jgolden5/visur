@@ -2,6 +2,7 @@ package com.ple.visur;
 
 import CursorPositionDC.*;
 import DataClass.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,33 +12,32 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDC {
   CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
-  final CompoundDataClassBrick cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick();
+  CompoundDataClassBrick cursorPositionDCB;
+  PrimitiveDataClassBrick niDCB;
+  CompoundDataClassBrick cxcycaDCB;
+  PrimitiveDataClassBrick caDCB;
+  CompoundDataClassBrick cxcyDCB;
+  PrimitiveDataClassBrick cxDCB;
+  PrimitiveDataClassBrick cyDCB;
 
-  @Test void dcMakeBrick() {
-    //cursorPositionDC.makeBrick
-    CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPositionDCB.getInner("cxcyca");
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick)cxcycaDCB.getInner("cxcy");
+
+  @BeforeEach
+  void setupDCBs() {
+    cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick();
+    ArrayList<Integer> newlineIndices = new ArrayList<>();
+    newlineIndices.add(11);
+    newlineIndices.add(24);
+    niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
+    cxcycaDCB = (CompoundDataClassBrick) cursorPositionDCB.getInner("cxcyca");
+    cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
+    cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
+    cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
+    caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
     assertFalse(cursorPositionDCB.isComplete());
-    //test cxcycaDC.makeBrick
-    assertFalse(cursorPositionDCB.getInner("cxcyca").isComplete());
-    //test wholeNumberListDC.makeBrick
-    assertFalse(cursorPositionDCB.getInner("ni").isComplete());
-    //test wholePairDC.makeBrick
-    assertFalse(cxcycaDCB.getInner("cxcy").isComplete());
-    //test wholeNumberDC.makeBrick
-    assertFalse(cxcycaDCB.getInner("ca").isComplete());
-    assertFalse(cxcyDCB.getInner("cx").isComplete());
-    assertFalse(cxcyDCB.getInner("cy").isComplete());
-    //makeBrick should set outer of current inner being constructed
-    assertEquals(cxcycaDCB, cxcyDCB.getOuter());
-    DataClassBrick caDCB = cxcycaDCB.getInner("ca");
-    assertEquals(cxcycaDCB, caDCB.getOuter());
-    //ensure that all values are set after cursorPositionDC.makeBrick gets called initially
-
   }
 
-
   @Test void pdcbPutSafe() {
+    CompoundDataClassBrick cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick();
     int cx = 4;
     int cy = 0;
     CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPositionDCB.getInner("cxcyca");
@@ -58,7 +58,6 @@ public class TestDC {
     ArrayList<Integer> newlineIndices = new ArrayList<>();
     newlineIndices.add(11);
     newlineIndices.add(24);
-    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
     r = niDCB.putSafe(newlineIndices);
     assertNull(r.getError());
     assertEquals(newlineIndices, niDCB.get().getVal());
@@ -112,15 +111,9 @@ public class TestDC {
   }
 
   @Test void pdcbPutForce() {
+    //1 = cxcy can be set when ca is unset
     int cx = 10;
     int cy = 0;
-    CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPositionDCB.getInner("cxcyca");
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
-    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-
-    //cxcy can be set when ca is unset
     Result r = cxDCB.putForce(cx);
     assertNull(r.getError());
     r = cyDCB.putForce(cy);
@@ -128,29 +121,30 @@ public class TestDC {
     assertEquals(cx, cxDCB.get().getVal());
     assertEquals(cy, cyDCB.get().getVal());
 
-    //ni can be set always (because cursorPositionDC.minimumRequiredSetValues == 2)
+    //2 = ni can be set always (because cursorPositionDC.minimumRequiredSetValues == 2)
     ArrayList<Integer> newlineIndices = new ArrayList<>();
     newlineIndices.add(11);
     newlineIndices.add(24);
-    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
     r = niDCB.putForce(newlineIndices);
     assertNull(r.getError());
     assertEquals(newlineIndices, niDCB.get().getVal());
 
-    //ca can be set when cxcy is set and no conflicts exist
+    //3 = ca can be set when cxcy is set and no conflicts exist
     int ca = 10;
     r = caDCB.putForce(ca);
     assertNull(r.getError());
     assertEquals(ca, caDCB.get().getVal());
 
-    //ca CAN'T be set when cxcy is set and conflicts DO exist, but cxcy needs to be UNSET
+    //4 = ca CAN be set when cxcy is set and conflicts DO exist, but cxcy needs to be UNSET
     ca = 14;
     r = caDCB.putForce(ca);
     assertNull(r.getError());
     assertFalse(cxcyDCB.isComplete());
+    assertFalse(cxDCB.isComplete());
+    assertFalse(cyDCB.isComplete());
     assertEquals(14, caDCB.get().getVal());
 
-    //cxcy can be set when ca is set and no conflicts exist
+    //5 = cxcy can be set when ca is set and no conflicts exist
     cxDCB.remove();
     cyDCB.remove();
     caDCB.putForce(ca);
@@ -165,7 +159,7 @@ public class TestDC {
     assertEquals(cy, cyDCB.get().getVal());
     assertTrue(caDCB.isComplete());
 
-    //cxcy CAN'T be set when ca is set and conflicts DO exist
+    //6 = cxcy CAN be set when ca is set and conflicts DO exist, but ca needs to be UNSET
     cx = 1;
     cy = 0;
     r = cxDCB.putForce(cx);
@@ -176,10 +170,9 @@ public class TestDC {
     assertNull(r.getError());
     assertEquals(cx, cxDCB.get().getVal());
     assertEquals(cy, cyDCB.get().getVal());
-    caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
     assertFalse(caDCB.isComplete());
 
-    //ca can be set when cxcy is unset
+    //7 = ca can be set when cxcy is unset
     cxDCB.remove();
     cyDCB.remove();
     ca = 30;
@@ -187,40 +180,32 @@ public class TestDC {
     assertNull(r.getError());
     assertEquals(ca, caDCB.get().getVal());
 
-
   }
 
   @Test void dcbGetOrCalc() {
+    //1 = caDCB.getOrCalc when caDCB is set to 0
     int ca = 0;
-    ArrayList<Integer> newlineIndices = new ArrayList<>();
-    newlineIndices.add(11);
-    newlineIndices.add(24);
-    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
-    niDCB.putSafe(newlineIndices);
-    CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPositionDCB.getInner("cxcyca");
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
-    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-
-    //caDCB.getOrCalc when caDCB is set to 0
     caDCB.putForce(ca);
     Result r = caDCB.getOrCalc();
     caDCB = (PrimitiveDataClassBrick) r.getVal();
     assertEquals(ca, caDCB.getVal());
 
-    //caDCB.getOrCalc when cxcyDCB is set to (5, 0) [should be 5]
+    assertEquals(caDCB, cxDCB.getOuter().getOuter().getInner("ca"));
+
+    //2 = caDCB.getOrCalc when cxcyDCB is set to (5, 0) [should be 5]
     int cx = 5;
     int cy = 0;
+    assertTrue(caDCB.isComplete());
     cxDCB.putForce(cx);
     cyDCB.putForce(cy);
     assertTrue(cxcyDCB.isComplete());
+    assertFalse(caDCB.isComplete());
     r = caDCB.getOrCalc();
     assertNull(r.getError());
     caDCB = (PrimitiveDataClassBrick) r.getVal();
     assertEquals(5, caDCB.get().getVal());
 
-    //cxcyDCB.getOrCalc when cxcyDCB is set to (5, 0)
+    //3 = cxcyDCB.getOrCalc when cxcyDCB is set to (5, 0)
     r = cxDCB.getOrCalc();
     assertNull(r.getError());
     cxDCB = (PrimitiveDataClassBrick) r.getVal();
@@ -230,7 +215,7 @@ public class TestDC {
     cyDCB = (PrimitiveDataClassBrick) r.getVal();
     assertEquals(0, cyDCB.get().getVal());
 
-    //cxcyDCB.getOrCalc when caDCB is set to 12 [should be (0, 1)]
+    //4 = cxcyDCB.getOrCalc when caDCB is set to 12 [should be (0, 1)]
     caDCB.putForce(12);
     r = cxDCB.getOrCalc();
     assertNull(r.getError());
@@ -241,7 +226,7 @@ public class TestDC {
     cyDCB = (PrimitiveDataClassBrick) r.getVal();
     assertEquals(1, cyDCB.get().getVal());
 
-    //cxcyDCB.getOrCalc when caDCB is set to 13 [should be (1, 1)]
+    //5 = cxcyDCB.getOrCalc when caDCB is set to 13 [should be (1, 1)]
     caDCB.putForce(13);
     assertFalse(cxcyDCB.isComplete());
     r = cxDCB.getOrCalc();
@@ -253,7 +238,8 @@ public class TestDC {
     cyDCB = (PrimitiveDataClassBrick) r.getVal();
     assertEquals(1, cyDCB.get().getVal());
 
-    //cxcyDCB.getOrCalc when caDCB is set to 22 [should be (10, 1)]
+    //6 = cxcyDCB.getOrCalc when caDCB is set to 22 [should be (10, 1)]
+    assertTrue(cxcyDCB.isComplete());
     caDCB.putForce(22);
     assertFalse(cxcyDCB.isComplete());
     r = cxDCB.getOrCalc();
@@ -264,6 +250,16 @@ public class TestDC {
     assertNull(r.getError());
     cyDCB = (PrimitiveDataClassBrick) r.getVal();
     assertEquals(1, cyDCB.get().getVal());
+
+    //7 = caDCB.getOrCalc when cxcyDCB is set to (4, 2) [should be 26]
+    cxDCB.putForce(4);
+    cyDCB.putForce(2);
+    assertTrue(cxcyDCB.isComplete());
+    assertFalse(caDCB.isComplete());
+    r = caDCB.getOrCalc();
+    assertNull(r.getError());
+    caDCB = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(26, caDCB.get().getVal());
 
   }
 

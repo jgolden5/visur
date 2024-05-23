@@ -109,7 +109,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     getCDC().conflictsForce(this, targetName, targetVal);
     CompoundDataClassBrick outerBrick = getOuter();
     if(outerBrick != null) {
-      getOuter().conflictsForce(targetName, targetVal);
+      outerBrick.conflictsForce(targetName, targetVal);
     }
   }
 
