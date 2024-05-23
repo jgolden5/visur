@@ -241,6 +241,30 @@ public class TestDC {
     cyDCB = (PrimitiveDataClassBrick) r.getVal();
     assertEquals(1, cyDCB.get().getVal());
 
+    //cxcyDCB.getOrCalc when caDCB is set to 13 [should be (1, 1)]
+    caDCB.putForce(13);
+    assertFalse(cxcyDCB.isComplete());
+    r = cxDCB.getOrCalc();
+    assertNull(r.getError());
+    cxDCB = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(1, cxDCB.get().getVal());
+    r = cyDCB.getOrCalc();
+    assertNull(r.getError());
+    cyDCB = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(1, cyDCB.get().getVal());
+
+    //cxcyDCB.getOrCalc when caDCB is set to 22 [should be (10, 1)]
+    caDCB.putForce(22);
+    assertFalse(cxcyDCB.isComplete());
+    r = cxDCB.getOrCalc();
+    assertNull(r.getError());
+    cxDCB = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(10, cxDCB.get().getVal());
+    r = cyDCB.getOrCalc();
+    assertNull(r.getError());
+    cyDCB = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(1, cyDCB.get().getVal());
+
   }
 
 }
