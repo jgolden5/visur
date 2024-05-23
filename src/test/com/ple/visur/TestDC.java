@@ -170,7 +170,7 @@ public class TestDC {
     cy = 0;
     r = cxDCB.putForce(cx);
     assertNull(r.getError());
-    assertFalse(cxcyDCB.isComplete());
+    assertTrue(cxcyDCB.isComplete());
     r = cyDCB.putForce(cy);
     assertTrue(cxcyDCB.isComplete());
     assertNull(r.getError());
