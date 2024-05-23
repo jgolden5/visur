@@ -46,7 +46,7 @@ public class TestDC {
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
 
-    //cxcy can be set when ca is unset
+    //1 = cxcy can be set when ca is unset
     Result r = cxDCB.putSafe(cx);
     assertNull(r.getError());
     r = cyDCB.putSafe(cy);
@@ -54,7 +54,7 @@ public class TestDC {
     assertEquals(cx, cxDCB.get().getVal());
     assertEquals(cy, cyDCB.get().getVal());
 
-    //ni can be set always (because cursorPositionDC.minimumRequiredSetValues == 2)
+    //2 = ni can be set always (because cursorPositionDC.minimumRequiredSetValues == 2)
     ArrayList<Integer> newlineIndices = new ArrayList<>();
     newlineIndices.add(11);
     newlineIndices.add(24);
@@ -62,20 +62,20 @@ public class TestDC {
     assertNull(r.getError());
     assertEquals(newlineIndices, niDCB.get().getVal());
 
-    //ca can be set when cxcy is set and no conflicts exist
+    //3 = ca can be set when cxcy is set and no conflicts exist
     int ca = 4;
     r = caDCB.putSafe(ca);
     assertNull(r.getError());
     assertEquals(ca, caDCB.get().getVal());
 
-    //ca CAN'T be set when cxcy is set and conflicts DO exist
+    //4 = ca CAN'T be set when cxcy is set and conflicts DO exist
     int previousCA = ca;
     ca = 14;
     r = caDCB.putSafe(ca);
     assertNotNull(r.getError());
     assertEquals(previousCA, caDCB.get().getVal());
 
-    //cxcy can be set when ca is set and no conflicts exist
+    //5 = cxcy can be set when ca is set and no conflicts exist
     cxDCB.remove();
     cyDCB.remove();
     caDCB.putSafe(ca);
@@ -88,7 +88,7 @@ public class TestDC {
     assertEquals(cx, cxDCB.get().getVal());
     assertEquals(cy, cyDCB.get().getVal());
 
-    //cxcy CAN'T be set when ca is set and conflicts DO exist
+    //6 = cxcy CAN'T be set when ca is set and conflicts DO exist
     int previousCX = cx;
     int previousCY = cy;
     cx = 1;
@@ -100,7 +100,7 @@ public class TestDC {
     assertEquals(previousCX, cxDCB.get().getVal());
     assertEquals(previousCY, cyDCB.get().getVal());
 
-    //ca can be set when cxcy is unset
+    //7 = ca can be set when cxcy is unset
     cxDCB.remove();
     cyDCB.remove();
     ca = 30;
