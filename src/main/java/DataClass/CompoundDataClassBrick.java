@@ -107,4 +107,18 @@ public class CompoundDataClassBrick extends DataClassBrick {
     }
   }
 
+  public boolean conflictsCheck(String name, Object val) {
+    boolean conflictsExist;
+    conflictsExist = getCDC().conflictsCheck(this, name, val);
+    if(getOuter() != null) {
+      if (conflictsExist) {
+        return true;
+      } else {
+        return getOuter().conflictsCheck(name, val);
+      }
+    } else {
+      return conflictsExist;
+    }
+  }
+
 }

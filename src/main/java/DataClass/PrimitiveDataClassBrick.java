@@ -30,8 +30,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   public Result putSafe(Object val) {
     Result r;
     CompoundDataClassBrick outerDCB = getOuter();
-    CompoundDataClass outerDC = outerDCB.getCDC();
-    boolean conflictsExist = outerDC.conflictsCheck(outerDCB, name, val);
+    boolean conflictsExist = outerDCB.conflictsCheck(name, val);
     if(conflictsExist) {
       r = Result.make(null, "inners conflict");
     } else {
