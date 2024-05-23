@@ -45,20 +45,22 @@ public class CXCYCADC extends CompoundDataClass {
   private int[] cxcycaInit(CompoundDataClassBrick cxcycaDCB, String targetName, Object targetVal) {
     int[] cxcycaInts = new int[3];
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
     PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick)cxcyDCB.getInner("cx");
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick)cxcyDCB.getInner("cy");
-    int cx = (int) cxDCB.get().getVal();
-    int cy = (int) cyDCB.get().getVal();
-    int ca = (int) caDCB.get().getVal();
-    if (targetName.equals("ca")) {
-      ca = (int) targetVal;
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    int cx, cy, ca;
+    if(targetName.equals("cx")) {
+      cx = (int) targetVal;
+      cy = (int) cyDCB.get().getVal();
+      ca = (int) caDCB.get().getVal();
+    } else if(targetName.equals("cy")) {
+      cx = (int) cxDCB.get().getVal();
+      cy = (int) targetVal;
+      ca = (int) caDCB.get().getVal();
     } else {
-      if (targetName.equals("cx")) {
-        cx = (int) targetVal;
-      } else {
-        cy = (int) targetVal;
-      }
+      cx = (int) cxDCB.get().getVal();
+      cy = (int) cyDCB.get().getVal();
+      ca = (int) targetVal;
     }
     cxcycaInts[0] = cx;
     cxcycaInts[1] = cy;
