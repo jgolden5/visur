@@ -20,7 +20,15 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     }
 
   public Result<DataClassBrick> getOrCalc() {
-    return outer.getOrCalc(name);
+    Result<DataClassBrick> r = outer.getOrCalc(name);
+    PrimitiveDataClassBrick pdcb = (PrimitiveDataClassBrick) r.getVal();
+    if(pdcb.getDFB() != null) {
+      DataFormBrick dfb = DataFormBrick.make(getPDC().defaultDF, pdcb.getVal());
+      putDFB(dfb);
+    } else {
+      putDFB(null);
+    }
+    return r;
   }
 
   public Result putSafe(Object val) {

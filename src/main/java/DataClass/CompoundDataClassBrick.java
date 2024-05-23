@@ -97,7 +97,12 @@ public class CompoundDataClassBrick extends DataClassBrick {
   }
 
   public Result<DataClassBrick> calc(String innerName) {
-    return getCDC().calcInternal(innerName, this);
+    Result r = getCDC().calcInternal(innerName, this);
+    if(r == null && getOuter() != null) {
+      return getOuter().calc(innerName);
+    } else {
+      return r;
+    }
   }
 
   public void conflictsForce(String targetName, Object targetVal) {
