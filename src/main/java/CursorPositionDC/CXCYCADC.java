@@ -75,7 +75,7 @@ public class CXCYCADC extends CompoundDataClass {
       caLinesUpWithCX = cx == ca;
       caLinesUpWithCY = true;
     } else {
-      caLinesUpWithCX = cx == ca - newlineIndices.get(cy - 1);
+      caLinesUpWithCX = cx == ca - (newlineIndices.get(cy - 1) + 1);
       if (cy < newlineIndices.size() - 1) {
         caLinesUpWithCY = ca > newlineIndices.get(cy - 1);
       } else {
