@@ -45,6 +45,8 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   public Result putForce(Object val) {
     CompoundDataClassBrick outerDCB = getOuter();
     outerDCB.conflictsForce(getName(), val);
+    DataFormBrick dfb = DataFormBrick.make(getPDC().defaultDF, val);
+    putDFB(dfb);
     return outerDCB.putInner(getName(), val);
   }
 

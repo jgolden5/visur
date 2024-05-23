@@ -38,7 +38,7 @@ public abstract class CompoundDataClass implements DataClass {
   public abstract boolean conflictsCheck(CompoundDataClassBrick brick, String targetName, Object targetVal);
 
   public void conflictsForce(CompoundDataClassBrick thisAsBrick, String targetName, Object targetVal) {
-    boolean conflictsExist = conflictsCheck(thisAsBrick, targetName, targetVal);
+    boolean conflictsExist = thisAsBrick.conflictsCheck(targetName, targetVal);
     if(conflictsExist) {
       for(Map.Entry<String, DataClassBrick> inner : thisAsBrick.inners.entrySet()) {
         if(inner.getKey() != targetName) {
