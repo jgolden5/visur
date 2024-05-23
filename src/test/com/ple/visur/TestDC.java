@@ -220,5 +220,15 @@ public class TestDC {
     caDCB = (PrimitiveDataClassBrick) r.getVal();
     assertEquals(5, caDCB.get().getVal());
 
+    //cxcyDCB.getOrCalc when cxcyDCB is set to (5, 0)
+    r = cxDCB.getOrCalc();
+    assertNull(r.getError());
+    cxDCB = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(5, cxDCB.get().getVal());
+    r = cyDCB.getOrCalc();
+    assertNull(r.getError());
+    cyDCB = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(0, cyDCB.get().getVal());
+
   }
 }
