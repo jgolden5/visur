@@ -37,16 +37,9 @@ public class TestDC {
   }
 
   @Test void pdcbPutSafe() {
-    CompoundDataClassBrick cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick();
+    //1 = cxcy can be set when ca is unset
     int cx = 4;
     int cy = 0;
-    CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPositionDCB.getInner("cxcyca");
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
-    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-
-    //1 = cxcy can be set when ca is unset
     Result r = cxDCB.putSafe(cx);
     assertNull(r.getError());
     r = cyDCB.putSafe(cy);
@@ -83,6 +76,10 @@ public class TestDC {
     cy = 1;
     r = cxDCB.putSafe(cx);
     assertNull(r.getError());
+    assertFalse(cxDCB.isComplete());
+    assertFalse(cyDCB.isComplete());
+    assertFalse(cxcyDCB.isComplete());
+    assertTrue(caDCB.isComplete());
     r = cyDCB.putSafe(cy);
     assertNull(r.getError());
     assertEquals(cx, cxDCB.get().getVal());

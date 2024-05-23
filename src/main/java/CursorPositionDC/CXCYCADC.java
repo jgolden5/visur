@@ -11,64 +11,29 @@ public class CXCYCADC extends CompoundDataClass {
     super(minimumRequiredSetValues);
   }
 
+  /**
+   * extract newlineIndices, cx, cy, and ca from their respective bricks via cxcycaDCB
+   * return whether cx, cy, and ca conflict by calling cxcycaConflict(newlineIndices, cx, cy, ca)
+   * @param cxcycaDCB the source of all internal brick data (for cx, cy, and ca)
+   * @param targetName the name of the brick we want to add targetVal to
+   * @param targetVal the value attempting to be set in this brick
+   * @return whether targetVal can be set without creating conflicts
+   */
   @Override
   public boolean conflictsCheck(CompoundDataClassBrick cxcycaDCB, String targetName, Object targetVal) {
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cxcycaDCB.getOuter().getInner("ni");
     ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
-    boolean cxcyAndCAAreComplete = checkCXCYAndCAAreComplete(cxcycaDCB, targetName);
-    if(cxcyAndCAAreComplete) {
-      int[] cxcyca = cxcycaInit(cxcycaDCB, targetName, targetVal);
-      int cx = cxcyca[0];
-      int cy = cxcyca[1];
-      int ca = cxcyca[2];
-      return checkCALinesUpWithCXCY(newlineIndices, cx, cy, ca);
-    } else {
-      return false;
-    }
-  }
-
-  private boolean checkCXCYAndCAAreComplete(CompoundDataClassBrick cxcycaDCB, String targetName) {
-    boolean cxcyDCBIsComplete;
-    boolean caDCBIsComplete;
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
+    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-    if(targetName.equals("ca")) {
-      cxcyDCBIsComplete = cxcyDCB.isComplete();
-      caDCBIsComplete = true;
-    } else {
-      cxcyDCBIsComplete = cxcyDCB.isComplete(targetName);
-      caDCBIsComplete = caDCB.isComplete();
-    }
-    return cxcyDCBIsComplete && caDCBIsComplete;
+    int cx = (int)cxDCB.get().getVal();
+    int cy = (int)cyDCB.get().getVal();
+    int ca = (int)caDCB.get().getVal();
+    return cxcycaConflict(newlineIndices, cx, cy, ca);
   }
 
-  private int[] cxcycaInit(CompoundDataClassBrick cxcycaDCB, String targetName, Object targetVal) {
-    int[] cxcycaInts = new int[3];
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
-    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick)cxcyDCB.getInner("cx");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick)cxcyDCB.getInner("cy");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-    int cx, cy, ca;
-    if(targetName.equals("cx")) {
-      cx = (int) targetVal;
-      cy = (int) cyDCB.get().getVal();
-      ca = (int) caDCB.get().getVal();
-    } else if(targetName.equals("cy")) {
-      cx = (int) cxDCB.get().getVal();
-      cy = (int) targetVal;
-      ca = (int) caDCB.get().getVal();
-    } else {
-      cx = (int) cxDCB.get().getVal();
-      cy = (int) cyDCB.get().getVal();
-      ca = (int) targetVal;
-    }
-    cxcycaInts[0] = cx;
-    cxcycaInts[1] = cy;
-    cxcycaInts[2] = ca;
-    return cxcycaInts;
-  }
-
-  private boolean checkCALinesUpWithCXCY(ArrayList<Integer> newlineIndices, int cx, int cy, int ca) {
+  private boolean cxcycaConflict(ArrayList<Integer> newlineIndices, int cx, int cy, int ca) {
     boolean caLinesUpWithCX;
     boolean caLinesUpWithCY;
     if (cy < 1) {

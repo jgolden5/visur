@@ -31,19 +31,27 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return r;
   }
 
+  /**
+   * make result var
+   * call outerDCB.conflictsCheck(name, val), and assign the result to conflictsExist boolean var
+   * if conflicts exist, set result var value to null with an error message stating the inners conflict
+   * else, set this brick's value to dfb(javaIntDF, val), and set result var val & error to null
+   * return the result var
+   *
+   * @param val the value attempting to be set (only succeeds if this would create no conflicts)
+   * @return Result, may or may not contain an error message stating that inners conflict
+   */
   public Result putSafe(Object val) {
-    Result r;
-    CompoundDataClassBrick outerDCB = getOuter();
-    boolean conflictsExist = outerDCB.conflictsCheck(name, val);
+    Result result;
+    boolean conflictsExist = outer.conflictsCheck(name, val);
     if(conflictsExist) {
-      r = Result.make(null, "inners conflict");
+      result = Result.make(null, "inners conflict");
     } else {
-      DataFormBrick newValAsDFB = DataFormBrick.make(getPDC().defaultDF, val);
-      putDFB(newValAsDFB);
-      outerDCB.putInner(getName(), val);
-      r = Result.make();
+      DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
+      putDFB(thisDFBVal);
+      result = Result.make();
     }
-    return r;
+    return result;
   }
 
   public Result putForce(Object val) {

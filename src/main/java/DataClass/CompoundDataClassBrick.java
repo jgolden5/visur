@@ -113,18 +113,21 @@ public class CompoundDataClassBrick extends DataClassBrick {
     }
   }
 
+  /**
+   * call cdc.conflictsCheck(this, name, val), and assign that result to conflictsExist boolean var
+   * recursively call conflictsCheck(name, val) until either a conflict is found OR outer brick == null
+   * be sure to assign the return value of the above to conflictsExist var after EVERY recursive search attempt
+   * return conflictsExist var
+   * @param name used for cdc.conflictsCheck
+   * @param val ^
+   * @return whether a conflict would hypothetically exist after calling putInner(name, val)
+   */
   public boolean conflictsCheck(String name, Object val) {
-    boolean conflictsExist;
-    conflictsExist = getCDC().conflictsCheck(this, name, val);
-    if(getOuter() != null) {
-      if (conflictsExist) {
-        return true;
-      } else {
-        return getOuter().conflictsCheck(name, val);
-      }
-    } else {
-      return conflictsExist;
+    boolean conflictsExist = cdc.conflictsCheck(this, name, val);
+    while(conflictsExist || outer == null) {
+      conflictsExist = outer.conflictsCheck(name, val);
     }
+    return conflictsExist;
   }
 
 }
