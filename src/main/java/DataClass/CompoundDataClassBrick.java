@@ -23,8 +23,9 @@ public class CompoundDataClassBrick extends DataClassBrick {
   public Result<DataClassBrick> getOrCalc(String name) {
     DataClassBrick inner = getInner(name);
     Result<DataClassBrick> r;
+    PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
     //if inner's value is set, return result whose value equals getInner(name)
-    if(inner == null) {
+    if(innerAsPDCB.getDFB() == null) {
       r = calc(name);
     } else {
       r = Result.make(inner, null);

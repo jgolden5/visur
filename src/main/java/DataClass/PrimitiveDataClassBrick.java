@@ -19,10 +19,6 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       return pdc;
     }
 
-    public Result<DataClassBrick> calc() {
-      return getOuter().calc(getName());
-    }
-
   public Result<DataClassBrick> getOrCalc() {
     return outer.getOrCalc(name);
   }
