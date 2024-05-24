@@ -17,18 +17,24 @@ public abstract class DataClassBrick {
     return outer;
   }
 
+  /**
+   * if this is pdcb, set dfb of this to null
+   * else if this is cdcb, loop through this.inners and call remove on each inner
+   * else return result with an error message "data type for dcb is too generic"
+   * return Result with null value and error
+   * @return whether removal was successful (in error message of Result)
+   */
   public Result remove() {
     if(this instanceof PrimitiveDataClassBrick) {
-      getOuter().removeInner(getName());
       PrimitiveDataClassBrick thisAsPDCB = (PrimitiveDataClassBrick) this;
       thisAsPDCB.putDFB(null);
     } else if(this instanceof CompoundDataClassBrick) {
-      CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick)this;
-      for(String innerName : thisAsCDCB.inners.keySet()) {
-        thisAsCDCB.removeInner(innerName);
+      CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) this;
+      for(Map.Entry<String, DataClassBrick> inner : thisAsCDCB.inners.entrySet()) {
+        inner.getValue().remove();
       }
     } else {
-      return Result.make(null, "no outer found for primitiveDataClassBrick");
+      return Result.make(null,"data type for dcb is too generic");
     }
     return Result.make();
   }

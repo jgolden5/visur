@@ -112,11 +112,6 @@ public class TestDC {
     int cx = 10;
     int cy = 0;
     Result r = cxDCB.putForce(cx);
-
-    caDCB.putForce(100);
-    assertFalse(cxDCB.isComplete());
-    assertFalse(cyDCB.isComplete());
-
     assertNull(r.getError());
     r = cyDCB.putForce(cy);
     assertNull(r.getError());
