@@ -107,30 +107,27 @@ public class CXCYCADC extends CompoundDataClass {
    */
   @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick cxcycaDCB) {
-    Result<DataClassBrick> r = Result.make();
-    CompoundDataClassBrick cursorPositionDCB = null;
-    if("cxcyca".contains(name)) {
-      cursorPositionDCB = cxcycaDCB.getOuter();
-    } else {
+    Result r = Result.make();
+    if(!"cxcyca".contains(name)) {
       r.putError("inner name not recognized");
     }
-    if(cursorPositionDCB != null) {
+    if(!cxcycaDCB.isComplete()) {
+      r.putError("insufficient values set");
+    }
+    if(r.getError() == null) {
+      CompoundDataClassBrick cursorPositionDCB = cxcycaDCB.getOuter();
       PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
-      ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.getDFB().getVal();
-      if(cxcycaDCB.isComplete()) {
-        if (name.equals("ca")) {
-          r = calculateCA(newlineIndices, cxcycaDCB);
-        } else {
-          r = calculateCXCY(newlineIndices, cxcycaDCB);
-          CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
-          if (name.equals("cx")) {
-            r.putVal(cxcyDCB.getInner("cx"));
-          } else if (name.equals("cy")) {
-            r.putVal(cxcyDCB.getInner("cy"));
-          }
-        }
+      ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
+      if(name.equals("ca")) {
+        r = calculateCA(newlineIndices, cxcycaDCB);
       } else {
-        r = Result.make(null, "insufficient values set");
+        r = calculateCXCY(newlineIndices, cxcycaDCB);
+        CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
+        if(name.equals("cx")) {
+          r.putVal(cxcyDCB.getInner("cx"));
+        } else if(name.equals("cy")) {
+          r.putVal(cxcyDCB.getInner("cy"));
+        }
       }
     }
     return r;

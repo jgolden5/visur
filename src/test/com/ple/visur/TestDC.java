@@ -275,14 +275,14 @@ public class TestDC {
     assertEquals(10, cxDCB.get().getVal());
     assertEquals(0, cyDCB.get().getVal());
 
-//    //9 = caDCB.getOrCalc when all values are unset [should be an error]
-//    r = cxcyDCB.remove();
-//    assertNull(r.getError());
-//    r = caDCB.remove();
-//    assertNull(r.getError());
-//    r = caDCB.getOrCalc();
-//    assertNotNull(r.getError());
-//    assertNull(r.getVal());
+    //9 = caDCB.getOrCalc when all values are unset [should be an error]
+    r = cxcyDCB.remove();
+    assertNull(r.getError());
+    r = caDCB.remove();
+    assertNull(r.getError());
+    r = caDCB.getOrCalc();
+    assertNotNull(r.getError());
+    assertNull(r.getVal());
 
   }
 

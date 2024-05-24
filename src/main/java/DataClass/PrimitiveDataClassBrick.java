@@ -19,14 +19,26 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       return pdc;
     }
 
+  /**
+   * initialize Result r var = outerDCB.getOrCalc(name)
+   * initialize pdcb var = r.getVal
+   * if r.getError is null, do the following 2 lines:
+     * if pdcb.isComplete, initialize dfb var = DFB.make(pdc.defaultDF, pdcb.getVal), and call putDFB(dfb)
+     * else putDFB(null)
+   * return r
+   * @return result with either calculated value and no error, or no value and an error message
+   */
   public Result<DataClassBrick> getOrCalc() {
-    Result<DataClassBrick> r = outer.getOrCalc(name);
+    CompoundDataClassBrick outerDCB = getOuter();
+    Result<DataClassBrick> r = outerDCB.getOrCalc(name);
     PrimitiveDataClassBrick pdcb = (PrimitiveDataClassBrick) r.getVal();
-    if(pdcb.getDFB() != null) {
-      DataFormBrick dfb = DataFormBrick.make(getPDC().defaultDF, pdcb.getVal());
-      putDFB(dfb);
-    } else {
-      putDFB(null);
+    if(r.getError() == null) {
+      if(pdcb.isComplete()) {
+        DataFormBrick dfb = DataFormBrick.make(getPDC().defaultDF, pdcb.getVal());
+        putDFB(dfb);
+      } else {
+        putDFB(null);
+      }
     }
     return r;
   }
