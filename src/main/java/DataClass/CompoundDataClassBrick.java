@@ -44,8 +44,9 @@ public class CompoundDataClassBrick extends DataClassBrick {
       if(inner instanceof PrimitiveDataClassBrick) {
         PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
         PrimitiveDataClass innerPDC = innerAsPDCB.getPDC();
-        PrimitiveDataClassBrick innerBrick = innerPDC.makeBrick(name, valOfInnerBrick, this);
-        inners.put(name, innerBrick);
+        DataFormBrick dfb = DataFormBrick.make(innerPDC.defaultDF, valOfInnerBrick);
+        innerAsPDCB.putDFB(dfb);
+        inners.put(name, innerAsPDCB);
       } else {
         error = "inner is cdcb and therefore unsettable"; //this should not be possible, because putSafe should only be able to be called on pdcb, and therefore, the inner of an outer that was called by a pdcb should always be a pdcb, and if not, an error occurred
       }
