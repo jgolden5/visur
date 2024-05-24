@@ -33,6 +33,10 @@ public class TestDC {
     cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
     cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
     caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+
+    Result r = niDCB.putSafe(newlineIndices);
+    assertNull(r.getError());
+
     assertFalse(cursorPositionDCB.isComplete());
   }
 
@@ -192,6 +196,7 @@ public class TestDC {
     //2 = caDCB.getOrCalc when cxcyDCB is set to (5, 0) [should be 5]
     int cx = 5;
     int cy = 0;
+
     assertTrue(caDCB.isComplete());
     cxDCB.putForce(cx);
     cyDCB.putForce(cy);
