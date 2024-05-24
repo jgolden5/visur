@@ -172,8 +172,8 @@ public class CXCYCADC extends CompoundDataClass {
       ca += newlineIndices.get(cy - 1) + 1;
     }
     ca += cx;
-    WholeNumberDC wholeNumberDC = (WholeNumberDC)this.getInner("wholeNumber");
-    PrimitiveDataClassBrick caDCB = wholeNumberDC.makeBrick("ca", ca, thisAsBrick);
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) thisAsBrick.getInner("ca");
+    caDCB.putSafe(ca);
     return Result.make(caDCB, null);
   }
 
