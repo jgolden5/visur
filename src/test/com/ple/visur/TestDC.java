@@ -284,6 +284,14 @@ public class TestDC {
     assertNotNull(r.getError());
     assertNull(r.getVal());
 
+    //10 = cxcyDCB.getOrCalc when all values are unset [should be an error]
+    r = cxDCB.getOrCalc();
+    assertNotNull(r.getError());
+    assertNull(r.getVal());
+    r = cyDCB.getOrCalc();
+    assertNotNull(r.getError());
+    assertNull(r.getVal());
+
   }
 
 }

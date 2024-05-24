@@ -31,8 +31,8 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   public Result<DataClassBrick> getOrCalc() {
     CompoundDataClassBrick outerDCB = getOuter();
     Result<DataClassBrick> r = outerDCB.getOrCalc(name);
-    PrimitiveDataClassBrick pdcb = (PrimitiveDataClassBrick) r.getVal();
     if(r.getError() == null) {
+      PrimitiveDataClassBrick pdcb = (PrimitiveDataClassBrick) r.getVal();
       if(pdcb.isComplete()) {
         DataFormBrick dfb = DataFormBrick.make(getPDC().defaultDF, pdcb.getVal());
         putDFB(dfb);
