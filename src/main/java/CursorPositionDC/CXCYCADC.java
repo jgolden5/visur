@@ -28,10 +28,30 @@ public class CXCYCADC extends CompoundDataClass {
     PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-    if(cxDCB.isComplete() && cyDCB.isComplete() && caDCB.isComplete()) {
-      int cx = (int) cxDCB.get().getVal();
-      int cy = (int) cyDCB.get().getVal();
-      int ca = (int) caDCB.get().getVal();
+    if((cxDCB.isComplete() || targetName.equals("cx")) && (cyDCB.isComplete() || targetName.equals("cy")) && (caDCB.isComplete() || targetName.equals("ca"))) {
+      int cx, cy, ca;
+      switch(targetName) {
+        case "cx":
+          cx = (int)targetVal;
+          cy = (int)cyDCB.get().getVal();
+          ca = (int)caDCB.get().getVal();
+          break;
+        case "cy":
+          cx = (int)cxDCB.get().getVal();
+          cy = (int)targetVal;
+          ca = (int)caDCB.get().getVal();
+          break;
+        case "ca":
+          cx = (int)cxDCB.get().getVal();
+          cy = (int)cyDCB.get().getVal();
+          ca = (int)targetVal;
+          break;
+        default:
+          System.out.println("name not recognized");
+          cx = (int)cxDCB.get().getVal();
+          cy = (int)cyDCB.get().getVal();
+          ca = (int)caDCB.get().getVal();
+      }
       return cxcycaConflict(newlineIndices, cx, cy, ca);
     } else {
       return false;
