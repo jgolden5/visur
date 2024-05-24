@@ -89,14 +89,28 @@ public class CXCYCADC extends CompoundDataClass {
     return !(caLinesUpWithCX && caLinesUpWithCY);
   }
 
+  /**
+   * declare empty Result r var
+   * "cxcyca".contains(name)...do the following; else r.putError("inner name not recognized")
+   * if cxcycaDCB.isComplete...do the following; else r.putError("insufficient values set")
+   * extract cursorPositionDCB into var
+   * extract newlineIndices from niDCB from cursorPositionDCB
+   * if name.equals("ca"), r = calculateCA(newlineIndices, cxcycaDCB)
+   * else, r = calculateCXCY(newlinIndices, cxcycaDCB), and do what's on the following lines
+   * cxcyDCB = (CDCB)r.getVal
+   * if name.equals("cx"), r.putVal(cxcyDCB.getInner("cx"))
+   * if name.equals("cy"), r.putVal(cxcyDCB.getInner("cy"))
+   * return r
+   * @param name of inner being calculated
+   * @param cxcycaDCB this as brick
+   * @return a result containing the calculated brick if calcInternal succeeded, else val = null & error != null
+   */
   @Override
-  public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick thisAsBrick) {
+  public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick cxcycaDCB) {
     Result<DataClassBrick> r = Result.make();
     CompoundDataClassBrick cursorPositionDCB = null;
-    CompoundDataClassBrick cxcycaDCB = null;
     if("cxcyca".contains(name)) {
-      cxcycaDCB = thisAsBrick;
-      cursorPositionDCB = thisAsBrick.getOuter();
+      cursorPositionDCB = cxcycaDCB.getOuter();
     } else {
       r.putError("inner name not recognized");
     }
