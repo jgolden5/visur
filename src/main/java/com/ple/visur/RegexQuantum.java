@@ -16,8 +16,8 @@ public class RegexQuantum implements Quantum {
 
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
-    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("ca");
-    int ca = bvv.getVal();
+    BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
+    int ca = (int)caBVV.getVal();
     boolean lowerBoundFound = false; //check for lowerBound first
     boolean upperBoundFound = false; //if lowerBoundFound, check for upperBound
     int[] bounds = new int[]{ca, ca};

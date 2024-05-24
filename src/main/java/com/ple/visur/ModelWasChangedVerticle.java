@@ -20,8 +20,8 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
       view = new View();
       view.ca = 0;
     } else {
-      BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("ca");
-      view.ca = bvv.getVal();
+      BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
+      view.ca = (int)caBVV.getVal();
     }
     view.editorContent = emc.getEditorContent();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());

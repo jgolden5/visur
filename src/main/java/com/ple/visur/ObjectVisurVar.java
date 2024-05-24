@@ -1,5 +1,7 @@
 package com.ple.visur;
 
+import DataClass.Result;
+
 public class ObjectVisurVar implements VisurVar {
   Object val;
   public static ObjectVisurVar make(Object val) {
@@ -16,7 +18,8 @@ public class ObjectVisurVar implements VisurVar {
   }
 
   @Override
-  public void putVal(Object obj) {
+  public Result putVal(Object obj) {
     val = obj;
+    return null;
   }
 }

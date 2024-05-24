@@ -1,6 +1,7 @@
 package com.ple.visur;
 
 import DataClass.DataClassBrick;
+import DataClass.PrimitiveDataClassBrick;
 
 public class AssignmentOp implements Operator {
 
@@ -14,8 +15,8 @@ public class AssignmentOp implements Operator {
     ExecutionDataStack es = emc.getExecutionDataStack();
     Object topElementFromStack = es.pop();
     VisurVar vv;
-    if(topElementFromStack instanceof DataClassBrick) {
-      vv = BrickVisurVar.make((DataClassBrick) topElementFromStack);
+    if(topElementFromStack instanceof PrimitiveDataClassBrick) {
+      vv = BrickVisurVar.make((PrimitiveDataClassBrick) topElementFromStack);
     } else {
       vv = ObjectVisurVar.make(topElementFromStack);
     }

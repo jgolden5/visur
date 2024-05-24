@@ -35,8 +35,8 @@ public class EditorContentService {
   }
 
   public String getCurrentContentLine(LocalMap<EditorModelKey, Object> editorModel) {
-    BrickVisurVar bvv = (BrickVisurVar)getGlobalVar("cy", editorModel);
-    int cy = bvv.getVal();
+    BrickVisurVar cyBVV = (BrickVisurVar)getGlobalVar("cy", editorModel);
+    int cy = (int)cyBVV.getVal();
     return getContentLineAtY(cy, editorModel);
   }
 

@@ -8,15 +8,15 @@ public class WrappedLineQuantum implements Quantum {
 
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
-    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("y");
-    int y = bvv.getVal();
+    BrickVisurVar cyBVV = (BrickVisurVar)emc.getGlobalVar("cy");
+    int cy = (int)cyBVV.getVal();
     int lowerBound = 0;
     int upperBound = 0;
     if(editorContent.length() > 0) {
-      if (y > 0) {
-        if(y < newlineIndices.size()) {
-          lowerBound = newlineIndices.get(y - 1) + 1;
-          upperBound = newlineIndices.get(y);
+      if (cy > 0) {
+        if(cy < newlineIndices.size()) {
+          lowerBound = newlineIndices.get(cy - 1) + 1;
+          upperBound = newlineIndices.get(cy);
         }
       } else {
         if (newlineIndices.size() > 0) {
@@ -35,16 +35,14 @@ public class WrappedLineQuantum implements Quantum {
 
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m, int[] bounds) {
-    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("cx");
-    int cx = bvv.getVal();
-
-    bvv = (BrickVisurVar)emc.getGlobalVar("cy");
-    int cy = bvv.getVal();
-
+    BrickVisurVar cxBVV = (BrickVisurVar)emc.getGlobalVar("cx");
+    int cx = (int)cxBVV.getVal();
+    BrickVisurVar cyBVV = (BrickVisurVar)emc.getGlobalVar("cy");
+    int cy = (int)cyBVV.getVal();
     Coordinate destinationAsCoordinate = Coordinate.make(cx, cy);
 
-    bvv = (BrickVisurVar) emc.getGlobalVar("ca");
-    return bvv.getVal();
+    BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
+    return (int) caBVV.getVal();
   }
 
   @Override
