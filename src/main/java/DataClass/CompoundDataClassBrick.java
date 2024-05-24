@@ -20,19 +20,22 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return cdc;
   }
 
+  /**
+   * getInner and assign to targetInner var
+   * if targetInner is unset, set r = calc(name)
+   * calc method will set value equal to newly calculated value and only an error message if calc fails
+   * else, r = Result.make(targetInner, null)
+   * return r
+   * @param name
+   * @return
+   */
   public Result<DataClassBrick> getOrCalc(String name) {
     DataClassBrick targetInner = getInner(name);
-    Result<DataClassBrick> r;
-    PrimitiveDataClassBrick targetInnerAsPDCB = (PrimitiveDataClassBrick) targetInner;
-    //if targetInner's value is set, return result whose value equals getInner(name)
-    if(targetInnerAsPDCB.getDFB() == null) {
+    Result r;
+    if(!targetInner.isComplete()) {
       r = calc(name);
     } else {
       r = Result.make(targetInner, null);
-    }
-    CompoundDataClassBrick outer = getOuter();
-    if(r.getError() != null && outer != null) {
-      r = outer.getOrCalc(name);
     }
     return r;
   }
