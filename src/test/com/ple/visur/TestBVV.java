@@ -59,8 +59,24 @@ public class TestBVV {
     //2 = cyBVV.putVal(1); r.getError should = null, and cyBVV.getVal should = 1, and cxBVV.getVal should still = 0
     r = cyBVV.putVal(1);
     assertNull(r.getError());
-    int cy = (int)cyDCB.getVal();
+    int cy = (int)cyBVV.getVal();
     assertEquals(1, cy);
+
+    //3 = caBVV.putVal(12); r.getError should = null, and caBVV.getVal should = 0 since it does not conflict
+    r = caBVV.putVal(12);
+    assertNull(r.getError());
+    int ca = (int)caBVV.getVal();
+    assertEquals(12, ca);
+    assertTrue(cxBVV.isComplete());
+    assertTrue(cyBVV.isComplete());
+
+    //4 = caBVV.putVal(11); r.getError should == null, caBVV.getVal should = 11, but cxBVV and cyBVV.isComplete should = false
+    r = caBVV.putVal(11);
+    assertNull(r.getError());
+    ca = (int)caBVV.getVal();
+    assertEquals(11, ca);
+    assertFalse(cxBVV.isComplete());
+    assertFalse(cyBVV.isComplete());
 
   }
 

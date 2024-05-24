@@ -25,4 +25,8 @@ public class BrickVisurVar implements VisurVar {
     return brick.putForce(o);
   }
 
+  public boolean isComplete() {
+    return brick.isComplete();
+  }
+
 }
