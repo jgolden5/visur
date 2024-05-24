@@ -12,7 +12,8 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   /**
-   * extract newlineIndices, cx, cy, and ca from their respective bricks via cxcycaDCB
+   * if cx, cy, & ca are set, extract them and newlineIndices from their respective bricks via cxcycaDCB
+   * else, return false because no conflicts can exist if any of those values is unset
    * return whether cx, cy, and ca conflict by calling cxcycaConflict(newlineIndices, cx, cy, ca)
    * @param cxcycaDCB the source of all internal brick data (for cx, cy, and ca)
    * @param targetName the name of the brick we want to add targetVal to
@@ -27,24 +28,42 @@ public class CXCYCADC extends CompoundDataClass {
     PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-    int cx = (int)cxDCB.get().getVal();
-    int cy = (int)cyDCB.get().getVal();
-    int ca = (int)caDCB.get().getVal();
-    return cxcycaConflict(newlineIndices, cx, cy, ca);
+    if(cxDCB.isComplete() && cyDCB.isComplete() && caDCB.isComplete()) {
+      int cx = (int) cxDCB.get().getVal();
+      int cy = (int) cyDCB.get().getVal();
+      int ca = (int) caDCB.get().getVal();
+      return cxcycaConflict(newlineIndices, cx, cy, ca);
+    } else {
+      return false;
+    }
   }
 
+  /**
+   * create vars for checking if caLinesUpWithCX & caLinesUpWithCY
+   * if cy == 0, caLinesUpWithCY no matter what, and caLinesUpWithCX if cx == ca
+   * else,
+   * caLinesUpWithCX = cx == the difference between ca, and ((the ni element at cy - 1) + 1)
+   * if cy < length of newlineIndices - 1, caLinesUpWithCY = ca > ni.get(cy - 1) && ca < ni.get(cy)
+   * else, caLinesUpWithCY = ca > ni.get(cy - 1)
+   * return if both caLinesUpWithCX AND caLinesUpWithCY is not true
+   * @param newlineIndices
+   * @param cx
+   * @param cy
+   * @param ca
+   * @return
+   */
   private boolean cxcycaConflict(ArrayList<Integer> newlineIndices, int cx, int cy, int ca) {
     boolean caLinesUpWithCX;
     boolean caLinesUpWithCY;
-    if (cy < 1) {
-      caLinesUpWithCX = cx == ca;
+    if(cy == 0) {
       caLinesUpWithCY = true;
+      caLinesUpWithCX = cx == ca;
     } else {
       caLinesUpWithCX = cx == ca - (newlineIndices.get(cy - 1) + 1);
-      if (cy < newlineIndices.size() - 1) {
-        caLinesUpWithCY = ca > newlineIndices.get(cy - 1);
-      } else {
+      if(cy < newlineIndices.size() - 1) {
         caLinesUpWithCY = ca > newlineIndices.get(cy - 1) && ca < newlineIndices.get(cy);
+      } else {
+        caLinesUpWithCY = ca > newlineIndices.get(cy - 1);
       }
     }
     return !(caLinesUpWithCX && caLinesUpWithCY);

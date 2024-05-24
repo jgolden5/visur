@@ -124,7 +124,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
    */
   public boolean conflictsCheck(String name, Object val) {
     boolean conflictsExist = cdc.conflictsCheck(this, name, val);
-    while(conflictsExist || outer == null) {
+    while(!conflictsExist && outer != null) {
       conflictsExist = outer.conflictsCheck(name, val);
     }
     return conflictsExist;
