@@ -76,7 +76,7 @@ public class TestDC {
     cy = 1;
     r = cxDCB.putSafe(cx);
     assertNull(r.getError());
-    assertFalse(cxDCB.isComplete());
+    assertTrue(cxDCB.isComplete());
     assertFalse(cyDCB.isComplete());
     assertFalse(cxcyDCB.isComplete());
     assertTrue(caDCB.isComplete());
