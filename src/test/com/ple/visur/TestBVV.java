@@ -56,6 +56,12 @@ public class TestBVV {
     int cx = (int)cxBVV.getVal();
     assertEquals(0, cx);
 
+    //2 = cyBVV.putVal(1); r.getError should = null, and cyBVV.getVal should = 1, and cxBVV.getVal should still = 0
+    r = cyBVV.putVal(1);
+    assertNull(r.getError());
+    int cy = (int)cyDCB.getVal();
+    assertEquals(1, cy);
+
   }
 
 }
