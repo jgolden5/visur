@@ -260,8 +260,29 @@ public class TestDC {
     assertFalse(caDCB.isComplete());
     r = caDCB.getOrCalc();
     assertNull(r.getError());
-    caDCB = (PrimitiveDataClassBrick) r.getVal();
     assertEquals(29, caDCB.get().getVal());
+
+    //8 = cxcyDCB.getOrCalc when caDCB is set to 10 [should be (10, 0)]
+    caDCB.putForce(10);
+    assertTrue(caDCB.isComplete());
+    assertFalse(cxDCB.isComplete());
+    assertFalse(cyDCB.isComplete());
+    assertFalse(cxcyDCB.isComplete());
+    r = cxDCB.getOrCalc();
+    assertNull(r.getError());
+    r = cyDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(10, cxDCB.get().getVal());
+    assertEquals(0, cyDCB.get().getVal());
+
+//    //9 = caDCB.getOrCalc when all values are unset [should be an error]
+//    r = cxcyDCB.remove();
+//    assertNull(r.getError());
+//    r = caDCB.remove();
+//    assertNull(r.getError());
+//    r = caDCB.getOrCalc();
+//    assertNotNull(r.getError());
+//    assertNull(r.getVal());
 
   }
 

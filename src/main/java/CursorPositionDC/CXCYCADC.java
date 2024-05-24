@@ -103,16 +103,20 @@ public class CXCYCADC extends CompoundDataClass {
     if(cursorPositionDCB != null) {
       PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
       ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.getDFB().getVal();
-      if (name.equals("ca")) {
-        r = calculateCA(newlineIndices, cxcycaDCB);
-      } else {
-        r = calculateCXCY(newlineIndices, cxcycaDCB);
-        CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
-        if(name.equals("cx")) {
-          r.putVal(cxcyDCB.getInner("cx"));
-        } else if(name.equals("cy")) {
-          r.putVal(cxcyDCB.getInner("cy"));
+      if(cxcycaDCB.isComplete()) {
+        if (name.equals("ca")) {
+          r = calculateCA(newlineIndices, cxcycaDCB);
+        } else {
+          r = calculateCXCY(newlineIndices, cxcycaDCB);
+          CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
+          if (name.equals("cx")) {
+            r.putVal(cxcyDCB.getInner("cx"));
+          } else if (name.equals("cy")) {
+            r.putVal(cxcyDCB.getInner("cy"));
+          }
         }
+      } else {
+        r = Result.make(null, "insufficient values set");
       }
     }
     return r;
