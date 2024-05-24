@@ -23,7 +23,8 @@ public class TestBVV {
   BrickVisurVar cyBVV;
   BrickVisurVar caBVV;
 
-  @BeforeEach void setupDCBs() {
+
+  @BeforeEach void setupDCBsAndBVVs() {
     cursorPositionDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick();
     ArrayList<Integer> newlineIndices = new ArrayList<>();
     newlineIndices.add(11);
@@ -39,14 +40,15 @@ public class TestBVV {
     assertNull(r.getError());
 
     assertFalse(cursorPositionDCB.isComplete());
-  }
 
-  @BeforeEach void setupBVVs() {
     cxBVV = BrickVisurVar.make(cxDCB);
     cyBVV = BrickVisurVar.make(cyDCB);
     caBVV = BrickVisurVar.make(caDCB);
-  }
 
+    assertTrue(cxDCB instanceof PrimitiveDataClassBrick);
+    assertTrue(cyDCB instanceof PrimitiveDataClassBrick);
+    assertTrue(caDCB instanceof PrimitiveDataClassBrick);
+  }
   @Test void putValGetVal() {
     //1 = cxBVV.putVal(0); r.getError should = null, and cxBVV.getVal() should = 0
     Result r = cxBVV.putVal(0);
