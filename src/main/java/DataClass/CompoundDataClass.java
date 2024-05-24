@@ -37,11 +37,28 @@ public abstract class CompoundDataClass implements DataClass {
 
   public abstract boolean conflictsCheck(CompoundDataClassBrick brick, String targetName, Object targetVal);
 
+  /**
+   * if conflictsCheck(thisAsBrick, targetName, targetVal)...
+   * loop through every inner in thisAsBrick, and if inner.inners contains targetName, call inner.remove()
+   * @param thisAsBrick source of all relevant brick data
+   * @param targetName name of brick inner which targetVal is being added to
+   * @param targetVal value which will be assigned to targetName brick
+   */
   public void conflictsForce(CompoundDataClassBrick thisAsBrick, String targetName, Object targetVal) {
     boolean conflictsExist = conflictsCheck(thisAsBrick, targetName, targetVal);
     if(conflictsExist) {
+      boolean innerContainsTargetName = false;
       for(Map.Entry<String, DataClassBrick> inner : thisAsBrick.inners.entrySet()) {
-        if(!inner.getKey().contains(targetName)) {
+        if(inner instanceof CompoundDataClassBrick) {
+          CompoundDataClassBrick innerCDCB = (CompoundDataClassBrick) inner;
+          for (Map.Entry<String, DataClassBrick> innerInner : innerCDCB.inners.entrySet()) {
+            if(innerInner.getKey().equals(targetName)) {
+              innerContainsTargetName = true;
+              break;
+            }
+          }
+        }
+        if(!innerContainsTargetName) {
           inner.getValue().remove();
         }
       }
