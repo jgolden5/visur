@@ -104,6 +104,15 @@ public class TestBVV {
     assertEquals(1, cy);
     assertFalse(caBVV.isComplete());
 
+    //7 = caBVV.getVal() should not succeed when ca is unset, and r.getError should == null
+    ca = (int)caBVV.getVal();
+    assertFalse(caBVV.isComplete());
+    assertEquals(caBVV.getUnset(), ca);
+    assertEquals(2, cx);
+    assertEquals(1, cy);
+    assertTrue(cxBVV.isComplete());
+    assertTrue(cyBVV.isComplete());
+
   }
 
 }
