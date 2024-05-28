@@ -49,6 +49,7 @@ public class TestBVV {
     assertTrue(cyDCB instanceof PrimitiveDataClassBrick);
     assertTrue(caDCB instanceof PrimitiveDataClassBrick);
   }
+
   @Test void putValGetVal() {
     //1 = cxBVV.putVal(0); r.getError should = null, and cxBVV.getVal() should = 0
     Result r = cxBVV.putVal(0);
@@ -83,10 +84,25 @@ public class TestBVV {
     assertNull(r.getError());
     r = cyBVV.putVal(0);
     assertNull(r.getError());
+    cx = (int)cxBVV.getVal();
+    cy = (int)cyBVV.getVal();
     ca = (int)caBVV.getVal();
+    assertEquals(11, cx);
+    assertEquals(0, cy);
     assertEquals(11, ca);
     assertTrue(cxBVV.isComplete());
     assertTrue(cyBVV.isComplete());
+
+    //6 = cxBVV.putVal(2); cyBVV.putVal(1); r.getError for both should == null; caBVV.isComplete should = false
+    r = cxBVV.putVal(2);
+    assertNull(r.getError());
+    r = cyBVV.putVal(1);
+    assertNull(r.getError());
+    cx = (int)cxBVV.getVal();
+    cy = (int)cyBVV.getVal();
+    assertEquals(2, cx);
+    assertEquals(1, cy);
+    assertFalse(caBVV.isComplete());
 
   }
 
