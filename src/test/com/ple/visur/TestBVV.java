@@ -78,6 +78,16 @@ public class TestBVV {
     assertFalse(cxBVV.isComplete());
     assertFalse(cyBVV.isComplete());
 
+    //5 = cxBVV.putVal(11); cyBVV.putVal(0); r.getError for both should == null; caBVV.getVal should still = 11;
+    r = cxBVV.putVal(11);
+    assertNull(r.getError());
+    r = cyBVV.putVal(0);
+    assertNull(r.getError());
+    ca = (int)caBVV.getVal();
+    assertEquals(11, ca);
+    assertTrue(cxBVV.isComplete());
+    assertTrue(cyBVV.isComplete());
+
   }
 
 }
