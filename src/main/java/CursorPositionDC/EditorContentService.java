@@ -1,9 +1,5 @@
 package CursorPositionDC;
 
-import DataClass.CompoundDataClassBrick;
-import DataClass.DataClassBrick;
-import DataClass.PrimitiveDataClassBrick;
-import DataClass.Result;
 import com.ple.visur.*;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 
@@ -60,8 +56,8 @@ public class EditorContentService {
   }
 
   public ArrayList<Integer> getNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
-    //note that this must be re-updated every time editorContent is changed
-    return (ArrayList<Integer>) editorModel.get(newlineIndices);
+    BrickVisurVar niBVV = (BrickVisurVar)getGlobalVar("ni", editorModel);
+    return (ArrayList<Integer>) niBVV.getVal();
   }
 
   public int getVirtualX(LocalMap<EditorModelKey, Object> editorModel) {
@@ -82,7 +78,7 @@ public class EditorContentService {
 
   public void putEditorContent(String contentLines, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(editorContent, contentLines);
-    updateNewlineIndices(editorModel);
+    putNewlineIndices(editorModel);
   }
 
   public void putCursorPositionDCHolder(CursorPositionDCHolder cpDCHolder, LocalMap<EditorModelKey, Object> editorModel) {
@@ -99,7 +95,7 @@ public class EditorContentService {
     editorModel.put(globalVariableMap, gvm);
   }
 
-  public void updateNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
+  public void putNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
     String content = getEditorContent(editorModel);
     ArrayList<Integer> indices = new ArrayList<>();
     boolean keepGoing = true;
@@ -115,7 +111,9 @@ public class EditorContentService {
         keepGoing = false;
       }
     }
-    editorModel.put(newlineIndices, indices);
+    BrickVisurVar niBVV = (BrickVisurVar) getGlobalVar("ni", editorModel);
+    niBVV.putVal(indices);
+    putGlobalVar("ni", niBVV, editorModel);
   }
 
   public void putVirtualX(int x, LocalMap<EditorModelKey, Object> editorModel) {

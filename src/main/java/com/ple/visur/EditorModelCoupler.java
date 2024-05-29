@@ -43,7 +43,6 @@ public class EditorModelCoupler {
   }
 
   public ArrayList<Integer> getNewlineIndices() {
-    //note that this must be re-updated every time editorContent is changed
     return ecs.getNewlineIndices(editorModel);
   }
 
@@ -122,8 +121,8 @@ public class EditorModelCoupler {
     ecs.putGlobalVarMap(gvm, editorModel);
   }
 
-  public void updateNewlineIndices() {
-    ecs.updateNewlineIndices(editorModel);
+  public void putNewlineIndices() {
+    ecs.putNewlineIndices(editorModel);
   }
 
   public void putVirtualX(int x) {
