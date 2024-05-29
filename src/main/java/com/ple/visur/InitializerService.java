@@ -1,5 +1,6 @@
 package com.ple.visur;
 
+import CursorPositionDC.CursorPositionDC;
 import CursorPositionDC.CursorPositionDCHolder;
 import DataClass.CompoundDataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
@@ -38,13 +39,13 @@ public class InitializerService {
 //      "Those who invite Qazlal's gaze will find themselves the eye in a storm of elemental destruction, from which only their god can protect them.\n" +
 //      "Pious worshippers of Qazlal will gain the ability to direct and control the destructive might of the storm.\n" +
 //      "Followers of Qazlal are protected from the clouds they create.\n";
-    emc.putEditorContent(initialEditorContent);
 
+    initializeCoordinates();
+
+    emc.putEditorContent(initialEditorContent);
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
     emc.putCommandCursor(emc.getCommandStateContent().length());
-
-    initializeCoordinates();
 
     initializeQuantums();
 
@@ -54,22 +55,19 @@ public class InitializerService {
 
     OperatorToService opToService = OperatorToService.make();
     emc.putOperatorToService(opToService);
+
   }
 
   private void initializeCoordinates() {
-    CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
-    emc.putCursorPositionDCHolder(cursorPositionDCHolder);
-    CompoundDataClassBrick cursorPosDCB = cursorPositionDCHolder.cursorPositionDC.makeBrick();
-    ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
-    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("ni");
+    CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
+    CompoundDataClassBrick cursorPosDCB = cursorPositionDC.makeBrick();
+    emc.putNewlineIndices();
     CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPosDCB.getInner("cxcyca");
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
     PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
-    //the below 2 methods will be uncommented after putSafe is tested in TestDC
-//    niDCB.putSafe(newlineIndices);
-//    caDCB.putSafe(0);
+    caDCB.putSafe(0);
     BrickVisurVar caDCBVV = BrickVisurVar.make(caDCB);
     BrickVisurVar cxDCBVV = BrickVisurVar.make(cxDCB);
     BrickVisurVar cyDCBVV = BrickVisurVar.make(cyDCB);

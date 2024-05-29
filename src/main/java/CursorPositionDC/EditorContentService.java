@@ -95,20 +95,22 @@ public class EditorContentService {
     editorModel.put(globalVariableMap, gvm);
   }
 
+  /**
+   * call getEditorContent, and assign it to content var
+   * make indices var equal to empty ArrayList
+   * loop through every character in content to check if newline char exists
+   * if char at index i == \n, then add i to indices var
+   * make niBVV var, which is equal to the result of getGlobalVar("ni")
+   * call niBVV.putVal(indices)
+   * call putGlobalVar("ni", niBVV, editorModel)
+   * @param editorModel
+   */
   public void putNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
     String content = getEditorContent(editorModel);
     ArrayList<Integer> indices = new ArrayList<>();
-    boolean keepGoing = true;
-    int fullStringIndex = 0;
-    while (keepGoing) {
-      int substringIndex = content.indexOf("\n");
-      if (substringIndex != -1) {
-        fullStringIndex += substringIndex;
-        indices.add(fullStringIndex);
-        content = content.substring(substringIndex + 1);
-        fullStringIndex++; //because of newline char
-      } else {
-        keepGoing = false;
+    for(int i = 0; i < content.length(); i++) {
+      if(content.charAt(i) == '\n') {
+        indices.add(i);
       }
     }
     BrickVisurVar niBVV = (BrickVisurVar) getGlobalVar("ni", editorModel);

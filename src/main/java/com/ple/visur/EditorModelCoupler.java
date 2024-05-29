@@ -26,10 +26,6 @@ public class EditorModelCoupler {
     return ecs.getEditorContent(editorModel);
   }
 
-  public CursorPositionDCHolder getCursorPositionDCHolder() {
-    return ecs.getCursorPositionDCHolder(editorModel);
-  }
-
   public VisurVar getGlobalVar(String varName) {
     return ecs.getGlobalVar(varName, editorModel);
   }
@@ -110,9 +106,6 @@ public class EditorModelCoupler {
 
   public void putEditorContent(String contentLines) {
     ecs.putEditorContent(contentLines, editorModel);
-  }
-  public void putCursorPositionDCHolder(CursorPositionDCHolder cursorPositionDCHolder) {
-    ecs.putCursorPositionDCHolder(cursorPositionDCHolder, editorModel);
   }
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
     ecs.putGlobalVar(globalVarName, globalVarValue, editorModel);
