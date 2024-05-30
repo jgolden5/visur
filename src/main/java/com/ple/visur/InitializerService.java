@@ -5,7 +5,6 @@ import CursorPositionDC.CursorPositionDCHolder;
 import DataClass.CompoundDataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.ple.visur.EditorMode.editing;
@@ -40,9 +39,12 @@ public class InitializerService {
 //      "Pious worshippers of Qazlal will gain the ability to direct and control the destructive might of the storm.\n" +
 //      "Followers of Qazlal are protected from the clouds they create.\n";
 
-    initializeCoordinates();
+    initializeUnsetCoordinateBricks();
 
-    emc.putEditorContent(initialEditorContent);
+    emc.initializeEditorContent(initialEditorContent);
+    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
+    caBVV.putVal(0);
+    emc.putGlobalVar("ca", caBVV);
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
     emc.putCommandCursor(emc.getCommandStateContent().length());
@@ -58,16 +60,22 @@ public class InitializerService {
 
   }
 
-  private void initializeCoordinates() {
+  private void initializeUnsetCoordinateBricks() {
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
     CompoundDataClassBrick cursorPosDCB = cursorPositionDC.makeBrick();
-    emc.putNewlineIndices();
+    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("ni");
     CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPosDCB.getInner("cxcyca");
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
     PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
-    caDCB.putSafe(0);
+    cxcyDCB.putInner("cx", cxDCB);
+    cxcyDCB.putInner("cy", cyDCB);
+    cxcycaDCB.putInner("ca", caDCB);
+    cxcycaDCB.putInner("cxcy", cxcyDCB);
+    cursorPosDCB.putInner("ni", niDCB);
+    cursorPosDCB.putInner("cxcyca", cxcycaDCB);
+
     BrickVisurVar caDCBVV = BrickVisurVar.make(caDCB);
     BrickVisurVar cxDCBVV = BrickVisurVar.make(cxDCB);
     BrickVisurVar cyDCBVV = BrickVisurVar.make(cyDCB);

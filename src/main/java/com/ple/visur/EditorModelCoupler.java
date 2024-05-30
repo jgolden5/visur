@@ -104,8 +104,12 @@ public class EditorModelCoupler {
     return (int)editorModel.get(quantumEnd);
   }
 
-  public void putEditorContent(String contentLines) {
-    ecs.putEditorContent(contentLines, editorModel);
+  public void initializeEditorContent(String content) {
+    ecs.initializeEditorContent(content, editorModel);
+  }
+
+  public void putEditorContent(String content) {
+    ecs.putEditorContent(content, editorModel);
   }
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
     ecs.putGlobalVar(globalVarName, globalVarValue, editorModel);

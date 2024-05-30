@@ -76,6 +76,11 @@ public class EditorContentService {
     return (int) editorModel.get(canvasHeight);
   }
 
+  public void initializeEditorContent(String contentLines, LocalMap<EditorModelKey, Object> editorModel) {
+    editorModel.put(editorContent, contentLines);
+  }
+
+
   public void putEditorContent(String contentLines, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(editorContent, contentLines);
     putNewlineIndices(editorModel);
