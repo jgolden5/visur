@@ -42,6 +42,7 @@ public class InitializerService {
     initializeUnsetCoordinateBricks();
 
     emc.initializeEditorContent(initialEditorContent);
+    emc.putNewlineIndices();
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(0);
     emc.putGlobalVar("ca", caBVV);
@@ -79,10 +80,12 @@ public class InitializerService {
     BrickVisurVar caDCBVV = BrickVisurVar.make(caDCB);
     BrickVisurVar cxDCBVV = BrickVisurVar.make(cxDCB);
     BrickVisurVar cyDCBVV = BrickVisurVar.make(cyDCB);
+    BrickVisurVar niBVV = BrickVisurVar.make(niDCB);
 
     emc.putGlobalVar("ca", caDCBVV);
     emc.putGlobalVar("cx", cxDCBVV);
     emc.putGlobalVar("cy", cyDCBVV);
+    emc.putGlobalVar("ni", niBVV);
 
   }
 
