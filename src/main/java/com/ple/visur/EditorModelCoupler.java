@@ -42,6 +42,9 @@ public class EditorModelCoupler {
     return ecs.getNewlineIndices(editorModel);
   }
 
+  public int[] getCurrentLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
+    return ecs.getCurrentLineBoundaries(editorContent, newlineIndices, includeTail, editorModel);
+  }
   public int getVirtualX() {
     return ecs.getVirtualX(editorModel);
   }

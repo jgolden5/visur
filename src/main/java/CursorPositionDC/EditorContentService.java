@@ -55,6 +55,35 @@ public class EditorContentService {
     return currentContentLine;
   }
 
+  public int[] getCurrentLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail, LocalMap<EditorModelKey, Object> editorModel) {
+    BrickVisurVar cyBVV = (BrickVisurVar)getGlobalVar("cy", editorModel);
+    int cy = (int)cyBVV.getVal();
+    int lowerBound = 0;
+    int upperBound = 0;
+    if(editorContent.length() > 0) {
+      if (cy > 0) {
+        if(cy < newlineIndices.size()) {
+          lowerBound = newlineIndices.get(cy - 1) + 1;
+          upperBound = newlineIndices.get(cy);
+        } else {
+          lowerBound = newlineIndices.get(cy - 1) + 1;
+          upperBound = editorContent.length() - 1;
+        }
+      } else {
+        if (newlineIndices.size() > 0) {
+          if (includeTail) {
+            upperBound = newlineIndices.get(0) + 1;
+          } else {
+            upperBound = newlineIndices.get(0);
+          }
+        } else {
+          upperBound = editorContent.length() - 1;
+        }
+      }
+    }
+    return new int[]{lowerBound, upperBound};
+  }
+
   public ArrayList<Integer> getNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
     BrickVisurVar niBVV = (BrickVisurVar)getGlobalVar("ni", editorModel);
     return (ArrayList<Integer>) niBVV.getVal();

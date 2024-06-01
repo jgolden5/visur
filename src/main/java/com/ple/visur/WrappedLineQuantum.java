@@ -8,29 +8,7 @@ public class WrappedLineQuantum implements Quantum {
 
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
-    BrickVisurVar cyBVV = (BrickVisurVar)emc.getGlobalVar("cy");
-    int cy = (int)cyBVV.getVal();
-    int lowerBound = 0;
-    int upperBound = 0;
-    if(editorContent.length() > 0) {
-      if (cy > 0) {
-        if(cy < newlineIndices.size()) {
-          lowerBound = newlineIndices.get(cy - 1) + 1;
-          upperBound = newlineIndices.get(cy);
-        }
-      } else {
-        if (newlineIndices.size() > 0) {
-          if (includeTail) {
-            upperBound = newlineIndices.get(0) + 1;
-          } else {
-            upperBound = newlineIndices.get(0);
-          }
-        } else {
-          upperBound = editorContent.length() - 1;
-        }
-      }
-    }
-    return new int[]{lowerBound, upperBound};
+    return emc.getCurrentLineBoundaries(editorContent, newlineIndices, includeTail);
   }
 
   @Override
