@@ -82,10 +82,19 @@ public class CharacterQuantum implements Quantum {
 
   private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {
     BrickVisurVar cxBVV = (BrickVisurVar)emc.getGlobalVar("cx");
-    int cx = (int)cxBVV.getVal();
+    Integer cx = (Integer)cxBVV.getVal();
     BrickVisurVar cyBVV = (BrickVisurVar)emc.getGlobalVar("cy");
-    int cy = (int)cyBVV.getVal();
-
+    Integer cy = (Integer)cyBVV.getVal();
+    boolean canDecrementCY = cy > 0;
+    if(canDecrementCY) {
+      cy--;
+      cyBVV.putVal(cy);
+      int[] currentLineBounds = emc.getCurrentLineBoundaries(editorContent, newlineIndices, false);
+      int lengthOfCurrentLine = currentLineBounds[1] - currentLineBounds[0];
+      if(cx >= lengthOfCurrentLine) {
+        cxBVV.putVal(lengthOfCurrentLine);
+      }
+    }
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     return (int) caBVV.getVal();
   }
