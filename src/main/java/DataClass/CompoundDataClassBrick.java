@@ -40,19 +40,11 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return r;
   }
 
-  public Result putInner(String name, Object valOfInnerBrick) {
+  public Result putInner(String name, DataClassBrick innerBrick) {
     String error = null;
     if(inners.containsKey(name)) {
       DataClassBrick inner = inners.get(name);
-      if(inner instanceof PrimitiveDataClassBrick) {
-        PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
-        PrimitiveDataClass innerPDC = innerAsPDCB.getPDC();
-        DataFormBrick dfb = DataFormBrick.make(innerPDC.defaultDF, valOfInnerBrick);
-        innerAsPDCB.putDFB(dfb);
-        inners.put(name, innerAsPDCB);
-      } else {
-        error = "inner is cdcb and therefore unsettable"; //this should not be possible, because putSafe should only be able to be called on pdcb, and therefore, the inner of an outer that was called by a pdcb should always be a pdcb, and if not, an error occurred
-      }
+      inners.put(name, innerBrick);
     } else {
       error = "name not recognized";
     }

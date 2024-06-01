@@ -26,7 +26,8 @@ public class BrickVisurVar implements VisurVar {
 
   @Override
   public Result putVal(Object o) {
-    return brick.putForce(o);
+    brick.putForce(o);
+    return Result.make();
   }
 
   public boolean isComplete() {
@@ -34,11 +35,7 @@ public class BrickVisurVar implements VisurVar {
   }
 
   public Object getUnset() {
-    if(brick.getPDC() instanceof WholeNumberDC) {
-      return -1;
-    } else {
-      return null;
-    }
+    return null; //may change
   }
 
 }

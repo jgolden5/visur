@@ -70,12 +70,12 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
    * call outerDCB.conflictsForce(name, val) to unset previously set values which conflict with val
    * return outerDCB.putInner(name, val), which will return a Result which contains an error only if putInner fails
    * @param val the value which will be set
-   * @return whether said value was successfully set
    */
-  public Result putForce(Object val) {
+  public void putForce(Object val) {
     CompoundDataClassBrick outerDCB = getOuter();
     outerDCB.conflictsForce(name, val);
-    return outerDCB.putInner(name, val);
+    DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
+    putDFB(thisDFBVal);
   }
 
   @Override

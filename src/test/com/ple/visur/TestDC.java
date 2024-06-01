@@ -115,10 +115,8 @@ public class TestDC {
     //1 = cxcy can be set when ca is unset
     int cx = 10;
     int cy = 0;
-    Result r = cxDCB.putForce(cx);
-    assertNull(r.getError());
-    r = cyDCB.putForce(cy);
-    assertNull(r.getError());
+    cxDCB.putForce(cx);
+    cyDCB.putForce(cy);
     assertEquals(cx, cxDCB.get().getVal());
     assertEquals(cy, cyDCB.get().getVal());
 
@@ -126,20 +124,17 @@ public class TestDC {
     ArrayList<Integer> newlineIndices = new ArrayList<>();
     newlineIndices.add(11);
     newlineIndices.add(24);
-    r = niDCB.putForce(newlineIndices);
-    assertNull(r.getError());
+    niDCB.putForce(newlineIndices);
     assertEquals(newlineIndices, niDCB.get().getVal());
 
     //3 = ca can be set when cxcy is set and no conflicts exist
     int ca = 10;
-    r = caDCB.putForce(ca);
-    assertNull(r.getError());
+    caDCB.putForce(ca);
     assertEquals(ca, caDCB.get().getVal());
 
     //4 = ca CAN be set when cxcy is set and conflicts DO exist, but cxcy needs to be UNSET
     ca = 14;
-    r = caDCB.putForce(ca);
-    assertNull(r.getError());
+    caDCB.putForce(ca);
     assertFalse(cxcyDCB.isComplete());
     assertFalse(cxDCB.isComplete());
     assertFalse(cyDCB.isComplete());
@@ -151,11 +146,9 @@ public class TestDC {
     caDCB.putForce(ca);
     cx = 2;
     cy = 1;
-    r = cxDCB.putForce(cx);
-    assertNull(r.getError());
+    cxDCB.putForce(cx);
     assertTrue(caDCB.isComplete());
-    r = cyDCB.putForce(cy);
-    assertNull(r.getError());
+    cyDCB.putForce(cy);
     assertEquals(cx, cxDCB.get().getVal());
     assertEquals(cy, cyDCB.get().getVal());
     assertTrue(caDCB.isComplete());
@@ -163,12 +156,10 @@ public class TestDC {
     //6 = cxcy CAN be set when ca is set and conflicts DO exist, but ca needs to be UNSET
     cx = 1;
     cy = 0;
-    r = cxDCB.putForce(cx);
-    assertNull(r.getError());
+    cxDCB.putForce(cx);
     assertTrue(cxcyDCB.isComplete());
-    r = cyDCB.putForce(cy);
+    cyDCB.putForce(cy);
     assertTrue(cxcyDCB.isComplete());
-    assertNull(r.getError());
     assertEquals(cx, cxDCB.get().getVal());
     assertEquals(cy, cyDCB.get().getVal());
     assertFalse(caDCB.isComplete());
@@ -177,8 +168,7 @@ public class TestDC {
     cxDCB.remove();
     cyDCB.remove();
     ca = 30;
-    r = caDCB.putForce(ca);
-    assertNull(r.getError());
+    caDCB.putForce(ca);
     assertEquals(ca, caDCB.get().getVal());
 
   }
