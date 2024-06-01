@@ -21,10 +21,12 @@ public class CharacterQuantum implements Quantum {
           destination = moveRight();
         }
         mv.dx--;
-      } else if(destination > 0) {
-        destination = moveLeft();
+      } else {
+        if(destination > 0) {
+          destination = moveLeft();
+        }
+        mv.dx++;
       }
-      mv.dx++;
     }
     while(mv.dy != 0) {
       if(mv.dy > 0) {
@@ -34,7 +36,6 @@ public class CharacterQuantum implements Quantum {
         destination = moveUp(editorContent, newlineIndices);
         mv.dy++;
       }
-
     }
     return destination;
   }
