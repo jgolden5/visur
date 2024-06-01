@@ -34,10 +34,12 @@ public class InitializerService {
     final String initialEditorContent = "Hello world\n" +
       "How are you?\n" +
       "Goodbye";
-//    final String initialEditorContent = "Qazlal Stormbringer is a violent god of tempests, who delights in unleashing the forces of nature against the unsuspecting.\n" +
-//      "Those who invite Qazlal's gaze will find themselves the eye in a storm of elemental destruction, from which only their god can protect them.\n" +
-//      "Pious worshippers of Qazlal will gain the ability to direct and control the destructive might of the storm.\n" +
-//      "Followers of Qazlal are protected from the clouds they create.\n";
+//    final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
+//      "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
+//      "One's devotion to Vehumet can be proven by the causing of as much carnage and destruction as possible.\n" +
+//      "Worshippers of Vehumet will quickly be able to recover their magical energy upon killing beings.\n" +
+//      "As they gain favour, they will also gain enhancements to their destructive spells — first assistance in casting such spells and then increased range for conjurations.\n" +
+//      "Vehumet will offer followers the knowledge of increasingly powerful destructive spells as they gain piety.";
 
     initializeUnsetCoordinateBricks();
 
