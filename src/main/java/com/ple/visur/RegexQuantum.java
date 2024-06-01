@@ -71,6 +71,8 @@ public class RegexQuantum implements Quantum {
         }
       }
       if(!startingXIsOutOfBounds) {
+        BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
+        caBVV.putVal(destination);
         int[] newBounds = getBoundaries(editorContent, newlineIndices, false);
         bounds = newBounds;
         destination = bounds[0];
