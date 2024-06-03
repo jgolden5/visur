@@ -54,9 +54,9 @@ public class RegexQuantum implements Quantum {
 
   /** iteratively loop through every dx and dy variable passed into the move method via mv.dx and/or mv.dy
    * make a start var whose value is ca before movement
-   * while mv.dx != 0, call moveLeftRight method (all the same inputs + start var).
+   * if mv.dx != 0, call moveLeftRight method (all the same inputs + start var).
      * assign return value of moveLeftRight to caDestination var, which will be plugged into moveUpDown for start param
-   * likewise, while mv.dy != 0, call moveUpDown method (this time using caDestination as its start parameter)
+   * likewise, if mv.dy != 0, call moveUpDown method (this time using caDestination as its start parameter)
      * also assign return value of moveUpDown to caDestination
    * return the resulting caDestination var
    * @param editorContent source of content which cursor is moving on
@@ -68,15 +68,42 @@ public class RegexQuantum implements Quantum {
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
     int caDestination = (int)ServiceHolder.editorModelCoupler.getGlobalVar("ca").getVal();
-    while(mv.dx != 0) {
+    if(mv.dx != 0) {
       caDestination = moveLeftRight(caDestination, editorContent, newlineIndices, mv, bounds);
     }
-    while(mv.dy != 0) {
+    if(mv.dy != 0) {
       caDestination = moveUpDown(caDestination, editorContent, newlineIndices, mv, bounds);
     }
     return caDestination;
   }
 
+  /**
+   * set caDestination var = start (param)
+   * while mv.dx != 0, do the rest of the function besides the last line
+   * set caDestination = mv.dx > 0 ? bounds[1] : bounds[0]
+   * set empty bool val matchFound
+   * set startingXIsOutOfBounds = contentBoundsReached(mv.dx, caDestination, editorContent)
+   * set keepGoing = !startingXIsOutOfBounds
+   * while keepGoing, do the next 4 lines
+   * set strToMatch var = getStrToMatch(mv.dx, caDestination, editorContent)
+   * set matchFound = matchFound(strToMatch)
+   * if(!matchFound && !contentBoundsReached(mv.dx, caDestination, editorContent), destination += iterator
+   * else, keepGoing = false
+   * if(!startingXIsOutOfBounds), do the next 4 lines
+   * call caBVV.putVal(caDestination)
+   * make newBounds var = getBoundaries(editorContent, newlineIndices, false)
+   * bounds = newBounds
+   * caDestination = bounds[0]
+   * else, caDestination = start
+   * mv.dx -= iterator
+   * return caDestination
+   * @param start starting ca coordinate
+   * @param editorContent
+   * @param newlineIndices
+   * @param mv
+   * @param bounds
+   * @return
+   */
   private int moveLeftRight(int start, String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
     int destination = start;
     int iterator = mv.dx > 0 ? 1 : -1;
