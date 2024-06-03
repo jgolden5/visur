@@ -14,6 +14,10 @@ public class RegexQuantum implements Quantum {
     pattern = Pattern.compile(regexSource);
   }
 
+  public String getName() {
+    return name;
+  }
+
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
@@ -67,111 +71,68 @@ public class RegexQuantum implements Quantum {
    */
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
-    int caDestination = (int)ServiceHolder.editorModelCoupler.getGlobalVar("ca").getVal();
-    if(mv.dx != 0) {
-      caDestination = moveLeftRight(caDestination, editorContent, newlineIndices, mv, bounds);
+    int currentIndex = bounds[0];
+    if(!contentBoundsReached(mv, bounds[1], editorContent)) {
+      currentIndex = mv.dx > 0 ? bounds[1]: bounds[0];
+      if (mv.dx != 0) {
+        currentIndex = moveLeftRight(currentIndex, editorContent, newlineIndices, mv, bounds);
+      }
+      if (mv.dy != 0) {
+        currentIndex = moveUpDown(currentIndex, editorContent, newlineIndices, mv, bounds);
+      }
     }
-    if(mv.dy != 0) {
-      caDestination = moveUpDown(caDestination, editorContent, newlineIndices, mv, bounds);
-    }
-    return caDestination;
+    return currentIndex;
   }
 
   /**
-   * destination var (will be the return value after movement calculations are done) = start
    * incrementer var = mv.dx > 0 ? 1 : -1
-   * loop while mv.dx != 0
-     * check if movementShouldHappen (based on if a limit will be hit after movement).
-     * if not !movementShouldHappen, exit loop
-     * else, call singleRegexSearch(), which acts as though mv.cx == 1 every time
-     * set resultingBounds = singleRegexSearch() (lowerBound = first regex match; upperBound = last regex match)
-     * caDestination = resultingBounds[0]
-     * mv.dx -= incrementor
+   * loop through every character in editorContent, checking for match
+   * if match is found, return that match index and end search, else, return original startIndex index
    * return caDestination
-   * @param start starting ca coordinate
+   * @param startIndex starting ca coordinate
    * @param editorContent
    * @param newlineIndices
    * @param mv
    * @param bounds
    * @return
    */
-  private int moveLeftRight(int start, String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
-    int caDestination = start;
-    while(mv.dx != 0) {
-      int iterator;
-      if(mv.dx > 0) {
-        iterator = 1;
-        caDestination = bounds[1];
+  private int moveLeftRight(int startIndex, String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
+    int incrementer = mv.dx > 0 ? 1 : -1;
+    int current = startIndex;
+    boolean matchFound = false;
+    boolean contentBoundsReached = false;
+    boolean keepGoing = true;
+    while(keepGoing) {
+      if(contentBoundsReached(mv, current, editorContent)) {
+        contentBoundsReached = true;
+        current = startIndex;
       } else {
-        iterator = -1;
-        caDestination = bounds[0];
-      }
-      boolean matchFound;
-      boolean startingXIsOutOfBounds = contentBoundsReached(mv.dx, caDestination, editorContent);
-      boolean keepGoing = !startingXIsOutOfBounds;
-      while(keepGoing) {
-        String strToMatch = getStrToMatch(mv.dx, caDestination, editorContent);
-        matchFound = matchFound(strToMatch);
-        if(!matchFound && !contentBoundsReached(mv.dx, caDestination, editorContent)) {
-          caDestination += iterator;
+        char currentChar = mv.dx > 0 ? editorContent.charAt(current) : editorContent.charAt(current - 1);
+        String currentCharAsString = String.valueOf(currentChar);
+        Matcher matcher = pattern.matcher(currentCharAsString);
+        if (matcher.matches()) {
+          matchFound = true;
         } else {
-          keepGoing = false;
+          current += incrementer;
         }
-        mv.dx -= iterator;
       }
+      keepGoing = !(matchFound || contentBoundsReached);
     }
-    return caDestination;
+    return current;
   }
 
   private int moveUpDown(int caDestination, String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
     return 0;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  private boolean contentBoundsReached(int dx, int x, String editorContent) {
-    if(dx > 0) {
-      return x >= editorContent.length() - 1;
-    } else if(dx < 0) {
-      return x <= 0;
+  private boolean contentBoundsReached(MovementVector mv, int currentIndex, String editorContent) {
+    if(mv.dx > 0) {
+      return currentIndex > editorContent.length() - 1;
+    } else if(mv.dx < 0) {
+      return currentIndex <= 0;
     } else {
       return true;
     }
-  }
-
-  private boolean matchFound(String strToMatch) {
-    Matcher matcher = pattern.matcher(strToMatch);
-    return matcher.matches();
-  }
-
-  private String getStrToMatch(int dx, int x, String contentLines) {
-    if(contentBoundsReached(dx, x, contentLines)) {
-      return "";
-    } else if(dx > 0) {
-      return contentLines.substring(x, x + 1);
-    } else { //dx < 0
-      return contentLines.substring(x - 1, x);
-    }
-  }
-
-  private int getY(String editorContent, ArrayList<Integer> newlineIndices, int x) { //eventually change to binary search
-    boolean yFound = false;
-    int y = 0;
-    boolean newlineCharIsAtEndOfLine = editorContent.charAt(editorContent.length() - 1) == '\n';
-    while(!yFound) {
-      if(y < newlineIndices.size()) {
-        if (x > newlineIndices.get(y)) {
-          y++;
-        } else {
-          yFound = true;
-        }
-      } else if(!newlineCharIsAtEndOfLine) {
-        yFound = true;
-      }
-    }
-    return y;
   }
 
 }
