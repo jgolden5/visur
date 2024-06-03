@@ -18,42 +18,24 @@ public class RegexQuantum implements Quantum {
     return name;
   }
 
+  /**
+   * declare bounds var = empty int array
+   * call emc.getGlobalVar to get ca val from caBVV
+   * use ca as starting index for searching in editorContent for regex pattern
+   * check for first match in string by searching backwards until a non-match is found or contentLimitReached
+   * if currentIndex is a match, set that to bounds[0], else, keep searching, and set first match to bounds[0]
+   * keep searching after bounds[0] is found until a nonmatch is found
+   * set bounds[1] = first nonmatch found (after lowerBoundsFound) - 1
+   * return bounds
+   * @param editorContent
+   * @param newlineIndices
+   * @param includeTail
+   * @return
+   */
+
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
-    BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
-    int ca = (int)caBVV.getVal();
-    boolean lowerBoundFound = false; //check for lowerBound first
-    boolean upperBoundFound = false; //if lowerBoundFound, check for upperBound
-    int[] bounds = new int[]{ca, ca};
-    while(!(lowerBoundFound && upperBoundFound)) {
-      if(!lowerBoundFound) {
-        if(bounds[0] > 0) {
-          bounds[0]--;
-        } else {
-          lowerBoundFound = true;
-          continue;
-        }
-      } else {
-        if(bounds[1] < editorContent.length()) {
-          bounds[1]++;
-        } else {
-          upperBoundFound = true;
-          continue;
-        }
-      }
-      String strToMatch = editorContent.substring(bounds[0], bounds[1]);
-      Matcher matcher = pattern.matcher(strToMatch);
-      if(!matcher.matches()) {
-        if(!lowerBoundFound) {
-          lowerBoundFound = true;
-          bounds[0]++;
-        } else {
-          upperBoundFound = true;
-          bounds[1]--;
-        }
-      }
-    }
-    return bounds;
+    
   }
 
   /** iteratively loop through every dx and dy variable passed into the move method via mv.dx and/or mv.dy
@@ -72,7 +54,7 @@ public class RegexQuantum implements Quantum {
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
     int currentIndex = bounds[0];
-    if(!contentBoundsReached(mv, bounds[1], editorContent)) {
+    if(!contentLimitReached(mv, bounds[1], editorContent)) {
       currentIndex = mv.dx > 0 ? bounds[1]: bounds[0];
       if (mv.dx != 0) {
         currentIndex = moveLeftRight(currentIndex, editorContent, newlineIndices, mv, bounds);
@@ -103,7 +85,7 @@ public class RegexQuantum implements Quantum {
     boolean contentBoundsReached = false;
     boolean keepGoing = true;
     while(keepGoing) {
-      if(contentBoundsReached(mv, current, editorContent)) {
+      if(contentLimitReached(mv, current, editorContent)) {
         contentBoundsReached = true;
         current = startIndex;
       } else {
@@ -125,7 +107,7 @@ public class RegexQuantum implements Quantum {
     return 0;
   }
 
-  private boolean contentBoundsReached(MovementVector mv, int currentIndex, String editorContent) {
+  private boolean contentLimitReached(MovementVector mv, int currentIndex, String editorContent) {
     if(mv.dx > 0) {
       return currentIndex > editorContent.length() - 1;
     } else if(mv.dx < 0) {
