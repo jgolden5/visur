@@ -32,10 +32,22 @@ public class RegexQuantum implements Quantum {
    * @param includeTail
    * @return
    */
-
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
-    
+    int[] bounds = new int[2];
+    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
+    int currentIndex = (int)caBVV.getVal();
+    bounds[0] = getLeftBound(currentIndex, editorContent);
+    bounds[1] = getRightBound(bounds[0], editorContent);
+    return bounds;
+  }
+
+  private int getLeftBound(int currentIndex, String editorContent) {
+    return 0;
+  }
+
+  private int getRightBound(int currentIndex, String editorContent) {
+    return 0;
   }
 
   /** iteratively loop through every dx and dy variable passed into the move method via mv.dx and/or mv.dy
@@ -57,7 +69,7 @@ public class RegexQuantum implements Quantum {
     if(!contentLimitReached(mv, bounds[1], editorContent)) {
       currentIndex = mv.dx > 0 ? bounds[1]: bounds[0];
       if (mv.dx != 0) {
-        currentIndex = moveLeftRight(currentIndex, editorContent, newlineIndices, mv, bounds);
+        currentIndex = regexSingleSearch(currentIndex, editorContent, mv);
       }
       if (mv.dy != 0) {
         currentIndex = moveUpDown(currentIndex, editorContent, newlineIndices, mv, bounds);
@@ -66,19 +78,17 @@ public class RegexQuantum implements Quantum {
     return currentIndex;
   }
 
-  /**
+  /** goes from endpoint of previous bound to beginning of next bound after quantum movement
    * incrementer var = mv.dx > 0 ? 1 : -1
    * loop through every character in editorContent, checking for match
    * if match is found, return that match index and end search, else, return original startIndex index
    * return caDestination
    * @param startIndex starting ca coordinate
    * @param editorContent
-   * @param newlineIndices
    * @param mv
-   * @param bounds
-   * @return
+   * @return resulting index of regex search movement
    */
-  private int moveLeftRight(int startIndex, String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
+  private int regexSingleSearch(int startIndex, String editorContent, MovementVector mv) {
     int incrementer = mv.dx > 0 ? 1 : -1;
     int current = startIndex;
     boolean matchFound = false;
