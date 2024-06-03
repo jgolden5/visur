@@ -42,12 +42,64 @@ public class RegexQuantum implements Quantum {
     return bounds;
   }
 
-  private int getLeftBound(int currentIndex, String editorContent) {
-    return 0;
+  private int getLeftBound(int startingIndex, String editorContent) {
+    int leftBound = startingIndex;
+    //if there is no match immediately to the left, search forward for the first match
+    //else, search backwards for the first non-match
+    boolean shouldSearchBackwards;
+    if(leftBound > 0) {
+      Matcher matcher = pattern.matcher(editorContent.substring(leftBound - 1, leftBound));
+      shouldSearchBackwards = matcher.matches();
+      if (shouldSearchBackwards) {
+        boolean nonmatchFound = false;
+        while (!nonmatchFound) {
+          if(leftBound > 0) {
+            matcher = pattern.matcher(editorContent.substring(leftBound - 1, leftBound));
+            if (!matcher.matches()) {
+              nonmatchFound = true;
+            } else {
+              leftBound--;
+            }
+          } else {
+            nonmatchFound = true;
+          }
+        }
+      } else {
+        boolean matchFound = false;
+        while (!matchFound) {
+          if(leftBound < editorContent.length() - 1) {
+            matcher = pattern.matcher(editorContent.substring(leftBound, leftBound + 1));
+            if(matcher.matches()) {
+              matchFound = true;
+            } else {
+              leftBound++;
+            }
+          } else {
+            leftBound = 0;
+            matchFound = true;
+          }
+        }
+      }
+    }
+    return leftBound;
   }
 
-  private int getRightBound(int currentIndex, String editorContent) {
-    return 0;
+  private int getRightBound(int leftBound, String editorContent) { //this assumes currentIndex is ALWAYS accurate
+    int rightBound = leftBound;
+    boolean rightBoundFound = false;
+    while(!rightBoundFound) {
+      if(rightBound <= editorContent.length() - 1) {
+        Matcher matcher = pattern.matcher(editorContent.substring(rightBound, rightBound + 1));
+        if(!matcher.matches()) {
+          rightBoundFound = true;
+        } else {
+          rightBound++;
+        }
+      } else {
+        rightBoundFound = true;
+      }
+    }
+    return rightBound;
   }
 
   /** iteratively loop through every dx and dy variable passed into the move method via mv.dx and/or mv.dy
@@ -69,7 +121,7 @@ public class RegexQuantum implements Quantum {
     if(!contentLimitReached(mv, bounds[1], editorContent)) {
       currentIndex = mv.dx > 0 ? bounds[1]: bounds[0];
       if (mv.dx != 0) {
-        currentIndex = regexSingleSearch(currentIndex, editorContent, mv);
+        currentIndex = moveLeftRight(currentIndex, editorContent, mv);
       }
       if (mv.dy != 0) {
         currentIndex = moveUpDown(currentIndex, editorContent, newlineIndices, mv, bounds);
@@ -88,7 +140,7 @@ public class RegexQuantum implements Quantum {
    * @param mv
    * @return resulting index of regex search movement
    */
-  private int regexSingleSearch(int startIndex, String editorContent, MovementVector mv) {
+  private int moveLeftRight(int startIndex, String editorContent, MovementVector mv) {
     int incrementer = mv.dx > 0 ? 1 : -1;
     int current = startIndex;
     boolean matchFound = false;

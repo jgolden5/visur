@@ -32,7 +32,7 @@ public class InitializerService {
     emc.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
     emc.putExecutionDataStack(new ExecutionDataStack());
     final String initialEditorContent = "Hello world\n" +
-      "How are you?                             \n" +
+      "How are you?\n" +
       "Goodbye\n";
 //    final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
 //      "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
