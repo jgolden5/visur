@@ -78,24 +78,15 @@ public class RegexQuantum implements Quantum {
   }
 
   /**
-   * set caDestination var = start (param)
-   * while mv.dx != 0, do the rest of the function besides the last line
-   * set caDestination = mv.dx > 0 ? bounds[1] : bounds[0]
-   * set empty bool val matchFound
-   * set startingXIsOutOfBounds = contentBoundsReached(mv.dx, caDestination, editorContent)
-   * set keepGoing = !startingXIsOutOfBounds
-   * while keepGoing, do the next 4 lines
-   * set strToMatch var = getStrToMatch(mv.dx, caDestination, editorContent)
-   * set matchFound = matchFound(strToMatch)
-   * if(!matchFound && !contentBoundsReached(mv.dx, caDestination, editorContent), destination += iterator
-   * else, keepGoing = false
-   * if(!startingXIsOutOfBounds), do the next 4 lines
-   * call caBVV.putVal(caDestination)
-   * make newBounds var = getBoundaries(editorContent, newlineIndices, false)
-   * bounds = newBounds
-   * caDestination = bounds[0]
-   * else, caDestination = start
-   * mv.dx -= iterator
+   * destination var (will be the return value after movement calculations are done) = start
+   * incrementer var = mv.dx > 0 ? 1 : -1
+   * loop while mv.dx != 0
+     * check if movementShouldHappen (based on if a limit will be hit after movement).
+     * if not !movementShouldHappen, exit loop
+     * else, call singleRegexSearch(), which acts as though mv.cx == 1 every time
+     * set resultingBounds = singleRegexSearch() (lowerBound = first regex match; upperBound = last regex match)
+     * caDestination = resultingBounds[0]
+     * mv.dx -= incrementor
    * return caDestination
    * @param start starting ca coordinate
    * @param editorContent
@@ -105,34 +96,31 @@ public class RegexQuantum implements Quantum {
    * @return
    */
   private int moveLeftRight(int start, String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
-    int destination = start;
-    int iterator = mv.dx > 0 ? 1 : -1;
+    int caDestination = start;
     while(mv.dx != 0) {
-      int destination = mv.dx > 0 ? bounds[1] : bounds[0];
-      boolean startingXIsOutOfBounds = contentBoundsReached(mv.dx, destination, editorContent);
-      boolean keepGoing = !startingXIsOutOfBounds;
+      int iterator;
+      if(mv.dx > 0) {
+        iterator = 1;
+        caDestination = bounds[1];
+      } else {
+        iterator = -1;
+        caDestination = bounds[0];
+      }
       boolean matchFound;
-      while (keepGoing) {
-        String strToMatch = getStrToMatch(mv.dx, destination, editorContent);
+      boolean startingXIsOutOfBounds = contentBoundsReached(mv.dx, caDestination, editorContent);
+      boolean keepGoing = !startingXIsOutOfBounds;
+      while(keepGoing) {
+        String strToMatch = getStrToMatch(mv.dx, caDestination, editorContent);
         matchFound = matchFound(strToMatch);
-        if (!matchFound && !contentBoundsReached(mv.dx, destination, editorContent)) {
-          destination += iterator;
+        if(!matchFound && !contentBoundsReached(mv.dx, caDestination, editorContent)) {
+          caDestination += iterator;
         } else {
           keepGoing = false;
         }
+        mv.dx -= iterator;
       }
-      if (!startingXIsOutOfBounds) {
-        BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-        caBVV.putVal(destination);
-        int[] newBounds = getBoundaries(editorContent, newlineIndices, false);
-        bounds = newBounds;
-        destination = bounds[0];
-      } else {
-        destination = start;
-      }
-      mv.dx -= iterator;
     }
-    return destination;
+    return caDestination;
   }
 
   private int moveUpDown(int caDestination, String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
@@ -143,9 +131,9 @@ public class RegexQuantum implements Quantum {
     return name;
   }
 
-  private boolean contentBoundsReached(int dx, int x, String contentLines) {
+  private boolean contentBoundsReached(int dx, int x, String editorContent) {
     if(dx > 0) {
-      return x >= contentLines.length() - 1;
+      return x >= editorContent.length() - 1;
     } else if(dx < 0) {
       return x <= 0;
     } else {
