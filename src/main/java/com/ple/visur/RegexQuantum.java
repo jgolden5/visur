@@ -129,11 +129,12 @@ public class RegexQuantum implements Quantum {
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
     int currentIndex = bounds[0];
     if(!contentLimitReached(mv, bounds[1], editorContent)) {
-      currentIndex = mv.dx > 0 ? bounds[1]: bounds[0];
       if (mv.dx != 0) {
+        currentIndex = mv.dx > 0 ? bounds[1] : bounds[0];
         currentIndex = moveLeftRight(currentIndex, editorContent, mv);
       }
       if (mv.dy != 0) {
+        currentIndex = bounds[0];
         currentIndex = moveUpDown(currentIndex, editorContent, newlineIndices, mv, bounds);
       }
     }
@@ -175,8 +176,21 @@ public class RegexQuantum implements Quantum {
     return current;
   }
 
-  private int moveUpDown(int caDestination, String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
-    return 0;
+  /** moves up or down essentially like a character quantum.
+ * The only difference is that getBoundaries is called afterwards at the resulting cx cy coordinate
+   * construct a CharacterQuantum var called cq
+   * if mv.dy > 0, call cq.moveDown, else call cq.moveUp. Assign the result to ca var
+   * return ca
+   * @param startingCA
+   * @param editorContent
+   * @param newlineIndices
+   * @param mv
+   * @param bounds
+   * @return absolute position after movement (aka ca var)
+   */
+  private int moveUpDown(int startingCA, String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
+    CharacterQuantum cq = new CharacterQuantum();
+    return cq.move(editorContent, newlineIndices, mv, bounds);
   }
 
   private boolean contentLimitReached(MovementVector mv, int currentIndex, String editorContent) {
@@ -184,6 +198,8 @@ public class RegexQuantum implements Quantum {
       return currentIndex > editorContent.length() - 1;
     } else if(mv.dx < 0) {
       return currentIndex <= 0;
+    } else if(mv.dy != 0) {
+      return false;
     } else {
       return true;
     }
