@@ -9,9 +9,11 @@ public class ChangeQuantumOp implements Operator {
     String quantumNameWithoutQuotes = quantumName.substring(1, quantumName.length() - 1);
     Quantum targetQuantum = ems.getQuantumMap().get(quantumNameWithoutQuotes);
     int[] bounds = targetQuantum.getBoundaries(ems.getEditorContent(), ems.getNewlineIndices(), false);
-    ems.putQuantumStart(bounds[0]);
-    ems.putQuantumEnd(bounds[1]);
-    ems.putCurrentQuantum(targetQuantum);
+    if(bounds[0] != bounds[1]) {
+      ems.putQuantumStart(bounds[0]);
+      ems.putQuantumEnd(bounds[1]);
+      ems.putCurrentQuantum(targetQuantum);
+    }
   }
 
 }
