@@ -55,12 +55,13 @@ public class RegexQuantum implements Quantum {
   private int getLeftBound(int startingIndex, String editorContent) {
     int leftBound = startingIndex;
     if(leftBound > 0) {
-      leftBound = goLeftUntilFound("match", leftBound, editorContent);
-      boolean noMatchFoundGoingLeft = leftBound == -1;
-      if(noMatchFoundGoingLeft) {
+      leftBound = goLeftUntilFound("nonmatch", leftBound, editorContent);
+      if(leftBound == startingIndex) {
         leftBound = goRightUntilFound("match", leftBound, editorContent);
       }
-      if(leftBound != -1) {
+      if(leftBound == -1) {
+        leftBound = startingIndex;
+        leftBound = goLeftUntilFound("match", leftBound, editorContent);
         leftBound = goLeftUntilFound("nonmatch", leftBound, editorContent);
       }
     }
@@ -69,18 +70,18 @@ public class RegexQuantum implements Quantum {
 
   private int goLeftUntilFound(String searchTarget, int startingIndex, String editorContent) {
     int leftBoundMatch = startingIndex;
-    boolean matchIsFound = false;
-    while(!matchIsFound && leftBoundMatch > 0) {
+    boolean searchConditionFound = false;
+    while(!searchConditionFound && leftBoundMatch > 0) {
       String strToMatch = editorContent.substring(leftBoundMatch - 1, leftBoundMatch);
       Matcher matcher = pattern.matcher(strToMatch);
       boolean searchCondition = searchTarget.equals("match") ? matcher.matches() : !matcher.matches();
       if(searchCondition) {
-        matchIsFound = true;
+        searchConditionFound = true;
       } else {
         leftBoundMatch--;
       }
     }
-    if(matchIsFound) {
+    if(searchConditionFound || leftBoundMatch == 0) {
       return leftBoundMatch;
     } else {
       return -1;
@@ -89,18 +90,18 @@ public class RegexQuantum implements Quantum {
 
   private int goRightUntilFound(String searchTarget, int startingIndex, String editorContent) {
     int rightBoundMatch = startingIndex;
-    boolean matchIsFound = false;
-    while(!matchIsFound && rightBoundMatch <= editorContent.length() - 1) {
+    boolean searchConditionFound = false;
+    while(!searchConditionFound && rightBoundMatch <= editorContent.length() - 1) {
       String strToMatch = editorContent.substring(rightBoundMatch, rightBoundMatch + 1);
       Matcher matcher = pattern.matcher(strToMatch);
       boolean searchCondition = searchTarget.equals("match") ? matcher.matches() : !matcher.matches();
       if(searchCondition) {
-        matchIsFound = true;
+        searchConditionFound = true;
       } else {
         rightBoundMatch++;
       }
     }
-    if(matchIsFound) {
+    if(searchConditionFound || rightBoundMatch < editorContent.length() - 1) {
       return rightBoundMatch;
     } else {
       return -1;
