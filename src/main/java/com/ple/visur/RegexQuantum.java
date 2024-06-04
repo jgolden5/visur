@@ -42,64 +42,73 @@ public class RegexQuantum implements Quantum {
     return bounds;
   }
 
+  /**
+   * set leftBound = startingIndex
+   * if startingIndex <= 0, leftBound is found
+   * if first search resulted in a match, we are searching for the first nonmatch, else, search for first match
+   * if no match is found searching backwards (meaning a limit was hit before a match was found), search forwards for a match
+   * if no match is found in the entire editorContent, return -1, which means the quantum should be impossible to switch to
+   * @param startingIndex
+   * @param editorContent
+   * @return
+   */
   private int getLeftBound(int startingIndex, String editorContent) {
     int leftBound = startingIndex;
-    //if there is no match immediately to the left, search forward for the first match
-    //else, search backwards for the first non-match
-    boolean shouldSearchBackwards;
     if(leftBound > 0) {
-      Matcher matcher = pattern.matcher(editorContent.substring(leftBound - 1, leftBound));
-      shouldSearchBackwards = matcher.matches();
-      if (shouldSearchBackwards) {
-        boolean nonmatchFound = false;
-        while (!nonmatchFound) {
-          if(leftBound > 0) {
-            matcher = pattern.matcher(editorContent.substring(leftBound - 1, leftBound));
-            if (!matcher.matches()) {
-              nonmatchFound = true;
-            } else {
-              leftBound--;
-            }
-          } else {
-            nonmatchFound = true;
-          }
-        }
-      } else {
-        boolean matchFound = false;
-        while (!matchFound) {
-          if(leftBound < editorContent.length() - 1) {
-            matcher = pattern.matcher(editorContent.substring(leftBound, leftBound + 1));
-            if(matcher.matches()) {
-              matchFound = true;
-            } else {
-              leftBound++;
-            }
-          } else {
-            leftBound = 0;
-            matchFound = true;
-          }
-        }
+      leftBound = goLeftUntilFound("match", leftBound, editorContent);
+      boolean noMatchFoundGoingLeft = leftBound == -1;
+      if(noMatchFoundGoingLeft) {
+        leftBound = goRightUntilFound("match", leftBound, editorContent);
+      }
+      if(leftBound != -1) {
+        leftBound = goLeftUntilFound("nonmatch", leftBound, editorContent);
       }
     }
     return leftBound;
   }
 
-  private int getRightBound(int leftBound, String editorContent) { //this assumes currentIndex is ALWAYS accurate
-    int rightBound = leftBound;
-    boolean rightBoundFound = false;
-    while(!rightBoundFound) {
-      if(rightBound <= editorContent.length() - 1) {
-        Matcher matcher = pattern.matcher(editorContent.substring(rightBound, rightBound + 1));
-        if(!matcher.matches()) {
-          rightBoundFound = true;
-        } else {
-          rightBound++;
-        }
+  private int goLeftUntilFound(String searchTarget, int startingIndex, String editorContent) {
+    int leftBoundMatch = startingIndex;
+    boolean matchIsFound = false;
+    while(!matchIsFound && leftBoundMatch > 0) {
+      String strToMatch = editorContent.substring(leftBoundMatch - 1, leftBoundMatch);
+      Matcher matcher = pattern.matcher(strToMatch);
+      boolean searchCondition = searchTarget.equals("match") ? matcher.matches() : !matcher.matches();
+      if(searchCondition) {
+        matchIsFound = true;
       } else {
-        rightBoundFound = true;
+        leftBoundMatch--;
       }
     }
-    return rightBound;
+    if(matchIsFound) {
+      return leftBoundMatch;
+    } else {
+      return -1;
+    }
+  }
+
+  private int goRightUntilFound(String searchTarget, int startingIndex, String editorContent) {
+    int rightBoundMatch = startingIndex;
+    boolean matchIsFound = false;
+    while(!matchIsFound && rightBoundMatch <= editorContent.length() - 1) {
+      String strToMatch = editorContent.substring(rightBoundMatch, rightBoundMatch + 1);
+      Matcher matcher = pattern.matcher(strToMatch);
+      boolean searchCondition = searchTarget.equals("match") ? matcher.matches() : !matcher.matches();
+      if(searchCondition) {
+        matchIsFound = true;
+      } else {
+        rightBoundMatch++;
+      }
+    }
+    if(matchIsFound) {
+      return rightBoundMatch;
+    } else {
+      return -1;
+    }
+  }
+
+  private int getRightBound(int startingIndex, String editorContent) { //this assumes currentIndex is ALWAYS accurate
+    return goRightUntilFound("nonmatch", startingIndex, editorContent);
   }
 
   /** iteratively loop through every dx and dy variable passed into the move method via mv.dx and/or mv.dy
