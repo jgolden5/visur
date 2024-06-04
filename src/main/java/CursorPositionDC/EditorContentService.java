@@ -67,7 +67,8 @@ public class EditorContentService {
           upperBound = newlineIndices.get(cy);
         } else {
           lowerBound = newlineIndices.get(cy - 1) + 1;
-          upperBound = editorContent.length() - 1;
+          boolean lastCharIsNewline = editorContent.charAt(editorContent.length() - 1) == '\n';
+          upperBound = lastCharIsNewline ? editorContent.length() - 1 : editorContent.length();
         }
       } else {
         if (newlineIndices.size() > 0) {
@@ -80,6 +81,9 @@ public class EditorContentService {
           upperBound = editorContent.length() - 1;
         }
       }
+    }
+    if(lowerBound == upperBound) { //these 3 lines only take place if we want wrappedLine to select a line in the case that that line only consists of a newline char
+      upperBound++;
     }
     return new int[]{lowerBound, upperBound};
   }

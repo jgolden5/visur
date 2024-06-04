@@ -31,15 +31,15 @@ public class InitializerService {
     emc.putEditorMode(editing);
     emc.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
     emc.putExecutionDataStack(new ExecutionDataStack());
-    final String initialEditorContent = "Hello world\n" +
-      "How are you?\n" +
-      "Goodbye \n";
-//    final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
-//      "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
-//      "One's devotion to Vehumet can be proven by the causing of as much carnage and destruction as possible.\n" +
-//      "Worshippers of Vehumet will quickly be able to recover their magical energy upon killing beings.\n" +
-//      "As they gain favour, they will also gain enhancements to their destructive spells — first assistance in casting such spells and then increased range for conjurations.\n" +
-//      "Vehumet will offer followers the knowledge of increasingly powerful destructive spells as they gain piety.";
+//    final String initialEditorContent = "Hello world\n" +
+//      "How are you?\n" +
+//      "Goodbye\n";
+    final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
+      "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
+      "One's devotion to Vehumet can be proven by the causing of as much carnage and destruction as possible.\n" +
+      "Worshippers of Vehumet will quickly be able to recover their magical energy upon killing beings.\n" +
+      "As they gain favour, they will also gain enhancements to their destructive spells — first assistance in casting such spells and then increased range for conjurations.\n" +
+      "Vehumet will offer followers the knowledge of increasingly powerful destructive spells as they gain piety.\n";
 
     initializeUnsetCoordinateBricks();
 
