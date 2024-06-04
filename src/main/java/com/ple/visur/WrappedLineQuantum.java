@@ -13,7 +13,10 @@ public class WrappedLineQuantum implements Quantum {
 
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
+    CharacterQuantum cq = new CharacterQuantum();
     mv.dy += mv.dx;
+    BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
+    int ca = (int)caBVV.getVal();
     BrickVisurVar cyBVV = (BrickVisurVar)emc.getGlobalVar("cy");
     int cy = (int)cyBVV.getVal();
     boolean lastCharIsNewline = editorContent.charAt(editorContent.length() - 1) == '\n';
@@ -21,19 +24,20 @@ public class WrappedLineQuantum implements Quantum {
       if(mv.dy > 0) {
         boolean canGoDown = lastCharIsNewline ? cy < newlineIndices.size() - 1 : cy < newlineIndices.size();
         if(canGoDown) {
-          cy++;
+          ca = cq.move(editorContent, newlineIndices, mv, bounds);
+        } else {
+          mv.dy--;
         }
-        mv.dy--;
       } else {
         boolean canGoUp = cy > 0;
         if(canGoUp) {
-          cy--;
+          ca = cq.move(editorContent, newlineIndices, mv, bounds);
+        } else {
+          mv.dy++;
         }
-        mv.dy++;
       }
     }
-    BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
-    return (int) caBVV.getVal();
+    return ca;
   }
 
   @Override

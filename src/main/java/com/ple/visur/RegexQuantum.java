@@ -101,7 +101,7 @@ public class RegexQuantum implements Quantum {
         rightBoundMatch++;
       }
     }
-    if(searchConditionFound || rightBoundMatch < editorContent.length() - 1) {
+    if(searchConditionFound || rightBoundMatch < editorContent.length() - 1 && searchTarget.equals("match") || searchTarget.equals("nonmatch")) {
       return rightBoundMatch;
     } else {
       return -1;
