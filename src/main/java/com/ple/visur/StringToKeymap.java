@@ -15,12 +15,12 @@ public class StringToKeymap implements Shareable {
     return new StringToKeymap();
   }
 
-  public void put(String modeOrSubmodeName, KeysToVisurCommand keyToOperator) {
-    keymapMap.put(modeOrSubmodeName, keyToOperator);
+  public void put(String submode, KeysToVisurCommand keyToOperator) {
+    keymapMap.put(submode, keyToOperator);
   }
 
-  public KeysToVisurCommand get(EditorMode editorMode) {
-    return keymapMap.get(editorMode);
+  public KeysToVisurCommand get(String submode) {
+    return keymapMap.get(submode);
   }
 
 }

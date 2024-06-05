@@ -15,21 +15,21 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
     JsonObject keyJson = new JsonObject((String) event.body());
     final String key = keyJson.getString("key");
     KeyPressed keyPressed = KeyPressed.from(key);
-    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
-    if(ems.getIsInCommandState()) {
+    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
+    if(emc.getIsInCommandState()) {
       ServiceHolder.commandStateService.executeCommandState(keyPressed);
     } else {
       boolean matchPossible; //if false, buffer gets erased and replaced, else buffer gets saved
-      KeysPressed previousKeyBuffer = ems.getKeyBuffer();
+      KeysPressed previousKeyBuffer = emc.getKeyBuffer();
       KeysPressed currentKeyBuffer = determineCurrentKeyBuffer(previousKeyBuffer, keyPressed);
-      ems.putKeyBuffer(currentKeyBuffer);
+      emc.putKeyBuffer(currentKeyBuffer);
       final KeysPressed keysRequiredToEnterCommandState = new KeysPressed(
         new KeyPressed[]{KeyPressed.from("Shift"), KeyPressed.from("Escape")}
       );
       final KeysPressed onlyShiftKeyPressed = KeysPressed.from(new KeyPressed[]{KeyPressed.from("Shift")});
 
       if (currentKeyBuffer.matchExact(keysRequiredToEnterCommandState)) {
-        ems.putIsInCommandState(true);
+        emc.putIsInCommandState(true);
         matchPossible = false;
         System.out.println("Is in command state");
       } else if (currentKeyBuffer.matchExact(onlyShiftKeyPressed)) {
@@ -37,11 +37,11 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       } else {
         if(currentKeyBuffer.contains(KeyPressed.from("Shift"))) {
           currentKeyBuffer.removeFirstElement();
-          ems.putKeyBuffer(currentKeyBuffer);
+          emc.putKeyBuffer(currentKeyBuffer);
         }
-        StringToKeymap keymapMap = ems.getKeymapMap();
+        StringToKeymap keymapMap = emc.getKeymapMap();
         //get key from previously specified keymap
-        KeysToVisurCommand keymap = keymapMap.get(ems.getEditorMode());
+        KeysToVisurCommand keymap = keymapMap.get(emc.getEditorSubmode());
         //get the command stored in the keymap under keybuffer's key
         VisurCommand currentCommand = keymap.get(currentKeyBuffer);
         CommandExecutionService ces = ServiceHolder.commandExecutionService.make();
@@ -53,7 +53,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       }
 
       if (!matchPossible) {
-        ems.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
+        emc.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
       }
 
     }

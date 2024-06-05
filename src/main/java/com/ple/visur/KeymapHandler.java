@@ -15,8 +15,8 @@ public class KeymapHandler implements KeysToOperatorHandler {
   @Override
   public VisurCommand toVisurCommand(KeysPressed keysPressed) {
     final StringToKeymap keymapMap = ems.getKeymapMap();
-    final EditorMode mode = ems.getEditorMode();
-    final KeysToVisurCommand keymap = keymapMap.get(mode);
+    final String submode = ems.getEditorSubmode();
+    final KeysToVisurCommand keymap = keymapMap.get(submode);
     VisurCommand visurCommand = keymap.get(keysPressed);
     return visurCommand;
   }

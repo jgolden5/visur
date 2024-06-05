@@ -29,6 +29,7 @@ public class InitializerService {
     emc.putVirtualX(0);
     emc.putVirtualXIsAtEndOfLine(false);
     emc.putEditorMode(editing);
+    emc.putEditorSubmode("editing");
     emc.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
     emc.putExecutionDataStack(new ExecutionDataStack());
     final String initialEditorContent = "Hello world\n" +

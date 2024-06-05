@@ -68,6 +68,10 @@ public class EditorModelCoupler {
     return (EditorMode)editorModel.get(editorMode);
   }
 
+  public String getEditorSubmode() {
+    return (String)editorModel.get(editorSubmode);
+  }
+
   public StringToKeymap getKeymapMap() {
     return (StringToKeymap) editorModel.get(modeToKeymap);
   }
@@ -146,6 +150,10 @@ public class EditorModelCoupler {
 
   public void putEditorMode(EditorMode mode) {
     editorModel.put(editorMode, mode);
+  }
+
+  public void putEditorSubmode(String submode) {
+    editorModel.put(editorSubmode, submode);
   }
 
   public void putKeymapMap(StringToKeymap keymapMap) {
