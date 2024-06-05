@@ -91,12 +91,19 @@ public class InitializerService {
   }
 
   private void initializeQuantums() {
-    QuantumNameToQuantum qm = new QuantumNameToQuantum();
+    QuantumNameToQuantum quantumNameToQuantum = new QuantumNameToQuantum();
     String startingQuantumName = "character";
-    qm.put("word", new RegexQuantum("word", "\\S+"));
-    qm.put("character", new CharacterQuantum());
-    qm.put("wrappedLine", new WrappedLineQuantum());
-    emc.putQuantumNameToQuantum(qm);
+    quantumNameToQuantum.put("word", new RegexQuantum("word", "\\S+"));
+    quantumNameToQuantum.put("character", new CharacterQuantum());
+    quantumNameToQuantum.put("wrappedLine", new WrappedLineQuantum());
+    emc.putQuantumNameToQuantum(quantumNameToQuantum);
+
+    KeyToQuantumName keyToQuantumName = new KeyToQuantumName();
+    keyToQuantumName.put("q", "character");
+    keyToQuantumName.put("w", "word");
+    keyToQuantumName.put("e", "wrappedLine");
+    emc.putKeyToQuantumName(keyToQuantumName);
+
     emc.putCurrentQuantum(emc.getQuantumNameToQuantum().get(startingQuantumName));
     int bounds[] = emc.getQuantumNameToQuantum().get(startingQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
     emc.putQuantumStart(bounds[0]);

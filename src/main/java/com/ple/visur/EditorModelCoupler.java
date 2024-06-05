@@ -95,6 +95,10 @@ public class EditorModelCoupler {
     return (QuantumNameToQuantum)editorModel.get(quantumNameToQuantum);
   }
 
+  public KeyToQuantumName getKeyToQuantumName() {
+    return (KeyToQuantumName) editorModel.get(keyToQuantumName);
+  }
+
   public Quantum getCurrentQuantum() {
     return (Quantum)editorModel.get(quantum);
   }
@@ -180,6 +184,10 @@ public class EditorModelCoupler {
 
   public void putQuantumNameToQuantum(QuantumNameToQuantum qNameToQuantum) {
     editorModel.put(quantumNameToQuantum, qNameToQuantum);
+  }
+
+  public void putKeyToQuantumName(KeyToQuantumName keyToQName) {
+    editorModel.put(keyToQuantumName, keyToQName);
   }
 
   public void putCurrentQuantum(Quantum q) {
