@@ -1,6 +1,7 @@
 package com.ple.visur;
 
 import CursorPositionDC.WholeNumberDC;
+import DataClass.DataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
 import DataClass.Result;
 
@@ -17,16 +18,18 @@ public class BrickVisurVar implements VisurVar {
 
   @Override
   public Object getVal() {
-    if(brick.isComplete()) {
-      return brick.get().getVal();
-    } else {
-      return getUnset();
+    if(!brick.isComplete()) {
+      Result<DataClassBrick> calculatedBrickResult = brick.getOrCalc();
+      PrimitiveDataClassBrick calculatedBrick = (PrimitiveDataClassBrick) calculatedBrickResult.getVal();
+      brick = calculatedBrick;
     }
+    return brick.get().getVal();
   }
 
   @Override
   public Result putVal(Object o) {
-    return brick.putForce(o);
+    brick.putForce(o);
+    return Result.make();
   }
 
   public boolean isComplete() {
@@ -34,11 +37,7 @@ public class BrickVisurVar implements VisurVar {
   }
 
   public Object getUnset() {
-    if(brick.getPDC() instanceof WholeNumberDC) {
-      return -1;
-    } else {
-      return null;
-    }
+    return null; //may change
   }
 
 }

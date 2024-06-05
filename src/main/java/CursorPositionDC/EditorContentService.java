@@ -1,9 +1,5 @@
 package CursorPositionDC;
 
-import DataClass.CompoundDataClassBrick;
-import DataClass.DataClassBrick;
-import DataClass.PrimitiveDataClassBrick;
-import DataClass.Result;
 import com.ple.visur.*;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 
@@ -59,9 +55,42 @@ public class EditorContentService {
     return currentContentLine;
   }
 
+  public int[] getCurrentLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail, LocalMap<EditorModelKey, Object> editorModel) {
+    BrickVisurVar cyBVV = (BrickVisurVar)getGlobalVar("cy", editorModel);
+    int cy = (int)cyBVV.getVal();
+    int lowerBound = 0;
+    int upperBound = 0;
+    if(editorContent.length() > 0) {
+      if (cy > 0) {
+        if(cy < newlineIndices.size()) {
+          lowerBound = newlineIndices.get(cy - 1) + 1;
+          upperBound = newlineIndices.get(cy);
+        } else {
+          lowerBound = newlineIndices.get(cy - 1) + 1;
+          boolean lastCharIsNewline = editorContent.charAt(editorContent.length() - 1) == '\n';
+          upperBound = lastCharIsNewline ? editorContent.length() - 1 : editorContent.length();
+        }
+      } else {
+        if (newlineIndices.size() > 0) {
+          if (includeTail) {
+            upperBound = newlineIndices.get(0) + 1;
+          } else {
+            upperBound = newlineIndices.get(0);
+          }
+        } else {
+          upperBound = editorContent.length() - 1;
+        }
+      }
+    }
+    if(lowerBound == upperBound) { //these 3 lines only take place if we want wrappedLine to select a line in the case that that line only consists of a newline char
+      upperBound++;
+    }
+    return new int[]{lowerBound, upperBound};
+  }
+
   public ArrayList<Integer> getNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
-    //note that this must be re-updated every time editorContent is changed
-    return (ArrayList<Integer>) editorModel.get(newlineIndices);
+    BrickVisurVar niBVV = (BrickVisurVar)getGlobalVar("ni", editorModel);
+    return (ArrayList<Integer>) niBVV.getVal();
   }
 
   public int getVirtualX(LocalMap<EditorModelKey, Object> editorModel) {
@@ -80,9 +109,14 @@ public class EditorContentService {
     return (int) editorModel.get(canvasHeight);
   }
 
+  public void initializeEditorContent(String contentLines, LocalMap<EditorModelKey, Object> editorModel) {
+    editorModel.put(editorContent, contentLines);
+  }
+
+
   public void putEditorContent(String contentLines, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(editorContent, contentLines);
-    updateNewlineIndices(editorModel);
+    putNewlineIndices(editorModel);
   }
 
   public void putCursorPositionDCHolder(CursorPositionDCHolder cpDCHolder, LocalMap<EditorModelKey, Object> editorModel) {
@@ -99,23 +133,27 @@ public class EditorContentService {
     editorModel.put(globalVariableMap, gvm);
   }
 
-  public void updateNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
+  /**
+   * call getEditorContent, and assign it to content var
+   * make indices var equal to empty ArrayList
+   * loop through every character in content to check if newline char exists
+   * if char at index i == \n, then add i to indices var
+   * make niBVV var, which is equal to the result of getGlobalVar("ni")
+   * call niBVV.putVal(indices)
+   * call putGlobalVar("ni", niBVV, editorModel)
+   * @param editorModel
+   */
+  public void putNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
     String content = getEditorContent(editorModel);
     ArrayList<Integer> indices = new ArrayList<>();
-    boolean keepGoing = true;
-    int fullStringIndex = 0;
-    while (keepGoing) {
-      int substringIndex = content.indexOf("\n");
-      if (substringIndex != -1) {
-        fullStringIndex += substringIndex;
-        indices.add(fullStringIndex);
-        content = content.substring(substringIndex + 1);
-        fullStringIndex++; //because of newline char
-      } else {
-        keepGoing = false;
+    for(int i = 0; i < content.length(); i++) {
+      if(content.charAt(i) == '\n') {
+        indices.add(i);
       }
     }
-    editorModel.put(newlineIndices, indices);
+    BrickVisurVar niBVV = (BrickVisurVar) getGlobalVar("ni", editorModel);
+    niBVV.putVal(indices);
+    putGlobalVar("ni", niBVV, editorModel);
   }
 
   public void putVirtualX(int x, LocalMap<EditorModelKey, Object> editorModel) {

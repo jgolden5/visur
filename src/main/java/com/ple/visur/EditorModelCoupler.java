@@ -26,10 +26,6 @@ public class EditorModelCoupler {
     return ecs.getEditorContent(editorModel);
   }
 
-  public CursorPositionDCHolder getCursorPositionDCHolder() {
-    return ecs.getCursorPositionDCHolder(editorModel);
-  }
-
   public VisurVar getGlobalVar(String varName) {
     return ecs.getGlobalVar(varName, editorModel);
   }
@@ -43,10 +39,12 @@ public class EditorModelCoupler {
   }
 
   public ArrayList<Integer> getNewlineIndices() {
-    //note that this must be re-updated every time editorContent is changed
     return ecs.getNewlineIndices(editorModel);
   }
 
+  public int[] getCurrentLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
+    return ecs.getCurrentLineBoundaries(editorContent, newlineIndices, includeTail, editorModel);
+  }
   public int getVirtualX() {
     return ecs.getVirtualX(editorModel);
   }
@@ -109,11 +107,12 @@ public class EditorModelCoupler {
     return (int)editorModel.get(quantumEnd);
   }
 
-  public void putEditorContent(String contentLines) {
-    ecs.putEditorContent(contentLines, editorModel);
+  public void initializeEditorContent(String content) {
+    ecs.initializeEditorContent(content, editorModel);
   }
-  public void putCursorPositionDCHolder(CursorPositionDCHolder cursorPositionDCHolder) {
-    ecs.putCursorPositionDCHolder(cursorPositionDCHolder, editorModel);
+
+  public void putEditorContent(String content) {
+    ecs.putEditorContent(content, editorModel);
   }
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
     ecs.putGlobalVar(globalVarName, globalVarValue, editorModel);
@@ -122,8 +121,8 @@ public class EditorModelCoupler {
     ecs.putGlobalVarMap(gvm, editorModel);
   }
 
-  public void updateNewlineIndices() {
-    ecs.updateNewlineIndices(editorModel);
+  public void putNewlineIndices() {
+    ecs.putNewlineIndices(editorModel);
   }
 
   public void putVirtualX(int x) {

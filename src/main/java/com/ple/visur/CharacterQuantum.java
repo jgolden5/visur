@@ -17,10 +17,14 @@ public class CharacterQuantum implements Quantum {
     int destination = (int)caBVV.getVal();
     while(mv.dx != 0) {
       if(mv.dx > 0) {
-        destination = moveRight(editorContent, newlineIndices);
+        if(destination < editorContent.length() - 1) {
+          destination = moveRight();
+        }
         mv.dx--;
       } else {
-        destination = moveLeft(editorContent, newlineIndices);
+        if(destination > 0) {
+          destination = moveLeft();
+        }
         mv.dx++;
       }
     }
@@ -32,21 +36,17 @@ public class CharacterQuantum implements Quantum {
         destination = moveUp(editorContent, newlineIndices);
         mv.dy++;
       }
-
     }
     return destination;
   }
 
-  private int moveRight(String editorContent, ArrayList<Integer> newlineIndices) {
+  private int moveRight() {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     int destination = (int)caBVV.getVal();
-    if (destination < editorContent.length() - 1) {
-      destination++;
-    }
-    return destination;
+    return ++destination;
   }
 
-  private int moveLeft(String editorContent, ArrayList<Integer> newlineIndices) {
+  private int moveLeft() {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     int destination = (int)caBVV.getVal();
     if (destination > 0) {
@@ -57,22 +57,44 @@ public class CharacterQuantum implements Quantum {
 
   private int moveDown(String editorContent, ArrayList<Integer> newlineIndices) {
     BrickVisurVar cxBVV = (BrickVisurVar)emc.getGlobalVar("cx");
-    int cx = (int)cxBVV.getVal();
+    Integer cx = (Integer)cxBVV.getVal();
     BrickVisurVar cyBVV = (BrickVisurVar)emc.getGlobalVar("cy");
-    int cy = (int)cyBVV.getVal();
-    Coordinate destinationAsCoordinate = Coordinate.make(cx, cy);
-
+    Integer cy = (Integer)cyBVV.getVal();
+    boolean lastCharIsNewline = editorContent.charAt(editorContent.length() - 1) == '\n';
+    boolean canIncrementCY;
+    if(lastCharIsNewline) {
+      canIncrementCY = cy < newlineIndices.size() - 1;
+    } else {
+      canIncrementCY = cy < newlineIndices.size();
+    }
+    if(canIncrementCY) {
+      cy++;
+      cyBVV.putVal(cy);
+      int[] currentLineBounds = emc.getCurrentLineBoundaries(editorContent, newlineIndices, false);
+      int lengthOfCurrentLine = currentLineBounds[1] - currentLineBounds[0];
+      if(cx >= lengthOfCurrentLine) {
+        cxBVV.putVal(lengthOfCurrentLine);
+      }
+    }
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     return (int) caBVV.getVal();
   }
 
   private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {
     BrickVisurVar cxBVV = (BrickVisurVar)emc.getGlobalVar("cx");
-    int cx = (int)cxBVV.getVal();
+    Integer cx = (Integer)cxBVV.getVal();
     BrickVisurVar cyBVV = (BrickVisurVar)emc.getGlobalVar("cy");
-    int cy = (int)cyBVV.getVal();
-    Coordinate destinationAsCoordinate = Coordinate.make(cx, cy);
-
+    Integer cy = (Integer)cyBVV.getVal();
+    boolean canDecrementCY = cy > 0;
+    if(canDecrementCY) {
+      cy--;
+      cyBVV.putVal(cy);
+      int[] currentLineBounds = emc.getCurrentLineBoundaries(editorContent, newlineIndices, false);
+      int lengthOfCurrentLine = currentLineBounds[1] - currentLineBounds[0];
+      if(cx >= lengthOfCurrentLine) {
+        cxBVV.putVal(lengthOfCurrentLine);
+      }
+    }
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     return (int) caBVV.getVal();
   }

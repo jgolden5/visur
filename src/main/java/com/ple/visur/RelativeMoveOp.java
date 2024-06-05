@@ -14,9 +14,9 @@ public class RelativeMoveOp implements Operator {
     Quantum currentQuantum = emc.getCurrentQuantum();
     MovementVector movementVector = new MovementVector(dx, dy);
     int[] bounds = currentQuantum.getBoundaries(editorContent, newlineIndices, false);
-    int newCoordinate = currentQuantum.move(editorContent, newlineIndices, movementVector, bounds);
+    int newCA = currentQuantum.move(editorContent, newlineIndices, movementVector, bounds);
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    caBVV.putVal(newCoordinate);
+    caBVV.putVal(newCA);
     emc.putGlobalVar("ca", caBVV);
     int[] newBounds = currentQuantum.getBoundaries(editorContent, newlineIndices, false);
     emc.putQuantumStart(newBounds[0]);
