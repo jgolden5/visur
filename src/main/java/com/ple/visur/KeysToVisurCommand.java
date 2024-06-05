@@ -5,6 +5,8 @@ import io.vertx.core.shareddata.Shareable;
 import java.util.HashMap;
 import java.util.Map;
 
+//aka keymap
+
 public class KeysToVisurCommand implements Shareable {
   private final Map<KeysPressed, VisurCommand> keymap = new HashMap<>();
 

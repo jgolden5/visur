@@ -39,7 +39,7 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
           currentKeyBuffer.removeFirstElement();
           ems.putKeyBuffer(currentKeyBuffer);
         }
-        ModeToKeymap keymapMap = ems.getKeymapMap();
+        StringToKeymap keymapMap = ems.getKeymapMap();
         //get key from previously specified keymap
         KeysToVisurCommand keymap = keymapMap.get(ems.getEditorMode());
         //get the command stored in the keymap under keybuffer's key

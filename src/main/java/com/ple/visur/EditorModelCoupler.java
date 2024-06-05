@@ -1,6 +1,5 @@
 package com.ple.visur;
 
-import CursorPositionDC.CursorPositionDCHolder;
 import CursorPositionDC.EditorContentService;
 import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
@@ -69,8 +68,8 @@ public class EditorModelCoupler {
     return (EditorMode)editorModel.get(editorMode);
   }
 
-  public ModeToKeymap getKeymapMap() {
-    return (ModeToKeymap) editorModel.get(modeToKeymap);
+  public StringToKeymap getKeymapMap() {
+    return (StringToKeymap) editorModel.get(modeToKeymap);
   }
   public OperatorToService getOperatorToService() {
     return (OperatorToService) editorModel.get(operatorToService);
@@ -149,7 +148,7 @@ public class EditorModelCoupler {
     editorModel.put(editorMode, mode);
   }
 
-  public void putKeymapMap(ModeToKeymap keymapMap) {
+  public void putKeymapMap(StringToKeymap keymapMap) {
     editorModel.put(modeToKeymap, keymapMap);
   }
 

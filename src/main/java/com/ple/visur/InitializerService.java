@@ -124,15 +124,15 @@ public class InitializerService {
 
   private void initializeKeymaps() {
 
-    ModeToKeymap keymapMap = ModeToKeymap.make();
+    StringToKeymap keymapMap = StringToKeymap.make();
 
     KeysToVisurCommand editingKeymap = KeysToVisurCommand.make();
     editingKeymap = initializeEditingKeymap(editingKeymap);
-    keymapMap.put(EditorMode.editing, editingKeymap);
+    keymapMap.put("editing", editingKeymap);
 
     KeysToVisurCommand insertKeymap = KeysToVisurCommand.make();
     insertKeymap = initializeInsertKeymap(insertKeymap);
-    keymapMap.put(EditorMode.insert, insertKeymap);
+    keymapMap.put("insert", insertKeymap);
 
     emc.putKeymapMap(keymapMap);
 
