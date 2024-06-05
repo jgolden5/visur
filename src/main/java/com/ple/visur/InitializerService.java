@@ -154,6 +154,9 @@ public class InitializerService {
       scs.compile("\"wrappedLine\" changeQuantum")
     );
 
+    final KeymapHandler[] handlers = new KeymapHandler[1];
+    handlers[0] = ChangeQuantumHandler.make();
+    keymap.putHandlers(handlers);
     return keymap;
   }
 
