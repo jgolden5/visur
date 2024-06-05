@@ -7,11 +7,11 @@ import java.util.Map;
 
 //aka keymap
 
-public class KeysToVisurCommand implements Shareable {
+public class Keymap implements Shareable {
   private final Map<KeysPressed, VisurCommand> keymap = new HashMap<>();
 
-  public static KeysToVisurCommand make() {
-    return new KeysToVisurCommand();
+  public static Keymap make() {
+    return new Keymap();
   }
 
 

@@ -125,13 +125,13 @@ public class InitializerService {
 
   private void initializeKeymaps() {
 
-    StringToKeymap keymapMap = StringToKeymap.make();
+    KeymapMap keymapMap = KeymapMap.make();
 
-    KeysToVisurCommand editingKeymap = KeysToVisurCommand.make();
+    Keymap editingKeymap = Keymap.make();
     editingKeymap = initializeEditingKeymap(editingKeymap);
     keymapMap.put("editing", editingKeymap);
 
-    KeysToVisurCommand insertKeymap = KeysToVisurCommand.make();
+    Keymap insertKeymap = Keymap.make();
     insertKeymap = initializeInsertKeymap(insertKeymap);
     keymapMap.put("insert", insertKeymap);
 
@@ -139,45 +139,45 @@ public class InitializerService {
 
   }
 
-  private KeysToVisurCommand initializeEditingKeymap(KeysToVisurCommand keysToVisurCommand) {
+  private Keymap initializeEditingKeymap(Keymap keymap) {
     CommandCompileService scs = ServiceHolder.commandCompileService;
-    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("h")}),
+    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("h")}),
       scs.compile("-1 0 relativeMove")
     );
-    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}),
+    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}),
       scs.compile("1 0 relativeMove")
     );
-    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}),
+    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}),
       scs.compile("0 1 relativeMove")
     );
-    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}),
+    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}),
       scs.compile("0 -1 relativeMove")
     );
-    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("q")}),
+    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("q")}),
       scs.compile("\"character\" changeQuantum")
     );
-    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("w")}),
+    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("w")}),
       scs.compile("\"word\" changeQuantum")
     );
-    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("e")}),
+    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("e")}),
       scs.compile("\"wrappedLine\" changeQuantum")
     );
-//    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("[")}),
+//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("[")}),
 //      scs.compile("first")
 //    );
-//    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("]")}),
+//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("]")}),
 //      scs.compile("last")
 //    );
-//    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
-//    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
-//    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("0")}), Operator.moveCursorToBeginningOfCurrentLine);
-//    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("^")}), Operator.moveCursorToFirstNonSpaceInCurrentLine);
-//    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("$")}), Operator.moveCursorToEndOfCurrentLine);
-//    keysToVisurCommand.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("i")}), Operator.enterInsertMode);
-    return keysToVisurCommand;
+//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
+//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
+//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("0")}), Operator.moveCursorToBeginningOfCurrentLine);
+//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("^")}), Operator.moveCursorToFirstNonSpaceInCurrentLine);
+//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("$")}), Operator.moveCursorToEndOfCurrentLine);
+//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("i")}), Operator.enterInsertMode);
+    return keymap;
   }
 
-  private KeysToVisurCommand initializeInsertKeymap(KeysToVisurCommand keyToOperator) {
+  private Keymap initializeInsertKeymap(Keymap keyToOperator) {
 //    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Escape")}), Operator.enterEditingMode);
 //    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Enter")}), Operator.insertNewLine);
 //    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Backspace")}), Operator.deleteCurrentChar);

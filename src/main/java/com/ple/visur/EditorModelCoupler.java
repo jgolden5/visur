@@ -72,8 +72,8 @@ public class EditorModelCoupler {
     return (String)editorModel.get(editorSubmode);
   }
 
-  public StringToKeymap getKeymapMap() {
-    return (StringToKeymap) editorModel.get(modeToKeymap);
+  public KeymapMap getKeymapMap() {
+    return (KeymapMap) editorModel.get(modeToKeymap);
   }
   public OperatorToService getOperatorToService() {
     return (OperatorToService) editorModel.get(operatorToService);
@@ -156,7 +156,7 @@ public class EditorModelCoupler {
     editorModel.put(editorSubmode, submode);
   }
 
-  public void putKeymapMap(StringToKeymap keymapMap) {
+  public void putKeymapMap(KeymapMap keymapMap) {
     editorModel.put(modeToKeymap, keymapMap);
   }
 
@@ -164,7 +164,7 @@ public class EditorModelCoupler {
     editorModel.put(operatorToService, opToService);
   }
   public void putModeToHandlerArray(ModeToHandlerArray mToHA) {
-    editorModel.put(modeToHandlerArray, mToHA);
+    editorModel.put(keymapMap, mToHA);
   }
 
   public void putIsInCommandState(boolean inCommandState) {

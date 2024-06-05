@@ -12,7 +12,7 @@ public enum EditorModelKey {
   isInCommandState,
   keyBuffer,
   keyPressed,
-  modeToHandlerArray,
+  keymapMap,
   modeToKeymap,
   operator,
   operatorToService,
