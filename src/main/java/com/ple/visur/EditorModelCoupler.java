@@ -163,9 +163,6 @@ public class EditorModelCoupler {
   public void putOperatorToService(OperatorToService opToService) {
     editorModel.put(operatorToService, opToService);
   }
-  public void putModeToHandlerArray(ModeToHandlerArray mToHA) {
-    editorModel.put(keymapMap, mToHA);
-  }
 
   public void putIsInCommandState(boolean inCommandState) {
     editorModel.put(isInCommandState, inCommandState);

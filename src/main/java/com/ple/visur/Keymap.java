@@ -11,7 +11,7 @@ import java.util.Map;
 public class Keymap implements Shareable {
   final String name;
   private final HashMap<KeysPressed, VisurCommand> keymap = new HashMap<>();
-  public ArrayList<KeymapHandler> handlers = new ArrayList<>();
+  public KeymapHandler[] handlers;
 
   public Keymap(String name) {
     this.name = name;
@@ -28,6 +28,10 @@ public class Keymap implements Shareable {
 
   public VisurCommand get(KeysPressed keysPressed) {
     return keymap.get(keysPressed);
+  }
+
+  public void putHandlers(KeymapHandler[] handlers) {
+    this.handlers = handlers;
   }
 
 }

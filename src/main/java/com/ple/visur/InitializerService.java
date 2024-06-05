@@ -58,8 +58,6 @@ public class InitializerService {
 
     initializeKeymaps();
 
-    initializeHandlers();
-
     OperatorToService opToService = OperatorToService.make();
     emc.putOperatorToService(opToService);
 
@@ -108,35 +106,22 @@ public class InitializerService {
     System.out.println("end bound = " + bounds[1]);
   }
 
-  private void initializeHandlers() {
-    final KeysToOperatorHandler[] editorKeyToOperatorHandlers = new KeysToOperatorHandler[1];
-    editorKeyToOperatorHandlers[0] = KeymapHandler.make(emc);
-
-    final KeysToOperatorHandler[] insertKeyToOperatorHandlers = new KeysToOperatorHandler[2];
-    insertKeyToOperatorHandlers[0] = KeymapHandler.make(emc);
-    insertKeyToOperatorHandlers[1] = InsertCharHandler.make(emc);
-
-    ModeToHandlerArray modeToHandlerArray = ModeToHandlerArray.make();
-    modeToHandlerArray.put(EditorMode.editing, editorKeyToOperatorHandlers);
-    modeToHandlerArray.put(EditorMode.insert, insertKeyToOperatorHandlers);
-
-    emc.putModeToHandlerArray(modeToHandlerArray);
-  }
-
   private void initializeKeymaps() {
-
     KeymapMap keymapMap = KeymapMap.make();
 
-    Keymap editingKeymap = Keymap.make();
+    Keymap editingKeymap = Keymap.make("editing");
     editingKeymap = initializeEditingKeymap(editingKeymap);
     keymapMap.put("editing", editingKeymap);
 
-    Keymap insertKeymap = Keymap.make();
+    Keymap insertKeymap = Keymap.make("insert");
     insertKeymap = initializeInsertKeymap(insertKeymap);
     keymapMap.put("insert", insertKeymap);
 
-    emc.putKeymapMap(keymapMap);
+    Keymap quantumStartKeymap = Keymap.make("quantumStart");
+    quantumStartKeymap = initializeQuantumStartKeymap(quantumStartKeymap);
+    keymapMap.put("quantumStart", quantumStartKeymap);
 
+    emc.putKeymapMap(keymapMap);
   }
 
   private Keymap initializeEditingKeymap(Keymap keymap) {
@@ -162,26 +147,31 @@ public class InitializerService {
     keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("e")}),
       scs.compile("\"wrappedLine\" changeQuantum")
     );
-//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("[")}),
-//      scs.compile("first")
-//    );
-//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("]")}),
-//      scs.compile("last")
-//    );
-//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}), Operator.cursorDown);
-//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}), Operator.cursorUp);
-//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("0")}), Operator.moveCursorToBeginningOfCurrentLine);
-//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("^")}), Operator.moveCursorToFirstNonSpaceInCurrentLine);
-//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("$")}), Operator.moveCursorToEndOfCurrentLine);
-//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("i")}), Operator.enterInsertMode);
+
+    final KeymapHandler[] editorKeymapHandlers = new KeymapHandler[1];
+    editorKeymapHandlers[0] = EditingModeHandler.make();
+    keymap.putHandlers(editorKeymapHandlers);
+
     return keymap;
   }
 
-  private Keymap initializeInsertKeymap(Keymap keyToOperator) {
-//    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Escape")}), Operator.enterEditingMode);
-//    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Enter")}), Operator.insertNewLine);
-//    keyToOperator.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Backspace")}), Operator.deleteCurrentChar);
-    return keyToOperator;
+  private Keymap initializeInsertKeymap(Keymap keymap) {
+//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Escape")}), Operator.enterEditingMode);
+//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Enter")}), Operator.insertNewLine);
+//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Backspace")}), Operator.deleteCurrentChar);
+
+    final KeymapHandler[] insertKeymapHandlers = new KeymapHandler[2];
+    insertKeymapHandlers[0] = EditingModeHandler.make();
+    insertKeymapHandlers[1] = InsertModeHandler.make();
+    keymap.putHandlers(insertKeymapHandlers);
+
+    return keymap;
+  }
+
+  private Keymap initializeQuantumStartKeymap(Keymap quantumStartKeymap) {
+//    final KeymapHandler[] quantumStartKeymapHandlers = new KeymapHandler[1];
+//    quantumStartKeymapHandlers[0] = QuantumStartSubmodeHandler.make();
+    return null;
   }
 
 }
