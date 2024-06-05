@@ -7,7 +7,7 @@ public class ChangeQuantumOp implements Operator {
     EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
     String quantumName = (String)ems.getExecutionDataStack().pop();
     String quantumNameWithoutQuotes = quantumName.substring(1, quantumName.length() - 1);
-    Quantum targetQuantum = ems.getQuantumMap().get(quantumNameWithoutQuotes);
+    Quantum targetQuantum = ems.getQuantumNameToQuantum().get(quantumNameWithoutQuotes);
     int[] bounds = targetQuantum.getBoundaries(ems.getEditorContent(), ems.getNewlineIndices(), false);
     if(bounds[0] != bounds[1]) {
       ems.putQuantumStart(bounds[0]);

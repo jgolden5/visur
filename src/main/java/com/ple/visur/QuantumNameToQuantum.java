@@ -4,7 +4,7 @@ import io.vertx.core.shareddata.Shareable;
 
 import java.util.HashMap;
 
-public class QuantumMap implements Shareable {
+public class QuantumNameToQuantum implements Shareable {
   HashMap<String, Quantum> map = new HashMap<>();
 
   public Quantum get(String qName) {

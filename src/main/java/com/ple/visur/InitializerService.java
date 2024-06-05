@@ -91,14 +91,14 @@ public class InitializerService {
   }
 
   private void initializeQuantums() {
-    QuantumMap qm = new QuantumMap();
+    QuantumNameToQuantum qm = new QuantumNameToQuantum();
     String startingQuantumName = "character";
     qm.put("word", new RegexQuantum("word", "\\S+"));
     qm.put("character", new CharacterQuantum());
     qm.put("wrappedLine", new WrappedLineQuantum());
-    emc.putQuantumMap(qm);
-    emc.putCurrentQuantum(emc.getQuantumMap().get(startingQuantumName));
-    int bounds[] = emc.getQuantumMap().get(startingQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
+    emc.putQuantumNameToQuantum(qm);
+    emc.putCurrentQuantum(emc.getQuantumNameToQuantum().get(startingQuantumName));
+    int bounds[] = emc.getQuantumNameToQuantum().get(startingQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
     emc.putQuantumStart(bounds[0]);
     emc.putQuantumEnd(bounds[1]);
     System.out.println("start bound = " + bounds[0]);

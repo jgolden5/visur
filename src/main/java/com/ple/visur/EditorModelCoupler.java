@@ -91,8 +91,8 @@ public class EditorModelCoupler {
     return (ExecutionDataStack)editorModel.get(executionData);
   }
 
-  public QuantumMap getQuantumMap() {
-    return (QuantumMap)editorModel.get(quantumMap);
+  public QuantumNameToQuantum getQuantumNameToQuantum() {
+    return (QuantumNameToQuantum)editorModel.get(quantumNameToQuantum);
   }
 
   public Quantum getCurrentQuantum() {
@@ -178,8 +178,8 @@ public class EditorModelCoupler {
     editorModel.put(executionData, stack);
   }
 
-  public void putQuantumMap(QuantumMap qm) {
-    editorModel.put(quantumMap, qm);
+  public void putQuantumNameToQuantum(QuantumNameToQuantum qNameToQuantum) {
+    editorModel.put(quantumNameToQuantum, qNameToQuantum);
   }
 
   public void putCurrentQuantum(Quantum q) {
