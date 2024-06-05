@@ -9,9 +9,7 @@ public class InsertModeHandler implements KeymapHandler {
   }
 
   @Override
-  public VisurCommand toVisurCommand(KeysPressed keysPressed) {
-    KeyPressed[] internalKeysPressed = keysPressed.getKeysPressed();
-    boolean keyPressedIsValid = internalKeysPressed.length == 1 && internalKeysPressed[0].getKey().length() == 1;
+  public VisurCommand toVisurCommand(KeyPressed keyPressed) {
 //    if(keyPressedIsValid) {
 //      return Operator.insertChar;
 //    } else {

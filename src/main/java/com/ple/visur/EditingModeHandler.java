@@ -9,11 +9,11 @@ public class EditingModeHandler implements KeymapHandler {
   }
 
   @Override
-  public VisurCommand toVisurCommand(KeysPressed keysPressed) {
+  public VisurCommand toVisurCommand(KeyPressed keyPressed) {
     final KeymapMap keymapMap = emc.getKeymapMap();
     final String submode = emc.getEditorSubmode();
     final Keymap keymap = keymapMap.get(submode);
-    VisurCommand visurCommand = keymap.get(keysPressed);
+    VisurCommand visurCommand = keymap.get(keyPressed);
     return visurCommand;
   }
 

@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Keymap implements Shareable {
   final String name;
-  private final HashMap<KeysPressed, VisurCommand> keymap = new HashMap<>();
+  private final HashMap<KeyPressed, VisurCommand> keymap = new HashMap<>();
   public KeymapHandler[] handlers;
 
   public Keymap(String name) {
@@ -22,12 +22,12 @@ public class Keymap implements Shareable {
   }
 
 
-  public void put(KeysPressed keysPressed, VisurCommand visurCommand) {
-    keymap.put(keysPressed, visurCommand);
+  public void put(KeyPressed keyPressed, VisurCommand visurCommand) {
+    keymap.put(keyPressed, visurCommand);
   }
 
-  public VisurCommand get(KeysPressed keysPressed) {
-    return keymap.get(keysPressed);
+  public VisurCommand get(KeyPressed keyPressed) {
+    return keymap.get(keyPressed);
   }
 
   public void putHandlers(KeymapHandler[] handlers) {

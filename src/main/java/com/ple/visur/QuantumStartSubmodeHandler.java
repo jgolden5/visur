@@ -7,7 +7,7 @@ public class QuantumStartSubmodeHandler implements KeymapHandler {
   }
 
   @Override
-  public VisurCommand toVisurCommand(KeysPressed keysPressed) {
+  public VisurCommand toVisurCommand(KeyPressed keyPressed) {
     return null;
   }
 

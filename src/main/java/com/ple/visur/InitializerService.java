@@ -30,7 +30,6 @@ public class InitializerService {
     emc.putVirtualXIsAtEndOfLine(false);
     emc.putEditorMode(editing);
     emc.putEditorSubmode("editing");
-    emc.putKeyBuffer(KeysPressed.from(new KeyPressed[]{}));
     emc.putExecutionDataStack(new ExecutionDataStack());
     final String initialEditorContent = "Hello world\n" +
       "How are you?\n" +
@@ -126,25 +125,25 @@ public class InitializerService {
 
   private Keymap initializeEditingKeymap(Keymap keymap) {
     CommandCompileService scs = ServiceHolder.commandCompileService;
-    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("h")}),
+    keymap.put(KeyPressed.from("h"),
       scs.compile("-1 0 relativeMove")
     );
-    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("l")}),
+    keymap.put(KeyPressed.from("l"),
       scs.compile("1 0 relativeMove")
     );
-    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("j")}),
+    keymap.put(KeyPressed.from("j"),
       scs.compile("0 1 relativeMove")
     );
-    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("k")}),
+    keymap.put(KeyPressed.from("k"),
       scs.compile("0 -1 relativeMove")
     );
-    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("q")}),
+    keymap.put(KeyPressed.from("q"),
       scs.compile("\"character\" changeQuantum")
     );
-    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("w")}),
+    keymap.put(KeyPressed.from("w"),
       scs.compile("\"word\" changeQuantum")
     );
-    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("e")}),
+    keymap.put(KeyPressed.from("e"),
       scs.compile("\"wrappedLine\" changeQuantum")
     );
 

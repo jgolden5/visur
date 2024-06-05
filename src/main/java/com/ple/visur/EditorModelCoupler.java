@@ -60,10 +60,6 @@ public class EditorModelCoupler {
     return ecs.getCanvasHeight(editorModel);
   }
 
-  public KeysPressed getKeyBuffer() {
-    return (KeysPressed) editorModel.get(keyBuffer);
-  }
-
   public EditorMode getEditorMode() {
     return (EditorMode)editorModel.get(editorMode);
   }
@@ -142,10 +138,6 @@ public class EditorModelCoupler {
 
   public void putCanvasHeight(int height) {
     ecs.putCanvasHeight(height, editorModel);
-  }
-
-  public void putKeyBuffer(KeysPressed buffer) {
-    editorModel.put(keyBuffer, buffer);
   }
 
   public void putEditorMode(EditorMode mode) {
