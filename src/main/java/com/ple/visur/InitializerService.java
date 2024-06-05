@@ -141,6 +141,9 @@ public class InitializerService {
     keymap.put(KeyPressed.from("j"),
       scs.compile("0 1 relativeMove")
     );
+    keymap.put(KeyPressed.from("k"),
+      scs.compile("0 -1 relativeMove")
+    );
 
     final KeymapHandler[] handlers = new KeymapHandler[1];
     handlers[0] = ChangeQuantumHandler.make();
