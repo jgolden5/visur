@@ -147,10 +147,6 @@ public class InitializerService {
       scs.compile("\"wrappedLine\" changeQuantum")
     );
 
-    final KeymapHandler[] editorKeymapHandlers = new KeymapHandler[1];
-    editorKeymapHandlers[0] = EditingModeHandler.make();
-    keymap.putHandlers(editorKeymapHandlers);
-
     return keymap;
   }
 

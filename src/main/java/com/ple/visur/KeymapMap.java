@@ -5,8 +5,6 @@ import io.vertx.core.shareddata.Shareable;
 import java.util.HashMap;
 import java.util.Map;
 
-//aka keymapMap
-
 public class KeymapMap implements Shareable {
 
   final Map<String, Keymap> keymapMap = new HashMap<>();

@@ -2,16 +2,12 @@ package com.ple.visur;
 
 import io.vertx.core.shareddata.Shareable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-
-//aka keymap
 
 public class Keymap implements Shareable {
   final String name;
   private final HashMap<KeyPressed, VisurCommand> keymap = new HashMap<>();
-  public KeymapHandler[] handlers;
+  public KeymapHandler[] handlers = new KeymapHandler[]{};
 
   public Keymap(String name) {
     this.name = name;
@@ -27,7 +23,15 @@ public class Keymap implements Shareable {
   }
 
   public VisurCommand get(KeyPressed keyPressed) {
-    return keymap.get(keyPressed);
+    VisurCommand command = keymap.get(keyPressed);
+    for(int i = 0; i < handlers.length; i++) {
+      if(command == null) {
+        command = handlers[i].toVisurCommand(keyPressed);
+      } else {
+        break;
+      }
+    }
+    return command;
   }
 
   public void putHandlers(KeymapHandler[] handlers) {
