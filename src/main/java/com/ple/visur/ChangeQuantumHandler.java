@@ -15,7 +15,8 @@ public class ChangeQuantumHandler implements KeymapHandler {
     if(quantumName == null) {
       return null;
     } else {
-      return ccs.compile(quantumName + " changeQuantum");
+      String sentence = "\"" + quantumName + "\" changeQuantum";
+      return ccs.compile(sentence);
     }
   }
 

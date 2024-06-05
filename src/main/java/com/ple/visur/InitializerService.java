@@ -141,18 +141,6 @@ public class InitializerService {
     keymap.put(KeyPressed.from("j"),
       scs.compile("0 1 relativeMove")
     );
-    keymap.put(KeyPressed.from("k"),
-      scs.compile("0 -1 relativeMove")
-    );
-    keymap.put(KeyPressed.from("q"),
-      scs.compile("\"character\" changeQuantum")
-    );
-    keymap.put(KeyPressed.from("w"),
-      scs.compile("\"word\" changeQuantum")
-    );
-    keymap.put(KeyPressed.from("e"),
-      scs.compile("\"wrappedLine\" changeQuantum")
-    );
 
     final KeymapHandler[] handlers = new KeymapHandler[1];
     handlers[0] = ChangeQuantumHandler.make();
