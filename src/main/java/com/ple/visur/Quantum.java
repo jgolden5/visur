@@ -43,12 +43,35 @@ public abstract class Quantum implements Shareable {
 
   void quantumEnd() {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
-    Quantum currentQuantum = emc.getCurrentQuantum();
-    String currentQuantumName = currentQuantum.getName();
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String otherQuantumName = (String)eds.pop();
-    String otherQuantumNameWithoutQuotes = otherQuantumName.substring(1, otherQuantumName.length() - 1); //did this just to make sure I don't get any unexpected behavior since currentQuantumName is not wrapped in extra quotes
-    System.out.println("quantumEnd called. CurrentQ = " + currentQuantumName + ". OtherQ = " + otherQuantumNameWithoutQuotes);
+    String otherQuantumNameWithoutQuotes = otherQuantumName.substring(1, otherQuantumName.length() - 1);
+    QuantumNameToQuantum quantumNameToQuantum = emc.getQuantumNameToQuantum();
+    Quantum otherQuantum = quantumNameToQuantum.get(otherQuantumNameWithoutQuotes);
+    int distanceOfCurrentQuantumBounds = getQuantumBoundsLength();
+    int distanceOfOtherQuantumBounds = otherQuantum.getQuantumBoundsLength();
+    Quantum longerQuantum;
+    Quantum shorterQuantum;
+    if(distanceOfCurrentQuantumBounds > distanceOfOtherQuantumBounds) {
+      longerQuantum = this;
+      shorterQuantum = otherQuantum;
+    } else {
+      longerQuantum = otherQuantum;
+      shorterQuantum = this;
+    }
+    int[] longerBounds = longerQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
+    int ca = longerBounds[1] - 1;
+    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
+    caBVV.putVal(ca);
+    int[] newShorterBounds = shorterQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
+    emc.putQuantumStart(newShorterBounds[0]);
+    emc.putQuantumEnd(newShorterBounds[1]);
+    System.out.println("quantumStart called. CurrentQ = " + getName() + ". OtherQ = " + otherQuantumNameWithoutQuotes);
+    System.out.println("longer quantum = " + longerQuantum.getName() + "; shorter quantum = " + shorterQuantum.getName());
+    if(otherQuantum.getName().equals(shorterQuantum.getName())) {
+      emc.putCurrentQuantum(otherQuantum);
+      System.out.println("quantum changed from " + getName() + " to " + otherQuantum.getName());
+    }
   }
 
   int getQuantumBoundsLength() {
