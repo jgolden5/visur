@@ -43,6 +43,7 @@ eb.onopen = function() {
     quantumStart = message["body"]["quantumStart"]
     quantumEnd = message["body"]["quantumEnd"]
     mode = message["body"]["editorMode"]
+    submode = message["body"]["editorSubmode"]
     currentQuantum = message["body"]["currentQuantum"]
     isInCommandState = message["body"]["isInCommandState"]
     commandStateContent = message["body"]["commandStateContent"]
@@ -73,8 +74,10 @@ eb.onopen = function() {
         commandStateDisplay += "|"
       }
       document.getElementById("currentEditorModeDisplay").innerHTML = commandStateDisplay
-    } else {
+    } else if(mode == submode) {
       document.getElementById("currentEditorModeDisplay").innerHTML = mode.toUpperCase() + " MODE"
+    } else {
+      document.getElementById("currentEditorModeDisplay").innerHTML = submode.toUpperCase() + " SUBMODE"
     }
 
   })

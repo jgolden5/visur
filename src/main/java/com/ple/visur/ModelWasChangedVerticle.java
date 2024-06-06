@@ -36,6 +36,7 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
     output.put("quantumStart", emc.getQuantumStart());
     output.put("quantumEnd", emc.getQuantumEnd());
     output.put("editorMode", emc.getEditorMode());
+    output.put("editorSubmode", emc.getEditorSubmode());
     output.put("currentQuantum", emc.getCurrentQuantum().getName());
     output.put("isInCommandState", emc.getIsInCommandState());
     output.put("commandStateContent", emc.getCommandStateContent());
