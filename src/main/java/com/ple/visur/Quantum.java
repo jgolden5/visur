@@ -31,12 +31,12 @@ public abstract class Quantum implements Shareable {
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(ca);
     int[] newShorterBounds = shorterQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
-    emc.putQuantumStart(newShorterBounds[0]);
-    emc.putQuantumEnd(newShorterBounds[1]);
+    emc.putCursorQuantumStart(newShorterBounds[0]);
+    emc.putCursorQuantumEnd(newShorterBounds[1]);
     System.out.println("quantumStart called. CurrentQ = " + getName() + ". OtherQ = " + otherQuantumNameWithoutQuotes);
     System.out.println("longer quantum = " + longerQuantum.getName() + "; shorter quantum = " + shorterQuantum.getName());
     if(otherQuantum.getName().equals(shorterQuantum.getName())) {
-      emc.putCurrentQuantum(otherQuantum);
+      emc.putCursorQuantum(otherQuantum);
       System.out.println("quantum changed from " + getName() + " to " + otherQuantum.getName());
     }
   }
@@ -64,12 +64,12 @@ public abstract class Quantum implements Shareable {
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(ca);
     int[] newShorterBounds = shorterQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
-    emc.putQuantumStart(newShorterBounds[0]);
-    emc.putQuantumEnd(newShorterBounds[1]);
+    emc.putCursorQuantumStart(newShorterBounds[0]);
+    emc.putCursorQuantumEnd(newShorterBounds[1]);
     System.out.println("quantumStart called. CurrentQ = " + getName() + ". OtherQ = " + otherQuantumNameWithoutQuotes);
     System.out.println("longer quantum = " + longerQuantum.getName() + "; shorter quantum = " + shorterQuantum.getName());
     if(otherQuantum.getName().equals(shorterQuantum.getName())) {
-      emc.putCurrentQuantum(otherQuantum);
+      emc.putCursorQuantum(otherQuantum);
       System.out.println("quantum changed from " + getName() + " to " + otherQuantum.getName());
     }
   }

@@ -33,11 +33,11 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
     BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("ca");
     output.put("ca", bvv.getVal());
     output.put("editorContent", emc.getEditorContent());
-    output.put("quantumStart", emc.getQuantumStart());
-    output.put("quantumEnd", emc.getQuantumEnd());
+    output.put("cursorQuantumStart", emc.getCursorQuantumStart());
+    output.put("cursorQuantumEnd", emc.getCursorQuantumEnd());
     output.put("editorMode", emc.getEditorMode());
     output.put("editorSubmode", emc.getEditorSubmode());
-    output.put("currentQuantum", emc.getCurrentQuantum().getName());
+    output.put("cursorQuantum", emc.getCursorQuantum().getName());
     output.put("isInCommandState", emc.getIsInCommandState());
     output.put("commandStateContent", emc.getCommandStateContent());
     output.put("commandCursor", emc.getCommandCursor());

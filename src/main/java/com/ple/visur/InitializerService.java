@@ -103,10 +103,10 @@ public class InitializerService {
     keyToQuantumName.put("r", "document");
     emc.putKeyToQuantumName(keyToQuantumName);
 
-    emc.putCurrentQuantum(emc.getQuantumNameToQuantum().get(startingQuantumName));
+    emc.putCursorQuantum(emc.getQuantumNameToQuantum().get(startingQuantumName));
     int bounds[] = emc.getQuantumNameToQuantum().get(startingQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
-    emc.putQuantumStart(bounds[0]);
-    emc.putQuantumEnd(bounds[1]);
+    emc.putCursorQuantumStart(bounds[0]);
+    emc.putCursorQuantumEnd(bounds[1]);
     System.out.println("start bound = " + bounds[0]);
     System.out.println("end bound = " + bounds[1]);
   }

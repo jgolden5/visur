@@ -4,7 +4,7 @@ public class QuantumEndOp implements Operator {
   @Override
   public void execute(Object opInfo) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
-    Quantum currentQuantum = emc.getCurrentQuantum();
-    currentQuantum.quantumEnd();
+    Quantum cursorQuantum = emc.getCursorQuantum();
+    cursorQuantum.quantumEnd();
   }
 }

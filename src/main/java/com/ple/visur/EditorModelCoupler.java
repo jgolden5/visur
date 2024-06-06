@@ -96,14 +96,14 @@ public class EditorModelCoupler {
     return (KeyToQuantumName) editorModel.get(keyToQuantumName);
   }
 
-  public Quantum getCurrentQuantum() {
+  public Quantum getCursorQuantum() {
     return (Quantum)editorModel.get(quantum);
   }
 
-  public int getQuantumStart() {
+  public int getCursorQuantumStart() {
     return (int)editorModel.get(quantumStart);
   }
-  public int getQuantumEnd() {
+  public int getCursorQuantumEnd() {
     return (int)editorModel.get(quantumEnd);
   }
 
@@ -183,15 +183,15 @@ public class EditorModelCoupler {
     editorModel.put(keyToQuantumName, keyToQName);
   }
 
-  public void putCurrentQuantum(Quantum q) {
+  public void putCursorQuantum(Quantum q) {
     editorModel.put(quantum, q);
   }
 
-  public void putQuantumStart(int startBound) {
+  public void putCursorQuantumStart(int startBound) {
     editorModel.put(quantumStart, startBound);
   }
 
-  public void putQuantumEnd(int endBound) {
+  public void putCursorQuantumEnd(int endBound) {
     editorModel.put(quantumEnd, endBound);
   }
 

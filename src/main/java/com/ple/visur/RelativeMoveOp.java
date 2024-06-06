@@ -11,15 +11,15 @@ public class RelativeMoveOp implements Operator {
     ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
     int dy = (int)eds.pop();
     int dx = (int)eds.pop();
-    Quantum currentQuantum = emc.getCurrentQuantum();
+    Quantum cursorQuantum = emc.getCursorQuantum();
     MovementVector movementVector = new MovementVector(dx, dy);
-    int[] bounds = currentQuantum.getBoundaries(editorContent, newlineIndices, false);
-    int newCA = currentQuantum.move(editorContent, newlineIndices, movementVector, bounds);
+    int[] bounds = cursorQuantum.getBoundaries(editorContent, newlineIndices, false);
+    int newCA = cursorQuantum.move(editorContent, newlineIndices, movementVector, bounds);
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(newCA);
     emc.putGlobalVar("ca", caBVV);
-    int[] newBounds = currentQuantum.getBoundaries(editorContent, newlineIndices, false);
-    emc.putQuantumStart(newBounds[0]);
-    emc.putQuantumEnd(newBounds[1]);
+    int[] newBounds = cursorQuantum.getBoundaries(editorContent, newlineIndices, false);
+    emc.putCursorQuantumStart(newBounds[0]);
+    emc.putCursorQuantumEnd(newBounds[1]);
   }
 }
