@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegexQuantum implements Quantum {
+public class RegexQuantum extends Quantum {
   String name;
   Pattern pattern;
   EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
@@ -16,16 +16,6 @@ public class RegexQuantum implements Quantum {
 
   public String getName() {
     return name;
-  }
-
-  @Override
-  public int quantumStart() {
-    return 0;
-  }
-
-  @Override
-  public int quantumEnd() {
-    return 0;
   }
 
   /**

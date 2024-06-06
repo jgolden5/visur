@@ -2,7 +2,7 @@ package com.ple.visur;
 
 import java.util.ArrayList;
 
-public class CharacterQuantum implements Quantum {
+public class CharacterQuantum extends Quantum {
   EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
@@ -104,13 +104,4 @@ public class CharacterQuantum implements Quantum {
     return "character";
   }
 
-  @Override
-  public int quantumStart() {
-    return 0;
-  }
-
-  @Override
-  public int quantumEnd() {
-    return 0;
-  }
 }

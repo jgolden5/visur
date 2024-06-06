@@ -2,7 +2,7 @@ package com.ple.visur;
 
 import java.util.ArrayList;
 
-public class WrappedLineQuantum implements Quantum {
+public class WrappedLineQuantum extends Quantum {
 
   EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
 
@@ -43,16 +43,6 @@ public class WrappedLineQuantum implements Quantum {
   @Override
   public String getName() {
     return "wrappedLine";
-  }
-
-  @Override
-  public int quantumStart() {
-    return 0;
-  }
-
-  @Override
-  public int quantumEnd() {
-    return 0;
   }
 
 }
