@@ -29,7 +29,7 @@ public class CommandCompileService {
           currentSentence = compiledWordResponse.remainingSentence.stripLeading();
           break;
         }
-        if(word.getClass().getSimpleName().equals("RecallWord")) {
+        if(word instanceof RecallWord) {
           break compileLoop;
         }
       }

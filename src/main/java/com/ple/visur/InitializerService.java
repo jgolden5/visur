@@ -29,7 +29,7 @@ public class InitializerService {
     emc.putVirtualX(0);
     emc.putVirtualXIsAtEndOfLine(false);
     emc.putEditorMode(editing);
-    emc.putEditorSubmode("editing");
+    emc.putEditorSubmode(EditorSubmode.editing);
     emc.putExecutionDataStack(new ExecutionDataStack());
     final String initialEditorContent = "Hello world\n" +
       "How are you?\n" +
@@ -117,15 +117,15 @@ public class InitializerService {
 
     Keymap editingKeymap = Keymap.make("editing");
     editingKeymap = initializeEditingKeymap(editingKeymap);
-    keymapMap.put("editing", editingKeymap);
+    keymapMap.put(EditorSubmode.editing, editingKeymap);
 
     Keymap insertKeymap = Keymap.make("insert");
     insertKeymap = initializeInsertKeymap(insertKeymap);
-    keymapMap.put("insert", insertKeymap);
+    keymapMap.put(EditorSubmode.insert, insertKeymap);
 
     Keymap quantumStartKeymap = Keymap.make("quantumStart");
     quantumStartKeymap = initializeQuantumStartKeymap(quantumStartKeymap);
-    keymapMap.put("quantumStart", quantumStartKeymap);
+    keymapMap.put(EditorSubmode.quantumStart, quantumStartKeymap);
 
     emc.putKeymapMap(keymapMap);
   }
@@ -143,6 +143,9 @@ public class InitializerService {
     );
     keymap.put(KeyPressed.from("k"),
       scs.compile("0 -1 relativeMove")
+    );
+    keymap.put(KeyPressed.from("["),
+      scs.compile("\"quantumStart\" changeSubmode")
     );
 
     final KeymapHandler[] handlers = new KeymapHandler[1];
