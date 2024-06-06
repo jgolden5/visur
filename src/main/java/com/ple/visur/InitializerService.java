@@ -151,6 +151,13 @@ public class InitializerService {
     return keymap;
   }
 
+  private Keymap initializeQuantumStartKeymap(Keymap quantumStartKeymap) {
+    final KeymapHandler[] handlers = new KeymapHandler[1];
+    handlers[0] = QuantumStartSubmodeHandler.make();
+    quantumStartKeymap.putHandlers(handlers);
+    return quantumStartKeymap;
+  }
+
   private Keymap initializeInsertKeymap(Keymap keymap) {
 //    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Escape")}), Operator.enterEditingMode);
 //    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Enter")}), Operator.insertNewLine);
@@ -162,12 +169,6 @@ public class InitializerService {
     keymap.putHandlers(insertKeymapHandlers);
 
     return keymap;
-  }
-
-  private Keymap initializeQuantumStartKeymap(Keymap quantumStartKeymap) {
-//    final KeymapHandler[] quantumStartKeymapHandlers = new KeymapHandler[1];
-//    quantumStartKeymapHandlers[0] = QuantumStartSubmodeHandler.make();
-    return null;
   }
 
 }

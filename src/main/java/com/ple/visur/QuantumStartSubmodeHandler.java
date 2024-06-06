@@ -8,7 +8,20 @@ public class QuantumStartSubmodeHandler implements KeymapHandler {
 
   @Override
   public VisurCommand toVisurCommand(KeyPressed keyPressed) {
-    return null;
+    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
+    CommandCompileService ccs = ServiceHolder.commandCompileService;
+    String key = keyPressed.getKey();
+    KeyToQuantumName keyToQuantumName = emc.getKeyToQuantumName();
+    String quantumName = keyToQuantumName.get(key);
+    VisurCommand command;
+    if(quantumName != null) {
+      command = ccs.compile("\"" + quantumName + "\" quantumStart");
+    } else {
+      EditorMode editorMode = emc.getEditorMode();
+      String editorModeAsString = "\"" + editorMode.name() + "\"";
+      command = ccs.compile(editorModeAsString + " changeSubmode");
+    }
+    return command;
   }
 
 }
