@@ -124,6 +124,10 @@ public class InitializerService {
     quantumStartKeymap = initializeQuantumStartKeymap(quantumStartKeymap);
     keymapMap.put(EditorSubmode.quantumStart, quantumStartKeymap);
 
+    Keymap quantumEndKeymap = Keymap.make("quantumEnd");
+    quantumEndKeymap = initializeQuantumEndKeymap(quantumEndKeymap);
+    keymapMap.put(EditorSubmode.quantumEnd, quantumEndKeymap);
+
     emc.putKeymapMap(keymapMap);
   }
 
@@ -156,6 +160,13 @@ public class InitializerService {
     handlers[0] = QuantumStartSubmodeHandler.make();
     quantumStartKeymap.putHandlers(handlers);
     return quantumStartKeymap;
+  }
+
+  private Keymap initializeQuantumEndKeymap(Keymap quantumEndKeymap) {
+    final KeymapHandler[] handlers = new KeymapHandler[1];
+    handlers[0] = QuantumEndSubmodeHandler.make();
+    quantumEndKeymap.putHandlers(handlers);
+    return quantumEndKeymap;
   }
 
   private Keymap initializeInsertKeymap(Keymap keymap) {
