@@ -52,6 +52,7 @@ public class InitializerService {
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
     emc.putCommandCursor(emc.getCommandStateContent().length());
+    emc.putSpan(1);
 
     initializeQuantums();
 

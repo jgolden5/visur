@@ -106,6 +106,9 @@ public class EditorModelCoupler {
   public int getCursorQuantumEnd() {
     return (int)editorModel.get(quantumEnd);
   }
+  public int getSpan() {
+    return (int)editorModel.get(span);
+  }
 
   public void initializeEditorContent(String content) {
     ecs.initializeEditorContent(content, editorModel);
@@ -193,6 +196,10 @@ public class EditorModelCoupler {
 
   public void putCursorQuantumEnd(int endBound) {
     editorModel.put(quantumEnd, endBound);
+  }
+
+  public void putSpan(int s) {
+    editorModel.put(span, s);
   }
 
   public void reportError(String message) {
