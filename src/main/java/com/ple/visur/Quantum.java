@@ -14,16 +14,19 @@ public abstract class Quantum implements Shareable {
     String currentQuantumName = currentQuantum.getName();
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String otherQuantumName = (String)eds.pop();
-    System.out.println("quantumStart called. CurrentQ = " + currentQuantumName + ". OtherQ = " + otherQuantumName);
+    String otherQuantumNameWithoutQuotes = otherQuantumName.substring(1, otherQuantumName.length() - 1); //did this just to make sure I don't get any unexpected behavior since currentQuantumName is not wrapped in extra quotes
+    System.out.println("quantumStart called. CurrentQ = " + currentQuantumName + ". OtherQ = " + otherQuantumNameWithoutQuotes);
     return 0;
   }
+
   int quantumEnd() {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     Quantum currentQuantum = emc.getCurrentQuantum();
     String currentQuantumName = currentQuantum.getName();
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String otherQuantumName = (String)eds.pop();
-    System.out.println("quantumEnd called. CurrentQ = " + currentQuantumName + ". OtherQ = " + otherQuantumName);
+    String otherQuantumNameWithoutQuotes = otherQuantumName.substring(1, otherQuantumName.length() - 1); //did this just to make sure I don't get any unexpected behavior since currentQuantumName is not wrapped in extra quotes
+    System.out.println("quantumEnd called. CurrentQ = " + currentQuantumName + ". OtherQ = " + otherQuantumNameWithoutQuotes);
     return 0;
   }
 }
