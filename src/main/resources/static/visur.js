@@ -1,8 +1,8 @@
 let ca;
 let editorContent;
-let quantumStart;
-let quantumEnd;
-let currentQuantum;
+let cursorQuantumStart;
+let cursorQuantumEnd;
+let cursorQuantum;
 
 let canvas = document.getElementById("mainCanvas")
 if((window.innerWidth - 5) % 20 == 0) {
@@ -40,24 +40,24 @@ eb.onopen = function() {
   eb.registerHandler('viewWasChanged', (error, message) => {
     ca = message["body"]["ca"]
     editorContent = message["body"]["editorContent"]
-    quantumStart = message["body"]["quantumStart"]
-    quantumEnd = message["body"]["quantumEnd"]
+    cursorQuantumStart = message["body"]["cursorQuantumStart"]
+    cursorQuantumEnd = message["body"]["cursorQuantumEnd"]
     mode = message["body"]["editorMode"]
     submode = message["body"]["editorSubmode"]
-    currentQuantum = message["body"]["currentQuantum"]
+    cursorQuantum = message["body"]["cursorQuantum"]
     isInCommandState = message["body"]["isInCommandState"]
     commandStateContent = message["body"]["commandStateContent"]
     commandCursor = message["body"]["commandCursor"]
 
-    console.log("quantum start = " + quantumStart)
-    console.log("quantum end = " + quantumEnd)
+    console.log("quantum start = " + cursorQuantumStart)
+    console.log("quantum end = " + cursorQuantumEnd)
 
 //    console.log("Content = " + (editorContent))
 
     clearCanvas()
     ctx.fillStyle = "white"
     drawCanvas()
-    document.getElementById("currentQuantumDisplay").innerHTML = currentQuantum.toUpperCase() + " QUANTUM"
+    document.getElementById("cursorQuantumDisplay").innerHTML = cursorQuantum.toUpperCase() + " QUANTUM"
     if(isInCommandState) {
       let commandStateDisplay = ";"
       let commandCursorWasDrawn = false;
@@ -122,7 +122,7 @@ function drawCanvas() {
 //      drawCursor(x, y, "⎸");
 //      cursorWasDrawn = true;
 //    }
-    if(absX >= quantumStart && absX < quantumEnd) {
+    if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
       drawCursor(x, y, "🟨️")
     }
     characterToDraw = editorContent[absX];

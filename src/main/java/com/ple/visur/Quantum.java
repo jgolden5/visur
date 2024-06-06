@@ -17,25 +17,25 @@ public abstract class Quantum implements Shareable {
     Quantum otherQuantum = quantumNameToQuantum.get(otherQuantumNameWithoutQuotes);
     int distanceOfCurrentQuantumBounds = getQuantumBoundsLength();
     int distanceOfOtherQuantumBounds = otherQuantum.getQuantumBoundsLength();
-    Quantum longerQuantum;
-    Quantum shorterQuantum;
+    Quantum scopeQuantum;
+    Quantum cursorQuantum;
     if(distanceOfCurrentQuantumBounds > distanceOfOtherQuantumBounds) {
-      longerQuantum = this;
-      shorterQuantum = otherQuantum;
+      scopeQuantum = this;
+      cursorQuantum = otherQuantum;
     } else {
-      longerQuantum = otherQuantum;
-      shorterQuantum = this;
+      scopeQuantum = otherQuantum;
+      cursorQuantum = this;
     }
-    int[] longerBounds = longerQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
-    int ca = longerBounds[0];
+    int[] scopeBounds = scopeQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
+    int ca = scopeBounds[0];
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(ca);
-    int[] newShorterBounds = shorterQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
-    emc.putCursorQuantumStart(newShorterBounds[0]);
-    emc.putCursorQuantumEnd(newShorterBounds[1]);
+    int[] newCursorBounds = cursorQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
+    emc.putCursorQuantumStart(newCursorBounds[0]);
+    emc.putCursorQuantumEnd(newCursorBounds[1]);
     System.out.println("quantumStart called. CurrentQ = " + getName() + ". OtherQ = " + otherQuantumNameWithoutQuotes);
-    System.out.println("longer quantum = " + longerQuantum.getName() + "; shorter quantum = " + shorterQuantum.getName());
-    if(otherQuantum.getName().equals(shorterQuantum.getName())) {
+    System.out.println("scope quantum = " + scopeQuantum.getName() + "; cursor quantum = " + cursorQuantum.getName());
+    if(otherQuantum.getName().equals(cursorQuantum.getName())) {
       emc.putCursorQuantum(otherQuantum);
       System.out.println("quantum changed from " + getName() + " to " + otherQuantum.getName());
     }
@@ -50,25 +50,25 @@ public abstract class Quantum implements Shareable {
     Quantum otherQuantum = quantumNameToQuantum.get(otherQuantumNameWithoutQuotes);
     int distanceOfCurrentQuantumBounds = getQuantumBoundsLength();
     int distanceOfOtherQuantumBounds = otherQuantum.getQuantumBoundsLength();
-    Quantum longerQuantum;
-    Quantum shorterQuantum;
+    Quantum scopeQuantum;
+    Quantum cursorQuantum;
     if(distanceOfCurrentQuantumBounds > distanceOfOtherQuantumBounds) {
-      longerQuantum = this;
-      shorterQuantum = otherQuantum;
+      scopeQuantum = this;
+      cursorQuantum = otherQuantum;
     } else {
-      longerQuantum = otherQuantum;
-      shorterQuantum = this;
+      scopeQuantum = otherQuantum;
+      cursorQuantum = this;
     }
-    int[] longerBounds = longerQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
-    int ca = longerBounds[1] - 1;
+    int[] scopeBounds = scopeQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
+    int ca = scopeBounds[1] - 1;
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(ca);
-    int[] newShorterBounds = shorterQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
-    emc.putCursorQuantumStart(newShorterBounds[0]);
-    emc.putCursorQuantumEnd(newShorterBounds[1]);
+    int[] newCursorBounds = cursorQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
+    emc.putCursorQuantumStart(newCursorBounds[0]);
+    emc.putCursorQuantumEnd(newCursorBounds[1]);
     System.out.println("quantumStart called. CurrentQ = " + getName() + ". OtherQ = " + otherQuantumNameWithoutQuotes);
-    System.out.println("longer quantum = " + longerQuantum.getName() + "; shorter quantum = " + shorterQuantum.getName());
-    if(otherQuantum.getName().equals(shorterQuantum.getName())) {
+    System.out.println("scope quantum = " + scopeQuantum.getName() + "; cursor quantum = " + cursorQuantum.getName());
+    if(otherQuantum.getName().equals(cursorQuantum.getName())) {
       emc.putCursorQuantum(otherQuantum);
       System.out.println("quantum changed from " + getName() + " to " + otherQuantum.getName());
     }
