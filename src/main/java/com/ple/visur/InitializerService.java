@@ -93,12 +93,14 @@ public class InitializerService {
     quantumNameToQuantum.put("word", new RegexQuantum("word", "\\S+"));
     quantumNameToQuantum.put("character", new CharacterQuantum());
     quantumNameToQuantum.put("wrappedLine", new WrappedLineQuantum());
+    quantumNameToQuantum.put("document", new DocumentQuantum());
     emc.putQuantumNameToQuantum(quantumNameToQuantum);
 
     KeyToQuantumName keyToQuantumName = new KeyToQuantumName();
     keyToQuantumName.put("q", "character");
     keyToQuantumName.put("w", "word");
     keyToQuantumName.put("e", "wrappedLine");
+    keyToQuantumName.put("r", "document");
     emc.putKeyToQuantumName(keyToQuantumName);
 
     emc.putCurrentQuantum(emc.getQuantumNameToQuantum().get(startingQuantumName));
