@@ -18,6 +18,16 @@ public class RegexQuantum implements Quantum {
     return name;
   }
 
+  @Override
+  public int quantumStart() {
+    return 0;
+  }
+
+  @Override
+  public int quantumEnd() {
+    return 0;
+  }
+
   /**
    * declare bounds var = empty int array
    * call emc.getGlobalVar to get ca val from caBVV

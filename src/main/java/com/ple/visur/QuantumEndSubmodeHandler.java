@@ -12,14 +12,13 @@ public class QuantumEndSubmodeHandler implements KeymapHandler {
     String key = keyPressed.getKey();
     KeyToQuantumName keyToQuantumName = emc.getKeyToQuantumName();
     String quantumName = keyToQuantumName.get(key);
-    VisurCommand command;
+    String sentence = "";
     if(quantumName != null) {
-      command = ccs.compile("\"" + quantumName + "\" quantumEnd");
-    } else {
-      EditorMode editorMode = emc.getEditorMode();
-      String editorModeAsString = "\"" + editorMode.name() + "\"";
-      command = ccs.compile(editorModeAsString + " changeSubmode");
+      sentence += "\"" + quantumName + "\" quantumEnd ";
     }
-    return command;
+    EditorMode editorMode = emc.getEditorMode();
+    String editorModeAsString = "\"" + editorMode.name() + "\"";
+    sentence += editorModeAsString + " changeSubmode";
+    return ccs.compile(sentence);
   }
 }

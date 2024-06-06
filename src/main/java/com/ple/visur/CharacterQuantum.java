@@ -103,4 +103,14 @@ public class CharacterQuantum implements Quantum {
   public String getName() {
     return "character";
   }
+
+  @Override
+  public int quantumStart() {
+    return 0;
+  }
+
+  @Override
+  public int quantumEnd() {
+    return 0;
+  }
 }

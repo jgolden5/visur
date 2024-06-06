@@ -29,6 +29,12 @@ public class NativeOpWord implements Word {
         case "+":
           op = new AddOperator();
           break;
+        case "quantumStart":
+          op = new QuantumStartOp();
+          break;
+        case "quantumEnd":
+          op = new QuantumEndOp();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }

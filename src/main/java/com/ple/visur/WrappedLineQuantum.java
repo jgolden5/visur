@@ -45,4 +45,14 @@ public class WrappedLineQuantum implements Quantum {
     return "wrappedLine";
   }
 
+  @Override
+  public int quantumStart() {
+    return 0;
+  }
+
+  @Override
+  public int quantumEnd() {
+    return 0;
+  }
+
 }
