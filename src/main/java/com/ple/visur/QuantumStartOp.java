@@ -5,8 +5,6 @@ public class QuantumStartOp implements Operator {
   public void execute(Object opInfo) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     Quantum currentQuantum = emc.getCurrentQuantum();
-    int ca = currentQuantum.quantumStart();
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    caBVV.putVal(ca);
+    currentQuantum.quantumStart(); //internally sets ca and quantum bounds
   }
 }

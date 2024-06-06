@@ -5,8 +5,6 @@ public class QuantumEndOp implements Operator {
   public void execute(Object opInfo) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     Quantum currentQuantum = emc.getCurrentQuantum();
-    int ca = currentQuantum.quantumEnd();
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    caBVV.putVal(ca);
+    currentQuantum.quantumEnd();
   }
 }
