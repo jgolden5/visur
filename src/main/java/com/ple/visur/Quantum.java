@@ -35,7 +35,7 @@ public abstract class Quantum implements Shareable {
     emc.putQuantumEnd(newShorterBounds[1]);
     System.out.println("quantumStart called. CurrentQ = " + getName() + ". OtherQ = " + otherQuantumNameWithoutQuotes);
     System.out.println("longer quantum = " + longerQuantum.getName() + "; shorter quantum = " + shorterQuantum.getName());
-    if(getName().equals(shorterQuantum.getName())) {
+    if(otherQuantum.getName().equals(shorterQuantum.getName())) {
       emc.putCurrentQuantum(otherQuantum);
       System.out.println("quantum changed from " + getName() + " to " + otherQuantum.getName());
     }
