@@ -57,9 +57,6 @@ public class InitializerService {
 
     initializeKeymaps();
 
-    OperatorToService opToService = OperatorToService.make();
-    emc.putOperatorToService(opToService);
-
   }
 
   private void initializeUnsetCoordinateBricks() {

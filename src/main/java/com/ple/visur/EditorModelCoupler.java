@@ -71,9 +71,6 @@ public class EditorModelCoupler {
   public KeymapMap getKeymapMap() {
     return (KeymapMap) editorModel.get(modeToKeymap);
   }
-  public OperatorToService getOperatorToService() {
-    return (OperatorToService) editorModel.get(operatorToService);
-  }
 
   public boolean getIsInCommandState() {
     return (boolean)editorModel.get(isInCommandState);
@@ -154,10 +151,6 @@ public class EditorModelCoupler {
 
   public void putKeymapMap(KeymapMap keymapMap) {
     editorModel.put(modeToKeymap, keymapMap);
-  }
-
-  public void putOperatorToService(OperatorToService opToService) {
-    editorModel.put(operatorToService, opToService);
   }
 
   public void putIsInCommandState(boolean inCommandState) {
