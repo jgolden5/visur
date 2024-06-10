@@ -39,18 +39,20 @@ public class EditorContentService {
   public String getContentLineAtY(int y, LocalMap<EditorModelKey, Object> editorModel) {
     final String content = getEditorContent(editorModel);
     ArrayList<Integer> newlineIndices = getNewlineIndices(editorModel);
-    final String currentContentLine;
-    int lastNewlineIndex = newlineIndices.get(newlineIndices.size() - 1);
-    if (y < newlineIndices.size()) {
-      if (y > 0) {
-        currentContentLine = content.substring(newlineIndices.get(y - 1) + 1, newlineIndices.get(y));
+    String currentContentLine = content;
+    if(newlineIndices.size() > 1) {
+      int lastNewlineIndex = newlineIndices.get(newlineIndices.size() - 1);
+      if (y < newlineIndices.size()) {
+        if (y > 0) {
+          currentContentLine = content.substring(newlineIndices.get(y - 1) + 1, newlineIndices.get(y));
+        } else {
+          currentContentLine = content.substring(0, newlineIndices.get(y));
+        }
+      } else if (content.length() > lastNewlineIndex + 1) {
+        currentContentLine = content.substring(lastNewlineIndex + 1);
       } else {
-        currentContentLine = content.substring(0, newlineIndices.get(y));
+        currentContentLine = null;
       }
-    } else if (content.length() > lastNewlineIndex + 1) {
-      currentContentLine = content.substring(lastNewlineIndex + 1);
-    } else {
-      currentContentLine = null;
     }
     return currentContentLine;
   }
