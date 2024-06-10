@@ -6,6 +6,7 @@ import DataClass.CompoundDataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
 
 import java.util.HashMap;
+import java.util.Stack;
 
 import static com.ple.visur.EditorMode.editing;
 import static com.ple.visur.EditorModelKey.globalVariableMap;
@@ -28,9 +29,15 @@ public class InitializerService {
     emc.editorModel.put(globalVariableMap, initialGvm);
     emc.putVirtualX(0);
     emc.putVirtualXIsAtEndOfLine(false);
+
     emc.putEditorMode(editing);
-    emc.putEditorSubmode(EditorSubmode.editing);
+
+    Stack<EditorSubmode> editorSubmodeStack = new Stack<>();
+    editorSubmodeStack.push(EditorSubmode.editing);
+    emc.putEditorSubmodeStack(editorSubmodeStack);
+
     emc.putExecutionDataStack(new ExecutionDataStack());
+
     final String initialEditorContent = "Hello world\n" +
       "How are you?\n" +
       "Goodbye\n";
