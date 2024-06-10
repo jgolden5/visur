@@ -8,7 +8,11 @@ public class CharacterQuantum extends Quantum {
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int ca = (int)caBVV.getVal();
-    return new int[]{ca, ca + 1};
+    if(ca < editorContent.length()) {
+      return new int[]{ca, ca + 1};
+    } else {
+      return new int[]{ca, ca};
+    }
   }
 
   @Override

@@ -41,7 +41,7 @@ public class InitializerService {
 //    final String initialEditorContent = "Hello world\n" +
 //      "How are you?\n" +
 //      "Goodbye\n";
-    final String initialEditorContent = " ";
+    final String initialEditorContent = "";
 //    final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
 //      "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
 //      "One's devotion to Vehumet can be proven by the causing of as much carnage and destruction as possible.\n" +

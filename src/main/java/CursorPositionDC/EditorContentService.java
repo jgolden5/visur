@@ -84,9 +84,6 @@ public class EditorContentService {
         }
       }
     }
-    if(lowerBound == upperBound) { //these 3 lines only take place if we want wrappedLine to select a line in the case that that line only consists of a newline char
-      upperBound++;
-    }
     return new int[]{lowerBound, upperBound};
   }
 
