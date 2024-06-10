@@ -5,6 +5,7 @@ import io.vertx.rxjava3.core.shareddata.LocalMap;
 import io.vertx.rxjava3.core.shareddata.SharedData;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import static com.ple.visur.EditorModelKey.*;
 
@@ -65,7 +66,12 @@ public class EditorModelCoupler {
   }
 
   public EditorSubmode getEditorSubmode() {
-    return (EditorSubmode)editorModel.get(editorSubmode);
+    Stack<EditorSubmode> submodeStack = getEditorSubmodeStack();
+    return submodeStack.peek();
+  }
+
+  private Stack<EditorSubmode> getEditorSubmodeStack() {
+    return (Stack<EditorSubmode>) editorModel.get(editorSubmodeStack);
   }
 
   public KeymapMap getKeymapMap() {
@@ -149,7 +155,13 @@ public class EditorModelCoupler {
   }
 
   public void putEditorSubmode(EditorSubmode submode) {
-    editorModel.put(editorSubmode, submode);
+    Stack<EditorSubmode> editorSubmodeStack = getEditorSubmodeStack();
+    editorSubmodeStack.push(submode);
+    putEditorSubmodeStack(editorSubmodeStack);
+  }
+
+  public void putEditorSubmodeStack(Stack<EditorSubmode> submodeStack) {
+    editorModel.put(editorSubmodeStack, submodeStack);
   }
 
   public void putKeymapMap(KeymapMap keymapMap) {
