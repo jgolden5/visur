@@ -70,7 +70,7 @@ public class EditorModelCoupler {
     return submodeStack.peek();
   }
 
-  private Stack<EditorSubmode> getEditorSubmodeStack() {
+  public Stack<EditorSubmode> getEditorSubmodeStack() {
     return (Stack<EditorSubmode>) editorModel.get(editorSubmodeStack);
   }
 

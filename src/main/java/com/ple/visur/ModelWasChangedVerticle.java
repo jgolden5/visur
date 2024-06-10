@@ -3,6 +3,8 @@ package com.ple.visur;
 import io.vertx.core.json.*;
 import io.vertx.rxjava3.core.eventbus.Message;
 
+import java.util.Stack;
+
 public class ModelWasChangedVerticle extends AbstractVisurVerticle {
 
   View view;

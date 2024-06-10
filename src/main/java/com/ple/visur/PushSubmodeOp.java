@@ -1,6 +1,6 @@
 package com.ple.visur;
 
-public class ChangeSubmodeOp implements Operator {
+public class PushSubmodeOp implements Operator {
   @Override
   public void execute(Object opInfo) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;

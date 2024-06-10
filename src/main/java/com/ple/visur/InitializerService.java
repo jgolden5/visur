@@ -156,10 +156,10 @@ public class InitializerService {
       scs.compile("0 -1 relativeMove")
     );
     keymap.put(KeyPressed.from("["),
-      scs.compile("\"quantumStart\" changeSubmode")
+      scs.compile("\"quantumStart\" pushSubmode")
     );
     keymap.put(KeyPressed.from("]"),
-      scs.compile("\"quantumEnd\" changeSubmode")
+      scs.compile("\"quantumEnd\" pushSubmode")
     );
 
     final KeymapHandler[] handlers = new KeymapHandler[1];
