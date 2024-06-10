@@ -1,5 +1,6 @@
 let ca;
 let editorContent;
+let span;
 let cursorQuantumStart;
 let cursorQuantumEnd;
 let cursorQuantum;
@@ -40,6 +41,7 @@ eb.onopen = function() {
   eb.registerHandler('viewWasChanged', (error, message) => {
     ca = message["body"]["ca"]
     editorContent = message["body"]["editorContent"]
+    span = message["body"]["span"]
     cursorQuantumStart = message["body"]["cursorQuantumStart"]
     cursorQuantumEnd = message["body"]["cursorQuantumEnd"]
     mode = message["body"]["editorMode"]
@@ -123,7 +125,7 @@ function drawCanvas() {
 //      cursorWasDrawn = true;
 //    }
     if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
-      drawCursor(x, y, "🟨️")
+      span > 0 ? drawCursor(x, y, "🟨️") : drawCursor(x, y, "⎹")
     }
     characterToDraw = editorContent[absX];
     drawCharacter(x, y, characterToDraw);
