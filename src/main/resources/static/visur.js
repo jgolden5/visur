@@ -118,7 +118,7 @@ function drawCanvas() {
   let numberOfWrappedLines = 0
   let cursorWasDrawn = false
   let fullContentWasDrawn = false
-  if(editorContent.length > 0) {
+  if(cursorQuantumEnd > 0) {
     contentLoop:
     for(let absX = 0; absX < editorContent.length; absX++) {
   //    if(absX == ca && !cursorWasDrawn) {

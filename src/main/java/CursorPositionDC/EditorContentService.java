@@ -80,7 +80,7 @@ public class EditorContentService {
             upperBound = newlineIndices.get(0);
           }
         } else {
-          upperBound = editorContent.length() - 1;
+          upperBound = editorContent.length();
         }
       }
     }
