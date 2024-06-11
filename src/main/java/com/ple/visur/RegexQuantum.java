@@ -19,14 +19,16 @@ public class RegexQuantum extends Quantum {
   }
 
   /**
-   * declare bounds var = empty int array
-   * call emc.getGlobalVar to get ca val from caBVV
-   * use ca as starting index for searching in editorContent for regex pattern
-   * check for first match in string by searching backwards until a non-match is found or contentLimitReached
-   * if currentIndex is a match, set that to bounds[0], else, keep searching, and set first match to bounds[0]
-   * keep searching after bounds[0] is found until a nonmatch is found
-   * set bounds[1] = first nonmatch found (after lowerBoundsFound) - 1
-   * return bounds
+   * make bounds var
+   * if first char matches
+     * search left for match, then for nonmatch. If match is found, set leftBound to that
+     * if no match is found from the above, search right for match and then nonmatch, make that leftBound
+     * if no match is found still, leftBound should be reset to the original startingIndex
+   * else
+     * search right for match and then nonmatch, and make that rightBound
+     * if no match is found still, rightBound should be reset to the original startingIndex
+   * if leftBound == rightBound, set span = 0
+   * return bounds, where bounds[0] = leftBound and bounds[1] = rightBound
    * @param editorContent
    * @param newlineIndices
    * @param includeTail
@@ -37,8 +39,17 @@ public class RegexQuantum extends Quantum {
     int[] bounds = new int[2];
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int currentIndex = (int)caBVV.getVal();
-    bounds[0] = getLeftBound(currentIndex, editorContent);
-    bounds[1] = getRightBound(bounds[0], editorContent);
+    boolean matchDesired;
+    if(currentIndex < editorContent.length() - 1) {
+      String strToMatch = editorContent.substring(currentIndex, currentIndex + 1);
+      Matcher matcher = pattern.matcher(strToMatch);
+      matchDesired = !matcher.matches();
+      bounds[0] = getLeftBound(matchDesired, currentIndex, editorContent);
+      bounds[1] = getRightBound(!matchDesired, bounds[0], editorContent);
+    } else {
+      bounds[0] = getLeftBound(true, currentIndex, editorContent);
+      bounds[1] = currentIndex;
+    }
     return bounds;
   }
 
@@ -52,64 +63,43 @@ public class RegexQuantum extends Quantum {
    * @param editorContent
    * @return
    */
-  private int getLeftBound(int startingIndex, String editorContent) {
+  private int getLeftBound(boolean matchDesired, int startingIndex, String editorContent) {
     int leftBound = startingIndex;
-    if(leftBound > 0) {
-      leftBound = goLeftUntilFound("nonmatch", leftBound, editorContent);
-      if(leftBound == startingIndex) {
-        leftBound = goRightUntilFound("match", leftBound, editorContent);
-      }
-      if(leftBound == -1) {
-        leftBound = startingIndex;
-        leftBound = goLeftUntilFound("match", leftBound, editorContent);
-        leftBound = goLeftUntilFound("nonmatch", leftBound, editorContent);
-      }
-    }
-    return leftBound;
-  }
-
-  private int goLeftUntilFound(String searchTarget, int startingIndex, String editorContent) {
-    int leftBoundMatch = startingIndex;
     boolean searchConditionFound = false;
-    while(!searchConditionFound && leftBoundMatch > 0) {
-      String strToMatch = editorContent.substring(leftBoundMatch - 1, leftBoundMatch);
+    while(!searchConditionFound && leftBound > 0) {
+      String strToMatch = editorContent.substring(leftBound - 1, leftBound);
       Matcher matcher = pattern.matcher(strToMatch);
-      boolean searchCondition = searchTarget.equals("match") ? matcher.matches() : !matcher.matches();
+      boolean searchCondition = matchDesired ? matcher.matches() : !matcher.matches();
       if(searchCondition) {
         searchConditionFound = true;
       } else {
-        leftBoundMatch--;
+        leftBound--;
       }
     }
-    if(searchConditionFound || leftBoundMatch == 0) {
-      return leftBoundMatch;
+    if(!searchConditionFound) {
+      return getRightBound(matchDesired, startingIndex, editorContent);
     } else {
-      return -1;
+      return leftBound;
     }
   }
 
-  private int goRightUntilFound(String searchTarget, int startingIndex, String editorContent) {
-    int rightBoundMatch = startingIndex;
+  private int getRightBound(boolean matchDesired, int startingIndex, String editorContent) {
+    int rightBound = startingIndex;
     boolean searchConditionFound = false;
-    while(!searchConditionFound && rightBoundMatch <= editorContent.length() - 1) {
-      String strToMatch = editorContent.substring(rightBoundMatch, rightBoundMatch + 1);
+    while(!searchConditionFound && rightBound <= editorContent.length() - 1) {
+      String strToMatch = editorContent.substring(rightBound, rightBound + 1);
       Matcher matcher = pattern.matcher(strToMatch);
-      boolean searchCondition = searchTarget.equals("match") ? matcher.matches() : !matcher.matches();
+      boolean searchCondition = matchDesired ? matcher.matches() : !matcher.matches();
       if(searchCondition) {
         searchConditionFound = true;
       } else {
-        rightBoundMatch++;
+        rightBound++;
       }
     }
-    if(searchConditionFound || rightBoundMatch < editorContent.length() - 1 && searchTarget.equals("match") || searchTarget.equals("nonmatch")) {
-      return rightBoundMatch;
-    } else {
-      return -1;
+    if(!searchConditionFound) {
+      rightBound = startingIndex;
     }
-  }
-
-  private int getRightBound(int startingIndex, String editorContent) { //this assumes currentIndex is ALWAYS accurate
-    return goRightUntilFound("nonmatch", startingIndex, editorContent);
+    return rightBound;
   }
 
   /** iteratively loop through every dx and dy variable passed into the move method via mv.dx and/or mv.dy

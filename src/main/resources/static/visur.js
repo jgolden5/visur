@@ -118,32 +118,28 @@ function drawCanvas() {
   let numberOfWrappedLines = 0
   let cursorWasDrawn = false
   let fullContentWasDrawn = false
-  if(cursorQuantumEnd > 0) {
-    contentLoop:
-    for(let absX = 0; absX < editorContent.length; absX++) {
-  //    if(absX == ca && !cursorWasDrawn) {
-  //      drawCursor(x, y, "⎸");
-  //      cursorWasDrawn = true;
-  //    }
-      if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
-        span > 0 ? drawCursor(x, y, "🟨️") : drawCursor(x, y, "⎹")
-      }
-      characterToDraw = editorContent[absX];
-      drawCharacter(x, y, characterToDraw);
-      x++
-      let isAtEndOfCurrentLine = x % canvasWidth == 0
-      if(editorContent[absX] === "\n" || isAtEndOfCurrentLine) {
-        y++
-        x = 0
+  contentLoop:
+  for(let absX = 0; absX < editorContent.length; absX++) {
+//    if(absX == ca && !cursorWasDrawn) {
+//      drawCursor(x, y, "⎸");
+//      cursorWasDrawn = true;
+//    }
+    if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
+      if(span > 0) {
+        drawCursor(x, y, "🟨️")
+      } else if(cursorQuantumEnd > 0) {
+        drawCursor(x, y, "⎹")
       }
     }
-  } else {
-    drawCursor(0, 0, "⎹")
+    characterToDraw = editorContent[absX];
+    drawCharacter(x, y, characterToDraw);
+    x++
+    let isAtEndOfCurrentLine = x % canvasWidth == 0
+    if(editorContent[absX] === "\n" || isAtEndOfCurrentLine) {
+      y++
+      x = 0
+    }
   }
-//  if(!cursorWasDrawn) {
-//    drawCursor(x, y, "⎸");
-//    cursorWasDrawn = true
-//  }
 }
 
 function toXContent(x) { //as opposed to XCursor
