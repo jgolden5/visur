@@ -17,9 +17,7 @@ public class QuantumStartSubmodeHandler implements KeymapHandler {
     if(quantumName != null) {
       sentence += "\"" + quantumName + "\" quantumStart ";
     }
-    EditorMode editorMode = emc.getEditorMode();
-    String editorModeAsString = "\"" + editorMode.name() + "\"";
-    sentence += editorModeAsString + " removeSubmode";
+    sentence += "removeSubmode";
     return ccs.compile(sentence);
   }
 

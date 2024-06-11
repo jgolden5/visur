@@ -139,6 +139,10 @@ public class InitializerService {
     quantumEndKeymap = initializeQuantumEndKeymap(quantumEndKeymap);
     keymapMap.put(EditorSubmode.quantumEnd, quantumEndKeymap);
 
+    Keymap spanKeymap = Keymap.make("span");
+    spanKeymap = initializeSpanKeymap(spanKeymap);
+    keymapMap.put(EditorSubmode.span, spanKeymap);
+
     emc.putKeymapMap(keymapMap);
   }
 
@@ -162,6 +166,9 @@ public class InitializerService {
     keymap.put(KeyPressed.from("]"),
       scs.compile("\"quantumEnd\" pushSubmode")
     );
+    keymap.put(KeyPressed.from("s"),
+      scs.compile("\"span\" pushSubmode")
+    );
 
     final KeymapHandler[] handlers = new KeymapHandler[1];
     handlers[0] = ChangeQuantumHandler.make();
@@ -181,6 +188,13 @@ public class InitializerService {
     handlers[0] = QuantumEndSubmodeHandler.make();
     quantumEndKeymap.putHandlers(handlers);
     return quantumEndKeymap;
+  }
+
+  private Keymap initializeSpanKeymap(Keymap spanKeymap) {
+    final KeymapHandler[] handlers = new KeymapHandler[1];
+    handlers[0] = SpanSubmodeHandler.make();
+    spanKeymap.putHandlers(handlers);
+    return spanKeymap;
   }
 
   private Keymap initializeInsertKeymap(Keymap keymap) {

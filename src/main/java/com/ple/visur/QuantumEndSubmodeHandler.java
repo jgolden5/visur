@@ -16,9 +16,7 @@ public class QuantumEndSubmodeHandler implements KeymapHandler {
     if(quantumName != null) {
       sentence += "\"" + quantumName + "\" quantumEnd ";
     }
-    EditorMode editorMode = emc.getEditorMode();
-    String editorModeAsString = "\"" + editorMode.name() + "\"";
-    sentence += editorModeAsString + " removeSubmode";
+    sentence += "removeSubmode";
     return ccs.compile(sentence);
   }
 }

@@ -4,7 +4,10 @@ public enum EditorSubmode {
   editing,
   insert,
   quantumStart,
-  quantumEnd;
+  quantumEnd,
+  span,
+  ;
+
   public static EditorSubmode getSubmodeByString(String str) {
     for(EditorSubmode submode : EditorSubmode.values()) {
       if(submode.name().equals(str)) {
