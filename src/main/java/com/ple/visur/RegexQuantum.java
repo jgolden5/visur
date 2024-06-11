@@ -19,8 +19,8 @@ public class RegexQuantum extends Quantum {
   }
 
   /**
-   * make var firstMatchIsChar
-   * if startingIndex < editorContent.length - 1
+   * make var firstCharMatches
+   * if start < editorContent.length - 1
      * set firstMatchIsChar = Matcher.matches(firstCharInContent)
    * else
      * firstMatchIsChar = false
@@ -36,8 +36,15 @@ public class RegexQuantum extends Quantum {
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
     int[] bounds = new int[2];
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int startingIndex = (int)caBVV.getVal();
-    int leftBound = getLeftBound(startingIndex, editorContent);
+    int start = (int)caBVV.getVal();
+    boolean firstCharMatches;
+    if(start < editorContent.length() - 1) {
+      Matcher matcher = pattern.matcher(editorContent.substring(start, start + 1));
+      firstCharMatches = matcher.matches();
+    } else {
+      firstCharMatches = false;
+    }
+    int leftBound = getLeftBound(firstCharMatches, start, editorContent);
     int rightBound = getRightBound(leftBound, editorContent);
     if(leftBound == rightBound) {
       emc.putSpan(0);
@@ -49,17 +56,28 @@ public class RegexQuantum extends Quantum {
 
   /**
    * make var matchIndex
-   * if firstCharIsMatch, search left for nonmatch
-   * else search right for match
-     * if no match is found, search left for match AND THEN left for nonmatch
+   * if firstCharMatches, search left for nonmatch
+   * else
+     * search right for match
+     * if NO MATCH is found, search left for match AND THEN left for nonmatch
    * if no match is still found, return start
    * else return matchIndex
    * @param start
    * @param editorContent
    * @return
    */
-  private int getLeftBound(boolean firstCharIsMatch, int start, String editorContent) {
-    return -1;
+  private int getLeftBound(boolean firstCharMatches, int start, String editorContent) {
+    int leftBound;
+    if(firstCharMatches) {
+      leftBound = goLeftUntilFound(false, start, editorContent);
+    } else {
+      leftBound = goRightUntilFound(true, start, editorContent);
+      if(leftBound == start) {
+        leftBound = goLeftUntilFound(true, start, editorContent);
+        leftBound = goLeftUntilFound(false, leftBound, editorContent);
+      }
+    }
+    return leftBound;
   }
 
   /**
@@ -72,7 +90,7 @@ public class RegexQuantum extends Quantum {
    * @return
    */
   private int getRightBound(int start, String editorContent) {
-    return -1;
+    return goRightUntilFound(false, start, editorContent);
   }
 
   /**
@@ -85,7 +103,7 @@ public class RegexQuantum extends Quantum {
    * @param editorContent
    * @return
    */
-  private int goLeftUntilFound(int startingIndex, String editorContent) {
+  private int goLeftUntilFound(boolean matchDesired, int startingIndex, String editorContent) {
     int leftBound = startingIndex;
     boolean searchConditionFound = false;
     while(!searchConditionFound && leftBound > 0) {
