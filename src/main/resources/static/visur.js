@@ -116,20 +116,14 @@ function drawCanvas() {
   let x = 0
   let y = 0
   let numberOfWrappedLines = 0
-  let cursorWasDrawn = false
-  let fullContentWasDrawn = false
   contentLoop:
   for(let absX = 0; absX < editorContent.length; absX++) {
-//    if(absX == ca && !cursorWasDrawn) {
-//      drawCursor(x, y, "⎸");
-//      cursorWasDrawn = true;
-//    }
-    if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
-      if(span > 0) {
+    if(span > 0) {
+      if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
         drawCursor(x, y, "🟨️")
-      } else if(cursorQuantumEnd > 0) {
-        drawCursor(x, y, "⎹")
       }
+    } else if(absX == cursorQuantumStart && absX == cursorQuantumEnd) {
+      drawCursor(x, y, "⎹")
     }
     characterToDraw = editorContent[absX];
     drawCharacter(x, y, characterToDraw);
