@@ -6,7 +6,7 @@ public class SetSpanOp implements Operator {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack eds = emc.getExecutionDataStack();
     int spanToSet = (int)eds.pop();
-    System.out.println("span will switch to = " + spanToSet);
-//    emc.putSpan(spanToSet);
+    emc.putSpan(spanToSet);
+    System.out.println("span was switched to = " + spanToSet);
   }
 }
