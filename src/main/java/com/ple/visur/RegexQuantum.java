@@ -94,33 +94,35 @@ public class RegexQuantum extends Quantum {
   }
 
   /**
-   * set leftBound = startingIndex
-   * if startingIndex <= 0, leftBound is found
+   * set leftBound = start
+   * if start <= 0, leftBound is found
    * if first search resulted in a match, we are searching for the first nonmatch, else, search for first match
    * if no match is found searching backwards (meaning a limit was hit before a match was found), search forwards for a match
    * if no match is found in the entire editorContent, return -1, which means the quantum should be impossible to switch to
-   * @param startingIndex
+   * @param start
    * @param editorContent
    * @return
    */
-  private int goLeftUntilFound(boolean matchDesired, int startingIndex, String editorContent) {
-    int leftBound = startingIndex;
+  private int goLeftUntilFound(boolean matchDesired, int start, String editorContent) {
+    int leftBound = start;
     boolean searchConditionFound = false;
     while(!searchConditionFound && leftBound > 0) {
       String strToMatch = editorContent.substring(leftBound - 1, leftBound);
       Matcher matcher = pattern.matcher(strToMatch);
       boolean searchCondition = matchDesired ? matcher.matches() : !matcher.matches();
-      if(searchCondition) {
+      if (searchCondition) {
         searchConditionFound = true;
       } else {
         leftBound--;
       }
     }
-    if(!searchConditionFound) {
-      return goRightUntilFound(matchDesired, startingIndex, editorContent);
-    } else {
-      return leftBound;
+    if(leftBound == 0 && !matchDesired) {
+      searchConditionFound = true;
     }
+    if(!searchConditionFound) {
+      leftBound = start;
+    }
+    return leftBound;
   }
 
   private int goRightUntilFound(boolean matchDesired, int startingIndex, String editorContent) {
