@@ -15,12 +15,13 @@ public class SpanSubmodeHandler implements KeymapHandler {
     String key = keyPressed.getKey();
     Pattern pattern = Pattern.compile("\\d");
     Matcher matcher = pattern.matcher(key);
-    String sentence = "";
+    String sentence;
     if(matcher.matches()) {
       int keyAsInt = Integer.parseInt(key);
-//      sentence += "" + keyAsInt + " setSpan ";
+      sentence = "" + keyAsInt + " setSpan ";
+    } else {
+      sentence = "removeSubmode";
     }
-    sentence += "removeSubmode";
     return ccs.compile(sentence);
   }
 }

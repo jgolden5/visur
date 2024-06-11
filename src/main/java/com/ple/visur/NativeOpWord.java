@@ -38,6 +38,9 @@ public class NativeOpWord implements Word {
         case "quantumEnd":
           op = new QuantumEndOp();
           break;
+        case "setSpan":
+          op = new SetSpanOp();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }
