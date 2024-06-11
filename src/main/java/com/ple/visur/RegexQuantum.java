@@ -37,14 +37,16 @@ public class RegexQuantum extends Quantum {
     int[] bounds = new int[2];
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int start = (int)caBVV.getVal();
-    boolean firstCharMatches;
+    boolean firstOrPreviousCharMatches = false;
     if(start < editorContent.length() - 1) {
       Matcher matcher = pattern.matcher(editorContent.substring(start, start + 1));
-      firstCharMatches = matcher.matches();
-    } else {
-      firstCharMatches = false;
+      firstOrPreviousCharMatches = matcher.matches();
     }
-    int leftBound = getLeftBound(firstCharMatches, start, editorContent);
+    if(!firstOrPreviousCharMatches && start > 0) {
+      Matcher matcher = pattern.matcher(editorContent.substring(start - 1, start));
+      firstOrPreviousCharMatches = matcher.matches();
+    }
+    int leftBound = getLeftBound(firstOrPreviousCharMatches, start, editorContent);
     int rightBound = getRightBound(leftBound, editorContent);
     if(leftBound == rightBound) {
       emc.putSpan(0);
@@ -93,16 +95,6 @@ public class RegexQuantum extends Quantum {
     return goRightUntilFound(false, start, editorContent);
   }
 
-  /**
-   * set leftBound = start
-   * if start <= 0, leftBound is found
-   * if first search resulted in a match, we are searching for the first nonmatch, else, search for first match
-   * if no match is found searching backwards (meaning a limit was hit before a match was found), search forwards for a match
-   * if no match is found in the entire editorContent, return -1, which means the quantum should be impossible to switch to
-   * @param start
-   * @param editorContent
-   * @return
-   */
   private int goLeftUntilFound(boolean matchDesired, int start, String editorContent) {
     int leftBound = start;
     boolean searchConditionFound = false;
@@ -128,7 +120,7 @@ public class RegexQuantum extends Quantum {
   private int goRightUntilFound(boolean matchDesired, int startingIndex, String editorContent) {
     int rightBound = startingIndex;
     boolean searchConditionFound = false;
-    while(!searchConditionFound && rightBound <= editorContent.length() - 1) {
+    while(!searchConditionFound && rightBound < editorContent.length() - 1) {
       String strToMatch = editorContent.substring(rightBound, rightBound + 1);
       Matcher matcher = pattern.matcher(strToMatch);
       boolean searchCondition = matchDesired ? matcher.matches() : !matcher.matches();
@@ -137,6 +129,9 @@ public class RegexQuantum extends Quantum {
       } else {
         rightBound++;
       }
+    }
+    if(rightBound == editorContent.length() - 1 && !matchDesired) {
+      searchConditionFound = true;
     }
     if(!searchConditionFound) {
       rightBound = startingIndex;
