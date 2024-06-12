@@ -62,6 +62,7 @@ public class EditorContentService {
     int cy = (int)cyBVV.getVal();
     int lowerBound = 0;
     int upperBound = 0;
+    int span = ServiceHolder.editorModelCoupler.getSpan();
     if(editorContent.length() > 0) {
       if (cy > 0) {
         if(cy < newlineIndices.size()) {
@@ -71,6 +72,9 @@ public class EditorContentService {
           lowerBound = newlineIndices.get(cy - 1) + 1;
           boolean lastCharIsNewline = editorContent.charAt(editorContent.length() - 1) == '\n';
           upperBound = lastCharIsNewline ? editorContent.length() - 1 : editorContent.length();
+          if(span == 0) {
+            upperBound++;
+          }
         }
       } else {
         if (newlineIndices.size() > 0) {

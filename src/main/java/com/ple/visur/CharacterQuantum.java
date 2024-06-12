@@ -84,10 +84,10 @@ public class CharacterQuantum extends Quantum {
     if(canIncrementCY) {
       cy++;
       cyBVV.putVal(cy);
-      int[] currentLineBounds = emc.getCurrentLineBoundaries(editorContent, newlineIndices, false);
-      int lengthOfCurrentLine = currentLineBounds[1] - currentLineBounds[0];
-      if(cx >= lengthOfCurrentLine) {
-        cxBVV.putVal(lengthOfCurrentLine);
+      int[] lineBounds = emc.getCurrentLineBoundaries(editorContent, newlineIndices, false);
+      int lengthOfLineBounds = lineBounds[1] - lineBounds[0];
+      if(cx >= lengthOfLineBounds) {
+        cxBVV.putVal(lengthOfLineBounds);
       }
     }
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
