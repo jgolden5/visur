@@ -119,7 +119,7 @@ function drawCanvas() {
   let y = 0
   let numberOfWrappedLines = 0
   contentLoop:
-  for(let absX = 0; absX < editorContent.length; absX++) {
+  for(let absX = 0; absX <= editorContent.length; absX++) {
     if(span > 0) {
       if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
         drawCursor(x, y, "🟨️")
@@ -135,11 +135,13 @@ function drawCanvas() {
         }
       }
     }
-    characterToDraw = editorContent[absX];
-    drawCharacter(x, y, characterToDraw);
-    x++
+    if(absX < editorContent.length) {
+      characterToDraw = editorContent[absX];
+      drawCharacter(x, y, characterToDraw);
+      x++
+    }
     let isAtEndOfCurrentLine = x % canvasWidth == 0
-    if(editorContent[absX] === "\n" || isAtEndOfCurrentLine) {
+    if((editorContent[absX] === "\n" || isAtEndOfCurrentLine) && absX < editorContent.length - 1) {
       y++
       x = 0
     }

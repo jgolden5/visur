@@ -18,7 +18,12 @@ public class RelativeMoveOp implements Operator {
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(newCA);
     emc.putGlobalVar("ca", caBVV);
-    int[] newBounds = cursorQuantum.getBoundaries(editorContent, newlineIndices, false);
+    int[] newBounds;
+    if(newCA == editorContent.length()) {
+      newBounds = new int[]{newCA, newCA};
+    } else {
+      newBounds = cursorQuantum.getBoundaries(editorContent, newlineIndices, false);
+    }
     emc.putCursorQuantumStart(newBounds[0]);
     emc.putCursorQuantumEnd(newBounds[1]);
   }

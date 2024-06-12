@@ -19,9 +19,11 @@ public class CharacterQuantum extends Quantum {
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     int destination = (int)caBVV.getVal();
+    int span = emc.getSpan();
     while(mv.dx != 0) {
       if(mv.dx > 0) {
-        if(destination < editorContent.length() - 1) {
+        int endLimit = span > 0 ? editorContent.length() - 1 : editorContent.length();
+        if(destination < endLimit) {
           destination = moveRight();
         }
         mv.dx--;
@@ -47,7 +49,8 @@ public class CharacterQuantum extends Quantum {
   private int moveRight() {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     int destination = (int)caBVV.getVal();
-    return ++destination;
+    destination++;
+    return destination;
   }
 
   private int moveLeft() {
