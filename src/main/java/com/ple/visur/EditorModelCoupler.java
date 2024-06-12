@@ -45,6 +45,7 @@ public class EditorModelCoupler {
   public int[] getCurrentLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
     return ecs.getCurrentLineBoundaries(editorContent, newlineIndices, includeTail, editorModel);
   }
+
   public int getVirtualX() {
     return ecs.getVirtualX(editorModel);
   }
@@ -112,6 +113,11 @@ public class EditorModelCoupler {
   public int getCursorQuantumEnd() {
     return (int)editorModel.get(quantumEnd);
   }
+
+  public boolean getIsAtQuantumStart() {
+    return (boolean)editorModel.get(isAtQuantumStart);
+  }
+
   public int getSpan() {
     return (int)editorModel.get(span);
   }
@@ -208,6 +214,10 @@ public class EditorModelCoupler {
 
   public void putCursorQuantumEnd(int endBound) {
     editorModel.put(quantumEnd, endBound);
+  }
+
+  public void putIsAtQuantumStart(boolean isAtQStart) {
+    editorModel.put(isAtQuantumStart, isAtQStart);
   }
 
   public void putSpan(int s) {

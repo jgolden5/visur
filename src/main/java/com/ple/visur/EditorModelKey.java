@@ -28,4 +28,5 @@ public enum EditorModelKey {
   editorSubmodeStack,
   keyToQuantumName,
   span,
+  isAtQuantumStart,
 }

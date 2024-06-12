@@ -116,6 +116,7 @@ public class InitializerService {
     int bounds[] = emc.getQuantumNameToQuantum().get(startingQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
     emc.putCursorQuantumStart(bounds[0]);
     emc.putCursorQuantumEnd(bounds[1]);
+    emc.putIsAtQuantumStart(true);
     System.out.println("start bound = " + bounds[0]);
     System.out.println("end bound = " + bounds[1]);
   }
