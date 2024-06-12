@@ -68,11 +68,18 @@ public class CharacterQuantum extends Quantum {
     BrickVisurVar cyBVV = (BrickVisurVar)emc.getGlobalVar("cy");
     Integer cy = (Integer)cyBVV.getVal();
     boolean lastCharIsNewline = editorContent.charAt(editorContent.length() - 1) == '\n';
-    boolean canIncrementCY;
+    int endLimit;
     if(lastCharIsNewline) {
-      canIncrementCY = cy < newlineIndices.size() - 1;
+      endLimit = newlineIndices.size() - 1;
     } else {
-      canIncrementCY = cy < newlineIndices.size();
+      endLimit = newlineIndices.size();
+    }
+    boolean canIncrementCY;
+    int span = emc.getSpan();
+    if(span > 0) {
+      canIncrementCY = cy < endLimit;
+    } else {
+      canIncrementCY = cy < endLimit + 1;
     }
     if(canIncrementCY) {
       cy++;
