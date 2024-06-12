@@ -141,7 +141,7 @@ function drawCanvas() {
       x++
     }
     let isAtEndOfCurrentLine = x % canvasWidth == 0
-    if((editorContent[absX] === "\n" || isAtEndOfCurrentLine) && absX < editorContent.length - 1) {
+    if(editorContent[absX] === "\n" || isAtEndOfCurrentLine) {
       y++
       x = 0
     }
