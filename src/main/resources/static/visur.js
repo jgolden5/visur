@@ -4,6 +4,7 @@ let span;
 let cursorQuantumStart;
 let cursorQuantumEnd;
 let cursorQuantum;
+let isAtQuantumStart;
 
 let canvas = document.getElementById("mainCanvas")
 if((window.innerWidth - 5) % 20 == 0) {
@@ -47,6 +48,7 @@ eb.onopen = function() {
     mode = message["body"]["editorMode"]
     submode = message["body"]["editorSubmode"]
     cursorQuantum = message["body"]["cursorQuantum"]
+    isAtQuantumStart = message["body"]["isAtQuantumStart"]
     isInCommandState = message["body"]["isInCommandState"]
     commandStateContent = message["body"]["commandStateContent"]
     commandCursor = message["body"]["commandCursor"]
@@ -122,8 +124,16 @@ function drawCanvas() {
       if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
         drawCursor(x, y, "🟨️")
       }
-    } else if(absX == cursorQuantumStart && absX == cursorQuantumEnd) {
-      drawCursor(x, y, "⎹")
+    } else {
+      if(isAtQuantumStart) {
+        if(absX == cursorQuantumStart) {
+          drawCursor(x, y, "⎹")
+        }
+      } else {
+        if(absX == cursorQuantumEnd) {
+          drawCursor(x, y, "⎹")
+        }
+      }
     }
     characterToDraw = editorContent[absX];
     drawCharacter(x, y, characterToDraw);
