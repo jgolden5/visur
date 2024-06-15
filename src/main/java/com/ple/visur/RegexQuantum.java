@@ -155,16 +155,12 @@ public class RegexQuantum extends Quantum {
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
     int currentIndex = bounds[0];
-    if(!contentLimitReached(mv, bounds[1], editorContent)) {
-      if (mv.dx != 0) {
-        currentIndex = mv.dx > 0 ? bounds[1] : bounds[0];
-        currentIndex = moveLeftRight(currentIndex, editorContent, mv);
-      }
-      if (mv.dy != 0) {
-        currentIndex = bounds[0];
-        currentIndex = moveUpDown(currentIndex, editorContent, newlineIndices, mv, bounds);
-      }
-    }
+    int bound;
+//    if(mv.dx > 0) {
+//      bound = getNextBound();
+//    } else if(mv.dx < 0) {
+//      bound = getPrevBound();
+//    }
     return currentIndex;
   }
 
