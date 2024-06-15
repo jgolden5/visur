@@ -37,22 +37,10 @@ public class RegexQuantum extends Quantum {
     int[] bounds = new int[2];
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int start = (int)caBVV.getVal();
-    boolean firstOrPreviousCharMatches = false;
-    if(start < editorContent.length() - 1) {
-      Matcher matcher = pattern.matcher(editorContent.substring(start, start + 1));
-      firstOrPreviousCharMatches = matcher.matches();
-    }
-    if(!firstOrPreviousCharMatches && start > 0) {
-      Matcher matcher = pattern.matcher(editorContent.substring(start - 1, start));
-      firstOrPreviousCharMatches = matcher.matches();
-    }
-    int leftBound = getLeftBound(firstOrPreviousCharMatches, start, editorContent);
-    int rightBound = getRightBound(leftBound, editorContent);
-    if(leftBound == rightBound) {
-      emc.putSpan(0);
-    }
-    bounds[0] = leftBound;
-    bounds[1] = rightBound;
+//    int leftBound;
+//    int rightBound;
+//    bounds[0] = leftBound;
+//    bounds[1] = rightBound;
     return bounds;
   }
 
