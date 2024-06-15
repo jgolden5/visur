@@ -41,7 +41,7 @@ public class InitializerService {
     final String initialEditorContent = "Hello world\n" +
       "How are you?\n" +
       "Goodbye\n";
-//    final String initialEditorContent = "  ";
+//    final String initialEditorContent = "Hello  world  ";
 //    final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
 //      "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
 //      "One's devotion to Vehumet can be proven by the causing of as much carnage and destruction as possible.\n" +
@@ -60,7 +60,7 @@ public class InitializerService {
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
     emc.putCommandCursor(emc.getCommandStateContent().length());
-    emc.putSpan(1);
+    emc.putSpan(0);
 
     initializeQuantums();
 
@@ -98,7 +98,7 @@ public class InitializerService {
 
   private void initializeQuantums() {
     QuantumNameToQuantum quantumNameToQuantum = new QuantumNameToQuantum();
-    String startingQuantumName = "character";
+    String startingQuantumName = "word";
     quantumNameToQuantum.put("word", new RegexQuantum("word", "\\S+"));
     quantumNameToQuantum.put("character", new CharacterQuantum());
     quantumNameToQuantum.put("wrappedLine", new WrappedLineQuantum());

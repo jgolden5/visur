@@ -37,10 +37,10 @@ public class RegexQuantum extends Quantum {
     int[] bounds = new int[2];
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int start = (int)caBVV.getVal();
-//    int leftBound;
-//    int rightBound;
-//    bounds[0] = leftBound;
-//    bounds[1] = rightBound;
+    int leftBound = start;
+    int rightBound = start;
+    bounds[0] = leftBound;
+    bounds[1] = rightBound;
     return bounds;
   }
 
@@ -142,14 +142,52 @@ public class RegexQuantum extends Quantum {
    */
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
-    int currentIndex = bounds[0];
-    int bound;
-//    if(mv.dx > 0) {
-//      bound = getNextBound();
-//    } else if(mv.dx < 0) {
+    int bound = bounds[0]; //only for testing purposes is it -1
+    if(mv.dx > 0) {
+      bound = getNextBound();
+    }
+    System.out.println("bound = " + bound);
+//    else if(mv.dx < 0) {
 //      bound = getPrevBound();
 //    }
-    return currentIndex;
+    return bound;
+  }
+
+  /**
+   * set bound var equal to caBVV's val
+   * set while loop condition initial value = bound >= editorContent.length - 1,
+     * (the above is to ensure that editorContent.substring(bound, bound + 1) will be valid)
+   * set firstWasMatch var = false
+     * (the above is because if the first is not a match, we don't want to search for the next nonmatch)
+   * if bound < editorContent.length, we set firstWasMatch var to equal matcher.matches(firstCharInEC)
+   * increment bound
+   * loop while !invalidBoundFound && firstWasMatch
+     * if(matcher.matches(nextCharInEC))
+       * bound++
+     * else
+       * invalidBoundFound = false
+   * @return bound
+   */
+  public int getNextBound() {
+    String editorContent = emc.getEditorContent();
+    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
+    int bound = (int)caBVV.getVal();
+    boolean invalidBoundFound = bound >= editorContent.length() - 1;
+    boolean firstWasMatch = false;
+    if(bound < editorContent.length()) {
+      Matcher matcher = pattern.matcher(editorContent.substring(bound, bound + 1));
+      firstWasMatch = matcher.matches();
+      bound++;
+    }
+    while(!invalidBoundFound && firstWasMatch) {
+      Matcher matcher = pattern.matcher(editorContent.substring(bound, bound + 1));
+      if(matcher.matches()) {
+        bound++;
+      } else {
+        invalidBoundFound = true;
+      }
+    }
+    return bound;
   }
 
   /** goes from endpoint of previous bound to beginning of next bound after quantum movement
