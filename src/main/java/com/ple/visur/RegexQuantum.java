@@ -145,15 +145,14 @@ public class RegexQuantum extends Quantum {
     int bound = bounds[0]; //only for testing purposes is it -1
     if(mv.dx > 0) {
       bound = getNextBound();
+    } else if(mv.dx < 0) {
+      bound = getPrevBound();
     }
     System.out.println("bound = " + bound);
-//    else if(mv.dx < 0) {
-//      bound = getPrevBound();
-//    }
     return bound;
   }
 
-  /**
+  /** searches for the first bound that cursor could move to if span == 0
    * set bound var equal to caBVV's val
    * set while loop condition initial value = bound >= editorContent.length - 1,
      * (the above is to ensure that editorContent.substring(bound, bound + 1) will be valid)
@@ -180,9 +179,42 @@ public class RegexQuantum extends Quantum {
       bound++;
     }
     while(!invalidBoundFound && firstWasMatch) {
-      Matcher matcher = pattern.matcher(editorContent.substring(bound, bound + 1));
+      String strToMatch = editorContent.substring(bound, bound + 1);
+      Matcher matcher = pattern.matcher(strToMatch);
       if(matcher.matches()) {
         bound++;
+        if(bound == editorContent.length()) {
+          invalidBoundFound = true;
+        }
+      } else {
+        invalidBoundFound = true;
+      }
+    }
+    return bound;
+  }
+
+  /** it's the same idea as getNextBound, but it searches backwards
+   * @return
+   */
+  public int getPrevBound() {
+    String editorContent = emc.getEditorContent();
+    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
+    int bound = (int)caBVV.getVal();
+    boolean invalidBoundFound = bound <= 1;
+    boolean firstWasMatch = false;
+    if(bound > 0) {
+      String strToMatch = editorContent.substring(bound - 1, bound);
+      Matcher matcher = pattern.matcher(strToMatch);
+      firstWasMatch = matcher.matches();
+      bound--;
+    }
+    while(!invalidBoundFound && firstWasMatch) {
+      Matcher matcher = pattern.matcher(editorContent.substring(bound - 1, bound));
+      if(matcher.matches()) {
+        bound--;
+        if(bound == 0) {
+          invalidBoundFound = true;
+        }
       } else {
         invalidBoundFound = true;
       }
