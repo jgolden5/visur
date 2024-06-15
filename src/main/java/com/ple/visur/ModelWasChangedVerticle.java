@@ -31,9 +31,9 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
   }
 
   private void updateSpan() {
-    if(emc.getCursorQuantumStart() == emc.getCursorQuantumEnd()) {
-      emc.putSpan(0);
-    }
+//    if(emc.getCursorQuantumStart() == emc.getCursorQuantumEnd()) {
+//      emc.putSpan(0);
+//    }
   }
 
   public JsonObject toJson() {

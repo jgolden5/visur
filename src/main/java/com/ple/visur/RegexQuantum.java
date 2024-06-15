@@ -142,14 +142,44 @@ public class RegexQuantum extends Quantum {
    */
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
-    int bound = bounds[0]; //only for testing purposes is it -1
+    int bound = bounds[0];
+    int spansRemaining = emc.getSpan();
     if(mv.dx > 0) {
       bound = getNextBound();
+      while(spansRemaining > 0) {
+        bound = getNextRegexStart(bound);
+        spansRemaining--;
+      }
     } else if(mv.dx < 0) {
       bound = getPrevBound();
+//      while(spansRemaining > 0) {
+//        getPrevRegexStart(bound);
+//      }
     }
     System.out.println("bound = " + bound);
     return bound;
+  }
+
+  private int getNextRegexStart(int bound) {
+    String editorContent = emc.getEditorContent();
+    int nextStart = bound;
+    boolean matchFound = false;
+    while(!matchFound) {
+      String strToMatch = editorContent.substring(nextStart, nextStart + 1);
+      Matcher matcher = pattern.matcher(strToMatch);
+      if(matcher.matches()) {
+        matchFound = true;
+      } else {
+        nextStart++;
+      }
+      if(nextStart == editorContent.length()) {
+        break;
+      }
+    }
+    if(!matchFound) {
+      nextStart = bound;
+    }
+    return nextStart;
   }
 
   /** searches for the first bound that cursor could move to if span == 0
