@@ -143,24 +143,50 @@ public class RegexQuantum extends Quantum {
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
     int bound = bounds[0];
-    int spansRemaining = emc.getSpan();
+    int span = emc.getSpan();
+    int spansRemaining = span;
     if(mv.dx > 0) {
       bound = getNextBound();
+      if(span > 0 && isAtBeginningOfQuantum(bound)) {
+        spansRemaining--;
+      }
       while(spansRemaining > 0) {
-        bound = getNextRegexStart(bound);
+        bound = getNextQuantumStart(bound);
         spansRemaining--;
       }
     } else if(mv.dx < 0) {
       bound = getPrevBound();
+      if(span > 0 && isAtBeginningOfQuantum(bound)) {
+        spansRemaining--;
+      }
 //      while(spansRemaining > 0) {
-//        getPrevRegexStart(bound);
+//        getPrevQuantumStart(bound);
 //      }
+    }
+    if(span > 0 && !isAtBeginningOfQuantum(bound)) {
+      bound = bounds[0];
     }
     System.out.println("bound = " + bound);
     return bound;
   }
 
-  private int getNextRegexStart(int bound) {
+  private boolean isAtBeginningOfQuantum(int bound) {
+    boolean atBeginningOfQuantum;
+    if(bound > 0) {
+      String nextString = emc.getStrToMatch(true, bound);
+      Matcher nextStringMatcher = pattern.matcher(nextString);
+      boolean nextStringMatches = nextStringMatcher.matches();
+      String prevString = emc.getStrToMatch(false, bound);
+      Matcher prevStringMatcher = pattern.matcher(prevString);
+      boolean prevStringMatches = prevStringMatcher.matches();
+      atBeginningOfQuantum = nextStringMatches && !prevStringMatches;
+    } else {
+      atBeginningOfQuantum = true;
+    }
+    return atBeginningOfQuantum;
+  }
+
+  private int getNextQuantumStart(int bound) {
     String editorContent = emc.getEditorContent();
     int nextStart = bound;
     boolean matchFound = false;

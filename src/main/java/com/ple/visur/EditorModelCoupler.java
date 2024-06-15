@@ -22,6 +22,17 @@ public class EditorModelCoupler {
     return new EditorModelCoupler(sharedData);
   }
 
+  public String getStrToMatch(boolean searchForwards, int startingPoint) {
+    String editorContent = getEditorContent();
+    String strToMatch = "";
+    if(searchForwards && startingPoint < editorContent.length()) {
+      strToMatch = editorContent.substring(startingPoint, startingPoint + 1);
+    } else if(startingPoint > 0) {
+      strToMatch = editorContent.substring(startingPoint - 1, startingPoint);
+    }
+    return strToMatch;
+  }
+
   public String getEditorContent() {
     return ecs.getEditorContent(editorModel);
   }
