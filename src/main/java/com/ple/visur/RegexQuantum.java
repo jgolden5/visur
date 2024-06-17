@@ -20,7 +20,7 @@ public class RegexQuantum extends Quantum {
 
   /**
    * make var firstCharMatches
-   * if start < editorContent.length - 1
+   * if start < editorContent.length() - 1
      * set firstMatchIsChar = Matcher.matches(firstCharInContent)
    * else
      * firstMatchIsChar = false
@@ -252,70 +252,6 @@ public class RegexQuantum extends Quantum {
       }
     }
     return bound;
-  }
-
-  /** goes from endpoint of previous bound to beginning of next bound after quantum movement
-   * incrementer var = mv.dx > 0 ? 1 : -1
-   * loop through every character in editorContent, checking for match
-   * if match is found, return that match index and end search, else, return original startIndex index
-   * return caDestination
-   * @param startIndex starting ca coordinate
-   * @param editorContent
-   * @param mv
-   * @return resulting index of regex search movement
-   */
-  private int moveLeftRight(int startIndex, String editorContent, MovementVector mv) {
-    int incrementer = mv.dx > 0 ? 1 : -1;
-    int current = startIndex;
-    boolean matchFound = false;
-    boolean contentBoundsReached = false;
-    boolean keepGoing = true;
-    while(keepGoing) {
-      if(contentLimitReached(mv, current, editorContent)) {
-        contentBoundsReached = true;
-        current = startIndex;
-      } else {
-        char currentChar = mv.dx > 0 ? editorContent.charAt(current) : editorContent.charAt(current - 1);
-        String currentCharAsString = String.valueOf(currentChar);
-        Matcher matcher = pattern.matcher(currentCharAsString);
-        if (matcher.matches()) {
-          matchFound = true;
-        } else {
-          current += incrementer;
-        }
-      }
-      keepGoing = !(matchFound || contentBoundsReached);
-    }
-    return current;
-  }
-
-  /** moves up or down essentially like a character quantum.
- * The only difference is that getBoundaries is called afterwards at the resulting cx cy coordinate
-   * construct a CharacterQuantum var called cq
-   * if mv.dy > 0, call cq.moveDown, else call cq.moveUp. Assign the result to ca var
-   * return ca
-   * @param startingCA
-   * @param editorContent
-   * @param newlineIndices
-   * @param mv
-   * @param bounds
-   * @return absolute position after movement (aka ca var)
-   */
-  private int moveUpDown(int startingCA, String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
-    CharacterQuantum cq = new CharacterQuantum();
-    return cq.move(editorContent, newlineIndices, mv);
-  }
-
-  private boolean contentLimitReached(MovementVector mv, int currentIndex, String editorContent) {
-    if(mv.dx > 0) {
-      return currentIndex > editorContent.length() - 1;
-    } else if(mv.dx < 0) {
-      return currentIndex <= 0;
-    } else if(mv.dy != 0) {
-      return false;
-    } else {
-      return true;
-    }
   }
 
 }

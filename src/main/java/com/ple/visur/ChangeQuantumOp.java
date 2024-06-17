@@ -11,6 +11,9 @@ public class ChangeQuantumOp implements Operator {
     int[] bounds = targetQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(bounds[0]);
     emc.putCursorQuantumEnd(bounds[1]);
+    if(bounds[0] == bounds[1]) {
+      emc.putSpan(0);
+    }
     emc.putCursorQuantum(targetQuantum);
   }
 
