@@ -185,15 +185,15 @@ public class RegexQuantum extends Quantum {
     int nextStart = bound;
     boolean matchFound = false;
     while(!matchFound) {
+      if(nextStart >= editorContent.length() - 1) {
+        break;
+      }
       String strToMatch = editorContent.substring(nextStart, nextStart + 1);
       Matcher matcher = pattern.matcher(strToMatch);
       if(matcher.matches()) {
         matchFound = true;
       } else {
         nextStart++;
-      }
-      if(nextStart == editorContent.length()) {
-        break;
       }
     }
     if(!matchFound) {
@@ -203,19 +203,16 @@ public class RegexQuantum extends Quantum {
   }
 
   private int getPrevQuantumStart(int bound) {
-    String editorContent = emc.getEditorContent();
     int prevStart = bound;
     boolean matchFound = false;
     while(!matchFound) {
-      String strToMatch = editorContent.substring(prevStart - 1, prevStart);
-      Matcher matcher = pattern.matcher(strToMatch);
-      if(matcher.matches()) {
+      if(prevStart == 0) {
+        break;
+      }
+      if(isAtBeginningOfQuantum(prevStart)) {
         matchFound = true;
       } else {
-        prevStart++;
-      }
-      if(prevStart == editorContent.length()) {
-        break;
+        prevStart--;
       }
     }
     if(!matchFound) {
@@ -272,7 +269,7 @@ public class RegexQuantum extends Quantum {
     String editorContent = emc.getEditorContent();
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int bound = (int)caBVV.getVal();
-    boolean invalidBoundFound = bound <= 1;
+    boolean invalidBoundFound = bound == 0;
     boolean firstWasMatch = false;
     if(bound > 0) {
       String strToMatch = editorContent.substring(bound - 1, bound);
