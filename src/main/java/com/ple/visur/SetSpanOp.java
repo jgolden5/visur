@@ -8,5 +8,8 @@ public class SetSpanOp implements Operator {
     int spanToSet = (int)eds.pop();
     emc.putSpan(spanToSet);
     System.out.println("span was switched to = " + spanToSet);
+    int[] bounds = emc.getCursorQuantum().getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
+    emc.putCursorQuantumStart(bounds[0]);
+    emc.putCursorQuantumEnd(bounds[1]);
   }
 }
