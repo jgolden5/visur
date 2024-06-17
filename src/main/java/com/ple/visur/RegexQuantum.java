@@ -234,23 +234,25 @@ public class RegexQuantum extends Quantum {
     String editorContent = emc.getEditorContent();
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int bound = (int)caBVV.getVal();
-    boolean invalidBoundFound = bound >= editorContent.length() - 1;
+    boolean nonmatchFound = bound >= editorContent.length() - 1;
     boolean firstWasMatch = false;
     if(bound < editorContent.length()) {
       Matcher matcher = pattern.matcher(editorContent.substring(bound, bound + 1));
       firstWasMatch = matcher.matches();
       bound++;
     }
-    while(!invalidBoundFound && firstWasMatch) {
-      String strToMatch = editorContent.substring(bound, bound + 1);
-      Matcher matcher = pattern.matcher(strToMatch);
-      if(matcher.matches()) {
-        bound++;
-        if(bound == editorContent.length()) {
-          invalidBoundFound = true;
+    if(firstWasMatch) {
+      while (!nonmatchFound) {
+        String strToMatch = editorContent.substring(bound, bound + 1);
+        Matcher matcher = pattern.matcher(strToMatch);
+        if (matcher.matches()) {
+          bound++;
+          if (bound == editorContent.length()) {
+            nonmatchFound = true;
+          }
+        } else {
+          nonmatchFound = true;
         }
-      } else {
-        invalidBoundFound = true;
       }
     }
     return bound;
