@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Stack;
 
 import static com.ple.visur.EditorMode.editing;
+import static com.ple.visur.EditorModelKey.editorContent;
 import static com.ple.visur.EditorModelKey.globalVariableMap;
 
 public class InitializerService {
@@ -38,10 +39,10 @@ public class InitializerService {
 
     emc.putExecutionDataStack(new ExecutionDataStack());
 
-    final String initialEditorContent = "Hello world\n" +
-      "How are you?\n" +
-      "Goodbye";
-//    final String initialEditorContent = "Hello  world  ";
+//    final String initialEditorContent = "Hello world\n" +
+//      "How are you?\n" +
+//      "Goodbye";
+    final String initialEditorContent = "";
 //    final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
 //      "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
 //      "One's devotion to Vehumet can be proven by the causing of as much carnage and destruction as possible.\n" +
@@ -55,12 +56,16 @@ public class InitializerService {
     emc.initializeEditorContent(initialEditorContent);
     emc.putNewlineIndices();
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    caBVV.putVal(5);
+    caBVV.putVal(0);
     emc.putGlobalVar("ca", caBVV);
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
     emc.putCommandCursor(emc.getCommandStateContent().length());
-    emc.putSpan(1);
+    if(emc.getEditorContent().length() > 0) {
+      emc.putSpan(1);
+    } else {
+      emc.putSpan(0);
+    }
 
     initializeQuantums();
 
@@ -98,7 +103,7 @@ public class InitializerService {
 
   private void initializeQuantums() {
     QuantumNameToQuantum quantumNameToQuantum = new QuantumNameToQuantum();
-    String startingQuantumName = "word";
+    String startingQuantumName = "character";
     quantumNameToQuantum.put("word", new RegexQuantum("word", "\\S+"));
     quantumNameToQuantum.put("character", new CharacterQuantum());
     quantumNameToQuantum.put("wrappedLine", new WrappedLineQuantum());
@@ -113,7 +118,7 @@ public class InitializerService {
     emc.putKeyToQuantumName(keyToQuantumName);
 
     emc.putCursorQuantum(emc.getQuantumNameToQuantum().get(startingQuantumName));
-    int bounds[] = emc.getQuantumNameToQuantum().get(startingQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
+    int bounds[] = emc.getQuantumNameToQuantum().get(startingQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(bounds[0]);
     emc.putCursorQuantumEnd(bounds[1]);
     emc.putIsAtQuantumStart(true);

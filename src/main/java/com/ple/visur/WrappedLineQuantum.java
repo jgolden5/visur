@@ -7,7 +7,7 @@ public class WrappedLineQuantum extends Quantum {
   EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
 
   @Override
-  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
+  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
     return emc.getCurrentLineBoundaries(editorContent, newlineIndices, includeTail);
   }
 

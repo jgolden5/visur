@@ -4,14 +4,14 @@ public class ChangeQuantumOp implements Operator {
 
   @Override
   public void execute(Object opInfo) {
-    EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
-    String quantumName = (String)ems.getExecutionDataStack().pop();
+    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
+    String quantumName = (String)emc.getExecutionDataStack().pop();
     String quantumNameWithoutQuotes = quantumName.substring(1, quantumName.length() - 1);
-    Quantum targetQuantum = ems.getQuantumNameToQuantum().get(quantumNameWithoutQuotes);
-    int[] bounds = targetQuantum.getBoundaries(ems.getEditorContent(), ems.getNewlineIndices(), false);
-    ems.putCursorQuantumStart(bounds[0]);
-    ems.putCursorQuantumEnd(bounds[1]);
-    ems.putCursorQuantum(targetQuantum);
+    Quantum targetQuantum = emc.getQuantumNameToQuantum().get(quantumNameWithoutQuotes);
+    int[] bounds = targetQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
+    emc.putCursorQuantumStart(bounds[0]);
+    emc.putCursorQuantumEnd(bounds[1]);
+    emc.putCursorQuantum(targetQuantum);
   }
 
 }

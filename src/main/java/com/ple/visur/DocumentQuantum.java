@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class DocumentQuantum extends Quantum {
   @Override
-  int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
+  int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
     int lowerBound = 0;
     int upperBound = editorContent.length();
     if(lowerBound == upperBound) {

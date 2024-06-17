@@ -33,12 +33,11 @@ public class RegexQuantum extends Quantum {
    * @return
    */
   @Override
-  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
+  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
     int[] bounds = new int[2];
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int leftBound = (int)caBVV.getVal();
     int rightBound = leftBound;
-    int span = emc.getSpan();
     if(span > 0) {
       leftBound = getQuantumStart(leftBound);
     }
