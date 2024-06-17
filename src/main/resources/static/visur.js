@@ -120,24 +120,21 @@ function drawCanvas() {
   let numberOfWrappedLines = 0
   contentLoop:
   for(let absX = 0; absX <= editorContent.length; absX++) {
-    if(absX == cursorQuantumStart && absX == cursorQuantumEnd) {
-      drawCursor(x, y, "⎹")
+    if(span > 0) {
+      if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
+        drawCursor(x, y, "🟨️")
+      }
+    } else {
+      if(isAtQuantumStart) {
+        if(absX == cursorQuantumStart) {
+          drawCursor(x, y, "⎹")
+        }
+      } else {
+        if(absX == cursorQuantumEnd) {
+          drawCursor(x, y, "⎹")
+        }
+      }
     }
-//    if(span > 0) {
-//      if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
-//        drawCursor(x, y, "🟨️")
-//      }
-//    } else {
-//      if(isAtQuantumStart) {
-//        if(absX == cursorQuantumStart) {
-//          drawCursor(x, y, "⎹")
-//        }
-//      } else {
-//        if(absX == cursorQuantumEnd) {
-//          drawCursor(x, y, "⎹")
-//        }
-//      }
-//    }
     if(absX < editorContent.length) {
       characterToDraw = editorContent[absX];
       drawCharacter(x, y, characterToDraw);

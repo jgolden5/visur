@@ -36,12 +36,35 @@ public class RegexQuantum extends Quantum {
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
     int[] bounds = new int[2];
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int start = (int)caBVV.getVal();
-    int leftBound = start;
-    int rightBound = start;
+    int leftBound = (int)caBVV.getVal();
+    int rightBound = leftBound;
+    int span = emc.getSpan();
+    while(span > 0) {
+      if(!isAtBeginningOfQuantum(rightBound)) {
+        rightBound = getNextQuantumStart(rightBound);
+      }
+      rightBound = getQuantumEnd(rightBound);
+      span--;
+    }
     bounds[0] = leftBound;
     bounds[1] = rightBound;
     return bounds;
+  }
+
+  private int getQuantumEnd(int start) {
+    String editorContent = emc.getEditorContent();
+    int rightBound = start;
+    boolean endFound = start >= editorContent.length() - 1;
+    while(!endFound) {
+      CharSequence strToMatch = editorContent.substring(rightBound, rightBound + 1);
+      Matcher matcher = pattern.matcher(strToMatch);
+      if(matcher.matches()) {
+        rightBound++;
+      } else {
+        endFound = true;
+      }
+    }
+    return rightBound;
   }
 
   /**
