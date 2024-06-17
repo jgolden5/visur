@@ -39,11 +39,14 @@ public class RegexQuantum extends Quantum {
     int leftBound = (int)caBVV.getVal();
     int rightBound = leftBound;
     int span = emc.getSpan();
-    leftBound = getQuantumStart(leftBound);
+    if(span > 0) {
+      leftBound = getQuantumStart(leftBound);
+    }
     while(span > 0) {
       rightBound = getQuantumEnd(leftBound);
       span--;
     }
+    caBVV.putVal(leftBound);
     bounds[0] = leftBound;
     bounds[1] = rightBound;
     return bounds;
