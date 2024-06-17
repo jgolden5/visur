@@ -42,9 +42,13 @@ public class RegexQuantum extends Quantum {
     if(span > 0) {
       leftBound = getQuantumStart(leftBound);
     }
-    while(span > 0) {
-      rightBound = getQuantumEnd(leftBound);
-      span--;
+    int spansRemaining = span;
+    while(spansRemaining > 0) {
+      rightBound = getQuantumEnd(rightBound);
+      spansRemaining--;
+      if(spansRemaining > 0) {
+        rightBound = getNextBound(rightBound);
+      }
     }
     caBVV.putVal(leftBound);
     bounds[0] = leftBound;
@@ -112,13 +116,16 @@ public class RegexQuantum extends Quantum {
     int spansRemaining = span;
     int incrementer = mv.dx > 0 ? 1 : -1;
     while(mv.dx != 0) {
-      bound = mv.dx > 0 ? getNextBound() : getPrevBound();
+      bound = mv.dx > 0 ? getNextBound(bound) : getPrevBound(bound);
       if(span > 0 && isAtBeginningOfQuantum(bound)) {
         spansRemaining--;
       }
       while(spansRemaining > 0) {
         bound = mv.dx > 0 ? getNextQuantumStart(bound) : getPrevQuantumStart(bound);
         spansRemaining--;
+        if(spansRemaining > 0) {
+          bound = mv.dx > 0 ? getNextBound(bound) : getPrevBound(bound);
+        }
       }
       mv.dx -= incrementer;
     }
@@ -142,19 +149,6 @@ public class RegexQuantum extends Quantum {
     return nextStringMatches && !prevStringMatches;
   }
 
-//  private boolean isAtEndOfQuantum(int bound) {
-//    String nextString = emc.getStrToMatch(true, bound);
-//    Matcher nextStringMatcher = pattern.matcher(nextString);
-//    boolean nextStringMatches = nextStringMatcher.matches();
-//    boolean prevStringMatches = false;
-//    if(bound < emc.getEditorContent().length()) {
-//      String prevString = emc.getStrToMatch(false, bound);
-//      Matcher prevStringMatcher = pattern.matcher(prevString);
-//      prevStringMatches = prevStringMatcher.matches();
-//    }
-//    return !nextStringMatches && prevStringMatches;
-//  }
-//
   private int getNextQuantumStart(int bound) {
     String editorContent = emc.getEditorContent();
     int nextStart = bound;
@@ -208,10 +202,8 @@ public class RegexQuantum extends Quantum {
        * invalidBoundFound = false
    * @return bound
    */
-  public int getNextBound() {
+  public int getNextBound(int bound) {
     String editorContent = emc.getEditorContent();
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int bound = (int)caBVV.getVal();
     boolean nonmatchFound = bound >= editorContent.length() - 1;
     boolean firstWasMatch = false;
     if(bound < editorContent.length()) {
@@ -239,10 +231,8 @@ public class RegexQuantum extends Quantum {
   /** it's the same idea as getNextBound, but it searches backwards
    * @return
    */
-  public int getPrevBound() {
+  public int getPrevBound(int bound) {
     String editorContent = emc.getEditorContent();
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int bound = (int)caBVV.getVal();
     boolean invalidBoundFound = bound == 0;
     boolean firstWasMatch = false;
     if(bound > 0) {
