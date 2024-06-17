@@ -11,5 +11,8 @@ public class SetSpanOp implements Operator {
     int[] bounds = emc.getCursorQuantum().getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), false);
     emc.putCursorQuantumStart(bounds[0]);
     emc.putCursorQuantumEnd(bounds[1]);
+    if(bounds[0] == bounds[1]) {
+      emc.putSpan(0);
+    }
   }
 }
