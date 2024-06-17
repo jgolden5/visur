@@ -145,23 +145,17 @@ public class RegexQuantum extends Quantum {
     int bound = bounds[0];
     int span = emc.getSpan();
     int spansRemaining = span;
-    if(mv.dx > 0) {
-      bound = getNextBound();
+    int incrementer = mv.dx > 0 ? 1 : -1;
+    while(mv.dx != 0) {
+      bound = mv.dx > 0 ? getNextBound() : getPrevBound();
       if(span > 0 && isAtBeginningOfQuantum(bound)) {
         spansRemaining--;
       }
       while(spansRemaining > 0) {
-        bound = getNextQuantumStart(bound);
+        bound = mv.dx > 0 ? getNextQuantumStart(bound) : getPrevQuantumStart(bound);
         spansRemaining--;
       }
-    } else if(mv.dx < 0) {
-      bound = getPrevBound();
-      if(span > 0 && isAtBeginningOfQuantum(bound)) {
-        spansRemaining--;
-      }
-//      while(spansRemaining > 0) {
-//        getPrevQuantumStart(bound);
-//      }
+      mv.dx -= incrementer;
     }
     if(span > 0 && !isAtBeginningOfQuantum(bound)) {
       bound = bounds[0];
@@ -206,6 +200,28 @@ public class RegexQuantum extends Quantum {
       nextStart = bound;
     }
     return nextStart;
+  }
+
+  private int getPrevQuantumStart(int bound) {
+    String editorContent = emc.getEditorContent();
+    int prevStart = bound;
+    boolean matchFound = false;
+    while(!matchFound) {
+      String strToMatch = editorContent.substring(prevStart - 1, prevStart);
+      Matcher matcher = pattern.matcher(strToMatch);
+      if(matcher.matches()) {
+        matchFound = true;
+      } else {
+        prevStart++;
+      }
+      if(prevStart == editorContent.length()) {
+        break;
+      }
+    }
+    if(!matchFound) {
+      prevStart = bound;
+    }
+    return prevStart;
   }
 
   /** searches for the first bound that cursor could move to if span == 0
