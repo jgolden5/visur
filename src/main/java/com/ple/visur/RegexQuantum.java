@@ -54,12 +54,16 @@ public class RegexQuantum extends Quantum {
   private int getQuantumEnd(int start) {
     String editorContent = emc.getEditorContent();
     int rightBound = start;
-    boolean endFound = start >= editorContent.length() - 1;
+    boolean endFound = false;
     while(!endFound) {
-      CharSequence strToMatch = editorContent.substring(rightBound, rightBound + 1);
-      Matcher matcher = pattern.matcher(strToMatch);
-      if(matcher.matches()) {
-        rightBound++;
+      if(rightBound < editorContent.length()) {
+        CharSequence strToMatch = editorContent.substring(rightBound, rightBound + 1);
+        Matcher matcher = pattern.matcher(strToMatch);
+        if (matcher.matches()) {
+          rightBound++;
+        } else {
+          endFound = true;
+        }
       } else {
         endFound = true;
       }
@@ -160,12 +164,13 @@ public class RegexQuantum extends Quantum {
    * @param editorContent source of content which cursor is moving on
    * @param newlineIndices indices where newline chars occur
    * @param mv vector where movement occurs on both the x and y axes
-   * @param bounds current quantum bounds
    * @return resulting ca coordinate from move method
    */
   @Override
-  public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
-    int bound = bounds[0];
+  public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
+    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
+    int startingCA = (int)caBVV.getVal();
+    int bound = startingCA;
     int span = emc.getSpan();
     int spansRemaining = span;
     int incrementer = mv.dx > 0 ? 1 : -1;
@@ -181,7 +186,7 @@ public class RegexQuantum extends Quantum {
       mv.dx -= incrementer;
     }
     if(span > 0 && !isAtBeginningOfQuantum(bound)) {
-      bound = bounds[0];
+      bound = startingCA;
     }
     System.out.println("bound = " + bound);
     return bound;
@@ -359,7 +364,7 @@ public class RegexQuantum extends Quantum {
    */
   private int moveUpDown(int startingCA, String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
     CharacterQuantum cq = new CharacterQuantum();
-    return cq.move(editorContent, newlineIndices, mv, bounds);
+    return cq.move(editorContent, newlineIndices, mv);
   }
 
   private boolean contentLimitReached(MovementVector mv, int currentIndex, String editorContent) {

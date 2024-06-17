@@ -13,8 +13,7 @@ public class RelativeMoveOp implements Operator {
     int dx = (int)eds.pop();
     Quantum cursorQuantum = emc.getCursorQuantum();
     MovementVector movementVector = new MovementVector(dx, dy);
-    int[] bounds = cursorQuantum.getBoundaries(editorContent, newlineIndices, false);
-    int newCA = cursorQuantum.move(editorContent, newlineIndices, movementVector, bounds);
+    int newCA = cursorQuantum.move(editorContent, newlineIndices, movementVector);
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(newCA);
     emc.putGlobalVar("ca", caBVV);

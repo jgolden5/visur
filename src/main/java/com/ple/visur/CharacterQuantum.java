@@ -16,7 +16,7 @@ public class CharacterQuantum extends Quantum {
   }
 
   @Override
-  public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
+  public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     int destination = (int)caBVV.getVal();
     int span = emc.getSpan();

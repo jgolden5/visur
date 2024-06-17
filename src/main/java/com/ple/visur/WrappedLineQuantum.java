@@ -12,7 +12,7 @@ public class WrappedLineQuantum extends Quantum {
   }
 
   @Override
-  public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv, int[] bounds) {
+  public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
     CharacterQuantum cq = new CharacterQuantum();
     mv.dy += mv.dx;
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
@@ -24,14 +24,14 @@ public class WrappedLineQuantum extends Quantum {
       if(mv.dy > 0) {
         boolean canGoDown = lastCharIsNewline ? cy < newlineIndices.size() - 1 : cy < newlineIndices.size();
         if(canGoDown) {
-          ca = cq.move(editorContent, newlineIndices, mv, bounds);
+          ca = cq.move(editorContent, newlineIndices, mv);
         } else {
           mv.dy--;
         }
       } else {
         boolean canGoUp = cy > 0;
         if(canGoUp) {
-          ca = cq.move(editorContent, newlineIndices, mv, bounds);
+          ca = cq.move(editorContent, newlineIndices, mv);
         } else {
           mv.dy++;
         }
