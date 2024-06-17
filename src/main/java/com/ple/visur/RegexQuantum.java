@@ -165,19 +165,16 @@ public class RegexQuantum extends Quantum {
   }
 
   private boolean isAtBeginningOfQuantum(int bound) {
-    boolean atBeginningOfQuantum;
+    String nextString = emc.getStrToMatch(true, bound);
+    Matcher nextStringMatcher = pattern.matcher(nextString);
+    boolean nextStringMatches = nextStringMatcher.matches();
+    boolean prevStringMatches = false;
     if(bound > 0) {
-      String nextString = emc.getStrToMatch(true, bound);
-      Matcher nextStringMatcher = pattern.matcher(nextString);
-      boolean nextStringMatches = nextStringMatcher.matches();
       String prevString = emc.getStrToMatch(false, bound);
       Matcher prevStringMatcher = pattern.matcher(prevString);
-      boolean prevStringMatches = prevStringMatcher.matches();
-      atBeginningOfQuantum = nextStringMatches && !prevStringMatches;
-    } else {
-      atBeginningOfQuantum = true;
+      prevStringMatches = prevStringMatcher.matches();
     }
-    return atBeginningOfQuantum;
+    return nextStringMatches && !prevStringMatches;
   }
 
   private int getNextQuantumStart(int bound) {
@@ -206,9 +203,6 @@ public class RegexQuantum extends Quantum {
     int prevStart = bound;
     boolean matchFound = false;
     while(!matchFound) {
-      if(prevStart == 0) {
-        break;
-      }
       if(isAtBeginningOfQuantum(prevStart)) {
         matchFound = true;
       } else {
