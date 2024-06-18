@@ -60,7 +60,8 @@ public abstract class Quantum implements Shareable {
       cursorQuantum = this;
     }
     int[] scopeBounds = scopeQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
-    int ca = scopeBounds[1] - 1;
+    int span = emc.getSpan();
+    int ca = span > 0 ? scopeBounds[1] - 1 : scopeBounds[1];
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(ca);
     int[] newCursorBounds = cursorQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
