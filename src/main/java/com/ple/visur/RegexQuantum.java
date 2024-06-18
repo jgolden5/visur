@@ -147,8 +147,6 @@ public class RegexQuantum extends Quantum {
     while(mv.dy != 0) {
       CharacterQuantum cq = new CharacterQuantum();
       destination = cq.move(editorContent, newlineIndices, mv);
-      incrementer = mv.dy > 0 ? 1 : -1;
-      destination -= incrementer;
     }
     if(span > 0 && !isAtBeginningOfQuantum(destination) && leftRightMovement) {
       destination = startingCA;
