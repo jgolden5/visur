@@ -213,6 +213,18 @@ public class InitializerService {
     insertKeymap.put(KeyPressed.from("Escape"),
       scs.compile("\"editing\" changeMode")
     );
+    insertKeymap.put(KeyPressed.from("ArrowLeft"),
+      scs.compile("-1 0 relativeMove")
+    );
+    insertKeymap.put(KeyPressed.from("ArrowRight"),
+      scs.compile("1 0 relativeMove")
+    );
+    insertKeymap.put(KeyPressed.from("ArrowUp"),
+      scs.compile("0 -1 relativeMove")
+    );
+    insertKeymap.put(KeyPressed.from("ArrowDown"),
+      scs.compile("0 1 relativeMove")
+    );
 //    insertKeymap.put(KeyPressed.from("l"),
 //      scs.compile("1 0 relativeMove")
 //    );
