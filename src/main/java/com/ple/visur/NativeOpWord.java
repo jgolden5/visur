@@ -47,6 +47,9 @@ public class NativeOpWord implements Word {
         case "insertChar":
           op = new InsertCharOp();
           break;
+        case "insertNewline":
+          op = new InsertNewlineOp();
+          break;
         case "deletePreviousChar":
           op = new DeletePreviousCharOp();
           break;

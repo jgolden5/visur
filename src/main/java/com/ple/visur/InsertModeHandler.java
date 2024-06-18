@@ -13,7 +13,7 @@ public class InsertModeHandler implements KeymapHandler {
     if(key.length() == 1) {
       return ccs.compile("\"" + key + "\" insertChar 1 0 relativeMove");
     } else if(key.equals("Enter")) {
-      return ccs.compile("\"\n\" insertChar 1 1 relativeMove");
+      return ccs.compile("insertNewline");
     } else {
       return null;
     }
