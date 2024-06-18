@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Stack;
 
 import static com.ple.visur.EditorMode.editing;
-import static com.ple.visur.EditorModelKey.editorContent;
 import static com.ple.visur.EditorModelKey.globalVariableMap;
 
 public class InitializerService {
@@ -54,7 +53,7 @@ public class InitializerService {
     initializeUnsetCoordinateBricks();
 
     emc.initializeEditorContent(initialEditorContent);
-    emc.putNewlineIndices();
+    emc.updateNewlineIndices();
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(0);
     emc.putGlobalVar("ca", caBVV);

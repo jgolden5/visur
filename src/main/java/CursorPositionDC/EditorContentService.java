@@ -119,7 +119,7 @@ public class EditorContentService {
 
   public void putEditorContent(String contentLines, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(editorContent, contentLines);
-    putNewlineIndices(editorModel);
+    updateNewlineIndices(editorModel);
   }
 
   public void putCursorPositionDCHolder(CursorPositionDCHolder cpDCHolder, LocalMap<EditorModelKey, Object> editorModel) {
@@ -146,7 +146,7 @@ public class EditorContentService {
    * call putGlobalVar("ni", niBVV, editorModel)
    * @param editorModel
    */
-  public void putNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
+  public void updateNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
     String content = getEditorContent(editorModel);
     ArrayList<Integer> indices = new ArrayList<>();
     for(int i = 0; i < content.length(); i++) {

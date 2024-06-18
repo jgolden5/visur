@@ -11,7 +11,7 @@ public class InsertModeHandler implements KeymapHandler {
     CommandCompileService ccs = CommandCompileService.make();
     String key = keyPressed.getKey();
     if(key.length() == 1) {
-      return ccs.compile("\"" + key + "\" insertChar");
+      return ccs.compile("\"" + key + "\" insertChar 1 0 relativeMove");
     } else {
       return null;
     }

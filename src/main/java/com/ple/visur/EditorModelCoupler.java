@@ -147,8 +147,8 @@ public class EditorModelCoupler {
     ecs.putGlobalVarMap(gvm, editorModel);
   }
 
-  public void putNewlineIndices() {
-    ecs.putNewlineIndices(editorModel);
+  public void updateNewlineIndices() {
+    ecs.updateNewlineIndices(editorModel);
   }
 
   public void putVirtualX(int x) {
