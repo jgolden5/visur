@@ -206,17 +206,23 @@ public class InitializerService {
     return spanKeymap;
   }
 
-  private Keymap initializeInsertKeymap(Keymap keymap) {
-//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Escape")}), Operator.enterEditingMode);
-//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Enter")}), Operator.insertNewLine);
-//    keymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Backspace")}), Operator.deleteCurrentChar);
+  private Keymap initializeInsertKeymap(Keymap insertKeymap) {
+//    insertKeymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Enter")}), Operator.insertNewLine);
+//    insertKeymap.put(KeysPressed.from(new KeyPressed[]{KeyPressed.from("Backspace")}), Operator.deleteCurrentChar);
 
-    final KeymapHandler[] insertKeymapHandlers = new KeymapHandler[2];
-    insertKeymapHandlers[0] = EditingModeHandler.make();
-    insertKeymapHandlers[1] = InsertModeHandler.make();
-    keymap.putHandlers(insertKeymapHandlers);
+    CommandCompileService scs = ServiceHolder.commandCompileService;
+    insertKeymap.put(KeyPressed.from("Escape"),
+      scs.compile("\"editing\" changeMode")
+    );
+//    insertKeymap.put(KeyPressed.from("l"),
+//      scs.compile("1 0 relativeMove")
+//    );
 
-    return keymap;
+    final KeymapHandler[] insertKeymapHandlers = new KeymapHandler[1];
+//    insertKeymapHandlers[0] = InsertModeHandler.make();
+    insertKeymap.putHandlers(insertKeymapHandlers);
+
+    return insertKeymap;
   }
 
 }

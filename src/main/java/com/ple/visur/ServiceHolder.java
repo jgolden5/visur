@@ -20,7 +20,6 @@ public class ServiceHolder {
     commandStateService = CommandStateService.make();
     cursorMovementService = CursorMovementService.make();
     modeSwitchService = ModeSwitchService.make();
-    insertCharService = InsertCharService.make();
   }
 
   public static EditorContentService editorContentService;
@@ -31,6 +30,5 @@ public class ServiceHolder {
   public static CursorMovementService cursorMovementService;
   public static ModeSwitchService modeSwitchService;
   public static InitializerService initializerService;
-  public static InsertCharService insertCharService;
   //OperatorService is an interface, so I'm guessing it doesn't belong here, but all classes that use it will
 }

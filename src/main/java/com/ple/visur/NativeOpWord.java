@@ -44,6 +44,9 @@ public class NativeOpWord implements Word {
         case "changeMode":
           op = new ChangeModeOp();
           break;
+        case "insertChar":
+          op = new InsertCharOp();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }
