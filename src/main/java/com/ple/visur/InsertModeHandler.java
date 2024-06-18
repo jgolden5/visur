@@ -8,10 +8,13 @@ public class InsertModeHandler implements KeymapHandler {
 
   @Override
   public VisurCommand toVisurCommand(KeyPressed keyPressed) {
-    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     CommandCompileService ccs = CommandCompileService.make();
     String key = keyPressed.getKey();
-    return ccs.compile(key + " insertChar");
+    if(key.length() == 1) {
+      return ccs.compile("\"" + key + "\" insertChar");
+    } else {
+      return null;
+    }
   }
 
 }

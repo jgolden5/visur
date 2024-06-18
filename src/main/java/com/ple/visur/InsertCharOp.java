@@ -6,8 +6,9 @@ public class InsertCharOp implements Operator {
   public void execute(Object opInfo) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack eds = emc.getExecutionDataStack();
-    String charToBeInserted = (String) eds.pop();
-    System.out.println("insert char " + charToBeInserted);
+    String charToBeInsertedWithQuotes = (String) eds.pop();
+    String charToBeInsertedWithoutQuotes = charToBeInsertedWithQuotes.substring(1, charToBeInsertedWithQuotes.length() - 1);
+    System.out.println("insert char " + charToBeInsertedWithQuotes);
   }
 
 }

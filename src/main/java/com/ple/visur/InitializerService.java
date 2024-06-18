@@ -219,7 +219,7 @@ public class InitializerService {
 //    );
 
     final KeymapHandler[] insertKeymapHandlers = new KeymapHandler[1];
-//    insertKeymapHandlers[0] = InsertModeHandler.make();
+    insertKeymapHandlers[0] = InsertModeHandler.make();
     insertKeymap.putHandlers(insertKeymapHandlers);
 
     return insertKeymap;
