@@ -87,7 +87,11 @@ public class CharacterQuantum extends Quantum {
       int[] lineBounds = emc.getCurrentLineBoundaries(editorContent, newlineIndices, false);
       int lengthOfLineBounds = lineBounds[1] - lineBounds[0];
       if(cx >= lengthOfLineBounds) {
-        cxBVV.putVal(lengthOfLineBounds);
+        if(span == 0 || cy < endLimit) {
+          cxBVV.putVal(lengthOfLineBounds);
+        } else {
+          cxBVV.putVal(lengthOfLineBounds - 1);
+        }
       }
     }
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
