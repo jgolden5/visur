@@ -41,6 +41,9 @@ public class NativeOpWord implements Word {
         case "setSpan":
           op = new SetSpanOp();
           break;
+        case "changeMode":
+          op = new ChangeModeOp();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }

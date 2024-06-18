@@ -175,6 +175,9 @@ public class InitializerService {
     keymap.put(KeyPressed.from("s"),
       scs.compile("\"span\" pushSubmode")
     );
+    keymap.put(KeyPressed.from("i"),
+      scs.compile("\"insert\" changeMode")
+    );
 
     final KeymapHandler[] handlers = new KeymapHandler[1];
     handlers[0] = ChangeQuantumHandler.make();
