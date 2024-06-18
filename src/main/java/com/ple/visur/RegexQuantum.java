@@ -110,29 +110,36 @@ public class RegexQuantum extends Quantum {
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int startingCA = (int)caBVV.getVal();
-    int bound = startingCA;
+    int destination = startingCA;
     int span = emc.getSpan();
     int spansRemaining = span;
     int incrementer = mv.dx > 0 ? 1 : -1;
+    boolean leftRightMovement = mv.dx != 0;
     while(mv.dx != 0) {
-      bound = mv.dx > 0 ? getNextBound(bound) : getPrevBound(bound);
-      if(span > 0 && isAtBeginningOfQuantum(bound)) {
+      destination = mv.dx > 0 ? getNextBound(destination) : getPrevBound(destination);
+      if(span > 0 && isAtBeginningOfQuantum(destination)) {
         spansRemaining--;
       }
       while(spansRemaining > 0) {
-        bound = mv.dx > 0 ? getNextQuantumStart(bound) : getPrevQuantumStart(bound);
+        destination = mv.dx > 0 ? getNextQuantumStart(destination) : getPrevQuantumStart(destination);
         spansRemaining--;
         if(spansRemaining > 0) {
-          bound = mv.dx > 0 ? getNextBound(bound) : getPrevBound(bound);
+          destination = mv.dx > 0 ? getNextBound(destination) : getPrevBound(destination);
         }
       }
       mv.dx -= incrementer;
     }
-    if(span > 0 && !isAtBeginningOfQuantum(bound)) {
-      bound = startingCA;
+    while(mv.dy != 0) {
+      CharacterQuantum cq = new CharacterQuantum();
+      destination = cq.move(editorContent, newlineIndices, mv);
+      incrementer = mv.dy > 0 ? 1 : -1;
+      destination -= incrementer;
     }
-    System.out.println("bound = " + bound);
-    return bound;
+    if(span > 0 && !isAtBeginningOfQuantum(destination) && leftRightMovement) {
+      destination = startingCA;
+    }
+    System.out.println("destination = " + destination);
+    return destination;
   }
 
   private boolean isAtBeginningOfQuantum(int bound) {
