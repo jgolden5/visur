@@ -47,6 +47,9 @@ public class NativeOpWord implements Word {
         case "insertChar":
           op = new InsertCharOp();
           break;
+        case "deletePreviousChar":
+          op = new DeletePreviousCharOp();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }

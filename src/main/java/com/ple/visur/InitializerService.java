@@ -225,6 +225,9 @@ public class InitializerService {
     insertKeymap.put(KeyPressed.from("ArrowDown"),
       scs.compile("0 1 relativeMove")
     );
+    insertKeymap.put(KeyPressed.from("Backspace"),
+      scs.compile("deletePreviousChar -1 0 relativeMove")
+    );
 //    insertKeymap.put(KeyPressed.from("l"),
 //      scs.compile("1 0 relativeMove")
 //    );
