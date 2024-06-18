@@ -56,7 +56,7 @@ public class InitializerService {
     emc.initializeEditorContent(initialEditorContent);
     emc.putNewlineIndices();
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    caBVV.putVal(23);
+    caBVV.putVal(0);
     emc.putGlobalVar("ca", caBVV);
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
@@ -176,7 +176,7 @@ public class InitializerService {
       scs.compile("\"span\" pushSubmode")
     );
     keymap.put(KeyPressed.from("i"),
-      scs.compile("\"insert\" changeMode")
+      scs.compile("\"insert\" changeMode 0 setSpan \"character\" changeQuantum")
     );
 
     final KeymapHandler[] handlers = new KeymapHandler[1];
