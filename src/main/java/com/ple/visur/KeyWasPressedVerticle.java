@@ -26,7 +26,6 @@ public class KeyWasPressedVerticle extends AbstractVisurVerticle {
       if(currentCommand != null) {
         ces.execute(currentCommand);
       }
-
     }
 
     bus.send(BusEvent.modelWasChanged.name(), null);
