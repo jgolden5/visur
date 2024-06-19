@@ -86,24 +86,8 @@ public class EditorContentService {
       }
     }
 
-    if(span == 0 && lowerBound == editorContent.length()) {
-      for(int i = lowerBound - 1; i >= 0; i--) {
-        if(editorContent.charAt(i) == '\n') {
-          lowerBound = i;
-          break;
-        }
-        if(i == 0) {
-          lowerBound = 0;
-        }
-      }
-      BrickVisurVar caBVV = (BrickVisurVar) getGlobalVar("ca", editorModel);
-      caBVV.putVal(lowerBound);
-      bounds = getCurrentLineBoundaries(editorContent, newlineIndices, false, editorModel);
-    } else {
-      bounds[0] = lowerBound;
-      bounds[1] = upperBound;
-    }
-
+    bounds[0] = lowerBound;
+    bounds[1] = upperBound;
 
     return bounds;
   }
