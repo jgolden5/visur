@@ -13,14 +13,16 @@ public class AssignmentOp implements Operator {
   public void execute(Object opInfo) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack es = emc.getExecutionDataStack();
-    Object topElementFromStack = es.pop();
+    String nameToPut = (String)es.pop();
+    String nameOfValueToRetrieve = (String)es.pop();
+    Object valueRetrieved = emc.getGlobalVar(nameOfValueToRetrieve);
     VisurVar vv;
-    if(topElementFromStack instanceof PrimitiveDataClassBrick) {
-      vv = BrickVisurVar.make((PrimitiveDataClassBrick) topElementFromStack);
+    if(valueRetrieved instanceof PrimitiveDataClassBrick) {
+      vv = BrickVisurVar.make((PrimitiveDataClassBrick) valueRetrieved);
     } else {
-      vv = ObjectVisurVar.make(topElementFromStack);
+      vv = ObjectVisurVar.make(valueRetrieved);
     }
-    emc.putGlobalVar((String)opInfo, vv);
+    emc.putGlobalVar(nameToPut, vv);
   }
 
 }

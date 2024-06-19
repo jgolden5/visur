@@ -1,7 +1,7 @@
 package com.ple.visur;
 
 public enum EditorMode {
-  editing,
+  navigate,
   insert,
   reading;
   public static EditorMode getModeByString(String str) {

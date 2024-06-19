@@ -115,7 +115,7 @@ public class EditorModelCoupler {
   }
 
   public Quantum getCursorQuantum() {
-    return (Quantum)editorModel.get(quantum);
+    return (Quantum)getGlobalVar("cursorQuantum").getVal();
   }
 
   public int getCursorQuantumStart() {
@@ -130,7 +130,7 @@ public class EditorModelCoupler {
   }
 
   public int getSpan() {
-    return (int)editorModel.get(span);
+    return (int)getGlobalVar("span").getVal();
   }
 
   public void initializeEditorContent(String content) {
@@ -215,8 +215,9 @@ public class EditorModelCoupler {
     editorModel.put(keyToQuantumName, keyToQName);
   }
 
-  public void putCursorQuantum(Quantum q) {
-    editorModel.put(quantum, q);
+  public void putCursorQuantum(Quantum cq) {
+    ObjectVisurVar cursorQuantumVV = ObjectVisurVar.make(cq);
+    putGlobalVar("cursorQuantum", cursorQuantumVV);
   }
 
   public void putCursorQuantumStart(int startBound) {
@@ -232,7 +233,8 @@ public class EditorModelCoupler {
   }
 
   public void putSpan(int s) {
-    editorModel.put(span, s);
+    ObjectVisurVar spanVV = ObjectVisurVar.make(s);
+    putGlobalVar("span", spanVV);
   }
 
   public void reportError(String message) {

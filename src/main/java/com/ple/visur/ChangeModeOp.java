@@ -6,8 +6,7 @@ public class ChangeModeOp implements Operator {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String editorModeAsString = (String)eds.peek();
-    String editorModeAsStringWithoutQuotes = editorModeAsString.substring(1, editorModeAsString.length() - 1);
-    EditorMode editorMode = EditorMode.getModeByString(editorModeAsStringWithoutQuotes);
+    EditorMode editorMode = EditorMode.getModeByString(editorModeAsString);
     if(editorMode != null) {
       emc.putEditorMode(editorMode);
     }

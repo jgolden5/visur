@@ -8,7 +8,7 @@ import DataClass.PrimitiveDataClassBrick;
 import java.util.HashMap;
 import java.util.Stack;
 
-import static com.ple.visur.EditorMode.editing;
+import static com.ple.visur.EditorMode.navigate;
 import static com.ple.visur.EditorModelKey.globalVariableMap;
 
 public class InitializerService {
@@ -30,10 +30,10 @@ public class InitializerService {
     emc.putVirtualX(0);
     emc.putVirtualXIsAtEndOfLine(false);
 
-    emc.putEditorMode(editing);
+    emc.putEditorMode(navigate);
 
     Stack<EditorSubmode> editorSubmodeStack = new Stack<>();
-    editorSubmodeStack.push(EditorSubmode.editing);
+    editorSubmodeStack.push(EditorSubmode.navigate);
     emc.putEditorSubmodeStack(editorSubmodeStack);
 
     emc.putExecutionDataStack(new ExecutionDataStack());
@@ -128,9 +128,9 @@ public class InitializerService {
   private void initializeKeymaps() {
     KeymapMap keymapMap = KeymapMap.make();
 
-    Keymap editingKeymap = Keymap.make("editing");
-    editingKeymap = initializeEditingKeymap(editingKeymap);
-    keymapMap.put(EditorSubmode.editing, editingKeymap);
+    Keymap navigateKeymap = Keymap.make("navigate");
+    navigateKeymap = initializeNavigateKeymap(navigateKeymap);
+    keymapMap.put(EditorSubmode.navigate, navigateKeymap);
 
     Keymap insertKeymap = Keymap.make("insert");
     insertKeymap = initializeInsertKeymap(insertKeymap);
@@ -151,7 +151,7 @@ public class InitializerService {
     emc.putKeymapMap(keymapMap);
   }
 
-  private Keymap initializeEditingKeymap(Keymap keymap) {
+  private Keymap initializeNavigateKeymap(Keymap keymap) {
     CommandCompileService scs = ServiceHolder.commandCompileService;
     keymap.put(KeyPressed.from("h"),
       scs.compile("-1 0 relativeMove")
@@ -175,7 +175,7 @@ public class InitializerService {
       scs.compile("\"span\" pushSubmode")
     );
     keymap.put(KeyPressed.from("i"),
-      scs.compile("\"insert\" changeMode 0 setSpan \"character\" changeQuantum")
+      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"insert\" changeMode 0 setSpan \"character\" changeQuantum")
     );
     keymap.put(KeyPressed.from("a"),
       scs.compile("\"insert\" changeMode 0 setSpan 1 0 relativeMove \"character\" changeQuantum")
@@ -214,7 +214,7 @@ public class InitializerService {
 
     CommandCompileService scs = ServiceHolder.commandCompileService;
     insertKeymap.put(KeyPressed.from("Escape"),
-      scs.compile("\"editing\" changeMode")
+      scs.compile("\"navigate\" changeMode")
     );
     insertKeymap.put(KeyPressed.from("ArrowLeft"),
       scs.compile("-1 0 relativeMove")

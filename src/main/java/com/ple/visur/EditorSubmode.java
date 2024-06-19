@@ -1,7 +1,7 @@
 package com.ple.visur;
 
 public enum EditorSubmode {
-  editing,
+  navigate,
   insert,
   quantumStart,
   quantumEnd,

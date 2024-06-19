@@ -8,10 +8,9 @@ public class PushSubmodeOp implements Operator {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String editorSubmodeAsString = (String)eds.pop();
-    String editorSubmodeAsStringWithoutQuotes = editorSubmodeAsString.substring(1, editorSubmodeAsString.length() - 1);
-    EditorSubmode editorSubmode = EditorSubmode.getSubmodeByString(editorSubmodeAsStringWithoutQuotes);
+    EditorSubmode editorSubmode = EditorSubmode.getSubmodeByString(editorSubmodeAsString);
     if(editorSubmode != null) {
-      if(editorSubmode ==  EditorSubmode.editing) {
+      if(editorSubmode ==  EditorSubmode.navigate) {
         Stack<EditorSubmode> editorSubmodeStack = emc.getEditorSubmodeStack();
         while(editorSubmodeStack.size() > 1) {
           editorSubmodeStack.pop();
