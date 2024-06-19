@@ -15,14 +15,15 @@ public class AssignmentOp implements Operator {
     ExecutionDataStack es = emc.getExecutionDataStack();
     String nameToPut = (String)es.pop();
     String nameOfValueToRetrieve = (String)es.pop();
-    Object valueRetrieved = emc.getGlobalVar(nameOfValueToRetrieve);
-    VisurVar vv;
-    if(valueRetrieved instanceof PrimitiveDataClassBrick) {
-      vv = BrickVisurVar.make((PrimitiveDataClassBrick) valueRetrieved);
+    VisurVar vvOfValueRetrieved = emc.getGlobalVar(nameOfValueToRetrieve);
+    Object valueRetrieved = vvOfValueRetrieved.getVal();
+    VisurVar vvResult;
+    if(vvOfValueRetrieved instanceof BrickVisurVar) {
+      vvResult = BrickVisurVar.make((PrimitiveDataClassBrick) valueRetrieved);
     } else {
-      vv = ObjectVisurVar.make(valueRetrieved);
+      vvResult = ObjectVisurVar.make(valueRetrieved);
     }
-    emc.putGlobalVar(nameToPut, vv);
+    emc.putGlobalVar(nameToPut, vvResult);
   }
 
 }

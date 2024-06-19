@@ -130,7 +130,8 @@ public class EditorModelCoupler {
   }
 
   public int getSpan() {
-    return (int)getGlobalVar("span").getVal();
+    ObjectVisurVar spanVV = (ObjectVisurVar) getGlobalVar("span");
+    return (int)spanVV.getVal();
   }
 
   public void initializeEditorContent(String content) {
