@@ -20,6 +20,7 @@ public class RelativeMoveOp implements Operator {
     int[] newBounds;
     if(newCA == editorContent.length()) {
       newBounds = new int[]{newCA, newCA};
+      emc.putSpan(0);
     } else {
       newBounds = cursorQuantum.getBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
     }

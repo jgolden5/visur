@@ -63,40 +63,27 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveDown(String editorContent, ArrayList<Integer> newlineIndices) {
-    BrickVisurVar cxBVV = (BrickVisurVar)emc.getGlobalVar("cx");
-    Integer cx = (Integer)cxBVV.getVal();
-    BrickVisurVar cyBVV = (BrickVisurVar)emc.getGlobalVar("cy");
-    Integer cy = (Integer)cyBVV.getVal();
-    boolean lastCharIsNewline = editorContent.charAt(editorContent.length() - 1) == '\n';
-    int endLimit;
-    if(lastCharIsNewline) {
-      endLimit = newlineIndices.size() - 1;
-    } else {
-      endLimit = newlineIndices.size();
-    }
-    boolean canIncrementCY;
-    int span = emc.getSpan();
-    if(span > 0) {
-      canIncrementCY = cy < endLimit;
-    } else {
-      canIncrementCY = cy < endLimit + 1;
-    }
-    if(canIncrementCY) {
+    BrickVisurVar cyBVV = (BrickVisurVar) emc.getGlobalVar("cy");
+    int cy = (int)cyBVV.getVal();
+    boolean canMoveDown = cy < newlineIndices.size();
+    if(canMoveDown) {
       cy++;
       cyBVV.putVal(cy);
-      int[] lineBounds = emc.getCurrentLineBoundaries(editorContent, newlineIndices, false);
-      int lengthOfLineBounds = lineBounds[1] - lineBounds[0];
-      if(cx >= lengthOfLineBounds) {
-        boolean cxShouldBeAtLineEnd = cy < endLimit || span == 0 || lengthOfLineBounds == 0;
-        if(cxShouldBeAtLineEnd) {
-          cxBVV.putVal(lengthOfLineBounds);
-        } else {
-          cxBVV.putVal(lengthOfLineBounds - 1);
-        }
+      emc.putGlobalVar("cy", cyBVV);
+      int[] currentLineBounds = emc.getCurrentLineBoundaries(editorContent, newlineIndices, false);
+      int currentLineLength = currentLineBounds[1] - currentLineBounds[0];
+      BrickVisurVar cxBVV = (BrickVisurVar) emc.getGlobalVar("cx");
+      int cx = (int)cxBVV.getVal();
+      boolean cxIsTooLong = cx > currentLineLength;
+      if(cxIsTooLong) {
+        cx = currentLineLength;
+        cxBVV.putVal(cx);
+        emc.putGlobalVar("cx", cxBVV);
       }
     }
-    BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
-    return (int) caBVV.getVal();
+    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
+    int ca = (int)caBVV.getVal();
+    return ca;
   }
 
   private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {

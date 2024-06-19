@@ -23,15 +23,7 @@ public class WrappedLineQuantum extends Quantum {
     boolean lastCharIsNewline = editorContent.charAt(editorContent.length() - 1) == '\n';
     while(mv.dy != 0) {
       if(mv.dy > 0) {
-        boolean canGoDown = lastCharIsNewline ? cy < newlineIndices.size() - 1 : cy < newlineIndices.size();
-        if(canGoDown) {
-          ca = cq.move(editorContent, newlineIndices, mv);
-        } else if(span == 0 && !canGoDown) {
-          ca = editorContent.length();
-          mv.dy--;
-        } else {
-          mv.dy--;
-        }
+        ca = cq.move(editorContent, newlineIndices, mv);
       } else {
         if(ca == editorContent.length() && editorContent.charAt(ca - 1) != '\n') {
           int[] bounds = getBoundaries(editorContent, newlineIndices, span, false);
