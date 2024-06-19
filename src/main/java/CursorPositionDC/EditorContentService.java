@@ -62,6 +62,7 @@ public class EditorContentService {
     int cy = (int)cyBVV.getVal();
     int lowerBound = 0;
     int upperBound = 0;
+    int[] bounds = new int[2];
     int span = ServiceHolder.editorModelCoupler.getSpan();
     if(editorContent.length() > 0) {
       if (cy > 0) {
@@ -70,11 +71,7 @@ public class EditorContentService {
           upperBound = newlineIndices.get(cy);
         } else {
           lowerBound = newlineIndices.get(cy - 1) + 1;
-          boolean lastCharIsNewline = editorContent.charAt(editorContent.length() - 1) == '\n';
-          upperBound = lastCharIsNewline ? editorContent.length() - 1 : editorContent.length();
-          if(span == 0) {
-            upperBound++;
-          }
+          upperBound = editorContent.length();
         }
       } else {
         if (newlineIndices.size() > 0) {
@@ -88,7 +85,27 @@ public class EditorContentService {
         }
       }
     }
-    return new int[]{lowerBound, upperBound};
+
+    if(span == 0 && lowerBound == editorContent.length()) {
+      for(int i = lowerBound - 1; i >= 0; i--) {
+        if(editorContent.charAt(i) == '\n') {
+          lowerBound = i;
+          break;
+        }
+        if(i == 0) {
+          lowerBound = 0;
+        }
+      }
+      BrickVisurVar caBVV = (BrickVisurVar) getGlobalVar("ca", editorModel);
+      caBVV.putVal(lowerBound);
+      bounds = getCurrentLineBoundaries(editorContent, newlineIndices, false, editorModel);
+    } else {
+      bounds[0] = lowerBound;
+      bounds[1] = upperBound;
+    }
+
+
+    return bounds;
   }
 
   public ArrayList<Integer> getNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
