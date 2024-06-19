@@ -53,6 +53,9 @@ public class NativeOpWord implements Word {
         case "deletePreviousChar":
           op = new DeletePreviousCharOp();
           break;
+        case "removeGlobalVar":
+          op = new RemoveGlobalVarOp();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }

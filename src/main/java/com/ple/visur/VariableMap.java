@@ -23,4 +23,8 @@ public class VariableMap implements Shareable {
     return val.get(key);
   }
 
+  public void remove(String key) {
+    val.remove(key);
+  }
+
 }

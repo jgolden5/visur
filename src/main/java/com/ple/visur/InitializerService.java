@@ -214,7 +214,7 @@ public class InitializerService {
 
     CommandCompileService scs = ServiceHolder.commandCompileService;
     insertKeymap.put(KeyPressed.from("Escape"),
-      scs.compile("\"tempSpan\" \"span\" -> \"tempCursorQuantum\" changeQuantum \"navigate\" changeMode")
+      scs.compile("\"tempSpan\" \"span\" -> \"tempCursorQuantum\" changeQuantum \"tempSpan\" removeGlobalVar \"tempCursorQuantum\" removeGlobalVar \"navigate\" changeMode")
     );
     insertKeymap.put(KeyPressed.from("ArrowLeft"),
       scs.compile("-1 0 relativeMove")
