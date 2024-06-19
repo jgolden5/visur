@@ -178,7 +178,7 @@ public class InitializerService {
       scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"insert\" changeMode 0 setSpan \"character\" changeQuantum")
     );
     keymap.put(KeyPressed.from("a"),
-      scs.compile("\"insert\" changeMode 0 setSpan 1 0 relativeMove \"character\" changeQuantum")
+      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"insert\" changeMode 0 setSpan 1 0 relativeMove \"character\" changeQuantum")
     );
 
     final KeymapHandler[] handlers = new KeymapHandler[1];
