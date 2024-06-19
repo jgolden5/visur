@@ -10,16 +10,13 @@ public class InsertNewlineOp implements Operator {
     String contentBeforeChar = editorContent.substring(0, ca);
     String contentAfterChar = editorContent.substring(ca, editorContent.length());
     String resultingEditorContent = contentBeforeChar + "\n" + contentAfterChar;
+    caBVV.putVal(ca + 1);
     emc.putEditorContent(resultingEditorContent);
     emc.updateNewlineIndices();
-    BrickVisurVar cxBVV = (BrickVisurVar) emc.getGlobalVar("cx");
-    BrickVisurVar cyBVV = (BrickVisurVar) emc.getGlobalVar("cy");
-    int cy = (int)cyBVV.getVal();
-    int cx = 0;
-    cy++;
-    cxBVV.putVal(cx);
-    cyBVV.putVal(cy);
-    emc.putGlobalVar("cx", cxBVV);
-    emc.putGlobalVar("cy", cyBVV);
+    Quantum cursorQuantum = emc.getCursorQuantum();
+    int[] bounds = cursorQuantum.getBoundaries(editorContent, emc.getNewlineIndices(), emc.getSpan(), false);
+    emc.putCursorQuantumStart(bounds[0]);
+    emc.putCursorQuantumEnd(bounds[1]);
+    emc.putGlobalVar("ca", caBVV);
   }
 }
