@@ -6,9 +6,7 @@ public class InsertCharOp implements Operator {
   public void execute(Object opInfo) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack eds = emc.getExecutionDataStack();
-    String charToBeInsertedWithQuotes = (String) eds.pop();
-    String charToBeInserted = charToBeInsertedWithQuotes.substring(1, charToBeInsertedWithQuotes.length() - 1);
-//    System.out.println("insert char " + charToBeInserted);
+    String charToBeInserted = (String) eds.pop();
     String editorContent = emc.getEditorContent();
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int ca = (int)caBVV.getVal();
