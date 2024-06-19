@@ -15,8 +15,18 @@ public class DocumentQuantum extends Quantum {
 
   @Override
   int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m) {
-    BrickVisurVar caBVV = (BrickVisurVar) ServiceHolder.editorModelCoupler.getGlobalVar("ca");
-    return (int)caBVV.getVal();
+    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
+    int span = emc.getSpan();
+    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
+    int ca = (int)caBVV.getVal();
+    if(span == 0) {
+      if(ca == 0 && m.dx > 0) {
+        ca = editorContent.length();
+      } else if(ca == editorContent.length() && m.dx < 0) {
+        ca = 0;
+      }
+    }
+    return ca;
   }
 
   @Override
