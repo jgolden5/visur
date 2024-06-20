@@ -45,6 +45,21 @@ public class EditorModelCoupler {
     return ecs.getGlobalVarMap(editorModel);
   }
 
+  public int getCA() {
+    BrickVisurVar caBVV = (BrickVisurVar) getGlobalVar("ca");
+    return (int)caBVV.getVal();
+  }
+
+  public int getCX() {
+    BrickVisurVar cxBVV = (BrickVisurVar) getGlobalVar("cx");
+    return (int)cxBVV.getVal();
+  }
+
+  public int getCY() {
+    BrickVisurVar cyBVV = (BrickVisurVar) getGlobalVar("cy");
+    return (int)cyBVV.getVal();
+  }
+
   public String getContentLineAtY(int y) {
     return ecs.getContentLineAtY(y, editorModel);
   }
@@ -146,6 +161,24 @@ public class EditorModelCoupler {
   }
   public void putGlobalVarMap(VariableMap gvm) {
     ecs.putGlobalVarMap(gvm, editorModel);
+  }
+
+  public void putCA(int ca) {
+    BrickVisurVar caBVV = (BrickVisurVar) getGlobalVar("ca");
+    caBVV.putVal(ca);
+    putGlobalVar("ca", caBVV);
+  }
+
+  public void putCX(int cx) {
+    BrickVisurVar cxBVV = (BrickVisurVar) getGlobalVar("cx");
+    cxBVV.putVal(cx);
+    putGlobalVar("cx", cxBVV);
+  }
+
+  public void putCY(int cy) {
+    BrickVisurVar cyBVV = (BrickVisurVar) getGlobalVar("cy");
+    cyBVV.putVal(cy);
+    putGlobalVar("cy", cyBVV);
   }
 
   public void updateNewlineIndices() {

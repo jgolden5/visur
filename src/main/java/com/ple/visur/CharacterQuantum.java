@@ -48,6 +48,7 @@ public class CharacterQuantum extends Quantum {
 
   private int moveRight() {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
+//    int cx = emc.getCX();
     int destination = (int)caBVV.getVal();
     destination++;
     return destination;
