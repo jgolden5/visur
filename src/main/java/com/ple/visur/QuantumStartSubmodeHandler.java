@@ -14,7 +14,8 @@ public class QuantumStartSubmodeHandler implements KeymapHandler {
     KeyToQuantumName keyToQuantumName = emc.getKeyToQuantumName();
     String quantumName = keyToQuantumName.get(key);
     String sentence = "";
-    if(quantumName != null) {
+    int span = emc.getSpan();
+    if(quantumName != null && span > 0) {
       sentence += "\"" + quantumName + "\" quantumStart ";
     }
     sentence += "removeSubmode";
