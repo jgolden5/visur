@@ -11,6 +11,6 @@ public class DeletePreviousCharOp implements Operator {
     String editorContentAfterChar = editorContent.substring(ca, editorContent.length());
     String resultingEditorContent = editorContentBeforeChar + editorContentAfterChar;
     emc.putEditorContent(resultingEditorContent);
-    emc.updateNewlineIndices();
+    emc.putGlobalVar("ca", caBVV);
   }
 }
