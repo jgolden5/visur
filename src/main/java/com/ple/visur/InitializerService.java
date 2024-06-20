@@ -27,7 +27,7 @@ public class InitializerService {
   public void initializeEditorModel() {
     VariableMap initialGvm = new VariableMap(new HashMap<>());
     emc.editorModel.put(globalVariableMap, initialGvm);
-    emc.putVirtualX(0);
+    emc.putVirtualCX(0);
     emc.putVirtualXIsAtEndOfLine(false);
 
     emc.putEditorMode(navigate);

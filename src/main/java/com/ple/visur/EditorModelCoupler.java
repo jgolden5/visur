@@ -72,8 +72,8 @@ public class EditorModelCoupler {
     return ecs.getCurrentLineBoundaries(editorContent, newlineIndices, includeTail, editorModel);
   }
 
-  public int getVirtualX() {
-    return ecs.getVirtualX(editorModel);
+  public int getVirtualCX() {
+    return ecs.getVirtualCX(editorModel);
   }
 
   public boolean getVirtualXIsAtEndOfLine() {
@@ -185,8 +185,8 @@ public class EditorModelCoupler {
     ecs.updateNewlineIndices(editorModel);
   }
 
-  public void putVirtualX(int x) {
-    ecs.putVirtualX(x, editorModel);
+  public void putVirtualCX(int x) {
+    ecs.putVirtualCX(x, editorModel);
   }
 
   public void putVirtualXIsAtEndOfLine(boolean isAtEndOfLine) {

@@ -68,7 +68,7 @@ public class EditorContentService {
     return (ArrayList<Integer>) niBVV.getVal();
   }
 
-  public int getVirtualX(LocalMap<EditorModelKey, Object> editorModel) {
+  public int getVirtualCX(LocalMap<EditorModelKey, Object> editorModel) {
     return (int) editorModel.get(virtualX);
   }
 
@@ -131,7 +131,7 @@ public class EditorContentService {
     putGlobalVar("ni", niBVV, editorModel);
   }
 
-  public void putVirtualX(int x, LocalMap<EditorModelKey, Object> editorModel) {
+  public void putVirtualCX(int x, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(virtualX, x);
     putVirtualXIsAtEndOfLine(false, editorModel);
   }
