@@ -73,12 +73,12 @@ public class CXCYCADC extends CompoundDataClass {
    * @return
    */
   private boolean cxcycaConflict(ArrayList<Integer> newlineIndices, int cx, int cy, int ca) {
-    boolean caLinesUpWithCX;
-    boolean caLinesUpWithCY;
+    boolean caLinesUpWithCX = false;
+    boolean caLinesUpWithCY = false;
     if(cy == 0) {
       caLinesUpWithCY = true;
       caLinesUpWithCX = cx == ca;
-    } else {
+    } else if(cy - 1 < newlineIndices.size()) {
       caLinesUpWithCX = cx == ca - (newlineIndices.get(cy - 1) + 1);
       if(cy < newlineIndices.size() - 1) {
         caLinesUpWithCY = ca > newlineIndices.get(cy - 1) && ca <= newlineIndices.get(cy);
