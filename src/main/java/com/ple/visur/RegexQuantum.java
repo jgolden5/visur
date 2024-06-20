@@ -40,7 +40,7 @@ public class RegexQuantum extends Quantum {
     int rightBound = leftBound;
     if(span > 0) {
       leftBound = getQuantumStart(leftBound);
-    } else if(isInMiddleOfRegex(leftBound)) {
+    } else if(isInMiddleOfQuantum(leftBound)) {
       leftBound = getPrevBound(leftBound);
     }
     int spansRemaining = span;
@@ -57,7 +57,7 @@ public class RegexQuantum extends Quantum {
     return bounds;
   }
 
-  private boolean isInMiddleOfRegex(int bound) {
+  private boolean isInMiddleOfQuantum(int bound) {
     String editorContent = emc.getEditorContent();
     if(bound > 0 && bound < editorContent.length()) {
       Matcher prevMatcher = pattern.matcher(editorContent.substring(bound - 1, bound));

@@ -58,38 +58,9 @@ public class EditorContentService {
   }
 
   public int[] getCurrentLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail, LocalMap<EditorModelKey, Object> editorModel) {
-    BrickVisurVar cyBVV = (BrickVisurVar)getGlobalVar("cy", editorModel);
-    int cy = (int)cyBVV.getVal();
-    int lowerBound = 0;
-    int upperBound = 0;
-    int[] bounds = new int[2];
+    WrappedLineQuantum wrappedLineQuantum = new WrappedLineQuantum();
     int span = ServiceHolder.editorModelCoupler.getSpan();
-    if(editorContent.length() > 0) {
-      if (cy > 0) {
-        if(cy < newlineIndices.size()) {
-          lowerBound = newlineIndices.get(cy - 1) + 1;
-          upperBound = newlineIndices.get(cy);
-        } else {
-          lowerBound = newlineIndices.get(cy - 1) + 1;
-          upperBound = editorContent.length();
-        }
-      } else {
-        if (newlineIndices.size() > 0) {
-          if (includeTail) {
-            upperBound = newlineIndices.get(0) + 1;
-          } else {
-            upperBound = newlineIndices.get(0);
-          }
-        } else {
-          upperBound = editorContent.length();
-        }
-      }
-    }
-
-    bounds[0] = lowerBound;
-    bounds[1] = upperBound;
-
-    return bounds;
+    return wrappedLineQuantum.getBoundaries(editorContent, newlineIndices, span, false);
   }
 
   public ArrayList<Integer> getNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
