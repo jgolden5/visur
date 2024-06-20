@@ -123,6 +123,8 @@ function drawCanvas() {
     if(span > 0) {
       if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
         drawCursor(x, y, "🟨️")
+      } else if(absX == cursorQuantumStart && absX == cursorQuantumEnd) {
+        drawCursor(x, y, "⎹")
       }
     } else {
       if(isAtQuantumStart) {

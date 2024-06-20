@@ -18,7 +18,7 @@ public class RelativeMoveOp implements Operator {
     caBVV.putVal(newCA);
     emc.putGlobalVar("ca", caBVV);
     int[] newBounds;
-    if(newCA == editorContent.length()) {
+    if(newCA == 0 && editorContent.length() == 0) {
       newBounds = new int[]{newCA, newCA};
       emc.putSpan(0);
     } else {

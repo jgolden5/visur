@@ -27,27 +27,36 @@ public class WrappedLineQuantum extends Quantum {
   private int getQuantumStart(int current) {
     int qStart = current;
     ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
-    for(int i = newlineIndices.size() - 1; i >= 0; i--) {
-      if(current > newlineIndices.get(i)) {
-        qStart = newlineIndices.get(i) + 1;
-        break;
-      } else if(i == 0) {
-        qStart = 0;
+    if(newlineIndices.size() > 0) {
+      for (int i = newlineIndices.size() - 1; i >= 0; i--) {
+        if (current > newlineIndices.get(i)) {
+          qStart = newlineIndices.get(i) + 1;
+          break;
+        } else if (i == 0) {
+          qStart = 0;
+        }
       }
+    } else {
+      qStart = 0;
     }
     return qStart;
   }
 
   private int getQuantumEnd(int current) {
     int qEnd = current;
+    String editorContent = emc.getEditorContent();
     ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
-    for(int i = 0; i <= newlineIndices.size() - 1; i++) {
-      if(current <= newlineIndices.get(i)) {
-        qEnd = newlineIndices.get(i);
-        break;
-      } else if(i == newlineIndices.size() - 1) {
-        qEnd = emc.getEditorContent().length();
+    if(newlineIndices.size() > 0) {
+      for (int i = 0; i <= newlineIndices.size() - 1; i++) {
+        if (current <= newlineIndices.get(i)) {
+          qEnd = newlineIndices.get(i);
+          break;
+        } else if (i == newlineIndices.size() - 1) {
+          qEnd = editorContent.length();
+        }
       }
+    } else {
+      qEnd = editorContent.length();
     }
     return qEnd;
   }
