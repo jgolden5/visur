@@ -5,12 +5,19 @@ import java.util.ArrayList;
 public class DocumentQuantum extends Quantum {
   @Override
   int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
+    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     int lowerBound = 0;
     int upperBound = editorContent.length();
     if(lowerBound == upperBound) {
-      ServiceHolder.editorModelCoupler.putSpan(0);
+      emc.putSpan(0);
     }
-    return new int[]{0, editorContent.length()};
+    if(span > 0) {
+      return new int[]{0, editorContent.length()};
+    } else {
+      BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
+      int ca = (int)caBVV.getVal();
+      return new int[]{ca, ca};
+    }
   }
 
   @Override
