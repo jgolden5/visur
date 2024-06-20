@@ -12,9 +12,8 @@ public abstract class Quantum implements Shareable {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String otherQuantumName = (String)eds.pop();
-    String otherQuantumNameWithoutQuotes = otherQuantumName.substring(1, otherQuantumName.length() - 1);
     QuantumNameToQuantum quantumNameToQuantum = emc.getQuantumNameToQuantum();
-    Quantum otherQuantum = quantumNameToQuantum.get(otherQuantumNameWithoutQuotes);
+    Quantum otherQuantum = quantumNameToQuantum.get(otherQuantumName);
     int distanceOfCurrentQuantumBounds = getQuantumBoundsLength();
     int distanceOfOtherQuantumBounds = otherQuantum.getQuantumBoundsLength();
     Quantum scopeQuantum;
@@ -33,8 +32,6 @@ public abstract class Quantum implements Shareable {
     int[] newCursorBounds = cursorQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(newCursorBounds[0]);
     emc.putCursorQuantumEnd(newCursorBounds[1]);
-    System.out.println("quantumStart called. CurrentQ = " + getName() + ". OtherQ = " + otherQuantumNameWithoutQuotes);
-    System.out.println("scope quantum = " + scopeQuantum.getName() + "; cursor quantum = " + cursorQuantum.getName());
     if(otherQuantum.getName().equals(cursorQuantum.getName())) {
       emc.putCursorQuantum(otherQuantum);
       System.out.println("quantum changed from " + getName() + " to " + otherQuantum.getName());
@@ -45,18 +42,17 @@ public abstract class Quantum implements Shareable {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String otherQuantumName = (String)eds.pop();
-    String otherQuantumNameWithoutQuotes = otherQuantumName.substring(1, otherQuantumName.length() - 1);
     QuantumNameToQuantum quantumNameToQuantum = emc.getQuantumNameToQuantum();
-    Quantum otherQuantum = quantumNameToQuantum.get(otherQuantumNameWithoutQuotes);
+    Quantum quantumFromStack = quantumNameToQuantum.get(otherQuantumName);
     int distanceOfCurrentQuantumBounds = getQuantumBoundsLength();
-    int distanceOfOtherQuantumBounds = otherQuantum.getQuantumBoundsLength();
+    int distanceOfOtherQuantumBounds = quantumFromStack.getQuantumBoundsLength();
     Quantum scopeQuantum;
     Quantum cursorQuantum;
     if(distanceOfCurrentQuantumBounds > distanceOfOtherQuantumBounds) {
       scopeQuantum = this;
-      cursorQuantum = otherQuantum;
+      cursorQuantum = quantumFromStack;
     } else {
-      scopeQuantum = otherQuantum;
+      scopeQuantum = quantumFromStack;
       cursorQuantum = this;
     }
     int[] scopeBounds = scopeQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
@@ -67,11 +63,9 @@ public abstract class Quantum implements Shareable {
     int[] newCursorBounds = cursorQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(newCursorBounds[0]);
     emc.putCursorQuantumEnd(newCursorBounds[1]);
-    System.out.println("quantumStart called. CurrentQ = " + getName() + ". OtherQ = " + otherQuantumNameWithoutQuotes);
-    System.out.println("scope quantum = " + scopeQuantum.getName() + "; cursor quantum = " + cursorQuantum.getName());
-    if(otherQuantum.getName().equals(cursorQuantum.getName())) {
-      emc.putCursorQuantum(otherQuantum);
-      System.out.println("quantum changed from " + getName() + " to " + otherQuantum.getName());
+    if(quantumFromStack.getName().equals(cursorQuantum.getName())) {
+      emc.putCursorQuantum(quantumFromStack);
+      System.out.println("quantum changed from " + getName() + " to " + quantumFromStack.getName());
     }
   }
 
