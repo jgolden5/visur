@@ -48,17 +48,34 @@ public class CharacterQuantum extends Quantum {
 
   private int moveRight() {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
-    int destination = (int)caBVV.getVal();
-    destination++;
+    int ca = (int)caBVV.getVal();
+    int destination = ca + 1;
+
+    String editorContent = emc.getEditorContent();
+    if(editorContent.charAt(ca) == '\n') {
+      emc.putVirtualCX(0);
+    } else {
+      emc.putVirtualCX(destination);
+    }
+
     return destination;
   }
 
   private int moveLeft() {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     int destination = (int)caBVV.getVal();
-    if (destination > 0) {
+    if(destination > 0) {
       destination--;
     }
+
+    String editorContent = emc.getEditorContent();
+    if(editorContent.charAt(destination) == '\n') {
+      emc.putCA(destination);
+      emc.putVirtualCX(emc.getCX());
+    } else {
+      emc.putVirtualCX(emc.getCX() + 1);
+    }
+
     return destination;
   }
 
@@ -70,16 +87,29 @@ public class CharacterQuantum extends Quantum {
       cy++;
       cyBVV.putVal(cy);
       emc.putGlobalVar("cy", cyBVV);
-      int[] currentLineBounds = emc.getCurrentLineBoundaries(editorContent, newlineIndices, false);
-      int currentLineLength = currentLineBounds[1] - currentLineBounds[0];
-      BrickVisurVar cxBVV = (BrickVisurVar) emc.getGlobalVar("cx");
-      int cx = (int)cxBVV.getVal();
-      boolean cxIsTooLong = cx > currentLineLength;
-      if(cxIsTooLong) {
-        cx = currentLineLength;
-        cxBVV.putVal(cx);
-        emc.putGlobalVar("cx", cxBVV);
+      boolean editorContentContainsNewlineChar = newlineIndices.size() > 0;
+      int lineStartBound, lineEndBound;
+      if(editorContentContainsNewlineChar) {
+        lineStartBound = cy > 0 ? newlineIndices.get(cy - 1) + 1 : 0;
+        lineEndBound = newlineIndices.get(cy);
+      } else {
+        lineStartBound = 0;
+        lineEndBound = editorContent.length();
       }
+      int currentLineLength = lineEndBound - lineStartBound;
+      BrickVisurVar cxBVV = (BrickVisurVar) emc.getGlobalVar("cx");
+      int cx;
+      int virtualCX = emc.getVirtualCX();
+      boolean virtualCXIsTooLong;
+      virtualCXIsTooLong = virtualCX > currentLineLength;
+      if(virtualCXIsTooLong) {
+        int[] bounds = getBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
+        cx = bounds[1];
+      } else {
+        cx = virtualCX;
+      }
+      cxBVV.putVal(cx);
+      emc.putGlobalVar("cx", cxBVV);
     }
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int ca = (int)caBVV.getVal();
@@ -87,19 +117,34 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {
-    BrickVisurVar cxBVV = (BrickVisurVar)emc.getGlobalVar("cx");
-    Integer cx = (Integer)cxBVV.getVal();
     BrickVisurVar cyBVV = (BrickVisurVar)emc.getGlobalVar("cy");
     Integer cy = (Integer)cyBVV.getVal();
     boolean canDecrementCY = cy > 0;
     if(canDecrementCY) {
       cy--;
       cyBVV.putVal(cy);
-      int[] currentLineBounds = emc.getCurrentLineBoundaries(editorContent, newlineIndices, false);
-      int lengthOfCurrentLine = currentLineBounds[1] - currentLineBounds[0];
-      if(cx >= lengthOfCurrentLine) {
-        cxBVV.putVal(lengthOfCurrentLine);
+      boolean editorContentContainsNewlineChar = newlineIndices.size() > 0;
+      int lineStartBound, lineEndBound;
+      if(editorContentContainsNewlineChar) {
+        lineStartBound = cy > 0 ? newlineIndices.get(cy - 1) + 1 : 0;
+        lineEndBound = newlineIndices.get(cy);
+      } else {
+        lineStartBound = 0;
+        lineEndBound = editorContent.length();
       }
+      int currentLineLength = lineEndBound - lineStartBound;
+      BrickVisurVar cxBVV = (BrickVisurVar) emc.getGlobalVar("cx");
+      int cx;
+      int virtualCX = emc.getVirtualCX();
+      boolean virtualCXIsTooLong = virtualCX > currentLineLength;
+      if(virtualCXIsTooLong) {
+        int[] bounds = getBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
+        cx = bounds[1];
+      } else {
+        cx = virtualCX;
+      }
+      cxBVV.putVal(cx);
+      emc.putGlobalVar("cx", cxBVV);
     }
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     return (int) caBVV.getVal();
