@@ -129,7 +129,6 @@ public class RegexQuantum extends Quantum {
     int span = emc.getSpan();
     int spansRemaining = span;
     int incrementer = mv.dx > 0 ? 1 : -1;
-    boolean leftRightMovement = mv.dx != 0;
     while(mv.dx != 0) {
       destination = mv.dx > 0 ? getNextBound(destination) : getPrevBound(destination);
       if(span > 0 && isAtBeginningOfQuantum(destination)) {
@@ -142,16 +141,18 @@ public class RegexQuantum extends Quantum {
           destination = mv.dx > 0 ? getNextBound(destination) : getPrevBound(destination);
         }
       }
+      emc.putCA(destination);
+      emc.putVirtualCX(emc.getCX());
       mv.dx -= incrementer;
+      boolean destinationIsInWrongPlace = mv.dx == 0 && span > 0 && !isAtBeginningOfQuantum(destination);
+      if(destinationIsInWrongPlace) {
+        destination = startingCA;
+      }
     }
     while(mv.dy != 0) {
       CharacterQuantum cq = new CharacterQuantum();
       destination = cq.move(editorContent, newlineIndices, mv);
     }
-    if(span > 0 && !isAtBeginningOfQuantum(destination) && leftRightMovement) {
-      destination = startingCA;
-    }
-    System.out.println("destination = " + destination);
     return destination;
   }
 
