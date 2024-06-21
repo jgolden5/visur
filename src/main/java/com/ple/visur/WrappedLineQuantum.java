@@ -17,11 +17,24 @@ public class WrappedLineQuantum extends Quantum {
     if(span > 0) {
       leftBound = getQuantumStart(ca);
       rightBound = getQuantumEnd(ca);
+    } else if(isInMiddleOfQuantum(leftBound)) {
+      leftBound = getQuantumStart(leftBound);
     }
     caBVV.putVal(leftBound);
     bounds[0] = leftBound;
     bounds[1] = rightBound;
     return bounds;
+  }
+
+  private boolean isInMiddleOfQuantum(int bound) {
+    String editorContent = emc.getEditorContent();
+    if(bound > 0 && bound < editorContent.length()) {
+      boolean matchExistsBefore = editorContent.charAt(bound - 1) != '\n';
+      boolean matchExistsAfter = editorContent.charAt(bound) != '\n';
+      return matchExistsBefore && matchExistsAfter;
+    } else {
+      return false;
+    }
   }
 
   private int getQuantumStart(int current) {
