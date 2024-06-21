@@ -65,7 +65,7 @@ public class CharacterQuantum extends Quantum {
     }
 
     String editorContent = emc.getEditorContent();
-    if(editorContent.charAt(destination) == '\n') {
+    if(destination < editorContent.length() && editorContent.charAt(destination) == '\n') {
       emc.putCA(destination);
       emc.putVirtualCX(emc.getCX());
     } else {
