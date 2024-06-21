@@ -128,8 +128,7 @@ public class CharacterQuantum extends Quantum {
       int virtualCX = emc.getVirtualCX();
       boolean virtualCXIsTooLong = virtualCX > currentLineLength;
       if(virtualCXIsTooLong) {
-        int[] bounds = getBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
-        cx = bounds[1];
+        cx = currentLineLength;
       } else {
         cx = virtualCX;
       }
