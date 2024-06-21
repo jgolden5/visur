@@ -51,12 +51,8 @@ public class CharacterQuantum extends Quantum {
     int ca = (int)caBVV.getVal();
     int destination = ca + 1;
 
-    String editorContent = emc.getEditorContent();
-    if(editorContent.charAt(ca) == '\n') {
-      emc.putVirtualCX(0);
-    } else {
-      emc.putVirtualCX(destination);
-    }
+    emc.putCA(destination);
+    emc.putVirtualCX(emc.getCX());
 
     return destination;
   }
@@ -73,20 +69,18 @@ public class CharacterQuantum extends Quantum {
       emc.putCA(destination);
       emc.putVirtualCX(emc.getCX());
     } else {
-      emc.putVirtualCX(destination);
+      emc.putVirtualCX(emc.getCX() - 1);
     }
 
     return destination;
   }
 
   private int moveDown(String editorContent, ArrayList<Integer> newlineIndices) {
-    BrickVisurVar cyBVV = (BrickVisurVar) emc.getGlobalVar("cy");
-    int cy = (int)cyBVV.getVal();
+    int cy = emc.getCY();
     boolean canMoveDown = cy < newlineIndices.size();
     if(canMoveDown) {
       cy++;
-      cyBVV.putVal(cy);
-      emc.putGlobalVar("cy", cyBVV);
+      emc.putCY(cy);
       boolean editorContentContainsNewlineChar = newlineIndices.size() > 0;
       int lineStartBound, lineEndBound;
       if(editorContentContainsNewlineChar) {
@@ -97,22 +91,18 @@ public class CharacterQuantum extends Quantum {
         lineEndBound = editorContent.length();
       }
       int currentLineLength = lineEndBound - lineStartBound;
-      BrickVisurVar cxBVV = (BrickVisurVar) emc.getGlobalVar("cx");
       int cx;
       int virtualCX = emc.getVirtualCX();
       boolean virtualCXIsTooLong;
       virtualCXIsTooLong = virtualCX > currentLineLength;
       if(virtualCXIsTooLong) {
-        int[] bounds = getBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
-        cx = bounds[1];
+        cx = currentLineLength;
       } else {
         cx = virtualCX;
       }
-      cxBVV.putVal(cx);
-      emc.putGlobalVar("cx", cxBVV);
+      emc.putCX(cx);
     }
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int ca = (int)caBVV.getVal();
+    int ca = emc.getCA();
     return ca;
   }
 
