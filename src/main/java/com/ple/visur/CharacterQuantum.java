@@ -77,7 +77,14 @@ public class CharacterQuantum extends Quantum {
 
   private int moveDown(String editorContent, ArrayList<Integer> newlineIndices) {
     int cy = emc.getCY();
-    boolean canMoveDown = cy < newlineIndices.size();
+    boolean canMoveDown;
+    int span = emc.getSpan();
+    if(span > 0) {
+      boolean lastCharInContentIsNewline = editorContent.charAt(editorContent.length() - 1) == '\n';
+      canMoveDown = lastCharInContentIsNewline ? cy < newlineIndices.size() - 1 : cy < newlineIndices.size();
+    } else {
+      canMoveDown = cy < newlineIndices.size();
+    }
     if(canMoveDown) {
       cy++;
       emc.putCY(cy);
@@ -85,7 +92,11 @@ public class CharacterQuantum extends Quantum {
       int lineStartBound, lineEndBound;
       if(editorContentContainsNewlineChar) {
         lineStartBound = cy > 0 ? newlineIndices.get(cy - 1) + 1 : 0;
-        lineEndBound = newlineIndices.get(cy);
+        if(cy < newlineIndices.size()) {
+          lineEndBound = newlineIndices.get(cy);
+        } else {
+          lineEndBound = editorContent.length();
+        }
       } else {
         lineStartBound = 0;
         lineEndBound = editorContent.length();
