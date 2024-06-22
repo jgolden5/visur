@@ -69,7 +69,8 @@ public class CharacterQuantum extends Quantum {
       emc.putCA(destination);
       emc.putVirtualCX(emc.getCX());
     } else {
-      emc.putVirtualCX(emc.getCX() - 1);
+      emc.putCA(destination);
+      emc.putVirtualCX(emc.getCX());
     }
 
     return destination;

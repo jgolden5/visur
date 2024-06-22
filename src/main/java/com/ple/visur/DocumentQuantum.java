@@ -16,7 +16,12 @@ public class DocumentQuantum extends Quantum {
     } else {
       BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
       int ca = (int)caBVV.getVal();
-      return new int[]{ca, ca};
+      if(ca == editorContent.length()) {
+        return new int[]{ca, ca};
+      } else {
+        emc.putCA(0);
+        return new int[]{0, 0};
+      }
     }
   }
 
