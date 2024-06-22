@@ -137,7 +137,7 @@ public class InitializerService {
     keymapMap.put(EditorSubmode.insert, insertKeymap);
 
     Keymap replaceKeymap = Keymap.make("replace");
-    insertKeymap = initializeReplaceKeymap(replaceKeymap);
+    replaceKeymap = initializeReplaceKeymap(replaceKeymap);
     keymapMap.put(EditorSubmode.replace, replaceKeymap);
 
     Keymap quantumStartKeymap = Keymap.make("quantumStart");

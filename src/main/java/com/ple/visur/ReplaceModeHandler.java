@@ -1,8 +1,8 @@
 package com.ple.visur;
 
 public class ReplaceModeHandler implements KeymapHandler {
-  public static InsertModeHandler make() {
-    return new InsertModeHandler();
+  public static ReplaceModeHandler make() {
+    return new ReplaceModeHandler();
   }
 
   @Override

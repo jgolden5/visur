@@ -59,6 +59,9 @@ public class NativeOpWord implements Word {
         case "deleteCursorQuantum":
           op = new DeleteCursorQuantumOp();
           break;
+        case "replaceChar":
+          op = new ReplaceCharOp();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }
