@@ -19,6 +19,8 @@ public class WrappedLineQuantum extends Quantum {
       rightBound = getQuantumEnd(ca);
     } else if(isInMiddleOfQuantum(leftBound)) {
       leftBound = getQuantumStart(leftBound);
+      emc.putCA(leftBound);
+      emc.putVirtualCX(emc.getCX());
     }
     caBVV.putVal(leftBound);
     bounds[0] = leftBound;
