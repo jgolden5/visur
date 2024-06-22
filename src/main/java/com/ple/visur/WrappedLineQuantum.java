@@ -97,6 +97,8 @@ public class WrappedLineQuantum extends Quantum {
         ca = zeroQuantumMoveLeft(ca, editorContent, newlineIndices);
         mv.dx++;
       }
+      emc.putCA(ca);
+      emc.putVirtualCX(emc.getCX());
     }
     return ca;
   }
