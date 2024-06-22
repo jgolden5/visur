@@ -149,6 +149,7 @@ public class InitializerService {
     keymapMap.put(EditorSubmode.span, spanKeymap);
 
     emc.putKeymapMap(keymapMap);
+
   }
 
   private Keymap initializeNavigateKeymap(Keymap keymap) {
@@ -192,7 +193,9 @@ public class InitializerService {
     keymap.put(KeyPressed.from("a"),
       scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"insert\" changeMode 0 setSpan 1 0 relativeMove \"character\" changeQuantum")
     );
-
+    keymap.put(KeyPressed.from("d"),
+      scs.compile("deleteCursorQuantum")
+    );
     final KeymapHandler[] handlers = new KeymapHandler[1];
     handlers[0] = ChangeQuantumHandler.make();
     keymap.putHandlers(handlers);

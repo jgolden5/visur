@@ -56,6 +56,9 @@ public class NativeOpWord implements Word {
         case "removeGlobalVar":
           op = new RemoveGlobalVarOp();
           break;
+        case "deleteCursorQuantum":
+          op = new DeleteCursorQuantumOp();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }
