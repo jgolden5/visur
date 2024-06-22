@@ -59,7 +59,7 @@ eb.onopen = function() {
 //    console.log("Content = " + (editorContent))
 
     clearCanvas()
-    ctx.fillStyle = "white"
+    ctx.fillStyle = "black"
     drawCanvas()
     document.getElementById("cursorQuantumDisplay").innerHTML = cursorQuantum.toUpperCase() + " QUANTUM"
     if(isInCommandState) {
@@ -122,7 +122,7 @@ function drawCanvas() {
   for(let absX = 0; absX <= editorContent.length; absX++) {
     if(span > 0) {
       if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
-        drawCursor(x, y, "🟨️")
+        drawCursor(x, y, "🟨")
       } else if(absX == cursorQuantumStart && absX == cursorQuantumEnd) {
         drawCursor(x, y, "⎹")
       }
