@@ -8,10 +8,12 @@ public class ReplaceCharOp implements Operator {
     String editorContent = emc.getEditorContent();
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     int ca = (int)caBVV.getVal();
-    String contentBeforeChar = editorContent.substring(0, ca);
-    String replacingChar = (String) eds.pop();
-    String contentAfterChar = editorContent.substring(ca + 1, editorContent.length());
-    String resultingEditorContent = contentBeforeChar + replacingChar + contentAfterChar;
-    emc.putEditorContent(resultingEditorContent);
+    if(editorContent.charAt(ca) != '\n') {
+      String contentBeforeChar = editorContent.substring(0, ca);
+      String replacingChar = (String) eds.pop();
+      String contentAfterChar = editorContent.substring(ca + 1, editorContent.length());
+      String resultingEditorContent = contentBeforeChar + replacingChar + contentAfterChar;
+      emc.putEditorContent(resultingEditorContent);
+    }
   }
 }
