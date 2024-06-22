@@ -261,15 +261,17 @@ public class RegexQuantum extends Quantum {
       firstWasMatch = matcher.matches();
       bound--;
     }
-    while(!invalidBoundFound && firstWasMatch) {
-      Matcher matcher = pattern.matcher(editorContent.substring(bound - 1, bound));
-      if(matcher.matches()) {
-        bound--;
-        if(bound == 0) {
+    if(bound > 0) {
+      while (!invalidBoundFound && firstWasMatch) {
+        Matcher matcher = pattern.matcher(editorContent.substring(bound - 1, bound));
+        if (matcher.matches()) {
+          bound--;
+          if (bound == 0) {
+            invalidBoundFound = true;
+          }
+        } else {
           invalidBoundFound = true;
         }
-      } else {
-        invalidBoundFound = true;
       }
     }
     return bound;
