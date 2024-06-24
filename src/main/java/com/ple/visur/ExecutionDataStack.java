@@ -15,5 +15,8 @@ public class ExecutionDataStack implements Shareable {
   public void push(Object item) {
     stack.push(item);
   }
+  public int size() {
+    return stack.size();
+  }
 
 }
