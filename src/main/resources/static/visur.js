@@ -85,15 +85,16 @@ eb.onopen = function() {
     } else if(mode == submode) {
       document.getElementById("currentEditorModeDisplay").innerHTML = mode.toUpperCase() + " MODE"
     } else {
+      document.getElementById("currentEditorModeDisplay").innerHTML = submode.toUpperCase() + " SUBMODE";
+    }
       if(submode == "search") {
         document.getElementById("currentEditorModeDisplay").innerHTML = " " + scopeQuantum.toUpperCase()
         document.getElementById("currentEditorModeDisplay").innerHTML += "/ " + searchTarget
       } else {
-        document.getElementById("currentEditorModeDisplay").innerHTML = submode.toUpperCase() + " SUBMODE"
+        document.getElementById("currentEditorModeDisplay").innerHTML += "; SPAN = " + span
       }
-    }
-
   })
+
   let canvasInfo = {
     width: (canvas.width - caOffset) / cellWidth + 1,
     height: (canvas.height - contentYOffset) / cellHeight + 1
