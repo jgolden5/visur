@@ -7,6 +7,17 @@ public class SearchSubmodeHandler implements KeymapHandler {
 
   @Override
   public VisurCommand toVisurCommand(KeyPressed keyPressed) {
-    
+    CommandCompileService ccs = CommandCompileService.make();
+    String key = keyPressed.getKey();
+    if(key.length() == 1) {
+      ExecutionDataStack eds = ServiceHolder.editorModelCoupler.getExecutionDataStack();
+      String searchTarget = (String)eds.pop();
+      searchTarget += key;
+      return ccs.compile("\"" + searchTarget + "\"");
+    } else if(key.equals("Enter")) {
+      return ccs.compile("search \"navigate\" changeSubmode");
+    } else {
+      return null;
+    }
   }
 }
