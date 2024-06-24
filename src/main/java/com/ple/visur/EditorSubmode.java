@@ -7,7 +7,8 @@ public enum EditorSubmode {
   quantumEnd,
   span,
   replace,
-  search;
+  search,
+  changeScope;
 
   public static EditorSubmode getSubmodeByString(String str) {
     for(EditorSubmode submode : EditorSubmode.values()) {

@@ -158,6 +158,10 @@ public class InitializerService {
     searchKeymap = initializeSearchKeymap(searchKeymap);
     keymapMap.put(EditorSubmode.search, searchKeymap);
 
+    Keymap changeScopeKeymap = Keymap.make("changeScope");
+    changeScopeKeymap = initializeChangeScopeKeymap(changeScopeKeymap);
+    keymapMap.put(EditorSubmode.changeScope, changeScopeKeymap);
+
     emc.putKeymapMap(keymapMap);
 
   }
@@ -211,6 +215,9 @@ public class InitializerService {
     );
     keymap.put(KeyPressed.from("f"),
       scs.compile("clearEDS \"search\" pushSubmode")
+    );
+    keymap.put(KeyPressed.from("/"),
+      scs.compile("\"changeScope\" pushSubmode")
     );
     final KeymapHandler[] handlers = new KeymapHandler[1];
     handlers[0] = ChangeCursorQuantumHandler.make();
@@ -298,6 +305,14 @@ public class InitializerService {
     replaceKeymap.putHandlers(replaceKeymapHandlers);
 
     return replaceKeymap;
+  }
+
+  private Keymap initializeChangeScopeKeymap(Keymap changeScopeKeymap) {
+    final KeymapHandler[] changeScopeHandlers = new KeymapHandler[1];
+    changeScopeHandlers[0] = ChangeScopeSubmodeHandler.make();
+    changeScopeKeymap.putHandlers(changeScopeHandlers);
+    
+    return changeScopeKeymap;
   }
 
 }
