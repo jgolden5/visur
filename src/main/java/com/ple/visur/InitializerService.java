@@ -205,6 +205,9 @@ public class InitializerService {
     keymap.put(KeyPressed.from("d"),
       scs.compile("deleteCursorQuantum")
     );
+    keymap.put(KeyPressed.from("f"),
+      scs.compile("search")
+    );
     final KeymapHandler[] handlers = new KeymapHandler[1];
     handlers[0] = ChangeQuantumHandler.make();
     keymap.putHandlers(handlers);
@@ -252,10 +255,6 @@ public class InitializerService {
     insertKeymap.put(KeyPressed.from("Backspace"),
       scs.compile("deletePreviousChar -1 0 relativeMove")
     );
-//    insertKeymap.put(KeyPressed.from("l"),
-//      scs.compile("1 0 relativeMove")
-//    );
-
     final KeymapHandler[] insertKeymapHandlers = new KeymapHandler[1];
     insertKeymapHandlers[0] = InsertModeHandler.make();
     insertKeymap.putHandlers(insertKeymapHandlers);

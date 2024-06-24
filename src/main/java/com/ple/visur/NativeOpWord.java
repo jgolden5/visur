@@ -62,6 +62,9 @@ public class NativeOpWord implements Word {
         case "replaceChar":
           op = new ReplaceCharOp();
           break;
+        case "search":
+          op = new SearchOp();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }
