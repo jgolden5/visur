@@ -5,6 +5,7 @@ let cursorQuantumStart;
 let cursorQuantumEnd;
 let cursorQuantum;
 let isAtQuantumStart;
+let scopeQuantum;
 let searchTarget;
 
 let canvas = document.getElementById("mainCanvas")
@@ -50,6 +51,7 @@ eb.onopen = function() {
     submode = message["body"]["editorSubmode"]
     cursorQuantum = message["body"]["cursorQuantum"]
     isAtQuantumStart = message["body"]["isAtQuantumStart"]
+    scopeQuantum = message["body"]["scopeQuantum"]
     isInCommandState = message["body"]["isInCommandState"]
     commandStateContent = message["body"]["commandStateContent"]
     commandCursor = message["body"]["commandCursor"]
@@ -83,9 +85,11 @@ eb.onopen = function() {
     } else if(mode == submode) {
       document.getElementById("currentEditorModeDisplay").innerHTML = mode.toUpperCase() + " MODE"
     } else {
-      document.getElementById("currentEditorModeDisplay").innerHTML = submode.toUpperCase() + " SUBMODE"
       if(submode == "search") {
+        document.getElementById("currentEditorModeDisplay").innerHTML = "(Searching in " + scopeQuantum + " scope)"
         document.getElementById("currentEditorModeDisplay").innerHTML += ": " + searchTarget
+      } else {
+        document.getElementById("currentEditorModeDisplay").innerHTML = submode.toUpperCase() + " SUBMODE"
       }
     }
 
