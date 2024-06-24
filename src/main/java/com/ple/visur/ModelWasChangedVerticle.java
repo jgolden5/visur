@@ -26,14 +26,7 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
       view.ca = (int)caBVV.getVal();
     }
     view.editorContent = emc.getEditorContent();
-    updateSpan();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
-  }
-
-  private void updateSpan() {
-//    if(emc.getCursorQuantumStart() == emc.getCursorQuantumEnd()) {
-//      emc.putSpan(0);
-//    }
   }
 
   public JsonObject toJson() {

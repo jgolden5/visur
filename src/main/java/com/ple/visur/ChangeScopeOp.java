@@ -7,5 +7,10 @@ public class ChangeScopeOp implements Operator {
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String scopeName = (String) eds.pop();
     System.out.println("scope = " + scopeName);
+    QuantumNameToQuantum quantumNameToQuantum = emc.getQuantumNameToQuantum();
+    Quantum scopeQuantum = quantumNameToQuantum.get(scopeName);
+    if(scopeQuantum != null) {
+      emc.putScopeQuantum(scopeQuantum);
+    }
   }
 }
