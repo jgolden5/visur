@@ -20,6 +20,9 @@ public class NativeOpWord implements Word {
         case "relativeMove":
           op = new RelativeMoveOp();
           break;
+        case "clearEDS":
+          op = new ClearEDSOp();
+          break;
         case "pushSubmode":
           op = new PushSubmodeOp();
           break;

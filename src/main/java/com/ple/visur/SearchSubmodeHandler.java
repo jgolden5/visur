@@ -11,7 +11,10 @@ public class SearchSubmodeHandler implements KeymapHandler {
     String key = keyPressed.getKey();
     if(key.length() == 1) {
       ExecutionDataStack eds = ServiceHolder.editorModelCoupler.getExecutionDataStack();
-      String searchTarget = (String)eds.pop();
+      String searchTarget = "";
+      if(eds.size() > 0) {
+        searchTarget = (String) eds.pop();
+      }
       searchTarget += key;
       return ccs.compile("\"" + searchTarget + "\"");
     } else if(key.equals("Enter")) {
