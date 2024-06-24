@@ -130,7 +130,7 @@ public class EditorModelCoupler {
   }
 
   public Quantum getCursorQuantum() {
-    return (Quantum)getGlobalVar("cursorQuantum").getVal();
+    return (Quantum) getGlobalVar("cursorQuantum").getVal();
   }
 
   public int getCursorQuantumStart() {
@@ -142,6 +142,10 @@ public class EditorModelCoupler {
 
   public boolean getIsAtQuantumStart() {
     return (boolean)editorModel.get(isAtQuantumStart);
+  }
+
+  public Quantum getScopeQuantum() {
+    return (Quantum) getGlobalVar("scopeQuantum").getVal();
   }
 
   public int getSpan() {
@@ -264,6 +268,11 @@ public class EditorModelCoupler {
 
   public void putIsAtQuantumStart(boolean isAtQStart) {
     editorModel.put(isAtQuantumStart, isAtQStart);
+  }
+
+  public void putScopeQuantum(Quantum q) {
+    ObjectVisurVar scopeQuantumVV = ObjectVisurVar.make(q);
+    putGlobalVar("scopeQuantum", scopeQuantumVV);
   }
 
   public void putSpan(int s) {
