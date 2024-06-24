@@ -86,8 +86,8 @@ eb.onopen = function() {
       document.getElementById("currentEditorModeDisplay").innerHTML = mode.toUpperCase() + " MODE"
     } else {
       if(submode == "search") {
-        document.getElementById("currentEditorModeDisplay").innerHTML = "(Searching in " + scopeQuantum + " scope)"
-        document.getElementById("currentEditorModeDisplay").innerHTML += ": " + searchTarget
+        document.getElementById("currentEditorModeDisplay").innerHTML = " " + scopeQuantum.toUpperCase()
+        document.getElementById("currentEditorModeDisplay").innerHTML += "/ " + searchTarget
       } else {
         document.getElementById("currentEditorModeDisplay").innerHTML = submode.toUpperCase() + " SUBMODE"
       }
