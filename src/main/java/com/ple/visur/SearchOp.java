@@ -18,14 +18,18 @@ public class SearchOp implements Operator {
       int[] scopeQuantumBounds = scopeQuantum.getBoundaries(editorContent, emc.getNewlineIndices(), 1, false); //span is always 1 when searching within a scopeQuantum
       int scopeQuantumEnd = scopeQuantumBounds[1];
       int ca = emc.getCA();
-      String editorContentSubstringToSearch = editorContent.substring(ca, scopeQuantumEnd);
-      int foundLocation = editorContentSubstringToSearch.indexOf(searchTarget);
-      if(foundLocation > -1) {
-        emc.putCA(foundLocation);
-        Quantum cursorQuantum = emc.getCursorQuantum();
-        int[] newBounds = cursorQuantum.getBoundaries(editorContent, emc.getNewlineIndices(), emc.getSpan(), false);
-        emc.putCursorQuantumStart(newBounds[0]);
-        emc.putCursorQuantumEnd(newBounds[1]);
+      if(ca < scopeQuantumEnd) {
+        String editorContentSubstringToSearch = editorContent.substring(ca + 1, scopeQuantumEnd);
+        int foundResult = editorContentSubstringToSearch.indexOf(searchTarget);
+        if (foundResult > -1) {
+          int foundIndex = foundResult + ca + 1;
+          emc.putCA(foundIndex);
+          emc.putVirtualCX(emc.getCX());
+          Quantum cursorQuantum = emc.getCursorQuantum();
+          int[] newBounds = cursorQuantum.getBoundaries(editorContent, emc.getNewlineIndices(), emc.getSpan(), false);
+          emc.putCursorQuantumStart(newBounds[0]);
+          emc.putCursorQuantumEnd(newBounds[1]);
+        }
       }
     }
   }
