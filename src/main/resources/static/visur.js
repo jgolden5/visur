@@ -5,6 +5,7 @@ let cursorQuantumStart;
 let cursorQuantumEnd;
 let cursorQuantum;
 let isAtQuantumStart;
+let searchTarget;
 
 let canvas = document.getElementById("mainCanvas")
 if((window.innerWidth - 5) % 20 == 0) {
@@ -52,6 +53,7 @@ eb.onopen = function() {
     isInCommandState = message["body"]["isInCommandState"]
     commandStateContent = message["body"]["commandStateContent"]
     commandCursor = message["body"]["commandCursor"]
+    searchTarget = message["body"]["searchTarget"]
 
     console.log("quantum start = " + cursorQuantumStart)
     console.log("quantum end = " + cursorQuantumEnd)
@@ -82,6 +84,9 @@ eb.onopen = function() {
       document.getElementById("currentEditorModeDisplay").innerHTML = mode.toUpperCase() + " MODE"
     } else {
       document.getElementById("currentEditorModeDisplay").innerHTML = submode.toUpperCase() + " SUBMODE"
+      if(submode == "search") {
+        document.getElementById("currentEditorModeDisplay").innerHTML += ": " + searchTarget
+      }
     }
 
   })

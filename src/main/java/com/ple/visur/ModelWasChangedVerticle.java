@@ -32,18 +32,28 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
   public JsonObject toJson() {
     JsonObject output = new JsonObject();
     BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("ca");
+    EditorSubmode editorSubmode = emc.getEditorSubmode();
     output.put("ca", bvv.getVal());
     output.put("editorContent", emc.getEditorContent());
     output.put("span", emc.getSpan());
     output.put("cursorQuantumStart", emc.getCursorQuantumStart());
     output.put("cursorQuantumEnd", emc.getCursorQuantumEnd());
     output.put("editorMode", emc.getEditorMode());
-    output.put("editorSubmode", emc.getEditorSubmode());
+    output.put("editorSubmode", editorSubmode);
     output.put("cursorQuantum", emc.getCursorQuantum().getName());
     output.put("isAtQuantumStart", emc.getIsAtQuantumStart());
     output.put("isInCommandState", emc.getIsInCommandState());
     output.put("commandStateContent", emc.getCommandStateContent());
     output.put("commandCursor", emc.getCommandCursor());
+    if(editorSubmode.name().equals("search")) {
+      ExecutionDataStack eds = emc.getExecutionDataStack();
+      String searchTarget = "";
+      if(eds.size() > 0) {
+        searchTarget = (String) eds.peek();
+      }
+      searchTarget += "_";
+      output.put("searchTarget", searchTarget);
+    }
     return output;
   }
 
