@@ -1,8 +1,8 @@
 package com.ple.visur;
 
-public class ChangeQuantumHandler implements KeymapHandler {
-  public static ChangeQuantumHandler make() {
-    return new ChangeQuantumHandler();
+public class ChangeCursorQuantumHandler implements KeymapHandler {
+  public static ChangeCursorQuantumHandler make() {
+    return new ChangeCursorQuantumHandler();
   }
 
   @Override
@@ -15,7 +15,7 @@ public class ChangeQuantumHandler implements KeymapHandler {
     if(quantumName == null) {
       return null;
     } else {
-      String sentence = "\"" + quantumName + "\" changeQuantum";
+      String sentence = "\"" + quantumName + "\" changeCursorQuantum";
       return ccs.compile(sentence);
     }
   }

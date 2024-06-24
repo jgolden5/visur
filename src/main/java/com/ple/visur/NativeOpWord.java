@@ -29,8 +29,8 @@ public class NativeOpWord implements Word {
         case "removeSubmode":
           op = new RemoveSubmodeOp();
           break;
-        case "changeQuantum":
-          op = new ChangeQuantumOp();
+        case "changeCursorQuantum":
+          op = new ChangeCursorQuantumOp();
           break;
         case "+":
           op = new AddOperator();

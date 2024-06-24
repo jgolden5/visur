@@ -198,13 +198,13 @@ public class InitializerService {
       scs.compile("\"span\" pushSubmode")
     );
     keymap.put(KeyPressed.from("i"),
-      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"insert\" changeMode 0 setSpan \"character\" changeQuantum")
+      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"insert\" changeMode 0 setSpan \"character\" changeCursorQuantum")
     );
     keymap.put(KeyPressed.from("a"),
-      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"insert\" changeMode 0 setSpan 1 0 relativeMove \"character\" changeQuantum")
+      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"insert\" changeMode 0 setSpan 1 0 relativeMove \"character\" changeCursorQuantum")
     );
     keymap.put(KeyPressed.from("o"),
-      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"replace\" changeMode 0 setSpan \"character\" changeQuantum")
+      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"replace\" changeMode 0 setSpan \"character\" changeCursorQuantum")
     );
     keymap.put(KeyPressed.from("d"),
       scs.compile("deleteCursorQuantum")
@@ -213,7 +213,7 @@ public class InitializerService {
       scs.compile("clearEDS \"search\" pushSubmode")
     );
     final KeymapHandler[] handlers = new KeymapHandler[1];
-    handlers[0] = ChangeQuantumHandler.make();
+    handlers[0] = ChangeCursorQuantumHandler.make();
     keymap.putHandlers(handlers);
     return keymap;
   }
@@ -249,7 +249,7 @@ public class InitializerService {
   private Keymap initializeInsertKeymap(Keymap insertKeymap) {
     CommandCompileService scs = ServiceHolder.commandCompileService;
     insertKeymap.put(KeyPressed.from("Escape"),
-      scs.compile("\"tempSpan\" \"span\" -> \"tempCursorQuantum\" changeQuantum \"tempSpan\" removeGlobalVar \"tempCursorQuantum\" removeGlobalVar \"navigate\" changeMode")
+      scs.compile("\"tempSpan\" \"span\" -> \"tempCursorQuantum\" changeCursorQuantum \"tempSpan\" removeGlobalVar \"tempCursorQuantum\" removeGlobalVar \"navigate\" changeMode")
     );
     insertKeymap.put(KeyPressed.from("ArrowLeft"),
       scs.compile("-1 0 relativeMove")
@@ -276,7 +276,7 @@ public class InitializerService {
   private Keymap initializeReplaceKeymap(Keymap replaceKeymap) {
     CommandCompileService scs = ServiceHolder.commandCompileService;
     replaceKeymap.put(KeyPressed.from("Escape"),
-      scs.compile("\"tempSpan\" \"span\" -> \"tempCursorQuantum\" changeQuantum \"tempSpan\" removeGlobalVar \"tempCursorQuantum\" removeGlobalVar \"navigate\" changeMode")
+      scs.compile("\"tempSpan\" \"span\" -> \"tempCursorQuantum\" changeCursorQuantum \"tempSpan\" removeGlobalVar \"tempCursorQuantum\" removeGlobalVar \"navigate\" changeMode")
     );
     replaceKeymap.put(KeyPressed.from("ArrowLeft"),
       scs.compile("-1 0 relativeMove")

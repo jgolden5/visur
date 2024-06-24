@@ -1,13 +1,13 @@
 package com.ple.visur;
 
-public class ChangeQuantumOp implements Operator {
+public class ChangeCursorQuantumOp implements Operator {
 
   @Override
   public void execute(Object opInfo) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
-    String quantumName = getQuantumName(emc);
-    if(quantumName != null) {
-      Quantum targetQuantum = emc.getQuantumNameToQuantum().get(quantumName);
+    String cursorQuantumName = getQuantumName(emc);
+    if(cursorQuantumName != null) {
+      Quantum targetQuantum = emc.getQuantumNameToQuantum().get(cursorQuantumName);
       int[] bounds = targetQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
       emc.putCursorQuantumStart(bounds[0]);
       emc.putCursorQuantumEnd(bounds[1]);
