@@ -311,7 +311,7 @@ public class InitializerService {
     final KeymapHandler[] changeScopeHandlers = new KeymapHandler[1];
     changeScopeHandlers[0] = ChangeScopeSubmodeHandler.make();
     changeScopeKeymap.putHandlers(changeScopeHandlers);
-    
+
     return changeScopeKeymap;
   }
 

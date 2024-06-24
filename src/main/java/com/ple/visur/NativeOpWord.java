@@ -65,6 +65,9 @@ public class NativeOpWord implements Word {
         case "replaceChar":
           op = new ReplaceCharOp();
           break;
+        case "changeScope":
+          op = new ChangeScopeOp();
+          break;
         case "search":
           op = new SearchOp();
           break;

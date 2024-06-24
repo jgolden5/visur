@@ -8,7 +8,16 @@ public class ChangeScopeSubmodeHandler implements KeymapHandler {
 
   @Override
   public VisurCommand toVisurCommand(KeyPressed keyPressed) {
-    return null;
+    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
+    CommandCompileService ccs = CommandCompileService.make();
+    String sentence = "";
+    KeyToQuantumName keyToQuantumName = emc.getKeyToQuantumName();
+    String scopeName = keyToQuantumName.get(keyPressed.getKey());
+    if(scopeName != null) {
+      sentence += "\"" + scopeName + "\" changeScope ";
+    }
+    sentence += "\"navigate\" pushSubmode";
+    return ccs.compile(sentence);
   }
 
 }
