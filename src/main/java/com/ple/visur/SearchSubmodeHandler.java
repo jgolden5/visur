@@ -21,6 +21,8 @@ public class SearchSubmodeHandler implements KeymapHandler {
       return ccs.compile("\"character\" changeCursorQuantum search \"navigate\" pushSubmode");
     } else if(key.equals("Escape")) {
       return ccs.compile("\"navigate\" pushSubmode");
+    } else if(key.equals("Backspace")) {
+      return ccs.compile("removeLastCharInSearchTarget");
     } else {
       return null;
     }
