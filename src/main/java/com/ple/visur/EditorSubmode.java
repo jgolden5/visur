@@ -6,7 +6,8 @@ public enum EditorSubmode {
   quantumStart,
   quantumEnd,
   span,
-  replace;
+  replace,
+  search;
 
   public static EditorSubmode getSubmodeByString(String str) {
     for(EditorSubmode submode : EditorSubmode.values()) {

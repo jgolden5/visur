@@ -154,6 +154,10 @@ public class InitializerService {
     spanKeymap = initializeSpanKeymap(spanKeymap);
     keymapMap.put(EditorSubmode.span, spanKeymap);
 
+    Keymap searchKeymap = Keymap.make("search");
+    searchKeymap = initializeSearchKeymap(searchKeymap);
+    keymapMap.put(EditorSubmode.search, searchKeymap);
+
     emc.putKeymapMap(keymapMap);
 
   }
@@ -206,7 +210,7 @@ public class InitializerService {
       scs.compile("deleteCursorQuantum")
     );
     keymap.put(KeyPressed.from("f"),
-      scs.compile("search")
+      scs.compile("\"search\" changeSubmode")
     );
     final KeymapHandler[] handlers = new KeymapHandler[1];
     handlers[0] = ChangeQuantumHandler.make();
@@ -233,6 +237,13 @@ public class InitializerService {
     handlers[0] = SpanSubmodeHandler.make();
     spanKeymap.putHandlers(handlers);
     return spanKeymap;
+  }
+
+  private Keymap initializeSearchKeymap(Keymap searchKeymap) {
+    final KeymapHandler[] handlers = new KeymapHandler[1];
+    handlers[0] = SearchSubmodeHandler.make();
+    searchKeymap.putHandlers(handlers);
+    return searchKeymap;
   }
 
   private Keymap initializeInsertKeymap(Keymap insertKeymap) {
