@@ -210,7 +210,7 @@ public class InitializerService {
       scs.compile("deleteCursorQuantum")
     );
     keymap.put(KeyPressed.from("f"),
-      scs.compile("\"search\" changeSubmode")
+      scs.compile("\"search\" pushSubmode")
     );
     final KeymapHandler[] handlers = new KeymapHandler[1];
     handlers[0] = ChangeQuantumHandler.make();

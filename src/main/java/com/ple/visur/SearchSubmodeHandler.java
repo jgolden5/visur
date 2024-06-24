@@ -15,7 +15,7 @@ public class SearchSubmodeHandler implements KeymapHandler {
       searchTarget += key;
       return ccs.compile("\"" + searchTarget + "\"");
     } else if(key.equals("Enter")) {
-      return ccs.compile("search \"navigate\" changeSubmode");
+      return ccs.compile("search \"navigate\" pushSubmode");
     } else {
       return null;
     }
