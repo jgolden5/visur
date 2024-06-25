@@ -87,9 +87,14 @@ eb.onopen = function() {
     } else {
       document.getElementById("currentEditorModeDisplay").innerHTML = submode.toUpperCase() + " SUBMODE";
     }
-      if(submode == "searchForward") {
+      if(submode == "searchForward" || submode == "searchBackward") {
         document.getElementById("currentEditorModeDisplay").innerHTML = " " + scopeQuantum.toUpperCase()
-        document.getElementById("currentEditorModeDisplay").innerHTML += "/ " + searchTarget
+        if(submode == "searchForward") {
+          document.getElementById("currentEditorModeDisplay").innerHTML += " (f) "
+        } else {
+          document.getElementById("currentEditorModeDisplay").innerHTML += " (F) "
+        }
+        document.getElementById("currentEditorModeDisplay").innerHTML += searchTarget
       } else {
         document.getElementById("currentEditorModeDisplay").innerHTML += "; SPAN = " + span
       }
