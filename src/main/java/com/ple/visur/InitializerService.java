@@ -60,6 +60,7 @@ public class InitializerService {
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
     emc.putCommandCursor(emc.getCommandStateContent().length());
+    emc.putPreviousSearchTarget("");
     if(emc.getEditorContent().length() > 0) {
       emc.putSpan(1);
     } else {
