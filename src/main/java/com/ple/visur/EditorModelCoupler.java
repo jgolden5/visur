@@ -107,8 +107,7 @@ public class EditorModelCoupler {
   }
 
   public boolean getPreviousSearchDirectionWasForward() {
-    VariableMap gvm = getGlobalVarMap();
-    return (boolean)gvm.get("previousSearchDirectionWasForward").getVal();
+    return (boolean) editorModel.get(previousSearchDirectionWasForward);
   }
 
   public KeymapMap getKeymapMap() {
@@ -235,8 +234,7 @@ public class EditorModelCoupler {
   }
 
   public void putPreviousSearchDirectionWasForward(boolean prevSearchWasForward) {
-    ObjectVisurVar ovv = ObjectVisurVar.make(prevSearchWasForward);
-    putGlobalVar("previousSearchDirectionWasForward", ovv);
+    editorModel.put(previousSearchDirectionWasForward, prevSearchWasForward);
   }
 
   public void putKeymapMap(KeymapMap keymapMap) {
