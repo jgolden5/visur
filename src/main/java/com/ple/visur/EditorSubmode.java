@@ -8,6 +8,7 @@ public enum EditorSubmode {
   span,
   replace,
   searchForward,
+  searchBackward,
   changeScope;
 
   public static EditorSubmode getSubmodeByString(String str) {

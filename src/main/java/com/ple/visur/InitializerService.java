@@ -158,6 +158,10 @@ public class InitializerService {
     searchForwardKeymap = initializeSearchForwardKeymap(searchForwardKeymap);
     keymapMap.put(EditorSubmode.searchForward, searchForwardKeymap);
 
+    Keymap searchBackwardKeymap = Keymap.make("searchBackward");
+    searchBackwardKeymap = initializeSearchBackwardKeymap(searchBackwardKeymap);
+    keymapMap.put(EditorSubmode.searchBackward, searchBackwardKeymap);
+
     Keymap changeScopeKeymap = Keymap.make("changeScope");
     changeScopeKeymap = initializeChangeScopeKeymap(changeScopeKeymap);
     keymapMap.put(EditorSubmode.changeScope, changeScopeKeymap);
@@ -254,6 +258,13 @@ public class InitializerService {
     handlers[0] = SearchForwardSubmodeHandler.make();
     searchForwardKeymap.putHandlers(handlers);
     return searchForwardKeymap;
+  }
+
+  private Keymap initializeSearchBackwardKeymap(Keymap searchBackwardKeymap) {
+    final KeymapHandler[] handlers = new KeymapHandler[1];
+    handlers[0] = SearchBackwardSubmodeHandler.make();
+    searchBackwardKeymap.putHandlers(handlers);
+    return searchBackwardKeymap;
   }
 
   private Keymap initializeInsertKeymap(Keymap insertKeymap) {

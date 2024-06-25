@@ -74,6 +74,9 @@ public class NativeOpWord implements Word {
         case "searchForward":
           op = new SearchForwardOp();
           break;
+        case "searchBackward":
+          op = new SearchBackwardOp();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }
