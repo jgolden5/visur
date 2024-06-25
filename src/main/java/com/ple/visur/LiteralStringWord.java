@@ -7,7 +7,7 @@ public class LiteralStringWord implements Word {
 
   @Override
   public CompiledWordResponse compile(String sentence) {
-    Pattern pattern = Pattern.compile("(\"[^\"]*\"*)(.*)");
+    Pattern pattern = Pattern.compile("(\".*\")(.*)");
     Matcher matcher = pattern.matcher(sentence);
     if(matcher.matches()) {
       Operator op = new LiteralStringOp();
