@@ -80,6 +80,9 @@ public class NativeOpWord implements Word {
         case "searchInPreviousDirection":
           op = new SearchInPreviousDirectionOp();
           break;
+        case "searchNotInPreviousDirection":
+          op = new SearchNotInPreviousDirectionOp();
+          break;
         default:
           System.out.println("operator " + opSource + " not recognized.");
       }
