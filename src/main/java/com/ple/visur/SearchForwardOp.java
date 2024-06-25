@@ -1,6 +1,6 @@
 package com.ple.visur;
 
-public class SearchOp implements Operator {
+public class SearchForwardOp implements Operator {
   @Override
   public void execute(Object opInfo) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
@@ -12,7 +12,7 @@ public class SearchOp implements Operator {
     if (searchTarget.equals("")) {
       System.out.println("No search target found");
     } else {
-      System.out.println("search target = " + searchTarget);
+      System.out.println("forward search target = " + searchTarget);
       String editorContent = emc.getEditorContent();
       Quantum scopeQuantum = emc.getScopeQuantum();
       int[] scopeQuantumBounds = scopeQuantum.getBoundaries(editorContent, emc.getNewlineIndices(), 1, false); //span is always 1 when searching within a scopeQuantum

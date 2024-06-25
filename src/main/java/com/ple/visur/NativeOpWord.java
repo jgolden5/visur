@@ -71,8 +71,8 @@ public class NativeOpWord implements Word {
         case "removeLastCharInSearchTarget":
           op = new RemoveLastCharInSearchTargetOp();
           break;
-        case "search":
-          op = new SearchOp();
+        case "searchForward":
+          op = new SearchForwardOp();
           break;
         default:
           System.out.println("operator " + opSource + " not recognized.");

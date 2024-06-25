@@ -46,7 +46,7 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
     output.put("isInCommandState", emc.getIsInCommandState());
     output.put("commandStateContent", emc.getCommandStateContent());
     output.put("commandCursor", emc.getCommandCursor());
-    if(editorSubmode.name().equals("search")) {
+    if(editorSubmode.name().equals("searchForward")) {
       ExecutionDataStack eds = emc.getExecutionDataStack();
       String searchTarget = "";
       if(eds.size() > 0) {

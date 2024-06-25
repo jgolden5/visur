@@ -154,9 +154,9 @@ public class InitializerService {
     spanKeymap = initializeSpanKeymap(spanKeymap);
     keymapMap.put(EditorSubmode.span, spanKeymap);
 
-    Keymap searchKeymap = Keymap.make("search");
-    searchKeymap = initializeSearchKeymap(searchKeymap);
-    keymapMap.put(EditorSubmode.search, searchKeymap);
+    Keymap searchForwardKeymap = Keymap.make("searchForward");
+    searchForwardKeymap = initializeSearchForwardKeymap(searchForwardKeymap);
+    keymapMap.put(EditorSubmode.searchForward, searchForwardKeymap);
 
     Keymap changeScopeKeymap = Keymap.make("changeScope");
     changeScopeKeymap = initializeChangeScopeKeymap(changeScopeKeymap);
@@ -214,7 +214,10 @@ public class InitializerService {
       scs.compile("deleteCursorQuantum")
     );
     keymap.put(KeyPressed.from("f"),
-      scs.compile("clearEDS \"search\" pushSubmode")
+      scs.compile("clearEDS \"searchForward\" pushSubmode")
+    );
+    keymap.put(KeyPressed.from("F"),
+      scs.compile("clearEDS \"searchBackward\" pushSubmode")
     );
     keymap.put(KeyPressed.from("/"),
       scs.compile("\"changeScope\" pushSubmode")
@@ -246,11 +249,11 @@ public class InitializerService {
     return spanKeymap;
   }
 
-  private Keymap initializeSearchKeymap(Keymap searchKeymap) {
+  private Keymap initializeSearchForwardKeymap(Keymap searchForwardKeymap) {
     final KeymapHandler[] handlers = new KeymapHandler[1];
-    handlers[0] = SearchSubmodeHandler.make();
-    searchKeymap.putHandlers(handlers);
-    return searchKeymap;
+    handlers[0] = SearchForwardSubmodeHandler.make();
+    searchForwardKeymap.putHandlers(handlers);
+    return searchForwardKeymap;
   }
 
   private Keymap initializeInsertKeymap(Keymap insertKeymap) {

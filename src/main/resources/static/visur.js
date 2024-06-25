@@ -87,7 +87,7 @@ eb.onopen = function() {
     } else {
       document.getElementById("currentEditorModeDisplay").innerHTML = submode.toUpperCase() + " SUBMODE";
     }
-      if(submode == "search") {
+      if(submode == "searchForward") {
         document.getElementById("currentEditorModeDisplay").innerHTML = " " + scopeQuantum.toUpperCase()
         document.getElementById("currentEditorModeDisplay").innerHTML += "/ " + searchTarget
       } else {

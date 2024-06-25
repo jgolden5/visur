@@ -1,8 +1,8 @@
 package com.ple.visur;
 
-public class SearchSubmodeHandler implements KeymapHandler {
-  public static SearchSubmodeHandler make() {
-    return new SearchSubmodeHandler();
+public class SearchForwardSubmodeHandler implements KeymapHandler {
+  public static SearchForwardSubmodeHandler make() {
+    return new SearchForwardSubmodeHandler();
   }
 
   @Override
@@ -18,7 +18,7 @@ public class SearchSubmodeHandler implements KeymapHandler {
       searchTarget += key;
       return ccs.compile("\"" + searchTarget + "\"");
     } else if(key.equals("Enter")) {
-      return ccs.compile("search \"navigate\" pushSubmode");
+      return ccs.compile("searchForward \"navigate\" pushSubmode");
     } else if(key.equals("Escape")) {
       return ccs.compile("\"navigate\" pushSubmode");
     } else if(key.equals("Backspace")) {
