@@ -102,11 +102,13 @@ public class EditorModelCoupler {
   }
 
   public String getPreviousSearchTarget() {
-    return (String) editorModel.get(previousSearchTarget);
+    VariableMap gvm = getGlobalVarMap();
+    return (String)gvm.get("previousSearchTarget").getVal();
   }
 
   public boolean getPreviousSearchDirectionWasForward() {
-    return (boolean) editorModel.get(previousSearchDirectionWasForward);
+    VariableMap gvm = getGlobalVarMap();
+    return (boolean)gvm.get("previousSearchDirectionWasForward").getVal();
   }
 
   public KeymapMap getKeymapMap() {
@@ -228,11 +230,13 @@ public class EditorModelCoupler {
   }
 
   public void putPreviousSearchTarget(String pst) {
-    editorModel.put(previousSearchTarget, pst);
+    ObjectVisurVar ovv = ObjectVisurVar.make(pst);
+    putGlobalVar("previousSearchTarget", ovv);
   }
 
   public void putPreviousSearchDirectionWasForward(boolean prevSearchWasForward) {
-    editorModel.put(previousSearchDirectionWasForward, prevSearchWasForward);
+    ObjectVisurVar ovv = ObjectVisurVar.make(prevSearchWasForward);
+    putGlobalVar("previousSearchDirectionWasForward", ovv);
   }
 
   public void putKeymapMap(KeymapMap keymapMap) {

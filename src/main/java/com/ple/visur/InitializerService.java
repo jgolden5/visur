@@ -223,6 +223,12 @@ public class InitializerService {
     keymap.put(KeyPressed.from("F"),
       scs.compile("clearEDS \"searchBackward\" pushSubmode")
     );
+    keymap.put(KeyPressed.from("n"),
+      scs.compile("previousSearchTarget searchForward")
+    );
+    keymap.put(KeyPressed.from("N"),
+      scs.compile("previousSearchTarget searchBackward")
+    );
     keymap.put(KeyPressed.from("/"),
       scs.compile("\"changeScope\" pushSubmode")
     );

@@ -19,7 +19,10 @@ public class SearchForwardSubmodeHandler implements KeymapHandler {
       searchTarget += key;
       return ccs.compile("\"" + searchTarget + "\"");
     } else if(key.equals("Enter")) {
-      String searchTarget = (String)eds.peek();
+      String searchTarget = "";
+      if(eds.size() > 0) {
+        searchTarget = (String) eds.peek();
+      }
       emc.putPreviousSearchTarget(searchTarget);
       emc.putPreviousSearchDirectionWasForward(true);
       return ccs.compile("searchForward \"navigate\" pushSubmode");
