@@ -7,10 +7,11 @@ public class SearchForwardSubmodeHandler implements KeymapHandler {
 
   @Override
   public VisurCommand toVisurCommand(KeyPressed keyPressed) {
+    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     CommandCompileService ccs = CommandCompileService.make();
     String key = keyPressed.getKey();
+    ExecutionDataStack eds = emc.getExecutionDataStack();
     if(key.length() == 1) {
-      ExecutionDataStack eds = ServiceHolder.editorModelCoupler.getExecutionDataStack();
       String searchTarget = "";
       if(eds.size() > 0) {
         searchTarget = (String) eds.pop();
@@ -18,6 +19,9 @@ public class SearchForwardSubmodeHandler implements KeymapHandler {
       searchTarget += key;
       return ccs.compile("\"" + searchTarget + "\"");
     } else if(key.equals("Enter")) {
+      String searchTarget = (String)eds.peek();
+      emc.putPreviousSearchTarget(searchTarget);
+      emc.putPreviousSearchDirectionWasForward(true);
       return ccs.compile("searchForward \"navigate\" pushSubmode");
     } else if(key.equals("Escape")) {
       return ccs.compile("\"navigate\" pushSubmode");

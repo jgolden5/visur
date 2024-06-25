@@ -29,4 +29,6 @@ public enum EditorModelKey {
   keyToQuantumName,
   span,
   isAtQuantumStart,
+  previousSearchTarget,
+  previousSearchDirectionWasForward,
 }

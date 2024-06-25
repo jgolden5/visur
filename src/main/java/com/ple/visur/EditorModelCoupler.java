@@ -101,6 +101,14 @@ public class EditorModelCoupler {
     return (Stack<EditorSubmode>) editorModel.get(editorSubmodeStack);
   }
 
+  public String getPreviousSearchTarget() {
+    return (String) editorModel.get(previousSearchTarget);
+  }
+
+  public boolean getPreviousSearchDirectionWasForward() {
+    return (boolean) editorModel.get(previousSearchDirectionWasForward);
+  }
+
   public KeymapMap getKeymapMap() {
     return (KeymapMap) editorModel.get(modeToKeymap);
   }
@@ -217,6 +225,14 @@ public class EditorModelCoupler {
 
   public void putEditorSubmodeStack(Stack<EditorSubmode> submodeStack) {
     editorModel.put(editorSubmodeStack, submodeStack);
+  }
+
+  public void putPreviousSearchTarget(String pst) {
+    editorModel.put(previousSearchTarget, pst);
+  }
+
+  public void putPreviousSearchDirectionWasForward(boolean prevSearchWasForward) {
+    editorModel.put(previousSearchDirectionWasForward, prevSearchWasForward);
   }
 
   public void putKeymapMap(KeymapMap keymapMap) {
