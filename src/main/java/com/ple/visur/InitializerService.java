@@ -228,7 +228,7 @@ public class InitializerService {
       scs.compile("previousSearchTarget searchInPreviousDirection")
     );
     keymap.put(KeyPressed.from("N"),
-      scs.compile("previousSearchTarget searchBackward")
+      scs.compile("previousSearchTarget searchInPreviousDirection")
     );
     keymap.put(KeyPressed.from("/"),
       scs.compile("\"changeScope\" pushSubmode")

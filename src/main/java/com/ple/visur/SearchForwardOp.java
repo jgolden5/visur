@@ -32,5 +32,7 @@ public class SearchForwardOp implements Operator {
         }
       }
     }
+    emc.putPreviousSearchTarget(searchTarget);
+    emc.putPreviousSearchDirectionWasForward(true);
   }
 }
