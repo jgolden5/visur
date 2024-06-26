@@ -17,7 +17,8 @@ public class SearchForwardSubmodeHandler implements KeymapHandler {
         searchTarget = (String) eds.pop();
       }
       searchTarget += key;
-      return ccs.compile("\"" + searchTarget + "\"");
+      eds.push(searchTarget); //add entry manually to not have to worry about weird regex edge case matching double quote or space within double quote
+      return null;
     } else if(key.equals("Enter")) {
       String searchTarget = "";
       if(eds.size() > 0) {
