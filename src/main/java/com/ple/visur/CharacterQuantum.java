@@ -77,43 +77,24 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveDown(String editorContent, ArrayList<Integer> newlineIndices) {
+    int cx = emc.getCX();
     int cy = emc.getCY();
-    boolean canMoveDown;
+    int lineEnd = cy < newlineIndices.size() ? newlineIndices.get(cy) : editorContent.length();
+    int canvasWidth = emc.getCanvasWidth();
     int span = emc.getSpan();
+    boolean shouldIncrementCY;
     if(span > 0) {
-      boolean lastCharInContentIsNewline = editorContent.charAt(editorContent.length() - 1) == '\n';
-      canMoveDown = lastCharInContentIsNewline ? cy < newlineIndices.size() - 1 : cy < newlineIndices.size();
+      shouldIncrementCY = cx + canvasWidth >= lineEnd;
     } else {
-      canMoveDown = cy < newlineIndices.size();
+      shouldIncrementCY = cx + canvasWidth > lineEnd;
     }
-    if(canMoveDown) {
-      cy++;
-      emc.putCY(cy);
-      boolean editorContentContainsNewlineChar = newlineIndices.size() > 0;
-      int lineStartBound, lineEndBound;
-      if(editorContentContainsNewlineChar) {
-        lineStartBound = cy > 0 ? newlineIndices.get(cy - 1) + 1 : 0;
-        if(cy < newlineIndices.size()) {
-          lineEndBound = newlineIndices.get(cy);
-        } else {
-          lineEndBound = editorContent.length();
-        }
-      } else {
-        lineStartBound = 0;
-        lineEndBound = editorContent.length();
-      }
-      int currentLineLength = lineEndBound - lineStartBound;
-      int cx;
-      int virtualCX = emc.getVirtualCX();
-      boolean virtualCXIsTooLong;
-      virtualCXIsTooLong = virtualCX > currentLineLength;
-      if(virtualCXIsTooLong) {
-        cx = currentLineLength;
-      } else {
-        cx = virtualCX;
-      }
-      emc.putCX(cx);
+    if(shouldIncrementCY) {
+      cx = cx > 0 ? cx % canvasWidth : 0;
+      emc.putCY(cy + 1);
+    } else {
+      cx += canvasWidth;
     }
+    emc.putCX(cx);
     int ca = emc.getCA();
     return ca;
   }
