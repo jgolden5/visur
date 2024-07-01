@@ -52,28 +52,23 @@ public class CharacterQuantum extends Quantum {
     int destination = ca + 1;
 
     emc.putCA(destination);
-    emc.putVirtualCX(emc.getCX());
+    int cx = emc.getCX();
+    int canvasWidth = emc.getCanvasWidth();
+    emc.putVirtualCX(cx % canvasWidth);
 
     return destination;
   }
 
   private int moveLeft() {
-    BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
-    int destination = (int)caBVV.getVal();
-    if(destination > 0) {
-      destination--;
+    int ca = emc.getCA();
+    if(ca > 0) {
+      emc.putCA(--ca);
     }
+    int cx = emc.getCX();
+    int canvasWidth = emc.getCanvasWidth();
+    emc.putVirtualCX(cx % canvasWidth);
 
-    String editorContent = emc.getEditorContent();
-    if(destination < editorContent.length() && editorContent.charAt(destination) == '\n') {
-      emc.putCA(destination);
-      emc.putVirtualCX(emc.getCX());
-    } else {
-      emc.putCA(destination);
-      emc.putVirtualCX(emc.getCX());
-    }
-
-    return destination;
+    return ca;
   }
 
   private int moveDown(String editorContent, ArrayList<Integer> newlineIndices) {
