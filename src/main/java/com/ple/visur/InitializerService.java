@@ -54,6 +54,7 @@ public class InitializerService {
 
     emc.initializeEditorContent(initialEditorContent);
     emc.updateNewlineIndices();
+    emc.putLineWrapping(LineWrapping.wrapped);
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(0);
     emc.putGlobalVar("ca", caBVV);

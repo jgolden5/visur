@@ -31,4 +31,5 @@ public enum EditorModelKey {
   isAtQuantumStart,
   previousSearchTarget,
   previousSearchDirectionWasForward,
+  lineWrapping,
 }

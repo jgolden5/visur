@@ -45,6 +45,10 @@ public class EditorModelCoupler {
     return ecs.getGlobalVarMap(editorModel);
   }
 
+  public LineWrapping getLineWrapping() {
+    return (LineWrapping) editorModel.get(lineWrapping);
+  }
+
   public int getCA() {
     BrickVisurVar caBVV = (BrickVisurVar) getGlobalVar("ca");
     return (int)caBVV.getVal();
@@ -169,11 +173,17 @@ public class EditorModelCoupler {
   public void putEditorContent(String content) {
     ecs.putEditorContent(content, editorModel);
   }
+
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
     ecs.putGlobalVar(globalVarName, globalVarValue, editorModel);
   }
+
   public void putGlobalVarMap(VariableMap gvm) {
     ecs.putGlobalVarMap(gvm, editorModel);
+  }
+
+  public void putLineWrapping(LineWrapping lw) {
+    editorModel.put(lineWrapping, lw);
   }
 
   public void putCA(int ca) {
