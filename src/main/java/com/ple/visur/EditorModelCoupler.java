@@ -122,7 +122,7 @@ public class EditorModelCoupler {
     if(cy == 0) {
       currentLine = editorContent.substring(0, newlineIndices.get(cy));
     } else if(cy == newlineIndices.size()) {
-      currentLine = editorContent.substring(newlineIndices.get(cy));
+      currentLine = editorContent.substring(newlineIndices.get(cy - 1) + 1);
     } else {
       currentLine = editorContent.substring(newlineIndices.get(cy - 1), newlineIndices.get(cy));
     }

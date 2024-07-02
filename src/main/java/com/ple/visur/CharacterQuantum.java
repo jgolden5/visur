@@ -77,14 +77,14 @@ public class CharacterQuantum extends Quantum {
     int canvasWidth = emc.getCanvasWidth();
     int[] shortBounds = emc.calcShortLineBoundaries();
     boolean isOnLastShortLineInLongLine = shortBounds[1] - shortBounds[0] < canvasWidth;
-    boolean isAtEndOfEditorContent = (newlineIndices.size() == 0 && cx == editorContent.length()) ||
+    boolean isAtEndOfEditorContent = cy == newlineIndices.size() ||
                                      newlineIndices.get(cy) + cx == editorContent.length();
     boolean shouldIncrementCY = isOnLastShortLineInLongLine && !isAtEndOfEditorContent;
     int virtualCX = emc.getVirtualCX();
     int[] longBounds;
     if(shouldIncrementCY) {
       emc.putCY(++cy);
-      emc.putCX(0); //default for testing getLongLineBoundaries
+      emc.putCX(0); //default for testing getLongLineBoundaries so old cx does not mismatch ca with new cy
       longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, false);
       cx = virtualCX < longBounds[1] - longBounds[0] ? virtualCX : longBounds[1] - longBounds[0];
     } else {

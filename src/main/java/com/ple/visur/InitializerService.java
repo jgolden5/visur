@@ -38,14 +38,14 @@ public class InitializerService {
 
     emc.putExecutionDataStack(new ExecutionDataStack());
 
-//    final String initialEditorContent = "Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world Hello world \n" +
-//      "How are you? How are you? How are you? How are you? How are you? How are you? How are you? How are you? How are you? How are you? How are you? How are you? How are you? \n" +
-//      "Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye Goodbye ";
+    final String initialEditorContent = "Hello world\n" +
+      "How are you?\n" +
+      "Goodbye";
 //    final String initialEditorContent = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nbbb";
-    final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
-      "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
-      "One's devotion to Vehumet can be proven by the causing of as much carnage and destruction as possible.\n" +
-      "Worshippers of Vehumet will quickly be able to recover their magical energy upon killing beings.\n";
+//    final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
+//      "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
+//      "One's devotion to Vehumet can be proven by the causing of as much carnage and destruction as possible.\n" +
+//      "Worshippers of Vehumet will quickly be able to recover their magical energy upon killing beings.\n" +
 //      "As they gain favour, they will also gain enhancements to their destructive spells — first assistance in casting such spells and then increased range for conjurations.\n" +
 //      "Vehumet will offer followers the knowledge of increasingly powerful destructive spells as they gain piety.\n" +
 //      "Whether \"having spells as a god\" is a good thing is up to you, but it does come with a few downsides. Without active abilities, you have less ways to deal with a dangerous situation. In addition, Vehumet is one of the weaker gods for the early game. For spellcaster backgrounds, the first few spell gifts generally won't be much of an improvement compared to your own spells. Characters new to spellcasting have to take time to train up magic, which might not be all that powerful by the time you hit 1* or even 3*. Furthermore, there are ways to get an \"engine\" without taking up the god slot.";
