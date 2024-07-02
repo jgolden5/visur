@@ -74,20 +74,27 @@ public class CharacterQuantum extends Quantum {
   private int moveDown(String editorContent, ArrayList<Integer> newlineIndices) {
     int cx = emc.getCX();
     int cy = emc.getCY();
-    int lineEnd = cy < newlineIndices.size() ? newlineIndices.get(cy) : editorContent.length();
     int canvasWidth = emc.getCanvasWidth();
-    int span = emc.getSpan();
-    boolean shouldIncrementCY;
-    if(span > 0) {
-      shouldIncrementCY = cx + canvasWidth >= lineEnd;
-    } else {
-      shouldIncrementCY = cx + canvasWidth > lineEnd;
-    }
+    int[] shortBounds = emc.calcShortLineBoundaries();
+    boolean isOnLastShortLineInLongLine = shortBounds[1] - shortBounds[0] < canvasWidth;
+    boolean isAtEndOfEditorContent = (newlineIndices.size() == 0 && cx == editorContent.length()) ||
+                                     newlineIndices.get(cy) + cx == editorContent.length();
+    boolean shouldIncrementCY = isOnLastShortLineInLongLine && !isAtEndOfEditorContent;
+    int virtualCX = emc.getVirtualCX();
+    int[] longBounds;
     if(shouldIncrementCY) {
-      cx = cx > 0 ? cx % canvasWidth : 0;
-      emc.putCY(cy + 1);
+      emc.putCY(++cy);
+      emc.putCX(0); //default for testing getLongLineBoundaries
+      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, false);
+      cx = virtualCX < longBounds[1] - longBounds[0] ? virtualCX : longBounds[1] - longBounds[0];
     } else {
-      cx += canvasWidth;
+      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, false);
+      if(!isAtEndOfEditorContent) {
+        cx = cx + canvasWidth < longBounds[1] - longBounds[0] ? cx + canvasWidth : longBounds[1] - longBounds[0];
+      }
+    }
+    if(isAtEndOfEditorContent && emc.getSpan() == 0) {
+      cx--;
     }
     emc.putCX(cx);
     int ca = emc.getCA();

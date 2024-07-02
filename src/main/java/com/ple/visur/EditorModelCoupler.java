@@ -72,8 +72,8 @@ public class EditorModelCoupler {
     return ecs.getNewlineIndices(editorModel);
   }
 
-  public int[] getCurrentLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
-    return ecs.getCurrentLineBoundaries(editorContent, newlineIndices, includeTail, editorModel);
+  public int[] getLongLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, boolean includeTail) {
+    return ecs.getLongLineBoundaries(editorContent, newlineIndices, includeTail, editorModel);
   }
 
   public int getVirtualCX() {
@@ -90,6 +90,43 @@ public class EditorModelCoupler {
 
   public int getCanvasHeight() {
     return ecs.getCanvasHeight(editorModel);
+  }
+
+  public int[] calcShortLineBoundaries() {
+    int[] shortBounds = new int[2];
+    int canvasWidth = getCanvasWidth();
+    int cx = getCX();
+    for(int i = cx; i > 0; i--) {
+      if(i % canvasWidth == 0) {
+        shortBounds[0] = i;
+        break;
+      }
+    }
+
+    String currentLine = getCurrentLine();
+    int currentLineLength = currentLine.length();
+    for(int i = cx > 0 ? cx : cx + 1; i < currentLineLength; i++) {
+      if(i % canvasWidth == 0 || i == currentLineLength - 1) {
+        shortBounds[1] = i;
+        break;
+      }
+    }
+    return shortBounds;
+  }
+
+  public String getCurrentLine() {
+    String currentLine;
+    String editorContent = getEditorContent();
+    ArrayList<Integer> newlineIndices = getNewlineIndices();
+    int cy = getCY();
+    if(cy == 0) {
+      currentLine = editorContent.substring(0, newlineIndices.get(cy));
+    } else if(cy == newlineIndices.size()) {
+      currentLine = editorContent.substring(newlineIndices.get(cy));
+    } else {
+      currentLine = editorContent.substring(newlineIndices.get(cy - 1), newlineIndices.get(cy));
+    }
+    return currentLine;
   }
 
   public EditorMode getEditorMode() {
