@@ -81,7 +81,6 @@ public class CharacterQuantum extends Quantum {
     boolean shouldIncrementCY = isOnLastShortLineInLongLine && !isAtEndOfEditorContent;
     int virtualCX = emc.getVirtualCX();
     int[] longBounds;
-    int span = emc.getSpan();
     if(shouldIncrementCY) {
       emc.putCY(++cy);
       emc.putCX(0); //default for testing getLongLineBoundaries so old cx does not mismatch ca with new cy
@@ -95,12 +94,10 @@ public class CharacterQuantum extends Quantum {
         cx = longBounds[1] - longBounds[0];
       }
     }
-//    if(span > 0 && cy == newlineIndices.size() && cx + longBounds[0] == editorContent.length()) {
-//      cx--;
-//    }
     emc.putCX(cx);
+    int span = emc.getSpan();
     int ca = emc.getCA();
-    return ca;
+    return span > 0 && ca == editorContent.length() ? --ca : ca;
   }
 
   private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {
