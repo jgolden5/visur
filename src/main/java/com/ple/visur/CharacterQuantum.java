@@ -84,10 +84,10 @@ public class CharacterQuantum extends Quantum {
     if(shouldIncrementCY) {
       emc.putCY(++cy);
       emc.putCX(0); //default for testing getLongLineBoundaries so old cx does not mismatch ca with new cy
-      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, false);
+      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, 1, false);
       cx = virtualCX < longBounds[1] - longBounds[0] ? virtualCX : longBounds[1] - longBounds[0];
     } else if(!isAtEndOfEditorContent) {
-      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, false);
+      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, 1, false);
       if(!isAtEndOfEditorContent) {
         cx = cx + canvasWidth < longBounds[1] - longBounds[0] ? cx + canvasWidth : longBounds[1] - longBounds[0];
       } else {
