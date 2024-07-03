@@ -114,11 +114,11 @@ public class CharacterQuantum extends Quantum {
       emc.putCY(--cy);
       emc.putCX(0); //default for testing getLongLineBoundaries so old cx does not mismatch ca with new cy
       longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, 1, false);
-      cx = virtualCX < longBounds[1] ? virtualCX : longBounds[1];
+      int numberOfTrailingCharsAtEndOfLongLine = longBounds[1] - longBounds[1] % canvasWidth;
+      int numberOfShortLinesInLongLine = numberOfTrailingCharsAtEndOfLongLine > 0 ? (int)Math.ceil(longBounds[1] / (numberOfTrailingCharsAtEndOfLongLine)) : 1;
+      cx = virtualCX < longBounds[1] ? virtualCX * numberOfShortLinesInLongLine : longBounds[1];
     } else if(!isAtBeginningOfEditorContent) {
-      longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, 1, false);
-      shortBounds = emc.calcShortLineBoundaries();
-      cx = cx + canvasWidth < longBounds[1] - longBounds[0] ? cx + canvasWidth : longBounds[1] - longBounds[0];
+      cx = cx < canvasWidth ? 0 : cx - canvasWidth;
     }
     emc.putCX(cx);
     int ca = emc.getCA();
