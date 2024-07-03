@@ -84,10 +84,10 @@ public class CharacterQuantum extends Quantum {
     if(shouldIncrementCY) {
       emc.putCY(++cy);
       emc.putCX(0); //default for testing getLongLineBoundaries so old cx does not mismatch ca with new cy
-      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, 1, false);
+      longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, 1, false);
       cx = virtualCX < longBounds[1] - longBounds[0] ? virtualCX : longBounds[1] - longBounds[0];
     } else if(!isAtEndOfEditorContent) {
-      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, 1, false);
+      longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, 1, false);
       if(!isAtEndOfEditorContent) {
         cx = cx + canvasWidth < longBounds[1] - longBounds[0] ? cx + canvasWidth : longBounds[1] - longBounds[0];
       } else {
@@ -101,36 +101,28 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {
-    BrickVisurVar cyBVV = (BrickVisurVar)emc.getGlobalVar("cy");
-    Integer cy = (Integer)cyBVV.getVal();
-    boolean canDecrementCY = cy > 0;
-    if(canDecrementCY) {
-      cy--;
-      cyBVV.putVal(cy);
-      boolean editorContentContainsNewlineChar = newlineIndices.size() > 0;
-      int lineStartBound, lineEndBound;
-      if(editorContentContainsNewlineChar) {
-        lineStartBound = cy > 0 ? newlineIndices.get(cy - 1) + 1 : 0;
-        lineEndBound = newlineIndices.get(cy);
-      } else {
-        lineStartBound = 0;
-        lineEndBound = editorContent.length();
-      }
-      int currentLineLength = lineEndBound - lineStartBound;
-      BrickVisurVar cxBVV = (BrickVisurVar) emc.getGlobalVar("cx");
-      int cx;
-      int virtualCX = emc.getVirtualCX();
-      boolean virtualCXIsTooLong = virtualCX > currentLineLength;
-      if(virtualCXIsTooLong) {
-        cx = currentLineLength;
-      } else {
-        cx = virtualCX;
-      }
-      cxBVV.putVal(cx);
-      emc.putGlobalVar("cx", cxBVV);
+    int cx = emc.getCX();
+    int cy = emc.getCY();
+    int canvasWidth = emc.getCanvasWidth();
+    int[] shortBounds = emc.calcShortLineBoundaries();
+    boolean isOnFirstShortLineInLongLine = shortBounds[0] == 0;
+    boolean isAtBeginningOfEditorContent = cy == 0 && cx == 0;
+    boolean shouldDecrementCY = isOnFirstShortLineInLongLine && !isAtBeginningOfEditorContent;
+    int virtualCX = emc.getVirtualCX();
+    int[] longBounds;
+    if(shouldDecrementCY) {
+      emc.putCY(--cy);
+      emc.putCX(0); //default for testing getLongLineBoundaries so old cx does not mismatch ca with new cy
+      longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, 1, false);
+      cx = virtualCX < longBounds[1] ? virtualCX : longBounds[1];
+    } else if(!isAtBeginningOfEditorContent) {
+      longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, 1, false);
+      shortBounds = emc.calcShortLineBoundaries();
+      cx = cx + canvasWidth < longBounds[1] - longBounds[0] ? cx + canvasWidth : longBounds[1] - longBounds[0];
     }
-    BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
-    return (int) caBVV.getVal();
+    emc.putCX(cx);
+    int ca = emc.getCA();
+    return ca;
   }
 
   @Override

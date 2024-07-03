@@ -57,7 +57,7 @@ public class EditorContentService {
     return currentContentLine;
   }
 
-  public int[] getLongLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail, LocalMap<EditorModelKey, Object> editorModel) {
+  public int[] calcLongLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail, LocalMap<EditorModelKey, Object> editorModel) {
     WrappedLineQuantum wrappedLineQuantum = new WrappedLineQuantum();
     return wrappedLineQuantum.getBoundaries(editorContent, newlineIndices, span, false);
   }
