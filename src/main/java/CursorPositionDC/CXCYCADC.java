@@ -176,12 +176,57 @@ public class CXCYCADC extends CompoundDataClass {
       PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
       ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
       if(name.equals("ca")) {
-        r = calculateCA(newlineIndices, cxcycaDCB);
+        r = calcCA(newlineIndices, cxcycaDCB);
       } else if(name.contains("long")) {
-        r = calculateLongCXCY(name, newlineIndices, cxcycaDCB);
+        r = calcLongCXCY(name, newlineIndices, cxcycaDCB);
       } else if(name.contains("short")) {
-        r = calculateShortCXCY(name, newlineIndices, cxcycaDCB);
+        r = calcShortCXCY(name, newlineIndices, cxcycaDCB);
       }
+    }
+    return r;
+  }
+
+  private Result<DataClassBrick> calcCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
+    Result r = Result.make();
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY"); //assuming longCXCYToCA is easier than shortToCA
+    if(longCXCYDCB.isComplete()) {
+      r = calcCAFromLongCXCY(newlineIndices, cxcycaDCB);
+    } else {
+      r = calcCAFromShortCXCY(newlineIndices, cxcycaDCB);
+    }
+    return r;
+  }
+
+  private Result<DataClassBrick> calcLongCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
+    Result<DataClassBrick> r = Result.make();
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) getInner("shortCXCY");
+    if(shortCXCYDCB.isComplete()) {
+      r = calcLongCXCYFromShortCXCY(newlineIndices, cxcycaDCB);
+    } else {
+      r = calcLongCXCYFromCA(newlineIndices, cxcycaDCB);
+    }
+    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
+    if(name.equals("longCX")) {
+      r.putVal(cxcyDCB.getInner("longCX"));
+    } else if(name.equals("longCY")) {
+      r.putVal(cxcyDCB.getInner("longCY"));
+    }
+    return r;
+  }
+
+  private Result<DataClassBrick> calcShortCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
+    Result<DataClassBrick> r = Result.make();
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY");
+    if(longCXCYDCB.isComplete()) {
+      r = calcShortCXCYFromLongCXCY(newlineIndices, cxcycaDCB);
+    } else {
+      r = calcShortCXCYFromCA(newlineIndices, cxcycaDCB);
+    }
+    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
+    if(name.equals("shortCX")) {
+      r.putVal(cxcyDCB.getInner("shortCX"));
+    } else if(name.equals("shortCY")) {
+      r.putVal(cxcyDCB.getInner("shortCY"));
     }
     return r;
   }
@@ -209,51 +254,6 @@ public class CXCYCADC extends CompoundDataClass {
     cxDCB.putSafe(cx);
     cyDCB.putSafe(cy);
     return Result.make(cxcyDCB, null);
-  }
-
-  private Result<DataClassBrick> calculateCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
-    Result r = Result.make();
-    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY"); //assuming longCXCYToCA is easier than shortToCA
-    if(longCXCYDCB.isComplete()) {
-      r = calcCAFromLongCXCY(newlineIndices, cxcycaDCB);
-    } else {
-      r = calcCAFromShortCXCY(newlineIndices, cxcycaDCB);
-    }
-    return r;
-  }
-
-  private Result<DataClassBrick> calculateShortCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
-    Result<DataClassBrick> r = Result.make();
-    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY");
-    if(longCXCYDCB.isComplete()) {
-      r = calcShortCXCYFromLongCXCY(newlineIndices, cxcycaDCB);
-    } else {
-      r = calcShortCXCYFromCA(newlineIndices, cxcycaDCB);
-    }
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
-    if(name.equals("shortCX")) {
-      r.putVal(cxcyDCB.getInner("shortCX"));
-    } else if(name.equals("shortCY")) {
-      r.putVal(cxcyDCB.getInner("shortCY"));
-    }
-    return r;
-  }
-
-  private Result<DataClassBrick> calculateLongCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
-    Result<DataClassBrick> r = Result.make();
-    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) getInner("shortCXCY");
-    if(shortCXCYDCB.isComplete()) {
-      r = calcLongCXCYFromShortCXCY(newlineIndices, cxcycaDCB);
-    } else {
-      r = calcLongCXCYFromCA(newlineIndices, cxcycaDCB);
-    }
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
-    if(name.equals("longCX")) {
-      r.putVal(cxcyDCB.getInner("longCX"));
-    } else if(name.equals("longCY")) {
-      r.putVal(cxcyDCB.getInner("longCY"));
-    }
-    return r;
   }
 
   private Result<DataClassBrick> calcCAFromLongCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
