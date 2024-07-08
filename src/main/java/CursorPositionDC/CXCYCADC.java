@@ -50,23 +50,71 @@ public class CXCYCADC extends CompoundDataClass {
   public boolean conflictsCheck(CompoundDataClassBrick cxcycaDCB, String targetName, Object targetVal) {
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cxcycaDCB.getOuter().getInner("ni");
     ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
-    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("longCXCY");
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-    if(allValuesAreSetIncludingTarget(targetName, cxDCB, cyDCB, caDCB)) {
-      int[] cxcyca = getCXCYCA(targetName, cxDCB, cyDCB, caDCB);
-      return cxcycaConflict(newlineIndices, cx, cy, ca);
+    if(moreThanOneValueWillBeSet(targetName, longCXCYDCB, shortCXCYDCB, caDCB)) {
+      int[] cxcyca = getCXCYCA(targetName, longCXCYDCB, shortCXCYDCB, caDCB);
+      return cxcycaConflict(newlineIndices, cxcyca[0], cxcyca[1], cxcyca[2], cxcyca[3], cxcyca[4]);
     } else {
       return false;
     }
   }
 
-  private boolean allValuesAreSetIncludingTarget(String targetName, PrimitiveDataClassBrick cxDCB, PrimitiveDataClassBrick cyDCB, PrimitiveDataClassBrick caDCB) {
-    boolean cxIsOrWillBeSet = cxDCB.isComplete() || targetName.contains("CX");
-    boolean cyIsOrWillBeSet = cyDCB.isComplete() || targetName.contains("CY");
-    boolean caIsOrWillBeSet = caDCB.isComplete() || targetName.equals("ca");
-    return cxIsOrWillBeSet && cyIsOrWillBeSet && caIsOrWillBeSet;
+  private boolean moreThanOneValueWillBeSet(String targetName, CompoundDataClassBrick longCXCYDCB, CompoundDataClassBrick shortCXCYDCB, PrimitiveDataClassBrick caDCB) {
+    boolean longCXCYIsOrWillBeSet = false;
+    boolean shortCXCYIsOrWillBeSet = false;
+    boolean caIsOrWillBeSet = false;
+    switch(targetName) {
+      case "longCXCY":
+        longCXCYIsOrWillBeSet = true;
+        shortCXCYIsOrWillBeSet = shortCXCYDCB.isComplete();
+        caIsOrWillBeSet = caDCB.isComplete();
+        break;
+      case "shortCXCY":
+        longCXCYIsOrWillBeSet = longCXCYDCB.isComplete();
+        shortCXCYIsOrWillBeSet = true;
+        caIsOrWillBeSet = caDCB.isComplete();
+        break;
+      case "ca":
+        longCXCYIsOrWillBeSet = longCXCYDCB.isComplete();
+        shortCXCYIsOrWillBeSet = shortCXCYDCB.isComplete();
+        caIsOrWillBeSet = true;
+        break;
+      default:
+        System.out.println("target name not recognized for checking if more than one value will be set in cxcycaDCB");
+    }
+    return longCXCYIsOrWillBeSet && shortCXCYIsOrWillBeSet || shortCXCYIsOrWillBeSet && caIsOrWillBeSet || longCXCYIsOrWillBeSet && caIsOrWillBeSet;
+  }
+
+  private int[] getCXCYCA(String targetName, CompoundDataClassBrick longCXCYDCB, CompoundDataClassBrick shortCXCYDCB, PrimitiveDataClassBrick caDCB) {
+    int[] cxcyca = new int[5];
+    int longCX = -1;
+    int longCY = -1;
+    int shortCX = -1;
+    int shortCY = -1;
+    int ca = -1;
+    if(longCXCYDCB.isComplete()) {
+      PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("cx");
+      longCX = (int)longCXDCB.getVal();
+      PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("cy");
+      longCY = (int)longCYDCB.getVal();
+    }
+    if(shortCXCYDCB.isComplete()) {
+      PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cx");
+      shortCX = (int)shortCXDCB.getVal();
+      PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cy");
+      shortCY = (int)shortCYDCB.getVal();
+    }
+    if(caDCB.isComplete()) {
+      ca = (int)caDCB.getVal();
+    }
+    cxcyca[0] = longCX;
+    cxcyca[1] = longCY;
+    cxcyca[2] = shortCX;
+    cxcyca[3] = shortCY;
+    cxcyca[4] = ca;
+    return cxcyca;
   }
 
   /**
@@ -83,7 +131,7 @@ public class CXCYCADC extends CompoundDataClass {
    * @param ca
    * @return
    */
-  private boolean cxcycaConflict(ArrayList<Integer> newlineIndices, int cx, int cy, int ca) {
+  private boolean cxcycaConflict(ArrayList<Integer> newlineIndices, int longCX, int longCY, int shortCX, int shortCY, int ca) {
     boolean caLinesUpWithCX = false;
     boolean caLinesUpWithCY = false;
     if(cy == 0) {
