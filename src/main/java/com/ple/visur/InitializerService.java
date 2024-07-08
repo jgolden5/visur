@@ -78,26 +78,38 @@ public class InitializerService {
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
     CompoundDataClassBrick cursorPosDCB = cursorPositionDC.makeBrick();
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("ni");
+    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("cw");
     CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPosDCB.getInner("cxcyca");
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) cxcyDCB.getInner("longCXCY");
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) cxcyDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
-    cxcyDCB.putInner("cx", cxDCB);
-    cxcyDCB.putInner("cy", cyDCB);
+    PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
+    PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
+    PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("shortCX");
+    PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("shortCY");
+    longCXCYDCB.putInner("longCX", longCXDCB);
+    longCXCYDCB.putInner("longCY", longCYDCB);
+    shortCXCYDCB.putInner("shortCX", shortCXDCB);
+    shortCXCYDCB.putInner("shortCY", shortCYDCB);
     cxcycaDCB.putInner("ca", caDCB);
-    cxcycaDCB.putInner("cxcy", cxcyDCB);
+    cxcycaDCB.putInner("cxcy", longCXCYDCB);
     cursorPosDCB.putInner("ni", niDCB);
+    cursorPosDCB.putInner("cw", cwDCB);
     cursorPosDCB.putInner("cxcyca", cxcycaDCB);
 
     BrickVisurVar caDCBVV = BrickVisurVar.make(caDCB);
-    BrickVisurVar cxDCBVV = BrickVisurVar.make(cxDCB);
-    BrickVisurVar cyDCBVV = BrickVisurVar.make(cyDCB);
+    BrickVisurVar longCXDCBVV = BrickVisurVar.make(longCXDCB);
+    BrickVisurVar longCYDCBVV = BrickVisurVar.make(longCYDCB);
+    BrickVisurVar shortCXDCBVV = BrickVisurVar.make(shortCXDCB);
+    BrickVisurVar shortCYDCBVV = BrickVisurVar.make(shortCYDCB);
     BrickVisurVar niBVV = BrickVisurVar.make(niDCB);
 
     emc.putGlobalVar("ca", caDCBVV);
-    emc.putGlobalVar("cx", cxDCBVV);
-    emc.putGlobalVar("cy", cyDCBVV);
+    emc.putGlobalVar("longCX", longCXDCBVV);
+    emc.putGlobalVar("longCY", longCYDCBVV);
+    emc.putGlobalVar("shortCX", shortCXDCBVV);
+    emc.putGlobalVar("shortCY", shortCYDCBVV);
     emc.putGlobalVar("ni", niBVV);
 
   }
