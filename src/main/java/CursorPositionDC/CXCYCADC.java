@@ -142,12 +142,20 @@ public class CXCYCADC extends CompoundDataClass {
   public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
     HashMap<String, DataClassBrick> cxcycaDCBInners = new HashMap<>();
     CompoundDataClassBrick cxcycaDCB = CompoundDataClassBrick.make(name, outer, this, cxcycaDCBInners);
-    CompoundDataClass cxcyDC = (CompoundDataClass) getInner("cxcy");
+
+    CompoundDataClass longCXCYDC = (CompoundDataClass) getInner("longCXCY");
+    PrimitiveDataClassBrick longCXCYDCB = (PrimitiveDataClassBrick) longCXCYDC.makeBrick("longCXCY", cxcycaDCB);
+
+    CompoundDataClass shortCXCYDC = (CompoundDataClass) getInner("shortCXCY");
+    PrimitiveDataClassBrick shortCXCYDCB = (PrimitiveDataClassBrick) shortCXCYDC.makeBrick("shortCXCY", cxcycaDCB);
+
     PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) getInner("wholeNumber");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("ca", cxcycaDCB);
+
+    cxcycaDCBInners.put("longCXCY", longCXCYDCB);
+    cxcycaDCBInners.put("shortCXCY", shortCXCYDCB);
     cxcycaDCBInners.put("ca", caDCB);
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcyDC.makeBrick("cxcy", cxcycaDCB);
-    cxcycaDCBInners.put("cxcy", cxcyDCB);
+
     return cxcycaDCB.initInners(cxcycaDCBInners);
   }
 
