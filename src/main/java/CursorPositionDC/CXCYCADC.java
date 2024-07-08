@@ -108,7 +108,8 @@ public class CXCYCADC extends CompoundDataClass {
   @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick cxcycaDCB) {
     Result r = Result.make();
-    if(!"cxcyca".contains(name)) {
+    String possibleNames = "longCXCY" + "shortCXCY" + "ca";
+    if(!possibleNames.contains(name)) {
       r.putError("inner name not recognized");
     }
     if(!cxcycaDCB.isComplete()) {
@@ -119,14 +120,37 @@ public class CXCYCADC extends CompoundDataClass {
       PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
       ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
       if(name.equals("ca")) {
-        r = calculateCA(newlineIndices, cxcycaDCB);
-      } else {
-        r = calculateCXCY(newlineIndices, cxcycaDCB);
+        CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY"); //assuming longCXCYToCA is easier than shortToCA
+        if(longCXCYDCB.isComplete()) {
+          r = calcCAFromLongCXCY(newlineIndices, cxcycaDCB);
+        } else {
+          r = calcCAFromShortCXCY(newlineIndices, cxcycaDCB);
+        }
+      } else if(name.contains("long")) {
+        CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) getInner("shortCXCY");
+        if(shortCXCYDCB.isComplete()) {
+          r = calcLongCXCYFromShortCXCY(newlineIndices, cxcycaDCB);
+        } else {
+          r = calcLongCXCYFromCA(newlineIndices, cxcycaDCB);
+        }
         CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
-        if(name.equals("cx")) {
-          r.putVal(cxcyDCB.getInner("cx"));
-        } else if(name.equals("cy")) {
-          r.putVal(cxcyDCB.getInner("cy"));
+        if(name.equals("longCX")) {
+          r.putVal(cxcyDCB.getInner("longCX"));
+        } else if(name.equals("longCY")) {
+          r.putVal(cxcyDCB.getInner("longCY"));
+        }
+      } else if(name.contains("short")) {
+        CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY");
+        if(longCXCYDCB.isComplete()) {
+          r = calcShortCXCYFromLongCXCY(newlineIndices, cxcycaDCB);
+        } else {
+          r = calcShortCXCYFromCA(newlineIndices, cxcycaDCB);
+        }
+        CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
+        if(name.equals("shortCX")) {
+          r.putVal(cxcyDCB.getInner("shortCX"));
+        } else if(name.equals("shortCY")) {
+          r.putVal(cxcyDCB.getInner("shortCY"));
         }
       }
     }
