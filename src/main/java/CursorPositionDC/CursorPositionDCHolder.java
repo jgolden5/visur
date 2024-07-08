@@ -11,8 +11,7 @@ public class CursorPositionDCHolder extends DCHolder implements Shareable {
   public CursorPositionDC cursorPositionDC = new CursorPositionDC(2);
   public WholeNumberDC wholeNumberDC = new WholeNumberDC(javaIntDF);
   private final LongCXCYDC longCXCYDC = new LongCXCYDC(2);
-  private final ShortCXCYDC shortCXCYDC = new ShortCXCYDC(2);
-  public CXCYCWDC cxcycwDC = new CXCYCWDC(2);
+  private final ShortCXCYDC shortCXCYDC = new ShortCXCYDC(3);
   public CXCYDC cxcyDC = new CXCYDC(1);
   public WholePairDC wholePairDC = new WholePairDC(2);
   public WholeNumberListDC wholeNumberListDC = new WholeNumberListDC(intArrayListDF);
@@ -23,14 +22,12 @@ public class CursorPositionDCHolder extends DCHolder implements Shareable {
   }
 
   public CursorPositionDCHolder() {
-    wholePairDC.putInner("wholeNumber", wholeNumberDC);
+//    wholePairDC.putInner("wholeNumber", wholeNumberDC);
     shortCXCYDC.putInner("wholeNumber", wholeNumberDC);
     longCXCYDC.putInner("wholeNumber", wholeNumberDC);
     cxcyDC.putInner("shortCXCY", shortCXCYDC);
     cxcyDC.putInner("longCXCY", longCXCYDC);
-    cxcycwDC.putInner("wholeNumber", wholeNumberDC);
-    cxcycwDC.putInner("cxcy", cxcyDC);
-    cxcycaDC.putInner("cxcycw", cxcycwDC);
+    cxcycaDC.putInner("cxcy", cxcyDC);
     cxcycaDC.putInner("wholeNumber", wholeNumberDC);
     cursorPositionDC.putInner("ni", wholeNumberListDC);
     cursorPositionDC.putInner("cxcyca", cxcycaDC);
