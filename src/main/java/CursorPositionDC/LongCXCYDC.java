@@ -1,9 +1,8 @@
 package CursorPositionDC;
 
-import DataClass.CompoundDataClass;
-import DataClass.CompoundDataClassBrick;
-import DataClass.DataClassBrick;
-import DataClass.Result;
+import DataClass.*;
+
+import java.util.HashMap;
 
 public class LongCXCYDC extends CompoundDataClass {
   public LongCXCYDC(int minimumRequiredSetValues) {
@@ -16,6 +15,18 @@ public class LongCXCYDC extends CompoundDataClass {
   }
 
   @Override
+  public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
+    HashMap<String, DataClassBrick> longCXCYDCBInners = new HashMap<>();
+    CompoundDataClassBrick longCXCYDCB = CompoundDataClassBrick.make(name, outer, this, longCXCYDCBInners);
+    PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) getInner("wholeNumber");
+    PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("longCX", longCXCYDCB);
+    longCXCYDCBInners.put("longCX", longCXDCB);
+    PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("longCY", longCXCYDCB);
+    longCXCYDCBInners.put("longCY", longCYDCB);
+    return longCXCYDCB.initInners(longCXCYDCBInners);
+  }
+
+  @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick) {
     return null;
   }
@@ -25,8 +36,4 @@ public class LongCXCYDC extends CompoundDataClass {
     return false;
   }
 
-  @Override
-  public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
-    return null;
-  }
 }
