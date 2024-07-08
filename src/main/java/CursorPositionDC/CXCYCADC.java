@@ -247,6 +247,26 @@ public class CXCYCADC extends CompoundDataClass {
     return Result.make(caDCB, null);
   }
 
+  private Result<DataClassBrick> calcCAFromShortCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
+    CompoundDataClassBrick shortCXCY = (CompoundDataClassBrick) cxcycaDCB.getInner("shortCXCY");
+    PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCY.getInner("shortCX");
+    PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCY.getInner("shortCY");
+    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCY.getInner("cw");
+    int shortCX = (int)shortCXDCB.getVal();
+    int shortCY = (int)shortCYDCB.getVal();
+    int canvasWidth = (int)cwDCB.getVal();
+    int ca = 0;
+    int newlineIndex = 0;
+    for(int i = 0; i < shortCY; i += canvasWidth) {
+      if(i < canvasWidth) {
+        //this one is tricksy, precious!
+      }
+    }
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    caDCB.putSafe(ca);
+    return Result.make(caDCB, null);
+  }
+
   private Result<DataClassBrick> calcLongCXCYFromCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) thisAsBrick.getInner("ca");
     int ca = (int)caDCB.getDFB().getVal();
@@ -280,6 +300,11 @@ public class CXCYCADC extends CompoundDataClass {
     int shortCY = (int)shortCYDCB.getVal();
     int longCX;
     int longCY = ;
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("longCXCY");
+    PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
+    PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
+    longCXDCB.putSafe(longCX);
+    longCYDCB.putSafe(longCY);
   }
 
   private Result<DataClassBrick> calcShortCXCYFromCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
