@@ -11,6 +11,32 @@ public class CXCYCADC extends CompoundDataClass {
     super(minimumRequiredSetValues);
   }
 
+  @Override
+  public DataClassBrick makeBrick() {
+    return null;
+  }
+
+  @Override
+  public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
+    HashMap<String, DataClassBrick> cxcycaDCBInners = new HashMap<>();
+    CompoundDataClassBrick cxcycaDCB = CompoundDataClassBrick.make(name, outer, this, cxcycaDCBInners);
+
+    CompoundDataClass longCXCYDC = (CompoundDataClass) getInner("longCXCY");
+    PrimitiveDataClassBrick longCXCYDCB = (PrimitiveDataClassBrick) longCXCYDC.makeBrick("longCXCY", cxcycaDCB);
+
+    CompoundDataClass shortCXCYDC = (CompoundDataClass) getInner("shortCXCY");
+    PrimitiveDataClassBrick shortCXCYDCB = (PrimitiveDataClassBrick) shortCXCYDC.makeBrick("shortCXCY", cxcycaDCB);
+
+    PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) getInner("wholeNumber");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("ca", cxcycaDCB);
+
+    cxcycaDCBInners.put("longCXCY", longCXCYDCB);
+    cxcycaDCBInners.put("shortCXCY", shortCXCYDCB);
+    cxcycaDCBInners.put("ca", caDCB);
+
+    return cxcycaDCB.initInners(cxcycaDCBInners);
+  }
+
   /**
    * if cx, cy, & ca are set, extract them and newlineIndices from their respective bricks via cxcycaDCB
    * else, return false because no conflicts can exist if any of those values is unset
@@ -28,34 +54,19 @@ public class CXCYCADC extends CompoundDataClass {
     PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-    if((cxDCB.isComplete() || targetName.equals("cx")) && (cyDCB.isComplete() || targetName.equals("cy")) && (caDCB.isComplete() || targetName.equals("ca"))) {
-      int cx, cy, ca;
-      switch(targetName) {
-        case "cx":
-          cx = (int)targetVal;
-          cy = (int)cyDCB.get().getVal();
-          ca = (int)caDCB.get().getVal();
-          break;
-        case "cy":
-          cx = (int)cxDCB.get().getVal();
-          cy = (int)targetVal;
-          ca = (int)caDCB.get().getVal();
-          break;
-        case "ca":
-          cx = (int)cxDCB.get().getVal();
-          cy = (int)cyDCB.get().getVal();
-          ca = (int)targetVal;
-          break;
-        default:
-          System.out.println("name not recognized");
-          cx = (int)cxDCB.get().getVal();
-          cy = (int)cyDCB.get().getVal();
-          ca = (int)caDCB.get().getVal();
-      }
+    if(allValuesAreSetIncludingTarget(targetName, cxDCB, cyDCB, caDCB)) {
+      int[] cxcyca = getCXCYCA(targetName, cxDCB, cyDCB, caDCB);
       return cxcycaConflict(newlineIndices, cx, cy, ca);
     } else {
       return false;
     }
+  }
+
+  private boolean allValuesAreSetIncludingTarget(String targetName, PrimitiveDataClassBrick cxDCB, PrimitiveDataClassBrick cyDCB, PrimitiveDataClassBrick caDCB) {
+    boolean cxIsOrWillBeSet = cxDCB.isComplete() || targetName.contains("CX");
+    boolean cyIsOrWillBeSet = cyDCB.isComplete() || targetName.contains("CY");
+    boolean caIsOrWillBeSet = caDCB.isComplete() || targetName.equals("ca");
+    return cxIsOrWillBeSet && cyIsOrWillBeSet && caIsOrWillBeSet;
   }
 
   /**
@@ -130,33 +141,7 @@ public class CXCYCADC extends CompoundDataClass {
     return r;
   }
 
-  @Override
-  public DataClassBrick makeBrick() {
-    return null;
-  }
-
-  @Override
-  public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
-    HashMap<String, DataClassBrick> cxcycaDCBInners = new HashMap<>();
-    CompoundDataClassBrick cxcycaDCB = CompoundDataClassBrick.make(name, outer, this, cxcycaDCBInners);
-
-    CompoundDataClass longCXCYDC = (CompoundDataClass) getInner("longCXCY");
-    PrimitiveDataClassBrick longCXCYDCB = (PrimitiveDataClassBrick) longCXCYDC.makeBrick("longCXCY", cxcycaDCB);
-
-    CompoundDataClass shortCXCYDC = (CompoundDataClass) getInner("shortCXCY");
-    PrimitiveDataClassBrick shortCXCYDCB = (PrimitiveDataClassBrick) shortCXCYDC.makeBrick("shortCXCY", cxcycaDCB);
-
-    PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) getInner("wholeNumber");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("ca", cxcycaDCB);
-
-    cxcycaDCBInners.put("longCXCY", longCXCYDCB);
-    cxcycaDCBInners.put("shortCXCY", shortCXCYDCB);
-    cxcycaDCBInners.put("ca", caDCB);
-
-    return cxcycaDCB.initInners(cxcycaDCBInners);
-  }
-
-  private Result<DataClassBrick> calculateCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
+  private Result<DataClassBrick> calcLongCXCYFromCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) thisAsBrick.getInner("ca");
     int ca = (int)caDCB.getDFB().getVal();
     int cx;
