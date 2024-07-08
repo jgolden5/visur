@@ -132,20 +132,17 @@ public class CXCYCADC extends CompoundDataClass {
    * @return
    */
   private boolean cxcycaConflict(ArrayList<Integer> newlineIndices, int longCX, int longCY, int shortCX, int shortCY, int ca) {
-    boolean caLinesUpWithCX = false;
-    boolean caLinesUpWithCY = false;
-    if(cy == 0) {
-      caLinesUpWithCY = true;
-      caLinesUpWithCX = cx == ca;
-    } else if(cy - 1 < newlineIndices.size()) {
-      caLinesUpWithCX = cx == ca - (newlineIndices.get(cy - 1) + 1);
-      if(cy < newlineIndices.size() - 1) {
-        caLinesUpWithCY = ca > newlineIndices.get(cy - 1) && ca <= newlineIndices.get(cy);
-      } else {
-        caLinesUpWithCY = ca > newlineIndices.get(cy - 1);
-      }
+    boolean longCXCYConflictsWithShortCXCY = false;
+    boolean longCXCYConflictsWithCA = false;
+    boolean shortCXCYConflictsWithCA = false;
+    if(longCX > -1 && longCY > -1 && shortCX > -1 && shortCY > -1 && _) {
+      longCXCYConflictsWithShortCXCY = true;
+    } else if(longCX > -1 && longCY > -1 && ca > -1 && _) {
+      longCXCYConflictsWithCA = true;
+    } else if(shortCX > -1 && shortCY > -1 && ca > -1 && _) {
+      shortCXCYConflictsWithCA = true;
     }
-    return !(caLinesUpWithCX && caLinesUpWithCY);
+    return longCXCYConflictsWithShortCXCY || longCXCYConflictsWithCA || shortCXCYConflictsWithCA;
   }
 
   /**
