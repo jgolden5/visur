@@ -1,9 +1,8 @@
 package CursorPositionDC;
 
-import DataClass.CompoundDataClass;
-import DataClass.CompoundDataClassBrick;
-import DataClass.DataClassBrick;
-import DataClass.Result;
+import DataClass.*;
+
+import java.util.HashMap;
 
 public class CXCYDC extends CompoundDataClass {
 
@@ -18,7 +17,15 @@ public class CXCYDC extends CompoundDataClass {
 
   @Override
   public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
-    return null;
+    HashMap<String, DataClassBrick> cxcyDCBInners = new HashMap<>();
+    CompoundDataClassBrick cxcyDCB = CompoundDataClassBrick.make(name, outer, this, cxcyDCBInners);
+    CompoundDataClass longCXCYDC = (CompoundDataClass) getInner("longCXCY");
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) longCXCYDC.makeBrick("longCXCY", cxcyDCB);
+    cxcyDCBInners.put("longCXCY", longCXCYDCB);
+    CompoundDataClass shortCXCYDC = (CompoundDataClass) getInner("shortCXCY");
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) shortCXCYDC.makeBrick("shortCXCY", cxcyDCB);
+    cxcyDCBInners.put("shortCXCY", shortCXCYDCB);
+    return cxcyDCB.initInners(cxcyDCBInners);
   }
 
   @Override
