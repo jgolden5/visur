@@ -22,10 +22,10 @@ public class CXCYCADC extends CompoundDataClass {
     CompoundDataClassBrick cxcycaDCB = CompoundDataClassBrick.make(name, outer, this, cxcycaDCBInners);
 
     CompoundDataClass longCXCYDC = (CompoundDataClass) getInner("longCXCY");
-    PrimitiveDataClassBrick longCXCYDCB = (PrimitiveDataClassBrick) longCXCYDC.makeBrick("longCXCY", cxcycaDCB);
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) longCXCYDC.makeBrick("longCXCY", cxcycaDCB);
 
     CompoundDataClass shortCXCYDC = (CompoundDataClass) getInner("shortCXCY");
-    PrimitiveDataClassBrick shortCXCYDCB = (PrimitiveDataClassBrick) shortCXCYDC.makeBrick("shortCXCY", cxcycaDCB);
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) shortCXCYDC.makeBrick("shortCXCY", cxcycaDCB);
 
     PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) getInner("wholeNumber");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("ca", cxcycaDCB);
