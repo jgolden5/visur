@@ -20,20 +20,20 @@ public class CursorPositionDC extends CompoundDataClass {
     HashMap<String, DataClassBrick> cursorPositionDCBInners = new HashMap<>();
     CompoundDataClassBrick cursorPositionDCB = CompoundDataClassBrick.make(name, null, this, cursorPositionDCBInners);
     PrimitiveDataClass niDC = (PrimitiveDataClass) getInner("ni");
-    CompoundDataClass cxcycaDC = (CompoundDataClass) getInner("cxcyca");
+    CompoundDataClass coordinatesDC = (CompoundDataClass) getInner("coordinates");
 
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) niDC.makeBrick("ni", cursorPositionDCB);
     cursorPositionDCBInners.put("ni", niDCB);
-    CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cxcycaDC.makeBrick("cxcyca", cursorPositionDCB);
-    cursorPositionDCBInners.put("cxcyca", cxcycaDCB);
+    CompoundDataClassBrick coordinatesDCB = (CompoundDataClassBrick) coordinatesDC.makeBrick("coordinates", cursorPositionDCB);
+    cursorPositionDCBInners.put("coordinates", coordinatesDCB);
 
     return cursorPositionDCB.initInners(cursorPositionDCBInners);
   }
 
   @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick) {
-    if("cxcyca".contains(name)){
-      return outerAsBrick.getCDC().calcInternal(name, (CompoundDataClassBrick) outerAsBrick.getInner("cxcyca"));
+    if("coordinates".contains(name)){
+      return outerAsBrick.getCDC().calcInternal(name, (CompoundDataClassBrick) outerAsBrick.getInner("coordinates"));
     }
     return Result.make(null, "incalculable");
   }

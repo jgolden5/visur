@@ -78,11 +78,11 @@ public class InitializerService {
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
     CompoundDataClassBrick cursorPosDCB = cursorPositionDC.makeBrick();
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("ni");
-    CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPosDCB.getInner("cxcyca");
-    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("longCXCY");
-    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("shortCXCY");
+    CompoundDataClassBrick coordinatesDCB = (CompoundDataClassBrick) cursorPosDCB.getInner("coordinates");
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
     PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
     PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
     PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
@@ -91,11 +91,11 @@ public class InitializerService {
     longCXCYDCB.putInner("longCY", longCYDCB);
     shortCXCYDCB.putInner("shortCX", shortCXDCB);
     shortCXCYDCB.putInner("shortCY", shortCYDCB);
-    cxcycaDCB.putInner("ca", caDCB);
-    cxcycaDCB.putInner("longCXCY", longCXCYDCB);
+    coordinatesDCB.putInner("ca", caDCB);
+    coordinatesDCB.putInner("longCXCY", longCXCYDCB);
     cursorPosDCB.putInner("ni", niDCB);
     cursorPosDCB.putInner("cw", cwDCB);
-    cursorPosDCB.putInner("cxcyca", cxcycaDCB);
+    cursorPosDCB.putInner("coordinates", coordinatesDCB);
 
     BrickVisurVar caDCBVV = BrickVisurVar.make(caDCB);
     BrickVisurVar longCXDCBVV = BrickVisurVar.make(longCXDCB);

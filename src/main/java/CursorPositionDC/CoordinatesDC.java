@@ -6,8 +6,8 @@ import DataClass.Result;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CXCYCADC extends CompoundDataClass {
-  public CXCYCADC(int minimumRequiredSetValues) {
+public class CoordinatesDC extends CompoundDataClass {
+  public CoordinatesDC(int minimumRequiredSetValues) {
     super(minimumRequiredSetValues);
   }
 
@@ -18,37 +18,37 @@ public class CXCYCADC extends CompoundDataClass {
 
   @Override
   public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
-    HashMap<String, DataClassBrick> cxcycaDCBInners = new HashMap<>();
-    CompoundDataClassBrick cxcycaDCB = CompoundDataClassBrick.make(name, outer, this, cxcycaDCBInners);
+    HashMap<String, DataClassBrick> coordinatesDCBInners = new HashMap<>();
+    CompoundDataClassBrick coordinatesDCB = CompoundDataClassBrick.make(name, outer, this, coordinatesDCBInners);
 
     CompoundDataClass longCXCYDC = (CompoundDataClass) getInner("longCXCY");
-    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) longCXCYDC.makeBrick("longCXCY", cxcycaDCB);
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) longCXCYDC.makeBrick("longCXCY", coordinatesDCB);
 
     CompoundDataClass shortCXCYDC = (CompoundDataClass) getInner("shortCXCY");
-    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) shortCXCYDC.makeBrick("shortCXCY", cxcycaDCB);
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) shortCXCYDC.makeBrick("shortCXCY", coordinatesDCB);
 
     PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) getInner("wholeNumber");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("ca", cxcycaDCB);
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("ca", coordinatesDCB);
 
-    cxcycaDCBInners.put("longCXCY", longCXCYDCB);
-    cxcycaDCBInners.put("shortCXCY", shortCXCYDCB);
-    cxcycaDCBInners.put("ca", caDCB);
+    coordinatesDCBInners.put("longCXCY", longCXCYDCB);
+    coordinatesDCBInners.put("shortCXCY", shortCXCYDCB);
+    coordinatesDCBInners.put("ca", caDCB);
 
-    return cxcycaDCB.initInners(cxcycaDCBInners);
+    return coordinatesDCB.initInners(coordinatesDCBInners);
   }
 
   @Override
-  public boolean conflictsCheck(CompoundDataClassBrick cxcycaDCB, String targetName, Object targetVal) {
-    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cxcycaDCB.getOuter().getInner("ni");
+  public boolean conflictsCheck(CompoundDataClassBrick coordinatesDCB, String targetName, Object targetVal) {
+    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) coordinatesDCB.getOuter().getInner("ni");
     ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
-    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("longCXCY");
-    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("shortCXCY");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
     PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
     int canvasWidth = (int)cwDCB.getVal();
     if(moreThanOneValueWillBeSet(targetName, longCXCYDCB, shortCXCYDCB, caDCB)) {
-      int[] cxcyca = getCXCYCA(targetName, longCXCYDCB, shortCXCYDCB, caDCB);
-      return cxcycaConflict(newlineIndices, canvasWidth, cxcyca[0], cxcyca[1], cxcyca[2], cxcyca[3], cxcyca[4]);
+      int[] coordinates = getCoordinates(targetName, longCXCYDCB, shortCXCYDCB, caDCB);
+      return coordinatesConflict(newlineIndices, canvasWidth, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4]);
     } else {
       return false;
     }
@@ -75,13 +75,13 @@ public class CXCYCADC extends CompoundDataClass {
         caIsOrWillBeSet = true;
         break;
       default:
-        System.out.println("target name not recognized for checking if more than one value will be set in cxcycaDCB");
+        System.out.println("target name not recognized for checking if more than one value will be set in coordinatesDCB");
     }
     return longCXCYIsOrWillBeSet && shortCXCYIsOrWillBeSet || shortCXCYIsOrWillBeSet && caIsOrWillBeSet || longCXCYIsOrWillBeSet && caIsOrWillBeSet;
   }
 
-  private int[] getCXCYCA(String targetName, CompoundDataClassBrick longCXCYDCB, CompoundDataClassBrick shortCXCYDCB, PrimitiveDataClassBrick caDCB) {
-    int[] cxcyca = new int[5];
+  private int[] getCoordinates(String targetName, CompoundDataClassBrick longCXCYDCB, CompoundDataClassBrick shortCXCYDCB, PrimitiveDataClassBrick caDCB) {
+    int[] coordinates = new int[5];
     int longCX = -1;
     int longCY = -1;
     int shortCX = -1;
@@ -102,15 +102,15 @@ public class CXCYCADC extends CompoundDataClass {
     if(caDCB.isComplete()) {
       ca = (int)caDCB.getVal();
     }
-    cxcyca[0] = longCX;
-    cxcyca[1] = longCY;
-    cxcyca[2] = shortCX;
-    cxcyca[3] = shortCY;
-    cxcyca[4] = ca;
-    return cxcyca;
+    coordinates[0] = longCX;
+    coordinates[1] = longCY;
+    coordinates[2] = shortCX;
+    coordinates[3] = shortCY;
+    coordinates[4] = ca;
+    return coordinates;
   }
 
-  private boolean cxcycaConflict(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY, int ca) {
+  private boolean coordinatesConflict(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY, int ca) {
     boolean longCXCYConflictsWithShortCXCY = false;
     boolean longCXCYConflictsWithCA = false;
     boolean shortCXCYConflictsWithCA = false;
@@ -191,25 +191,25 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick cxcycaDCB) {
+  public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick coordinatesDCB) {
     Result r = Result.make();
     String possibleNames = "longCXCY" + "shortCXCY" + "ca";
     if(!possibleNames.contains(name)) {
       r.putError("inner name not recognized");
     }
-    if(!cxcycaDCB.isComplete()) {
+    if(!coordinatesDCB.isComplete()) {
       r.putError("insufficient values set");
     }
     if(r.getError() == null) {
-      CompoundDataClassBrick cursorPositionDCB = cxcycaDCB.getOuter();
+      CompoundDataClassBrick cursorPositionDCB = coordinatesDCB.getOuter();
       PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
       ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
       if(name.equals("ca")) {
-        r = calcCA(newlineIndices, cxcycaDCB);
+        r = calcCA(newlineIndices, coordinatesDCB);
       } else if(name.contains("long")) {
-        r = calcLongCXCY(name, newlineIndices, cxcycaDCB);
+        r = calcLongCXCY(name, newlineIndices, coordinatesDCB);
       } else if(name.contains("short")) {
-        r = calcShortCXCY(name, newlineIndices, cxcycaDCB);
+        r = calcShortCXCY(name, newlineIndices, coordinatesDCB);
       }
     }
     return r;
@@ -226,13 +226,13 @@ public class CXCYCADC extends CompoundDataClass {
     return r;
   }
 
-  private Result<DataClassBrick> calcLongCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
+  private Result<DataClassBrick> calcLongCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) {
     Result<DataClassBrick> r;
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) getInner("shortCXCY");
     if(shortCXCYDCB.isComplete()) {
-      r = calcLongCXCYFromShortCXCY(newlineIndices, cxcycaDCB);
+      r = calcLongCXCYFromShortCXCY(newlineIndices, coordinatesDCB);
     } else {
-      r = calcLongCXCYFromCA(newlineIndices, cxcycaDCB);
+      r = calcLongCXCYFromCA(newlineIndices, coordinatesDCB);
     }
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
     if(name.equals("longCX")) {
@@ -243,13 +243,13 @@ public class CXCYCADC extends CompoundDataClass {
     return r;
   }
 
-  private Result<DataClassBrick> calcShortCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
+  private Result<DataClassBrick> calcShortCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) {
     Result<DataClassBrick> r = Result.make();
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY");
     if(longCXCYDCB.isComplete()) {
-      r = calcShortCXCYFromLongCXCY(newlineIndices, cxcycaDCB);
+      r = calcShortCXCYFromLongCXCY(newlineIndices, coordinatesDCB);
     } else {
-      r = calcShortCXCYFromCA(newlineIndices, cxcycaDCB);
+      r = calcShortCXCYFromCA(newlineIndices, coordinatesDCB);
     }
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
     if(name.equals("shortCX")) {
@@ -276,8 +276,8 @@ public class CXCYCADC extends CompoundDataClass {
     return Result.make(caDCB, null);
   }
 
-  private Result<DataClassBrick> calcCAFromShortCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
-    CompoundDataClassBrick shortCXCY = (CompoundDataClassBrick) cxcycaDCB.getInner("shortCXCY");
+  private Result<DataClassBrick> calcCAFromShortCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) {
+    CompoundDataClassBrick shortCXCY = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCY.getInner("shortCX");
     PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCY.getInner("shortCY");
     PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCY.getInner("cw");
@@ -297,7 +297,7 @@ public class CXCYCADC extends CompoundDataClass {
       }
     }
     ca += shortCX;
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
     caDCB.putSafe(ca);
     return Result.make(caDCB, null);
   }
@@ -327,8 +327,8 @@ public class CXCYCADC extends CompoundDataClass {
     return Result.make(cxcyDCB, null);
   }
 
-  private Result<DataClassBrick> calcLongCXCYFromShortCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) { //harder than calculating long from ca
-    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("shortCXCY");
+  private Result<DataClassBrick> calcLongCXCYFromShortCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) { //harder than calculating long from ca
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
     PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
     PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
@@ -348,7 +348,7 @@ public class CXCYCADC extends CompoundDataClass {
         longCX = shortCX;
       }
     }
-    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("longCXCY");
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
     PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
     PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
     longCXDCB.putSafe(longCX);
@@ -356,9 +356,9 @@ public class CXCYCADC extends CompoundDataClass {
     return Result.make(longCXCYDCB, null);
   }
 
-  private Result<DataClassBrick> calcShortCXCYFromCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
-    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("shortCXCY");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+  private Result<DataClassBrick> calcShortCXCYFromCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) {
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
     PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
     int canvasWidth = (int)cwDCB.getVal();
     int ca = (int)caDCB.getVal();
@@ -384,9 +384,9 @@ public class CXCYCADC extends CompoundDataClass {
     return Result.make(shortCXCYDCB, null);
   }
 
-  private Result<DataClassBrick> calcShortCXCYFromLongCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
-    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("longCXCY");
-    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("shortCXCY");
+  private Result<DataClassBrick> calcShortCXCYFromLongCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) {
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
     PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
     int longCX = (int)longCXDCB.getVal();

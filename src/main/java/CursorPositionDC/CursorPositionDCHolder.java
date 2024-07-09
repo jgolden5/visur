@@ -1,7 +1,6 @@
 package CursorPositionDC;
 
 import DataClass.DCHolder;
-import DataClass.DataClass;
 import io.vertx.core.shareddata.Shareable;
 
 public class CursorPositionDCHolder extends DCHolder implements Shareable {
@@ -12,7 +11,7 @@ public class CursorPositionDCHolder extends DCHolder implements Shareable {
   public final WholeNumberDC wholeNumberDC = new WholeNumberDC(javaIntDF);
   public final LongCXCYDC longCXCYDC = new LongCXCYDC(2);
   public final ShortCXCYDC shortCXCYDC = new ShortCXCYDC(3);
-  public final CXCYCADC cxcycaDC = new CXCYCADC(1);
+  public final CoordinatesDC coordinatesDC = new CoordinatesDC(1);
   public final WholePairDC wholePairDC = new WholePairDC(2);
   public final WholeNumberListDC wholeNumberListDC = new WholeNumberListDC(intArrayListDF);
 
@@ -23,11 +22,11 @@ public class CursorPositionDCHolder extends DCHolder implements Shareable {
   public CursorPositionDCHolder() {
     shortCXCYDC.putInner("wholeNumber", wholeNumberDC);
     longCXCYDC.putInner("wholeNumber", wholeNumberDC);
-    cxcycaDC.putInner("shortCXCY", shortCXCYDC);
-    cxcycaDC.putInner("longCXCY", longCXCYDC);
-    cxcycaDC.putInner("wholeNumber", wholeNumberDC);
+    coordinatesDC.putInner("shortCXCY", shortCXCYDC);
+    coordinatesDC.putInner("longCXCY", longCXCYDC);
+    coordinatesDC.putInner("wholeNumber", wholeNumberDC);
     cursorPositionDC.putInner("ni", wholeNumberListDC);
-    cursorPositionDC.putInner("cxcyca", cxcycaDC);
+    cursorPositionDC.putInner("coordinates", coordinatesDC);
   }
 
 }
