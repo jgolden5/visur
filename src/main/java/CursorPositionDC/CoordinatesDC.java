@@ -44,10 +44,10 @@ public class CoordinatesDC extends CompoundDataClass {
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
-    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
-    int canvasWidth = (int)cwDCB.getVal();
     if(moreThanOneValueWillBeSet(targetName, longCXCYDCB, shortCXCYDCB, caDCB)) {
       int[] coordinates = getCoordinates(targetName, longCXCYDCB, shortCXCYDCB, caDCB);
+      PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
+      int canvasWidth = (int)cwDCB.getVal();
       return coordinatesConflict(newlineIndices, canvasWidth, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4]);
     } else {
       return false;
@@ -244,7 +244,7 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   private Result<DataClassBrick> calcShortCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) {
-    Result<DataClassBrick> r = Result.make();
+    Result<DataClassBrick> r;
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY");
     if(longCXCYDCB.isComplete()) {
       r = calcShortCXCYFromLongCXCY(newlineIndices, coordinatesDCB);
