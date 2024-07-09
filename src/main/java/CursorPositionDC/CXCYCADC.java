@@ -255,7 +255,7 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   private Result<DataClassBrick> calcCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
-    Result r;
+    Result<DataClassBrick> r;
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY"); //assumes longCXCYToCA is easier than shortToCA
     if(longCXCYDCB.isComplete()) {
       r = calcCAFromLongCXCY(newlineIndices, thisAsBrick);
@@ -266,7 +266,7 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   private Result<DataClassBrick> calcLongCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick cxcycaDCB) {
-    Result<DataClassBrick> r = Result.make();
+    Result<DataClassBrick> r;
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) getInner("shortCXCY");
     if(shortCXCYDCB.isComplete()) {
       r = calcLongCXCYFromShortCXCY(newlineIndices, cxcycaDCB);
@@ -324,17 +324,18 @@ public class CXCYCADC extends CompoundDataClass {
     int shortCY = (int)shortCYDCB.getVal();
     int canvasWidth = (int)cwDCB.getVal();
     int ca = 0;
-    int newlineIndex = 0;
-    for(int i = 0; i < shortCY; i += canvasWidth) {
-      if(i < canvasWidth) {
-        /*
-          I - keep track of ca by tracking it from the beginning, and looping while testShortCY is less than shortCY
-          II - also keep track of i as current index position in newlineIndices
-          III - if ca + canvasWidth < ni.get(i), then ca += canvasWidth, else ca = ni.get(i) and i++
-          IV - return a Result whose value is the resulting ca
-         */
+    int i = 0;
+    for(int testShortCY = 0; testShortCY < shortCY; testShortCY++) {
+      if(newlineIndices.size() > 1) {
+        if (ca + canvasWidth < newlineIndices.get(i)) {
+          ca += canvasWidth;
+        } else {
+          ca = newlineIndices.get(i);
+          i++;
+        }
       }
     }
+    ca += shortCX;
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
     caDCB.putSafe(ca);
     return Result.make(caDCB, null);
