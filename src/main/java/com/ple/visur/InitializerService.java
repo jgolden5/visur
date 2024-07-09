@@ -78,22 +78,21 @@ public class InitializerService {
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
     CompoundDataClassBrick cursorPosDCB = cursorPositionDC.makeBrick();
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("ni");
-    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("cw");
     CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPosDCB.getInner("cxcyca");
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
-    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) cxcyDCB.getInner("longCXCY");
-    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) cxcyDCB.getInner("shortCXCY");
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("longCXCY");
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("shortCXCY");
+    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
     PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
     PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
-    PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("shortCX");
-    PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("shortCY");
+    PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
+    PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
     longCXCYDCB.putInner("longCX", longCXDCB);
     longCXCYDCB.putInner("longCY", longCYDCB);
     shortCXCYDCB.putInner("shortCX", shortCXDCB);
     shortCXCYDCB.putInner("shortCY", shortCYDCB);
     cxcycaDCB.putInner("ca", caDCB);
-    cxcycaDCB.putInner("cxcy", longCXCYDCB);
+    cxcycaDCB.putInner("longCXCY", longCXCYDCB);
     cursorPosDCB.putInner("ni", niDCB);
     cursorPosDCB.putInner("cw", cwDCB);
     cursorPosDCB.putInner("cxcyca", cxcycaDCB);
@@ -104,6 +103,7 @@ public class InitializerService {
     BrickVisurVar shortCXDCBVV = BrickVisurVar.make(shortCXDCB);
     BrickVisurVar shortCYDCBVV = BrickVisurVar.make(shortCYDCB);
     BrickVisurVar niBVV = BrickVisurVar.make(niDCB);
+    BrickVisurVar cwBVV = BrickVisurVar.make(cwDCB);
 
     emc.putGlobalVar("ca", caDCBVV);
     emc.putGlobalVar("longCX", longCXDCBVV);
@@ -111,6 +111,7 @@ public class InitializerService {
     emc.putGlobalVar("shortCX", shortCXDCBVV);
     emc.putGlobalVar("shortCY", shortCYDCBVV);
     emc.putGlobalVar("ni", niBVV);
+    emc.putGlobalVar("cw", cwBVV);
 
   }
 
