@@ -155,15 +155,23 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   private boolean longCXCYConflictsWithShortCXCY(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY) {
-    /*
-    I - check if cy's conflict
-      1 - make a loop which tracks newlineIndices based on longCY
-        and increments cy based on canvas width until shortCY is hit
-      2 - if the numbers lined up right, then cy's line up accurately
-    II - check if cx's conflict
-      1 - if longCX % canvasWidth == shortCX, then cx's line up accurately
-    III - return !cysConflict && !cxsConflict
-     */
+    boolean cxsConflict = longCX % canvasWidth != shortCX;
+    boolean cysConflict;
+    int testLongCY = 0;
+    int testShortCY = 0;
+    int absIndex = 0;
+    while(testShortCY < shortCY) {
+      absIndex += Math.min(canvasWidth, newlineIndices.get(testShortCY));
+      if(absIndex + canvasWidth > newlineIndices.get(testLongCY)) {
+        absIndex = newlineIndices.get(testLongCY);
+        testLongCY++;
+      } else {
+        absIndex += canvasWidth;
+      }
+      testShortCY++;
+    }
+    cysConflict = testShortCY != shortCY && testLongCY != longCY;
+    return (!cxsConflict && !cysConflict);
   }
 
   /**
