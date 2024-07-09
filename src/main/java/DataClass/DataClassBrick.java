@@ -51,7 +51,7 @@ public abstract class DataClassBrick {
   /**
    * checks if either this or this.inners has a name equal to targetName
    * @param targetName name to be checked in this or this.inners
-   * @return whether or not targetName exists in this or this.inners
+   * @return whether targetName exists in this or this.inners
    */
   public boolean containsName(String targetName) {
     boolean containsName = false;

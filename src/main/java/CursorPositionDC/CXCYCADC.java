@@ -37,15 +37,6 @@ public class CXCYCADC extends CompoundDataClass {
     return cxcycaDCB.initInners(cxcycaDCBInners);
   }
 
-  /**
-   * if cx, cy, & ca are set, extract them and newlineIndices from their respective bricks via cxcycaDCB
-   * else, return false because no conflicts can exist if any of those values is unset
-   * return whether cx, cy, and ca conflict by calling cxcycaConflict(newlineIndices, cx, cy, ca)
-   * @param cxcycaDCB the source of all internal brick data (for cx, cy, and ca)
-   * @param targetName the name of the brick we want to add targetVal to
-   * @param targetVal the value attempting to be set in this brick
-   * @return whether targetVal can be set without creating conflicts
-   */
   @Override
   public boolean conflictsCheck(CompoundDataClassBrick cxcycaDCB, String targetName, Object targetVal) {
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cxcycaDCB.getOuter().getInner("ni");
@@ -119,20 +110,6 @@ public class CXCYCADC extends CompoundDataClass {
     return cxcyca;
   }
 
-  /**
-   * create vars for checking if caLinesUpWithCX & caLinesUpWithCY
-   * if cy == 0, caLinesUpWithCY no matter what, and caLinesUpWithCX if cx == ca
-   * else,
-   * caLinesUpWithCX = cx == the difference between ca, and ((the ni element at cy - 1) + 1)
-   * if cy < length of newlineIndices - 1, caLinesUpWithCY = ca > ni.get(cy - 1) && ca < ni.get(cy)
-   * else, caLinesUpWithCY = ca > ni.get(cy - 1)
-   * return if both caLinesUpWithCX AND caLinesUpWithCY is not true
-   * @param newlineIndices
-   * @param cx
-   * @param cy
-   * @param ca
-   * @return
-   */
   private boolean cxcycaConflict(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY, int ca) {
     boolean longCXCYConflictsWithShortCXCY = false;
     boolean longCXCYConflictsWithCA = false;
@@ -213,22 +190,6 @@ public class CXCYCADC extends CompoundDataClass {
     return !(caLinesUpWithCX && caLinesUpWithCY);
   }
 
-  /**
-   * declare empty Result r var
-   * "cxcyca".contains(name)...do the following; else r.putError("inner name not recognized")
-   * if cxcycaDCB.isComplete...do the following; else r.putError("insufficient values set")
-   * extract cursorPositionDCB into var
-   * extract newlineIndices from niDCB from cursorPositionDCB
-   * if name.equals("ca"), r = calculateCA(newlineIndices, cxcycaDCB)
-   * else, r = calculateCXCY(newlinIndices, cxcycaDCB), and do what's on the following lines
-   * cxcyDCB = (CDCB)r.getVal
-   * if name.equals("cx"), r.putVal(cxcyDCB.getInner("cx"))
-   * if name.equals("cy"), r.putVal(cxcyDCB.getInner("cy"))
-   * return r
-   * @param name of inner being calculated
-   * @param cxcycaDCB this as brick
-   * @return a result containing the calculated brick if calcInternal succeeded, else val = null & error != null
-   */
   @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick cxcycaDCB) {
     Result r = Result.make();
