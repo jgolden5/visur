@@ -255,12 +255,12 @@ public class CXCYCADC extends CompoundDataClass {
   }
 
   private Result<DataClassBrick> calcCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
-    Result r = Result.make();
-    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY"); //assuming longCXCYToCA is easier than shortToCA
+    Result r;
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY"); //assumes longCXCYToCA is easier than shortToCA
     if(longCXCYDCB.isComplete()) {
-      r = calcCAFromLongCXCY(newlineIndices, cxcycaDCB);
+      r = calcCAFromLongCXCY(newlineIndices, thisAsBrick);
     } else {
-      r = calcCAFromShortCXCY(newlineIndices, cxcycaDCB);
+      r = calcCAFromShortCXCY(newlineIndices, thisAsBrick);
     }
     return r;
   }
@@ -327,7 +327,12 @@ public class CXCYCADC extends CompoundDataClass {
     int newlineIndex = 0;
     for(int i = 0; i < shortCY; i += canvasWidth) {
       if(i < canvasWidth) {
-        //this one is tricksy, precious!
+        /*
+          I - keep track of ca by tracking it from the beginning, and looping while testShortCY is less than shortCY
+          II - also keep track of i as current index position in newlineIndices
+          III - if ca + canvasWidth < ni.get(i), then ca += canvasWidth, else ca = ni.get(i) and i++
+          IV - return a Result whose value is the resulting ca
+         */
       }
     }
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
