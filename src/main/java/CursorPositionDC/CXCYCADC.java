@@ -53,9 +53,11 @@ public class CXCYCADC extends CompoundDataClass {
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("longCXCY");
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
+    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
+    int canvasWidth = (int)cwDCB.getVal();
     if(moreThanOneValueWillBeSet(targetName, longCXCYDCB, shortCXCYDCB, caDCB)) {
       int[] cxcyca = getCXCYCA(targetName, longCXCYDCB, shortCXCYDCB, caDCB);
-      return cxcycaConflict(newlineIndices, cxcyca[0], cxcyca[1], cxcyca[2], cxcyca[3], cxcyca[4]);
+      return cxcycaConflict(newlineIndices, canvasWidth, cxcyca[0], cxcyca[1], cxcyca[2], cxcyca[3], cxcyca[4]);
     } else {
       return false;
     }
@@ -131,11 +133,11 @@ public class CXCYCADC extends CompoundDataClass {
    * @param ca
    * @return
    */
-  private boolean cxcycaConflict(ArrayList<Integer> newlineIndices, int longCX, int longCY, int shortCX, int shortCY, int ca) {
+  private boolean cxcycaConflict(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY, int ca) {
     boolean longCXCYConflictsWithShortCXCY = false;
     boolean longCXCYConflictsWithCA = false;
     boolean shortCXCYConflictsWithCA = false;
-    if(gtNegOne(longCX, longCY, shortCX, shortCY) && _) {
+    if(gtNegOne(longCX, longCY, shortCX, shortCY) && longCXCYConflictsWithShortCXCY(newlineIndices, canvasWidth, longCX, longCY, shortCX, shortCY)) {
       longCXCYConflictsWithShortCXCY = true;
     } else if(gtNegOne(longCX, longCY, ca) && _) {
       longCXCYConflictsWithCA = true;
@@ -150,6 +152,18 @@ public class CXCYCADC extends CompoundDataClass {
       if(n <= -1) return false;
     }
     return true;
+  }
+
+  private boolean longCXCYConflictsWithShortCXCY(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY) {
+    /*
+    I - check if cy's conflict
+      1 - make a loop which tracks newlineIndices based on longCY
+        and increments cy based on canvas width until shortCY is hit
+      2 - if the numbers lined up right, then cy's line up accurately
+    II - check if cx's conflict
+      1 - if longCX % canvasWidth == shortCX, then cx's line up accurately
+    III - return !cysConflict && !cxsConflict
+     */
   }
 
   /**
