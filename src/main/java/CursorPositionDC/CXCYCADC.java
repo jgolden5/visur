@@ -139,12 +139,29 @@ public class CXCYCADC extends CompoundDataClass {
     boolean shortCXCYConflictsWithCA = false;
     if(gtNegOne(longCX, longCY, shortCX, shortCY) && longCXCYConflictsWithShortCXCY(newlineIndices, canvasWidth, longCX, longCY, shortCX, shortCY)) {
       longCXCYConflictsWithShortCXCY = true;
-    } else if(gtNegOne(longCX, longCY, ca) && _) {
+    } else if(gtNegOne(longCX, longCY, ca) && longCXCYConflictsWithCA(newlineIndices, longCX, longCY, ca)) {
       longCXCYConflictsWithCA = true;
     } else if(gtNegOne(shortCX, shortCY, ca) && _) {
       shortCXCYConflictsWithCA = true;
     }
     return longCXCYConflictsWithShortCXCY || longCXCYConflictsWithCA || shortCXCYConflictsWithCA;
+  }
+
+  private boolean longCXCYConflictsWithCA(ArrayList<Integer> newlineIndices, int longCX, int longCY, int ca) {
+    boolean caLinesUpWithCX = false;
+    boolean caLinesUpWithCY = false;
+    if(longCY == 0) {
+      caLinesUpWithCY = true;
+      caLinesUpWithCX = longCX == ca;
+    } else if(longCY - 1 < newlineIndices.size()) {
+      caLinesUpWithCX = longCX == ca - (newlineIndices.get(longCY - 1) + 1);
+      if (longCY < newlineIndices.size() - 1) {
+        caLinesUpWithCY = ca > newlineIndices.get(longCY - 1) && ca <= newlineIndices.get(longCY);
+      } else {
+        caLinesUpWithCY = ca > newlineIndices.get(longCY - 1);
+      }
+    }
+    return !(caLinesUpWithCX && caLinesUpWithCY);
   }
 
   private boolean gtNegOne(int... nums) {
