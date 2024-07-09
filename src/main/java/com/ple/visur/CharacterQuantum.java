@@ -52,7 +52,7 @@ public class CharacterQuantum extends Quantum {
     int destination = ca + 1;
 
     emc.putCA(destination);
-    int cx = emc.getCX();
+    int cx = emc.getLongCX();
     int canvasWidth = emc.getCanvasWidth();
     emc.putVirtualCX(cx % canvasWidth);
 
@@ -64,7 +64,7 @@ public class CharacterQuantum extends Quantum {
     if(ca > 0) {
       emc.putCA(--ca);
     }
-    int cx = emc.getCX();
+    int cx = emc.getLongCX();
     int canvasWidth = emc.getCanvasWidth();
     emc.putVirtualCX(cx % canvasWidth);
 

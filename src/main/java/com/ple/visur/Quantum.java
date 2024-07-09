@@ -29,7 +29,7 @@ public abstract class Quantum implements Shareable {
     int ca = scopeBounds[0];
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(ca);
-    emc.putVirtualCX(emc.getCX());
+    emc.putVirtualCX(emc.getLongCX());
     int[] newCursorBounds = cursorQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(newCursorBounds[0]);
     emc.putCursorQuantumEnd(newCursorBounds[1]);
@@ -60,7 +60,7 @@ public abstract class Quantum implements Shareable {
     int ca = scopeBounds[1] - 1;
     BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
     caBVV.putVal(ca);
-    emc.putVirtualCX(emc.getCX());
+    emc.putVirtualCX(emc.getLongCX());
     int[] newCursorBounds = cursorQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(newCursorBounds[0]);
     emc.putCursorQuantumEnd(newCursorBounds[1]);

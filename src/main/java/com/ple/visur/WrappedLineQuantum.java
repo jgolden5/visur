@@ -1,7 +1,6 @@
 package com.ple.visur;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 public class WrappedLineQuantum extends Quantum {
 
@@ -19,7 +18,7 @@ public class WrappedLineQuantum extends Quantum {
       rightBound = getQuantumEnd(ca);
     } else if(isInMiddleOfQuantum(leftBound)) {
       leftBound = getQuantumStart(leftBound);
-      emc.putVirtualCX(emc.getCX());
+      emc.putVirtualCX(emc.getLongCX());
     }
     bounds[0] = leftBound;
     bounds[1] = rightBound;
@@ -96,7 +95,7 @@ public class WrappedLineQuantum extends Quantum {
         mv.dx++;
       }
       emc.putCA(ca);
-      emc.putVirtualCX(emc.getCX());
+      emc.putVirtualCX(emc.getLongCX());
     }
     return ca;
   }
