@@ -135,14 +135,21 @@ public class CXCYCADC extends CompoundDataClass {
     boolean longCXCYConflictsWithShortCXCY = false;
     boolean longCXCYConflictsWithCA = false;
     boolean shortCXCYConflictsWithCA = false;
-    if(longCX > -1 && longCY > -1 && shortCX > -1 && shortCY > -1 && _) {
+    if(gtNegOne(longCX, longCY, shortCX, shortCY) && _) {
       longCXCYConflictsWithShortCXCY = true;
-    } else if(longCX > -1 && longCY > -1 && ca > -1 && _) {
+    } else if(gtNegOne(longCX, longCY, ca) && _) {
       longCXCYConflictsWithCA = true;
-    } else if(shortCX > -1 && shortCY > -1 && ca > -1 && _) {
+    } else if(gtNegOne(shortCX, shortCY, ca) && _) {
       shortCXCYConflictsWithCA = true;
     }
     return longCXCYConflictsWithShortCXCY || longCXCYConflictsWithCA || shortCXCYConflictsWithCA;
+  }
+
+  private boolean gtNegOne(int... nums) {
+    for(int n : nums) {
+      if(n <= -1) return false;
+    }
+    return true;
   }
 
   /**
