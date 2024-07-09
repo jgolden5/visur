@@ -141,7 +141,7 @@ public class CXCYCADC extends CompoundDataClass {
       longCXCYConflictsWithShortCXCY = true;
     } else if(gtNegOne(longCX, longCY, ca) && longCXCYConflictsWithCA(newlineIndices, longCX, longCY, ca)) {
       longCXCYConflictsWithCA = true;
-    } else if(gtNegOne(shortCX, shortCY, ca) && shortCXCYConflictsWithCA(newlineIndices, canvasWidth, longCX, longCY, shortCX, shortCY)) {
+    } else if(gtNegOne(shortCX, shortCY, ca) && shortCXCYConflictsWithCA(newlineIndices, canvasWidth, shortCX, shortCY, ca)) {
       shortCXCYConflictsWithCA = true;
     }
     return longCXCYConflictsWithShortCXCY || longCXCYConflictsWithCA || shortCXCYConflictsWithCA;
@@ -191,13 +191,26 @@ public class CXCYCADC extends CompoundDataClass {
     return !(caLinesUpWithCX && caLinesUpWithCY);
   }
 
-  private boolean shortCXCYConflictsWithCA(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY) {
-    /*
-    I - caLinesUpWithCX = ca % canvasWidth == shortCX
-    II - caLinesUpWithCY
-      1 - loop through every line kind of like shortCXCYConflictsWithLongCXCY method, but only compare shortCY with where it ends up in relation to absolute index
-    III - return !(caLinesUpWithCX && caLinesUpWithCY)
-     */
+  private boolean shortCXCYConflictsWithCA(ArrayList<Integer> newlineIndices, int canvasWidth, int shortCX, int shortCY, int ca) {
+    boolean caLinesUpWithCX = ca % canvasWidth == shortCX;
+    boolean caLinesUpWithCY;
+    int i = 0;
+    int absIndex = 0;
+    if(newlineIndices.size() > 0) {
+      while (i < newlineIndices.size()) {
+        absIndex += Math.min(canvasWidth, newlineIndices.get(i));
+        if (absIndex + canvasWidth > newlineIndices.get(i)) {
+          absIndex = newlineIndices.get(i);
+          i++;
+        } else {
+          absIndex += canvasWidth;
+        }
+      }
+    }
+    absIndex += shortCX;
+    caLinesUpWithCY = absIndex == ca;
+
+    return !(caLinesUpWithCX && caLinesUpWithCY);
   }
 
   /**
