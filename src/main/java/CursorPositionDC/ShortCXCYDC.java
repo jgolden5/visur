@@ -28,7 +28,9 @@ public class ShortCXCYDC extends CompoundDataClass {
 
   @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick) {
-    return null;
+    CompoundDataClassBrick coordinatesDCB = outerAsBrick.getOuter();
+    CoordinatesDC coordinatesDC = (CoordinatesDC) coordinatesDCB.getCDC();
+    return coordinatesDC.calcInternal(name, coordinatesDCB);
   }
 
   @Override
