@@ -2,7 +2,6 @@ package com.ple.visur;
 
 public enum EditorModelKey {
   canvasHeight,
-  canvasWidth,
   commandCursor,
   commandStateContent,
   contentY,

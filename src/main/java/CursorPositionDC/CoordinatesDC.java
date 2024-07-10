@@ -206,13 +206,16 @@ public class CoordinatesDC extends CompoundDataClass {
     if(r.getError() == null) {
       CompoundDataClassBrick cursorPositionDCB = coordinatesDCB.getOuter();
       PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
-      ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
+      PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("cw");
+      ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.getVal();
+      int canvasWidth = (int)cwDCB.getVal();
+
       if(name.equals("ca")) {
         r = calcCA(newlineIndices, coordinatesDCB);
       } else if(name.contains("long")) {
         r = calcLongCXCY(name, newlineIndices, coordinatesDCB);
       } else if(name.contains("short")) {
-        r = calcShortCXCY(name, newlineIndices, coordinatesDCB);
+        r = calcShortCXCY(name, newlineIndices, canvasWidth, coordinatesDCB);
       }
     }
     return r;
@@ -246,13 +249,13 @@ public class CoordinatesDC extends CompoundDataClass {
     return r;
   }
 
-  private Result<DataClassBrick> calcShortCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
+  private Result<DataClassBrick> calcShortCXCY(String name, ArrayList<Integer> newlineIndices, int canvasWidth, CompoundDataClassBrick thisAsBrick) {
     Result<DataClassBrick> r;
     PrimitiveDataClassBrick caCXCYDCB = (PrimitiveDataClassBrick) thisAsBrick.getInner("ca");
     if(caCXCYDCB.isComplete()) {
-      r = calcShortCXCYFromCA(newlineIndices, thisAsBrick);
+      r = calcShortCXCYFromCA(newlineIndices, canvasWidth, thisAsBrick);
     } else {
-      r = calcShortCXCYFromLongCXCY(newlineIndices, thisAsBrick);
+      r = calcShortCXCYFromLongCXCY(newlineIndices, canvasWidth, thisAsBrick);
     }
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
     if(name.equals("shortCX")) {
@@ -359,11 +362,9 @@ public class CoordinatesDC extends CompoundDataClass {
     return Result.make(longCXCYDCB, null);
   }
 
-  private Result<DataClassBrick> calcShortCXCYFromCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) {
+  private Result<DataClassBrick> calcShortCXCYFromCA(ArrayList<Integer> newlineIndices, int canvasWidth, CompoundDataClassBrick coordinatesDCB) {
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
-    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
-    int canvasWidth = (int)cwDCB.getVal();
     int ca = (int)caDCB.getVal();
     int shortCX;
     int shortCY = 0;
@@ -387,15 +388,13 @@ public class CoordinatesDC extends CompoundDataClass {
     return Result.make(shortCXCYDCB, null);
   }
 
-  private Result<DataClassBrick> calcShortCXCYFromLongCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) {
+  private Result<DataClassBrick> calcShortCXCYFromLongCXCY(ArrayList<Integer> newlineIndices, int canvasWidth, CompoundDataClassBrick coordinatesDCB) {
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
     PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
     int longCX = (int)longCXDCB.getVal();
     int longCY = (int)longCYDCB.getVal();
-    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
-    int canvasWidth = (int)cwDCB.getVal();
     int shortCX = longCX % canvasWidth;
     int shortCY = 0;
     for(int i = 0; i < longCY; i++) {
