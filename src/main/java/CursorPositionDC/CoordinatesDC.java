@@ -46,11 +46,9 @@ public class CoordinatesDC extends CompoundDataClass {
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
     if(moreThanOneValueWillBeSet(targetName, longCXCYDCB, shortCXCYDCB, caDCB)) {
       int[] coordinates = getCoordinates(targetName, longCXCYDCB, shortCXCYDCB, caDCB);
-      int canvasWidth = -1;
-      if(shortCXCYDCB.isComplete()) {
-        PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
-        canvasWidth = (int) cwDCB.getVal();
-      }
+      CompoundDataClassBrick cursorPositionDCB = coordinatesDCB.getOuter();
+      PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("cw");
+      int canvasWidth = (int) cwDCB.getVal();
       return coordinatesConflict(newlineIndices, canvasWidth, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4]);
     } else {
       return false;
