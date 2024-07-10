@@ -81,7 +81,7 @@ public class InitializerService {
     CompoundDataClassBrick coordinatesDCB = (CompoundDataClassBrick) cursorPosDCB.getInner("coordinates");
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
-    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
+    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("cw");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
     PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
     PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
