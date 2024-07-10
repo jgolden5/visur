@@ -192,6 +192,8 @@ public class TestDC {
     int longCY = 0;
 
     assertTrue(caDCB.isComplete());
+    int canvasWidth = 5;
+    cwDCB.putSafe(canvasWidth);
     longCXDCB.putForce(longCX);
     longCYDCB.putForce(longCY);
     assertTrue(longCXCYDCB.isComplete());

@@ -45,7 +45,7 @@ public class CoordinatesDC extends CompoundDataClass {
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
     if(moreThanOneValueWillBeSet(targetName, longCXCYDCB, shortCXCYDCB, caDCB)) {
-      int[] coordinates = getCoordinates(targetName, longCXCYDCB, shortCXCYDCB, caDCB);
+      int[] coordinates = getCoordinates(targetName, targetVal, longCXCYDCB, shortCXCYDCB, caDCB);
       CompoundDataClassBrick cursorPositionDCB = coordinatesDCB.getOuter();
       PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("cw");
       int canvasWidth = (int) cwDCB.getVal();
@@ -81,33 +81,41 @@ public class CoordinatesDC extends CompoundDataClass {
     return longCXCYIsOrWillBeSet && shortCXCYIsOrWillBeSet || shortCXCYIsOrWillBeSet && caIsOrWillBeSet || longCXCYIsOrWillBeSet && caIsOrWillBeSet;
   }
 
-  private int[] getCoordinates(String targetName, CompoundDataClassBrick longCXCYDCB, CompoundDataClassBrick shortCXCYDCB, PrimitiveDataClassBrick caDCB) {
+  private int[] getCoordinates(String targetName, Object targetVal, CompoundDataClassBrick longCXCYDCB, CompoundDataClassBrick shortCXCYDCB, PrimitiveDataClassBrick caDCB) {
     int[] coordinates = new int[5];
     int longCX = -1;
     int longCY = -1;
     int shortCX = -1;
     int shortCY = -1;
     int ca = -1;
+    PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
+    PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
     if(longCXCYDCB.isComplete()) {
-      PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
       longCX = (int)longCXDCB.getVal();
-      PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
       longCY = (int)longCYDCB.getVal();
+    } else if(targetName.equals("longCX") && longCYDCB.isComplete()) {
+      longCY = (int)longCYDCB.getVal();
+    } else if(targetName.equals("longCY") && longCXDCB.isComplete()) {
+      longCX = (int)longCXDCB.getVal();
     }
+    PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
+    PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
     if(shortCXCYDCB.isComplete()) {
-      PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
       shortCX = (int)shortCXDCB.getVal();
-      PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
       shortCY = (int)shortCYDCB.getVal();
+    } else if(targetName.equals("shortCX") && shortCYDCB.isComplete()) {
+      shortCY = (int)shortCYDCB.getVal();
+    } else if(targetName.equals("shortCY") && shortCXDCB.isComplete()) {
+      shortCX = (int)shortCXDCB.getVal();
     }
     if(caDCB.isComplete()) {
       ca = (int)caDCB.getVal();
     }
-    coordinates[0] = longCX;
-    coordinates[1] = longCY;
-    coordinates[2] = shortCX;
-    coordinates[3] = shortCY;
-    coordinates[4] = ca;
+    coordinates[0] = targetName.equals("longCX") ? (int)targetVal : longCX;
+    coordinates[1] = targetName.equals("longCY") ? (int) targetVal : longCY;
+    coordinates[2] = targetName.equals("shortCX") ? (int) targetVal : shortCX;
+    coordinates[3] = targetName.equals("shortCY") ? (int) targetVal : shortCY;
+    coordinates[4] = targetName.equals("ca") ? (int) targetVal : ca;
     return coordinates;
   }
 
@@ -115,11 +123,11 @@ public class CoordinatesDC extends CompoundDataClass {
     boolean longCXCYConflictsWithShortCXCY = false;
     boolean longCXCYConflictsWithCA = false;
     boolean shortCXCYConflictsWithCA = false;
-    if(gtNegOne(longCX, longCY, shortCX, shortCY) && !longCXCYConflictsWithShortCXCY(newlineIndices, canvasWidth, longCX, longCY, shortCX, shortCY)) {
+    if(gtNegOne(longCX, longCY, shortCX, shortCY) && longCXCYConflictsWithShortCXCY(newlineIndices, canvasWidth, longCX, longCY, shortCX, shortCY)) {
       longCXCYConflictsWithShortCXCY = true;
-    } else if(gtNegOne(longCX, longCY, ca) && !longCXCYConflictsWithCA(newlineIndices, longCX, longCY, ca)) {
+    } else if(gtNegOne(longCX, longCY, ca) && longCXCYConflictsWithCA(newlineIndices, longCX, longCY, ca)) {
       longCXCYConflictsWithCA = true;
-    } else if(gtNegOne(shortCX, shortCY, ca) && !shortCXCYConflictsWithCA(newlineIndices, canvasWidth, shortCX, shortCY, ca)) {
+    } else if(gtNegOne(shortCX, shortCY, ca) && shortCXCYConflictsWithCA(newlineIndices, canvasWidth, shortCX, shortCY, ca)) {
       shortCXCYConflictsWithCA = true;
     }
     return longCXCYConflictsWithShortCXCY || longCXCYConflictsWithCA || shortCXCYConflictsWithCA;
