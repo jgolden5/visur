@@ -273,16 +273,16 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   private Result<DataClassBrick> calcCAFromLongCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) thisAsBrick.getInner("cxcy");
-    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
-    int cx = (int) cxDCB.getDFB().getVal();
-    int cy = (int) cyDCB.getDFB().getVal();
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) thisAsBrick.getInner("longCXCY");
+    PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
+    PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
+    int longCX = (int) longCXDCB.getDFB().getVal();
+    int longCY = (int) longCYDCB.getDFB().getVal();
     int ca = 0;
-    if(cy > 0) {
-      ca += newlineIndices.get(cy - 1) + 1;
+    if(longCY > 0) {
+      ca += newlineIndices.get(longCY - 1) + 1;
     }
-    ca += cx;
+    ca += longCX;
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) thisAsBrick.getInner("ca");
     caDCB.putSafe(ca);
     return Result.make(caDCB, null);
