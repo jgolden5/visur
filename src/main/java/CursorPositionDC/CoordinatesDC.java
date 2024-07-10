@@ -229,7 +229,7 @@ public class CoordinatesDC extends CompoundDataClass {
 
   private Result<DataClassBrick> calcCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
     Result<DataClassBrick> r;
-    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY"); //assumes longCXCYToCA is easier than shortToCA
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) thisAsBrick.getInner("longCXCY"); //assumes longCXCYToCA is easier than shortToCA
     if(longCXCYDCB.isComplete()) {
       r = calcCAFromLongCXCY(newlineIndices, thisAsBrick);
     } else {
