@@ -23,7 +23,7 @@ public class BrickVisurVar implements VisurVar {
       PrimitiveDataClassBrick calculatedBrick = (PrimitiveDataClassBrick) calculatedBrickResult.getVal();
       brick = calculatedBrick;
     }
-    return brick.get().getVal();
+    return brick.getVal();
   }
 
   @Override

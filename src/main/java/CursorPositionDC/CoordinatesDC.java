@@ -46,8 +46,11 @@ public class CoordinatesDC extends CompoundDataClass {
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
     if(moreThanOneValueWillBeSet(targetName, longCXCYDCB, shortCXCYDCB, caDCB)) {
       int[] coordinates = getCoordinates(targetName, longCXCYDCB, shortCXCYDCB, caDCB);
-      PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
-      int canvasWidth = (int)cwDCB.getVal();
+      int canvasWidth = -1;
+      if(shortCXCYDCB.isComplete()) {
+        PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cw");
+        canvasWidth = (int) cwDCB.getVal();
+      }
       return coordinatesConflict(newlineIndices, canvasWidth, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4]);
     } else {
       return false;
@@ -88,15 +91,15 @@ public class CoordinatesDC extends CompoundDataClass {
     int shortCY = -1;
     int ca = -1;
     if(longCXCYDCB.isComplete()) {
-      PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("cx");
+      PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
       longCX = (int)longCXDCB.getVal();
-      PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("cy");
+      PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
       longCY = (int)longCYDCB.getVal();
     }
     if(shortCXCYDCB.isComplete()) {
-      PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cx");
+      PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
       shortCX = (int)shortCXDCB.getVal();
-      PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("cy");
+      PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
       shortCY = (int)shortCYDCB.getVal();
     }
     if(caDCB.isComplete()) {
@@ -114,11 +117,11 @@ public class CoordinatesDC extends CompoundDataClass {
     boolean longCXCYConflictsWithShortCXCY = false;
     boolean longCXCYConflictsWithCA = false;
     boolean shortCXCYConflictsWithCA = false;
-    if(gtNegOne(longCX, longCY, shortCX, shortCY) && longCXCYConflictsWithShortCXCY(newlineIndices, canvasWidth, longCX, longCY, shortCX, shortCY)) {
+    if(gtNegOne(longCX, longCY, shortCX, shortCY) && !longCXCYConflictsWithShortCXCY(newlineIndices, canvasWidth, longCX, longCY, shortCX, shortCY)) {
       longCXCYConflictsWithShortCXCY = true;
-    } else if(gtNegOne(longCX, longCY, ca) && longCXCYConflictsWithCA(newlineIndices, longCX, longCY, ca)) {
+    } else if(gtNegOne(longCX, longCY, ca) && !longCXCYConflictsWithCA(newlineIndices, longCX, longCY, ca)) {
       longCXCYConflictsWithCA = true;
-    } else if(gtNegOne(shortCX, shortCY, ca) && shortCXCYConflictsWithCA(newlineIndices, canvasWidth, shortCX, shortCY, ca)) {
+    } else if(gtNegOne(shortCX, shortCY, ca) && !shortCXCYConflictsWithCA(newlineIndices, canvasWidth, shortCX, shortCY, ca)) {
       shortCXCYConflictsWithCA = true;
     }
     return longCXCYConflictsWithShortCXCY || longCXCYConflictsWithCA || shortCXCYConflictsWithCA;
