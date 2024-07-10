@@ -62,12 +62,12 @@ public class CoordinatesDC extends CompoundDataClass {
     boolean shortCXCYIsOrWillBeSet = false;
     boolean caIsOrWillBeSet = false;
     switch(targetName) {
-      case "longCXCY":
+      case "longCXCY", "longCX", "longCY":
         longCXCYIsOrWillBeSet = true;
         shortCXCYIsOrWillBeSet = shortCXCYDCB.isComplete();
         caIsOrWillBeSet = caDCB.isComplete();
         break;
-      case "shortCXCY":
+      case "shortCXCY", "shortCX", "shortCY":
         longCXCYIsOrWillBeSet = longCXCYDCB.isComplete();
         shortCXCYIsOrWillBeSet = true;
         caIsOrWillBeSet = caDCB.isComplete();
