@@ -246,13 +246,13 @@ public class CoordinatesDC extends CompoundDataClass {
     return r;
   }
 
-  private Result<DataClassBrick> calcShortCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) {
+  private Result<DataClassBrick> calcShortCXCY(String name, ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
     Result<DataClassBrick> r;
-    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) getInner("longCXCY");
-    if(longCXCYDCB.isComplete()) {
-      r = calcShortCXCYFromLongCXCY(newlineIndices, coordinatesDCB);
+    PrimitiveDataClassBrick caCXCYDCB = (PrimitiveDataClassBrick) thisAsBrick.getInner("ca");
+    if(caCXCYDCB.isComplete()) {
+      r = calcShortCXCYFromCA(newlineIndices, thisAsBrick);
     } else {
-      r = calcShortCXCYFromCA(newlineIndices, coordinatesDCB);
+      r = calcShortCXCYFromLongCXCY(newlineIndices, thisAsBrick);
     }
     CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) r.getVal();
     if(name.equals("shortCX")) {
