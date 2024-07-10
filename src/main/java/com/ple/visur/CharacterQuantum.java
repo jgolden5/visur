@@ -18,6 +18,7 @@ public class CharacterQuantum extends Quantum {
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
+    int canvasWidth = emc.getCanvasWidth();
     int destination = (int)caBVV.getVal();
     int span = emc.getSpan();
     while(mv.dx != 0) {
@@ -36,7 +37,7 @@ public class CharacterQuantum extends Quantum {
     }
     while(mv.dy != 0) {
       if(mv.dy > 0) {
-        destination = moveDown(editorContent, newlineIndices);
+        destination = moveDown(editorContent, newlineIndices, canvasWidth);
         mv.dy--;
       } else {
         destination = moveUp(editorContent, newlineIndices);
@@ -71,12 +72,12 @@ public class CharacterQuantum extends Quantum {
     return ca;
   }
 
-  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices) {
+  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices, int canvasWidth) {
     int shortCX = emc.getShortCX();
     int shortCY = emc.getShortCY();
     emc.putShortCY(++shortCY);
     int[] longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
-    emc.putShortCX(Math.min(shortCX, longBounds[1]));
+    emc.putShortCX(Math.min(shortCX, longBounds[1] % canvasWidth));
     int ca = emc.getCA();
     return ca;
   }
