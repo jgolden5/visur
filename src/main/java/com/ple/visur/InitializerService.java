@@ -38,10 +38,10 @@ public class InitializerService {
 
     emc.putExecutionDataStack(new ExecutionDataStack());
 
-//    final String initialEditorContent = "Hello world\n" +
-//      "How are you?\n" +
-//      "Goodbye";
-    final String initialEditorContent = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nbbb";
+    final String initialEditorContent = "Hello world\n" +
+      "How are you?\n" +
+      "Goodbye";
+//    final String initialEditorContent = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nbbb";
 //    final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
 //      "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
 //      "One's devotion to Vehumet can be proven by the causing of as much carnage and destruction as possible.\n" +
@@ -118,17 +118,17 @@ public class InitializerService {
   private void initializeQuantums() {
     QuantumNameToQuantum quantumNameToQuantum = new QuantumNameToQuantum();
     String startingCursorQuantumName = "character";
-    String startingScopeQuantumName = "wrappedLine";
+    String startingScopeQuantumName = "line";
     quantumNameToQuantum.put("word", new RegexQuantum("word", "\\S+"));
     quantumNameToQuantum.put("character", new CharacterQuantum());
-    quantumNameToQuantum.put("wrappedLine", new WrappedLineQuantum());
+    quantumNameToQuantum.put("line", new LineQuantum());
     quantumNameToQuantum.put("document", new DocumentQuantum());
     emc.putQuantumNameToQuantum(quantumNameToQuantum);
 
     KeyToQuantumName keyToQuantumName = new KeyToQuantumName();
     keyToQuantumName.put("q", "character");
     keyToQuantumName.put("w", "word");
-    keyToQuantumName.put("e", "wrappedLine");
+    keyToQuantumName.put("e", "line");
     keyToQuantumName.put("r", "document");
     emc.putKeyToQuantumName(keyToQuantumName);
 
