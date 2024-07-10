@@ -378,7 +378,11 @@ public class CoordinatesDC extends CompoundDataClass {
         break;
       }
     }
-    shortCX = (newlineIndices.get(i) - ca) % canvasWidth;
+    if(ca > newlineIndices.get(i)) {
+      shortCX = (newlineIndices.get(i) - ca) % canvasWidth;
+    } else {
+      shortCX = ca;
+    }
     PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
     PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
     shortCXDCB.putSafe(shortCX);
