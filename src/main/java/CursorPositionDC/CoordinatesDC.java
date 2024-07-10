@@ -319,12 +319,12 @@ public class CoordinatesDC extends CompoundDataClass {
     } else {
       cx = ca;
     }
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) thisAsBrick.getInner("cxcy");
-    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
-    cxDCB.putSafe(cx);
-    cyDCB.putSafe(cy);
-    return Result.make(cxcyDCB, null);
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) thisAsBrick.getInner("longCXCY");
+    PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
+    PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
+    longCXDCB.putSafe(cx);
+    longCYDCB.putSafe(cy);
+    return Result.make(longCXCYDCB, null);
   }
 
   private Result<DataClassBrick> calcLongCXCYFromShortCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) { //harder than calculating long from ca
