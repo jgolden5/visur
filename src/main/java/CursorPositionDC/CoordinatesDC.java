@@ -180,21 +180,23 @@ public class CoordinatesDC extends CompoundDataClass {
   private boolean shortCXCYConflictsWithCA(ArrayList<Integer> newlineIndices, int canvasWidth, int shortCX, int shortCY, int ca) {
     boolean caLinesUpWithCX = ca % canvasWidth == shortCX;
     boolean caLinesUpWithCY;
-    int i = 0;
     int absIndex = 0;
-    if(newlineIndices.size() > 0) {
-      while (i < newlineIndices.size()) {
-        absIndex += Math.min(canvasWidth, newlineIndices.get(i));
-        if (absIndex + canvasWidth > newlineIndices.get(i)) {
-          absIndex = newlineIndices.get(i);
-          i++;
+    int nextNewlineChar = newlineIndices.size() > 0 ? newlineIndices.get(0) : shortCX;
+    int ni = 0;
+    int testShortCY;
+    for(testShortCY = 0; testShortCY < shortCY; testShortCY++) {
+      if(absIndex + canvasWidth < nextNewlineChar) {
+        absIndex += canvasWidth;
+      } else {
+        absIndex = nextNewlineChar + 1;
+        if(newlineIndices.size() > ++ni) {
+          nextNewlineChar = newlineIndices.get(ni);
         } else {
-          absIndex += canvasWidth;
+          nextNewlineChar = shortCX;
         }
       }
     }
-    absIndex += shortCX;
-    caLinesUpWithCY = absIndex == ca;
+    caLinesUpWithCY = testShortCY == shortCY;
 
     return !(caLinesUpWithCX && caLinesUpWithCY);
   }
