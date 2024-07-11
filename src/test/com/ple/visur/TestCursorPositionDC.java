@@ -57,7 +57,7 @@ public class TestCursorPositionDC {
     assertEquals(longCX, longCXDCB.get().getVal());
     assertEquals(longCY, longCYDCB.get().getVal());
 
-    //2 = ni can be set always (because cursorPositionDC.minimumRequiredSetValues == 2)
+    //2 = ni can be set always (because cursorPositionDC.minimumRequiredSetValues == 3 and cw is already set by this point)
     ArrayList<Integer> newlineIndices = new ArrayList<>();
     newlineIndices.add(11);
     newlineIndices.add(24);
@@ -65,20 +65,24 @@ public class TestCursorPositionDC {
     assertNull(r.getError());
     assertEquals(newlineIndices, niDCB.get().getVal());
 
-    //3 = ca can be set when longCXCY is set and no conflicts exist
+    //3 = cw can be set always (just like ni)
+    int canvasWidth = 5;
+    cwDCB.putSafe(canvasWidth);
+
+    //4 = ca can be set when longCXCY is set and no conflicts exist
     int ca = 4;
     r = caDCB.putSafe(ca);
     assertNull(r.getError());
     assertEquals(ca, caDCB.get().getVal());
 
-    //4 = ca CAN'T be set when longCXCY is set and conflicts DO exist
+    //5 = ca CAN'T be set when longCXCY is set and conflicts DO exist
     int previousCA = ca;
     ca = 14;
     r = caDCB.putSafe(ca);
     assertNotNull(r.getError());
     assertEquals(previousCA, caDCB.get().getVal());
 
-    //5 = longCXCY can be set when ca is set and no conflicts exist
+    //6 = longCXCY can be set when ca is set and no conflicts exist
     longCXDCB.remove();
     longCYDCB.remove();
     caDCB.putSafe(ca);
@@ -95,7 +99,7 @@ public class TestCursorPositionDC {
     assertEquals(longCX, longCXDCB.get().getVal());
     assertEquals(longCY, longCYDCB.get().getVal());
 
-    //6 = longCXCY CAN'T be set when ca is set and conflicts DO exist
+    //7 = longCXCY CAN'T be set when ca is set and conflicts DO exist
     int previousCX = longCX;
     int previousCY = longCY;
     longCX = 1;
@@ -107,7 +111,7 @@ public class TestCursorPositionDC {
     assertEquals(previousCX, longCXDCB.get().getVal());
     assertEquals(previousCY, longCYDCB.get().getVal());
 
-    //7 = ca can be set when longCXCY is unset
+    //8 = ca can be set when longCXCY is unset
     longCXDCB.remove();
     longCYDCB.remove();
     ca = 30;
@@ -126,19 +130,23 @@ public class TestCursorPositionDC {
     assertEquals(longCX, longCXDCB.get().getVal());
     assertEquals(longCY, longCYDCB.get().getVal());
 
-    //2 = ni can be set always (because cursorPositionDC.minimumRequiredSetValues == 2)
+    //2 = ni can be force put without removing any other values
     ArrayList<Integer> newlineIndices = new ArrayList<>();
     newlineIndices.add(11);
     newlineIndices.add(24);
     niDCB.putForce(newlineIndices);
     assertEquals(newlineIndices, niDCB.get().getVal());
 
-    //3 = ca can be set when longCXCY is set and no conflicts exist
+    //3 = cw can be force put without removing any other values (just like ni)
+    int canvasWidth = 5;
+    cwDCB.putForce(canvasWidth);
+
+    //4 = ca can be set when longCXCY is set and no conflicts exist
     int ca = 10;
     caDCB.putForce(ca);
     assertEquals(ca, caDCB.get().getVal());
 
-    //4 = ca CAN be set when longCXCY is set and conflicts DO exist, but longCXCY needs to be UNSET
+    //5 = ca CAN be set when longCXCY is set and conflicts DO exist, but longCXCY needs to be UNSET
     ca = 14;
     caDCB.putForce(ca);
     assertFalse(longCXCYDCB.isComplete());
@@ -146,7 +154,7 @@ public class TestCursorPositionDC {
     assertFalse(longCYDCB.isComplete());
     assertEquals(14, caDCB.get().getVal());
 
-    //5 = longCXCY can be set when ca is set and no conflicts exist
+    //6 = longCXCY can be set when ca is set and no conflicts exist
     longCXDCB.remove();
     longCYDCB.remove();
     caDCB.putForce(ca);
@@ -159,7 +167,7 @@ public class TestCursorPositionDC {
     assertEquals(longCY, longCYDCB.get().getVal());
     assertTrue(caDCB.isComplete());
 
-    //6 = longCXCY CAN be set when ca is set and conflicts DO exist, but ca needs to be UNSET
+    //7 = longCXCY CAN be set when ca is set and conflicts DO exist, but ca needs to be UNSET
     longCX = 1;
     longCY = 0;
     longCXDCB.putForce(longCX);
@@ -170,7 +178,7 @@ public class TestCursorPositionDC {
     assertEquals(longCY, longCYDCB.get().getVal());
     assertFalse(caDCB.isComplete());
 
-    //7 = ca can be set when longCXCY is unset
+    //8 = ca can be set when longCXCY is unset
     longCXDCB.remove();
     longCYDCB.remove();
     ca = 30;
