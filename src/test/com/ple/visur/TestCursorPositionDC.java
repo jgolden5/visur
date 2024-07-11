@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class TestDC {
+public class TestCursorPositionDC {
   CursorPositionDCHolder cursorPositionDCHolder = CursorPositionDCHolder.make();
   CompoundDataClassBrick cursorPositionDCB;
   PrimitiveDataClassBrick niDCB;
@@ -42,7 +42,7 @@ public class TestDC {
     assertFalse(cursorPositionDCB.isComplete());
   }
 
-  @Test void pdcbPutSafe() {
+  @Test void caAndLongCXCYPutSafe() {
     //1 = longCXCY can be set when ca is unset
     int longCX = 4;
     int longCY = 0;
@@ -115,7 +115,7 @@ public class TestDC {
 
   }
 
-  @Test void pdcbPutForce() {
+  @Test void caAndLongCXCYPutForce() {
     //1 = longCXCY can be set when ca is unset
     int longCX = 10;
     int longCY = 0;
@@ -132,6 +132,8 @@ public class TestDC {
     assertEquals(newlineIndices, niDCB.get().getVal());
 
     //3 = ca can be set when longCXCY is set and no conflicts exist
+    int canvasWidth = 5;
+    cwDCB.putSafe(canvasWidth);
     int ca = 10;
     caDCB.putForce(ca);
     assertEquals(ca, caDCB.get().getVal());
@@ -177,7 +179,7 @@ public class TestDC {
 
   }
 
-  @Test void dcbGetOrCalc() {
+  @Test void caAndLongCXCYGetOrCalc() {
     //1 = caDCB.getOrCalc when caDCB is set to 0
     int ca = 0;
     caDCB.putForce(ca);
