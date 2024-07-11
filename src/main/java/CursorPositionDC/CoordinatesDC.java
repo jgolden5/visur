@@ -133,17 +133,7 @@ public class CoordinatesDC extends CompoundDataClass {
     } else if (valuesAreSet(shortCX, shortCY, ca)) {
       shortCXCYConflictsWithCA = shortCXCYConflictsWithCA(newlineIndices, canvasWidth, shortCX, shortCY, ca);
     }
-    if (longCXCYConflictsWithShortCXCY == ConflictsCheckResult.yes ||
-      longCXCYConflictsWithCA == ConflictsCheckResult.yes ||
-      shortCXCYConflictsWithCA == ConflictsCheckResult.yes) {
-      return ConflictsCheckResult.yes;
-    } else if (longCXCYConflictsWithShortCXCY == ConflictsCheckResult.maybe ||
-      longCXCYConflictsWithCA == ConflictsCheckResult.maybe ||
-      shortCXCYConflictsWithCA == ConflictsCheckResult.maybe) {
-      return ConflictsCheckResult.maybe;
-    } else {
-      return ConflictsCheckResult.no;
-    }
+    return ConflictsCheckResult.getMostCertainResult(longCXCYConflictsWithCA, longCXCYConflictsWithShortCXCY, shortCXCYConflictsWithCA);
   }
 
   private boolean valuesAreSet(int... nums) {
@@ -217,7 +207,7 @@ public class CoordinatesDC extends CompoundDataClass {
     }
     boolean caLinesUpWithShortCXCY = absIndex + shortCX == ca;
 
-    return caLinesUpWithShortCXCY ? ConflictsCheckResult.yes : ConflictsCheckResult.no;
+    return caLinesUpWithShortCXCY ? ConflictsCheckResult.no : ConflictsCheckResult.yes;
   }
 
   @Override
