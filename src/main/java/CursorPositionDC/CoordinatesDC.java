@@ -81,7 +81,7 @@ public class CoordinatesDC extends CompoundDataClass {
       shortCXCYIsOrWillBeSet = ConflictsCheckResult.no;
     }
     caIsOrWillBeSet = caDCB.isComplete() || targetName.equals("ca") ? ConflictsCheckResult.yes : ConflictsCheckResult.no;
-    return ConflictsCheckResult.getMostCertainResult(longCXCYIsOrWillBeSet, shortCXCYIsOrWillBeSet, caIsOrWillBeSet);
+    return ConflictsCheckResult.getMostCertainResult(2, longCXCYIsOrWillBeSet, shortCXCYIsOrWillBeSet, caIsOrWillBeSet);
   }
 
   private int[] getCoordinates(String targetName, Object targetVal, CompoundDataClassBrick longCXCYDCB, CompoundDataClassBrick shortCXCYDCB, PrimitiveDataClassBrick caDCB) {
@@ -133,7 +133,7 @@ public class CoordinatesDC extends CompoundDataClass {
     } else if (valuesAreSet(shortCX, shortCY, ca)) {
       shortCXCYConflictsWithCA = shortCXCYConflictsWithCA(newlineIndices, canvasWidth, shortCX, shortCY, ca);
     }
-    return ConflictsCheckResult.getMostCertainResult(longCXCYConflictsWithCA, longCXCYConflictsWithShortCXCY, shortCXCYConflictsWithCA);
+    return ConflictsCheckResult.getMostCertainResult(1, longCXCYConflictsWithCA, longCXCYConflictsWithShortCXCY, shortCXCYConflictsWithCA);
   }
 
   private boolean valuesAreSet(int... nums) {

@@ -254,18 +254,18 @@ public class TestCursorPositionDC {
     assertFalse(longCYDCB.isComplete());
     assertEquals(14, caDCB.get().getVal());
 
-    //6 = longCXCY can be set when ca is set and no conflicts exist
+    //6 = setting longCXCY will unset ca when ca is set, even if no conflicts exist
     longCXDCB.remove();
     longCYDCB.remove();
     caDCB.putForce(ca);
     longCX = 2;
     longCY = 1;
     longCXDCB.putForce(longCX);
-    assertTrue(caDCB.isComplete());
+    assertFalse(caDCB.isComplete());
+    assertEquals(2, longCXDCB.getVal());
     longCYDCB.putForce(longCY);
-    assertEquals(longCX, longCXDCB.get().getVal());
     assertEquals(longCY, longCYDCB.get().getVal());
-    assertTrue(caDCB.isComplete());
+    assertFalse(caDCB.isComplete());
 
     //7 = longCXCY CAN be set when ca is set and conflicts DO exist, but ca needs to be UNSET
     longCX = 1;
