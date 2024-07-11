@@ -287,6 +287,17 @@ public class TestCursorPositionDC {
   }
 
   @Test void caAndShortCXCYPutForce() {
+    //1 = shortCXCY can be set when ca is unset
+
+    //2 = ca can be set when shortCXCY is set and no conflicts exist
+
+    //3 = ca can be set when shortCXCY is set and conflicts DO exist, but shortCXCY needs to be UNSET
+
+    //4 = shortCXCY can be set when ca is set and no conflicts exist
+
+    //5 = shortCXCY can be set when ca is set and conflicts DO exist, but ca needs to be UNSET
+
+    //6 = ca can be set when shortCXCY is unset
 
   }
 
