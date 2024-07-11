@@ -31,6 +31,7 @@ public class TestCursorPositionDC {
     ArrayList<Integer> newlineIndices = new ArrayList<>();
     newlineIndices.add(11);
     newlineIndices.add(24);
+    newlineIndices.add(32);
     int canvasWidth = 5;
     niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
     cwDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("cw");
@@ -288,8 +289,19 @@ public class TestCursorPositionDC {
 
   @Test void caAndShortCXCYPutForce() {
     //1 = shortCXCY can be set when ca is unset
+    shortCXDCB.putForce(1);
+    assertEquals(1, shortCXDCB.getVal());
+    shortCYDCB.putForce(3);
+    assertTrue(shortCXCYDCB.isComplete());
+    assertEquals(3, shortCYDCB.getVal());
+    assertFalse(caDCB.isComplete());
 
     //2 = ca can be set when shortCXCY is set and no conflicts exist
+    caDCB.putForce(13);
+    assertEquals(13, caDCB.getVal());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertEquals(1, shortCXDCB.getVal());
+    assertEquals(3, shortCYDCB.getVal());
 
     //3 = ca can be set when shortCXCY is set and conflicts DO exist, but shortCXCY needs to be UNSET
 
