@@ -55,8 +55,8 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
    */
   public Result putSafe(Object val) {
     Result result;
-    boolean conflictsExist = outer.conflictsCheck(name, val);
-    if(conflictsExist) {
+    ConflictsCheckResult ccr = outer.conflictsCheck(name, val);
+    if(ccr != ConflictsCheckResult.no) {
       result = Result.make(null, "inners conflict");
     } else {
       DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);

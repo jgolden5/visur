@@ -38,47 +38,52 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   @Override
-  public boolean conflictsCheck(CompoundDataClassBrick coordinatesDCB, String targetName, Object targetVal) {
+  public ConflictsCheckResult conflictsCheck(CompoundDataClassBrick coordinatesDCB, String targetName, Object targetVal) {
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) coordinatesDCB.getOuter().getInner("ni");
     ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.get().getVal();
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
-    if(moreThanOneValueWillBeSet(targetName, longCXCYDCB, shortCXCYDCB, caDCB)) {
+    ConflictsCheckResult moreThanOneValueWillBeSet = moreThanOneValueWillBeSet(targetName, longCXCYDCB, shortCXCYDCB, caDCB);
+    if(moreThanOneValueWillBeSet == ConflictsCheckResult.yes) {
       int[] coordinates = getCoordinates(targetName, targetVal, longCXCYDCB, shortCXCYDCB, caDCB);
       CompoundDataClassBrick cursorPositionDCB = coordinatesDCB.getOuter();
       PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("cw");
       int canvasWidth = (int) cwDCB.getVal();
       return coordinatesConflict(newlineIndices, canvasWidth, coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4]);
     } else {
-      return false;
+      return moreThanOneValueWillBeSet;
     }
   }
 
-  private boolean moreThanOneValueWillBeSet(String targetName, CompoundDataClassBrick longCXCYDCB, CompoundDataClassBrick shortCXCYDCB, PrimitiveDataClassBrick caDCB) {
-    boolean longCXCYIsOrWillBeSet = false;
-    boolean shortCXCYIsOrWillBeSet = false;
-    boolean caIsOrWillBeSet = false;
-    switch(targetName) {
-      case "longCXCY", "longCX", "longCY":
-        longCXCYIsOrWillBeSet = true;
-        shortCXCYIsOrWillBeSet = shortCXCYDCB.isComplete();
-        caIsOrWillBeSet = caDCB.isComplete();
-        break;
-      case "shortCXCY", "shortCX", "shortCY":
-        longCXCYIsOrWillBeSet = longCXCYDCB.isComplete();
-        shortCXCYIsOrWillBeSet = true;
-        caIsOrWillBeSet = caDCB.isComplete();
-        break;
-      case "ca":
-        longCXCYIsOrWillBeSet = longCXCYDCB.isComplete();
-        shortCXCYIsOrWillBeSet = shortCXCYDCB.isComplete();
-        caIsOrWillBeSet = true;
-        break;
-      default:
-        System.out.println("target name not recognized for checking if more than one value will be set in coordinatesDCB");
+  private ConflictsCheckResult moreThanOneValueWillBeSet(String targetName, CompoundDataClassBrick longCXCYDCB, CompoundDataClassBrick shortCXCYDCB, PrimitiveDataClassBrick caDCB) {
+    ConflictsCheckResult longCXCYIsOrWillBeSet = ConflictsCheckResult.no;
+    ConflictsCheckResult shortCXCYIsOrWillBeSet = ConflictsCheckResult.no;
+    ConflictsCheckResult caIsOrWillBeSet = ConflictsCheckResult.no;
+    if(targetName.contains("long")) {
+      if(targetName.equals("longCX")) {
+        PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
+        boolean longCXCYDCBWillBeComplete = longCYDCB.isComplete();
+        longCXCYIsOrWillBeSet = longCXCYDCBWillBeComplete ? ConflictsCheckResult.yes : ConflictsCheckResult.maybe;
+      } else if(targetName.equals("longCY")) {
+        PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
+        boolean longCXCYDCBWillBeComplete = longCXDCB.isComplete();
+        longCXCYIsOrWillBeSet = longCXCYDCBWillBeComplete ? ConflictsCheckResult.yes : ConflictsCheckResult.maybe;
+      }
+    } else if(targetName.contains("short")) {
+      if(targetName.equals("shortCX")) {
+        PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
+        boolean shortCXCYDCBWillBeComplete = shortCYDCB.isComplete();
+        shortCXCYIsOrWillBeSet = shortCXCYDCBWillBeComplete ? ConflictsCheckResult.yes : ConflictsCheckResult.maybe;
+      } else if(targetName.equals("shortCY")) {
+        PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
+        boolean shortCXCYDCBWillBeComplete = shortCXDCB.isComplete();
+        shortCXCYIsOrWillBeSet = shortCXCYDCBWillBeComplete ? ConflictsCheckResult.yes : ConflictsCheckResult.maybe;
+      }
+    } else if(targetName.equals("ca")) {
+      caIsOrWillBeSet = ConflictsCheckResult.yes;
     }
-    return longCXCYIsOrWillBeSet && shortCXCYIsOrWillBeSet || shortCXCYIsOrWillBeSet && caIsOrWillBeSet || longCXCYIsOrWillBeSet && caIsOrWillBeSet;
+    return ConflictsCheckResult.getMostCertainResult(longCXCYIsOrWillBeSet, shortCXCYIsOrWillBeSet, caIsOrWillBeSet);
   }
 
   private int[] getCoordinates(String targetName, Object targetVal, CompoundDataClassBrick longCXCYDCB, CompoundDataClassBrick shortCXCYDCB, PrimitiveDataClassBrick caDCB) {
@@ -119,28 +124,38 @@ public class CoordinatesDC extends CompoundDataClass {
     return coordinates;
   }
 
-  private boolean coordinatesConflict(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY, int ca) {
-    boolean longCXCYConflictsWithShortCXCY = false;
-    boolean longCXCYConflictsWithCA = false;
-    boolean shortCXCYConflictsWithCA = false;
-    if(gtNegOne(longCX, longCY, shortCX, shortCY) && longCXCYConflictsWithShortCXCY(newlineIndices, canvasWidth, longCX, longCY, shortCX, shortCY)) {
-      longCXCYConflictsWithShortCXCY = true;
-    } else if(gtNegOne(longCX, longCY, ca) && longCXCYConflictsWithCA(newlineIndices, longCX, longCY, ca)) {
-      longCXCYConflictsWithCA = true;
-    } else if(gtNegOne(shortCX, shortCY, ca) && shortCXCYConflictsWithCA(newlineIndices, canvasWidth, shortCX, shortCY, ca)) {
-      shortCXCYConflictsWithCA = true;
+  private ConflictsCheckResult coordinatesConflict(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY, int ca) {
+    ConflictsCheckResult longCXCYConflictsWithShortCXCY = ConflictsCheckResult.no;
+    ConflictsCheckResult longCXCYConflictsWithCA = ConflictsCheckResult.no;
+    ConflictsCheckResult shortCXCYConflictsWithCA = ConflictsCheckResult.no;
+    if (valuesAreSet(longCX, longCY, shortCX, shortCY)) {
+      longCXCYConflictsWithShortCXCY = longCXCYConflictsWithShortCXCY(newlineIndices, canvasWidth, longCX, longCY, shortCX, shortCY);
+    } else if (valuesAreSet(longCX, longCY, ca)) {
+      longCXCYConflictsWithCA = longCXCYConflictsWithCA(newlineIndices, longCX, longCY, ca);
+    } else if (valuesAreSet(shortCX, shortCY, ca)) {
+      shortCXCYConflictsWithCA = shortCXCYConflictsWithCA(newlineIndices, canvasWidth, shortCX, shortCY, ca);
     }
-    return longCXCYConflictsWithShortCXCY || longCXCYConflictsWithCA || shortCXCYConflictsWithCA;
+    if (longCXCYConflictsWithShortCXCY == ConflictsCheckResult.yes ||
+      longCXCYConflictsWithCA == ConflictsCheckResult.yes ||
+      shortCXCYConflictsWithCA == ConflictsCheckResult.yes) {
+      return ConflictsCheckResult.yes;
+    } else if (longCXCYConflictsWithShortCXCY == ConflictsCheckResult.maybe ||
+      longCXCYConflictsWithCA == ConflictsCheckResult.maybe ||
+      shortCXCYConflictsWithCA == ConflictsCheckResult.maybe) {
+      return ConflictsCheckResult.maybe;
+    } else {
+      return ConflictsCheckResult.no;
+    }
   }
 
-  private boolean gtNegOne(int... nums) {
+  private boolean valuesAreSet(int... nums) {
     for(int n : nums) {
       if(n <= -1) return false;
     }
     return true;
   }
 
-  private boolean longCXCYConflictsWithShortCXCY(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY) {
+  private ConflictsCheckResult longCXCYConflictsWithShortCXCY(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY) {
     boolean cxsConflict = longCX % canvasWidth != shortCX;
     boolean cysConflict;
     int testLongCY = 0;
@@ -157,10 +172,14 @@ public class CoordinatesDC extends CompoundDataClass {
       testShortCY++;
     }
     cysConflict = testShortCY != shortCY && testLongCY != longCY;
-    return (!cxsConflict && !cysConflict);
+    if(cxsConflict || cysConflict) {
+      return ConflictsCheckResult.yes;
+    } else {
+      return ConflictsCheckResult.no;
+    }
   }
 
-  private boolean longCXCYConflictsWithCA(ArrayList<Integer> newlineIndices, int longCX, int longCY, int ca) {
+  private ConflictsCheckResult longCXCYConflictsWithCA(ArrayList<Integer> newlineIndices, int longCX, int longCY, int ca) {
     boolean caLinesUpWithCX = false;
     boolean caLinesUpWithCY = false;
     if(longCY == 0) {
@@ -174,10 +193,14 @@ public class CoordinatesDC extends CompoundDataClass {
         caLinesUpWithCY = ca > newlineIndices.get(longCY - 1);
       }
     }
-    return !(caLinesUpWithCX && caLinesUpWithCY);
+    if(caLinesUpWithCX && caLinesUpWithCY) {
+      return ConflictsCheckResult.yes;
+    } else {
+      return ConflictsCheckResult.no;
+    }
   }
 
-  private boolean shortCXCYConflictsWithCA(ArrayList<Integer> newlineIndices, int canvasWidth, int shortCX, int shortCY, int ca) {
+  private ConflictsCheckResult shortCXCYConflictsWithCA(ArrayList<Integer> newlineIndices, int canvasWidth, int shortCX, int shortCY, int ca) {
     int absIndex = 0;
     int nextNewlineChar = newlineIndices.size() > 0 ? newlineIndices.get(0) : shortCX;
     int ni = 0;
@@ -196,7 +219,7 @@ public class CoordinatesDC extends CompoundDataClass {
     }
     boolean caLinesUpWithShortCXCY = absIndex + shortCX == ca;
 
-    return !(caLinesUpWithShortCXCY);
+    return caLinesUpWithShortCXCY ? ConflictsCheckResult.yes : ConflictsCheckResult.no;
   }
 
   @Override

@@ -35,7 +35,7 @@ public abstract class CompoundDataClass implements DataClass {
   }
   public abstract Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick);
 
-  public abstract boolean conflictsCheck(CompoundDataClassBrick brick, String targetName, Object targetVal);
+  public abstract ConflictsCheckResult conflictsCheck(CompoundDataClassBrick brick, String targetName, Object targetVal);
 
   /**
    * if conflictsCheck(thisAsBrick, targetName, targetVal)...
@@ -46,7 +46,8 @@ public abstract class CompoundDataClass implements DataClass {
    * @param targetVal value which will be assigned to targetName brick
    */
   public void removeConflictingInners(CompoundDataClassBrick thisAsBrick, String targetName, Object targetVal) {
-    if(conflictsCheck(thisAsBrick, targetName, targetVal)) {
+    ConflictsCheckResult ccr = conflictsCheck(thisAsBrick, targetName, targetVal);
+    if(ccr != ConflictsCheckResult.no) {
       for(Map.Entry<String, DataClassBrick> inner : thisAsBrick.inners.entrySet()) {
         if(inner.equals(targetName) || inner.getValue().containsName(targetName)) {
           continue;

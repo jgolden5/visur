@@ -124,12 +124,12 @@ public class CompoundDataClassBrick extends DataClassBrick {
    * @param val ^
    * @return whether a conflict would hypothetically exist after calling putInner(name, val)
    */
-  public boolean conflictsCheck(String name, Object val) {
-    boolean conflictsExist = cdc.conflictsCheck(this, name, val);
-    if(!conflictsExist && outer != null) {
-      conflictsExist = outer.conflictsCheck(name, val);
+  public ConflictsCheckResult conflictsCheck(String name, Object val) {
+    ConflictsCheckResult ccr = cdc.conflictsCheck(this, name, val);
+    if(ccr != ConflictsCheckResult.yes && outer != null) {
+      ccr = outer.conflictsCheck(name, val);
     }
-    return conflictsExist;
+    return ccr;
   }
 
 }

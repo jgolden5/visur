@@ -304,11 +304,24 @@ public class TestCursorPositionDC {
     assertEquals(3, shortCYDCB.getVal());
 
     //3 = ca can be set when shortCXCY is set and conflicts DO exist, but shortCXCY needs to be UNSET
+    assertTrue(shortCXCYDCB.isComplete());
     caDCB.putForce(18);
     assertEquals(18, caDCB.getVal());
     assertFalse(shortCXCYDCB.isComplete());
 
-    //4 = shortCXCY can be set when ca is set and no conflicts exist
+    //4 = setting shortCX or shortCY will ALWAYS remove ca,
+    // because it cannot be proven that shortCX will not conflict with ca once shortCY is set, for example
+    assertTrue(caDCB.isComplete());
+    shortCXDCB.putForce(1);
+    assertFalse(caDCB.isComplete());
+    assertEquals(1, shortCXDCB.getVal());
+
+    //5 = setting caDCB when shortCXCY is incomplete will likewise ALWAYS remove all inners from shortCXCY
+    assertTrue(shortCXDCB.isComplete());
+    assertFalse(shortCXCYDCB.isComplete());
+    caDCB.putForce(18);
+    assertFalse(shortCXDCB.isComplete());
+    assertEquals(18, caDCB.getVal());
 
     //5 = shortCXCY can be set when ca is set and conflicts DO exist, but ca needs to be UNSET
 

@@ -34,8 +34,8 @@ public class ShortCXCYDC extends CompoundDataClass {
   }
 
   @Override
-  public boolean conflictsCheck(CompoundDataClassBrick brick, String targetName, Object targetVal) {
-    return false;
+  public ConflictsCheckResult conflictsCheck(CompoundDataClassBrick brick, String targetName, Object targetVal) {
+    return ConflictsCheckResult.no;
   }
 
 }
