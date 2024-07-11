@@ -296,6 +296,16 @@ public class TestCursorPositionDC {
     assertNotNull(r.getError());
     assertNull(r.getVal());
 
+    //11 = niDCB.getOrCalc should simply fetch newlineIndices without unsetting cw or coordinates
+    caDCB.putSafe(0);
+    ArrayList<Integer> newlineIndices = (ArrayList<Integer>) niDCB.getVal();
+    r = niDCB.getOrCalc();
+    assertNull(r.getError());
+    niDCB = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(niDCB.getVal(), newlineIndices);
+    assertTrue(cwDCB.isComplete());
+    assertTrue(coordinatesDCB.isComplete());
+
   }
 
 }
