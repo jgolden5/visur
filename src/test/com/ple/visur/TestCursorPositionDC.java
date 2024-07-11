@@ -20,6 +20,9 @@ public class TestCursorPositionDC {
   CompoundDataClassBrick longCXCYDCB;
   PrimitiveDataClassBrick longCXDCB;
   PrimitiveDataClassBrick longCYDCB;
+  CompoundDataClassBrick shortCXCYDCB;
+  PrimitiveDataClassBrick shortCXDCB;
+  PrimitiveDataClassBrick shortCYDCB;
 
 
   @BeforeEach
@@ -35,6 +38,9 @@ public class TestCursorPositionDC {
     longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
     longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
     longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
+    shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
+    shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
+    shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
     caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
 
     Result r = niDCB.putSafe(newlineIndices);
@@ -123,6 +129,16 @@ public class TestCursorPositionDC {
 
   @Test void caAndShortCXCYPutSafe() {
     //1 = shortCXCY can be set when ca is unset
+    Result r = shortCXDCB.putSafe(0);
+    assertNull(r.getError());
+    r = shortCYDCB.putSafe(0);
+    assertNull(r.getError());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertTrue(shortCXDCB.isComplete());
+    assertTrue(shortCYDCB.isComplete());
+    assertEquals(0, shortCXDCB.getVal());
+    assertEquals(0, shortCYDCB.getVal());
+
 
     //2 = ca can be set when shortCXCY is set and no conflicts exist
 
