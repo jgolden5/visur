@@ -191,18 +191,25 @@ public class TestCursorPositionDC {
     assertTrue(shortCXCYDCB.isComplete());
 
     //b
-//    r = shortCXDCB.putSafe(0);
-//    assertNotNull(r.getError());
-//    assertEquals(3, shortCXDCB.getVal());
-//    assertTrue(caDCB.isComplete());
-//    assertTrue(shortCXCYDCB.isComplete());
+    r = shortCXDCB.putSafe(0);
+    assertNotNull(r.getError());
+    assertEquals(3, shortCXDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
 
     //c
-//    r = shortCXDCB.putSafe(4);
-//    assertNotNull(r.getError());
-//    assertEquals(3, shortCXDCB.getVal());
-//    assertTrue(caDCB.isComplete());
-//    assertTrue(shortCXCYDCB.isComplete());
+    r = shortCXCYDCB.remove();
+    assertNull(r.getError());
+    assertFalse(shortCXCYDCB.isComplete());
+    r = caDCB.putSafe(4);
+    assertNull(r.getError());
+    r = shortCYDCB.putSafe(0);
+    assertNull(r.getError());
+    assertEquals(0, shortCYDCB.getVal());
+    r = shortCXDCB.putSafe(3);
+    assertNotNull(r.getError());
+    assertFalse(shortCXCYDCB.isComplete());
+    assertTrue(caDCB.isComplete());
 
     //6 = ca can be set when shortCXCY is unset
     r = shortCXCYDCB.remove();
@@ -276,6 +283,10 @@ public class TestCursorPositionDC {
     ca = 30;
     caDCB.putForce(ca);
     assertEquals(ca, caDCB.get().getVal());
+
+  }
+
+  @Test void caAndShortCXCYPutForce() {
 
   }
 

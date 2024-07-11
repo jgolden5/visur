@@ -126,6 +126,7 @@ public class EditorContentService {
         indices.add(i);
       }
     }
+    indices.add(content.length());
     BrickVisurVar niBVV = (BrickVisurVar) getGlobalVar("ni", editorModel);
     niBVV.putVal(indices);
     putGlobalVar("ni", niBVV, editorModel);
