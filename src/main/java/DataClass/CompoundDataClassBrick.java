@@ -108,7 +108,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
    * @param targetVal value which will be assigned to brick at targetName
    */
   public void conflictsForce(String targetName, Object targetVal) {
-    getCDC().conflictsForce(this, targetName, targetVal);
+    getCDC().removeConflictingInners(this, targetName, targetVal);
     CompoundDataClassBrick outerDCB = getOuter();
     if(outerDCB != null) {
       outerDCB.conflictsForce(targetName, targetVal);

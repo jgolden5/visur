@@ -45,7 +45,7 @@ public abstract class CompoundDataClass implements DataClass {
    * @param targetName name of brick inner which targetVal is being added to
    * @param targetVal value which will be assigned to targetName brick
    */
-  public void conflictsForce(CompoundDataClassBrick thisAsBrick, String targetName, Object targetVal) {
+  public void removeConflictingInners(CompoundDataClassBrick thisAsBrick, String targetName, Object targetVal) {
     if(conflictsCheck(thisAsBrick, targetName, targetVal)) {
       for(Map.Entry<String, DataClassBrick> inner : thisAsBrick.inners.entrySet()) {
         if(inner.equals(targetName) || inner.getValue().containsName(targetName)) {
