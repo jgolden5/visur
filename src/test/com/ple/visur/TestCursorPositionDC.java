@@ -146,7 +146,20 @@ public class TestCursorPositionDC {
     assertTrue(shortCXCYDCB.isComplete());
 
     //3 = ca CAN'T be set when shortCXCY is set and conflicts DO exist
+    //a
     r = caDCB.putSafe(3);
+    assertNotNull(r.getError());
+    assertEquals(0, caDCB.getVal());
+    assertTrue(shortCXCYDCB.isComplete());
+
+    //b
+    r = caDCB.putSafe(17);
+    assertNotNull(r.getError());
+    assertEquals(0, caDCB.getVal());
+    assertTrue(shortCXCYDCB.isComplete());
+
+    //c
+    r = caDCB.putSafe(31);
     assertNotNull(r.getError());
     assertEquals(0, caDCB.getVal());
     assertTrue(shortCXCYDCB.isComplete());
@@ -167,6 +180,7 @@ public class TestCursorPositionDC {
     assertTrue(shortCXCYDCB.isComplete());
 
     //5 = shortCXCY CAN'T be set when ca is set and conflicts DO exist
+    //a
     r = shortCXDCB.putSafe(3);
     assertNull(r.getError());
     assertEquals(3, shortCXDCB.getVal());
@@ -176,7 +190,26 @@ public class TestCursorPositionDC {
     assertTrue(caDCB.isComplete());
     assertTrue(shortCXCYDCB.isComplete());
 
+    //b
+    r = shortCXDCB.putSafe(0);
+    assertNotNull(r.getError());
+    assertEquals(3, shortCXDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+
+    //c
+    r = shortCXDCB.putSafe(4);
+    assertNotNull(r.getError());
+    assertEquals(3, shortCXDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+
     //6 = ca can be set when shortCXCY is unset
+    r = shortCXCYDCB.remove();
+    assertNull(r.getError());
+    r = caDCB.putSafe(32);
+    assertNull(r.getError());
+    assertEquals(32, caDCB.getVal());
 
   }
 
