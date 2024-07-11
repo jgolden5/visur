@@ -178,27 +178,25 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   private boolean shortCXCYConflictsWithCA(ArrayList<Integer> newlineIndices, int canvasWidth, int shortCX, int shortCY, int ca) {
-    boolean caLinesUpWithCX = ca % canvasWidth == shortCX;
-    boolean caLinesUpWithCY;
     int absIndex = 0;
     int nextNewlineChar = newlineIndices.size() > 0 ? newlineIndices.get(0) : shortCX;
     int ni = 0;
     int testShortCY;
-    for(testShortCY = 0; testShortCY < shortCY; testShortCY++) {
-      if(absIndex + canvasWidth < nextNewlineChar) {
+    for (testShortCY = 0; testShortCY < shortCY; testShortCY++) {
+      if (absIndex + canvasWidth < nextNewlineChar) {
         absIndex += canvasWidth;
       } else {
         absIndex = nextNewlineChar + 1;
-        if(newlineIndices.size() > ++ni) {
+        if (newlineIndices.size() > ++ni) {
           nextNewlineChar = newlineIndices.get(ni);
         } else {
           nextNewlineChar = shortCX;
         }
       }
     }
-    caLinesUpWithCY = testShortCY == shortCY;
+    boolean caLinesUpWithShortCXCY = absIndex + shortCX == ca;
 
-    return !(caLinesUpWithCX && caLinesUpWithCY);
+    return !(caLinesUpWithShortCXCY);
   }
 
   @Override
