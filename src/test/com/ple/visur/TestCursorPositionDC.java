@@ -28,6 +28,7 @@ public class TestCursorPositionDC {
     ArrayList<Integer> newlineIndices = new ArrayList<>();
     newlineIndices.add(11);
     newlineIndices.add(24);
+    int canvasWidth = 5;
     niDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("ni");
     cwDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("cw");
     coordinatesDCB = (CompoundDataClassBrick) cursorPositionDCB.getInner("coordinates");
@@ -37,6 +38,9 @@ public class TestCursorPositionDC {
     caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
 
     Result r = niDCB.putSafe(newlineIndices);
+    assertNull(r.getError());
+
+    r = cwDCB.putSafe(canvasWidth);
     assertNull(r.getError());
 
     assertFalse(cursorPositionDCB.isComplete());
@@ -62,8 +66,6 @@ public class TestCursorPositionDC {
     assertEquals(newlineIndices, niDCB.get().getVal());
 
     //3 = ca can be set when longCXCY is set and no conflicts exist
-    int canvasWidth = 5;
-    cwDCB.putSafe(canvasWidth);
     int ca = 4;
     r = caDCB.putSafe(ca);
     assertNull(r.getError());
@@ -132,8 +134,6 @@ public class TestCursorPositionDC {
     assertEquals(newlineIndices, niDCB.get().getVal());
 
     //3 = ca can be set when longCXCY is set and no conflicts exist
-    int canvasWidth = 5;
-    cwDCB.putSafe(canvasWidth);
     int ca = 10;
     caDCB.putForce(ca);
     assertEquals(ca, caDCB.get().getVal());
@@ -194,8 +194,6 @@ public class TestCursorPositionDC {
     int longCY = 0;
 
     assertTrue(caDCB.isComplete());
-    int canvasWidth = 5;
-    cwDCB.putSafe(canvasWidth);
     longCXDCB.putForce(longCX);
     longCYDCB.putForce(longCY);
     assertTrue(longCXCYDCB.isComplete());
