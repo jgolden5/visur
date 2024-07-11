@@ -306,6 +306,15 @@ public class TestCursorPositionDC {
     assertTrue(cwDCB.isComplete());
     assertTrue(coordinatesDCB.isComplete());
 
+    //12 = cwDCB.getOrCalc, like niDCB.getOrCalc, should simply fetch cw without unsetting ni or coordinates
+    int canvasWidth = (int) cwDCB.getVal();
+    r = cwDCB.getOrCalc();
+    assertNull(r.getError());
+    cwDCB = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(cwDCB.getVal(), canvasWidth);
+    assertTrue(cwDCB.isComplete());
+    assertTrue(coordinatesDCB.isComplete());
+
   }
 
 }
