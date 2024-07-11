@@ -57,32 +57,30 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   private ConflictsCheckResult moreThanOneValueWillBeSet(String targetName, CompoundDataClassBrick longCXCYDCB, CompoundDataClassBrick shortCXCYDCB, PrimitiveDataClassBrick caDCB) {
-    ConflictsCheckResult longCXCYIsOrWillBeSet = ConflictsCheckResult.no;
-    ConflictsCheckResult shortCXCYIsOrWillBeSet = ConflictsCheckResult.no;
-    ConflictsCheckResult caIsOrWillBeSet = ConflictsCheckResult.no;
-    if(targetName.contains("long")) {
-      if(targetName.equals("longCX")) {
-        PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
-        boolean longCXCYDCBWillBeComplete = longCYDCB.isComplete();
-        longCXCYIsOrWillBeSet = longCXCYDCBWillBeComplete ? ConflictsCheckResult.yes : ConflictsCheckResult.maybe;
-      } else if(targetName.equals("longCY")) {
-        PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
-        boolean longCXCYDCBWillBeComplete = longCXDCB.isComplete();
-        longCXCYIsOrWillBeSet = longCXCYDCBWillBeComplete ? ConflictsCheckResult.yes : ConflictsCheckResult.maybe;
-      }
-    } else if(targetName.contains("short")) {
-      if(targetName.equals("shortCX")) {
-        PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
-        boolean shortCXCYDCBWillBeComplete = shortCYDCB.isComplete();
-        shortCXCYIsOrWillBeSet = shortCXCYDCBWillBeComplete ? ConflictsCheckResult.yes : ConflictsCheckResult.maybe;
-      } else if(targetName.equals("shortCY")) {
-        PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
-        boolean shortCXCYDCBWillBeComplete = shortCXDCB.isComplete();
-        shortCXCYIsOrWillBeSet = shortCXCYDCBWillBeComplete ? ConflictsCheckResult.yes : ConflictsCheckResult.maybe;
-      }
-    } else if(targetName.equals("ca")) {
-      caIsOrWillBeSet = ConflictsCheckResult.yes;
+    ConflictsCheckResult longCXCYIsOrWillBeSet, shortCXCYIsOrWillBeSet, caIsOrWillBeSet;
+    PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
+    PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
+    boolean longCXIsOrWillBeSet = longCXDCB.isComplete() || targetName.equals("longCX");
+    boolean longCYIsOrWillBeSet = longCYDCB.isComplete() || targetName.equals("longCY");
+    if(longCXIsOrWillBeSet && longCYIsOrWillBeSet) {
+      longCXCYIsOrWillBeSet = ConflictsCheckResult.yes;
+    } else if(longCXIsOrWillBeSet || longCYIsOrWillBeSet) {
+      longCXCYIsOrWillBeSet = ConflictsCheckResult.maybe;
+    } else {
+      longCXCYIsOrWillBeSet = ConflictsCheckResult.no;
     }
+    PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
+    PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
+    boolean shortCXIsOrWillBeSet = shortCXDCB.isComplete() || targetName.equals("shortCX");
+    boolean shortCYIsOrWillBeSet = shortCYDCB.isComplete() || targetName.equals("shortCY");
+    if(shortCXIsOrWillBeSet && shortCYIsOrWillBeSet) {
+      shortCXCYIsOrWillBeSet = ConflictsCheckResult.yes;
+    } else if(shortCXIsOrWillBeSet || shortCYIsOrWillBeSet) {
+      shortCXCYIsOrWillBeSet = ConflictsCheckResult.maybe;
+    } else {
+      shortCXCYIsOrWillBeSet = ConflictsCheckResult.no;
+    }
+    caIsOrWillBeSet = caDCB.isComplete() || targetName.equals("ca") ? ConflictsCheckResult.yes : ConflictsCheckResult.no;
     return ConflictsCheckResult.getMostCertainResult(longCXCYIsOrWillBeSet, shortCXCYIsOrWillBeSet, caIsOrWillBeSet);
   }
 
@@ -194,9 +192,9 @@ public class CoordinatesDC extends CompoundDataClass {
       }
     }
     if(caLinesUpWithCX && caLinesUpWithCY) {
-      return ConflictsCheckResult.yes;
-    } else {
       return ConflictsCheckResult.no;
+    } else {
+      return ConflictsCheckResult.yes;
     }
   }
 
