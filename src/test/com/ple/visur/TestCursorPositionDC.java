@@ -261,6 +261,9 @@ public class TestCursorPositionDC {
     assertTrue(shortCXCYDCB.isComplete());
 
     //6 = longCXCY CAN'T be set when shortCXCY is set and conflicts DO exist
+    longCYDCB.putSafe(0);
+    assertEquals(1, longCYDCB.getVal());
+    assertTrue(shortCXCYDCB.isComplete());
 
   }
 
