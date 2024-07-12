@@ -332,6 +332,10 @@ public class TestCursorPositionDC {
     assertTrue(shortCXCYDCB.isComplete());
 
     //7 = ca can be set when shortCXCY is unset
+    shortCXCYDCB.remove();
+    assertFalse(shortCXCYDCB.isComplete());
+    caDCB.putForce(20);
+    assertEquals(20, caDCB.getVal());
 
   }
 
