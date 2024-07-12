@@ -265,6 +265,17 @@ public class TestCursorPositionDC {
     assertEquals(1, longCYDCB.getVal());
     assertTrue(shortCXCYDCB.isComplete());
 
+    //7 = longCXCY can be set when shortCXCY is set to something on the first short line and no conflicts exist
+    longCXCYDCB.remove();
+    assertFalse(longCXCYDCB.isComplete());
+    shortCXDCB.putSafe(2);
+    shortCYDCB.putSafe(0);
+    assertTrue(shortCXCYDCB.isComplete());
+    longCXDCB.putSafe(2);
+    assertEquals(2, longCXDCB.getVal());
+    longCYDCB.putSafe(0);
+    assertEquals(0, longCYDCB.getVal());
+
   }
 
   @Test void caAndLongCXCYPutForce() {
