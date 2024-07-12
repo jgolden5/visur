@@ -436,6 +436,17 @@ public class TestCursorPositionDC {
 
   @Test void allThreeCoordinatesPutSafe() {
     //1 = shortCXCY CAN'T be set if ca and longCXCY are set and a conflict exists
+    assertFalse(caDCB.isComplete());
+    assertFalse(longCXCYDCB.isComplete());
+    assertFalse(shortCXCYDCB.isComplete());
+    caDCB.putSafe(14);
+    assertEquals(14, caDCB.getVal());
+    longCXDCB.putSafe(2);
+    assertEquals(2, longCXDCB.getVal());
+    longCYDCB.putSafe(1);
+    assertEquals(1, longCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
 
     //2 = shortCXCY can be set if ca and longCXCY are set and no conflicts exist
 
