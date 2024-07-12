@@ -323,9 +323,15 @@ public class TestCursorPositionDC {
     assertFalse(shortCXDCB.isComplete());
     assertEquals(18, caDCB.getVal());
 
-    //5 = shortCXCY can be set when ca is set and conflicts DO exist, but ca needs to be UNSET
+    //6 = shortCXCY can be set when ca is set and conflicts DO exist, but ca needs to be UNSET
+    shortCXDCB.putForce(0);
+    assertFalse(caDCB.isComplete());
+    assertEquals(0, shortCXDCB.getVal());
+    shortCYDCB.putForce(3);
+    assertEquals(3, shortCYDCB.getVal());
+    assertTrue(shortCXCYDCB.isComplete());
 
-    //6 = ca can be set when shortCXCY is unset
+    //7 = ca can be set when shortCXCY is unset
 
   }
 
