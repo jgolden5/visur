@@ -128,9 +128,11 @@ public class CoordinatesDC extends CompoundDataClass {
     ConflictsCheckResult shortCXCYConflictsWithCA = ConflictsCheckResult.no;
     if (valuesAreSet(longCX, longCY, shortCX, shortCY)) {
       longCXCYConflictsWithShortCXCY = longCXCYConflictsWithShortCXCY(newlineIndices, canvasWidth, longCX, longCY, shortCX, shortCY);
-    } else if (valuesAreSet(longCX, longCY, ca)) {
+    }
+    if (valuesAreSet(longCX, longCY, ca)) {
       longCXCYConflictsWithCA = longCXCYConflictsWithCA(newlineIndices, longCX, longCY, ca);
-    } else if (valuesAreSet(shortCX, shortCY, ca)) {
+    }
+    if (valuesAreSet(shortCX, shortCY, ca)) {
       shortCXCYConflictsWithCA = shortCXCYConflictsWithCA(newlineIndices, canvasWidth, shortCX, shortCY, ca);
     }
     return ConflictsCheckResult.getMostCertainResult(1, longCXCYConflictsWithCA, longCXCYConflictsWithShortCXCY, shortCXCYConflictsWithCA);
