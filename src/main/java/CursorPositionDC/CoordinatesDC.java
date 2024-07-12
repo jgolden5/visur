@@ -146,20 +146,23 @@ public class CoordinatesDC extends CompoundDataClass {
   private ConflictsCheckResult longCXCYConflictsWithShortCXCY(ArrayList<Integer> newlineIndices, int canvasWidth, int longCX, int longCY, int shortCX, int shortCY) {
     boolean cxsConflict = longCX % canvasWidth != shortCX;
     boolean cysConflict;
-    int testLongCY = 0;
+    int abs = 0;
     int testShortCY = 0;
-    int absIndex = 0;
+    int testLongCY = 0;
     while(testShortCY < shortCY) {
-      absIndex += Math.min(canvasWidth, newlineIndices.get(testShortCY));
-      if(absIndex + canvasWidth > newlineIndices.get(testLongCY)) {
-        absIndex = newlineIndices.get(testLongCY);
-        testLongCY++;
+      if(abs + canvasWidth < newlineIndices.get(testLongCY)) {
+        abs += canvasWidth;
       } else {
-        absIndex += canvasWidth;
+        abs = newlineIndices.get(testLongCY);
+        if(testLongCY < newlineIndices.size() - 1) {
+          abs++;
+        }
+        testLongCY++;
       }
       testShortCY++;
     }
-    cysConflict = testShortCY != shortCY && testLongCY != longCY;
+    cysConflict = testLongCY != longCY;
+
     if(cxsConflict || cysConflict) {
       return ConflictsCheckResult.yes;
     } else {

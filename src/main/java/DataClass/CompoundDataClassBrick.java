@@ -126,7 +126,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
    */
   public ConflictsCheckResult conflictsCheck(String name, Object val) {
     ConflictsCheckResult ccr = cdc.conflictsCheck(this, name, val);
-    if(ccr != ConflictsCheckResult.yes && outer != null) {
+    if(ccr == ConflictsCheckResult.no && outer != null) {
       ccr = outer.conflictsCheck(name, val);
     }
     return ccr;
