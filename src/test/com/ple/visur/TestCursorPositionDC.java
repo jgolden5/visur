@@ -223,6 +223,11 @@ public class TestCursorPositionDC {
 
   @Test void longCXCYAndShortCXCYPutSafe() {
     //1 = longCXCY can be set when shortCXCY is unset
+    assertFalse(shortCXCYDCB.isComplete());
+    longCXDCB.putSafe(1);
+    assertEquals(1, longCXDCB.getVal());
+    longCYDCB.putSafe(1);
+    assertEquals(1, longCYDCB.getVal());
 
     //2 = shortCXCY can be set when longCXCY is set and no conflicts exist
 
@@ -233,7 +238,7 @@ public class TestCursorPositionDC {
     //5 = longCXCY CAN'T be set when shortCXCY is set and conflicts DO exist
 
     //6 = shortCXCY can be set when longCXCY is unset
-    
+
   }
 
   @Test void caAndLongCXCYPutForce() {
