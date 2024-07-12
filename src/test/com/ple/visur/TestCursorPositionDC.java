@@ -434,6 +434,21 @@ public class TestCursorPositionDC {
 
   }
 
+  @Test void allThreeCoordinatesPutSafe() {
+    //1 = shortCXCY CAN'T be set if ca and longCXCY are set and a conflict exists
+
+    //2 = shortCXCY can be set if ca and longCXCY are set and no conflicts exist
+
+    //3 = longCXCY can be set if ca and shortCXCY are set and no conflicts exist
+
+    //4 = longCXCY CAN'T be set if ca and shortCXCY are set and a conflict exists
+
+    //5 = ca can be set if longCXCY and shortCXCY are set and no conflicts exist
+
+    //6 = ca CAN'T be set if longCXCY and shortCXCY are set and a conflict exists
+
+  }
+
   @Test void caAndLongCXCYGetOrCalc() {
     //1 = caDCB.getOrCalc when caDCB is set to 0
     int ca = 0;
