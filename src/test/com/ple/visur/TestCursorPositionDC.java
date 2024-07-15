@@ -709,12 +709,21 @@ public class TestCursorPositionDC {
     shortCYDCB.putForce(6);
     assertEquals(6, shortCYDCB.getVal());
     assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(caDCB.isComplete());
     r = caDCB.getOrCalc();
     assertNull(r.getError());
     assertEquals(29, caDCB.getVal());
 
-
     //6 = when shortCX = 0 and shortCY = 7, ca should = 30
+    shortCXDCB.putForce(0);
+    assertEquals(0, shortCXDCB.getVal());
+    shortCYDCB.putForce(7);
+    assertEquals(7, shortCYDCB.getVal());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(caDCB.isComplete());
+    r = caDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(30, caDCB.getVal());
 
     //7 = when ca = 1, shortCX should = 1 and shortCY should equal 0
 
