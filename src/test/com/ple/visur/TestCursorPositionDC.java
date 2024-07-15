@@ -499,6 +499,36 @@ public class TestCursorPositionDC {
     assertTrue(caDCB.isComplete());
 
     //6 = ca CAN'T be set if longCXCY and shortCXCY are set and a conflict exists
+    r = caDCB.putSafe(19);
+    assertNotNull(r.getError());
+    assertEquals(14, caDCB.getVal());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertTrue(caDCB.isComplete());
+
+    //7 = shortCXCY can be set when ca & longCXCY get set with new coordinates, and no conflicts exist
+    caDCB.remove();
+    longCXCYDCB.remove();
+    shortCXCYDCB.remove();
+    assertFalse(longCXCYDCB.isComplete());
+    assertFalse(shortCXCYDCB.isComplete());
+    assertFalse(caDCB.isComplete());
+    caDCB.putSafe(31);
+    assertEquals(31, caDCB.getVal());
+    longCXDCB.putSafe(6);
+    assertEquals(6, longCXDCB.getVal());
+    longCYDCB.putSafe(2);
+    assertEquals(2, longCYDCB.getVal());
+    shortCXDCB.putSafe(1);
+    assertEquals(1, shortCXDCB.getVal());
+    shortCYDCB.putSafe(7);
+    assertEquals(7, shortCYDCB.getVal());
+
+    //8 = shortCXCY CAN'T be set when ca and longCXCY are set and conflicts DO exist
+    shortCXDCB.putSafe(0);
+    assertEquals(1, shortCXDCB.getVal());
+    shortCYDCB.putSafe(6);
+    assertEquals(7, shortCYDCB.getVal());
 
   }
 
