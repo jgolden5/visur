@@ -905,4 +905,36 @@ public class TestCursorPositionDC {
 
   }
 
+  @Test void allThreeCoordinatesGetOrCalc() {
+    //when ca is unset:
+    //1 = when longCX = 0, longCY = 0, shortCX = 0, and shortCY = 0; ca should = 0
+
+    //2 = when longCX = 7, longCY = 0, shortCX = 2, and shortCY = 1; ca should = 7
+
+    //3 = when longCX = 10, longCY = 0, shortCX = 0, and shortCY = 2; ca should = 10
+
+    //4 = when longCX = 7, longCY = 2, shortCX = 2, and shortCY = 7; ca should = 32
+
+    //when longCXCY is unset:
+    //5 = when ca = 0, shortCX = 0, and shortCY = 0; longCX should = 0 and longCY should = 0
+
+    //6 = when ca = 15, shortCX = 3, and shortCY = 3; longCX should = 3 and longCY should = 1
+
+    //7 = when ca = 21, shortCX = 4, and shortCY = 4; longCX should = 0 and longCY should = 0
+
+    //8 = when ca = 32, shortCX = 2, and shortCY = 7; longCX should = 7 and longCY should = 2
+
+    //when shortCXCY is unset:
+    //9 = when ca = 0, longCX = 2, and longCY = 7; shortCX should = 7 and shortCY should = 2
+
+    //10 = when ca = 22, longCX = 10, and longCY = 1; shortCX should = 0 and shortCY should = 5
+
+    //11 = when ca = 26, longCX = 1, and longCY = 2; shortCX should = 1 and shortCY should = 6
+
+    //12 = when ca = 30, longCX = 5, and longCY = 2; shortCX should = 0 and shortCY should = 7
+
+    //13 = when ca = 32, longCX = 7, and longCY = 2; shortCX should = 2 and shortCY should = 7
+
+  }
+
 }
