@@ -32,7 +32,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
   public Result<DataClassBrick> getOrCalc(String name) {
     DataClassBrick targetInner = getInner(name);
     Result r;
-    if(!targetInner.isComplete()) {
+    if(targetInner.isComplete()) {
       r = Result.make(targetInner, null);
     } else {
       r = calc(name);

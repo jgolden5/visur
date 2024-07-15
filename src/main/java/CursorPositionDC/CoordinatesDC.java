@@ -222,7 +222,7 @@ public class CoordinatesDC extends CompoundDataClass {
   @Override
   public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick coordinatesDCB) {
     Result r = Result.make();
-    String possibleNames = "longCXCY" + "shortCXCY" + "ca";
+    String possibleNames = "longCX" + "longCY" + "shortCX" + "shortCY" + "ca";
     if(!possibleNames.contains(name)) {
       r.putError("inner name not recognized");
     }
@@ -392,25 +392,26 @@ public class CoordinatesDC extends CompoundDataClass {
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
     int ca = (int)caDCB.getVal();
+    int testCA = 0;
     int shortCX;
     int shortCY = 0;
-    int i;
-    for(i = 0; i < newlineIndices.size(); i++) {
-      if(newlineIndices.get(i) > ca) {
-        if(i > 0) {
-          shortCY += newlineIndices.get(i - 1) / canvasWidth;
-          shortCY += Math.ceil((ca - newlineIndices.get(i - 1)) / canvasWidth);
+    int ni = 0;
+    while(true) {
+      if(testCA + canvasWidth <= newlineIndices.get(ni)) {
+        if(testCA + canvasWidth <= ca) {
+          testCA += canvasWidth;
         } else {
-          shortCY += Math.ceil(ca / canvasWidth);
+          break;
         }
+      } else if(newlineIndices.get(ni) + 1 <= ca) {
+        testCA = newlineIndices.get(ni++) + 1;
+        if (ni > newlineIndices.size() - 1) break;
+      } else {
         break;
       }
+      shortCY++;
     }
-    if(ca > newlineIndices.get(i)) {
-      shortCX = (newlineIndices.get(i) - ca) % canvasWidth;
-    } else {
-      shortCX = ca;
-    }
+    shortCX = ca - testCA;
     PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
     PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
     shortCXDCB.putSafe(shortCX);
