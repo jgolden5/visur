@@ -917,6 +917,9 @@ public class TestCursorPositionDC {
     Result r = caDCB.getOrCalc();
     assertNull(r.getError());
     assertEquals(0, caDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
 
     //2 = when longCX = 7, longCY = 0, shortCX = 2, and shortCY = 1; ca should = 7
     longCXDCB.putForce(7);
@@ -928,6 +931,9 @@ public class TestCursorPositionDC {
     r = caDCB.getOrCalc();
     assertNull(r.getError());
     assertEquals(7, caDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
 
     //3 = when longCX = 10, longCY = 0, shortCX = 0, and shortCY = 2; ca should = 10
     longCXDCB.putForce(10);
@@ -939,6 +945,9 @@ public class TestCursorPositionDC {
     r = caDCB.getOrCalc();
     assertNull(r.getError());
     assertEquals(10, caDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
 
     //4 = when longCX = 7, longCY = 2, shortCX = 2, and shortCY = 7; ca should = 32
     longCXDCB.putForce(7);
@@ -950,6 +959,9 @@ public class TestCursorPositionDC {
     r = caDCB.getOrCalc();
     assertNull(r.getError());
     assertEquals(32, caDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
 
     //when longCXCY is unset:
     //5 = when ca = 0, shortCX = 0, and shortCY = 0; longCX should = 0 and longCY should = 0
