@@ -420,11 +420,13 @@ public class CoordinatesDC extends CompoundDataClass {
     int longCY = (int)longCYDCB.getVal();
     int shortCX = longCX % canvasWidth;
     int shortCY = 0;
+    int lastNewlineIndex = 0;
     for(int ni = 0; ni < longCY; ni++) {
-      shortCY += Math.ceil(newlineIndices.get(ni) / canvasWidth);
-      shortCY++;
+      int lengthOfCurrentLongLine = newlineIndices.get(ni) - lastNewlineIndex;
+      shortCY += lengthOfCurrentLongLine / canvasWidth + 1;
+      lastNewlineIndex = newlineIndices.get(ni);
     }
-    shortCY += Math.ceil(longCX / canvasWidth);
+    shortCY += longCX / canvasWidth;
     PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
     PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
     return putDCBPostCalculation(shortCXCYDCB, shortCXDCB, shortCYDCB, shortCX, shortCY);
