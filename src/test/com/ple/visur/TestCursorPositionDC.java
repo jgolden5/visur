@@ -908,6 +908,15 @@ public class TestCursorPositionDC {
   @Test void allThreeCoordinatesGetOrCalc() {
     //when ca is unset:
     //1 = when longCX = 0, longCY = 0, shortCX = 0, and shortCY = 0; ca should = 0
+    longCXDCB.putForce(0);
+    longCYDCB.putForce(0);
+    shortCXDCB.putSafe(0);
+    shortCYDCB.putSafe(0);
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    Result r = caDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(0, caDCB.getVal());
 
     //2 = when longCX = 7, longCY = 0, shortCX = 2, and shortCY = 1; ca should = 7
 
