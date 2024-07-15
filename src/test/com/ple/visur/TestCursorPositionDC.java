@@ -662,4 +662,25 @@ public class TestCursorPositionDC {
 
   }
 
+  @Test void caAndShortCXCYGetOrCalc() {
+    //1 = when ca = 0, shortCX should = 0 and shortCY should equal 0
+
+    //2 = when ca = 12, shortCX should = 0 and shortCY should equal 3
+
+    //3 = when ca = 21, shortCX should = 3 and shortCY should equal 4
+
+    //4 = when shortCX = 1 and shortCY = 2, ca should = 11
+
+    //5 = when shortCX = 4 and shortCY = 6, ca should = 29
+
+    //6 = when shortCX = 0 and shortCY = 7, ca should = 30
+
+    //7 = when ca = 1, shortCX should = 1 and shortCY should equal 0
+
+    //8 = when ca = 19, shortCX should = 2 and shortCY should equal 4
+
+    //9 = when shortCX = 3 and shortCY = 0, ca should = 3
+
+  }
+
 }
