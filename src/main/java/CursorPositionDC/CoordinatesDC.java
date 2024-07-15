@@ -320,13 +320,11 @@ public class CoordinatesDC extends CompoundDataClass {
     int ca = 0;
     int i = 0;
     for(int testShortCY = 0; testShortCY < shortCY; testShortCY++) {
-      if(newlineIndices.size() > 1) {
-        if (ca + canvasWidth < newlineIndices.get(i)) {
-          ca += canvasWidth;
-        } else {
-          ca = newlineIndices.get(i);
-          i++;
-        }
+      if (ca + canvasWidth < newlineIndices.get(i)) {
+        ca += canvasWidth;
+      } else {
+        ca = newlineIndices.get(i);
+        i++;
       }
     }
     ca += shortCX;
