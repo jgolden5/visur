@@ -914,6 +914,7 @@ public class TestCursorPositionDC {
     shortCYDCB.putSafe(0);
     assertTrue(longCXCYDCB.isComplete());
     assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(caDCB.isComplete());
     Result r = caDCB.getOrCalc();
     assertNull(r.getError());
     assertEquals(0, caDCB.getVal());
@@ -928,6 +929,7 @@ public class TestCursorPositionDC {
     shortCYDCB.putSafe(1);
     assertTrue(longCXCYDCB.isComplete());
     assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(caDCB.isComplete());
     r = caDCB.getOrCalc();
     assertNull(r.getError());
     assertEquals(7, caDCB.getVal());
@@ -942,6 +944,7 @@ public class TestCursorPositionDC {
     shortCYDCB.putSafe(2);
     assertTrue(longCXCYDCB.isComplete());
     assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(caDCB.isComplete());
     r = caDCB.getOrCalc();
     assertNull(r.getError());
     assertEquals(10, caDCB.getVal());
@@ -956,6 +959,7 @@ public class TestCursorPositionDC {
     shortCYDCB.putSafe(7);
     assertTrue(longCXCYDCB.isComplete());
     assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(caDCB.isComplete());
     r = caDCB.getOrCalc();
     assertNull(r.getError());
     assertEquals(32, caDCB.getVal());
@@ -965,12 +969,72 @@ public class TestCursorPositionDC {
 
     //when longCXCY is unset:
     //5 = when ca = 0, shortCX = 0, and shortCY = 0; longCX should = 0 and longCY should = 0
+    caDCB.putForce(0);
+    shortCXDCB.putSafe(0);
+    shortCYDCB.putSafe(0);
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(longCXCYDCB.isComplete());
+    r = longCXDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(0, longCXDCB.getVal());
+    r = longCYDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(0, longCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
 
     //6 = when ca = 15, shortCX = 3, and shortCY = 3; longCX should = 3 and longCY should = 1
+    caDCB.putForce(15);
+    shortCXDCB.putSafe(3);
+    shortCYDCB.putSafe(3);
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(longCXCYDCB.isComplete());
+    r = longCXDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(3, longCXDCB.getVal());
+    r = longCYDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(1, longCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
 
-    //7 = when ca = 21, shortCX = 4, and shortCY = 4; longCX should = 0 and longCY should = 0
+    //7 = when ca = 21, shortCX = 4, and shortCY = 4; longCX should = 9 and longCY should = 1
+    caDCB.putForce(21);
+    shortCXDCB.putSafe(4);
+    shortCYDCB.putSafe(4);
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(longCXCYDCB.isComplete());
+    r = longCXDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(9, longCXDCB.getVal());
+    r = longCYDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(1, longCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
 
     //8 = when ca = 32, shortCX = 2, and shortCY = 7; longCX should = 7 and longCY should = 2
+    caDCB.putForce(32);
+    shortCXDCB.putSafe(2);
+    shortCYDCB.putSafe(7);
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(longCXCYDCB.isComplete());
+    r = longCXDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(7, longCXDCB.getVal());
+    r = longCYDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(2, longCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
 
     //when shortCXCY is unset:
     //9 = when ca = 0, longCX = 2, and longCY = 7; shortCX should = 7 and shortCY should = 2
