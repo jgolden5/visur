@@ -33,9 +33,9 @@ public class CompoundDataClassBrick extends DataClassBrick {
     DataClassBrick targetInner = getInner(name);
     Result r;
     if(!targetInner.isComplete()) {
-      r = calc(name);
-    } else {
       r = Result.make(targetInner, null);
+    } else {
+      r = calc(name);
     }
     return r;
   }
