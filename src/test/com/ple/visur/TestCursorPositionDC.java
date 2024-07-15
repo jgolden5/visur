@@ -278,6 +278,104 @@ public class TestCursorPositionDC {
 
   }
 
+  @Test void allThreeCoordinatesPutSafe() {
+    //1 = shortCXCY can be set if ca and longCXCY are set and no conflicts exist
+    //1/2 - setup
+    assertFalse(caDCB.isComplete());
+    assertFalse(longCXCYDCB.isComplete());
+    assertFalse(shortCXCYDCB.isComplete());
+    caDCB.putSafe(14);
+    assertEquals(14, caDCB.getVal());
+    longCXDCB.putSafe(2);
+    assertEquals(2, longCXDCB.getVal());
+    longCYDCB.putSafe(1);
+    assertEquals(1, longCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+
+    //2/2 - actual test
+    shortCXDCB.putSafe(2);
+    assertEquals(2, shortCXDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    shortCYDCB.putSafe(3);
+    assertEquals(3, shortCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+
+    //2 = shortCXCY CAN'T be set if ca and longCXCY are set and conflicts DO exist
+    Result r = shortCXDCB.putSafe(0);
+    assertNotNull(r.getError());
+    assertEquals(2, shortCXDCB.getVal());
+
+    //3 = longCXCY can be set if ca and shortCXCY are set and no conflicts exist
+    r = longCXDCB.putSafe(2);
+    assertNull(r.getError());
+    assertEquals(2, longCXDCB.getVal());
+    r = longCYDCB.putSafe(1);
+    assertNull(r.getError());
+    assertEquals(1, longCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+
+    //4 = longCXCY CAN'T be set if ca and shortCXCY are set and a conflict exists
+    r = longCXDCB.putSafe(2);
+    assertNull(r.getError());
+    assertEquals(2, longCXDCB.getVal());
+    r = longCYDCB.putSafe(2);
+    assertNotNull(r.getError());
+    assertEquals(1, longCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+
+    //5 = ca can be set if longCXCY and shortCXCY are set and no conflicts exist
+    caDCB.remove();
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(caDCB.isComplete());
+    caDCB.putSafe(14);
+    assertEquals(14, caDCB.getVal());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertTrue(caDCB.isComplete());
+
+    //6 = ca CAN'T be set if longCXCY and shortCXCY are set and a conflict exists
+    r = caDCB.putSafe(19);
+    assertNotNull(r.getError());
+    assertEquals(14, caDCB.getVal());
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertTrue(caDCB.isComplete());
+
+    //7 = shortCXCY can be set when ca & longCXCY get set with new coordinates, and no conflicts exist
+    caDCB.remove();
+    longCXCYDCB.remove();
+    shortCXCYDCB.remove();
+    assertFalse(longCXCYDCB.isComplete());
+    assertFalse(shortCXCYDCB.isComplete());
+    assertFalse(caDCB.isComplete());
+    caDCB.putSafe(31);
+    assertEquals(31, caDCB.getVal());
+    longCXDCB.putSafe(6);
+    assertEquals(6, longCXDCB.getVal());
+    longCYDCB.putSafe(2);
+    assertEquals(2, longCYDCB.getVal());
+    shortCXDCB.putSafe(1);
+    assertEquals(1, shortCXDCB.getVal());
+    shortCYDCB.putSafe(7);
+    assertEquals(7, shortCYDCB.getVal());
+
+    //8 = shortCXCY CAN'T be set when ca and longCXCY are set and conflicts DO exist
+    shortCXDCB.putSafe(0);
+    assertEquals(1, shortCXDCB.getVal());
+    shortCYDCB.putSafe(6);
+    assertEquals(7, shortCYDCB.getVal());
+
+  }
+
   @Test void longCXCYAndShortCXCYPutForce() {
     //1 = longCXCY can be set when shortCXCY is unset
     assertFalse(shortCXCYDCB.isComplete());
@@ -431,104 +529,6 @@ public class TestCursorPositionDC {
     assertFalse(shortCXCYDCB.isComplete());
     caDCB.putForce(20);
     assertEquals(20, caDCB.getVal());
-
-  }
-
-  @Test void allThreeCoordinatesPutSafe() {
-    //1 = shortCXCY can be set if ca and longCXCY are set and no conflicts exist
-    //1/2 - setup
-    assertFalse(caDCB.isComplete());
-    assertFalse(longCXCYDCB.isComplete());
-    assertFalse(shortCXCYDCB.isComplete());
-    caDCB.putSafe(14);
-    assertEquals(14, caDCB.getVal());
-    longCXDCB.putSafe(2);
-    assertEquals(2, longCXDCB.getVal());
-    longCYDCB.putSafe(1);
-    assertEquals(1, longCYDCB.getVal());
-    assertTrue(caDCB.isComplete());
-    assertTrue(longCXCYDCB.isComplete());
-
-    //2/2 - actual test
-    shortCXDCB.putSafe(2);
-    assertEquals(2, shortCXDCB.getVal());
-    assertTrue(caDCB.isComplete());
-    assertTrue(longCXCYDCB.isComplete());
-    shortCYDCB.putSafe(3);
-    assertEquals(3, shortCYDCB.getVal());
-    assertTrue(caDCB.isComplete());
-    assertTrue(longCXCYDCB.isComplete());
-    assertTrue(shortCXCYDCB.isComplete());
-
-    //2 = shortCXCY CAN'T be set if ca and longCXCY are set and conflicts DO exist
-    Result r = shortCXDCB.putSafe(0);
-    assertNotNull(r.getError());
-    assertEquals(2, shortCXDCB.getVal());
-
-    //3 = longCXCY can be set if ca and shortCXCY are set and no conflicts exist
-    r = longCXDCB.putSafe(2);
-    assertNull(r.getError());
-    assertEquals(2, longCXDCB.getVal());
-    r = longCYDCB.putSafe(1);
-    assertNull(r.getError());
-    assertEquals(1, longCYDCB.getVal());
-    assertTrue(caDCB.isComplete());
-    assertTrue(longCXCYDCB.isComplete());
-    assertTrue(shortCXCYDCB.isComplete());
-
-    //4 = longCXCY CAN'T be set if ca and shortCXCY are set and a conflict exists
-    r = longCXDCB.putSafe(2);
-    assertNull(r.getError());
-    assertEquals(2, longCXDCB.getVal());
-    r = longCYDCB.putSafe(2);
-    assertNotNull(r.getError());
-    assertEquals(1, longCYDCB.getVal());
-    assertTrue(caDCB.isComplete());
-    assertTrue(longCXCYDCB.isComplete());
-    assertTrue(shortCXCYDCB.isComplete());
-
-    //5 = ca can be set if longCXCY and shortCXCY are set and no conflicts exist
-    caDCB.remove();
-    assertTrue(longCXCYDCB.isComplete());
-    assertTrue(shortCXCYDCB.isComplete());
-    assertFalse(caDCB.isComplete());
-    caDCB.putSafe(14);
-    assertEquals(14, caDCB.getVal());
-    assertTrue(longCXCYDCB.isComplete());
-    assertTrue(shortCXCYDCB.isComplete());
-    assertTrue(caDCB.isComplete());
-
-    //6 = ca CAN'T be set if longCXCY and shortCXCY are set and a conflict exists
-    r = caDCB.putSafe(19);
-    assertNotNull(r.getError());
-    assertEquals(14, caDCB.getVal());
-    assertTrue(longCXCYDCB.isComplete());
-    assertTrue(shortCXCYDCB.isComplete());
-    assertTrue(caDCB.isComplete());
-
-    //7 = shortCXCY can be set when ca & longCXCY get set with new coordinates, and no conflicts exist
-    caDCB.remove();
-    longCXCYDCB.remove();
-    shortCXCYDCB.remove();
-    assertFalse(longCXCYDCB.isComplete());
-    assertFalse(shortCXCYDCB.isComplete());
-    assertFalse(caDCB.isComplete());
-    caDCB.putSafe(31);
-    assertEquals(31, caDCB.getVal());
-    longCXDCB.putSafe(6);
-    assertEquals(6, longCXDCB.getVal());
-    longCYDCB.putSafe(2);
-    assertEquals(2, longCYDCB.getVal());
-    shortCXDCB.putSafe(1);
-    assertEquals(1, shortCXDCB.getVal());
-    shortCYDCB.putSafe(7);
-    assertEquals(7, shortCYDCB.getVal());
-
-    //8 = shortCXCY CAN'T be set when ca and longCXCY are set and conflicts DO exist
-    shortCXDCB.putSafe(0);
-    assertEquals(1, shortCXDCB.getVal());
-    shortCYDCB.putSafe(6);
-    assertEquals(7, shortCYDCB.getVal());
 
   }
 
@@ -1037,15 +1037,90 @@ public class TestCursorPositionDC {
     assertTrue(shortCXCYDCB.isComplete());
 
     //when shortCXCY is unset:
-    //9 = when ca = 0, longCX = 2, and longCY = 7; shortCX should = 7 and shortCY should = 2
+    //9 = when ca = 0, longCX = 0, and longCY = 0; shortCX should = 0 and shortCY should = 0
+    caDCB.putForce(0);
+    longCXDCB.putSafe(0);
+    longCYDCB.putSafe(0);
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertFalse(shortCXCYDCB.isComplete());
+    r = shortCXDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(0, shortCXDCB.getVal());
+    r = shortCYDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(0, shortCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
 
     //10 = when ca = 22, longCX = 10, and longCY = 1; shortCX should = 0 and shortCY should = 5
+    caDCB.putForce(22);
+    longCXDCB.putSafe(10);
+    longCYDCB.putSafe(1);
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertFalse(shortCXCYDCB.isComplete());
+    r = shortCXDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(0, shortCXDCB.getVal());
+    r = shortCYDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(5, shortCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
 
     //11 = when ca = 26, longCX = 1, and longCY = 2; shortCX should = 1 and shortCY should = 6
+    caDCB.putForce(26);
+    longCXDCB.putSafe(1);
+    longCYDCB.putSafe(2);
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertFalse(shortCXCYDCB.isComplete());
+    r = shortCXDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(1, shortCXDCB.getVal());
+    r = shortCYDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(6, shortCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
 
     //12 = when ca = 30, longCX = 5, and longCY = 2; shortCX should = 0 and shortCY should = 7
+    caDCB.putForce(30);
+    longCXDCB.putSafe(5);
+    longCYDCB.putSafe(2);
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertFalse(shortCXCYDCB.isComplete());
+    r = shortCXDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(0, shortCXDCB.getVal());
+    r = shortCYDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(7, shortCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
 
     //13 = when ca = 32, longCX = 7, and longCY = 2; shortCX should = 2 and shortCY should = 7
+    caDCB.putForce(32);
+    longCXDCB.putSafe(7);
+    longCYDCB.putSafe(2);
+    assertTrue(caDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
+    assertFalse(shortCXCYDCB.isComplete());
+    r = shortCXDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(2, shortCXDCB.getVal());
+    r = shortCYDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(7, shortCYDCB.getVal());
+    assertTrue(caDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertTrue(longCXCYDCB.isComplete());
 
   }
 
