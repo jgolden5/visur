@@ -763,7 +763,19 @@ public class TestCursorPositionDC {
   }
 
   @Test void longCXCYAndShortCXCYGetOrCalc() {
-    //1 = when longCX = 12 and longCY = 1, shortCX should = 1 and shortCY should = 5
+    //1 = when longCX = 12 and longCY = 1, shortCX should = 2 and shortCY should = 5
+    longCXDCB.putForce(12);
+    assertEquals(12, longCXDCB.getVal());
+    longCYDCB.putForce(1);
+    assertEquals(1, longCYDCB.getVal());
+    assertTrue(longCXCYDCB.isComplete());
+    assertFalse(shortCXCYDCB.isComplete());
+    Result r = shortCXDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(2, shortCXDCB.getVal());
+    r = shortCYDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(5, shortCYDCB.getVal());
 
     //2 = when longCX = 5 and longCY = 2, shortCX should = 0 and shortCY should = 7
 
