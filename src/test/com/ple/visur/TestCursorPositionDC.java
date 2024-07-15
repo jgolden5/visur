@@ -664,6 +664,16 @@ public class TestCursorPositionDC {
 
   @Test void caAndShortCXCYGetOrCalc() {
     //1 = when ca = 0, shortCX should = 0 and shortCY should equal 0
+    caDCB.putForce(0);
+    assertEquals(0, caDCB.getVal());
+    Result r = shortCXDCB.getOrCalc();
+    assertNull(r.getError());
+    PrimitiveDataClassBrick pdcbFromResult = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(0, pdcbFromResult.getVal());
+    r = shortCYDCB.getOrCalc();
+    assertNull(r.getError());
+    pdcbFromResult = (PrimitiveDataClassBrick) r.getVal();
+    assertEquals(0, pdcbFromResult.getVal());
 
     //2 = when ca = 12, shortCX should = 0 and shortCY should equal 3
 
