@@ -367,12 +367,15 @@ public class CoordinatesDC extends CompoundDataClass {
     int longCX = shortCX;
     int longCY = 0;
     int absolute = 0;
+    int caOfCurrentLongLineStart = 0;
     for(int testShortCY = 0; testShortCY < shortCY; testShortCY++) {
       if(absolute + canvasWidth < newlineIndices.get(longCY)) {
         absolute += canvasWidth;
-        longCX = Math.min(longCX + canvasWidth, newlineIndices.get(longCY));
+        int lengthOfCurrentLongLine = newlineIndices.get(longCY) - caOfCurrentLongLineStart;
+        longCX = Math.min(longCX + canvasWidth, lengthOfCurrentLongLine);
       } else {
         absolute = newlineIndices.get(longCY) + 1;
+        caOfCurrentLongLineStart = newlineIndices.get(longCY) + 1;
         longCY++;
         longCX = shortCX;
       }
