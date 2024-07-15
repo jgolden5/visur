@@ -318,19 +318,18 @@ public class CoordinatesDC extends CompoundDataClass {
     int shortCY = (int)shortCYDCB.getVal();
     int canvasWidth = (int)cwDCB.getVal();
     int ca = 0;
-    int i = 0;
+    int ni = 0;
     for(int testShortCY = 0; testShortCY < shortCY; testShortCY++) {
-      if (ca + canvasWidth < newlineIndices.get(i)) {
+      if (ca + canvasWidth < newlineIndices.get(ni)) {
         ca += canvasWidth;
       } else {
-        ca = newlineIndices.get(i);
-        i++;
+        ca = ni < newlineIndices.size() - 1 ? newlineIndices.get(ni++) + 1 : newlineIndices.get(ni);
       }
     }
     ca += shortCX;
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
-    caDCB.putSafe(ca);
-    return Result.make(caDCB, null);
+    Result caPutSafeResult = caDCB.putSafe(ca);
+    return Result.make(caDCB, caPutSafeResult.getError());
   }
 
   private Result<DataClassBrick> calcLongCXCYFromCA(ArrayList<Integer> newlineIndices, CompoundDataClassBrick thisAsBrick) {
