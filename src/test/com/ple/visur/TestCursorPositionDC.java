@@ -919,10 +919,37 @@ public class TestCursorPositionDC {
     assertEquals(0, caDCB.getVal());
 
     //2 = when longCX = 7, longCY = 0, shortCX = 2, and shortCY = 1; ca should = 7
+    longCXDCB.putForce(7);
+    longCYDCB.putForce(0);
+    shortCXDCB.putSafe(2);
+    shortCYDCB.putSafe(1);
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    r = caDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(7, caDCB.getVal());
 
     //3 = when longCX = 10, longCY = 0, shortCX = 0, and shortCY = 2; ca should = 10
+    longCXDCB.putForce(10);
+    longCYDCB.putForce(0);
+    shortCXDCB.putSafe(0);
+    shortCYDCB.putSafe(2);
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    r = caDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(10, caDCB.getVal());
 
     //4 = when longCX = 7, longCY = 2, shortCX = 2, and shortCY = 7; ca should = 32
+    longCXDCB.putForce(7);
+    longCYDCB.putForce(2);
+    shortCXDCB.putSafe(2);
+    shortCYDCB.putSafe(7);
+    assertTrue(longCXCYDCB.isComplete());
+    assertTrue(shortCXCYDCB.isComplete());
+    r = caDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(32, caDCB.getVal());
 
     //when longCXCY is unset:
     //5 = when ca = 0, shortCX = 0, and shortCY = 0; longCX should = 0 and longCY should = 0
