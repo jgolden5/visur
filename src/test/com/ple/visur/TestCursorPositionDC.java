@@ -750,6 +750,15 @@ public class TestCursorPositionDC {
     assertTrue(caDCB.isComplete());
 
     //9 = when shortCX = 3 and shortCY = 0, ca should = 3
+    shortCXDCB.putForce(3);
+    assertEquals(3, shortCXDCB.getVal());
+    shortCYDCB.putForce(0);
+    assertEquals(0, shortCYDCB.getVal());
+    assertTrue(shortCXCYDCB.isComplete());
+    assertFalse(caDCB.isComplete());
+    r = caDCB.getOrCalc();
+    assertNull(r.getError());
+    assertEquals(3, caDCB.getVal());
 
   }
 
