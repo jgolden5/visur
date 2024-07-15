@@ -309,10 +309,11 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   private Result<DataClassBrick> calcCAFromShortCXCY(ArrayList<Integer> newlineIndices, CompoundDataClassBrick coordinatesDCB) {
+    CompoundDataClassBrick cursorPositionDCB = coordinatesDCB.getOuter();
     CompoundDataClassBrick shortCXCY = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCY.getInner("shortCX");
     PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCY.getInner("shortCY");
-    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) shortCXCY.getInner("cw");
+    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) cursorPositionDCB.getInner("cw");
     int shortCX = (int)shortCXDCB.getVal();
     int shortCY = (int)shortCYDCB.getVal();
     int canvasWidth = (int)cwDCB.getVal();
