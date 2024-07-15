@@ -368,11 +368,11 @@ public class CoordinatesDC extends CompoundDataClass {
     int longCY = 0;
     int absolute = 0;
     for(int testShortCY = 0; testShortCY < shortCY; testShortCY++) {
-      if(newlineIndices.size() > 0 && absolute + canvasWidth < newlineIndices.get(longCY)) {
+      if(absolute + canvasWidth < newlineIndices.get(longCY)) {
         absolute += canvasWidth;
         longCX = Math.min(longCX + canvasWidth, newlineIndices.get(longCY));
       } else {
-        absolute = newlineIndices.get(longCY);
+        absolute = newlineIndices.get(longCY) + 1;
         longCY++;
         longCX = shortCX;
       }
