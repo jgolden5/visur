@@ -35,8 +35,8 @@ public class RegexQuantum extends Quantum {
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
     int[] bounds = new int[2];
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int leftBound = (int)caBVV.getVal();
+    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
+    int leftBound = (int)realCABVV.getVal();
     int rightBound = leftBound;
     if(span > 0) {
       leftBound = getQuantumStart(leftBound);
@@ -51,7 +51,7 @@ public class RegexQuantum extends Quantum {
         rightBound = getNextBound(rightBound);
       }
     }
-    caBVV.putVal(leftBound);
+    realCABVV.putVal(leftBound);
     bounds[0] = leftBound;
     bounds[1] = rightBound;
     return bounds;
@@ -123,8 +123,8 @@ public class RegexQuantum extends Quantum {
    */
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int startingCA = (int)caBVV.getVal();
+    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
+    int startingCA = (int)realCABVV.getVal();
     int destination = startingCA;
     int span = emc.getSpan();
     int spansRemaining = span;
@@ -142,7 +142,7 @@ public class RegexQuantum extends Quantum {
         }
       }
       emc.putRealCA(destination);
-      emc.putVirtualCX(emc.getRealLongCX());
+      emc.putVirtualLongCX(emc.getRealLongCX());
       mv.dx -= incrementer;
       boolean destinationIsInWrongPlace = mv.dx == 0 && span > 0 && !isAtBeginningOfQuantum(destination);
       if(destinationIsInWrongPlace) {

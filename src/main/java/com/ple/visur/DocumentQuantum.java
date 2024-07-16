@@ -14,10 +14,10 @@ public class DocumentQuantum extends Quantum {
     if(span > 0) {
       return new int[]{0, editorContent.length()};
     } else {
-      BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-      int ca = (int)caBVV.getVal();
-      if(ca == editorContent.length()) {
-        return new int[]{ca, ca};
+      BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
+      int realCA = (int)realCABVV.getVal();
+      if(realCA == editorContent.length()) {
+        return new int[]{realCA, realCA};
       } else {
         emc.putRealCA(0);
         return new int[]{0, 0};
@@ -29,16 +29,16 @@ public class DocumentQuantum extends Quantum {
   int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     int span = emc.getSpan();
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int ca = (int)caBVV.getVal();
+    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
+    int realCA = (int)realCABVV.getVal();
     if(span == 0) {
-      if(ca < editorContent.length() && m.dx > 0) {
-        ca = editorContent.length();
-      } else if(ca == editorContent.length() && m.dx < 0) {
-        ca = 0;
+      if(realCA < editorContent.length() && m.dx > 0) {
+        realCA = editorContent.length();
+      } else if(realCA == editorContent.length() && m.dx < 0) {
+        realCA = 0;
       }
     }
-    return ca;
+    return realCA;
   }
 
   @Override

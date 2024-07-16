@@ -28,8 +28,6 @@ public class InitializerService {
   public void initializeEditorModel() {
     VariableMap initialGvm = new VariableMap(new HashMap<>());
     emc.editorModel.put(globalVariableMap, initialGvm);
-    emc.putVirtualCX(0);
-    emc.putVirtualXIsAtEndOfLine(false);
 
     emc.putEditorMode(navigate);
 
@@ -57,11 +55,11 @@ public class InitializerService {
     emc.updateNewlineIndices();
     emc.putLineWrapping(LineWrapping.wrapped);
     BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
-    BrickVisurVar virtualCABVV = (BrickVisurVar) emc.getGlobalVar("virtualCA");
+    BrickVisurVar virtualLongCXBVV = (BrickVisurVar) emc.getGlobalVar("virtualLongCX");
     realCABVV.putVal(0);
-    virtualCABVV.putVal(0);
+    virtualLongCXBVV.putVal(0);
     emc.putGlobalVar("realCA", realCABVV);
-    emc.putGlobalVar("virtualCA", virtualCABVV);
+    emc.putGlobalVar("virtualCX", virtualLongCXBVV);
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
     emc.putCommandCursor(emc.getCommandStateContent().length());

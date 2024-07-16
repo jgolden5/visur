@@ -9,16 +9,16 @@ public class LineQuantum extends Quantum {
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
     int[] bounds = new int[2];
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int ca = (int)caBVV.getVal();
-    int leftBound = ca;
-    int rightBound = ca;
+    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
+    int realCA = (int)realCABVV.getVal();
+    int leftBound = realCA;
+    int rightBound = realCA;
     if(span > 0) {
-      leftBound = getQuantumStart(ca);
-      rightBound = getQuantumEnd(ca);
+      leftBound = getQuantumStart(realCA);
+      rightBound = getQuantumEnd(realCA);
     } else if(isInMiddleOfQuantum(leftBound)) {
       leftBound = getQuantumStart(leftBound);
-      emc.putVirtualCX(emc.getRealLongCX());
+      emc.putVirtualLongCX(emc.getRealLongCX());
     }
     bounds[0] = leftBound;
     bounds[1] = rightBound;
@@ -75,8 +75,8 @@ public class LineQuantum extends Quantum {
 
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
-    BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
-    int ca = (int)caBVV.getVal();
+    BrickVisurVar realCABVV = (BrickVisurVar)emc.getGlobalVar("realCA");
+    int realCA = (int)realCABVV.getVal();
     int span = emc.getSpan();
     CharacterQuantum cq = new CharacterQuantum();
     if(span > 0) {
@@ -84,20 +84,20 @@ public class LineQuantum extends Quantum {
       mv.dx = 0;
     }
     while(mv.dy != 0) {
-      ca = cq.move(editorContent, newlineIndices, mv); //incrementing/decrementing dy happens internally here
+      realCA = cq.move(editorContent, newlineIndices, mv); //incrementing/decrementing dy happens internally here
     }
     while(mv.dx != 0) {
       if(mv.dx > 0) {
-        ca = zeroQuantumMoveRight(ca, editorContent, newlineIndices);
+        realCA = zeroQuantumMoveRight(realCA, editorContent, newlineIndices);
         mv.dx--;
       } else {
-        ca = zeroQuantumMoveLeft(ca, editorContent, newlineIndices);
+        realCA = zeroQuantumMoveLeft(realCA, editorContent, newlineIndices);
         mv.dx++;
       }
-      emc.putRealCA(ca);
-      emc.putVirtualCX(emc.getRealLongCX());
+      emc.putRealCA(realCA);
+      emc.putVirtualLongCX(emc.getRealLongCX());
     }
-    return ca;
+    return realCA;
   }
 
   private int zeroQuantumMoveRight(int ca, String editorContent, ArrayList<Integer> newlineIndices) {
