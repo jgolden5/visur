@@ -6,8 +6,8 @@ public class CharacterQuantum extends Quantum {
   EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
   @Override
   public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int ca = (int)caBVV.getVal();
+    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
+    int ca = (int)realCABVV.getVal();
     if(ca < editorContent.length()) {
       return new int[]{ca, ca + 1};
     } else {
