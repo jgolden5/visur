@@ -8,10 +8,10 @@ public class InsertCharOp implements Operator {
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String charToBeInserted = (String) eds.pop();
     String editorContent = emc.getEditorContent();
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int ca = (int)caBVV.getVal();
-    String contentBeforeChar = editorContent.substring(0, ca);
-    String contentAfterChar = editorContent.substring(ca, editorContent.length());
+    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
+    int realCA = (int)realCABVV.getVal();
+    String contentBeforeChar = editorContent.substring(0, realCA);
+    String contentAfterChar = editorContent.substring(realCA, editorContent.length());
     String resultingEditorContent = contentBeforeChar + charToBeInserted + contentAfterChar;
     emc.putEditorContent(resultingEditorContent);
   }
