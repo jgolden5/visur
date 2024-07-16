@@ -67,6 +67,18 @@ public class EditorContentService {
     return (ArrayList<Integer>) niBVV.getVal();
   }
 
+  public int calcNextNewlineIndexFromAbsPosition(int realCA, LocalMap<EditorModelKey, Object> editorModel) {
+    ArrayList<Integer> newlineIndices = getNewlineIndices(editorModel);
+    int nextNewlineIndex = -1;
+    for(int i = 0; i < newlineIndices.size(); i++) {
+      nextNewlineIndex = newlineIndices.get(i);
+      if(realCA < newlineIndices.get(i)) {
+        break;
+      }
+    }
+    return nextNewlineIndex;
+  }
+
   public int getCanvasWidth(LocalMap<EditorModelKey, Object> editorModel) {
     BrickVisurVar cwBVV = (BrickVisurVar) getGlobalVar("cw", editorModel);
     return (int)cwBVV.getVal();

@@ -107,6 +107,10 @@ public class EditorModelCoupler {
     return ecs.getNewlineIndices(editorModel);
   }
 
+  public int calcNextNewlineIndexFromAbsPosition(int realCA) {
+    return ecs.calcNextNewlineIndexFromAbsPosition(realCA, editorModel);
+  }
+
   public int[] calcLongLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
     return ecs.calcLongLineBoundaries(editorContent, newlineIndices, span, includeTail, editorModel);
   }
