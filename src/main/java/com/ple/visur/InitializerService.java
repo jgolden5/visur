@@ -78,18 +78,18 @@ public class InitializerService {
   private void initializeCursorPositionDCBs() {
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
     CompoundDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick();
-    PrimitiveDataClass niDC = (PrimitiveDataClass) cursorPositionDC.getInner("ni");
-    PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) cursorPositionDC.getInner("wholeNumber");
-    CompoundDataClass coordinatesDC = (CompoundDataClass) cursorPositionDC.getInner("coordinates");
+    WholeNumberListDC niDC = (WholeNumberListDC) cursorPositionDC.getInner("ni");
+    WholeNumberDC wholeNumberDC = (WholeNumberDC) cursorPositionDC.getInner("wholeNumber");
+    CoordinatesDC coordinatesDC = (CoordinatesDC) cursorPositionDC.getInner("coordinates");
 
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) niDC.makeBrick("ni", cursorPositionDCB);
     PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("cw", cursorPositionDCB);
 
-    initializeRealCursorPositionDCB(cursorPositionDC, niDCB, cwDCB, coordinatesDC);
-    initializeVirtualCursorPositionDCB(cursorPositionDC, niDCB, cwDCB, coordinatesDC);
+    initializeRealCursorPositionDCB(cursorPositionDC, coordinatesDC, niDCB, cwDCB);
+    initializeVirtualCursorPositionDCB(cursorPositionDC, coordinatesDC, niDCB, cwDCB);
   }
 
-  private void initializeRealCursorPositionDCB(CursorPositionDC cursorPositionDC, PrimitiveDataClassBrick niDCB, PrimitiveDataClassBrick cwDCB, CoordinatesDC coordinatesDC) {
+  private void initializeRealCursorPositionDCB(CursorPositionDC cursorPositionDC, CoordinatesDC coordinatesDC, PrimitiveDataClassBrick niDCB, PrimitiveDataClassBrick cwDCB) {
     CompoundDataClassBrick realCursorPositionDCB = cursorPositionDC.makeBrick();
     CompoundDataClassBrick coordinatesDCB = coordinatesDC.makeBrick("coordinates", realCursorPositionDCB);
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
@@ -124,6 +124,40 @@ public class InitializerService {
     emc.putGlobalVar("realShortCY", shortCYDCBVV);
     emc.putGlobalVar("ni", niBVV);
     emc.putGlobalVar("cw", cwBVV);
+
+  }
+
+  private void initializeVirtualCursorPositionDCB(CursorPositionDC cursorPositionDC, CoordinatesDC coordinatesDC, PrimitiveDataClassBrick niDCB, PrimitiveDataClassBrick cwDCB) {
+    CompoundDataClassBrick virtualCursorPositionDCB = cursorPositionDC.makeBrick();
+    CompoundDataClassBrick coordinatesDCB = coordinatesDC.makeBrick("coordinates", virtualCursorPositionDCB);
+    CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
+    CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
+    PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
+    PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
+    PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
+    PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
+    longCXCYDCB.putInner("longCX", longCXDCB);
+    longCXCYDCB.putInner("longCY", longCYDCB);
+    shortCXCYDCB.putInner("shortCX", shortCXDCB);
+    shortCXCYDCB.putInner("shortCY", shortCYDCB);
+    coordinatesDCB.putInner("ca", caDCB);
+    coordinatesDCB.putInner("longCXCY", longCXCYDCB);
+    virtualCursorPositionDCB.putInner("ni", niDCB);
+    virtualCursorPositionDCB.putInner("cw", cwDCB);
+    virtualCursorPositionDCB.putInner("coordinates", coordinatesDCB);
+
+    BrickVisurVar caDCBVV = BrickVisurVar.make(caDCB);
+    BrickVisurVar longCXDCBVV = BrickVisurVar.make(longCXDCB);
+    BrickVisurVar longCYDCBVV = BrickVisurVar.make(longCYDCB);
+    BrickVisurVar shortCXDCBVV = BrickVisurVar.make(shortCXDCB);
+    BrickVisurVar shortCYDCBVV = BrickVisurVar.make(shortCYDCB);
+
+    emc.putGlobalVar("virtualCA", caDCBVV);
+    emc.putGlobalVar("virtualLongCX", longCXDCBVV);
+    emc.putGlobalVar("virtualLongCY", longCYDCBVV);
+    emc.putGlobalVar("virtualShortCX", shortCXDCBVV);
+    emc.putGlobalVar("virtualShortCY", shortCYDCBVV);
 
   }
 
