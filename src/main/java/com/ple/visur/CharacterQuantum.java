@@ -18,7 +18,7 @@ public class CharacterQuantum extends Quantum {
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
     int canvasWidth = emc.getCanvasWidth();
-    int destination = emc.getCA();
+    int destination = emc.getRealCA();
     int span = emc.getSpan();
     while(mv.dx != 0) {
       if(mv.dx > 0) {
@@ -51,7 +51,7 @@ public class CharacterQuantum extends Quantum {
     int ca = (int)caBVV.getVal();
     int destination = ca + 1;
 
-    emc.putCA(destination);
+    emc.putRealCA(destination);
     int cx = emc.getLongCX();
     int canvasWidth = emc.getCanvasWidth();
     emc.putVirtualCX(cx % canvasWidth);
@@ -60,9 +60,9 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveLeft() {
-    int ca = emc.getCA();
+    int ca = emc.getRealCA();
     if(ca > 0) {
-      emc.putCA(--ca);
+      emc.putRealCA(--ca);
     }
     int cx = emc.getLongCX();
     int canvasWidth = emc.getCanvasWidth();
@@ -77,7 +77,7 @@ public class CharacterQuantum extends Quantum {
     emc.putShortCY(++shortCY);
     int[] longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
     emc.putShortCX(Math.min(shortCX, longBounds[1] % canvasWidth));
-    int ca = emc.getCA();
+    int ca = emc.getRealCA();
     return ca;
   }
 
@@ -87,7 +87,7 @@ public class CharacterQuantum extends Quantum {
     emc.putShortCY(--shortCY);
     int[] longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
     emc.putShortCX(Math.min(shortCX, longBounds[1]));
-    int ca = emc.getCA();
+    int ca = emc.getRealCA();
     return ca;
   }
 

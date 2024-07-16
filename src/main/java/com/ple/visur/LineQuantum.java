@@ -94,7 +94,7 @@ public class LineQuantum extends Quantum {
         ca = zeroQuantumMoveLeft(ca, editorContent, newlineIndices);
         mv.dx++;
       }
-      emc.putCA(ca);
+      emc.putRealCA(ca);
       emc.putVirtualCX(emc.getLongCX());
     }
     return ca;
