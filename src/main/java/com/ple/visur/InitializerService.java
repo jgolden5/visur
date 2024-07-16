@@ -2,7 +2,9 @@ package com.ple.visur;
 
 import CursorPositionDC.CursorPositionDC;
 import CursorPositionDC.CursorPositionDCHolder;
+import DataClass.CompoundDataClass;
 import DataClass.CompoundDataClassBrick;
+import DataClass.PrimitiveDataClass;
 import DataClass.PrimitiveDataClassBrick;
 
 import java.util.HashMap;
@@ -50,7 +52,7 @@ public class InitializerService {
 //      "Vehumet will offer followers the knowledge of increasingly powerful destructive spells as they gain piety.\n" +
 //      "Whether \"having spells as a god\" is a good thing is up to you, but it does come with a few downsides. Without active abilities, you have less ways to deal with a dangerous situation. In addition, Vehumet is one of the weaker gods for the early game. For spellcaster backgrounds, the first few spell gifts generally won't be much of an improvement compared to your own spells. Characters new to spellcasting have to take time to train up magic, which might not be all that powerful by the time you hit 1* or even 3*. Furthermore, there are ways to get an \"engine\" without taking up the god slot.";
 
-    initializeUnsetCoordinateBricks();
+    initializeCursorPositionDCBs();
 
     emc.initializeEditorContent(initialEditorContent);
     emc.updateNewlineIndices();
@@ -74,14 +76,26 @@ public class InitializerService {
 
   }
 
-  private void initializeUnsetCoordinateBricks() {
+  private void initializeCursorPositionDCBs() {
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
-    CompoundDataClassBrick cursorPosDCB = cursorPositionDC.makeBrick();
-    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("ni");
+    CompoundDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick();
+    PrimitiveDataClass niDC = (PrimitiveDataClass) cursorPositionDC.getInner("ni");
+    PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) cursorPositionDC.getInner("wholeNumber");
+    CompoundDataClass coordinatesDC = (CompoundDataClass) cursorPositionDC.getInner("coordinates");
+
+    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) niDC.makeBrick("ni", cursorPositionDCB);
+    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("cw", cursorPositionDCB);
+//    CompoundDataClassBrick coordinatesDCB = (CompoundDataClassBrick) coordinatesDC.makeBrick("coordinates", cursorPositionDCB);
+//    cursorPositionDCB.putInner("coordinates", coordinatesDCB);
+
+    initializeRealCursorPositionDCB(niDCB, cwDCB);
+//    initializeVirtualCursorPositionDCB(niDCB, cwDCB);
+  }
+
+  private void initializeRealCursorPositionDCB() {
     CompoundDataClassBrick coordinatesDCB = (CompoundDataClassBrick) cursorPosDCB.getInner("coordinates");
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
-    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("cw");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
     PrimitiveDataClassBrick longCXDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCX");
     PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) longCXCYDCB.getInner("longCY");
