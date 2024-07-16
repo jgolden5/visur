@@ -19,6 +19,17 @@ public class CursorPositionDC extends CompoundDataClass {
   public CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
     HashMap<String, DataClassBrick> cursorPositionDCBInners = new HashMap<>();
     CompoundDataClassBrick cursorPositionDCB = CompoundDataClassBrick.make(name, null, this, cursorPositionDCBInners);
+    PrimitiveDataClass niDC = (PrimitiveDataClass) getInner("ni");
+    PrimitiveDataClass wholeNumberDC = (PrimitiveDataClass) getInner("wholeNumber");
+    CompoundDataClass coordinatesDC = (CompoundDataClass) getInner("coordinates");
+
+    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) niDC.makeBrick("ni", cursorPositionDCB);
+    cursorPositionDCBInners.put("ni", niDCB);
+    PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("cw", cursorPositionDCB);
+    cursorPositionDCBInners.put("cw", cwDCB);
+    CompoundDataClassBrick coordinatesDCB = (CompoundDataClassBrick) coordinatesDC.makeBrick("coordinates", cursorPositionDCB);
+    cursorPositionDCBInners.put("coordinates", coordinatesDCB);
+
     return cursorPositionDCB.initInners(cursorPositionDCBInners);
   }
 
