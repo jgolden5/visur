@@ -1,7 +1,6 @@
 package com.ple.visur;
 
-import CursorPositionDC.CursorPositionDC;
-import CursorPositionDC.CursorPositionDCHolder;
+import CursorPositionDC.*;
 import DataClass.CompoundDataClass;
 import DataClass.CompoundDataClassBrick;
 import DataClass.PrimitiveDataClass;
@@ -85,15 +84,14 @@ public class InitializerService {
 
     PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) niDC.makeBrick("ni", cursorPositionDCB);
     PrimitiveDataClassBrick cwDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("cw", cursorPositionDCB);
-//    CompoundDataClassBrick coordinatesDCB = (CompoundDataClassBrick) coordinatesDC.makeBrick("coordinates", cursorPositionDCB);
-//    cursorPositionDCB.putInner("coordinates", coordinatesDCB);
 
-    initializeRealCursorPositionDCB(niDCB, cwDCB);
-//    initializeVirtualCursorPositionDCB(niDCB, cwDCB);
+    initializeRealCursorPositionDCB(cursorPositionDC, niDCB, cwDCB, coordinatesDC);
+    initializeVirtualCursorPositionDCB(cursorPositionDC, niDCB, cwDCB, coordinatesDC);
   }
 
-  private void initializeRealCursorPositionDCB() {
-    CompoundDataClassBrick coordinatesDCB = (CompoundDataClassBrick) cursorPosDCB.getInner("coordinates");
+  private void initializeRealCursorPositionDCB(CursorPositionDC cursorPositionDC, PrimitiveDataClassBrick niDCB, PrimitiveDataClassBrick cwDCB, CoordinatesDC coordinatesDC) {
+    CompoundDataClassBrick realCursorPositionDCB = cursorPositionDC.makeBrick();
+    CompoundDataClassBrick coordinatesDCB = coordinatesDC.makeBrick("coordinates", realCursorPositionDCB);
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) coordinatesDCB.getInner("ca");
@@ -107,9 +105,9 @@ public class InitializerService {
     shortCXCYDCB.putInner("shortCY", shortCYDCB);
     coordinatesDCB.putInner("ca", caDCB);
     coordinatesDCB.putInner("longCXCY", longCXCYDCB);
-    cursorPosDCB.putInner("ni", niDCB);
-    cursorPosDCB.putInner("cw", cwDCB);
-    cursorPosDCB.putInner("coordinates", coordinatesDCB);
+    realCursorPositionDCB.putInner("ni", niDCB);
+    realCursorPositionDCB.putInner("cw", cwDCB);
+    realCursorPositionDCB.putInner("coordinates", coordinatesDCB);
 
     BrickVisurVar caDCBVV = BrickVisurVar.make(caDCB);
     BrickVisurVar longCXDCBVV = BrickVisurVar.make(longCXDCB);
@@ -119,11 +117,11 @@ public class InitializerService {
     BrickVisurVar niBVV = BrickVisurVar.make(niDCB);
     BrickVisurVar cwBVV = BrickVisurVar.make(cwDCB);
 
-    emc.putGlobalVar("ca", caDCBVV);
-    emc.putGlobalVar("longCX", longCXDCBVV);
-    emc.putGlobalVar("longCY", longCYDCBVV);
-    emc.putGlobalVar("shortCX", shortCXDCBVV);
-    emc.putGlobalVar("shortCY", shortCYDCBVV);
+    emc.putGlobalVar("realCA", caDCBVV);
+    emc.putGlobalVar("realLongCX", longCXDCBVV);
+    emc.putGlobalVar("realLongCY", longCYDCBVV);
+    emc.putGlobalVar("realShortCX", shortCXDCBVV);
+    emc.putGlobalVar("realShortCY", shortCYDCBVV);
     emc.putGlobalVar("ni", niBVV);
     emc.putGlobalVar("cw", cwBVV);
 
