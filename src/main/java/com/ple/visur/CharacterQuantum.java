@@ -50,13 +50,13 @@ public class CharacterQuantum extends Quantum {
     int destinationCA = realCA;
     while(mv.dy != 0) {
       if(mv.dy > 0) {
-        boolean canMoveDown;
+        boolean canMoveDown = realCA + canvasWidth < nextNewlineIndex;
         if(canMoveDown) {
           destinationCA = moveDown(newlineIndices);
         }
         mv.dy--;
       } else {
-        boolean canMoveUp;
+        boolean canMoveUp = realCA + canvasWidth > nextNewlineIndex;
         if(canMoveUp) {
           destinationCA = moveUp(newlineIndices);
         }
@@ -78,7 +78,7 @@ public class CharacterQuantum extends Quantum {
     return realCA;
   }
 
-  private int moveDown(ArrayList<Integer> newlineIndices, int canvasWidth) {
+  private int moveDown(ArrayList<Integer> newlineIndices) {
     int realCA;
     return realCA;
   }
