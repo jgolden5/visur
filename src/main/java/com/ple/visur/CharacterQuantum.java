@@ -52,7 +52,7 @@ public class CharacterQuantum extends Quantum {
     int destination = ca + 1;
 
     emc.putRealCA(destination);
-    int cx = emc.getLongCX();
+    int cx = emc.getRealLongCX();
     int canvasWidth = emc.getCanvasWidth();
     emc.putVirtualCX(cx % canvasWidth);
 
@@ -64,7 +64,7 @@ public class CharacterQuantum extends Quantum {
     if(ca > 0) {
       emc.putRealCA(--ca);
     }
-    int cx = emc.getLongCX();
+    int cx = emc.getRealLongCX();
     int canvasWidth = emc.getCanvasWidth();
     emc.putVirtualCX(cx % canvasWidth);
 
@@ -72,21 +72,21 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveDown(String editorContent, ArrayList<Integer> newlineIndices, int canvasWidth) {
-    int shortCX = emc.getShortCX();
-    int shortCY = emc.getShortCY();
-    emc.putShortCY(++shortCY);
+    int shortCX = emc.getRealShortCX();
+    int shortCY = emc.getRealShortCY();
+    emc.putRealShortCY(++shortCY);
     int[] longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
-    emc.putShortCX(Math.min(shortCX, longBounds[1] % canvasWidth));
+    emc.putRealShortCX(Math.min(shortCX, longBounds[1] % canvasWidth));
     int ca = emc.getRealCA();
     return ca;
   }
 
   private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {
-    int shortCX = emc.getShortCX();
-    int shortCY = emc.getShortCY();
-    emc.putShortCY(--shortCY);
+    int shortCX = emc.getRealShortCX();
+    int shortCY = emc.getRealShortCY();
+    emc.putRealShortCY(--shortCY);
     int[] longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
-    emc.putShortCX(Math.min(shortCX, longBounds[1]));
+    emc.putRealShortCX(Math.min(shortCX, longBounds[1]));
     int ca = emc.getRealCA();
     return ca;
   }
