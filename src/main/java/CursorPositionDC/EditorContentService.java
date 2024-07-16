@@ -67,14 +67,6 @@ public class EditorContentService {
     return (ArrayList<Integer>) niBVV.getVal();
   }
 
-  public int getVirtualCX(LocalMap<EditorModelKey, Object> editorModel) {
-    return (int) editorModel.get(virtualX);
-  }
-
-  public boolean getVirtualXIsAtEndOfLine(LocalMap<EditorModelKey, Object> editorModel) {
-    return (boolean) editorModel.get(virtualXIsAtEndOfLine);
-  }
-
   public int getCanvasWidth(LocalMap<EditorModelKey, Object> editorModel) {
     BrickVisurVar cwBVV = (BrickVisurVar) getGlobalVar("cw", editorModel);
     return (int)cwBVV.getVal();

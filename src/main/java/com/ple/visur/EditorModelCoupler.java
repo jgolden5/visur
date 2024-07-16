@@ -74,6 +74,31 @@ public class EditorModelCoupler {
     return (int)realShortCYBVV.getVal();
   }
 
+  public int getVirtualCA() {
+    BrickVisurVar virtualCABVV = (BrickVisurVar) getGlobalVar("virtualCA");
+    return (int)virtualCABVV.getVal();
+  }
+
+  public int getVirtualLongCX() {
+    BrickVisurVar virtualLongCYBVV = (BrickVisurVar) getGlobalVar("virtualLongCY");
+    return (int)virtualLongCYBVV.getVal();
+  }
+
+  public int getVirtualLongCY() {
+    BrickVisurVar virtualLongCYBVV = (BrickVisurVar) getGlobalVar("virtualLongCY");
+    return (int)virtualLongCYBVV.getVal();
+  }
+
+  public int getVirtualShortCX() {
+    BrickVisurVar virtualShortCYBVV = (BrickVisurVar) getGlobalVar("virtualShortCY");
+    return (int)virtualShortCYBVV.getVal();
+  }
+
+  public int getVirtualShortCY() {
+    BrickVisurVar virtualShortCYBVV = (BrickVisurVar) getGlobalVar("virtualShortCY");
+    return (int)virtualShortCYBVV.getVal();
+  }
+
   public String getContentLineAtY(int y) {
     return ecs.getContentLineAtY(y, editorModel);
   }
@@ -84,14 +109,6 @@ public class EditorModelCoupler {
 
   public int[] calcLongLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
     return ecs.calcLongLineBoundaries(editorContent, newlineIndices, span, includeTail, editorModel);
-  }
-
-  public int getVirtualCX() {
-    return ecs.getVirtualCX(editorModel);
-  }
-
-  public boolean getVirtualXIsAtEndOfLine() {
-    return ecs.getVirtualXIsAtEndOfLine(editorModel);
   }
 
   public int getCanvasWidth() {
@@ -263,16 +280,38 @@ public class EditorModelCoupler {
     putGlobalVar("realShortCY", realShortCYBVV);
   }
 
+  public void putVirtualCA(int virtualCA) {
+    BrickVisurVar virtualCABVV = (BrickVisurVar) getGlobalVar("virtualCA");
+    virtualCABVV.putVal(virtualCA);
+    putGlobalVar("virtualCA", virtualCABVV);
+  }
+
+  public void putVirtualLongCX(int virtualLongCX) {
+    BrickVisurVar virtualLongCXBVV = (BrickVisurVar) getGlobalVar("virtualLongCX");
+    virtualLongCXBVV.putVal(virtualLongCX);
+    putGlobalVar("virtualLongCX", virtualLongCXBVV);
+  }
+
+  public void putVirtualLongCY(int virtualLongCY) {
+    BrickVisurVar virtualLongCYBVV = (BrickVisurVar) getGlobalVar("virtualLongCY");
+    virtualLongCYBVV.putVal(virtualLongCY);
+    putGlobalVar("virtualLongCY", virtualLongCYBVV);
+  }
+
+  public void putVirtualShortCX(int virtualShortCX) {
+    BrickVisurVar virtualShortCXBVV = (BrickVisurVar) getGlobalVar("virtualShortCX");
+    virtualShortCXBVV.putVal(virtualShortCX);
+    putGlobalVar("virtualShortCX", virtualShortCXBVV);
+  }
+
+  public void putVirtualShortCY(int virtualShortCY) {
+    BrickVisurVar virtualShortCYBVV = (BrickVisurVar) getGlobalVar("virtualShortCY");
+    virtualShortCYBVV.putVal(virtualShortCY);
+    putGlobalVar("virtualShortCY", virtualShortCYBVV);
+  }
+
   public void updateNewlineIndices() {
     ecs.updateNewlineIndices(editorModel);
-  }
-
-  public void putVirtualCX(int x) {
-    ecs.putVirtualCX(x, editorModel);
-  }
-
-  public void putVirtualXIsAtEndOfLine(boolean isAtEndOfLine) {
-    ecs.putVirtualXIsAtEndOfLine(isAtEndOfLine, editorModel);
   }
 
   public void putCanvasWidth(int width) {
