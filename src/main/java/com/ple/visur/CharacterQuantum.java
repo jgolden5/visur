@@ -22,15 +22,10 @@ public class CharacterQuantum extends Quantum {
     int span = emc.getSpan();
     while(mv.dx != 0) {
       if(mv.dx > 0) {
-        int endLimit = span > 0 ? editorContent.length() - 1 : editorContent.length();
-        if(destination < endLimit) {
-          destination = moveRight();
-        }
+        destination = moveRight(newlineIndices, span);
         mv.dx--;
       } else {
-        if(destination > 0) {
-          destination = moveLeft();
-        }
+        destination = moveLeft();
         mv.dx++;
       }
     }
@@ -46,39 +41,42 @@ public class CharacterQuantum extends Quantum {
     return destination;
   }
 
-  private int moveRight() {
-    BrickVisurVar realCABVV = (BrickVisurVar)emc.getGlobalVar("realCA");
-    int realCA = (int)realCABVV.getVal();
-    int destination = realCA + 1;
-
-    emc.putRealCA(destination);
-    int cx = emc.getRealLongCX();
-    int canvasWidth = emc.getCanvasWidth();
-    emc.putVirtualLongCX(cx % canvasWidth);
-
-    return destination;
+  private int moveRight(ArrayList<Integer> newlineIndices, int span) {
+    int realCA = emc.getRealCA();
+    int editorContentEnd = newlineIndices.get(newlineIndices.size() - 1);
+    boolean canMoveRight = span > 0 ? realCA + 1 < editorContentEnd : realCA + 1 <= editorContentEnd;
+    if(canMoveRight) {
+      realCA++;
+      emc.putVirtualCA(realCA);
+    }
+    return realCA;
   }
 
   private int moveLeft() {
     int realCA = emc.getRealCA();
-    if(realCA > 0) {
-      emc.putRealCA(--realCA);
+    boolean canMoveLeft = realCA - 1 >= 0;
+    if(canMoveLeft) {
+      realCA--;
+      emc.putVirtualCA(realCA);
     }
-    int cx = emc.getRealLongCX();
-    int canvasWidth = emc.getCanvasWidth();
-    emc.putVirtualLongCX(cx % canvasWidth);
-
     return realCA;
   }
 
   private int moveDown(String editorContent, ArrayList<Integer> newlineIndices, int canvasWidth) {
-    int shortCX = emc.getRealShortCX();
-    int shortCY = emc.getRealShortCY();
-    emc.putRealShortCY(++shortCY);
-    int[] longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
-    emc.putRealShortCX(Math.min(shortCX, longBounds[1] % canvasWidth));
-    int ca = emc.getRealCA();
-    return ca;
+//    int virtualShortCY = emc.getVirtualShortCY();
+//    emc.putVirtualShortCX(0);
+//    emc.putVirtualShortCY(++virtualShortCY);
+//    int virtualCAAfterMovement = emc.getVirtualCA();
+//    int span = emc.getSpan();
+//    int lastNewlineIndex = newlineIndices.get(newlineIndices.size() - 1);
+//    int contentEnd = span > 0 ? lastNewlineIndex - 1 : lastNewlineIndex;
+//    boolean canGoDown = virtualCAAfterMovement <= contentEnd;
+//    if(canGoDown) {
+//      int[] longBounds = emc.calcLongLineBoundaries(editorContent, newlineIndices, span, false);
+//      emc.putRealShortCX(Math.min(emc.getRealShortCX(), longBounds[1] % canvasWidth));
+//      emc.putRealShortCY(emc.getVirtualShortCY());
+//    }
+    return emc.getRealCA();
   }
 
   private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {
