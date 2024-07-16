@@ -93,7 +93,7 @@ public class InitializerService {
   }
 
   private void initializeRealCursorPositionDCB(CursorPositionDC cursorPositionDC, CoordinatesDC coordinatesDC, PrimitiveDataClassBrick niDCB, PrimitiveDataClassBrick cwDCB) {
-    CompoundDataClassBrick realCursorPositionDCB = cursorPositionDC.makeBrick();
+    CompoundDataClassBrick realCursorPositionDCB = cursorPositionDC.makeBrick("realCursorPosition", null);
     CompoundDataClassBrick coordinatesDCB = coordinatesDC.makeBrick("coordinates", realCursorPositionDCB);
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
@@ -131,7 +131,7 @@ public class InitializerService {
   }
 
   private void initializeVirtualCursorPositionDCB(CursorPositionDC cursorPositionDC, CoordinatesDC coordinatesDC, PrimitiveDataClassBrick niDCB, PrimitiveDataClassBrick cwDCB) {
-    CompoundDataClassBrick virtualCursorPositionDCB = cursorPositionDC.makeBrick();
+    CompoundDataClassBrick virtualCursorPositionDCB = cursorPositionDC.makeBrick("virtualCursorPosition", null);
     CompoundDataClassBrick coordinatesDCB = coordinatesDC.makeBrick("coordinates", virtualCursorPositionDCB);
     CompoundDataClassBrick longCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("longCXCY");
     CompoundDataClassBrick shortCXCYDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("shortCXCY");
