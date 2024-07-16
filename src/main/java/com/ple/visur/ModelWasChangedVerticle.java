@@ -3,8 +3,6 @@ package com.ple.visur;
 import io.vertx.core.json.*;
 import io.vertx.rxjava3.core.eventbus.Message;
 
-import java.util.Stack;
-
 public class ModelWasChangedVerticle extends AbstractVisurVerticle {
 
   View view;
@@ -20,10 +18,10 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
   public void handleChange(Message<Object> event) {
     if(view == null) {
       view = new View();
-      view.ca = 0;
+      view.realCA = 0;
     } else {
-      BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
-      view.ca = (int)caBVV.getVal();
+      BrickVisurVar realCABVV = (BrickVisurVar)emc.getGlobalVar("realCA");
+      view.realCA = (int)realCABVV.getVal();
     }
     view.editorContent = emc.getEditorContent();
     vertx.eventBus().send(BusEvent.viewWasChanged.name(), toJson());
@@ -31,9 +29,9 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
 
   public JsonObject toJson() {
     JsonObject output = new JsonObject();
-    BrickVisurVar bvv = (BrickVisurVar)emc.getGlobalVar("ca");
+    BrickVisurVar realCABVV = (BrickVisurVar)emc.getGlobalVar("realCA");
     EditorSubmode editorSubmode = emc.getEditorSubmode();
-    output.put("ca", bvv.getVal());
+    output.put("realCA", realCABVV.getVal());
     output.put("editorContent", emc.getEditorContent());
     output.put("span", emc.getSpan());
     output.put("cursorQuantumStart", emc.getCursorQuantumStart());

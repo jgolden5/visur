@@ -1,6 +1,6 @@
 package com.ple.visur;
 
 public class View {
-  public int ca;
+  public int realCA;
   public String editorContent;
 }
