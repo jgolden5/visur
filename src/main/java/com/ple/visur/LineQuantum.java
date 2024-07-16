@@ -74,7 +74,7 @@ public class LineQuantum extends Quantum {
   }
 
   @Override
-  public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
+  public int moveIfPossible(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
     BrickVisurVar realCABVV = (BrickVisurVar)emc.getGlobalVar("realCA");
     int realCA = (int)realCABVV.getVal();
     int span = emc.getSpan();
@@ -84,7 +84,7 @@ public class LineQuantum extends Quantum {
       mv.dx = 0;
     }
     while(mv.dy != 0) {
-      realCA = cq.move(editorContent, newlineIndices, mv); //incrementing/decrementing dy happens internally here
+      realCA = cq.moveIfPossible(editorContent, newlineIndices, mv); //incrementing/decrementing dy happens internally here
     }
     while(mv.dx != 0) {
       if(mv.dx > 0) {

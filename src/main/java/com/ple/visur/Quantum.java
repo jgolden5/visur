@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public abstract class Quantum implements Shareable {
   abstract int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail); //newlineIndices are only needed in CustomQuantums
-  abstract int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m);
+  abstract int moveIfPossible(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m);
   abstract String getName();
   void quantumStart() {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
