@@ -56,10 +56,13 @@ public class InitializerService {
     emc.putLineWrapping(LineWrapping.wrapped);
     BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
     BrickVisurVar virtualLongCXBVV = (BrickVisurVar) emc.getGlobalVar("virtualLongCX");
+    BrickVisurVar virtualLongCYBVV = (BrickVisurVar) emc.getGlobalVar("virtualLongCY");
     realCABVV.putVal(0);
     virtualLongCXBVV.putVal(0);
+    virtualLongCYBVV.putVal(0);
     emc.putGlobalVar("realCA", realCABVV);
-    emc.putGlobalVar("virtualCX", virtualLongCXBVV);
+    emc.putGlobalVar("virtualLongCX", virtualLongCXBVV);
+    emc.putGlobalVar("virtualLongCY", virtualLongCYBVV);
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
     emc.putCommandCursor(emc.getCommandStateContent().length());
