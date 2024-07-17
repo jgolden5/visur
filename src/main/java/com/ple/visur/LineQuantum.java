@@ -7,10 +7,8 @@ public class LineQuantum extends Quantum {
   EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
 
   @Override
-  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
+  public int[] getBoundaries(int realCA, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
     int[] bounds = new int[2];
-    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
-    int realCA = (int)realCABVV.getVal();
     int leftBound = realCA;
     int rightBound = realCA;
     if(span > 0) {

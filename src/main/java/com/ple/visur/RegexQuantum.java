@@ -27,16 +27,14 @@ public class RegexQuantum extends Quantum {
    * bounds[0] = getLeftBound
    * bounds[1] = getRightBound
    * if bounds[0] == bounds[1], set span = 0
-   * @param editorContent
    * @param newlineIndices
    * @param includeTail
    * @return
    */
   @Override
-  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
+  public int[] getBoundaries(int realCA, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
     int[] bounds = new int[2];
-    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
-    int leftBound = (int)realCABVV.getVal();
+    int leftBound = realCA;
     int rightBound = leftBound;
     if(span > 0) {
       leftBound = getQuantumStart(leftBound);
@@ -51,7 +49,7 @@ public class RegexQuantum extends Quantum {
         rightBound = getNextBound(rightBound);
       }
     }
-    realCABVV.putVal(leftBound);
+    emc.putRealCA(leftBound);
     bounds[0] = leftBound;
     bounds[1] = rightBound;
     return bounds;

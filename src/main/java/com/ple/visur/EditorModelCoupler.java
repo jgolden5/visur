@@ -111,8 +111,8 @@ public class EditorModelCoupler {
     return ecs.calcNextNewlineIndexFromAbsPosition(realCA, editorModel);
   }
 
-  public int[] calcLongLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
-    return ecs.calcLongLineBoundaries(editorContent, newlineIndices, span, includeTail, editorModel);
+  public int[] calcLongLineBoundaries(int realCA, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
+    return ecs.calcLongLineBoundaries(realCA, newlineIndices, span, includeTail, editorModel);
   }
 
   public int getCanvasWidth() {

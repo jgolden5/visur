@@ -5,10 +5,9 @@ import java.util.ArrayList;
 public class CharacterQuantum extends Quantum {
   EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
   @Override
-  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
-    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
-    int ca = (int)realCABVV.getVal();
-    if(ca < editorContent.length()) {
+  public int[] getBoundaries(int ca, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
+    int lastNewlineIndex = newlineIndices.get(newlineIndices.size() - 1);
+    if(ca < lastNewlineIndex) {
       return new int[]{ca, ca + 1};
     } else {
       return new int[]{ca, ca};
@@ -51,7 +50,7 @@ public class CharacterQuantum extends Quantum {
       if(mv.dy > 0) {
         boolean canMoveDown = checkCanMoveDown(newlineIndices, span, canvasWidth);
         if(canMoveDown) {
-          destinationCA = moveDown(newlineIndices);
+          destinationCA = moveDown(newlineIndices, span, canvasWidth);
         }
         mv.dy--;
       } else {
@@ -110,16 +109,20 @@ public class CharacterQuantum extends Quantum {
     return realCA;
   }
 
-  private int moveDown(ArrayList<Integer> newlineIndices) {
-//    int virtualShortCY = emc.getVirtualShortCY();
-//    emc.putVirtualShortCY(++virtualShortCY);
-//    int realShortCX = getRealShortCXFromVirtualShortCX(emc.getVirtualShortCX());
-//    emc.putRealShortCX(realShortCX);
-//    emc.putRealShortCY(virtualShortCY);
+  private int moveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
+    int realCA = emc.getRealCA();
+    int[] longBoundsBeforeMove = getBoundaries(realCA, newlineIndices, span, false);
+    int virtualLongCX = emc.getVirtualLongCX();
+    int virtualShortCY = emc.getVirtualShortCY();
+    emc.putVirtualShortCY(++virtualShortCY);
+    int[] longBoundsAfterMove = getBoundaries(longBoundsBeforeMove[1] + 1, newlineIndices, span, false);
+    int realShortCX = getRealShortCXFromVirtualShortCX(emc.getVirtualShortCX(), newlineIndices, longBoundsAfterMove, canvasWidth);
+    emc.putRealShortCX(realShortCX);
+    emc.putRealShortCY(virtualShortCY);
     return emc.getRealCA();
   }
 
-  private int getRealShortCXFromVirtualShortCX(int virtualShortCX) {
+  private int getRealShortCXFromVirtualShortCX(int virtualShortCX, ArrayList<Integer> newlineIndices, int[] longBounds, int canvasWidth) {
     return virtualShortCX;
   }
 

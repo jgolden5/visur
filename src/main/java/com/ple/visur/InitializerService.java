@@ -184,7 +184,7 @@ public class InitializerService {
 
     emc.putCursorQuantum(emc.getQuantumNameToQuantum().get(startingCursorQuantumName));
     emc.putScopeQuantum(emc.getQuantumNameToQuantum().get(startingScopeQuantumName));
-    int bounds[] = emc.getQuantumNameToQuantum().get(startingCursorQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
+    int bounds[] = emc.getQuantumNameToQuantum().get(startingCursorQuantumName).getBoundaries(emc.getRealCA(), emc.getNewlineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(bounds[0]);
     emc.putCursorQuantumEnd(bounds[1]);
     emc.putIsAtQuantumStart(true);
