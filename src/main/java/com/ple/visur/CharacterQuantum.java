@@ -110,16 +110,20 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
-    int virtualShortCY = emc.getVirtualShortCY();
-    emc.putVirtualShortCY(++virtualShortCY);
-
-    int virtualLongCY = emc.getVirtualLongCY();
-    int currentLongLineStartIndex = virtualLongCY > 0 ? newlineIndices.get(virtualLongCY - 1) + 1 : 0;
-    int currentLongLineEndIndex = newlineIndices.get(virtualLongCY);
-    int lengthOfLongLineBounds = currentLongLineEndIndex - currentLongLineStartIndex;
-    int realShortCX = getRealShortCXFromVirtualShortCX(newlineIndices, lengthOfLongLineBounds, span, canvasWidth);
-    emc.putRealShortCX(realShortCX);
-    emc.putRealShortCY(virtualShortCY);
+    //1 get virtualLongCY
+    //2 set currentLineEnd = newlineIndices.get(virtualLongCY)
+    //3 get virtualShortCY
+    //4 increment virtualShortCY
+    //5 set incremented virtualShortCY to globalVar
+    //6 if new virtualLongCX > currentNewlineIndexLimit, set virtualLongCX to currentNewlineIndexLimit
+    //7 get calculated virtualLongCY from globalVar
+    //8 set currentLineStart = virtualLongCY > 0 ? newlineIndices.get(virtualLongCY) : 0
+    //9 set currentLineEnd = virtualLongCY > 0 ? newlineIndices.get(virtualLongCY) : 0
+    //10 set lengthOfLongLineBounds = currentLineEnd - currentLineStart
+    //11 realShortCX = getRealShortCXFromVirtualShortCX(newlineIndices, lengthOfLongLineBounds, span, canvasWidth)
+    //12 set realShortCX to globalVar
+    //13 set realShortCY to virtualShortCY
+    //14 return calculated realCA from globalVar
     return emc.getRealCA();
   }
 
