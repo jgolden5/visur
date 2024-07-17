@@ -111,19 +111,30 @@ public class CharacterQuantum extends Quantum {
 
   private int moveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
     int realCA = emc.getRealCA();
-    int[] longBoundsBeforeMove = getBoundaries(realCA, newlineIndices, span, false);
-    int virtualLongCX = emc.getVirtualLongCX();
+    LineQuantum lineQuantum = new LineQuantum();
+    int[] longBoundsBeforeMove = lineQuantum.getBoundaries(realCA, newlineIndices, span, false);
+    int lengthOfLongBoundsBeforeMove = longBoundsBeforeMove[1] - longBoundsBeforeMove[0];
     int virtualShortCY = emc.getVirtualShortCY();
     emc.putVirtualShortCY(++virtualShortCY);
-    int[] longBoundsAfterMove = getBoundaries(longBoundsBeforeMove[1] + 1, newlineIndices, span, false);
-    int realShortCX = getRealShortCXFromVirtualShortCX(emc.getVirtualShortCX(), newlineIndices, longBoundsAfterMove, canvasWidth);
+    int virtualLongCX = emc.getVirtualLongCX();
+    int lengthOfCurrentLongLineBounds = lengthOfLongBoundsBeforeMove;
+    boolean caMovedToNewLongLine = virtualLongCX > lengthOfLongBoundsBeforeMove;
+    if(caMovedToNewLongLine) {
+      int caAfterMove = longBoundsBeforeMove[1] + 1;
+      int[] longBoundsAfterMove = lineQuantum.getBoundaries(caAfterMove, newlineIndices, span, false);
+      lengthOfCurrentLongLineBounds = longBoundsAfterMove[1] - longBoundsAfterMove[0];
+    }
+    int realShortCX = getRealShortCXFromVirtualShortCX(lengthOfCurrentLongLineBounds, canvasWidth);
     emc.putRealShortCX(realShortCX);
     emc.putRealShortCY(virtualShortCY);
     return emc.getRealCA();
   }
 
-  private int getRealShortCXFromVirtualShortCX(int virtualShortCX, ArrayList<Integer> newlineIndices, int[] longBounds, int canvasWidth) {
-    return virtualShortCX;
+  private int getRealShortCXFromVirtualShortCX(int lengthOfLongLineBounds, int canvasWidth) {
+    int virtualLongCX = emc.getVirtualLongCX();
+    int realLongCX = Math.min(virtualLongCX, lengthOfLongLineBounds);
+    int realShortCX = realLongCX % canvasWidth;
+    return realShortCX;
   }
 
   private int moveUp(ArrayList<Integer> newlineIndices) {
