@@ -106,19 +106,13 @@ public class CharacterQuantum extends Quantum {
   private int moveLeft() {
     int realCA = emc.getRealCA();
     emc.putVirtualCA(--realCA);
+    //14 return calculated realCA from globalVar
     return realCA;
   }
 
   private int moveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
     virtualMoveDown(newlineIndices);
-    //7 get calculated virtualLongCY from globalVar
-    //8 set currentLineStart = virtualLongCY > 0 ? newlineIndices.get(virtualLongCY) : 0
-    //9 set currentLongLineEnd = virtualLongCY > 0 ? newlineIndices.get(virtualLongCY) : 0
-    //10 set lengthOfLongLineBounds = currentLongLineEnd - currentLineStart
-    //11 realShortCX = getRealShortCXFromVirtualShortCX(newlineIndices, lengthOfLongLineBounds, span, canvasWidth)
-    //12 set realShortCX to globalVar
-    //13 set realShortCY to virtualShortCY
-    //14 return calculated realCA from globalVar
+    realMoveDown(newlineIndices, span, canvasWidth);
     return emc.getRealCA();
   }
 
@@ -138,6 +132,24 @@ public class CharacterQuantum extends Quantum {
     if(virtualLongCX > currentLongLineEnd) {
       emc.putVirtualLongCX(currentLongLineEnd);
     }
+  }
+
+  private void realMoveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
+    //7 get calculated virtualLongCY from globalVar
+    int virtualLongCY = emc.getVirtualLongCY();
+    //8 set currentLongLineStart = virtualLongCY > 0 ? newlineIndices.get(virtualLongCY - 1) : 0
+    int currentLongLineStart = virtualLongCY > 0 ? newlineIndices.get(virtualLongCY) : 0;
+    //9 set currentLongLineEnd = newlineIndices.get(virtualLongCY)
+    int currentLongLineEnd = newlineIndices.get(virtualLongCY);
+    //10 set lengthOfLongLineBounds = currentLongLineEnd - currentLongLineStart
+    int lengthOfLongLineBounds = currentLongLineEnd - currentLongLineStart;
+    //11 realShortCX = getRealShortCXFromVirtualShortCX(newlineIndices, lengthOfLongLineBounds, span, canvasWidth)
+    int realShortCX = getRealShortCXFromVirtualShortCX(newlineIndices, lengthOfLongLineBounds, span, canvasWidth);
+    //12 set realShortCX to globalVar
+    emc.putRealShortCX(realShortCX);
+    //13 set realShortCY to virtualShortCY
+    int virtualShortCY = emc.getVirtualShortCY();
+    emc.putRealShortCY(virtualShortCY);
   }
 
   private int getRealShortCXFromVirtualShortCX(ArrayList<Integer> newlineIndices, int lengthOfLongLineBounds, int span, int canvasWidth) {
