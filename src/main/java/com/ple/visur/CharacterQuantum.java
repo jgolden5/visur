@@ -120,8 +120,8 @@ public class CharacterQuantum extends Quantum {
     int lengthOfCurrentLongLineBounds = lengthOfLongBoundsBeforeMove;
     boolean caMovedToNewLongLine = virtualCA > longBoundsBeforeMove[1];
     if(caMovedToNewLongLine) {
-      int caAfterMove = longBoundsBeforeMove[1] + 1;
-      int[] longBoundsAfterMove = lineQuantum.getBoundaries(caAfterMove, newlineIndices, span, false);
+      int caOfLineStartAfterMove = longBoundsBeforeMove[1] + 1;
+      int[] longBoundsAfterMove = lineQuantum.getBoundaries(caOfLineStartAfterMove, newlineIndices, span, false);
       lengthOfCurrentLongLineBounds = longBoundsAfterMove[1] - longBoundsAfterMove[0];
     }
     int realShortCX = getRealShortCXFromVirtualShortCX(lengthOfCurrentLongLineBounds, canvasWidth);

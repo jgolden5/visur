@@ -16,7 +16,6 @@ public class LineQuantum extends Quantum {
       rightBound = getQuantumEnd(realCA);
     } else if(isInMiddleOfQuantum(leftBound)) {
       leftBound = getQuantumStart(leftBound);
-      emc.putVirtualLongCX(emc.getRealLongCX());
     }
     bounds[0] = leftBound;
     bounds[1] = rightBound;
