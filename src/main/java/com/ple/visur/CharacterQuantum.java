@@ -111,6 +111,9 @@ public class CharacterQuantum extends Quantum {
 
   private int moveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
     int realCA = emc.getRealCA();
+    //
+    int testVirtualLongCX = emc.getVirtualLongCX();
+    //
     LineQuantum lineQuantum = new LineQuantum();
     int[] longBoundsBeforeMove = lineQuantum.getBoundaries(realCA, newlineIndices, span, false);
     int lengthOfLongBoundsBeforeMove = longBoundsBeforeMove[1] - longBoundsBeforeMove[0];
@@ -135,7 +138,7 @@ public class CharacterQuantum extends Quantum {
     int virtualLongCY = emc.getVirtualLongCY();
     int realLongCX = Math.min(virtualLongCX, lengthOfLongLineBounds);
     int realShortCX = realLongCX % canvasWidth;
-    if(span > 0 && virtualLongCY >= newlineIndices.size()) {
+    if(span > 0 && virtualLongCY >= newlineIndices.size() - 1) {
       realShortCX--;
     }
     return realShortCX;
