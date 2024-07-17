@@ -110,24 +110,14 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
-    int realCA = emc.getRealCA();
-    //
-    int testVirtualLongCX = emc.getVirtualLongCX();
-    //
-    LineQuantum lineQuantum = new LineQuantum();
-    int[] longBoundsBeforeMove = lineQuantum.getBoundaries(realCA, newlineIndices, span, false);
-    int lengthOfLongBoundsBeforeMove = longBoundsBeforeMove[1] - longBoundsBeforeMove[0];
     int virtualShortCY = emc.getVirtualShortCY();
     emc.putVirtualShortCY(++virtualShortCY);
-    int virtualCA = emc.getVirtualCA();
-    int lengthOfCurrentLongLineBounds = lengthOfLongBoundsBeforeMove;
-    boolean caMovedToNewLongLine = virtualCA > longBoundsBeforeMove[1];
-    if(caMovedToNewLongLine) {
-      int caOfLineStartAfterMove = longBoundsBeforeMove[1] + 1;
-      int[] longBoundsAfterMove = lineQuantum.getBoundaries(caOfLineStartAfterMove, newlineIndices, span, false);
-      lengthOfCurrentLongLineBounds = longBoundsAfterMove[1] - longBoundsAfterMove[0];
-    }
-    int realShortCX = getRealShortCXFromVirtualShortCX(newlineIndices, lengthOfCurrentLongLineBounds, span, canvasWidth);
+
+    int virtualLongCY = emc.getVirtualLongCY();
+    int currentLongLineStartIndex = virtualLongCY > 0 ? newlineIndices.get(virtualLongCY - 1) + 1 : 0;
+    int currentLongLineEndIndex = newlineIndices.get(virtualLongCY);
+    int lengthOfLongLineBounds = currentLongLineEndIndex - currentLongLineStartIndex;
+    int realShortCX = getRealShortCXFromVirtualShortCX(newlineIndices, lengthOfLongLineBounds, span, canvasWidth);
     emc.putRealShortCX(realShortCX);
     emc.putRealShortCY(virtualShortCY);
     return emc.getRealCA();
