@@ -80,8 +80,8 @@ public class EditorModelCoupler {
   }
 
   public int getVirtualLongCX() {
-    BrickVisurVar virtualLongCYBVV = (BrickVisurVar) getGlobalVar("virtualLongCY");
-    return (int)virtualLongCYBVV.getVal();
+    BrickVisurVar virtualLongCXBVV = (BrickVisurVar) getGlobalVar("virtualLongCX");
+    return (int)virtualLongCXBVV.getVal();
   }
 
   public int getVirtualLongCY() {
