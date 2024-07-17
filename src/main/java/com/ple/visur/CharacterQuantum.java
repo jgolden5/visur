@@ -116,9 +116,9 @@ public class CharacterQuantum extends Quantum {
     int lengthOfLongBoundsBeforeMove = longBoundsBeforeMove[1] - longBoundsBeforeMove[0];
     int virtualShortCY = emc.getVirtualShortCY();
     emc.putVirtualShortCY(++virtualShortCY);
-    int virtualLongCX = emc.getVirtualLongCX();
+    int virtualCA = emc.getVirtualCA();
     int lengthOfCurrentLongLineBounds = lengthOfLongBoundsBeforeMove;
-    boolean caMovedToNewLongLine = virtualLongCX > lengthOfLongBoundsBeforeMove;
+    boolean caMovedToNewLongLine = virtualCA > longBoundsBeforeMove[1];
     if(caMovedToNewLongLine) {
       int caAfterMove = longBoundsBeforeMove[1] + 1;
       int[] longBoundsAfterMove = lineQuantum.getBoundaries(caAfterMove, newlineIndices, span, false);
