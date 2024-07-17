@@ -49,13 +49,13 @@ public class CharacterQuantum extends Quantum {
     int destinationCA = realCA;
     while(mv.dy != 0) {
       if(mv.dy > 0) {
-        boolean canMoveDown = checkCanMoveDown();
+        boolean canMoveDown = checkCanMoveDown(newlineIndices, span);
         if(canMoveDown) {
           destinationCA = moveDown(newlineIndices);
         }
         mv.dy--;
       } else {
-        boolean canMoveUp = ;
+        boolean canMoveUp = checkCanMoveUp();
         if(canMoveUp) {
           destinationCA = moveUp(newlineIndices);
         }
@@ -77,7 +77,23 @@ public class CharacterQuantum extends Quantum {
   }
 
   private boolean checkCanMoveLeft(int realCA) {
-    return realCA - 1 >= 0;
+    return realCA > 0;
+  }
+
+  private boolean checkCanMoveDown(ArrayList<Integer> newlineIndices, int span) {
+    int startingVirtualShortCX = emc.getVirtualShortCX();
+    int startingVirtualShortCY = emc.getVirtualShortCY();
+    emc.putVirtualShortCY(startingVirtualShortCY + 1);
+    int virtualCAAfterMove = emc.getVirtualCA();
+    int lastNewlineIndex = newlineIndices.get(newlineIndices.size() - 1);
+    boolean canMoveDown = span > 0 ? virtualCAAfterMove < lastNewlineIndex : virtualCAAfterMove <= lastNewlineIndex;
+    emc.putVirtualShortCX(startingVirtualShortCX);
+    emc.putVirtualShortCY(startingVirtualShortCY);
+    return canMoveDown;
+  }
+
+  private boolean checkCanMoveUp() {
+    return emc.getVirtualShortCY() > 0;
   }
 
   private int moveRight() {

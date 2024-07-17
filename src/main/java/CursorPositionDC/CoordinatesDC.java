@@ -427,10 +427,10 @@ public class CoordinatesDC extends CompoundDataClass {
     int lastNewlineIndex = 0;
     for(int ni = 0; ni < longCY; ni++) {
       int lengthOfCurrentLongLine = newlineIndices.get(ni) - lastNewlineIndex;
-      shortCY += lengthOfCurrentLongLine / canvasWidth + 1;
+      shortCY += (double)lengthOfCurrentLongLine / (double)canvasWidth + 1;
       lastNewlineIndex = newlineIndices.get(ni);
     }
-    shortCY += longCX / canvasWidth;
+    shortCY += (double)longCX / (double)canvasWidth;
     PrimitiveDataClassBrick shortCXDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCX");
     PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) shortCXCYDCB.getInner("shortCY");
     return putDCBPostCalculation(shortCXCYDCB, shortCXDCB, shortCYDCB, shortCX, shortCY);
