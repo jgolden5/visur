@@ -111,10 +111,14 @@ public class CharacterQuantum extends Quantum {
 
   private int moveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
     //1 get virtualLongCY
+    int virtualLongCY = emc.getVirtualLongCY();
     //2 set currentLineEnd = newlineIndices.get(virtualLongCY)
+    int currentLineEnd = newlineIndices.get(virtualLongCY);
     //3 get virtualShortCY
+    int virtualShortCY = emc.getVirtualShortCY();
     //4 increment virtualShortCY
-    //5 set incremented virtualShortCY to globalVar
+    virtualShortCY++;
+    //5 set incremented virtualShortCY to globalVar (test with emc.getVirtualShortCX)
     //6 if new virtualLongCX > currentNewlineIndexLimit, set virtualLongCX to currentNewlineIndexLimit
     //7 get calculated virtualLongCY from globalVar
     //8 set currentLineStart = virtualLongCY > 0 ? newlineIndices.get(virtualLongCY) : 0

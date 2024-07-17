@@ -42,6 +42,7 @@ public class InitializerService {
 //      "Goodbye";
 //    final String initialEditorContent = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nbbb";
     final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
+      "He is also the best guardian for DrCj, objectively.\n" +
       "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
       "One's devotion to Vehumet can be proven by the causing of as much carnage and destruction as possible.\n" +
       "Worshippers of Vehumet will quickly be able to recover their magical energy upon killing beings.\n" +
@@ -54,15 +55,9 @@ public class InitializerService {
     emc.initializeEditorContent(initialEditorContent);
     emc.updateNewlineIndices();
     emc.putLineWrapping(LineWrapping.wrapped);
-    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
-    BrickVisurVar virtualLongCXBVV = (BrickVisurVar) emc.getGlobalVar("virtualLongCX");
-    BrickVisurVar virtualLongCYBVV = (BrickVisurVar) emc.getGlobalVar("virtualLongCY");
-    realCABVV.putVal(0);
-    virtualLongCXBVV.putVal(0);
-    virtualLongCYBVV.putVal(0);
-    emc.putGlobalVar("realCA", realCABVV);
-    emc.putGlobalVar("virtualLongCX", virtualLongCXBVV);
-    emc.putGlobalVar("virtualLongCY", virtualLongCYBVV);
+    int startingCA = 0;
+    emc.putRealCA(startingCA);
+    emc.putVirtualCA(startingCA);
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
     emc.putCommandCursor(emc.getCommandStateContent().length());
