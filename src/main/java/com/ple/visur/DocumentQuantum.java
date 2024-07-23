@@ -18,7 +18,7 @@ public class DocumentQuantum extends Quantum {
       if(realCA == lastNewlineIndex) {
         return new int[]{realCA, realCA};
       } else {
-        emc.putRealCA(0);
+        emc.putCA(0);
         return new int[]{0, 0};
       }
     }

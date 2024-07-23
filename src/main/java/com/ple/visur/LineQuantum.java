@@ -91,8 +91,8 @@ public class LineQuantum extends Quantum {
         realCA = zeroQuantumMoveLeft(realCA, editorContent, newlineIndices);
         mv.dx++;
       }
-      emc.putRealCA(realCA);
-      emc.putVirtualLongCX(emc.getRealLongCX());
+      emc.putCA(realCA);
+      emc.putVCX(emc.getRCX());
     }
     return realCA;
   }

@@ -49,54 +49,24 @@ public class EditorModelCoupler {
     return (LineWrapping) editorModel.get(lineWrapping);
   }
 
-  public int getRealCA() {
-    BrickVisurVar realCABVV = (BrickVisurVar) getGlobalVar("realCA");
-    return (int)realCABVV.getVal();
+  public int getCA() {
+    BrickVisurVar caBVV = (BrickVisurVar) getGlobalVar("ca");
+    return (int)caBVV.getVal();
   }
 
-  public int getRealLongCX() {
-    BrickVisurVar realLongCXBVV = (BrickVisurVar) getGlobalVar("realLongCX");
-    return (int)realLongCXBVV.getVal();
+  public int getRCX() {
+    BrickVisurVar rcxBVV = (BrickVisurVar) getGlobalVar("rcx");
+    return (int)rcxBVV.getVal();
   }
 
-  public int getRealLongCY() {
-    BrickVisurVar realLongCYBVV = (BrickVisurVar) getGlobalVar("realLongCY");
-    return (int)realLongCYBVV.getVal();
+  public int getVCX() {
+    BrickVisurVar vcxBVV = (BrickVisurVar) getGlobalVar("vcx");
+    return (int)vcxBVV.getVal();
   }
 
-  public int getRealShortCX() {
-    BrickVisurVar realShortCXBVV = (BrickVisurVar) getGlobalVar("realShortCX");
-    return (int)realShortCXBVV.getVal();
-  }
-
-  public int getRealShortCY() {
-    BrickVisurVar realShortCYBVV = (BrickVisurVar) getGlobalVar("realShortCY");
-    return (int)realShortCYBVV.getVal();
-  }
-
-  public int getVirtualCA() {
-    BrickVisurVar virtualCABVV = (BrickVisurVar) getGlobalVar("virtualCA");
-    return (int)virtualCABVV.getVal();
-  }
-
-  public int getVirtualLongCX() {
-    BrickVisurVar virtualLongCXBVV = (BrickVisurVar) getGlobalVar("virtualLongCX");
-    return (int)virtualLongCXBVV.getVal();
-  }
-
-  public int getVirtualLongCY() {
-    BrickVisurVar virtualLongCYBVV = (BrickVisurVar) getGlobalVar("virtualLongCY");
-    return (int)virtualLongCYBVV.getVal();
-  }
-
-  public int getVirtualShortCX() {
-    BrickVisurVar virtualShortCXBVV = (BrickVisurVar) getGlobalVar("virtualShortCX");
-    return (int)virtualShortCXBVV.getVal();
-  }
-
-  public int getVirtualShortCY() {
-    BrickVisurVar virtualShortCYBVV = (BrickVisurVar) getGlobalVar("virtualShortCY");
-    return (int)virtualShortCYBVV.getVal();
+  public int getCY() {
+    BrickVisurVar cyBVV = (BrickVisurVar) getGlobalVar("cy");
+    return (int)cyBVV.getVal();
   }
 
   public String getContentLineAtY(int y) {
@@ -126,7 +96,7 @@ public class EditorModelCoupler {
   public int[] calcShortLineBoundaries() {
     int[] shortBounds = new int[2];
     int canvasWidth = getCanvasWidth();
-    int cx = getRealLongCX();
+    int cx = getRCX();
     for(int i = cx; i > 0; i--) {
       if(i % canvasWidth == 0) {
         shortBounds[0] = i;
@@ -149,7 +119,7 @@ public class EditorModelCoupler {
     String currentLine;
     String editorContent = getEditorContent();
     ArrayList<Integer> newlineIndices = getNewlineIndices();
-    int cy = getRealLongCY();
+    int cy = getCY();
     if(cy == 0) {
       currentLine = editorContent.substring(0, newlineIndices.get(cy));
     } else if(cy == newlineIndices.size()) {
@@ -254,65 +224,30 @@ public class EditorModelCoupler {
     editorModel.put(lineWrapping, lw);
   }
 
-  public void putRealCA(int realCA) {
-    BrickVisurVar realCABVV = (BrickVisurVar) getGlobalVar("realCA");
-    realCABVV.putVal(realCA);
-    putGlobalVar("realCA", realCABVV);
+  public void putCA(int ca) {
+    BrickVisurVar caBVV = (BrickVisurVar) getGlobalVar("ca");
+    caBVV.putVal(ca);
+    putGlobalVar("ca", caBVV);
   }
 
-  public void putRealLongCX(int realLongCX) {
-    BrickVisurVar realLongCXBVV = (BrickVisurVar) getGlobalVar("realLongCX");
-    realLongCXBVV.putVal(realLongCX);
-    putGlobalVar("realLongCX", realLongCXBVV);
+  public void putRCX(int rcx) {
+    BrickVisurVar rcxBVV = (BrickVisurVar) getGlobalVar("rcx");
+    rcxBVV.putVal(rcx);
+    putGlobalVar("rcx", rcxBVV);
   }
 
-  public void putRealLongCY(int realLongCY) {
-    BrickVisurVar realLongCYBVV = (BrickVisurVar) getGlobalVar("realLongCY");
-    realLongCYBVV.putVal(realLongCY);
-    putGlobalVar("realLongCY", realLongCYBVV);
+  public void putVCX(int vcx) {
+    BrickVisurVar vcxBVV = (BrickVisurVar) getGlobalVar("vcx");
+    vcxBVV.putVal(vcx);
+    putGlobalVar("vcx", vcxBVV);
   }
 
-  public void putRealShortCX(int realShortCX) {
-    BrickVisurVar realShortCXBVV = (BrickVisurVar) getGlobalVar("realShortCX");
-    realShortCXBVV.putVal(realShortCX);
-    putGlobalVar("realShortCX", realShortCXBVV);
+  public void putCY(int cy) {
+    BrickVisurVar cyBVV = (BrickVisurVar) getGlobalVar("cy");
+    cyBVV.putVal(cy);
+    putGlobalVar("cy", cyBVV);
   }
 
-  public void putRealShortCY(int realShortCY) {
-    BrickVisurVar realShortCYBVV = (BrickVisurVar) getGlobalVar("realShortCY");
-    realShortCYBVV.putVal(realShortCY);
-    putGlobalVar("realShortCY", realShortCYBVV);
-  }
-
-  public void putVirtualCA(int virtualCA) {
-    BrickVisurVar virtualCABVV = (BrickVisurVar) getGlobalVar("virtualCA");
-    virtualCABVV.putVal(virtualCA);
-    putGlobalVar("virtualCA", virtualCABVV);
-  }
-
-  public void putVirtualLongCX(int virtualLongCX) {
-    BrickVisurVar virtualLongCXBVV = (BrickVisurVar) getGlobalVar("virtualLongCX");
-    virtualLongCXBVV.putVal(virtualLongCX);
-    putGlobalVar("virtualLongCX", virtualLongCXBVV);
-  }
-
-  public void putVirtualLongCY(int virtualLongCY) {
-    BrickVisurVar virtualLongCYBVV = (BrickVisurVar) getGlobalVar("virtualLongCY");
-    virtualLongCYBVV.putVal(virtualLongCY);
-    putGlobalVar("virtualLongCY", virtualLongCYBVV);
-  }
-
-  public void putVirtualShortCX(int virtualShortCX) {
-    BrickVisurVar virtualShortCXBVV = (BrickVisurVar) getGlobalVar("virtualShortCX");
-    virtualShortCXBVV.putVal(virtualShortCX);
-    putGlobalVar("virtualShortCX", virtualShortCXBVV);
-  }
-
-  public void putVirtualShortCY(int virtualShortCY) {
-    BrickVisurVar virtualShortCYBVV = (BrickVisurVar) getGlobalVar("virtualShortCY");
-    virtualShortCYBVV.putVal(virtualShortCY);
-    putGlobalVar("virtualShortCY", virtualShortCYBVV);
-  }
 
   public void updateNewlineIndices() {
     ecs.updateNewlineIndices(editorModel);

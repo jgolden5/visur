@@ -8,7 +8,7 @@ public class ChangeCursorQuantumOp implements Operator {
     String cursorQuantumName = getQuantumName(emc);
     if(cursorQuantumName != null) {
       Quantum targetQuantum = emc.getQuantumNameToQuantum().get(cursorQuantumName);
-      int[] bounds = targetQuantum.getBoundaries(emc.getRealCA(), emc.getNewlineIndices(), emc.getSpan(), false);
+      int[] bounds = targetQuantum.getBoundaries(emc.getCA(), emc.getNewlineIndices(), emc.getSpan(), false);
       emc.putCursorQuantumStart(bounds[0]);
       emc.putCursorQuantumEnd(bounds[1]);
       if (bounds[0] == bounds[1]) {

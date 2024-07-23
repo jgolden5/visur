@@ -5,12 +5,12 @@ public class InsertNewlineOp implements Operator {
   public void execute(Object opInfo) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     String editorContent = emc.getEditorContent();
-    int realCA = emc.getRealCA();
+    int realCA = emc.getCA();
     String contentBeforeChar = editorContent.substring(0, realCA);
     String contentAfterChar = editorContent.substring(realCA, editorContent.length());
     String resultingEditorContent = contentBeforeChar + "\n" + contentAfterChar;
     emc.putEditorContent(resultingEditorContent);
-    emc.putRealCA(++realCA);
+    emc.putCA(++realCA);
     emc.updateNewlineIndices();
     Quantum cursorQuantum = emc.getCursorQuantum();
     int[] bounds = cursorQuantum.getBoundaries(realCA, emc.getNewlineIndices(), emc.getSpan(), false);

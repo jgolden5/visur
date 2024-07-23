@@ -15,7 +15,7 @@ public class SearchBackwardOp implements Operator {
       System.out.println("backward search target = " + searchTarget);
       String editorContent = emc.getEditorContent();
       Quantum scopeQuantum = emc.getScopeQuantum();
-      int[] scopeQuantumBounds = scopeQuantum.getBoundaries(emc.getRealCA(), emc.getNewlineIndices(), 1, false); //span is always 1 when searching within a scopeQuantum
+      int[] scopeQuantumBounds = scopeQuantum.getBoundaries(emc.getCA(), emc.getNewlineIndices(), 1, false); //span is always 1 when searching within a scopeQuantum
       int scopeQuantumStart = scopeQuantumBounds[0];
       int cursorQuantumStart = emc.getCursorQuantumStart();
       if(cursorQuantumStart > scopeQuantumStart) {
@@ -23,10 +23,10 @@ public class SearchBackwardOp implements Operator {
         int foundResult = editorContentSubstringToSearch.lastIndexOf(searchTarget);
         if (foundResult > -1) {
           int foundIndex = scopeQuantumStart + foundResult; //this is not necessary if the two are truly equal. This is temp for debugging
-          emc.putRealCA(foundIndex);
-          emc.putVirtualLongCX(emc.getRealLongCX());
+          emc.putCA(foundIndex);
+          emc.putVCX(emc.getRCX());
           Quantum cursorQuantum = emc.getCursorQuantum();
-          int[] newBounds = cursorQuantum.getBoundaries(emc.getRealCA(), emc.getNewlineIndices(), emc.getSpan(), false);
+          int[] newBounds = cursorQuantum.getBoundaries(emc.getCA(), emc.getNewlineIndices(), emc.getSpan(), false);
           emc.putCursorQuantumStart(newBounds[0]);
           emc.putCursorQuantumEnd(newBounds[1]);
         }

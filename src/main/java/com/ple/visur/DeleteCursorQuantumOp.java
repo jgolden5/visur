@@ -13,10 +13,10 @@ public class DeleteCursorQuantumOp implements Operator {
       String editorContentAfterDeletedPortion = editorContent.substring(endBound, editorContent.length());
       String resultingEditorContent = editorContentBeforeDeletedPortion + editorContentAfterDeletedPortion;
       emc.putEditorContent(resultingEditorContent);
-      int realCA = emc.getRealCA();
+      int realCA = emc.getCA();
       if(realCA > resultingEditorContent.length()) {
         realCA = resultingEditorContent.length();
-        emc.putRealCA(realCA);
+        emc.putCA(realCA);
       }
       Quantum cursorQuantum = emc.getCursorQuantum();
       int[] bounds = cursorQuantum.getBoundaries(realCA, emc.getNewlineIndices(), span, false);

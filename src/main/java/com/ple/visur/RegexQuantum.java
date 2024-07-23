@@ -49,7 +49,7 @@ public class RegexQuantum extends Quantum {
         rightBound = getNextBound(rightBound);
       }
     }
-    emc.putRealCA(leftBound);
+    emc.putCA(leftBound);
     bounds[0] = leftBound;
     bounds[1] = rightBound;
     return bounds;
@@ -139,8 +139,8 @@ public class RegexQuantum extends Quantum {
           destination = mv.dx > 0 ? getNextBound(destination) : getPrevBound(destination);
         }
       }
-      emc.putRealCA(destination);
-      emc.putVirtualLongCX(emc.getRealLongCX());
+      emc.putCA(destination);
+      emc.putVCX(emc.getRCX());
       mv.dx -= incrementer;
       boolean destinationIsInWrongPlace = mv.dx == 0 && span > 0 && !isAtBeginningOfQuantum(destination);
       if(destinationIsInWrongPlace) {

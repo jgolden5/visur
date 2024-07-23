@@ -1,9 +1,7 @@
 package com.ple.visur;
 
 import CursorPositionDC.*;
-import DataClass.CompoundDataClass;
 import DataClass.CompoundDataClassBrick;
-import DataClass.PrimitiveDataClass;
 import DataClass.PrimitiveDataClassBrick;
 
 import java.util.HashMap;
@@ -58,7 +56,7 @@ public class InitializerService {
     emc.putLineWrapping(LineWrapping.wrapped);
 
     int startingCA = 0;
-    emc.putRealCA(startingCA);
+    emc.putCA(startingCA);
     emc.putVirtualCA(startingCA);
 
     emc.putIsInCommandState(false);
@@ -182,7 +180,7 @@ public class InitializerService {
 
     emc.putCursorQuantum(emc.getQuantumNameToQuantum().get(startingCursorQuantumName));
     emc.putScopeQuantum(emc.getQuantumNameToQuantum().get(startingScopeQuantumName));
-    int realCA = emc.getRealCA();
+    int realCA = emc.getCA();
     int bounds[] = emc.getQuantumNameToQuantum().get(startingCursorQuantumName).getBoundaries(realCA, emc.getNewlineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(bounds[0]);
     emc.putCursorQuantumEnd(bounds[1]);
