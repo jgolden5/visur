@@ -63,7 +63,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
         numberOfSetValues++;
       }
     }
-    return numberOfSetValues >= cdc.minimumRequiredSetValues;
+    return numberOfSetValues >= cdc.requiredSetValues;
   }
 
   public boolean isComplete(String nameToForceCount) {
@@ -73,7 +73,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
         numberOfSetValues++;
       }
     }
-    return numberOfSetValues >= cdc.minimumRequiredSetValues;
+    return numberOfSetValues >= cdc.requiredSetValues;
   }
 
   public Result removeInner(String name) {

@@ -5,16 +5,16 @@ import java.util.Map;
 
 public abstract class CompoundDataClass implements OuterDataClass {
   HashMap<String, DataClass> inners = new HashMap<>();
-  int minimumRequiredSetValues;
-  public CompoundDataClass(int minimumRequiredSetValues) {
-    this.minimumRequiredSetValues = minimumRequiredSetValues;
+  int requiredSetValues;
+  public CompoundDataClass(int requiredSetValues) {
+    this.requiredSetValues = requiredSetValues;
   }
 
   @Override
   public abstract CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer);
 
   public DataClass getInner(String innerName) {
-      return inners.get(innerName);
+    return inners.get(innerName);
   }
   public void putInner(String innerName, DataClass innerVal) {
     inners.put(innerName, innerVal);
