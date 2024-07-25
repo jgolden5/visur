@@ -10,23 +10,7 @@ public abstract class CompoundDataClass implements DataClass {
     this.minimumRequiredSetValues = minimumRequiredSetValues;
   }
   public abstract DataClassBrick makeBrick();
-  public boolean checkCanSet(CompoundDataClassBrick thisAsBrick, CompoundDataClassBrick outer, DCHolder dcHolder) {
-    boolean thisBrickIsSet = minimumValuesAreSet(thisAsBrick, dcHolder);
-    boolean outerBrickIsSet = true;
-    if(outer != null) {
-      outerBrickIsSet = outer.getCDC().minimumValuesAreSet(outer, dcHolder);
-    }
-    return thisBrickIsSet && outerBrickIsSet;
-  }
-  public boolean minimumValuesAreSet(CompoundDataClassBrick thisAsBrick, DCHolder dcHolder) {
-    int setValues = 0;
-    for(DataClassBrick innerPDCB : thisAsBrick.inners.values()) {
-      if(innerPDCB != null) {
-        setValues++;
-      }
-    }
-    return setValues >= minimumRequiredSetValues;
-  }
+
   public DataClass getInner(String innerName) {
       return inners.get(innerName);
   }
