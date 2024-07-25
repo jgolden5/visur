@@ -29,7 +29,6 @@ public abstract class Quantum implements Shareable {
     int[] scopeBounds = scopeQuantum.getBoundaries(realCA, emc.getNewlineIndices(), emc.getSpan(), false);
     realCA = scopeBounds[0];
     emc.putCA(realCA);
-    emc.putVirtualCA(realCA);
     int[] newCursorBounds = cursorQuantum.getBoundaries(realCA, emc.getNewlineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(newCursorBounds[0]);
     emc.putCursorQuantumEnd(newCursorBounds[1]);
@@ -60,7 +59,6 @@ public abstract class Quantum implements Shareable {
     int[] scopeBounds = scopeQuantum.getBoundaries(realCA, emc.getNewlineIndices(), emc.getSpan(), false);
     realCA = scopeBounds[1] - 1;
     emc.putCA(realCA);
-    emc.putVirtualCA(realCA);
     int[] newCursorBounds = cursorQuantum.getBoundaries(realCA, emc.getNewlineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(newCursorBounds[0]);
     emc.putCursorQuantumEnd(newCursorBounds[1]);

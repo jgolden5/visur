@@ -6,15 +6,16 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
   private CompoundDataClass cdc;
   HashMap<String, DataClassBrick> inners;
 
-  private CompoundDataClassBrick(String name, CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
+  private CompoundDataClassBrick(String name, CompoundDataClassBrick outer, DataClass cdc, HashMap<String, DataClassBrick> inners) {
     super(cdc, outer, name);
-    this.cdc = cdc;
+    this.cdc = (CompoundDataClass) cdc;
     this.inners = inners;
   }
 
-  public static CompoundDataClassBrick make(String name, CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
+  public static CompoundDataClassBrick make(String name, CompoundDataClassBrick outer, DataClass cdc, HashMap<String, DataClassBrick> inners) {
     return new CompoundDataClassBrick(name, outer, cdc, inners);
   }
+
   public DataClassBrick getInner(String name) {
       return inners.get(name);
   }
@@ -111,7 +112,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
    * @param targetVal value which will be assigned to brick at targetName
    */
   public void conflictsForce(String targetName, Object targetVal) {
-    getCDC().removeConflictingInners(this, targetName, targetVal);
+    getCDC().removeConflicts(this, targetName, targetVal);
     CompoundDataClassBrick outerDCB = getOuter();
     if(outerDCB != null) {
       outerDCB.conflictsForce(targetName, targetVal);
