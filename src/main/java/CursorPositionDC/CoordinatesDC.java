@@ -34,7 +34,7 @@ public class CoordinatesDC extends CompoundDataClass {
     coordinatesDCBInners.put("shortCXCY", shortCXCYDCB);
     coordinatesDCBInners.put("ca", caDCB);
 
-    return coordinatesDCB.initInners(coordinatesDCBInners);
+    return coordinatesDCB.initInnersAndReturnBrick(coordinatesDCBInners);
   }
 
   @Override

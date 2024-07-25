@@ -5,17 +5,31 @@ import java.util.HashMap;
 public class CompoundDataClassBrick extends DataClassBrick {
   private CompoundDataClass cdc;
   HashMap<String, DataClassBrick> inners;
+
   private CompoundDataClassBrick(String name, CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
-      super(cdc, outer, name);
-      this.cdc = cdc;
-      this.inners = inners;
+    super(cdc, outer, name);
+    this.cdc = cdc;
+    this.inners = inners;
   }
+
   public static CompoundDataClassBrick make(String name, CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
-      return new CompoundDataClassBrick(name, outer, cdc, inners);
+    return new CompoundDataClassBrick(name, outer, cdc, inners);
   }
   public DataClassBrick getInner(String name) {
       return inners.get(name);
   }
+
+  public Result putInner(String name, DataClassBrick innerBrick) {
+    String error = null;
+    if(inners.containsKey(name)) {
+      DataClassBrick inner = inners.get(name);
+      inners.put(name, innerBrick);
+    } else {
+      error = "name not recognized";
+    }
+    return Result.make(null, error);
+  }
+
   public CompoundDataClass getCDC() {
     return cdc;
   }
@@ -38,17 +52,6 @@ public class CompoundDataClassBrick extends DataClassBrick {
       r = calc(name);
     }
     return r;
-  }
-
-  public Result putInner(String name, DataClassBrick innerBrick) {
-    String error = null;
-    if(inners.containsKey(name)) {
-      DataClassBrick inner = inners.get(name);
-      inners.put(name, innerBrick);
-    } else {
-      error = "name not recognized";
-    }
-    return Result.make(null, error);
   }
 
   @Override
@@ -87,7 +90,7 @@ public class CompoundDataClassBrick extends DataClassBrick {
     return Result.make();
   }
 
-  public CompoundDataClassBrick initInners(HashMap<String, DataClassBrick> cursorPositionDCBInners) {
+  public CompoundDataClassBrick initInnersAndReturnBrick(HashMap<String, DataClassBrick> cursorPositionDCBInners) {
     inners = cursorPositionDCBInners;
     return this;
   }

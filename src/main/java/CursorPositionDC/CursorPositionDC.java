@@ -30,7 +30,7 @@ public class CursorPositionDC extends CompoundDataClass {
     CompoundDataClassBrick coordinatesDCB = (CompoundDataClassBrick) coordinatesDC.makeBrick("coordinates", cursorPositionDCB);
     cursorPositionDCBInners.put("coordinates", coordinatesDCB);
 
-    return cursorPositionDCB.initInners(cursorPositionDCBInners);
+    return cursorPositionDCB.initInnersAndReturnBrick(cursorPositionDCBInners);
   }
 
   @Override

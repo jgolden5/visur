@@ -20,10 +20,12 @@ public abstract class LayeredDataClass implements DataClass {
     return layers.get(i);
   }
 
-  public void calcInLayers(String name, LayeredDataClassBrick thisAsBrick) {
+  public Result<DataClassBrick> calc(String name, LayeredDataClassBrick thisAsBrick) {
+    Result<DataClassBrick> r = Result.make(null, "no layers exist");
     for(CompoundDataClass layer : layers) {
-      layer.calcInternal(name, thisAsBrick);
+      r = layer.calcInternal(name, thisAsBrick);
     }
+    return r;
   }
 
   public abstract ConflictsCheckResult conflictsCheck(LayeredDataClassBrick brick, String targetName, Object targetVal);

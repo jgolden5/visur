@@ -23,7 +23,7 @@ public class ShortCXCYDC extends CompoundDataClass {
     shortCXCYDCBInners.put("shortCX", shortCXDCB);
     PrimitiveDataClassBrick shortCYDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("shortCY", shortCXCYDCB);
     shortCXCYDCBInners.put("shortCY", shortCYDCB);
-    return shortCXCYDCB.initInners(shortCXCYDCBInners);
+    return shortCXCYDCB.initInnersAndReturnBrick(shortCXCYDCBInners);
   }
 
   @Override

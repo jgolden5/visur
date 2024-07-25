@@ -23,7 +23,7 @@ public class WholePairDC extends CompoundDataClass {
     cxcyDCBInners.put("cx", cxDCB);
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("cy", cxcyDCB);
     cxcyDCBInners.put("cy", cyDCB);
-    return cxcyDCB.initInners(cxcyDCBInners);
+    return cxcyDCB.initInnersAndReturnBrick(cxcyDCBInners);
   }
 
   @Override

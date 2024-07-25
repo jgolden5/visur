@@ -23,7 +23,7 @@ public class LongCXCYDC extends CompoundDataClass {
     longCXCYDCBInners.put("longCX", longCXDCB);
     PrimitiveDataClassBrick longCYDCB = (PrimitiveDataClassBrick) wholeNumberDC.makeBrick("longCY", longCXCYDCB);
     longCXCYDCBInners.put("longCY", longCYDCB);
-    return longCXCYDCB.initInners(longCXCYDCBInners);
+    return longCXCYDCB.initInnersAndReturnBrick(longCXCYDCBInners);
   }
 
   @Override
