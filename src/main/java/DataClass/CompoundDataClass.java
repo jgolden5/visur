@@ -33,7 +33,7 @@ public abstract class CompoundDataClass implements DataClass {
   public void putInner(String innerName, DataClass innerVal) {
     inners.put(innerName, innerVal);
   }
-  public abstract Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick);
+  public abstract Result<DataClassBrick> calcInternal(String name, DataClassBrick outerAsBrick);
 
   public abstract ConflictsCheckResult conflictsCheck(CompoundDataClassBrick brick, String targetName, Object targetVal);
 
