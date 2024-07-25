@@ -2,7 +2,7 @@ package DataClass;
 
 import java.util.ArrayList;
 
-public class LayeredDataClassBrick extends DataClassBrick {
+public class LayeredDataClassBrick extends OuterDataClassBrick {
 
   private LayeredDataClass ldc;
   ArrayList<CompoundDataClassBrick> layers;

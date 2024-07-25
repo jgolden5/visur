@@ -3,13 +3,15 @@ package DataClass;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class CompoundDataClass implements DataClass {
+public abstract class CompoundDataClass implements OuterDataClass {
   HashMap<String, DataClass> inners = new HashMap<>();
   int minimumRequiredSetValues;
   public CompoundDataClass(int minimumRequiredSetValues) {
     this.minimumRequiredSetValues = minimumRequiredSetValues;
   }
-  public abstract DataClassBrick makeBrick();
+
+  @Override
+  public abstract CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer);
 
   public DataClass getInner(String innerName) {
       return inners.get(innerName);
@@ -17,9 +19,12 @@ public abstract class CompoundDataClass implements DataClass {
   public void putInner(String innerName, DataClass innerVal) {
     inners.put(innerName, innerVal);
   }
+
+  @Override
   public abstract Result<DataClassBrick> calcInternal(String name, DataClassBrick outerAsBrick);
 
-  public abstract ConflictsCheckResult conflictsCheck(CompoundDataClassBrick brick, String targetName, Object targetVal);
+  @Override
+  public abstract ConflictsCheckResult conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal);
 
   /**
    * if conflictsCheck(thisAsBrick, targetName, targetVal)...
@@ -29,7 +34,9 @@ public abstract class CompoundDataClass implements DataClass {
    * @param targetName name of brick inner which targetVal is being added to
    * @param targetVal value which will be assigned to targetName brick
    */
-  public void removeConflictingInners(CompoundDataClassBrick thisAsBrick, String targetName, Object targetVal) {
+  @Override
+  public void removeConflicts(OuterDataClassBrick brick, String targetName, Object targetVal) {
+    CompoundDataClassBrick thisAsBrick = (CompoundDataClassBrick)brick;
     ConflictsCheckResult ccr = conflictsCheck(thisAsBrick, targetName, targetVal);
     if(ccr != ConflictsCheckResult.no) {
       for(Map.Entry<String, DataClassBrick> inner : thisAsBrick.inners.entrySet()) {

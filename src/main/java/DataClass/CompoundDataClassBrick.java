@@ -2,7 +2,7 @@ package DataClass;
 
 import java.util.HashMap;
 
-public class CompoundDataClassBrick extends DataClassBrick {
+public class CompoundDataClassBrick extends OuterDataClassBrick {
   private CompoundDataClass cdc;
   HashMap<String, DataClassBrick> inners;
 

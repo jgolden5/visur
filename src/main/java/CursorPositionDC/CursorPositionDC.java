@@ -34,11 +34,8 @@ public class CursorPositionDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick) {
-    if("coordinates".contains(name)){
-      return outerAsBrick.getCDC().calcInternal(name, (CompoundDataClassBrick) outerAsBrick.getInner("coordinates"));
-    }
-    return Result.make(null, "incalculable");
+  public Result<DataClassBrick> calcInternal(String name, DataClassBrick outerAsBrick) {
+    return Result.make();
   }
 
   @Override

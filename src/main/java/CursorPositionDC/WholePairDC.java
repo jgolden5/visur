@@ -27,7 +27,7 @@ public class WholePairDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick) {
+  public Result<DataClassBrick> calcInternal(String name, DataClassBrick outerAsBrick) {
     return null;
   }
 

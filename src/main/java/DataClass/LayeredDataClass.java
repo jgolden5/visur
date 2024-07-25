@@ -3,7 +3,7 @@ package DataClass;
 import java.util.ArrayList;
 import java.util.Map;
 
-public abstract class LayeredDataClass implements DataClass {
+public abstract class LayeredDataClass implements OuterDataClass {
 
   ArrayList<CompoundDataClass> layers = new ArrayList<>();
 
@@ -20,7 +20,8 @@ public abstract class LayeredDataClass implements DataClass {
     return layers.get(i);
   }
 
-  public Result<DataClassBrick> calc(String name, LayeredDataClassBrick thisAsBrick) {
+  @Override
+  public Result<DataClassBrick> calcInternal(String name, DataClassBrick thisAsBrick) {
     Result<DataClassBrick> r = Result.make(null, "no layers exist");
     for(CompoundDataClass layer : layers) {
       r = layer.calcInternal(name, thisAsBrick);
@@ -28,8 +29,12 @@ public abstract class LayeredDataClass implements DataClass {
     return r;
   }
 
-  public abstract ConflictsCheckResult conflictsCheck(LayeredDataClassBrick brick, String targetName, Object targetVal);
-  public void removeConflictingLayers(LayeredDataClassBrick thisAsBrick, String targetName, Object targetVal) {
+  @Override
+  public abstract ConflictsCheckResult conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal);
+
+  @Override
+  public void removeConflicts(OuterDataClassBrick brick, String targetName, Object targetVal) {
+    LayeredDataClassBrick thisAsBrick = (LayeredDataClassBrick)brick;
     ConflictsCheckResult ccr = conflictsCheck(thisAsBrick, targetName, targetVal);
     if(ccr != ConflictsCheckResult.no) {
       for(CompoundDataClassBrick layer : thisAsBrick.layers) {

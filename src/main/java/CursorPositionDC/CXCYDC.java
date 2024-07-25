@@ -4,8 +4,8 @@ import DataClass.*;
 
 import java.util.HashMap;
 
-public class LongCXCYDC extends CompoundDataClass {
-  public LongCXCYDC(int minimumRequiredSetValues) {
+public class CXCYDC extends CompoundDataClass {
+  public CXCYDC(int minimumRequiredSetValues) {
     super(minimumRequiredSetValues);
   }
 
@@ -27,7 +27,7 @@ public class LongCXCYDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick) {
+  public Result<DataClassBrick> calcInternal(String name, DataClassBrick outerAsBrick) {
     return null;
   }
 
