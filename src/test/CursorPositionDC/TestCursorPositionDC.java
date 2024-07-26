@@ -1,5 +1,8 @@
 package CursorPositionDC;
 
+import DataClass.CompoundDataClassBrick;
+import DataClass.LayeredDataClassBrick;
+import DataClass.PrimitiveDataClassBrick;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,16 +13,30 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class TestCursorPositionDC {
 
   CursorPositionDCHolder cursorPositionDCHolder = new CursorPositionDCHolder();
-  CursorPositionDC cursorPositionDC = cursorPositionDCHolder.cursorPositionDC;
-  CoordinatesDC coordinatesDC = cursorPositionDCHolder.coordinatesDC;
-  CAAndNLDC caAndNLDC = cursorPositionDCHolder.caAndNLDC;
-  RCXCYAndNLDC rcxcyAndNLDC = cursorPositionDCHolder.rcxcyAndNLDC;
-  VirtualDC virtualDC = cursorPositionDCHolder.virtualDC;
-  VCXAndLLDC vcxAndLLDC = cursorPositionDCHolder.vcxAndLLDC;
-  RCXAndLODC rcxAndLODC = cursorPositionDCHolder.rcxAndLODC;
-  WholeNumberDC wholeNumberDC = cursorPositionDCHolder.wholeNumberDC;
-  WholeNumberListDC nlDC = cursorPositionDCHolder.wholeNumberListDC;
-  JavaIntDF javaIntDF = cursorPositionDCHolder.javaIntDF;
+  CursorPositionDC cursorPositionDC;
+  LayeredDataClassBrick cursorPositionDCB;
+  CoordinatesDC coordinatesDC;
+  CompoundDataClassBrick coordinatesDCB;
+  CAAndNLDC caAndNLDC;
+  CompoundDataClassBrick caAndNLDCB;
+  RCXCYAndNLDC rcxcyAndNLDC;
+  CompoundDataClassBrick rcxcyAndNLDCB;
+  VirtualDC virtualDC;
+  CompoundDataClassBrick virtualDCB;
+  VCXAndLLDC vcxAndLLDC;
+  CompoundDataClassBrick vcxAndLLDCB;
+  RCXAndLODC rcxAndLODC;
+  CompoundDataClassBrick rcxAndLODCB;
+  WholeNumberDC wholeNumberDC;
+  PrimitiveDataClassBrick caDCB;
+  PrimitiveDataClassBrick rcxDCB;
+  PrimitiveDataClassBrick cyDCB;
+  PrimitiveDataClassBrick vcxDCB;
+  PrimitiveDataClassBrick llDCB;
+  PrimitiveDataClassBrick loDCB;
+  WholeNumberListDC nlDC;
+  PrimitiveDataClassBrick nlDCB;
+  JavaIntDF javaIntDF;
 
   @BeforeEach
   void resetVars() {
@@ -34,6 +51,21 @@ public class TestCursorPositionDC {
     wholeNumberDC = cursorPositionDCHolder.wholeNumberDC;
     nlDC = cursorPositionDCHolder.wholeNumberListDC;
     javaIntDF = cursorPositionDCHolder.javaIntDF;
+
+    cursorPositionDCB = cursorPositionDC.makeBrick();
+    coordinatesDCB = coordinatesDC.makeBrick();
+    caAndNLDCB = caAndNLDC.makeBrick();
+    rcxcyAndNLDCB = rcxcyAndNLDC.makeBrick();
+    virtualDCB = virtualDC.makeBrick();
+    vcxAndLLDCB = vcxAndLLDC.makeBrick();
+    rcxAndLODCB = rcxAndLODC.makeBrick();
+    caDCB = wholeNumberDC.makeBrick();
+    rcxDCB = wholeNumberDC.makeBrick();
+    cyDCB = wholeNumberDC.makeBrick();
+    vcxDCB = wholeNumberDC.makeBrick();
+    llDCB = wholeNumberDC.makeBrick();
+    loDCB = wholeNumberDC.makeBrick();
+    nlDCB = nlDC.makeBrick();
   }
 
   @Test
@@ -56,6 +88,11 @@ public class TestCursorPositionDC {
     assertEquals(wholeNumberDC, vcxAndLLDC.getInner("wholeNumber"));
 
     assertEquals(wholeNumberDC, rcxAndLODC.getInner("wholeNumber"));
+
+  }
+
+  @Test
+  void makeBrick() {
 
   }
 
