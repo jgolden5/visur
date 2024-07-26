@@ -1,6 +1,6 @@
 package DataClass;
 
-public interface OuterDataClass {
+public interface OuterDataClass extends DataClass {
 
   DataClassBrick makeBrick(String name, CompoundDataClassBrick outer);
 

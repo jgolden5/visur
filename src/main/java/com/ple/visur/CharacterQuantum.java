@@ -79,14 +79,14 @@ public class CharacterQuantum extends Quantum {
     return realCA > 0;
   }
 
-  private boolean checkCanMoveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
+  private boolean checkCanMoveDown(ArrayList<Integer> nextLineIndices, int span, int canvasWidth) {
     boolean canMoveDown = true;
-    int realLongCX = emc.getRCX();
-    int realLongCY = emc.getCY();
-    if(realLongCY >= newlineIndices.size() - 1) {
-      int lastNewlineIndex = newlineIndices.get(newlineIndices.size() - 1);
+    int rcx = emc.getRCX();
+    int cy = emc.getCY();
+    if(cy >= nextLineIndices.size() - 1) {
+      int lastNewlineIndex = nextLineIndices.get(nextLineIndices.size() - 1);
       int lastValidCX = span > 0 ? lastNewlineIndex - 1 : lastNewlineIndex;
-      if(realLongCX + canvasWidth > lastValidCX) {
+      if(rcx + canvasWidth > lastValidCX) {
         canMoveDown = false;
       }
     }
