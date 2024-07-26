@@ -1,6 +1,5 @@
 package com.ple.visur;
 
-import CursorPositionDC.WholeNumberDC;
 import DataClass.DataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
 import DataClass.Result;
@@ -28,7 +27,7 @@ public class BrickVisurVar implements VisurVar {
 
   @Override
   public Result putVal(Object o) {
-    brick.putForce("some outer", o); //fix
+    brick.put(o);
     return Result.make();
   }
 

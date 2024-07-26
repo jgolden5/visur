@@ -52,7 +52,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
    * return outerDCB.putInner(name, val), which will return a Result which contains an error only if putInner fails
    * @param val the value which will be set
    */
-  public void putForce(String nameOfOuterToSet, Object val) {
+  public void put(Object val) {
     //rework
 //    OuterDataClassBrick outerDCB = getOuterContainingTargetName(nameOfOuterToSet).getVal();
 //    outerDCB.removeConflicts(name, val);
