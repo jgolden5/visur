@@ -1,14 +1,13 @@
 package DataClass;
 
-public class OuterDataClassBrick extends DataClassBrick {
+public abstract class OuterDataClassBrick extends DataClassBrick {
 
   OuterDataClassBrick(DataClass dc, CompoundDataClassBrick outer, String name) {
     super(dc, outer, name);
   }
 
-  @Override
-  public boolean isComplete() {
-    return false;
-  }
+  public abstract Result<DataClassBrick> calc(String innerName);
+  public abstract void removeConflicts(String name, Object val);
+  public abstract ConflictsCheckResult conflictsCheck(String name, Object val);
 
 }

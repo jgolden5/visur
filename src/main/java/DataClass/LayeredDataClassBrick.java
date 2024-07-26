@@ -39,7 +39,6 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
     return r;
   }
 
-  @Override
   public boolean isComplete() {
     for(CompoundDataClassBrick layer : layers) {
       if(!layer.isComplete()) {
@@ -54,6 +53,7 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
     return this;
   }
 
+  @Override
   public Result<DataClassBrick> calc(String innerName) {
     Result r = getLDC().calcInternal(innerName, this);
     if(r == null && getOuter() != null) {
@@ -61,6 +61,16 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
     } else {
       return r;
     }
+  }
+
+  @Override
+  public void removeConflicts(String name, Object val) {
+
+  }
+
+  @Override
+  public ConflictsCheckResult conflictsCheck(String name, Object val) {
+    return null;
   }
 
 }
