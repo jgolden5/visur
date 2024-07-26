@@ -33,7 +33,7 @@ public class WholeNumberListDC extends PrimitiveDataClass {
   }
 
   @Override
-  public DataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
+  public PrimitiveDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
     PrimitiveDataClassBrick wholeNumberListDCB = PrimitiveDataClassBrick.make(name, outers, null, this);
     return wholeNumberListDCB;
   }

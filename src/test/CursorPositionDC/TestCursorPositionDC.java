@@ -2,9 +2,12 @@ package CursorPositionDC;
 
 import DataClass.CompoundDataClassBrick;
 import DataClass.LayeredDataClassBrick;
+import DataClass.OuterDataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,20 +55,34 @@ public class TestCursorPositionDC {
     nlDC = cursorPositionDCHolder.wholeNumberListDC;
     javaIntDF = cursorPositionDCHolder.javaIntDF;
 
+    ArrayList<OuterDataClassBrick> nlOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> loOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> llOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> vcxOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> cyOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> rcxOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> caOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> rcxAndLOOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> vcxAndLLOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> virtualOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> rcxcyAndNLOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> caAndNLOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> coordinatesOuters = new ArrayList<>();
+
     cursorPositionDCB = cursorPositionDC.makeBrick();
-    coordinatesDCB = coordinatesDC.makeBrick();
-    caAndNLDCB = caAndNLDC.makeBrick();
-    rcxcyAndNLDCB = rcxcyAndNLDC.makeBrick();
-    virtualDCB = virtualDC.makeBrick();
-    vcxAndLLDCB = vcxAndLLDC.makeBrick();
-    rcxAndLODCB = rcxAndLODC.makeBrick();
-    caDCB = wholeNumberDC.makeBrick();
-    rcxDCB = wholeNumberDC.makeBrick();
-    cyDCB = wholeNumberDC.makeBrick();
-    vcxDCB = wholeNumberDC.makeBrick();
-    llDCB = wholeNumberDC.makeBrick();
-    loDCB = wholeNumberDC.makeBrick();
-    nlDCB = nlDC.makeBrick();
+    coordinatesDCB = coordinatesDC.makeBrick("coordinates", coordinatesOuters);
+    caAndNLDCB = caAndNLDC.makeBrick("caAndNL", caAndNLOuters);
+    rcxcyAndNLDCB = rcxcyAndNLDC.makeBrick("rcxcyAndNL", rcxcyAndNLOuters);
+    virtualDCB = virtualDC.makeBrick("virtual", virtualOuters);
+    vcxAndLLDCB = vcxAndLLDC.makeBrick("vcxAndLL", vcxAndLLOuters);
+    rcxAndLODCB = rcxAndLODC.makeBrick("rcxAndLO", rcxAndLOOuters);
+    caDCB = wholeNumberDC.makeBrick("ca", caOuters);
+    rcxDCB = wholeNumberDC.makeBrick("rcx", rcxOuters);
+    cyDCB = wholeNumberDC.makeBrick("cy", cyOuters);
+    vcxDCB = wholeNumberDC.makeBrick("vcx", vcxOuters);
+    llDCB = wholeNumberDC.makeBrick("ll", llOuters);
+    loDCB = wholeNumberDC.makeBrick("lo", loOuters);
+    nlDCB = nlDC.makeBrick("nl", nlOuters);
   }
 
   @Test
