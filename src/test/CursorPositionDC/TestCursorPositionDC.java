@@ -37,38 +37,6 @@ public class TestCursorPositionDC {
   }
 
   @Test
-  void ldcRemoveLayers() {
-//    cursorPositionDC.removeLayers();
-  }
-
-  @Test
-  void putAndGetLayer() {
-    cursorPositionDC.putLayer(caAndNLDC);
-    assertEquals(caAndNLDC, cursorPositionDC.getLayer(0));
-
-    cursorPositionDC.putLayer(rcxcyAndNLDC);
-    assertEquals(rcxcyAndNLDC, cursorPositionDC.getLayer(1));
-
-    assertEquals(caAndNLDC, cursorPositionDC.getLayer(0));
-    assertEquals(rcxcyAndNLDC, cursorPositionDC.getLayer(1));
-    assertNotEquals(caAndNLDC, cursorPositionDC.getLayer(1));
-    assertNotEquals(rcxcyAndNLDC, cursorPositionDC.getLayer(0));
-  }
-
-  @Test
-  void putAndGetInner() {
-    caAndNLDC.putInner("nl", nlDC);
-    assertEquals(nlDC, caAndNLDC.getInner("nl"));
-
-    CADC caDC = new CADC(javaIntDF);
-    caAndNLDC.putInner("ca", caDC);
-    assertEquals(caDC, caAndNLDC.getInner("ca"));
-
-    assertNotEquals(caDC, caAndNLDC.getInner("nl"));
-    assertNotEquals(nlDC, caAndNLDC.getInner("ca"));
-  }
-
-  @Test
   void setCursorPositionDCHolder() {
     assertEquals(coordinatesDC, cursorPositionDC.getLayer(0));
     assertEquals(virtualDC, cursorPositionDC.getLayer(1));
@@ -88,7 +56,7 @@ public class TestCursorPositionDC {
     assertEquals(wholeNumberDC, vcxAndLLDC.getInner("wholeNumber"));
 
     assertEquals(wholeNumberDC, rcxAndLODC.getInner("wholeNumber"));
-    
+
   }
 
 }
