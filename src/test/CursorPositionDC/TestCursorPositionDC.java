@@ -109,8 +109,48 @@ public class TestCursorPositionDC {
   }
 
   @Test
-  void makeBrick() {
+  void setOuters() {
+    ArrayList<OuterDataClassBrick> coordinatesOuters = coordinatesDCB.getOuters();
+    assertTrue(coordinatesOuters.size() == 1);
+    assertTrue(coordinatesOuters.contains("cursorPosition"));
+
+    ArrayList<OuterDataClassBrick> caAndNLOuters = caAndNLDCB.getOuters();
+    assertTrue(caAndNLOuters.size() == 1);
+    assertTrue(caAndNLOuters.contains("coordinates"));
+
+    ArrayList<OuterDataClassBrick> rcxcyAndNLOuters = rcxcyAndNLDCB.getOuters();
+    assertTrue(rcxcyAndNLOuters.size() == 1);
+    assertTrue(rcxcyAndNLOuters.contains("coordinates"));
+
+    ArrayList<OuterDataClassBrick> nlOuters = nlDCB.getOuters();
+    assertTrue(rcxcyAndNLOuters.size() == 2);
+    assertTrue(nlOuters.contains("caAndNL"));
+    assertTrue(nlOuters.contains("rcxcyAndNL"));
+
+    ArrayList<OuterDataClassBrick> caOuters = caDCB.getOuters();
+    assertTrue(rcxcyAndNLOuters.size() == 1);
+    assertTrue(caOuters.contains("caAndNL"));
+
+    ArrayList<OuterDataClassBrick> rcxOuters = rcxDCB.getOuters();
+    assertTrue(rcxOuters.size() == 1);
+    assertTrue(rcxOuters.contains("rcxcyAndNL"));
+    assertTrue(rcxOuters.contains("rcxAndLO"));
+
+    ArrayList<OuterDataClassBrick> cyOuters = cyDCB.getOuters();
+    assertTrue(cyOuters.size() == 1);
+    assertTrue(cyOuters.contains("rcxcyAndNL"));
 
   }
 
+//  @Test
+//  void putButNoUnset() {
+//    caDCB.put(0);
+//    caAndNLDCB.putInner("ca", caDCB);
+//  }
+//
+//  @Test
+//  void putAndUnset() {
+//
+//  }
+//
 }

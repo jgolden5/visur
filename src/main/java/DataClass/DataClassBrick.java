@@ -56,7 +56,7 @@ public abstract class DataClassBrick {
                           return name;
                                       }
 
-  public void putName(String name) {
+  private void putName(String name) {
                                    this.name = name;
     }
 
