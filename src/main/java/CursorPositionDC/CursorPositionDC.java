@@ -14,7 +14,18 @@ public class CursorPositionDC extends LayeredDataClass {
 
   @Override
   public LayeredDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
-    return LayeredDataClassBrick.make(name, this, new ArrayList<>());
+    LayeredDataClassBrick cursorPositionDCB = LayeredDataClassBrick.make(name, this, new ArrayList<>());
+
+    CoordinatesDC coordinatesDC = (CoordinatesDC) getLayer(0);
+    CompoundDataClassBrick coordinatesDCB = coordinatesDC.makeBrick("coordinates", new ArrayList<>());
+
+    VirtualDC virtualDC = (VirtualDC) getLayer(1);
+    CompoundDataClassBrick virtualDCB = virtualDC.makeBrick("virtual", new ArrayList<>());
+
+    cursorPositionDCB.putLayer(coordinatesDCB);
+    cursorPositionDCB.putLayer(virtualDCB);
+
+    return cursorPositionDCB;
   }
 
   @Override

@@ -29,6 +29,10 @@ public abstract class DataClassBrick {
     return r;
   }
 
+  public void putOuter(OuterDataClassBrick outer) {
+    outers.add(outer);
+  }
+
   /**
    * if this is pdcb, set dfb of this to null
    * else if this is cdcb, loop through this.inners and call remove on each inner
