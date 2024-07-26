@@ -13,7 +13,19 @@ public class VirtualDC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
-    return CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    CompoundDataClassBrick virtualDCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    HashMap<String, DataClassBrick> virtualInners = new HashMap<>();
+
+    VCXAndLLDC vcxAndLLDC = (VCXAndLLDC) getInner("vcxAndLL");
+    CompoundDataClassBrick vcxAndLLDCB = vcxAndLLDC.makeBrick("vcxAndLL", new ArrayList<>());
+
+    RCXAndLODC rcxAndLODC = (RCXAndLODC) getInner("rcxAndLO");
+    CompoundDataClassBrick rcxAndLODCB = rcxAndLODC.makeBrick("rcxAndLO", new ArrayList<>());
+
+    virtualInners.put("vcxAndLL", vcxAndLLDCB);
+    virtualInners.put("rcxAndLO", rcxAndLODCB);
+
+    return virtualDCB.getInitializedBrickFromInners(virtualInners);
   }
 
   @Override
