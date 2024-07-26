@@ -1,5 +1,6 @@
 package CursorPositionDC;
 
+import DataClass.PrimitiveDataClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +12,10 @@ public class TestCursorPositionDC {
   CursorPositionDC cursorPositionDC = new CursorPositionDC();
   CAAndNLDC caAndNLDC = new CAAndNLDC(2);
   RCXCYAndNLDC rcxcyAndNLDC = new RCXCYAndNLDC(3);
+  JavaIntDF javaIntDF = new JavaIntDF(0);
+  IntArrayListDF intArrayListDF = new IntArrayListDF(0);
+  WholeNumberDC wholeNumberDC = new WholeNumberDC(javaIntDF);
+  WholeNumberListDC wholeNumberListDC = new WholeNumberListDC(intArrayListDF);
 
   @Test
   void putAndGetLayer() {
@@ -26,13 +31,11 @@ public class TestCursorPositionDC {
     assertNotEquals(rcxcyAndNLDC, cursorPositionDC.getLayer(0));
   }
 
-  @BeforeEach
-  void layerSetup() {
-
-  }
-
   @Test
-  void makeBrick() {
+  void putAndGetInner() {
+    NLDC nlDC = new NLDC(javaIntDF);
+    caAndNLDC.putInner("nl", nlDC);
+    assertEquals(nlDC, caAndNLDC.getInner("nl"));
   }
 
 }
