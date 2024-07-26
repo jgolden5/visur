@@ -40,6 +40,9 @@ public class TestCursorPositionDC {
     CADC caDC = new CADC(javaIntDF);
     caAndNLDC.putInner("ca", caDC);
     assertEquals(caDC, caAndNLDC.getInner("ca"));
+
+    assertNotEquals(caDC, caAndNLDC.getInner("nl"));
+    assertNotEquals(nlDC, caAndNLDC.getInner("ca"));
   }
 
 }
