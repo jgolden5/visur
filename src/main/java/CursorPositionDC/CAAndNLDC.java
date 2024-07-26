@@ -12,7 +12,19 @@ public class CAAndNLDC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
-    return CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    CompoundDataClassBrick caAndNLDCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    HashMap<String, DataClassBrick> caAndNLInners = new HashMap<>();
+
+    WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
+    PrimitiveDataClassBrick caDCB = wholeNumberDC.makeBrick("ca", new ArrayList<>());
+
+    WholeNumberListDC nlDC = (WholeNumberListDC) getInner("nl");
+    PrimitiveDataClassBrick nlDCB = nlDC.makeBrick("nl", new ArrayList<>());
+
+    caAndNLInners.put("ca", caDCB);
+    caAndNLInners.put("nl", nlDCB);
+
+    return caAndNLDCB.getInitializedBrickFromInners(caAndNLInners);
   }
 
   @Override

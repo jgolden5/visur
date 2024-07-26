@@ -71,11 +71,11 @@ public class TestCursorPositionDC {
 
     cursorPositionDCB = cursorPositionDC.makeBrick();
     coordinatesDCB = cursorPositionDCB.getLayer(0);
-    caAndNLDCB = caAndNLDC.makeBrick("caAndNL", caAndNLOuters);
-    rcxcyAndNLDCB = rcxcyAndNLDC.makeBrick("rcxcyAndNL", rcxcyAndNLOuters);
+    caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
+    rcxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("rcxcyAndNL");
     virtualDCB = cursorPositionDCB.getLayer(1);
-    vcxAndLLDCB = vcxAndLLDC.makeBrick("vcxAndLL", vcxAndLLOuters);
-    rcxAndLODCB = rcxAndLODC.makeBrick("rcxAndLO", rcxAndLOOuters);
+    vcxAndLLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("vcxAndLL");
+    rcxAndLODCB = (CompoundDataClassBrick) coordinatesDCB.getInner("rcxAndLO");
     caDCB = wholeNumberDC.makeBrick("ca", caOuters);
     rcxDCB = wholeNumberDC.makeBrick("rcx", rcxOuters);
     cyDCB = wholeNumberDC.makeBrick("cy", cyOuters);
