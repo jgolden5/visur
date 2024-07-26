@@ -83,6 +83,19 @@ public class TestCursorPositionDC {
     llDCB = wholeNumberDC.makeBrick("ll", llOuters);
     loDCB = wholeNumberDC.makeBrick("lo", loOuters);
     nlDCB = nlDC.makeBrick("nl", nlOuters);
+
+    
+
+    coordinatesOuters.add(cursorPositionDCB);
+    caAndNLOuters.add(coordinatesDCB);
+    rcxcyAndNLOuters.add(coordinatesDCB);
+    nlOuters.add(caAndNLDCB);
+    nlOuters.add(rcxcyAndNLDCB);
+    caOuters.add(caAndNLDCB);
+    rcxOuters.add(rcxcyAndNLDCB);
+    rcxOuters.add(rcxAndLODCB);
+    cyOuters.add(rcxcyAndNLDCB);
+
   }
 
   @Test

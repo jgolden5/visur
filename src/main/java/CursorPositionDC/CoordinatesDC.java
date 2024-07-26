@@ -3,6 +3,7 @@ package CursorPositionDC;
 import DataClass.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CoordinatesDC extends CompoundDataClass {
 
@@ -12,7 +13,7 @@ public class CoordinatesDC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
-    return null;
+    return CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
   }
 
   @Override

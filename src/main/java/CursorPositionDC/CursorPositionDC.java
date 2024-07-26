@@ -14,10 +14,7 @@ public class CursorPositionDC extends LayeredDataClass {
 
   @Override
   public LayeredDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
-    ArrayList<CompoundDataClassBrick> cursorPositionDCBLayers = new ArrayList<>();
-    LayeredDataClassBrick cursorPositionDCB = LayeredDataClassBrick.make(name, null, cursorPositionDCBLayers);
-    //do work for initializing direct layers of cursorPositionDCB here
-    return cursorPositionDCB.initLayersAndReturnBrick(cursorPositionDCBLayers);
+    return LayeredDataClassBrick.make(name, this, new ArrayList<>());
   }
 
   @Override
