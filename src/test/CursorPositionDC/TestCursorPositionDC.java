@@ -33,9 +33,13 @@ public class TestCursorPositionDC {
 
   @Test
   void putAndGetInner() {
-    NLDC nlDC = new NLDC(javaIntDF);
+    NLDC nlDC = new NLDC(intArrayListDF);
     caAndNLDC.putInner("nl", nlDC);
     assertEquals(nlDC, caAndNLDC.getInner("nl"));
+
+    CADC caDC = new CADC(javaIntDF);
+    caAndNLDC.putInner("ca", caDC);
+    assertEquals(caDC, caAndNLDC.getInner("ca"));
   }
 
 }
