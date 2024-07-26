@@ -1,9 +1,11 @@
 package DataClass;
 
+import java.util.ArrayList;
+
 public abstract class OuterDataClassBrick extends DataClassBrick {
 
-  OuterDataClassBrick(DataClass dc, CompoundDataClassBrick outer, String name) {
-    super(dc, outer, name);
+  OuterDataClassBrick(DataClass dc, ArrayList<OuterDataClassBrick> outers, String name) {
+    super(dc, outers, name);
   }
 
   public abstract Result<DataClassBrick> calc(String innerName);

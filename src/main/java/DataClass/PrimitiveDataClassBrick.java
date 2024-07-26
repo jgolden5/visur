@@ -1,16 +1,18 @@
 package DataClass;
 
 
+import java.util.ArrayList;
+
 public class PrimitiveDataClassBrick extends DataClassBrick {
   private final PrimitiveDataClass pdc;
   private DataFormBrick dfb;
-    private PrimitiveDataClassBrick(String name, DataFormBrick dfb, PrimitiveDataClass pdc, CompoundDataClassBrick outer) {
-        super(pdc, outer, name);
+    private PrimitiveDataClassBrick(String name, ArrayList<OuterDataClassBrick> outers, DataFormBrick dfb, PrimitiveDataClass pdc) {
+        super(pdc, outers, name);
         this.pdc = pdc;
         this.dfb = dfb;
     }
-    public static PrimitiveDataClassBrick make(String name, DataFormBrick dfb, PrimitiveDataClass pdc, CompoundDataClassBrick outer) {
-        return new PrimitiveDataClassBrick(name, dfb, pdc, outer);
+    public static PrimitiveDataClassBrick make(String name, ArrayList<OuterDataClassBrick> outers, DataFormBrick dfb, PrimitiveDataClass pdc) {
+        return new PrimitiveDataClassBrick(name, outers, dfb, pdc);
     }
     public DataFormBrick getDFB() {
         return dfb;
@@ -29,41 +31,20 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
    * @return result with either calculated value and no error, or no value and an error message
    */
   public Result<DataClassBrick> getOrCalc() {
-    CompoundDataClassBrick outerDCB = getOuter();
-    Result<DataClassBrick> r = outerDCB.getOrCalc(name);
-    if(r.getError() == null) {
-      PrimitiveDataClassBrick pdcb = (PrimitiveDataClassBrick) r.getVal();
-      if(pdcb.isComplete()) {
-        DataFormBrick dfb = DataFormBrick.make(getPDC().defaultDF, pdcb.getVal());
-        putDFB(dfb);
-      } else {
-        putDFB(null);
-      }
-    }
-    return r;
-  }
-
-  /**
-   * make result var
-   * call outerDCB.conflictsCheck(name, val), and assign the result to conflictsExist boolean var
-   * if conflicts exist, set result var value to null with an error message stating the inners conflict
-   * else, set this brick's value to dfb(javaIntDF, val), and set result var val & error to null
-   * return the result var
-   *
-   * @param val the value attempting to be set (only succeeds if this would create no conflicts)
-   * @return Result, may or may not contain an error message stating that inners conflict
-   */
-  public Result putSafe(Object val) {
-    Result result;
-    ConflictsCheckResult ccr = outer.conflictsCheck(name, val);
-    if(ccr == ConflictsCheckResult.yes) {
-      result = Result.make(null, "inners conflict");
-    } else {
-      DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
-      putDFB(thisDFBVal);
-      result = Result.make();
-    }
-    return result;
+    //fix
+//    OuterDataClassBrick outerDCB = getOuters();
+//    Result<DataClassBrick> r = outerDCB.getOrCalc(name);
+//    if(r.getError() == null) {
+//      PrimitiveDataClassBrick pdcb = (PrimitiveDataClassBrick) r.getVal();
+//      if(pdcb.isComplete()) {
+//        DataFormBrick dfb = DataFormBrick.make(getPDC().defaultDF, pdcb.getVal());
+//        putDFB(dfb);
+//      } else {
+//        putDFB(null);
+//      }
+//    }
+//    return r;
+    return null;
   }
 
   /**
@@ -71,9 +52,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
    * return outerDCB.putInner(name, val), which will return a Result which contains an error only if putInner fails
    * @param val the value which will be set
    */
-  public void putForce(Object val) {
-    CompoundDataClassBrick outerDCB = getOuter();
-    outerDCB.removeConflicts(name, val);
+  public void putForce(String nameOfOuterToSet, Object val) {
+    //rework
+//    OuterDataClassBrick outerDCB = getOuterContainingTargetName(nameOfOuterToSet).getVal();
+//    outerDCB.removeConflicts(name, val);
     DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
     putDFB(thisDFBVal);
   }

@@ -56,8 +56,9 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
   @Override
   public Result<DataClassBrick> calc(String innerName) {
     Result r = getLDC().calcInternal(innerName, this);
-    if(r == null && getOuter() != null) {
-      return getOuter().calc(innerName);
+    if(r == null && getOuters() != null) {
+      OuterDataClassBrick outerBrick = getOuterContainingTargetName(innerName).getVal();
+      return outerBrick.calc(innerName);
     } else {
       return r;
     }

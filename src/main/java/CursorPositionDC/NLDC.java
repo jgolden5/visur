@@ -2,6 +2,8 @@ package CursorPositionDC;
 
 import DataClass.*;
 
+import java.util.ArrayList;
+
 public class NLDC extends PrimitiveDataClass {
 
   public NLDC(DataForm defaultDF) {
@@ -9,7 +11,7 @@ public class NLDC extends PrimitiveDataClass {
   }
 
   @Override
-  public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
+  public DataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
     return null;
   }
 
@@ -19,7 +21,7 @@ public class NLDC extends PrimitiveDataClass {
   }
 
   @Override
-  public PrimitiveDataClassBrick makeBrick(String name, Object val, CompoundDataClassBrick outer) {
+  public PrimitiveDataClassBrick makeBrick(String name, Object val, ArrayList<OuterDataClassBrick> outers) {
     return null;
   }
 

@@ -2,6 +2,8 @@ package CursorPositionDC;
 
 import DataClass.*;
 
+import java.util.ArrayList;
+
 public class CoordinatesDC extends CompoundDataClass {
 
   public CoordinatesDC(int requiredSetValues) {
@@ -9,7 +11,7 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
+  public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
     return null;
   }
 

@@ -1,8 +1,11 @@
 package DataClass;
 
+import java.util.ArrayList;
+
 public interface OuterDataClass extends DataClass {
 
-  DataClassBrick makeBrick(String name, CompoundDataClassBrick outer);
+  @Override
+  DataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers);
 
   Result<DataClassBrick> calcInternal(String name, DataClassBrick brick);
   ConflictsCheckResult conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal);

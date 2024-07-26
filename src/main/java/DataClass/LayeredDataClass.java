@@ -7,11 +7,6 @@ public abstract class LayeredDataClass implements OuterDataClass {
 
   ArrayList<CompoundDataClass> layers = new ArrayList<>();
 
-  @Override
-  public LayeredDataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
-    return null;
-  }
-
   public void putLayer(CompoundDataClass cdc) {
     layers.add(cdc);
   }

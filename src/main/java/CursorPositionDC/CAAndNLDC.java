@@ -2,13 +2,15 @@ package CursorPositionDC;
 
 import DataClass.*;
 
+import java.util.ArrayList;
+
 public class CAAndNLDC extends CompoundDataClass {
   public CAAndNLDC(int requiredSetValues) {
     super(requiredSetValues);
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
+  public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
     return null;
   }
 
@@ -21,4 +23,5 @@ public class CAAndNLDC extends CompoundDataClass {
   public ConflictsCheckResult conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal) {
     return null;
   }
+
 }

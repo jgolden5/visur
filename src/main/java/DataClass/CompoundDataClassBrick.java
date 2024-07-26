@@ -1,19 +1,20 @@
 package DataClass;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CompoundDataClassBrick extends OuterDataClassBrick {
   private CompoundDataClass cdc;
   HashMap<String, DataClassBrick> inners;
 
-  private CompoundDataClassBrick(String name, CompoundDataClassBrick outer, DataClass cdc, HashMap<String, DataClassBrick> inners) {
-    super(cdc, outer, name);
+  private CompoundDataClassBrick(String name, ArrayList<OuterDataClassBrick> outers, DataClass cdc, HashMap<String, DataClassBrick> inners) {
+    super(cdc, outers, name);
     this.cdc = (CompoundDataClass) cdc;
     this.inners = inners;
   }
 
-  public static CompoundDataClassBrick make(String name, CompoundDataClassBrick outer, DataClass cdc, HashMap<String, DataClassBrick> inners) {
-    return new CompoundDataClassBrick(name, outer, cdc, inners);
+  public static CompoundDataClassBrick make(String name, ArrayList<OuterDataClassBrick> outers, DataClass cdc, HashMap<String, DataClassBrick> inners) {
+    return new CompoundDataClassBrick(name, outers, cdc, inners);
   }
 
   public DataClassBrick getInner(String name) {
@@ -88,8 +89,9 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
 
   public Result<DataClassBrick> calc(String innerName) {
     Result r = getCDC().calcInternal(innerName, this);
-    if(r == null && getOuter() != null) {
-      return getOuter().calc(innerName);
+    if(r == null && getOuters() != null) {
+      OuterDataClassBrick outerContainingTargetName = getOuterContainingTargetName(innerName).getVal();
+      return outerContainingTargetName.calc(innerName);
     } else {
       return r;
     }
@@ -103,7 +105,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
    */
   public void removeConflicts(String targetName, Object targetVal) {
     getCDC().removeConflicts(this, targetName, targetVal);
-    CompoundDataClassBrick outerDCB = getOuter();
+    OuterDataClassBrick outerDCB = getOuterContainingTargetName(targetName).getVal();
     if(outerDCB != null) {
       outerDCB.removeConflicts(targetName, targetVal);
     }
@@ -120,6 +122,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
    */
   public ConflictsCheckResult conflictsCheck(String name, Object val) {
     ConflictsCheckResult ccr = cdc.conflictsCheck(this, name, val);
+    OuterDataClassBrick outer = getOuterContainingTargetName(name).getVal();
     if(ccr == ConflictsCheckResult.no && outer != null) {
       ccr = outer.conflictsCheck(name, val);
     }

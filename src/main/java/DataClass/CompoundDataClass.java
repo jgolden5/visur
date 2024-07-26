@@ -1,5 +1,6 @@
 package DataClass;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public abstract class CompoundDataClass implements OuterDataClass {
   }
 
   @Override
-  public abstract CompoundDataClassBrick makeBrick(String name, CompoundDataClassBrick outer);
+  public abstract CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers);
 
   public DataClass getInner(String innerName) {
     return inners.get(innerName);
@@ -30,7 +31,7 @@ public abstract class CompoundDataClass implements OuterDataClass {
    * if conflictsCheck(thisAsBrick, targetName, targetVal)...
    * loop through every inner in thisAsBrick...
    * if !inner.equals targetName AND !inner.innerKeys.contains(targetName) call inner.remove()
-   * @param thisAsBrick source of all relevant brick data
+   * @param brick source of all relevant brick data
    * @param targetName name of brick inner which targetVal is being added to
    * @param targetVal value which will be assigned to targetName brick
    */

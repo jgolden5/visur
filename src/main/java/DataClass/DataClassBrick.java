@@ -1,20 +1,32 @@
 package DataClass;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public abstract class DataClassBrick {
   public final DataClass dc;
-  public final CompoundDataClassBrick outer;
+  public final ArrayList<OuterDataClassBrick> outers;
   public String name;
 
-  DataClassBrick(DataClass dc, CompoundDataClassBrick outer, String name) {
+  public DataClassBrick(DataClass dc, ArrayList<OuterDataClassBrick> outers, String name) {
     this.dc = dc;
-    this.outer = outer;
+    this.outers = outers;
     this.name = name;
   }
 
-  public CompoundDataClassBrick getOuter() {
-    return outer;
+  public ArrayList<OuterDataClassBrick> getOuters() {
+    return outers;
+  }
+
+  public Result<OuterDataClassBrick> getOuterContainingTargetName(String targetName) {
+    Result r = Result.make(null, "target was not found");
+    for(OuterDataClassBrick outer : outers) {
+      if(outer.containsName(targetName)) {
+        r = Result.make(outer, null);
+        break;
+      }
+    }
+    return r;
   }
 
   /**

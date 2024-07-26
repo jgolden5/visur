@@ -28,7 +28,7 @@ public class BrickVisurVar implements VisurVar {
 
   @Override
   public Result putVal(Object o) {
-    brick.putForce(o);
+    brick.putForce("some outer", o); //fix
     return Result.make();
   }
 
