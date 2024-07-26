@@ -13,7 +13,17 @@ public class RCXAndLODC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
-    return CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    CompoundDataClassBrick rcxAndLODCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    HashMap<String, DataClassBrick> rcxAndLOInners = new HashMap<>();
+
+    WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
+    PrimitiveDataClassBrick rcxDCB = wholeNumberDC.makeBrick("rcx", new ArrayList<>());
+    PrimitiveDataClassBrick loDCB = wholeNumberDC.makeBrick("lo", new ArrayList<>());
+
+    rcxAndLOInners.put("rcx", rcxDCB);
+    rcxAndLOInners.put("lo", loDCB);
+
+    return rcxAndLODCB.getInitializedBrickFromInners(rcxAndLOInners);
   }
 
   @Override

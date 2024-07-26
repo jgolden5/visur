@@ -133,6 +133,11 @@ public class TestCursorPositionDC {
   }
 
   @Test
+  void setInners() {
+
+  }
+
+  @Test
   void setOuters() {
     ArrayList<OuterDataClassBrick> coordinatesOuters = coordinatesDCB.getOuters();
     assertTrue(coordinatesOuters.size() == 1);
