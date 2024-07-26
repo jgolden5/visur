@@ -4,12 +4,13 @@ import DataClass.CompoundDataClassBrick;
 import DataClass.LayeredDataClassBrick;
 import DataClass.OuterDataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -134,7 +135,27 @@ public class TestCursorPositionDC {
 
   @Test
   void setInners() {
+    assertEquals("coordinates", cursorPositionDCB.getLayer(0).name);
+    assertEquals("virtual", cursorPositionDCB.getLayer(1).name);
 
+    assertNotNull(coordinatesDCB.getInner("caAndNL"));
+    assertNotNull(coordinatesDCB.getInner("rcxcyAndNL"));
+
+    assertNotNull(virtualDCB.getInner("vcxAndLL"));
+    assertNotNull(virtualDCB.getInner("rcxAndLO"));
+
+    assertNotNull(caAndNLDCB.getInner("ca"));
+    assertNotNull(caAndNLDCB.getInner("nl"));
+
+    assertNotNull(rcxcyAndNLDCB.getInner("rcx"));
+    assertNotNull(rcxcyAndNLDCB.getInner("cy"));
+    assertNotNull(rcxcyAndNLDCB.getInner("nl"));
+
+    assertNotNull(vcxAndLLDCB.getInner("vcx"));
+    assertNotNull(vcxAndLLDCB.getInner("ll"));
+
+    assertNotNull(rcxAndLODCB.getInner("rcx"));
+    assertNotNull(rcxAndLODCB.getInner("lo"));
   }
 
   @Test
