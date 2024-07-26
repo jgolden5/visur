@@ -18,9 +18,11 @@ public class VirtualDC extends CompoundDataClass {
 
     VCXAndLLDC vcxAndLLDC = (VCXAndLLDC) getInner("vcxAndLL");
     CompoundDataClassBrick vcxAndLLDCB = vcxAndLLDC.makeBrick("vcxAndLL", new ArrayList<>());
+    vcxAndLLDCB.putOuter(virtualDCB);
 
     RCXAndLODC rcxAndLODC = (RCXAndLODC) getInner("rcxAndLO");
     CompoundDataClassBrick rcxAndLODCB = rcxAndLODC.makeBrick("rcxAndLO", new ArrayList<>());
+    rcxAndLODCB.putOuter(virtualDCB);
 
     virtualInners.put("vcxAndLL", vcxAndLLDCB);
     virtualInners.put("rcxAndLO", rcxAndLODCB);

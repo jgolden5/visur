@@ -18,7 +18,9 @@ public class VCXAndLLDC extends CompoundDataClass {
 
     WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
     PrimitiveDataClassBrick vcxDCB = wholeNumberDC.makeBrick("vcx", new ArrayList<>());
+    vcxDCB.putOuter(vcxAndLLDCB);
     PrimitiveDataClassBrick llDCB = wholeNumberDC.makeBrick("ll", new ArrayList<>());
+    llDCB.putOuter(vcxAndLLDCB);
 
     vcxAndLLInners.put("vcx", vcxDCB);
     vcxAndLLInners.put("ll", llDCB);

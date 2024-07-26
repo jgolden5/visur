@@ -18,9 +18,11 @@ public class CoordinatesDC extends CompoundDataClass {
 
     CAAndNLDC caAndNLDC = (CAAndNLDC) getInner("caAndNL");
     CompoundDataClassBrick caAndNLDCB = caAndNLDC.makeBrick("caAndNL", new ArrayList<>());
+    caAndNLDCB.putOuter(coordinatesDCB);
 
     RCXCYAndNLDC rcxcyAndNLDC = (RCXCYAndNLDC) getInner("rcxcyAndNL");
     CompoundDataClassBrick rcxcyAndNLDCB = rcxcyAndNLDC.makeBrick("rcxcyAndNL", new ArrayList<>());
+    rcxcyAndNLDCB.putOuter(coordinatesDCB);
 
     coordinatesInners.put("caAndNL", caAndNLDCB);
     coordinatesInners.put("rcxcyAndNL", rcxcyAndNLDCB);

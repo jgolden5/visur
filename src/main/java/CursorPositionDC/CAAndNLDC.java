@@ -17,9 +17,11 @@ public class CAAndNLDC extends CompoundDataClass {
 
     WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
     PrimitiveDataClassBrick caDCB = wholeNumberDC.makeBrick("ca", new ArrayList<>());
+    caDCB.putOuter(caAndNLDCB);
 
     WholeNumberListDC nlDC = (WholeNumberListDC) getInner("nl");
     PrimitiveDataClassBrick nlDCB = nlDC.makeBrick("nl", new ArrayList<>());
+    nlDCB.putOuter(caAndNLDCB);
 
     caAndNLInners.put("ca", caDCB);
     caAndNLInners.put("nl", nlDCB);
