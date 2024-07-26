@@ -13,7 +13,17 @@ public class VCXAndLLDC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
-    return CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    CompoundDataClassBrick vcxAndLLDCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    HashMap<String, DataClassBrick> vcxAndLLInners = new HashMap<>();
+
+    WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
+    PrimitiveDataClassBrick vcxDCB = wholeNumberDC.makeBrick("vcx", new ArrayList<>());
+    PrimitiveDataClassBrick llDCB = wholeNumberDC.makeBrick("ll", new ArrayList<>());
+
+    vcxAndLLInners.put("vcx", vcxDCB);
+    vcxAndLLInners.put("ll", llDCB);
+
+    return vcxAndLLDCB.getInitializedBrickFromInners(vcxAndLLInners);
   }
 
   @Override
