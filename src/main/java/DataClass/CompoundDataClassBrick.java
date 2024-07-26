@@ -66,16 +66,6 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     return numberOfSetValues >= cdc.requiredSetValues;
   }
 
-  public boolean isComplete(String nameToForceCount) {
-    int numberOfSetValues = 0;
-    for(DataClassBrick inner : inners.values()) {
-      if(inner.isComplete() || inner.getName().equals(nameToForceCount)) {
-        numberOfSetValues++;
-      }
-    }
-    return numberOfSetValues >= cdc.requiredSetValues;
-  }
-
   public Result removeInner(String name) {
     DataClassBrick inner = inners.get(name);
     if(inner instanceof PrimitiveDataClassBrick) {
@@ -91,7 +81,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     return Result.make();
   }
 
-  public CompoundDataClassBrick initInnersAndReturnBrick(HashMap<String, DataClassBrick> cursorPositionDCBInners) {
+  public CompoundDataClassBrick getInitializedBrickFromInners(HashMap<String, DataClassBrick> cursorPositionDCBInners) {
     inners = cursorPositionDCBInners;
     return this;
   }
@@ -111,11 +101,11 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
    * @param targetName name of brick to assign targetVal to
    * @param targetVal value which will be assigned to brick at targetName
    */
-  public void conflictsForce(String targetName, Object targetVal) {
+  public void removeConflicts(String targetName, Object targetVal) {
     getCDC().removeConflicts(this, targetName, targetVal);
     CompoundDataClassBrick outerDCB = getOuter();
     if(outerDCB != null) {
-      outerDCB.conflictsForce(targetName, targetVal);
+      outerDCB.removeConflicts(targetName, targetVal);
     }
   }
 
