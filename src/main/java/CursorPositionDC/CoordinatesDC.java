@@ -13,7 +13,19 @@ public class CoordinatesDC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
-    return CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    CompoundDataClassBrick coordinatesDCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    HashMap<String, DataClassBrick> coordinatesInners = new HashMap<>();
+
+    CAAndNLDC caAndNLDC = (CAAndNLDC) getInner("caAndNL");
+    CompoundDataClassBrick caAndNLDCB = caAndNLDC.makeBrick("caAndNL", new ArrayList<>());
+
+    RCXCYAndNLDC rcxcyAndNLDC = (RCXCYAndNLDC) getInner("rcxcyAndNL");
+    CompoundDataClassBrick rcxcyAndNLDCB = rcxcyAndNLDC.makeBrick("rcxcyAndNL", new ArrayList<>());
+
+    coordinatesInners.put("caAndNL", caAndNLDCB);
+    coordinatesInners.put("rcxcyAndNL", rcxcyAndNLDCB);
+
+    return coordinatesDCB.getInitializedBrickFromInners(coordinatesInners);
   }
 
   @Override

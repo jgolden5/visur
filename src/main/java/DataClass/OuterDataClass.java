@@ -1,6 +1,7 @@
 package DataClass;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface OuterDataClass extends DataClass {
 
