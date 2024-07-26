@@ -3,11 +3,10 @@ package CursorPositionDC;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class TestLDC {
+public class TestCursorPositionDC {
 
   CursorPositionDC cursorPositionDC = new CursorPositionDC();
   CAAndNLDC caAndNLDC = new CAAndNLDC(2);
@@ -20,6 +19,11 @@ public class TestLDC {
 
     cursorPositionDC.putLayer(rcxcyAndNLDC);
     assertEquals(rcxcyAndNLDC, cursorPositionDC.getLayer(1));
+
+    assertEquals(caAndNLDC, cursorPositionDC.getLayer(0));
+    assertEquals(rcxcyAndNLDC, cursorPositionDC.getLayer(1));
+    assertNotEquals(caAndNLDC, cursorPositionDC.getLayer(1));
+    assertNotEquals(rcxcyAndNLDC, cursorPositionDC.getLayer(0));
   }
 
   @BeforeEach
@@ -27,9 +31,8 @@ public class TestLDC {
 
   }
 
-  @Test void makeBrick() {
-
-
+  @Test
+  void makeBrick() {
   }
 
 }
