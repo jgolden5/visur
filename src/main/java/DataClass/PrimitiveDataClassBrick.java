@@ -52,9 +52,11 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   public void put(Object val) {
-    ArrayList<OuterDataClassBrick> outers = getOuters();
-    for (OuterDataClassBrick outer : outers) {
-      outer.conflictsCheckAndRemove(getName(), val);
+    if(!isReadOnly) {
+      ArrayList<OuterDataClassBrick> outers = getOuters();
+      for (OuterDataClassBrick outer : outers) {
+        outer.conflictsCheckAndRemove(getName(), val);
+      }
     }
     DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
     putDFB(thisDFBVal);

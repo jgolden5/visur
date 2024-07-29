@@ -299,6 +299,8 @@ public class TestCursorPositionDC {
 
   @Test
   void putWhenNotComplete() {
+    //coordinates
+    //set caAndNL when rcxcyAndNL is unset
     assertFalse(caAndNLDCB.isComplete());
     caDCB.put(0);
     assertEquals(0, caDCB.getVal());
@@ -315,6 +317,8 @@ public class TestCursorPositionDC {
     assertTrue(coordinatesDCB.isComplete());
 
     caAndNLDCB.remove();
+
+    //set rcxcyAndNL when caAndNL is unset
     assertFalse(caAndNLDCB.isComplete());
     assertFalse(rcxcyAndNLDCB.isComplete());
 
@@ -323,9 +327,19 @@ public class TestCursorPositionDC {
     assertFalse(rcxcyAndNLDCB.isComplete());
     cyDCB.put(1);
     assertEquals(1, cyDCB.getVal());
-    assertFalse(rcxcyAndNLDCB.isComplete());
-    nlDCB.put(nl);
     assertTrue(rcxcyAndNLDCB.isComplete());
+
+    //virtual
+    //set vcxAndLL when rcxAndLO is unset
+    assertFalse(rcxAndLODCB.isComplete());
+    assertFalse(vcxAndLLDCB.isComplete());
+
+    vcxDCB.put(0);
+    assertEquals(0, vcxDCB.getVal());
+    assertFalse(vcxAndLLDCB.isComplete());
+    llDCB.put(10);
+    assertEquals(10, llDCB.getVal());
+    assertTrue(vcxAndLLDCB.isComplete());
 
   }
 
