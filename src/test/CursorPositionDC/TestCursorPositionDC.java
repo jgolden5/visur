@@ -366,6 +366,16 @@ public class TestCursorPositionDC {
     assertFalse(rcxcyAndNLDCB.isComplete());
     assertTrue(caAndNLDCB.isComplete());
 
+    //setting rcxcyAndNL unsets caAndNL if caAndNL is set
+    assertTrue(rcxDCB.isComplete());
+    assertTrue(nlDCB.isComplete());
+    assertFalse(rcxcyAndNLDCB.isComplete());
+    assertTrue(caAndNLDCB.isComplete());
+    cyDCB.put(2);
+    assertEquals(2, cyDCB.getVal());
+    assertTrue(rcxcyAndNLDCB.isComplete());
+    assertFalse(caAndNLDCB.isComplete());
+
   }
 
 }
