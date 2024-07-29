@@ -108,12 +108,21 @@ public class TestCursorPositionDC {
 
   }
 
-//  @BeforeEach
-//  void removeLDCB() {
-//    cursorPositionDCB.remove();
-//    assertFalse(cursorPositionDCB.isComplete());
-//  }
-//
+  @BeforeEach
+  void remove() {
+    cursorPositionDCB.remove();
+    assertFalse(cursorPositionDCB.isComplete());
+    assertFalse(coordinatesDCB.isComplete());
+    assertFalse(virtualDCB.isComplete());
+    assertFalse(nlDCB.isComplete());
+    assertFalse(caDCB.isComplete());
+    assertFalse(rcxDCB.isComplete());
+    assertFalse(cyDCB.isComplete());
+    assertFalse(vcxDCB.isComplete());
+    assertFalse(llDCB.isComplete());
+    assertFalse(loDCB.isComplete());
+  }
+
   @Test
   void setCursorPositionDCHolder() {
     assertEquals(coordinatesDC, cursorPositionDC.getLayer(0));
@@ -278,11 +287,11 @@ public class TestCursorPositionDC {
 
   }
 
-//  @Test
-//  void putWhenNotComplete() {
-//    caDCB.put(0);
-//    caAndNLDCB.putInner("ca", caDCB);
-//  }
+  @Test
+  void putWhenNotComplete() {
+    caDCB.put(0);
+    caAndNLDCB.putInner("ca", caDCB);
+  }
 //
 //  @Test
 //  void putWhenComplete() {
