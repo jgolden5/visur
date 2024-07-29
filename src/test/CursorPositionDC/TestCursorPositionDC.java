@@ -211,11 +211,73 @@ public class TestCursorPositionDC {
     return outerNames;
   }
 
-//  @Test
-//  void isComplete() {
-//
-//  }
-//
+  @Test
+  void isComplete() {
+    assertFalse(cursorPositionDCB.isComplete());
+    assertFalse(coordinatesDCB.isComplete());
+    assertFalse(virtualDCB.isComplete());
+    assertFalse(nlDCB.isComplete());
+    assertFalse(caDCB.isComplete());
+    assertFalse(rcxDCB.isComplete());
+    assertFalse(cyDCB.isComplete());
+    assertFalse(vcxDCB.isComplete());
+    assertFalse(llDCB.isComplete());
+    assertFalse(loDCB.isComplete());
+
+    //coordinates
+    //caAndNL
+    caDCB.put(0);
+    assertTrue(caDCB.isComplete());
+    assertFalse(caAndNLDCB.isComplete());
+
+    ArrayList<Integer> nextLineIndices = new ArrayList<Integer>();
+    nextLineIndices.add(12);
+    nextLineIndices.add(25);
+    nextLineIndices.add(32);
+    nlDCB.put(nextLineIndices);
+    assertTrue(nlDCB.isComplete());
+    assertTrue(caAndNLDCB.isComplete());
+
+    assertTrue(coordinatesDCB.isComplete());
+
+    //rcxcyAndNL
+    assertTrue(nlDCB.isComplete());
+    assertFalse(rcxcyAndNLDCB.isComplete());
+    rcxDCB.put(0);
+    assertTrue(rcxDCB.isComplete());
+    assertFalse(rcxcyAndNLDCB.isComplete());
+
+    cyDCB.put(0);
+    assertTrue(cyDCB.isComplete());
+    assertTrue(rcxcyAndNLDCB.isComplete());
+
+    assertTrue(coordinatesDCB.isComplete());
+
+    //virtual
+    //vcxAndLL
+    assertFalse(virtualDCB.isComplete());
+    assertFalse(vcxAndLLDCB.isComplete());
+    vcxDCB.put(0);
+    assertTrue(vcxDCB.isComplete());
+    assertFalse(vcxAndLLDCB.isComplete());
+    llDCB.put(68);
+    assertTrue(llDCB.isComplete());
+    assertTrue(vcxAndLLDCB.isComplete());
+
+    assertTrue(virtualDCB.isComplete());
+
+    //rcxAndLO
+    assertFalse(rcxAndLODCB.isComplete());
+    assertTrue(rcxDCB.isComplete());
+    loDCB.put(0);
+    assertTrue(loDCB.isComplete());
+    assertTrue(rcxAndLODCB.isComplete());
+    assertTrue(virtualDCB.isComplete());
+
+    assertTrue(cursorPositionDCB.isComplete());
+
+  }
+
 //  @Test
 //  void putWhenNotComplete() {
 //    caDCB.put(0);
