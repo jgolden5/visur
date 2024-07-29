@@ -376,6 +376,27 @@ public class TestCursorPositionDC {
     assertTrue(rcxcyAndNLDCB.isComplete());
     assertFalse(caAndNLDCB.isComplete());
 
+    //virtual
+    //setting vcxAndLL unsets rcxAndLO if rcxAndLO is set
+    assertFalse(rcxAndLODCB.isComplete());
+    assertTrue(rcxDCB.isComplete());
+    loDCB.put(-3);
+    assertFalse(vcxAndLLDCB.isComplete());
+    assertTrue(rcxAndLODCB.isComplete());
+    vcxDCB.put(5);
+    assertFalse(vcxAndLLDCB.isComplete());
+    assertFalse(rcxAndLODCB.isComplete());
+    llDCB.put(15);
+    assertTrue(vcxAndLLDCB.isComplete());
+    assertFalse(rcxAndLODCB.isComplete());
+
+    //setting rcxAndLO unsets vcxAndLL if vcxAndLL is set
+    assertTrue(rcxDCB.isComplete());
+    loDCB.put(0);
+    assertEquals(0, loDCB.getVal());
+    assertFalse(vcxAndLLDCB.isComplete());
+    assertTrue(rcxAndLODCB.isComplete());
+
   }
 
 }
