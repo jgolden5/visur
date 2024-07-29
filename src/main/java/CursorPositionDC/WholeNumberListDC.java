@@ -27,14 +27,14 @@ public class WholeNumberListDC extends PrimitiveDataClass {
   }
 
   @Override
-  public PrimitiveDataClassBrick makeBrick(String name, Object val, ArrayList<OuterDataClassBrick> outers) {
+  public PrimitiveDataClassBrick makeBrick(String name, Object val, ArrayList<OuterDataClassBrick> outers, boolean isReadOnly) {
     DataFormBrick dfb = DataFormBrick.make(defaultDF, val);
-    return PrimitiveDataClassBrick.make(name, outers, dfb, this);
+    return PrimitiveDataClassBrick.make(name, outers, dfb, this, isReadOnly);
   }
 
   @Override
-  public PrimitiveDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
-    PrimitiveDataClassBrick wholeNumberListDCB = PrimitiveDataClassBrick.make(name, outers, null, this);
+  public PrimitiveDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, boolean isReadOnly) {
+    PrimitiveDataClassBrick wholeNumberListDCB = PrimitiveDataClassBrick.make(name, outers, null, this, isReadOnly);
     return wholeNumberListDCB;
   }
 

@@ -42,7 +42,10 @@ public abstract class DataClassBrick {
    */
   public Result remove() {
     if(this instanceof PrimitiveDataClassBrick) {
-      ((PrimitiveDataClassBrick)this).putDFB(null);
+      PrimitiveDataClassBrick thisAsPDCB = (PrimitiveDataClassBrick) this;
+      if(!thisAsPDCB.getIsReadOnly()) {
+        thisAsPDCB.putDFB(null);
+      }
     } else if(this instanceof CompoundDataClassBrick) {
       CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) this;
       for (Map.Entry<String, DataClassBrick> inner : thisAsCDCB.inners.entrySet()) {

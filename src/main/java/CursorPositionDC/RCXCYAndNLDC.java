@@ -20,7 +20,7 @@ public class RCXCYAndNLDC extends CompoundDataClass {
 
     rcxDCB.putOuter(rcxcyAndNLDCB);
     WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
-    PrimitiveDataClassBrick cyDCB = wholeNumberDC.makeBrick("cy", new ArrayList<>());
+    PrimitiveDataClassBrick cyDCB = wholeNumberDC.makeBrick("cy", new ArrayList<>(), false);
     cyDCB.putOuter(rcxcyAndNLDCB);
 
     nlDCB.putOuter(rcxcyAndNLDCB);

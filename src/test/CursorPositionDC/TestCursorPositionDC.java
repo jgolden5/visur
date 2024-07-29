@@ -72,8 +72,8 @@ public class TestCursorPositionDC {
     ArrayList<OuterDataClassBrick> coordinatesOuters = new ArrayList<>();
 
 
-    rcxDCB = wholeNumberDC.makeBrick("rcx", rcxOuters);
-    nlDCB = wholeNumberDC.makeBrick("nl", nlOuters);
+    rcxDCB = wholeNumberDC.makeBrick("rcx", rcxOuters, true);
+    nlDCB = wholeNumberDC.makeBrick("nl", nlOuters, true);
     cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB, rcxDCB);
     coordinatesDCB = cursorPositionDCB.getLayer(0);
     caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
@@ -105,6 +105,14 @@ public class TestCursorPositionDC {
 
     rcxAndLODCB.putInner("rcx", rcxDCB);
     rcxAndLODCB.putInner("lo", loDCB);
+
+    assertTrue(nlDCB.getIsReadOnly());
+    assertTrue(rcxDCB.getIsReadOnly());
+    assertFalse(caDCB.getIsReadOnly());
+    assertFalse(cyDCB.getIsReadOnly());
+    assertFalse(vcxDCB.getIsReadOnly());
+    assertFalse(llDCB.getIsReadOnly());
+    assertFalse(loDCB.getIsReadOnly());
 
   }
 

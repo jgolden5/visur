@@ -20,7 +20,7 @@ public class RCXAndLODC extends CompoundDataClass {
 
     rcxDCB.putOuter(rcxAndLODCB);
     WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
-    PrimitiveDataClassBrick loDCB = wholeNumberDC.makeBrick("lo", new ArrayList<>());
+    PrimitiveDataClassBrick loDCB = wholeNumberDC.makeBrick("lo", new ArrayList<>(), false);
     loDCB.putOuter(rcxAndLODCB);
 
     rcxAndLOInners.put("rcx", rcxDCB);

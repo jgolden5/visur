@@ -17,9 +17,9 @@ public class VCXAndLLDC extends CompoundDataClass {
     HashMap<String, DataClassBrick> vcxAndLLInners = new HashMap<>();
 
     WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
-    PrimitiveDataClassBrick vcxDCB = wholeNumberDC.makeBrick("vcx", new ArrayList<>());
+    PrimitiveDataClassBrick vcxDCB = wholeNumberDC.makeBrick("vcx", new ArrayList<>(), false);
     vcxDCB.putOuter(vcxAndLLDCB);
-    PrimitiveDataClassBrick llDCB = wholeNumberDC.makeBrick("ll", new ArrayList<>());
+    PrimitiveDataClassBrick llDCB = wholeNumberDC.makeBrick("ll", new ArrayList<>(), false);
     llDCB.putOuter(vcxAndLLDCB);
 
     vcxAndLLInners.put("vcx", vcxDCB);

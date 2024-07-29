@@ -19,19 +19,19 @@ public class WholeNumberDC extends PrimitiveDataClass {
   }
 
   @Override
-  public PrimitiveDataClassBrick makeBrick(String name, Object val, ArrayList<OuterDataClassBrick> outers) {
+  public PrimitiveDataClassBrick makeBrick(String name, Object val, ArrayList<OuterDataClassBrick> outers, boolean isReadOnly) {
     PrimitiveDataClassBrick res;
     if(isValidInput(val)) {
-      res = PrimitiveDataClassBrick.make(name, outers, DataFormBrick.make(defaultDF, val), this);
+      res = PrimitiveDataClassBrick.make(name, outers, DataFormBrick.make(defaultDF, val), this, isReadOnly);
     } else {
-      res = PrimitiveDataClassBrick.make(name, outers, null, this);
+      res = PrimitiveDataClassBrick.make(name, outers, null, this, isReadOnly);
     }
     return res;
   }
 
   @Override
-  public PrimitiveDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
-    return PrimitiveDataClassBrick.make(name, outers, null, this);
+  public PrimitiveDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, boolean isReadOnly) {
+    return PrimitiveDataClassBrick.make(name, outers, null, this, isReadOnly);
   }
 
 }
