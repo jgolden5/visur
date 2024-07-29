@@ -239,7 +239,7 @@ public class TestCursorPositionDC {
     assertTrue(caDCB.isComplete());
     assertFalse(caAndNLDCB.isComplete());
 
-    ArrayList<Integer> nextLineIndices = new ArrayList<Integer>();
+    ArrayList<Integer> nextLineIndices = new ArrayList<>();
     nextLineIndices.add(12);
     nextLineIndices.add(25);
     nextLineIndices.add(32);
@@ -304,7 +304,19 @@ public class TestCursorPositionDC {
     assertTrue(caAndNLDCB.isComplete());
     assertTrue(coordinatesDCB.isComplete());
 
-    
+    caAndNLDCB.remove();
+    assertFalse(caAndNLDCB.isComplete());
+    assertFalse(rcxcyAndNLDCB.isComplete());
+
+    rcxDCB.put(0);
+    assertEquals(0, rcxDCB.getVal());
+    assertFalse(rcxcyAndNLDCB.isComplete());
+    cyDCB.put(1);
+    assertEquals(1, cyDCB.getVal());
+    assertFalse(rcxcyAndNLDCB.isComplete());
+    nlDCB.put(nl);
+    assertTrue(rcxcyAndNLDCB.isComplete());
+
   }
 
 //

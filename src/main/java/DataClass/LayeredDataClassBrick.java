@@ -77,6 +77,11 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
+  public void conflictsCheckAndRemove(String name, Object val) {
+
+  }
+
+  @Override
   public boolean containsName(String targetName) {
     boolean containsName = false;
     if(getName().equals(targetName)) {

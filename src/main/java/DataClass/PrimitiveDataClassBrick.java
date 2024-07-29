@@ -54,8 +54,11 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
    * @param val the value which will be set
    */
   public void put(Object val) {
-    //rework
-    removeConflicts(name, val);
+    ArrayList<OuterDataClassBrick> outers = getOuters();
+    for(OuterDataClassBrick outer : outers) {
+      outer.conflictsCheckAndRemove(getName(), val);
+    }
+
     DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
     putDFB(thisDFBVal);
   }

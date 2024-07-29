@@ -11,4 +11,5 @@ public abstract class OuterDataClassBrick extends DataClassBrick {
   public abstract Result<DataClassBrick> calc(String innerName);
   public abstract boolean conflictsCheck(String name, Object val);
 
+  public abstract void conflictsCheckAndRemove(String name, Object val);
 }
