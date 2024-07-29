@@ -100,7 +100,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
 
   @Override
   public void removeConflicts(String targetName, Object targetVal) {
-    getCDC().removeConflicts(this, targetName, targetVal);
+    getCDC().removeConflicts(this);
     OuterDataClassBrick outerDCB = getOuterContainingTargetName(targetName).getVal();
     if(outerDCB != null) {
       outerDCB.removeConflicts(targetName, targetVal);
@@ -117,7 +117,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
    * @return whether a conflict would hypothetically exist after calling putInner(name, val)
    */
   public boolean conflictsCheck(String name, Object val) {
-    return getCDC().conflictsCheck(this, name, val);
+    return getCDC().conflictsCheck(this);
   }
 
   @Override

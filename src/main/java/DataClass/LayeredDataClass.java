@@ -3,7 +3,7 @@ package DataClass;
 import java.util.ArrayList;
 import java.util.Map;
 
-public abstract class LayeredDataClass implements OuterDataClass {
+public abstract class LayeredDataClass extends OuterDataClass {
 
   ArrayList<CompoundDataClass> layers = new ArrayList<>();
 
@@ -23,16 +23,6 @@ public abstract class LayeredDataClass implements OuterDataClass {
       r = layer.calcInternal(name, thisAsBrick);
     }
     return r;
-  }
-
-  @Override
-  public boolean conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal) {
-    return false;
-  }
-
-  @Override
-  public void removeConflicts(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal) {
-
   }
 
 }

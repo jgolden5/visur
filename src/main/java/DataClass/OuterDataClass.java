@@ -3,12 +3,17 @@ package DataClass;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public interface OuterDataClass extends DataClass {
+public abstract class OuterDataClass implements DataClass {
 
-  OuterDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, PrimitiveDataClassBrick... reusablePDCBs);
+  public abstract OuterDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, PrimitiveDataClassBrick... reusablePDCBs);
 
-  Result<DataClassBrick> calcInternal(String name, DataClassBrick brick);
-  boolean conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal);
+  public abstract Result<DataClassBrick> calcInternal(String name, DataClassBrick brick);
+  public boolean conflictsCheck(OuterDataClassBrick thisAsBrick) {
+    return thisAsBrick.isComplete();
+  }
 
-  void removeConflicts(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal);
+  public void removeConflicts(OuterDataClassBrick thisAsBrick) {
+    thisAsBrick.remove();
+  }
+
 }

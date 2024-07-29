@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class CompoundDataClass implements OuterDataClass {
+public abstract class CompoundDataClass extends OuterDataClass {
   HashMap<String, DataClass> inners = new HashMap<>();
   int requiredSetValues;
   public CompoundDataClass(int requiredSetValues) {
@@ -20,27 +20,5 @@ public abstract class CompoundDataClass implements OuterDataClass {
 
   @Override
   public abstract Result<DataClassBrick> calcInternal(String name, DataClassBrick outerAsBrick);
-
-  /**
-   * if conflictsCheck(thisAsBrick, targetName, targetVal)...
-   * loop through every inner in thisAsBrick...
-   * if !inner.equals targetName AND !inner.innerKeys.contains(targetName) call inner.remove()
-   * @param brick source of all relevant brick data
-   * @param targetName name of brick inner which targetVal is being added to
-   * @param targetVal value which will be assigned to targetName brick
-   */
-  @Override
-  public void removeConflicts(OuterDataClassBrick brick, String targetName, Object targetVal) {
-    CompoundDataClassBrick thisAsBrick = (CompoundDataClassBrick)brick;
-    boolean conflictsExist = thisAsBrick.conflictsCheck(targetName, targetVal);
-    if(conflictsExist) {
-      for(Map.Entry<String, DataClassBrick> inner : thisAsBrick.inners.entrySet()) {
-        if(inner.equals(targetName) || inner.getValue().containsName(targetName)) {
-          continue;
-        }
-        inner.getValue().remove();
-      }
-    }
-  }
 
 }
