@@ -294,7 +294,8 @@ public class TestCursorPositionDC {
     assertEquals(0, caDCB.getVal());
 
     ArrayList<Integer> nl = new ArrayList<>();
-    nl.add(5, 10);
+    nl.add(5);
+    nl.add(10);
     nlDCB.put(nl);
 
     caAndNLDCB.putInner("ca", caDCB);
@@ -302,6 +303,8 @@ public class TestCursorPositionDC {
     assertEquals(nl, nlDCB.getVal());
     assertTrue(caAndNLDCB.isComplete());
     assertTrue(coordinatesDCB.isComplete());
+
+    
   }
 
 //

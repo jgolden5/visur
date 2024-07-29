@@ -72,8 +72,8 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
 
 
   @Override
-  public ConflictsCheckResult conflictsCheck(String name, Object val) {
-    return null;
+  public boolean conflictsCheck(String name, Object val) {
+    return getLDC().conflictsCheck(this, name, val);
   }
 
   @Override

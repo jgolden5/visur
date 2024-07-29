@@ -34,8 +34,4 @@ public class RCXAndLODC extends CompoundDataClass {
     return null;
   }
 
-  @Override
-  public ConflictsCheckResult conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal) {
-    return null;
-  }
 }

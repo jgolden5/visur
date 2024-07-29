@@ -116,13 +116,9 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
    * @param val ^
    * @return whether a conflict would hypothetically exist after calling putInner(name, val)
    */
-  public ConflictsCheckResult conflictsCheck(String name, Object val) {
-    ConflictsCheckResult ccr = cdc.conflictsCheck(this, name, val);
+  public boolean conflictsCheck(String name, Object val) {
     OuterDataClassBrick outer = getOuterContainingTargetName(name).getVal();
-    if(ccr == ConflictsCheckResult.no && outer != null) {
-      ccr = outer.conflictsCheck(name, val);
-    }
-    return ccr;
+    return outer.conflictsCheck(name, val);
   }
 
   @Override

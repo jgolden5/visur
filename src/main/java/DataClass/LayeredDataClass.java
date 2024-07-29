@@ -25,4 +25,14 @@ public abstract class LayeredDataClass implements OuterDataClass {
     return r;
   }
 
+  @Override
+  public boolean conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal) {
+    return false;
+  }
+
+  @Override
+  public void removeConflicts(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal) {
+
+  }
+
 }

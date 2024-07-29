@@ -38,9 +38,4 @@ public class CursorPositionDC extends LayeredDataClass {
     return Result.make();
   }
 
-  @Override
-  public ConflictsCheckResult conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal) {
-    return null;
-  }
-
 }

@@ -37,9 +37,4 @@ public class VirtualDC extends CompoundDataClass {
     return null;
   }
 
-  @Override
-  public ConflictsCheckResult conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal) {
-    return null;
-  }
-
 }
