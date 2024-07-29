@@ -118,17 +118,19 @@ public class TestCursorPositionDC {
 
   @BeforeEach
   void remove() {
+    boolean nlDCBWasCompleteBeforeRemoval = nlDCB.isComplete();
+    boolean rcxDCBWasCompleteBeforeRemoval = rcxDCB.isComplete();
     cursorPositionDCB.remove();
     assertFalse(cursorPositionDCB.isComplete());
     assertFalse(coordinatesDCB.isComplete());
     assertFalse(virtualDCB.isComplete());
-    assertFalse(nlDCB.isComplete());
     assertFalse(caDCB.isComplete());
-    assertFalse(rcxDCB.isComplete());
     assertFalse(cyDCB.isComplete());
     assertFalse(vcxDCB.isComplete());
     assertFalse(llDCB.isComplete());
     assertFalse(loDCB.isComplete());
+    assertEquals(nlDCBWasCompleteBeforeRemoval, nlDCB.isComplete());
+    assertEquals(rcxDCBWasCompleteBeforeRemoval, rcxDCB.isComplete());
   }
 
   @Test

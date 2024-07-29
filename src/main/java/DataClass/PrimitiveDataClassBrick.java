@@ -19,8 +19,8 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return new PrimitiveDataClassBrick(name, outers, dfb, pdc, isReadOnly);
   }
   public DataFormBrick getDFB() {
-                              return dfb;
-                                           }
+    return dfb;
+  }
   public PrimitiveDataClass getPDC() {
                                      return pdc;
                                                 }
@@ -51,24 +51,13 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return null;
   }
 
-  /**
-   * call outerDCB.conflictsForce(name, val) to unset previously set values which conflict with val
-   * return outerDCB.putInner(name, val), which will return a Result which contains an error only if putInner fails
-   * @param val the value which will be set
-   */
   public void put(Object val) {
-    if(!isReadOnly) {
-      ArrayList<OuterDataClassBrick> outers = getOuters();
-      for (OuterDataClassBrick outer : outers) {
-        outer.conflictsCheckAndRemove(getName(), val);
-      }
-
-      DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
-      putDFB(thisDFBVal);
+    ArrayList<OuterDataClassBrick> outers = getOuters();
+    for (OuterDataClassBrick outer : outers) {
+      outer.conflictsCheckAndRemove(getName(), val);
     }
-    else {
-      System.out.println(getName() + " pdcb is read-only");
-    }
+    DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
+    putDFB(thisDFBVal);
   }
 
   @Override
