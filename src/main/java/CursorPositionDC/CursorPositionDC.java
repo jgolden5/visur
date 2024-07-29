@@ -25,7 +25,7 @@ public class CursorPositionDC extends LayeredDataClass {
 
     VirtualDC virtualDC = (VirtualDC) getLayer(1);
     CompoundDataClassBrick virtualDCB = virtualDC.makeBrick("virtual", new ArrayList<>(), rcxDCB);
-    coordinatesDCB.putOuter(virtualDCB);
+    virtualDCB.putOuter(cursorPositionDCB);
 
     cursorPositionDCB.putLayer(coordinatesDCB);
     cursorPositionDCB.putLayer(virtualDCB);
