@@ -15,6 +15,7 @@ public abstract class LayeredDataClass implements OuterDataClass {
     return layers.get(i);
   }
 
+
   @Override
   public Result<DataClassBrick> calcInternal(String name, DataClassBrick thisAsBrick) {
     Result<DataClassBrick> r = Result.make(null, "no layers exist");

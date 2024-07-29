@@ -71,7 +71,10 @@ public class TestCursorPositionDC {
     ArrayList<OuterDataClassBrick> caAndNLOuters = new ArrayList<>();
     ArrayList<OuterDataClassBrick> coordinatesOuters = new ArrayList<>();
 
-    cursorPositionDCB = cursorPositionDC.makeBrick();
+
+    rcxDCB = wholeNumberDC.makeBrick("rcx", rcxOuters);
+    nlDCB = wholeNumberDC.makeBrick("nl", nlOuters);
+    cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB, rcxDCB);
     coordinatesDCB = cursorPositionDCB.getLayer(0);
     caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
     rcxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("rcxcyAndNL");
@@ -79,12 +82,10 @@ public class TestCursorPositionDC {
     vcxAndLLDCB = (CompoundDataClassBrick) virtualDCB.getInner("vcxAndLL");
     rcxAndLODCB = (CompoundDataClassBrick) virtualDCB.getInner("rcxAndLO");
     caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
-    rcxDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("rcx");
     cyDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("cy");
     vcxDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("vcx");
     llDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("ll");
     loDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("lo");
-    nlDCB = (PrimitiveDataClassBrick) ;
 
     coordinatesDCB.putInner("caAndNL", caAndNLDCB);
     coordinatesDCB.putInner("rcxcyAndNL", rcxcyAndNLDCB);
@@ -110,11 +111,12 @@ public class TestCursorPositionDC {
     vcxAndLLOuters.add(virtualDCB);
   }
 
-  @BeforeEach
-  void removeLDCB() {
-    cursorPositionDCB.remove();
-  }
-
+//  @BeforeEach
+//  void removeLDCB() {
+//    cursorPositionDCB.remove();
+//    assertFalse(cursorPositionDCB.isComplete());
+//  }
+//
   @Test
   void setCursorPositionDCHolder() {
     assertEquals(coordinatesDC, cursorPositionDC.getLayer(0));

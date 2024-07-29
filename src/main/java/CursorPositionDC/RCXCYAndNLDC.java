@@ -11,18 +11,18 @@ public class RCXCYAndNLDC extends CompoundDataClass {
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
+  public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, PrimitiveDataClassBrick... reusablePDCBs) {
     CompoundDataClassBrick rcxcyAndNLDCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
     HashMap<String, DataClassBrick> rcxcyAndNLInners = new HashMap<>();
 
-    WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
-    PrimitiveDataClassBrick rcxDCB = wholeNumberDC.makeBrick("rcx", new ArrayList<>());
+    PrimitiveDataClassBrick nlDCB = reusablePDCBs[0];
+    PrimitiveDataClassBrick rcxDCB = reusablePDCBs[1];
+
     rcxDCB.putOuter(rcxcyAndNLDCB);
+    WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
     PrimitiveDataClassBrick cyDCB = wholeNumberDC.makeBrick("cy", new ArrayList<>());
     cyDCB.putOuter(rcxcyAndNLDCB);
 
-    WholeNumberListDC nlDC = (WholeNumberListDC) getInner("nl");
-    PrimitiveDataClassBrick nlDCB = nlDC.makeBrick("nl", new ArrayList<>());
     nlDCB.putOuter(rcxcyAndNLDCB);
 
     rcxcyAndNLInners.put("rcx", rcxDCB);

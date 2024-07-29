@@ -12,7 +12,7 @@ public class VCXAndLLDC extends CompoundDataClass {
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
+  public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, PrimitiveDataClassBrick... reusablePDCBs) {
     CompoundDataClassBrick vcxAndLLDCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
     HashMap<String, DataClassBrick> vcxAndLLInners = new HashMap<>();
 

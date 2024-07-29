@@ -11,9 +11,6 @@ public abstract class CompoundDataClass implements OuterDataClass {
     this.requiredSetValues = requiredSetValues;
   }
 
-  @Override
-  public abstract CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers);
-
   public DataClass getInner(String innerName) {
     return inners.get(innerName);
   }

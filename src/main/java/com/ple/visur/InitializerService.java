@@ -77,7 +77,7 @@ public class InitializerService {
 
   private void initializeCursorPositionDCBs() {
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
-    LayeredDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick();
+//    LayeredDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick();
     //redo but refer to the pattern followed in previous version
   }
 

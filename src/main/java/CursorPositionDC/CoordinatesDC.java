@@ -12,16 +12,19 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(String name, PrimitiveDataClassBrick nlDCB, PrimitiveDataClassBrick rcxDCB, ArrayList<OuterDataClassBrick> outers) {
+  public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, PrimitiveDataClassBrick... reusablePDCBs) {
     CompoundDataClassBrick coordinatesDCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
     HashMap<String, DataClassBrick> coordinatesInners = new HashMap<>();
 
+    PrimitiveDataClassBrick nlDCB = reusablePDCBs[0];
+    PrimitiveDataClassBrick rcxDCB = reusablePDCBs[1];
+
     CAAndNLDC caAndNLDC = (CAAndNLDC) getInner("caAndNL");
-    CompoundDataClassBrick caAndNLDCB = caAndNLDC.makeBrick("caAndNL", new ArrayList<>());
+    CompoundDataClassBrick caAndNLDCB = caAndNLDC.makeBrick("caAndNL", new ArrayList<>(), nlDCB);
     caAndNLDCB.putOuter(coordinatesDCB);
 
     RCXCYAndNLDC rcxcyAndNLDC = (RCXCYAndNLDC) getInner("rcxcyAndNL");
-    CompoundDataClassBrick rcxcyAndNLDCB = rcxcyAndNLDC.makeBrick("rcxcyAndNL", new ArrayList<>());
+    CompoundDataClassBrick rcxcyAndNLDCB = rcxcyAndNLDC.makeBrick("rcxcyAndNL", new ArrayList<>(), nlDCB, rcxDCB);
     rcxcyAndNLDCB.putOuter(coordinatesDCB);
 
     coordinatesInners.put("caAndNL", caAndNLDCB);
