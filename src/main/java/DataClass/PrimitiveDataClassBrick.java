@@ -2,6 +2,7 @@ package DataClass;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class PrimitiveDataClassBrick extends DataClassBrick {
   private final PrimitiveDataClass pdc;
@@ -82,6 +83,11 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
 
   public void putDFB(DataFormBrick newDFB) {
     dfb = newDFB;
+  }
+
+  @Override
+  public boolean containsName(String targetName) {
+    return getName().equals(targetName);
   }
 
 }

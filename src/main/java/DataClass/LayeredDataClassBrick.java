@@ -1,6 +1,7 @@
 package DataClass;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class LayeredDataClassBrick extends OuterDataClassBrick {
 
@@ -72,6 +73,22 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
   @Override
   public ConflictsCheckResult conflictsCheck(String name, Object val) {
     return null;
+  }
+
+  @Override
+  public boolean containsName(String targetName) {
+    boolean containsName = false;
+    if(getName().equals(targetName)) {
+      containsName = true;
+    } else {
+      for(CompoundDataClassBrick layer : layers) {
+        if (layer.containsName(targetName)) {
+          containsName = true;
+          break;
+        }
+      }
+    }
+    return containsName;
   }
 
 }

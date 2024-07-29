@@ -2,6 +2,7 @@ package DataClass;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CompoundDataClassBrick extends OuterDataClassBrick {
   private CompoundDataClass cdc;
@@ -127,6 +128,22 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
       ccr = outer.conflictsCheck(name, val);
     }
     return ccr;
+  }
+
+  @Override
+  public boolean containsName(String targetName) {
+    boolean containsName = false;
+    if(getName().equals(targetName)) {
+      containsName = true;
+    } else {
+      for(Map.Entry<String, DataClassBrick> inner : inners.entrySet()) {
+        if (inner.getValue().containsName(targetName)) {
+          containsName = true;
+          break;
+        }
+      }
+    }
+    return containsName;
   }
 
 }
