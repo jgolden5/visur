@@ -4,8 +4,10 @@ import DataClass.CompoundDataClassBrick;
 import DataClass.LayeredDataClassBrick;
 import DataClass.OuterDataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,35 +18,34 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TestCursorPositionDC {
 
-  CursorPositionDCHolder cursorPositionDCHolder = new CursorPositionDCHolder();
-  CursorPositionDC cursorPositionDC;
-  LayeredDataClassBrick cursorPositionDCB;
-  CoordinatesDC coordinatesDC;
-  CompoundDataClassBrick coordinatesDCB;
-  CAAndNLDC caAndNLDC;
-  CompoundDataClassBrick caAndNLDCB;
-  RCXCYAndNLDC rcxcyAndNLDC;
-  CompoundDataClassBrick rcxcyAndNLDCB;
-  VirtualDC virtualDC;
-  CompoundDataClassBrick virtualDCB;
-  VCXAndLLDC vcxAndLLDC;
-  CompoundDataClassBrick vcxAndLLDCB;
-  RCXAndLODC rcxAndLODC;
-  CompoundDataClassBrick rcxAndLODCB;
-  WholeNumberDC wholeNumberDC;
-  PrimitiveDataClassBrick caDCB;
-  PrimitiveDataClassBrick rcxDCB;
-  PrimitiveDataClassBrick cyDCB;
-  PrimitiveDataClassBrick vcxDCB;
-  PrimitiveDataClassBrick llDCB;
-  PrimitiveDataClassBrick loDCB;
-  WholeNumberListDC nlDC;
-  PrimitiveDataClassBrick nlDCB;
-  JavaIntDF javaIntDF;
+  static CursorPositionDCHolder cursorPositionDCHolder = new CursorPositionDCHolder();
+  static CursorPositionDC cursorPositionDC;
+  static LayeredDataClassBrick cursorPositionDCB;
+  static CoordinatesDC coordinatesDC;
+  static CompoundDataClassBrick coordinatesDCB;
+  static CAAndNLDC caAndNLDC;
+  static CompoundDataClassBrick caAndNLDCB;
+  static RCXCYAndNLDC rcxcyAndNLDC;
+  static CompoundDataClassBrick rcxcyAndNLDCB;
+  static VirtualDC virtualDC;
+  static CompoundDataClassBrick virtualDCB;
+  static VCXAndLLDC vcxAndLLDC;
+  static CompoundDataClassBrick vcxAndLLDCB;
+  static RCXAndLODC rcxAndLODC;
+  static CompoundDataClassBrick rcxAndLODCB;
+  static WholeNumberDC wholeNumberDC;
+  static PrimitiveDataClassBrick caDCB;
+  static PrimitiveDataClassBrick rcxDCB;
+  static PrimitiveDataClassBrick cyDCB;
+  static PrimitiveDataClassBrick vcxDCB;
+  static PrimitiveDataClassBrick llDCB;
+  static PrimitiveDataClassBrick loDCB;
+  static WholeNumberListDC nlDC;
+  static PrimitiveDataClassBrick nlDCB;
+  static JavaIntDF javaIntDF;
 
-  @BeforeEach
-  void resetVars() {
-    cursorPositionDCHolder = new CursorPositionDCHolder();
+  @BeforeAll
+  static void initVars() {
     cursorPositionDC = cursorPositionDCHolder.cursorPositionDC;
     coordinatesDC = cursorPositionDCHolder.coordinatesDC;
     caAndNLDC = cursorPositionDCHolder.caAndNLDC;
@@ -77,15 +78,13 @@ public class TestCursorPositionDC {
     virtualDCB = cursorPositionDCB.getLayer(1);
     vcxAndLLDCB = (CompoundDataClassBrick) virtualDCB.getInner("vcxAndLL");
     rcxAndLODCB = (CompoundDataClassBrick) virtualDCB.getInner("rcxAndLO");
-    caDCB = wholeNumberDC.makeBrick("ca", caOuters);
-    rcxDCB = wholeNumberDC.makeBrick("rcx", rcxOuters);
-    cyDCB = wholeNumberDC.makeBrick("cy", cyOuters);
-    vcxDCB = wholeNumberDC.makeBrick("vcx", vcxOuters);
-    llDCB = wholeNumberDC.makeBrick("ll", llOuters);
-    loDCB = wholeNumberDC.makeBrick("lo", loOuters);
-    nlDCB = nlDC.makeBrick("nl", nlOuters);
-
-    cursorPositionDCB.putLayer(coordinatesDCB);
+    caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
+    rcxDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("rcx");
+    cyDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("cy");
+    vcxDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("vcx");
+    llDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("ll");
+    loDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("lo");
+    nlDCB = (PrimitiveDataClassBrick) ;
 
     coordinatesDCB.putInner("caAndNL", caAndNLDCB);
     coordinatesDCB.putInner("rcxcyAndNL", rcxcyAndNLDCB);
@@ -107,7 +106,13 @@ public class TestCursorPositionDC {
     rcxOuters.add(rcxcyAndNLDCB);
     rcxOuters.add(rcxAndLODCB);
     cyOuters.add(rcxcyAndNLDCB);
+    rcxAndLOOuters.add(virtualDCB);
+    vcxAndLLOuters.add(virtualDCB);
+  }
 
+  @BeforeEach
+  void removeLDCB() {
+    cursorPositionDCB.remove();
   }
 
   @Test
@@ -193,13 +198,18 @@ public class TestCursorPositionDC {
   }
 
 //  @Test
-//  void putButNoUnset() {
+//  void isComplete() {
+//
+//  }
+//
+//  @Test
+//  void putWhenNotComplete() {
 //    caDCB.put(0);
 //    caAndNLDCB.putInner("ca", caDCB);
 //  }
 //
 //  @Test
-//  void putAndUnset() {
+//  void putWhenComplete() {
 //
 //  }
 //

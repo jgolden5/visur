@@ -12,7 +12,7 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   @Override
-  public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers) {
+  public CompoundDataClassBrick makeBrick(String name, PrimitiveDataClassBrick nlDCB, PrimitiveDataClassBrick rcxDCB, ArrayList<OuterDataClassBrick> outers) {
     CompoundDataClassBrick coordinatesDCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
     HashMap<String, DataClassBrick> coordinatesInners = new HashMap<>();
 

@@ -45,8 +45,13 @@ public abstract class DataClassBrick {
       ((PrimitiveDataClassBrick)this).putDFB(null);
     } else if(this instanceof CompoundDataClassBrick) {
       CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) this;
-      for(Map.Entry<String, DataClassBrick> inner : thisAsCDCB.inners.entrySet()) {
+      for (Map.Entry<String, DataClassBrick> inner : thisAsCDCB.inners.entrySet()) {
         inner.getValue().remove();
+      }
+    } else if(this instanceof LayeredDataClassBrick) {
+      LayeredDataClassBrick thisAsLDCB = (LayeredDataClassBrick) this;
+      for(CompoundDataClassBrick layer : thisAsLDCB.layers) {
+        layer.remove();
       }
     } else {
       return Result.make(null,"data type for dcb is too generic");
