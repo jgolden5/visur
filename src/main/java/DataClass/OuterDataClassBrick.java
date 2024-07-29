@@ -9,7 +9,6 @@ public abstract class OuterDataClassBrick extends DataClassBrick {
   }
 
   public abstract Result<DataClassBrick> calc(String innerName);
-  public abstract void removeConflicts(String name, Object val);
   public abstract ConflictsCheckResult conflictsCheck(String name, Object val);
 
 }

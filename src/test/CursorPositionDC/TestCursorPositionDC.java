@@ -289,9 +289,21 @@ public class TestCursorPositionDC {
 
   @Test
   void putWhenNotComplete() {
+    assertFalse(caAndNLDCB.isComplete());
     caDCB.put(0);
+    assertEquals(0, caDCB.getVal());
+
+    ArrayList<Integer> nl = new ArrayList<>();
+    nl.add(5, 10);
+    nlDCB.put(nl);
+
     caAndNLDCB.putInner("ca", caDCB);
+    caAndNLDCB.putInner("nl", nlDCB);
+    assertEquals(nl, nlDCB.getVal());
+    assertTrue(caAndNLDCB.isComplete());
+    assertTrue(coordinatesDCB.isComplete());
   }
+
 //
 //  @Test
 //  void putWhenComplete() {

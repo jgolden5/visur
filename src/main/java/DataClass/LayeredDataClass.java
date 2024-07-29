@@ -25,21 +25,4 @@ public abstract class LayeredDataClass implements OuterDataClass {
     return r;
   }
 
-  @Override
-  public abstract ConflictsCheckResult conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal);
-
-  @Override
-  public void removeConflicts(OuterDataClassBrick brick, String targetName, Object targetVal) {
-    LayeredDataClassBrick thisAsBrick = (LayeredDataClassBrick)brick;
-    ConflictsCheckResult ccr = conflictsCheck(thisAsBrick, targetName, targetVal);
-    if(ccr != ConflictsCheckResult.no) {
-      for(CompoundDataClassBrick layer : thisAsBrick.layers) {
-        if(layer.getName().equals(targetName) || layer.containsName(targetName)) {
-          continue;
-        }
-        layer.remove();
-      }
-    }
-  }
-
 }

@@ -59,6 +59,8 @@ public abstract class DataClassBrick {
     return Result.make();
   }
 
+  public abstract void removeConflicts(String name, Object val);
+
   public abstract boolean isComplete();
 
   public String getName() {

@@ -55,8 +55,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
    */
   public void put(Object val) {
     //rework
-//    OuterDataClassBrick outerDCB = getOuterContainingTargetName(nameOfOuterToSet).getVal();
-//    outerDCB.removeConflicts(name, val);
+    removeConflicts(name, val);
     DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
     putDFB(thisDFBVal);
   }
@@ -88,6 +87,13 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   @Override
   public boolean containsName(String targetName) {
     return getName().equals(targetName);
+  }
+
+  @Override
+  public void removeConflicts(String name, Object val) {
+    for(OuterDataClassBrick outer : outers) {
+      outer.removeConflicts(name, val);
+    }
   }
 
 }

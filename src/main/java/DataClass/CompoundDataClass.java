@@ -35,8 +35,8 @@ public abstract class CompoundDataClass implements OuterDataClass {
   @Override
   public void removeConflicts(OuterDataClassBrick brick, String targetName, Object targetVal) {
     CompoundDataClassBrick thisAsBrick = (CompoundDataClassBrick)brick;
-    ConflictsCheckResult ccr = conflictsCheck(thisAsBrick, targetName, targetVal);
-    if(ccr != ConflictsCheckResult.no) {
+    boolean anyOutersAreComplete = thisAsBrick.anyOutersAreComplete(targetName, targetVal);
+    if(anyOutersAreComplete) {
       for(Map.Entry<String, DataClassBrick> inner : thisAsBrick.inners.entrySet()) {
         if(inner.equals(targetName) || inner.getValue().containsName(targetName)) {
           continue;

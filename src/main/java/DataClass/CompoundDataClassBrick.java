@@ -98,12 +98,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     }
   }
 
-  /**
-   * call cdc.conflictsForce(this, targetName, targetVal)
-   * if outerDCB != null, call outerDCB.conflictsForce(targetName, targetVal) so all conflicts get removed
-   * @param targetName name of brick to assign targetVal to
-   * @param targetVal value which will be assigned to brick at targetName
-   */
+  @Override
   public void removeConflicts(String targetName, Object targetVal) {
     getCDC().removeConflicts(this, targetName, targetVal);
     OuterDataClassBrick outerDCB = getOuterContainingTargetName(targetName).getVal();
