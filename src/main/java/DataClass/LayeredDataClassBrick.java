@@ -66,6 +66,14 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
+  public Result remove() {
+    for(CompoundDataClassBrick layer : layers) {
+      layer.remove();
+    }
+    return Result.make();
+  }
+
+  @Override
   public void removeConflicts(String targetName, Object targetVal) {
     //all layers in ldcb always get set, therefore this method is not needed
   }

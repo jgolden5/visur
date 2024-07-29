@@ -92,6 +92,17 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   @Override
+  public Result remove() {
+    String error = null;
+    if(!getIsReadOnly()) {
+      putDFB(null);
+    } else {
+      error = "pdcb " + getName() + " is read-only";
+    }
+    return Result.make(null, error);
+  }
+
+  @Override
   public void removeConflicts(String name, Object val) {
     for(OuterDataClassBrick outer : outers) {
       outer.removeConflicts(name, val);

@@ -40,27 +40,16 @@ public abstract class DataClassBrick {
    * return Result with null value and error
    * @return whether removal was successful (in error message of Result)
    */
-  public Result remove() {
-    if(this instanceof PrimitiveDataClassBrick) {
-      PrimitiveDataClassBrick thisAsPDCB = (PrimitiveDataClassBrick) this;
-      if(!thisAsPDCB.getIsReadOnly()) {
-        thisAsPDCB.putDFB(null);
-      }
-    } else if(this instanceof CompoundDataClassBrick) {
-      CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) this;
-      for (Map.Entry<String, DataClassBrick> inner : thisAsCDCB.inners.entrySet()) {
-        inner.getValue().remove();
-      }
-    } else if(this instanceof LayeredDataClassBrick) {
-      LayeredDataClassBrick thisAsLDCB = (LayeredDataClassBrick) this;
-      for(CompoundDataClassBrick layer : thisAsLDCB.layers) {
-        layer.remove();
-      }
-    } else {
-      return Result.make(null,"data type for dcb is too generic");
-    }
-    return Result.make();
-  }
+  public abstract Result remove();
+//    } else if(this instanceof LayeredDataClassBrick) {
+//      LayeredDataClassBrick thisAsLDCB = (LayeredDataClassBrick) this;
+//      for(CompoundDataClassBrick layer : thisAsLDCB.layers) {
+//        layer.remove();
+//      }
+//    } else {
+//      return Result.make(null,"data type for dcb is too generic");
+//    }
+//    return Result.make();
 
   public abstract void removeConflicts(String name, Object val);
 

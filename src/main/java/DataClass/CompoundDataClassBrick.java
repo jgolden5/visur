@@ -99,6 +99,16 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
+  public Result remove() {
+    if (inners.size() > 0) {
+      for (Map.Entry<String, DataClassBrick> inner : inners.entrySet()) {
+        inner.getValue().remove();
+      }
+    }
+    return Result.make();
+  }
+
+  @Override
   public void removeConflicts(String targetName, Object targetVal) {
     getCDC().removeConflicts(this);
     OuterDataClassBrick outerDCB = getOuterContainingTargetName(targetName).getVal();
