@@ -4,10 +4,8 @@ import DataClass.CompoundDataClassBrick;
 import DataClass.LayeredDataClassBrick;
 import DataClass.OuterDataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -341,12 +339,33 @@ public class TestCursorPositionDC {
     assertEquals(10, llDCB.getVal());
     assertTrue(vcxAndLLDCB.isComplete());
 
+    //set rcxAndLO when vcxAndLL is unset
+    vcxAndLLDCB.remove();
+    assertFalse(vcxAndLLDCB.isComplete());
+    rcxDCB.put(4);
+    assertEquals(4, rcxDCB.getVal());
+    assertFalse(rcxAndLODCB.isComplete());
+    loDCB.put(-1);
+    assertEquals(-1, loDCB.getVal());
+    assertTrue(rcxAndLODCB.isComplete());
+
   }
 
-//
-//  @Test
-//  void putWhenComplete() {
-//
-//  }
-//
+  @Test
+  void putWhenComplete() {
+    //coordinates
+    //setting caAndNL unsets rcxcyAndNL if rcxcyAndNL is set
+    rcxDCB.put(0);
+    cyDCB.put(1);
+    ArrayList<Integer> nl = new ArrayList<>();
+    nl.add(13);
+    nlDCB.put(nl);
+    assertTrue(rcxcyAndNLDCB.isComplete());
+    assertFalse(caAndNLDCB.isComplete());
+    caDCB.put(0);
+    assertFalse(rcxcyAndNLDCB.isComplete());
+    assertTrue(caAndNLDCB.isComplete());
+
+  }
+
 }
