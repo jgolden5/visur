@@ -122,10 +122,17 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
 
   @Override
   public void conflictsCheckAndRemove(String name, Object val) {
+    boolean conflictsFound = false;
     for(OuterDataClassBrick outer : outers) {
       if (outer.conflictsCheck(getName(), val)) {
         outer.remove();
+        conflictsFound = true;
         break;
+      }
+    }
+    if(!conflictsFound) {
+      for(OuterDataClassBrick outer : outers) {
+        outer.conflictsCheckAndRemove(name, val);
       }
     }
   }

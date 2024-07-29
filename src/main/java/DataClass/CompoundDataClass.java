@@ -21,15 +21,6 @@ public abstract class CompoundDataClass implements OuterDataClass {
   @Override
   public abstract Result<DataClassBrick> calcInternal(String name, DataClassBrick outerAsBrick);
 
-  @Override
-  public boolean conflictsCheck(OuterDataClassBrick thisAsBrick, String targetName, Object targetVal) {
-    ArrayList<OuterDataClassBrick> thisAsBrickOuters = thisAsBrick.getOuters();
-    for(OuterDataClassBrick outer : thisAsBrickOuters) {
-      if(outer.isComplete()) return true;
-    }
-    return false;
-  }
-
   /**
    * if conflictsCheck(thisAsBrick, targetName, targetVal)...
    * loop through every inner in thisAsBrick...
