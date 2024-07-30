@@ -90,7 +90,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     int i = 0;
     while(r.getVal() == null && i < outers.size()) {
       OuterDataClassBrick outerDCB = outers.get(i);
-      if (r == null && outerDCB != null) {
+      if (outerDCB != null) {
         r = outerDCB.calc(innerName);
       }
       i++;
