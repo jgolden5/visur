@@ -413,6 +413,7 @@ public class TestCursorPositionDC {
     assertEquals(1, cyDCB.getVal());
     caDCB = caDCB.getOrCalc().getVal();
     assertEquals(17, caDCB.getVal());
+    assertEquals(nl, nlDCB.getVal());
   }
 
 }

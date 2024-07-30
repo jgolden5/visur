@@ -75,12 +75,12 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
 
   @Override
   public Result<PrimitiveDataClassBrick> getOrCalc(String targetName) {
-    DataClassBrick targetInner = getInner(name);
+    DataClassBrick targetInner = getInner(targetName);
     Result r;
     if(targetInner.isComplete()) {
       r = Result.make(targetInner, null);
     } else {
-      r = calc(name);
+      r = calc(targetName);
     }
     return r;
   }
