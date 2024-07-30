@@ -37,20 +37,39 @@ public class CoordinatesDC extends CompoundDataClass {
   public Result<PrimitiveDataClassBrick> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
     Result<PrimitiveDataClassBrick> r;
     if(name.equals("ca")) {
-      r = calcCAAndNL();
+      r = calcCAAndNL(thisAsBrick);
     } else if(name.equals("cy")) {
-      r = calcrcxCYAndNL();
+      r = calcRCXCYAndNL(thisAsBrick);
     } else {
       r = Result.make(null, "name not recognized");
     }
     return r;
   }
 
-  private Result<PrimitiveDataClassBrick> calcCAAndNL() {
-    return null;
+  private Result<PrimitiveDataClassBrick> calcCAAndNL(OuterDataClassBrick thisAsBrick) {
+    Result<PrimitiveDataClassBrick> r;
+    if(thisAsBrick.isComplete()) {
+      CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
+      CompoundDataClassBrick rcxCYAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxCYAndNL");
+      PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxCYAndNLDCB.getInner("rcx");
+      PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) rcxCYAndNLDCB.getInner("cy");
+      PrimitiveDataClassBrick nlDCB = (PrimitiveDataClassBrick) rcxCYAndNLDCB.getInner("nl");
+      int rcx = (int)rcxDCB.getVal();
+      int cy = (int)cyDCB.getVal();
+      ArrayList<Integer> nl = (ArrayList<Integer>) nlDCB.getVal();
+      int lineStart = cy > 0 ? nl.get(cy) : 0;
+      int ca = lineStart + rcx;
+      CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("caAndNL");
+      PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
+      caDCB.put(ca);
+      r = Result.make(ca, null);
+    } else {
+      r = Result.make(null, "brick incomplete, calculations impossible");
+    }
+    return r;
   }
 
-  private Result<PrimitiveDataClassBrick> calcrcxCYAndNL() {
+  private Result<PrimitiveDataClassBrick> calcRCXCYAndNL(OuterDataClassBrick thisAsBrick) {
     return null;
   }
 
