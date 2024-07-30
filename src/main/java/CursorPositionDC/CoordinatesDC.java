@@ -35,7 +35,23 @@ public class CoordinatesDC extends CompoundDataClass {
 
   @Override
   public Result<PrimitiveDataClassBrick> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
-    return Result.make();
+    Result<PrimitiveDataClassBrick> r;
+    if(name.equals("ca")) {
+      r = calcCAAndNL();
+    } else if(name.equals("cy")) {
+      r = calcrcxCYAndNL();
+    } else {
+      r = Result.make(null, "name not recognized");
+    }
+    return r;
+  }
+
+  private Result<PrimitiveDataClassBrick> calcCAAndNL() {
+    return null;
+  }
+
+  private Result<PrimitiveDataClassBrick> calcrcxCYAndNL() {
+    return null;
   }
 
 }
