@@ -400,7 +400,7 @@ public class TestCursorPositionDC {
   }
 
   @Test void getOrCalc() {
-    //if nl = [12, 25, 32], rcx = 5, and cy = 1, ca should = 17
+    //1 if nl = [12, 25, 32], rcx = 5, and cy = 1, ca can be calculated = 17
     ArrayList<Integer> nl = new ArrayList<>();
     nl.add(12);
     nl.add(25);
@@ -414,6 +414,18 @@ public class TestCursorPositionDC {
     caDCB = caDCB.getOrCalc().getVal();
     assertEquals(17, caDCB.getVal());
     assertEquals(nl, nlDCB.getVal());
+
+    //2 if nl = [12, 25, 32], rcx = 3, and cy = 2, ca can be calculated = 28
+    rcxDCB.put(3);
+    cyDCB.put(2);
+    assertTrue(rcxcyAndNLDCB.isComplete());
+    assertEquals(3, rcxDCB.getVal());
+    assertEquals(2, cyDCB.getVal());
+    assertEquals(nl, nlDCB.getVal());
+    caDCB = caDCB.getOrCalc().getVal();
+    assertEquals(28, caDCB.getVal());
+
+    //3 
   }
 
 }
