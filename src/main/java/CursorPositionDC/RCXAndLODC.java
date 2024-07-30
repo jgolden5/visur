@@ -31,7 +31,10 @@ public class RCXAndLODC extends CompoundDataClass {
 
   @Override
   public Result<PrimitiveDataClassBrick> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
-    return Result.make(null, "incalculable");
+    ArrayList<OuterDataClassBrick> outers = thisAsBrick.getOuters();
+    OuterDataClassBrick virtualDCB = outers.get(0);
+    VirtualDC virtualDC = (VirtualDC)virtualDCB.dc;
+    return virtualDC.calcInternal(name, virtualDCB);
   }
 
 }
