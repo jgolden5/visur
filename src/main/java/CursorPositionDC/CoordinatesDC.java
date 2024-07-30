@@ -57,7 +57,7 @@ public class CoordinatesDC extends CompoundDataClass {
     CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("caAndNL");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
     PrimitiveDataClassBrick nlDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("nl");
-    CompoundDataClassBrick rcxCYAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxCYAndNL");
+    CompoundDataClassBrick rcxCYAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxcyAndNL");
     PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxCYAndNLDCB.getInner("rcx");
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) rcxCYAndNLDCB.getInner("cy");
     int ca = caDCB.isComplete() ? (int)caDCB.getVal() : -1;
@@ -71,12 +71,12 @@ public class CoordinatesDC extends CompoundDataClass {
     ArrayList<Integer> nl = (ArrayList<Integer>)coordinateVars[1];
     int rcx = (int)coordinateVars[2];
     int cy = (int)coordinateVars[3];
-    int lineStart = cy > 0 ? nl.get(cy) : 0;
+    int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
     int ca = lineStart + rcx;
     CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("caAndNL");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
     caDCB.put(ca);
-    return Result.make(ca, null);
+    return Result.make(caDCB, null);
   }
 
   private Result<PrimitiveDataClassBrick> calcRCXCYAndNL(CompoundDataClassBrick thisAsCDCB, Object[] coordinateVars) {
