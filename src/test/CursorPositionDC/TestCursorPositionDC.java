@@ -399,4 +399,20 @@ public class TestCursorPositionDC {
 
   }
 
+  @Test void getOrCalc() {
+    //if nl = [12, 25, 32], rcx = 5, and cy = 1, ca should = 17
+    ArrayList<Integer> nl = new ArrayList<>();
+    nl.add(12);
+    nl.add(25);
+    nl.add(32);
+    nlDCB.put(nl);
+    rcxDCB.put(5);
+    cyDCB.put(1);
+    assertEquals(nl, nlDCB.getVal());
+    assertEquals(5, rcxDCB.getVal());
+    assertEquals(1, cyDCB.getVal());
+    caDCB = (PrimitiveDataClassBrick) caDCB.getOrCalc().getVal();
+    assertEquals(17, caDCB.getVal());
+  }
+
 }

@@ -37,26 +37,6 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     return cdc;
   }
 
-  /**
-   * getInner and assign to targetInner var
-   * if targetInner is unset, set r = calc(name)
-   * calc method will set value equal to newly calculated value and only an error message if calc fails
-   * else, r = Result.make(targetInner, null)
-   * return r
-   * @param name
-   * @return
-   */
-  public Result<DataClassBrick> getOrCalc(String name) {
-    DataClassBrick targetInner = getInner(name);
-    Result r;
-    if(targetInner.isComplete()) {
-      r = Result.make(targetInner, null);
-    } else {
-      r = calc(name);
-    }
-    return r;
-  }
-
   @Override
   public boolean isComplete() {
     int numberOfSetValues = 0;
@@ -86,6 +66,11 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
   public CompoundDataClassBrick getInitializedBrickFromInners(HashMap<String, DataClassBrick> cursorPositionDCBInners) {
     inners = cursorPositionDCBInners;
     return this;
+  }
+
+  @Override
+  public Result<PrimitiveDataClassBrick> get(String targetName) {
+    return null;
   }
 
   public Result<DataClassBrick> calc(String innerName) {

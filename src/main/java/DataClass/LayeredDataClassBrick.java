@@ -30,16 +30,6 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
     return ldc;
   }
 
-  public Result<DataClassBrick> getOrCalc(String name) {
-    Result r = Result.make(null, "name not contained in layers");
-    for(CompoundDataClassBrick layer : layers) {
-      if (layer.containsName(name)) {
-        r = layer.getOrCalc(name);
-      }
-    }
-    return r;
-  }
-
   public boolean isComplete() {
     for(CompoundDataClassBrick layer : layers) {
       if(!layer.isComplete()) {
@@ -52,6 +42,11 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
   public LayeredDataClassBrick initLayersAndReturnBrick(ArrayList<CompoundDataClassBrick> layers) {
     this.layers = layers;
     return this;
+  }
+
+  @Override
+  public Result<PrimitiveDataClassBrick> get(String targetName) {
+    return null;
   }
 
   @Override

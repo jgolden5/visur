@@ -34,21 +34,21 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
    * return r
    * @return result with either calculated value and no error, or no value and an error message
    */
-  public Result<DataClassBrick> getOrCalc() {
-    //fix
-//    OuterDataClassBrick outerDCB = getOuters();
-//    Result<DataClassBrick> r = outerDCB.getOrCalc(name);
-//    if(r.getError() == null) {
-//      PrimitiveDataClassBrick pdcb = (PrimitiveDataClassBrick) r.getVal();
-//      if(pdcb.isComplete()) {
-//        DataFormBrick dfb = DataFormBrick.make(getPDC().defaultDF, pdcb.getVal());
-//        putDFB(dfb);
-//      } else {
-//        putDFB(null);
-//      }
-//    }
-//    return r;
-    return null;
+  public Result<PrimitiveDataClassBrick> getOrCalc() {
+    Result<PrimitiveDataClassBrick> r = Result.make(null, "no outers exist");
+    for(OuterDataClassBrick outerDCB : getOuters()) {
+      r = outerDCB.getOrCalc(name);
+      if (r.getError() == null) {
+        PrimitiveDataClassBrick pdcb = (PrimitiveDataClassBrick) r.getVal();
+        if (pdcb.isComplete()) {
+          DataFormBrick dfb = DataFormBrick.make(getPDC().defaultDF, pdcb.getVal());
+          putDFB(dfb);
+        } else {
+          putDFB(null);
+        }
+      }
+    }
+    return r;
   }
 
   public void put(Object val) {

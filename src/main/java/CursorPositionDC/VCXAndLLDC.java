@@ -29,8 +29,8 @@ public class VCXAndLLDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<DataClassBrick> calcInternal(String name, DataClassBrick outerAsBrick) {
-    return null;
+  public Result<PrimitiveDataClassBrick> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
+    return Result.make(null, "incalculable");
   }
 
 }

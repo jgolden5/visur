@@ -18,7 +18,4 @@ public abstract class CompoundDataClass extends OuterDataClass {
     inners.put(innerName, innerVal);
   }
 
-  @Override
-  public abstract Result<DataClassBrick> calcInternal(String name, DataClassBrick outerAsBrick);
-
 }
