@@ -56,7 +56,7 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
     while(r.getVal() == null && i < layers.size()) {
       CompoundDataClassBrick currentLayer = getLayer(i);
       if(currentLayer.isComplete()) {
-        r = Result.make(targetInner, null);
+        r = Result.make(currentLayer, null);
       } else {
         r = calc(name);
       }

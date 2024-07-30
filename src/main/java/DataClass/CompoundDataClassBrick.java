@@ -87,11 +87,15 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
 
   public Result<PrimitiveDataClassBrick> calc(String innerName) {
     Result r = getCDC().calcInternal(innerName, this);
-    if(r == null && getOuter() != null) {
-      return getOuter().calc(innerName);
-    } else {
-      return r;
+    int i = 0;
+    while(r.getVal() == null && i < outers.size()) {
+      OuterDataClassBrick outerDCB = outers.get(i);
+      if (r == null && outerDCB != null) {
+        r = outerDCB.calc(innerName);
+      }
+      i++;
     }
+    return r;
   }
 
   @Override
