@@ -411,7 +411,7 @@ public class TestCursorPositionDC {
     assertEquals(nl, nlDCB.getVal());
     assertEquals(5, rcxDCB.getVal());
     assertEquals(1, cyDCB.getVal());
-    caDCB = (PrimitiveDataClassBrick) caDCB.getOrCalc().getVal();
+    caDCB = caDCB.getOrCalc().getVal();
     assertEquals(17, caDCB.getVal());
   }
 
