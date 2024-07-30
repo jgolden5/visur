@@ -18,4 +18,6 @@ public abstract class CompoundDataClass extends OuterDataClass {
     inners.put(innerName, innerVal);
   }
 
+  public abstract Result<DataClassBrick> calcInternal(String name, CompoundDataClassBrick outerAsBrick);
+
 }

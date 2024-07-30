@@ -50,14 +50,30 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
-  public Result<DataClassBrick> calc(String innerName) {
-    Result r = getLDC().calcInternal(innerName, this);
-    if(r == null && getOuters() != null) {
-      OuterDataClassBrick outerBrick = getOuterContainingTargetName(innerName).getVal();
-      return outerBrick.calc(innerName);
-    } else {
-      return r;
+  public Result<PrimitiveDataClassBrick> getOrCalc(String targetName) {
+    Result<PrimitiveDataClassBrick> r = Result.make();
+    int i = 0;
+    while(r.getVal() == null && i < layers.size()) {
+      CompoundDataClassBrick currentLayer = getLayer(i);
+      if(currentLayer.isComplete()) {
+        r = Result.make(targetInner, null);
+      } else {
+        r = calc(name);
+      }
+      i++;
     }
+    return r;
+  }
+
+  @Override
+  public Result<PrimitiveDataClassBrick> calc(String name) {
+    Result r = Result.make();
+    int i = 0;
+    while(r.getVal() == null && i < layers.size()) {
+      r = layers.get(i).getCDC().calcInternal(name, this);
+      i++;
+    }
+    return r;
   }
 
   @Override

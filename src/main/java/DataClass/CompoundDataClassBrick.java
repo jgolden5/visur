@@ -73,11 +73,22 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     return null;
   }
 
-  public Result<DataClassBrick> calc(String innerName) {
+  @Override
+  public Result<PrimitiveDataClassBrick> getOrCalc(String targetName) {
+    DataClassBrick targetInner = getInner(name);
+    Result r;
+    if(targetInner.isComplete()) {
+      r = Result.make(targetInner, null);
+    } else {
+      r = calc(name);
+    }
+    return r;
+  }
+
+  public Result<PrimitiveDataClassBrick> calc(String innerName) {
     Result r = getCDC().calcInternal(innerName, this);
-    if(r == null && getOuters() != null) {
-      OuterDataClassBrick outerContainingTargetName = getOuterContainingTargetName(innerName).getVal();
-      return outerContainingTargetName.calc(innerName);
+    if(r == null && getOuter() != null) {
+      return getOuter().calc(innerName);
     } else {
       return r;
     }
