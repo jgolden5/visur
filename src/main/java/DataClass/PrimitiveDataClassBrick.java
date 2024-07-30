@@ -22,24 +22,27 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return dfb;
   }
   public PrimitiveDataClass getPDC() {
-                                     return pdc;
-                                                }
+    return pdc;
+  }
 
   /**
    * initialize Result r var = outerDCB.getOrCalc(name)
    * initialize pdcb var = r.getVal
    * if r.getError is null, do the following 2 lines:
-     * if pdcb.isComplete, initialize dfb var = DFB.make(pdc.defaultDF, pdcb.getVal), and call putDFB(dfb)
-     * else putDFB(null)
+   * if pdcb.isComplete, initialize dfb var = DFB.make(pdc.defaultDF, pdcb.getVal), and call putDFB(dfb)
+   * else putDFB(null)
    * return r
    * @return result with either calculated value and no error, or no value and an error message
    */
   public Result<PrimitiveDataClassBrick> getOrCalc() {
-    Result<PrimitiveDataClassBrick> r = Result.make(null, "no outers exist");
-    for(OuterDataClassBrick outerDCB : getOuters()) {
+    Result<PrimitiveDataClassBrick> r = Result.make();
+    ArrayList<OuterDataClassBrick> outerDCBs = getOuters();
+    int i = 0;
+    while(r.getVal() == null && i < outerDCBs.size()) {
+      OuterDataClassBrick outerDCB = outerDCBs.get(i);
       r = outerDCB.getOrCalc(name);
       if (r.getError() == null) {
-        PrimitiveDataClassBrick pdcb = (PrimitiveDataClassBrick) r.getVal();
+        PrimitiveDataClassBrick pdcb = r.getVal();
         if (pdcb.isComplete()) {
           DataFormBrick dfb = DataFormBrick.make(getPDC().defaultDF, pdcb.getVal());
           putDFB(dfb);
@@ -47,9 +50,11 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
           putDFB(null);
         }
       }
+      i++;
     }
     return r;
   }
+
 
   public void put(Object val) {
     if(!isReadOnly) {
