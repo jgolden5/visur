@@ -80,8 +80,7 @@ public class EditorContentService {
   }
 
   public int getCanvasWidth(LocalMap<EditorModelKey, Object> editorModel) {
-    BrickVisurVar cwBVV = (BrickVisurVar) getGlobalVar("cw", editorModel);
-    return (int)cwBVV.getVal();
+    return (int)editorModel.get(canvasWidth);
   }
 
   public int getCanvasHeight(LocalMap<EditorModelKey, Object> editorModel) {
@@ -137,10 +136,8 @@ public class EditorContentService {
     editorModel.put(virtualXIsAtEndOfLine, isAtEndOfLine);
   }
 
-  public void putCanvasWidth(int width, LocalMap<EditorModelKey, Object> editorModel) {
-    BrickVisurVar cwBVV = (BrickVisurVar) getGlobalVar("cw", editorModel);
-    cwBVV.putVal(width);
-    putGlobalVar("cw", cwBVV, editorModel);
+  public void putCanvasWidth(int cw, LocalMap<EditorModelKey, Object> editorModel) {
+    editorModel.put(canvasWidth, cw);
   }
 
   public void putCanvasHeight(int height, LocalMap<EditorModelKey, Object> editorModel) {
