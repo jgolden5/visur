@@ -41,8 +41,8 @@ public class CoordinatesDC extends CompoundDataClass {
       CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
       if (name.equals("ca")) {
         r = calcCAAndNL(thisAsCDCB, coordinatesVars);
-      } else if (name.equals("cy")) {
-        r = calcRCXCYAndNL(thisAsCDCB, coordinatesVars);
+      } else if (name.equals("cy") || name.equals("rcx")) {
+        r = calcRCXCYAndNL(name, thisAsCDCB, coordinatesVars);
       } else {
         r = Result.make(null, "name not recognized");
       }
@@ -79,8 +79,30 @@ public class CoordinatesDC extends CompoundDataClass {
     return Result.make(caDCB, null);
   }
 
-  private Result<PrimitiveDataClassBrick> calcRCXCYAndNL(CompoundDataClassBrick thisAsCDCB, Object[] coordinateVars) {
-    return null;
+  private Result<PrimitiveDataClassBrick> calcRCXCYAndNL(String name, CompoundDataClassBrick thisAsCDCB, Object[] coordinateVars) {
+    int ca = (int)coordinateVars[0];
+    ArrayList<Integer> nl = (ArrayList<Integer>) coordinateVars[1];
+    int cy;
+    for(cy = 0; cy < nl.size(); cy++) {
+      int nextLineStart = nl.get(cy);
+      if(nextLineStart > ca) break;
+    }
+    int currentLineStart = cy > 0 ? nl.get(cy - 1) : 0;
+    int rcx = ca - currentLineStart;
+    CompoundDataClassBrick rcxcyAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxcyAndNL");
+    PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("rcx");
+    rcxDCB.put(rcx);
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("cy");
+    cyDCB.put(cy);
+
+    PrimitiveDataClassBrick brickResult = null;
+
+    if(name.equals("rcx")) {
+      brickResult = rcxDCB;
+    } else if(name.equals("cy")) {
+      brickResult = cyDCB;
+    }
+    return Result.make(brickResult, null);
   }
 
 }

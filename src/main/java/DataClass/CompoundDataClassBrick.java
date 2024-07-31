@@ -122,7 +122,16 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     boolean conflictsFound = false;
     for(OuterDataClassBrick outer : outers) {
       if (outer.isComplete()) {
-        outer.remove();
+        if(outer instanceof LayeredDataClassBrick) {
+          outer.remove();
+        } else if(outer instanceof CompoundDataClassBrick) {
+          CompoundDataClassBrick outerAsCDCB = (CompoundDataClassBrick) outer;
+          for(DataClassBrick inner : outerAsCDCB.inners.values()) {
+            if(!inner.equals(this)) {
+              inner.remove();
+            }
+          }
+        }
         conflictsFound = true;
         break;
       }
