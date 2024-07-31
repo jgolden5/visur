@@ -36,7 +36,7 @@ public class VirtualDC extends CompoundDataClass {
   public Result<PrimitiveDataClassBrick> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
     Result<PrimitiveDataClassBrick> r;
     if(thisAsBrick.isComplete()) {
-      Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
+      int[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
       CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
       if (name.equals("vcx") || name.equals("ll")) {
         r = calcVCXAndLL(thisAsCDCB, coordinatesVars);
@@ -51,15 +51,26 @@ public class VirtualDC extends CompoundDataClass {
     return r;
   }
 
-  private Object[] getAllCoordinatePDCBVals(OuterDataClassBrick thisAsBrick) {
-    return new Object[0];
+  private int[] getAllCoordinatePDCBVals(OuterDataClassBrick thisAsBrick) {
+    CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick)thisAsBrick;
+    CompoundDataClassBrick vcxAndLLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("vcxAndLL");
+    PrimitiveDataClassBrick vcxDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("vcx");
+    PrimitiveDataClassBrick llDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("ll");
+    CompoundDataClassBrick rcxAndLODCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxAndLO");
+    PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("rcx");
+    PrimitiveDataClassBrick loDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("lo");
+    int vcx = vcxDCB.isComplete() ? (int)vcxDCB.getVal() : -1;
+    int ll = llDCB.isComplete() ? (int)llDCB.getVal() : -1;
+    int rcx = rcxDCB.isComplete() ?  (int)rcxDCB.getVal() : -1;
+    int lo = loDCB.isComplete() ? (int)loDCB.getVal() : -1;
+    return new int[]{vcx, ll, rcx, lo};
   }
 
-  private Result<PrimitiveDataClassBrick> calcVCXAndLL(CompoundDataClassBrick thisAsCDCB, Object[] coordinatesVars) {
+  private Result<PrimitiveDataClassBrick> calcVCXAndLL(CompoundDataClassBrick thisAsCDCB, int[] coordinatesVars) {
     return null;
   }
 
-  private Result<PrimitiveDataClassBrick> calcRCXAndLO(CompoundDataClassBrick thisAsCDCB, Object[] coordinatesVars) {
+  private Result<PrimitiveDataClassBrick> calcRCXAndLO(CompoundDataClassBrick thisAsCDCB, int[] coordinatesVars) {
     return null;
   }
 
