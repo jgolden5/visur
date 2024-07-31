@@ -471,6 +471,8 @@ public class TestCursorPositionDC {
     rcxDCB = rcxDCB.getOrCalcThenSetBrick().getVal();
     assertEquals(19, rcxDCB.getVal());
 
+    //6
+
 
   }
 

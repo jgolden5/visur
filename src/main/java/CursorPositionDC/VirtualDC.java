@@ -67,7 +67,24 @@ public class VirtualDC extends CompoundDataClass {
   }
 
   private Result<PrimitiveDataClassBrick> calcVCXAndLL(String name, CompoundDataClassBrick thisAsCDCB, int[] coordinatesVars) {
-    return null;
+    int rcx = coordinatesVars[2];
+    int lo = coordinatesVars[3];
+    int vcx = lo > 0 ? rcx + lo : rcx;
+    int ll = vcx - lo;
+
+    CompoundDataClassBrick vcxAndLLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("vcxAndLL");
+    PrimitiveDataClassBrick vcxDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("vcx");
+    vcxDCB.put(vcx);
+    PrimitiveDataClassBrick llDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("ll");
+    llDCB.put(ll);
+
+    PrimitiveDataClassBrick brickResult = null;
+    if(name.equals("vcx")) {
+      brickResult = vcxDCB;
+    } else if(name.equals("ll")) {
+      brickResult = llDCB;
+    }
+    return Result.make(brickResult, null);
   }
 
   private Result<PrimitiveDataClassBrick> calcRCXAndLO(String name, CompoundDataClassBrick thisAsCDCB, int[] coordinatesVars) {
