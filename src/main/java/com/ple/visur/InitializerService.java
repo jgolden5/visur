@@ -1,7 +1,11 @@
 package com.ple.visur;
 
 import CursorPositionDC.*;
+import DataClass.CompoundDataClassBrick;
+import DataClass.LayeredDataClassBrick;
+import DataClass.PrimitiveDataClassBrick;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -47,7 +51,7 @@ public class InitializerService {
       "Whether \"having spells as a god\" is a good thing is up to you, but it does come with a few downsides. Without active abilities, you have less ways to deal with a dangerous situation. In addition, Vehumet is one of the weaker gods for the early game. For spellcaster backgrounds, the first few spell gifts generally won't be much of an improvement compared to your own spells. Characters new to spellcasting have to take time to train up magic, which might not be all that powerful by the time you hit 1* or even 3*. Furthermore, there are ways to get an \"engine\" without taking up the god slot.\n" +
       "Let's find out what it means to be a magic-user...";
 
-      initializeCursorPositionDCBs();
+    initializeCursorPositionDCBs();
 
     emc.initializeEditorContent(initialEditorContent);
     emc.updateNextLineIndices();
@@ -73,9 +77,40 @@ public class InitializerService {
   }
 
   private void initializeCursorPositionDCBs() {
+    CursorPositionDCHolder cursorPositionDCHolder = new CursorPositionDCHolder();
+    WholeNumberDC wholeNumberDC = cursorPositionDCHolder.wholeNumberDC;
+    WholeNumberListDC wholeNumberListDC = cursorPositionDCHolder.wholeNumberListDC;
+    PrimitiveDataClassBrick nlDCB = wholeNumberListDC.makeBrick("nl", new ArrayList<>(), true);
+    PrimitiveDataClassBrick rcxDCB = wholeNumberDC.makeBrick("rcx", new ArrayList<>(), false);
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
-//    LayeredDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick();
-    //redo but refer to the pattern followed in previous version
+    LayeredDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB, rcxDCB);
+    CompoundDataClassBrick coordinatesDCB = cursorPositionDCB.getLayer(0);
+    CompoundDataClassBrick virtualDCB = cursorPositionDCB.getLayer(1);
+    CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
+    CompoundDataClassBrick rcxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("rcxcyAndNL");
+    CompoundDataClassBrick vcxAndLLDCB = (CompoundDataClassBrick) virtualDCB.getInner("vcxAndLL");
+    CompoundDataClassBrick rcxAndLODCB = (CompoundDataClassBrick) virtualDCB.getInner("rcxAndLO");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("cy");
+    PrimitiveDataClassBrick vcxDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("vcx");
+    PrimitiveDataClassBrick llDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("ll");
+    PrimitiveDataClassBrick loDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("lo");
+    caAndNLDCB.putInner("ca", caDCB);
+    caAndNLDCB.putInner("nl", nlDCB);
+    rcxcyAndNLDCB.putInner("rcx", rcxDCB);
+    rcxcyAndNLDCB.putInner("cy", cyDCB);
+    rcxcyAndNLDCB.putInner("nl", nlDCB);
+    vcxAndLLDCB.putInner("vcx", vcxDCB);
+    vcxAndLLDCB.putInner("ll", llDCB);
+    rcxAndLODCB.putInner("rcx", rcxDCB);
+    rcxAndLODCB.putInner("lo", loDCB);
+    coordinatesDCB.putInner("caAndNL", caAndNLDCB);
+    coordinatesDCB.putInner("rcxcyAndNL", rcxcyAndNLDCB);
+    virtualDCB.putInner("vcxAndLL", vcxAndLLDCB);
+    virtualDCB.putInner("rcxAndLO", rcxAndLODCB);
+    cursorPositionDCB.putLayer(coordinatesDCB);
+    cursorPositionDCB.putLayer(virtualDCB);
+
   }
 
   private void initializeQuantums() {
