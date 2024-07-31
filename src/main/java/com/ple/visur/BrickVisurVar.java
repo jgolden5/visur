@@ -1,6 +1,5 @@
 package com.ple.visur;
 
-import DataClass.DataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
 import DataClass.Result;
 
@@ -18,7 +17,7 @@ public class BrickVisurVar implements VisurVar {
   @Override
   public Object getVal() {
     if(!brick.isComplete()) {
-      Result<PrimitiveDataClassBrick> calculatedBrickResult = brick.getOrCalc();
+      Result<PrimitiveDataClassBrick> calculatedBrickResult = brick.getOrCalcThenSetBrick();
       PrimitiveDataClassBrick calculatedBrick = (PrimitiveDataClassBrick) calculatedBrickResult.getVal();
       brick = calculatedBrick;
     }

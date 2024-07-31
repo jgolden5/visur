@@ -2,7 +2,6 @@ package DataClass;
 
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class PrimitiveDataClassBrick extends DataClassBrick {
   private final PrimitiveDataClass pdc;
@@ -34,7 +33,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
    * return r
    * @return result with either calculated value and no error, or no value and an error message
    */
-  public Result<PrimitiveDataClassBrick> getOrCalc() {
+  public Result<PrimitiveDataClassBrick> getOrCalcThenSetBrick() {
     Result<PrimitiveDataClassBrick> r = Result.make();
     ArrayList<OuterDataClassBrick> outerDCBs = getOuters();
     int i = 0;
