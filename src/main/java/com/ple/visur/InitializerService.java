@@ -51,7 +51,7 @@ public class InitializerService {
       "Whether \"having spells as a god\" is a good thing is up to you, but it does come with a few downsides. Without active abilities, you have less ways to deal with a dangerous situation. In addition, Vehumet is one of the weaker gods for the early game. For spellcaster backgrounds, the first few spell gifts generally won't be much of an improvement compared to your own spells. Characters new to spellcasting have to take time to train up magic, which might not be all that powerful by the time you hit 1* or even 3*. Furthermore, there are ways to get an \"engine\" without taking up the god slot.\n" +
       "Let's find out what it means to be a magic-user...";
 
-    initializeCursorPositionDCBs();
+    initializeCursorPositionDCBsAndBVVs();
 
     emc.initializeEditorContent(initialEditorContent);
     emc.updateNextLineIndices();
@@ -76,7 +76,7 @@ public class InitializerService {
 
   }
 
-  private void initializeCursorPositionDCBs() {
+  private void initializeCursorPositionDCBsAndBVVs() {
     CursorPositionDCHolder cursorPositionDCHolder = new CursorPositionDCHolder();
     WholeNumberDC wholeNumberDC = cursorPositionDCHolder.wholeNumberDC;
     WholeNumberListDC wholeNumberListDC = cursorPositionDCHolder.wholeNumberListDC;
@@ -111,6 +111,21 @@ public class InitializerService {
     cursorPositionDCB.putLayer(coordinatesDCB);
     cursorPositionDCB.putLayer(virtualDCB);
 
+    initializeBVVs(nlDCB, caDCB, rcxDCB, vcxDCB, cyDCB);
+
+  }
+
+  private void initializeBVVs(PrimitiveDataClassBrick nlDCB, PrimitiveDataClassBrick caDCB, PrimitiveDataClassBrick rcxDCB, PrimitiveDataClassBrick vcxDCB, PrimitiveDataClassBrick cyDCB) {
+    BrickVisurVar nlBVV = BrickVisurVar.make(nlDCB);
+    BrickVisurVar caBVV = BrickVisurVar.make(caDCB);
+    BrickVisurVar rcxBVV = BrickVisurVar.make(rcxDCB);
+    BrickVisurVar vcxBVV = BrickVisurVar.make(vcxDCB);
+    BrickVisurVar cyBVV = BrickVisurVar.make(cyDCB);
+    emc.putGlobalVar("nl", nlBVV);
+    emc.putGlobalVar("ca", caBVV);
+    emc.putGlobalVar("rcx", rcxBVV);
+    emc.putGlobalVar("vcx", vcxBVV);
+    emc.putGlobalVar("cy", cyBVV);
   }
 
   private void initializeQuantums() {
