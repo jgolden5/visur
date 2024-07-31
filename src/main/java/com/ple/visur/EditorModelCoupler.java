@@ -249,8 +249,8 @@ public class EditorModelCoupler {
   }
 
 
-  public void updateNewlineIndices() {
-    ecs.updateNewlineIndices(editorModel);
+  public void updateNextLineIndices() {
+    ecs.updateNextLineIndices(editorModel);
   }
 
   public void putCanvasWidth(int width) {

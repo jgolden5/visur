@@ -63,8 +63,8 @@ public class EditorContentService {
   }
 
   public ArrayList<Integer> getNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
-    BrickVisurVar niBVV = (BrickVisurVar)getGlobalVar("ni", editorModel);
-    return (ArrayList<Integer>) niBVV.getVal();
+    BrickVisurVar nlBVV = (BrickVisurVar)getGlobalVar("nl", editorModel);
+    return (ArrayList<Integer>) nlBVV.getVal();
   }
 
   public int calcNextNewlineIndexFromAbsPosition(int realCA, LocalMap<EditorModelKey, Object> editorModel) {
@@ -95,7 +95,7 @@ public class EditorContentService {
 
   public void putEditorContent(String contentLines, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(editorContent, contentLines);
-    updateNewlineIndices(editorModel);
+    updateNextLineIndices(editorModel);
   }
 
   public void putCursorPositionDCHolder(CursorPositionDCHolder cpDCHolder, LocalMap<EditorModelKey, Object> editorModel) {
@@ -112,28 +112,20 @@ public class EditorContentService {
     editorModel.put(globalVariableMap, gvm);
   }
 
-  /**
-   * call getEditorContent, and assign it to content var
-   * make indices var equal to empty ArrayList
-   * loop through every character in content to check if newline char exists
-   * if char at index i == \n, then add i to indices var
-   * make niBVV var, which is equal to the result of getGlobalVar("ni")
-   * call niBVV.putVal(indices)
-   * call putGlobalVar("ni", niBVV, editorModel)
-   * @param editorModel
-   */
-  public void updateNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
+  public void updateNextLineIndices(LocalMap<EditorModelKey, Object> editorModel) {
     String content = getEditorContent(editorModel);
     ArrayList<Integer> indices = new ArrayList<>();
     for(int i = 0; i < content.length(); i++) {
       if(content.charAt(i) == '\n') {
-        indices.add(i);
+        if(i < content.length()) {
+          indices.add(i);
+        }
       }
     }
     indices.add(content.length());
-    BrickVisurVar niBVV = (BrickVisurVar) getGlobalVar("ni", editorModel);
-    niBVV.putVal(indices);
-    putGlobalVar("ni", niBVV, editorModel);
+    BrickVisurVar nlBVV = (BrickVisurVar) getGlobalVar("nl", editorModel);
+    nlBVV.putVal(indices);
+    putGlobalVar("nl", nlBVV, editorModel);
   }
 
   public void putVirtualCX(int x, LocalMap<EditorModelKey, Object> editorModel) {

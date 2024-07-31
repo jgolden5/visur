@@ -1,9 +1,6 @@
 package com.ple.visur;
 
 import CursorPositionDC.*;
-import DataClass.CompoundDataClassBrick;
-import DataClass.LayeredDataClassBrick;
-import DataClass.PrimitiveDataClassBrick;
 
 import java.util.HashMap;
 import java.util.Stack;
@@ -53,7 +50,7 @@ public class InitializerService {
       initializeCursorPositionDCBs();
 
     emc.initializeEditorContent(initialEditorContent);
-    emc.updateNewlineIndices();
+    emc.updateNextLineIndices();
     emc.putLineWrapping(LineWrapping.wrapped);
 
     int startingCA = 0;
