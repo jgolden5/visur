@@ -457,7 +457,7 @@ public class TestCursorPositionDC {
     llDCB.put(5);
     assertEquals(5, llDCB.getVal());
     loDCB = loDCB.getOrCalc().getVal();
-    assertEquals(20, loDCB.getVal());
+    assertEquals(2, loDCB.getVal());
     rcxDCB = rcxDCB.getOrCalc().getVal();
     assertEquals(5, rcxDCB.getVal());
 
