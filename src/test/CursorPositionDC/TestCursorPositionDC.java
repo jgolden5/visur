@@ -452,10 +452,16 @@ public class TestCursorPositionDC {
     assertTrue(coordinatesDCB.isComplete());
 
     //4 if vcx = 25 and ll = 5, lo should = 20, and rcx should = 5
+    // (getOrCalc also works on set values such as vcx, and ll)
     vcxDCB.put(7);
     assertEquals(7, vcxDCB.getVal());
     llDCB.put(5);
     assertEquals(5, llDCB.getVal());
+    vcxDCB = vcxDCB.getOrCalcThenSetBrick().getVal();
+    assertEquals(7, vcxDCB.getVal());
+    llDCB = llDCB.getOrCalcThenSetBrick().getVal();
+    assertEquals(5, llDCB.getVal());
+
     loDCB = loDCB.getOrCalcThenSetBrick().getVal();
     assertEquals(2, loDCB.getVal());
     rcxDCB = rcxDCB.getOrCalcThenSetBrick().getVal();
@@ -471,8 +477,21 @@ public class TestCursorPositionDC {
     rcxDCB = rcxDCB.getOrCalcThenSetBrick().getVal();
     assertEquals(19, rcxDCB.getVal());
 
-    //6
+    //6 if lo = 5 and rcx = 10, vcx should = 15 and ll should = 10
+    // (getOrCalc also works on set values such as lo, and rcx)
+    loDCB.put(5);
+    assertEquals(5, loDCB.getVal());
+    rcxDCB.put(10);
+    assertEquals(10, rcxDCB.getVal());
+    loDCB = loDCB.getOrCalcThenSetBrick().getVal();
+    assertEquals(5, loDCB.getVal());
+    rcxDCB = rcxDCB.getOrCalcThenSetBrick().getVal();
+    assertEquals(10, rcxDCB.getVal());
 
+    vcxDCB = vcxDCB.getOrCalcThenSetBrick().getVal();
+    assertEquals(15, vcxDCB.getVal());
+    llDCB = llDCB.getOrCalcThenSetBrick().getVal();
+    assertEquals(10, llDCB.getVal());
 
   }
 
