@@ -106,7 +106,7 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
-    int vcx = emc.getVCX(); //replace with vcx and get rid of virtualLong/ShortCX
+    int vcx = emc.getVCX();
     int cy = emc.getCY();
     int caOfStartLine = cy > 0 ? newlineIndices.get(cy - 1) + 1 : 0;
     int caOfEndLine = newlineIndices.get(cy);

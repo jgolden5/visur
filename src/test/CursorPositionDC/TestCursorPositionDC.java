@@ -493,6 +493,17 @@ public class TestCursorPositionDC {
     llDCB = llDCB.getOrCalcThenSetBrick().getVal();
     assertEquals(10, llDCB.getVal());
 
+    //7 if lo = -2 and rcx = 8, vcx should = 8 and ll should = 10
+    loDCB.put(-2);
+    assertEquals(-2, loDCB.getVal());
+    rcxDCB.put(8);
+    assertEquals(8, rcxDCB.getVal());
+
+    vcxDCB = vcxDCB.getOrCalcThenSetBrick().getVal();
+    assertEquals(8, vcxDCB.getVal());
+    llDCB = llDCB.getOrCalcThenSetBrick().getVal();
+    assertEquals(10, llDCB.getVal());
+
   }
 
 }
