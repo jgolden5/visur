@@ -23,8 +23,8 @@ let cellHeight = 20
 let canvasWidth = Math.floor(canvas.width / cellWidth)
 let canvasHeight = Math.floor(canvas.height / cellHeight)
 
-let caOffset = 6
-let contentYOffset = 20
+let cxOffset = 6
+let cyOffset = 20
 
 let numberOfTimesPageWasLoaded = 0
 
@@ -101,8 +101,8 @@ eb.onopen = function() {
   })
 
   let canvasInfo = {
-    width: (canvas.width - caOffset) / cellWidth + 1,
-    height: (canvas.height - contentYOffset) / cellHeight + 1
+    width: (canvas.width - cxOffset) / cellWidth + 1,
+    height: (canvas.height - cyOffset) / cellHeight + 1
   };
   /*canvasWasChangedEventComplete ensures that canvasWasChanged gets called before modelWasChanged so that
   getCanvasWidth is not called before putCanvasWidth */
@@ -166,15 +166,15 @@ function drawCanvas() {
 }
 
 function toXContent(x) { //as opposed to XCursor
-  return x * cellWidth + caOffset
+  return x * cellWidth + cxOffset
 }
 
 function toXCursor(x) {
-  return x * cellWidth + caOffset - 6
+  return x * cellWidth + cxOffset - 6
 }
 
 function toY(y) {
-  return y * cellHeight + contentYOffset
+  return y * cellHeight + cyOffset
 }
 
 function drawCharacter(x, y, characterToDraw) {
