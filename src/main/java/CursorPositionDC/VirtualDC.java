@@ -34,7 +34,33 @@ public class VirtualDC extends CompoundDataClass {
 
   @Override
   public Result<PrimitiveDataClassBrick> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
-    return Result.make();
+    Result<PrimitiveDataClassBrick> r;
+    if(thisAsBrick.isComplete()) {
+      Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
+      CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
+      if (name.equals("vcx") || name.equals("ll")) {
+        r = calcVCXAndLL(thisAsCDCB, coordinatesVars);
+      } else if (name.equals("rcx") || name.equals("lo")) {
+        r = calcRCXAndLO(thisAsCDCB, coordinatesVars);
+      } else {
+        r = Result.make(null, "name not recognized");
+      }
+    } else {
+      r = Result.make(null, "brick incomplete, calculations impossible");
+    }
+    return r;
+  }
+
+  private Object[] getAllCoordinatePDCBVals(OuterDataClassBrick thisAsBrick) {
+    return new Object[0];
+  }
+
+  private Result<PrimitiveDataClassBrick> calcVCXAndLL(CompoundDataClassBrick thisAsCDCB, Object[] coordinatesVars) {
+    return null;
+  }
+
+  private Result<PrimitiveDataClassBrick> calcRCXAndLO(CompoundDataClassBrick thisAsCDCB, Object[] coordinatesVars) {
+    return null;
   }
 
 }
