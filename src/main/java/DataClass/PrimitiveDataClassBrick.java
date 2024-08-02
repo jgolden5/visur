@@ -25,6 +25,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   /** get the value stored in this if set, or calculate it in the case that this is unset (!isComplete())
+   * make a result var r
    * loop through every outer of this, and if outer in outers contains this.name, check if said inner is set
    * if inner of outer contains this.name,
      * check if inner.isComplete;
@@ -38,6 +39,15 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
    */
   public Result<PrimitiveDataClassBrick> getOrCalc() {
     Result r = Result.make();
+    String name = getName();
+    int i = 0;
+    while(i < outers.size() && r.getVal() == null) {
+      OuterDataClassBrick outer = outers.get(i);
+      r = outer.get(name);
+      if(r.getVal() == null) {
+        r = outer.calc(name);
+      }
+    }
     return r;
   }
 
