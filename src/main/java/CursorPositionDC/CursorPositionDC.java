@@ -22,14 +22,14 @@ public class CursorPositionDC extends LayeredDataClass {
     PrimitiveDataClassBrick llDCB = reusablePDCBs[3];
 
     CoordinatesDC coordinatesDC = (CoordinatesDC) getLayer(0);
-    CompoundDataClassBrick coordinatesDCB = coordinatesDC.makeBrick("coordinates", new ArrayList<>(), nlDCB, rcxDCB);
+    CompoundDataClassBrick coordinatesDCB = coordinatesDC.makeBrick("coordinates", new ArrayList<>(), nlDCB, rcxDCB, cyDCB);
     coordinatesDCB.putOuter(cursorPositionDCB);
 
     LLFromCYDC llFromCYDC = (LLFromCYDC) getLayer(1);
     CompoundDataClassBrick llFromCYDCB = llFromCYDC.makeBrick("llFromCY", new ArrayList<>(), nlDCB, cyDCB, llDCB);
 
     VirtualDC virtualDC = (VirtualDC) getLayer(2);
-    CompoundDataClassBrick virtualDCB = virtualDC.makeBrick("virtual", new ArrayList<>(), rcxDCB);
+    CompoundDataClassBrick virtualDCB = virtualDC.makeBrick("virtual", new ArrayList<>(), rcxDCB, llDCB);
     virtualDCB.putOuter(cursorPositionDCB);
 
     cursorPositionDCB.putLayer(coordinatesDCB);

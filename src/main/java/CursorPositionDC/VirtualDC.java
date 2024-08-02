@@ -17,9 +17,10 @@ public class VirtualDC extends CompoundDataClass {
     HashMap<String, DataClassBrick> virtualInners = new HashMap<>();
 
     PrimitiveDataClassBrick rcxDCB = reusablePDCBs[0];
+    PrimitiveDataClassBrick llDCB = reusablePDCBs[1];
 
     VCXAndLLDC vcxAndLLDC = (VCXAndLLDC) getInner("vcxAndLL");
-    CompoundDataClassBrick vcxAndLLDCB = vcxAndLLDC.makeBrick("vcxAndLL", new ArrayList<>());
+    CompoundDataClassBrick vcxAndLLDCB = vcxAndLLDC.makeBrick("vcxAndLL", new ArrayList<>(), llDCB);
     vcxAndLLDCB.putOuter(virtualDCB);
 
     RCXAndLODC rcxAndLODC = (RCXAndLODC) getInner("rcxAndLO");

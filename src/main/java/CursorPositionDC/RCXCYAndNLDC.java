@@ -17,12 +17,10 @@ public class RCXCYAndNLDC extends CompoundDataClass {
 
     PrimitiveDataClassBrick nlDCB = reusablePDCBs[0];
     PrimitiveDataClassBrick rcxDCB = reusablePDCBs[1];
+    PrimitiveDataClassBrick cyDCB = reusablePDCBs[2];
 
     rcxDCB.putOuter(rcxcyAndNLDCB);
-    WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
-    PrimitiveDataClassBrick cyDCB = wholeNumberDC.makeBrick("cy", new ArrayList<>(), false);
     cyDCB.putOuter(rcxcyAndNLDCB);
-
     nlDCB.putOuter(rcxcyAndNLDCB);
 
     rcxcyAndNLInners.put("rcx", rcxDCB);
