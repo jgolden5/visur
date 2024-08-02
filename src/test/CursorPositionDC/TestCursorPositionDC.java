@@ -421,6 +421,8 @@ public class TestCursorPositionDC {
     caDCB = caDCB.getOrCalc().getVal();
     assertEquals(17, caDCB.getVal());
     assertEquals(nl, nlDCB.getVal());
+    assertTrue(rcxcyAndNLDCB.isComplete());
+    assertTrue(caAndNLDCB.isComplete());
 
     //2 if nl = [12, 25, 32], rcx = 3, and cy = 2, ca can be calculated = 28
     rcxDCB.put(3);
@@ -431,6 +433,8 @@ public class TestCursorPositionDC {
     assertEquals(nl, nlDCB.getVal());
     caDCB = caDCB.getOrCalc().getVal();
     assertEquals(28, caDCB.getVal());
+    assertTrue(rcxcyAndNLDCB.isComplete());
+    assertTrue(caAndNLDCB.isComplete());
 
     //3 if nl = [12, 25, 32] and ca = 14, rcx should = 2 and cy should = 1
     // (getOrCalc also works on set values such as nl, and ca)
@@ -448,7 +452,7 @@ public class TestCursorPositionDC {
     rcxDCB = rcxDCB.getOrCalc().getVal();
     assertEquals(2, rcxDCB.getVal());
     assertTrue(rcxcyAndNLDCB.isComplete());
-    assertFalse(caAndNLDCB.isComplete());
+    assertTrue(caAndNLDCB.isComplete());
     assertTrue(coordinatesDCB.isComplete());
 
     //4 if vcx = 25 and ll = 5, lo should = 20, and rcx should = 5
@@ -466,6 +470,8 @@ public class TestCursorPositionDC {
     assertEquals(2, loDCB.getVal());
     rcxDCB = rcxDCB.getOrCalc().getVal();
     assertEquals(5, rcxDCB.getVal());
+    assertTrue(vcxAndLLDCB.isComplete());
+    assertTrue(rcxAndLODCB.isComplete());
 
     //5 if vcx = 19 and ll = 20, lo should = -1, and rcx should = 19
     vcxDCB.put(19);
@@ -476,6 +482,8 @@ public class TestCursorPositionDC {
     assertEquals(-1, loDCB.getVal());
     rcxDCB = rcxDCB.getOrCalc().getVal();
     assertEquals(19, rcxDCB.getVal());
+    assertTrue(vcxAndLLDCB.isComplete());
+    assertTrue(rcxAndLODCB.isComplete());
 
     //6 if lo = 5 and rcx = 10, vcx should = 15 and ll should = 10
     // (getOrCalc also works on set values such as lo, and rcx)
@@ -492,6 +500,8 @@ public class TestCursorPositionDC {
     assertEquals(15, vcxDCB.getVal());
     llDCB = llDCB.getOrCalc().getVal();
     assertEquals(10, llDCB.getVal());
+    assertTrue(rcxAndLODCB.isComplete());
+    assertTrue(vcxAndLLDCB.isComplete());
 
     //7 if lo = -2 and rcx = 8, vcx should = 8 and ll should = 10
     loDCB.put(-2);
@@ -503,6 +513,8 @@ public class TestCursorPositionDC {
     assertEquals(8, vcxDCB.getVal());
     llDCB = llDCB.getOrCalc().getVal();
     assertEquals(10, llDCB.getVal());
+    assertTrue(rcxAndLODCB.isComplete());
+    assertTrue(vcxAndLLDCB.isComplete());
 
   }
 

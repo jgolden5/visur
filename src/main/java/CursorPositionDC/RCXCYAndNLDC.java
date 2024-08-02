@@ -33,7 +33,7 @@ public class RCXCYAndNLDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<PrimitiveDataClassBrick> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
+  public Result<Object> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
     ArrayList<OuterDataClassBrick> outers = thisAsBrick.getOuters();
     OuterDataClassBrick coordinatesDCB = outers.get(0);
     CoordinatesDC coordinatesDC = (CoordinatesDC)coordinatesDCB.dc;

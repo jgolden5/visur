@@ -29,7 +29,7 @@ public class VCXAndLLDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<PrimitiveDataClassBrick> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
+  public Result<Object> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
     ArrayList<OuterDataClassBrick> outers = thisAsBrick.getOuters();
     OuterDataClassBrick virtualDCB = outers.get(0);
     VirtualDC virtualDC = (VirtualDC)virtualDCB.dc;
