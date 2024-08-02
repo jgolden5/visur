@@ -8,8 +8,8 @@ import java.util.HashMap;
 
 public class CursorPositionDC extends LayeredDataClass {
 
-  public LayeredDataClassBrick makeBrick(PrimitiveDataClassBrick nlDCB, PrimitiveDataClassBrick rcxDCB) {
-    return (LayeredDataClassBrick) makeBrick("cursorPosition", null, nlDCB, rcxDCB);
+  public LayeredDataClassBrick makeBrick(PrimitiveDataClassBrick... pdcbs) {
+    return (LayeredDataClassBrick) makeBrick("cursorPosition", null, pdcbs);
   }
 
   @Override

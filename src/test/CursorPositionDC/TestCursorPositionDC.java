@@ -28,6 +28,9 @@ public class TestCursorPositionDC {
   static CompoundDataClassBrick llFromCYDCB;
   static CompoundDataClassBrick cyAndNLDCB;
   static CompoundDataClassBrick llcyAndNLDCB;
+  static LLFromCYDC llFromCYDC;
+  static CYAndNLDC cyAndNLDC;
+  static LLCYAndNLDC llcyAndNLDC;
   static VirtualDC virtualDC;
   static CompoundDataClassBrick virtualDCB;
   static VCXAndLLDC vcxAndLLDC;
