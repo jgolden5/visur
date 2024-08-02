@@ -78,7 +78,7 @@ public class TestCursorPositionDC {
     caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
     rcxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("rcxcyAndNL");
     llFromCYDCB = cursorPositionDCB.getLayer(1);
-    cyAndNLDCB = (CompoundDataClassBrick)llFromCYDCB.getInner("cyAndLL");
+    cyAndNLDCB = (CompoundDataClassBrick)llFromCYDCB.getInner("cyAndNL");
     llcyAndNLDCB = (CompoundDataClassBrick)llFromCYDCB.getInner("llcyAndNL");
     virtualDCB = cursorPositionDCB.getLayer(2);
     vcxAndLLDCB = (CompoundDataClassBrick) virtualDCB.getInner("vcxAndLL");

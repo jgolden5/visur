@@ -25,7 +25,6 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
   public Result putInner(String name, DataClassBrick innerBrick) {
     String error = null;
     if(inners.containsKey(name)) {
-      DataClassBrick inner = inners.get(name);
       inners.put(name, innerBrick);
     } else {
       error = "name not recognized";
