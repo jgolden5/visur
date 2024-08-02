@@ -455,8 +455,10 @@ public class TestCursorPositionDC {
     assertTrue(caAndNLDCB.isComplete());
     assertTrue(coordinatesDCB.isComplete());
 
-    //4 if vcx = 25 and ll = 5, lo should = 20, and rcx should = 5
+    //4 if vcx = 7 and ll = 5, lo should = 2, and rcx should = 5
     // (getOrCalc also works on set values such as vcx, and ll)
+    coordinatesDCB.remove();
+    assertFalse(coordinatesDCB.isComplete());
     vcxDCB.put(7);
     assertEquals(7, vcxDCB.getVal());
     llDCB.put(5);

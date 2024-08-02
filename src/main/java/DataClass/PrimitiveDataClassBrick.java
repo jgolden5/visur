@@ -41,7 +41,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     Result<PrimitiveDataClassBrick> r = Result.make();
     String name = getName();
     int i = 0;
-    while(i < outers.size() && r.getVal() == null) {
+    while(i < outers.size()) {
       OuterDataClassBrick outer = outers.get(i);
       r = outer.get(name);
       boolean shouldCalc;
@@ -52,7 +52,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       }
       if(shouldCalc) {
         Result<Object> calcRes = outer.calc(name);
-        putVal(calcRes.getVal());
+        if(calcRes.getVal() != null) {
+          putVal(calcRes.getVal());
+          break;
+        }
       }
       i++;
     }
