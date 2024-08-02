@@ -1,9 +1,6 @@
 package CursorPositionDC;
 
-import DataClass.CompoundDataClass;
-import DataClass.OuterDataClassBrick;
-import DataClass.PrimitiveDataClassBrick;
-import DataClass.Result;
+import DataClass.*;
 
 import java.util.ArrayList;
 
@@ -13,7 +10,7 @@ public class LLFromCYDC extends CompoundDataClass {
   }
 
   @Override
-  public OuterDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, PrimitiveDataClassBrick... reusablePDCBs) {
+  public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, PrimitiveDataClassBrick... reusablePDCBs) {
     return null;
   }
 

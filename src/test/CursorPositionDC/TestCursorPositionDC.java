@@ -54,6 +54,9 @@ public class TestCursorPositionDC {
     coordinatesDC = cursorPositionDCHolder.coordinatesDC;
     caAndNLDC = cursorPositionDCHolder.caAndNLDC;
     rcxcyAndNLDC = cursorPositionDCHolder.rcxcyAndNLDC;
+    llFromCYDC = cursorPositionDCHolder.llFromCYDC;
+    cyAndNLDC = cursorPositionDCHolder.cyAndNLDC;
+    llcyAndNLDC = cursorPositionDCHolder.llcyAndNLDC;
     virtualDC = cursorPositionDCHolder.virtualDC;
     vcxAndLLDC = cursorPositionDCHolder.vcxAndLLDC;
     rcxAndLODC = cursorPositionDCHolder.rcxAndLODC;
