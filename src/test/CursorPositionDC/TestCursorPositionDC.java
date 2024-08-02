@@ -282,10 +282,13 @@ public class TestCursorPositionDC {
   void isComplete() {
     assertFalse(cursorPositionDCB.isComplete());
     assertFalse(coordinatesDCB.isComplete());
+    assertFalse(llFromCYDCB.isComplete());
     assertFalse(virtualDCB.isComplete());
     assertFalse(nlDCB.isComplete());
     assertFalse(caDCB.isComplete());
     assertFalse(rcxDCB.isComplete());
+    assertFalse(cyAndNLDCB.isComplete());
+    assertFalse(llcyAndNLDCB.isComplete());
     assertFalse(cyDCB.isComplete());
     assertFalse(vcxDCB.isComplete());
     assertFalse(llDCB.isComplete());
@@ -320,14 +323,30 @@ public class TestCursorPositionDC {
 
     assertTrue(coordinatesDCB.isComplete());
 
+    //llFromCY
+    //cyAndNL
+    assertTrue(cyDCB.isComplete());
+    assertTrue(nlDCB.isComplete());
+    assertTrue(cyAndNLDCB.isComplete());
+
+    //llcyAndNL
+    assertFalse(llDCB.isComplete());
+    assertTrue(cyDCB.isComplete());
+    assertTrue(nlDCB.isComplete());
+    assertFalse(llcyAndNLDCB.isComplete());
+    cyDCB.put(2);
+    assertTrue(cyDCB.isComplete());
+    llDCB.put(10);
+    assertTrue(llDCB.isComplete());
+    assertTrue(cyDCB.isComplete());
+    assertTrue(llcyAndNLDCB.isComplete());
+
     //virtual
     //vcxAndLL
     assertFalse(virtualDCB.isComplete());
     assertFalse(vcxAndLLDCB.isComplete());
     vcxDCB.put(0);
     assertTrue(vcxDCB.isComplete());
-    assertFalse(vcxAndLLDCB.isComplete());
-    llDCB.put(68);
     assertTrue(llDCB.isComplete());
     assertTrue(vcxAndLLDCB.isComplete());
 
