@@ -90,16 +90,15 @@ public class CoordinatesDC extends CompoundDataClass {
     int currentLineStart = cy > 0 ? nl.get(cy - 1) : 0;
     int rcx = ca - currentLineStart;
     CompoundDataClassBrick rcxcyAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxcyAndNL");
-    PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("rcx");
-    rcxDCB.put(rcx);
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("cy");
-    cyDCB.put(cy);
-
     PrimitiveDataClassBrick brickResult = null;
 
     if(name.equals("rcx")) {
+      PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("rcx");
+      rcxDCB.put(rcx);
       brickResult = rcxDCB;
     } else if(name.equals("cy")) {
+      PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("cy");
+      cyDCB.put(cy);
       brickResult = cyDCB;
     }
     return Result.make(brickResult, null);

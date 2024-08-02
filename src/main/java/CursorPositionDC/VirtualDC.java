@@ -93,15 +93,15 @@ public class VirtualDC extends CompoundDataClass {
     int rcx = vcx > ll ? ll : vcx;
     int lo = vcx - ll;
     CompoundDataClassBrick rcxAndLODCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxAndLO");
-    PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("rcx");
-    rcxDCB.put(rcx);
-    PrimitiveDataClassBrick loDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("lo");
-    loDCB.put(lo);
 
     PrimitiveDataClassBrick brickResult = null;
     if(name.equals("rcx")) {
+      PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("rcx");
+      rcxDCB.put(rcx);
       brickResult = rcxDCB;
     } else if(name.equals("lo")) {
+      PrimitiveDataClassBrick loDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("lo");
+      loDCB.put(lo);
       brickResult = loDCB;
     }
     return Result.make(brickResult, null);

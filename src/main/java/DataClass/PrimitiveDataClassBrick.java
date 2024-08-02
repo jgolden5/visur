@@ -38,13 +38,19 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
    * either through simple fetching or calculation
    */
   public Result<PrimitiveDataClassBrick> getOrCalc() {
-    Result r = Result.make();
+    Result<PrimitiveDataClassBrick> r = Result.make();
     String name = getName();
     int i = 0;
     while(i < outers.size() && r.getVal() == null) {
       OuterDataClassBrick outer = outers.get(i);
       r = outer.get(name);
-      if(r.getVal() == null) {
+      boolean shouldCalc;
+      if(r.getVal() != null) {
+        shouldCalc = !isComplete();
+      } else {
+        shouldCalc = true;
+      }
+      if(shouldCalc) {
         r = outer.calc(name);
       }
     }
