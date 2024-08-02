@@ -37,4 +37,5 @@ public class LLFromCYDC extends CompoundDataClass {
   public Result<Object> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
     return null;
   }
+
 }

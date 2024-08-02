@@ -84,9 +84,7 @@ public class TestCursorPositionDC {
     vcxAndLLDCB = (CompoundDataClassBrick) virtualDCB.getInner("vcxAndLL");
     rcxAndLODCB = (CompoundDataClassBrick) virtualDCB.getInner("rcxAndLO");
     caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
-    cyDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("cy");
     vcxDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("vcx");
-    llDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("ll");
     loDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("lo");
 
     coordinatesDCB.putInner("caAndNL", caAndNLDCB);
