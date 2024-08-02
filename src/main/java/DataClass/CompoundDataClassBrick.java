@@ -70,7 +70,18 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
 
   @Override
   public Result<PrimitiveDataClassBrick> get(String targetName) {
-    return null;
+    Result<PrimitiveDataClassBrick> r = Result.make();
+    for(Map.Entry inner : inners.entrySet()) {
+      DataClassBrick innerBrick = (DataClassBrick) inner.getValue();
+      if(inner.getKey().equals(targetName) && innerBrick instanceof PrimitiveDataClassBrick) {
+        r.putVal((PrimitiveDataClassBrick) innerBrick);
+      }
+      if(r.getVal() != null) break;
+    }
+    if(r.getVal() == null) {
+      r.putError("inner not found with name \"" + targetName + "\"");
+    }
+    return r;
   }
 
   @Override
