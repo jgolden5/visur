@@ -53,6 +53,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       if(shouldCalc) {
         r = outer.calc(name);
       }
+      i++;
     }
     return r;
   }
