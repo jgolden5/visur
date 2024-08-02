@@ -25,6 +25,9 @@ public class TestCursorPositionDC {
   static CompoundDataClassBrick caAndNLDCB;
   static RCXCYAndNLDC rcxcyAndNLDC;
   static CompoundDataClassBrick rcxcyAndNLDCB;
+  static CompoundDataClassBrick llFromCYDCB;
+  static CompoundDataClassBrick cyAndNLDCB;
+  static CompoundDataClassBrick llcyAndNLDCB;
   static VirtualDC virtualDC;
   static CompoundDataClassBrick virtualDCB;
   static VCXAndLLDC vcxAndLLDC;
@@ -56,27 +59,22 @@ public class TestCursorPositionDC {
     javaIntDF = cursorPositionDCHolder.javaIntDF;
 
     ArrayList<OuterDataClassBrick> nlOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> loOuters = new ArrayList<>();
     ArrayList<OuterDataClassBrick> llOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> vcxOuters = new ArrayList<>();
     ArrayList<OuterDataClassBrick> cyOuters = new ArrayList<>();
     ArrayList<OuterDataClassBrick> rcxOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> caOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> rcxAndLOOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> vcxAndLLOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> virtualOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> rcxcyAndNLOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> caAndNLOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> coordinatesOuters = new ArrayList<>();
-
 
     nlDCB = wholeNumberDC.makeBrick("nl", nlOuters, true);
     rcxDCB = wholeNumberDC.makeBrick("rcx", rcxOuters, false);
-    cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB, rcxDCB);
+    cyDCB = wholeNumberDC.makeBrick("cy", cyOuters, false);
+    llDCB = wholeNumberDC.makeBrick("ll", llOuters, false);
+    cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB, rcxDCB, cyDCB, llDCB);
     coordinatesDCB = cursorPositionDCB.getLayer(0);
     caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
     rcxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("rcxcyAndNL");
-    virtualDCB = cursorPositionDCB.getLayer(1);
+    llFromCYDCB = cursorPositionDCB.getLayer(1);
+    cyAndNLDCB = (CompoundDataClassBrick)llFromCYDCB.getInner("cyAndLL");
+    llcyAndNLDCB = (CompoundDataClassBrick)llFromCYDCB.getInner("llcyAndNL");
+    virtualDCB = cursorPositionDCB.getLayer(2);
     vcxAndLLDCB = (CompoundDataClassBrick) virtualDCB.getInner("vcxAndLL");
     rcxAndLODCB = (CompoundDataClassBrick) virtualDCB.getInner("rcxAndLO");
     caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
@@ -94,6 +92,15 @@ public class TestCursorPositionDC {
     rcxcyAndNLDCB.putInner("rcx", rcxDCB);
     rcxcyAndNLDCB.putInner("cy", cyDCB);
     rcxcyAndNLDCB.putInner("nl", nlDCB);
+
+    llFromCYDCB.putInner("cyAndNL", cyAndNLDCB);
+    cyAndNLDCB.putInner("cy", cyDCB);
+    cyAndNLDCB.putInner("nl", nlDCB);
+
+    llFromCYDCB.putInner("llcyAndNL", llcyAndNLDCB);
+    llcyAndNLDCB.putInner("ll", llDCB);
+    llcyAndNLDCB.putInner("cy", cyDCB);
+    llcyAndNLDCB.putInner("nl", nlDCB);
 
     virtualDCB.putInner("vcxAndLL", vcxAndLLDCB);
     virtualDCB.putInner("rcxAndLO", rcxAndLODCB);
@@ -133,19 +140,32 @@ public class TestCursorPositionDC {
   @Test
   void setCursorPositionDCHolder() {
     assertEquals(coordinatesDC, cursorPositionDC.getLayer(0));
-    assertEquals(virtualDC, cursorPositionDC.getLayer(1));
+    assertEquals(llFromCYDC, cursorPositionDC.getLayer(1));
+    assertEquals(virtualDC, cursorPositionDC.getLayer(2));
 
+    //coordinates
     assertEquals(caAndNLDC, coordinatesDC.getInner("caAndNL"));
     assertEquals(rcxcyAndNLDC, coordinatesDC.getInner("rcxcyAndNL"));
-
-    assertEquals(vcxAndLLDC, virtualDC.getInner("vcxAndLL"));
-    assertEquals(rcxAndLODC, virtualDC.getInner("rcxAndLO"));
 
     assertEquals(nlDC, caAndNLDC.getInner("nl"));
     assertEquals(wholeNumberDC, caAndNLDC.getInner("wholeNumber"));
 
     assertEquals(nlDC, rcxcyAndNLDC.getInner("nl"));
     assertEquals(wholeNumberDC, rcxcyAndNLDC.getInner("wholeNumber"));
+
+    //llFromCY
+    assertEquals(cyAndNLDC, llFromCYDC.getInner("cyAndNL"));
+    assertEquals(llcyAndNLDC, llFromCYDC.getInner("llcyAndNL"));
+
+    assertEquals(nlDC, cyAndNLDC.getInner("nl"));
+    assertEquals(wholeNumberDC, cyAndNLDC.getInner("wholeNumber"));
+
+    assertEquals(nlDC, llcyAndNLDC.getInner("nl"));
+    assertEquals(wholeNumberDC, llcyAndNLDC.getInner("wholeNumber"));
+
+    //virtual
+    assertEquals(vcxAndLLDC, virtualDC.getInner("vcxAndLL"));
+    assertEquals(rcxAndLODC, virtualDC.getInner("rcxAndLO"));
 
     assertEquals(wholeNumberDC, vcxAndLLDC.getInner("wholeNumber"));
 
