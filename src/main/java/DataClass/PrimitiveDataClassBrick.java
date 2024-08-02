@@ -24,9 +24,17 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return pdc;
   }
 
-  /**
-   *
-   * @return
+  /** get the value stored in this if set, or calculate it in the case that this is unset (!isComplete())
+   * loop through every outer of this, and if outer in outers contains this.name, check if said inner is set
+   * if inner of outer contains this.name,
+     * check if inner.isComplete;
+       * if so, r.putVal(inner)
+   * else
+     * call calc on every outer until either an inner is found and able to be calculated or there are no more outers
+   * return whatever result is found. If no result is found either from get or calc, the value of r is null and
+   *  an error message is displayed reflecting which step failed (get or calc)
+   * @return Result object which contains a value if one was found, and an error message if no value was found,
+   * either through simple fetching or calculation
    */
   public Result<PrimitiveDataClassBrick> getOrCalc() {
     Result r = Result.make();
