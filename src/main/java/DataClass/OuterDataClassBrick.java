@@ -8,9 +8,9 @@ public abstract class OuterDataClassBrick extends DataClassBrick {
     super(dc, outers, name);
   }
 
-  public abstract Result<PrimitiveDataClassBrick> getOrCalc(String targetName);
+  public abstract Result<Object> getOrCalc(String targetName);
 
-  public abstract Result<PrimitiveDataClassBrick> calc(String name);
+  public abstract Result<Object> calc(String name);
 
   public abstract Result<PrimitiveDataClassBrick> get(String targetName);
 

@@ -50,8 +50,8 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
-  public Result<PrimitiveDataClassBrick> getOrCalc(String targetName) {
-    Result<PrimitiveDataClassBrick> r = Result.make();
+  public Result<Object> getOrCalc(String targetName) {
+    Result<Object> r = Result.make();
     int i = 0;
     while(r.getVal() == null && i < layers.size()) {
       CompoundDataClassBrick currentLayer = getLayer(i);
@@ -66,7 +66,7 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
-  public Result<PrimitiveDataClassBrick> calc(String name) {
+  public Result<Object> calc(String name) {
     Result r = Result.make();
     int i = 0;
     while(r.getVal() == null && i < layers.size()) {

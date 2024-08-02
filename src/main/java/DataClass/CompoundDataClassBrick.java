@@ -85,7 +85,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
-  public Result<PrimitiveDataClassBrick> getOrCalc(String targetName) {
+  public Result<Object> getOrCalc(String targetName) {
     DataClassBrick targetInner = getInner(targetName);
     Result r;
     if(targetInner.isComplete()) {
@@ -96,7 +96,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     return r;
   }
 
-  public Result<PrimitiveDataClassBrick> calc(String innerName) {
+  public Result<Object> calc(String innerName) {
     Result r = getCDC().calcInternal(innerName, this);
     int i = 0;
     while(r.getVal() == null && i < outers.size()) {

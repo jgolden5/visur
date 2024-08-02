@@ -16,8 +16,8 @@ public abstract class LayeredDataClass extends OuterDataClass {
 
 
   @Override
-  public Result<PrimitiveDataClassBrick> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
-    Result<PrimitiveDataClassBrick> r = Result.make(null, "no layers exist");
+  public Result<Object> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
+    Result<Object> r = Result.make(null, "no layers exist");
     for(CompoundDataClass layer : layers) {
       r = layer.calcInternal(name, thisAsBrick);
     }

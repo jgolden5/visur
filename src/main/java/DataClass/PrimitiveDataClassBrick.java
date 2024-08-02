@@ -51,13 +51,18 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
         shouldCalc = true;
       }
       if(shouldCalc) {
-        r = outer.calc(name);
+        Result<Object> calcRes = outer.calc(name);
+        putVal(calcRes.getVal());
       }
       i++;
     }
     return r;
   }
 
+  private void putVal(Object val) {
+    DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
+    putDFB(thisDFBVal);
+  }
 
   public void put(Object val) {
     if(!isReadOnly) {
@@ -66,8 +71,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
         outer.conflictsCheckAndRemove(getName(), val);
       }
     }
-    DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
-    putDFB(thisDFBVal);
+    putVal(val);
   }
 
   @Override

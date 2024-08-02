@@ -34,8 +34,8 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<PrimitiveDataClassBrick> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
-    Result<PrimitiveDataClassBrick> r;
+  public Result<Object> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
+    Result<Object> r;
     if(thisAsBrick.isComplete()) {
       Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
       CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
@@ -67,19 +67,16 @@ public class CoordinatesDC extends CompoundDataClass {
     return new Object[]{ca, nl, rcx, cy};
   }
 
-  private Result<PrimitiveDataClassBrick> calcCAAndNL(CompoundDataClassBrick thisAsCDCB, Object[] coordinateVars) {
+  private Result<Object> calcCAAndNL(CompoundDataClassBrick thisAsCDCB, Object[] coordinateVars) {
     ArrayList<Integer> nl = (ArrayList<Integer>)coordinateVars[1];
     int rcx = (int)coordinateVars[2];
     int cy = (int)coordinateVars[3];
     int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
     int ca = lineStart + rcx;
-    CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("caAndNL");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
-    caDCB.put(ca);
-    return Result.make(caDCB, null);
+    return Result.make(ca, null);
   }
 
-  private Result<PrimitiveDataClassBrick> calcRCXCYAndNL(String name, CompoundDataClassBrick thisAsCDCB, Object[] coordinateVars) {
+  private Result<Object> calcRCXCYAndNL(String name, CompoundDataClassBrick thisAsCDCB, Object[] coordinateVars) {
     int ca = (int)coordinateVars[0];
     ArrayList<Integer> nl = (ArrayList<Integer>) coordinateVars[1];
     int cy;
@@ -89,19 +86,14 @@ public class CoordinatesDC extends CompoundDataClass {
     }
     int currentLineStart = cy > 0 ? nl.get(cy - 1) : 0;
     int rcx = ca - currentLineStart;
-    CompoundDataClassBrick rcxcyAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxcyAndNL");
-    PrimitiveDataClassBrick brickResult = null;
 
+    Result<Object> r = Result.make();
     if(name.equals("rcx")) {
-      PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("rcx");
-      rcxDCB.put(rcx);
-      brickResult = rcxDCB;
+      r = Result.make(rcx, null);
     } else if(name.equals("cy")) {
-      PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("cy");
-      cyDCB.put(cy);
-      brickResult = cyDCB;
+      r = Result.make(cy, null);
     }
-    return Result.make(brickResult, null);
+    return r;
   }
 
 }
