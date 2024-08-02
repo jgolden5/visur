@@ -17,7 +17,7 @@ public class BrickVisurVar implements VisurVar {
   @Override
   public Object getVal() {
     if(!brick.isComplete()) {
-      Result<PrimitiveDataClassBrick> calculatedBrickResult = brick.getOrCalcThenSetBrick();
+      Result<PrimitiveDataClassBrick> calculatedBrickResult = brick.getOrCalc();
       PrimitiveDataClassBrick calculatedBrick = calculatedBrickResult.getVal();
       brick = calculatedBrick;
     }

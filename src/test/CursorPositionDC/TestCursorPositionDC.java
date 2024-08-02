@@ -413,12 +413,12 @@ public class TestCursorPositionDC {
     assertEquals(nl, nlDCB.getVal());
     assertEquals(5, rcxDCB.getVal());
     assertEquals(1, cyDCB.getVal());
-    rcxDCB = rcxDCB.getOrCalcThenSetBrick().getVal();
+    rcxDCB = rcxDCB.getOrCalc().getVal();
     assertEquals(5, rcxDCB.getVal());
-    cyDCB = cyDCB.getOrCalcThenSetBrick().getVal();
+    cyDCB = cyDCB.getOrCalc().getVal();
     assertEquals(1, cyDCB.getVal());
 
-    caDCB = caDCB.getOrCalcThenSetBrick().getVal();
+    caDCB = caDCB.getOrCalc().getVal();
     assertEquals(17, caDCB.getVal());
     assertEquals(nl, nlDCB.getVal());
 
@@ -429,7 +429,7 @@ public class TestCursorPositionDC {
     assertEquals(3, rcxDCB.getVal());
     assertEquals(2, cyDCB.getVal());
     assertEquals(nl, nlDCB.getVal());
-    caDCB = caDCB.getOrCalcThenSetBrick().getVal();
+    caDCB = caDCB.getOrCalc().getVal();
     assertEquals(28, caDCB.getVal());
 
     //3 if nl = [12, 25, 32] and ca = 14, rcx should = 2 and cy should = 1
@@ -438,14 +438,14 @@ public class TestCursorPositionDC {
     assertEquals(14, caDCB.getVal());
     assertTrue(caAndNLDCB.isComplete());
     assertFalse(rcxcyAndNLDCB.isComplete());
-    nlDCB = nlDCB.getOrCalcThenSetBrick().getVal();
+    nlDCB = nlDCB.getOrCalc().getVal();
     assertEquals(nl, nlDCB.getVal());
-    caDCB = caDCB.getOrCalcThenSetBrick().getVal();
+    caDCB = caDCB.getOrCalc().getVal();
     assertEquals(14, caDCB.getVal());
 
-    cyDCB = cyDCB.getOrCalcThenSetBrick().getVal();
+    cyDCB = cyDCB.getOrCalc().getVal();
     assertEquals(1, cyDCB.getVal());
-    rcxDCB = rcxDCB.getOrCalcThenSetBrick().getVal();
+    rcxDCB = rcxDCB.getOrCalc().getVal();
     assertEquals(2, rcxDCB.getVal());
     assertTrue(rcxcyAndNLDCB.isComplete());
     assertFalse(caAndNLDCB.isComplete());
@@ -457,14 +457,14 @@ public class TestCursorPositionDC {
     assertEquals(7, vcxDCB.getVal());
     llDCB.put(5);
     assertEquals(5, llDCB.getVal());
-    vcxDCB = vcxDCB.getOrCalcThenSetBrick().getVal();
+    vcxDCB = vcxDCB.getOrCalc().getVal();
     assertEquals(7, vcxDCB.getVal());
-    llDCB = llDCB.getOrCalcThenSetBrick().getVal();
+    llDCB = llDCB.getOrCalc().getVal();
     assertEquals(5, llDCB.getVal());
 
-    loDCB = loDCB.getOrCalcThenSetBrick().getVal();
+    loDCB = loDCB.getOrCalc().getVal();
     assertEquals(2, loDCB.getVal());
-    rcxDCB = rcxDCB.getOrCalcThenSetBrick().getVal();
+    rcxDCB = rcxDCB.getOrCalc().getVal();
     assertEquals(5, rcxDCB.getVal());
 
     //5 if vcx = 19 and ll = 20, lo should = -1, and rcx should = 19
@@ -472,9 +472,9 @@ public class TestCursorPositionDC {
     assertEquals(19, vcxDCB.getVal());
     llDCB.put(20);
     assertEquals(20, llDCB.getVal());
-    loDCB = loDCB.getOrCalcThenSetBrick().getVal();
+    loDCB = loDCB.getOrCalc().getVal();
     assertEquals(-1, loDCB.getVal());
-    rcxDCB = rcxDCB.getOrCalcThenSetBrick().getVal();
+    rcxDCB = rcxDCB.getOrCalc().getVal();
     assertEquals(19, rcxDCB.getVal());
 
     //6 if lo = 5 and rcx = 10, vcx should = 15 and ll should = 10
@@ -483,14 +483,14 @@ public class TestCursorPositionDC {
     assertEquals(5, loDCB.getVal());
     rcxDCB.put(10);
     assertEquals(10, rcxDCB.getVal());
-    loDCB = loDCB.getOrCalcThenSetBrick().getVal();
+    loDCB = loDCB.getOrCalc().getVal();
     assertEquals(5, loDCB.getVal());
-    rcxDCB = rcxDCB.getOrCalcThenSetBrick().getVal();
+    rcxDCB = rcxDCB.getOrCalc().getVal();
     assertEquals(10, rcxDCB.getVal());
 
-    vcxDCB = vcxDCB.getOrCalcThenSetBrick().getVal();
+    vcxDCB = vcxDCB.getOrCalc().getVal();
     assertEquals(15, vcxDCB.getVal());
-    llDCB = llDCB.getOrCalcThenSetBrick().getVal();
+    llDCB = llDCB.getOrCalc().getVal();
     assertEquals(10, llDCB.getVal());
 
     //7 if lo = -2 and rcx = 8, vcx should = 8 and ll should = 10
@@ -499,9 +499,9 @@ public class TestCursorPositionDC {
     rcxDCB.put(8);
     assertEquals(8, rcxDCB.getVal());
 
-    vcxDCB = vcxDCB.getOrCalcThenSetBrick().getVal();
+    vcxDCB = vcxDCB.getOrCalc().getVal();
     assertEquals(8, vcxDCB.getVal());
-    llDCB = llDCB.getOrCalcThenSetBrick().getVal();
+    llDCB = llDCB.getOrCalc().getVal();
     assertEquals(10, llDCB.getVal());
 
   }
