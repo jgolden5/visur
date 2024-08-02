@@ -338,8 +338,8 @@ public class TestCursorPositionDC {
     assertTrue(cyDCB.isComplete());
     llDCB.put(10);
     assertTrue(llDCB.isComplete());
-    assertTrue(cyDCB.isComplete());
-    assertTrue(llcyAndNLDCB.isComplete());
+    assertFalse(cyDCB.isComplete());
+    assertFalse(llcyAndNLDCB.isComplete()); //llcyAndNLDCB cannot possibly be set as of right now
 
     //virtual
     //vcxAndLL
@@ -361,7 +361,8 @@ public class TestCursorPositionDC {
     assertTrue(rcxAndLODCB.isComplete());
     assertTrue(virtualDCB.isComplete());
 
-    assertTrue(cursorPositionDCB.isComplete());
+    assertTrue(cursorPositionDCB.isComplete());//not possible because setting ll in llCYAndNL unsets cy,
+    // making it impossible to set llFromCYDCB and therefore also impossible to set CursorPositionDCB
 
   }
 
@@ -396,6 +397,23 @@ public class TestCursorPositionDC {
     cyDCB.put(1);
     assertEquals(1, cyDCB.getVal());
     assertTrue(rcxcyAndNLDCB.isComplete());
+
+    //llFromCY
+    //cyAndNL can be set when llcyAndNL are unset
+    llcyAndNLDCB.remove();
+    assertFalse(llcyAndNLDCB.isComplete());
+    cyDCB.put(3);
+    assertEquals(3, cyDCB.getVal());
+    assertTrue(cyAndNLDCB.isComplete());
+
+    //llcyAndNL can be set when nl and cy are unset
+    cyAndNLDCB.remove();
+    assertFalse(cyAndNLDCB.isComplete());
+    assertFalse(llcyAndNLDCB.isComplete());
+    llDCB.put(10);
+    assertEquals(10, llDCB.getVal());
+    assertFalse(llcyAndNLDCB.isComplete()); //actually, this is impossible because llcyAndNL currently can never be set
+    assertTrue(cyAndNLDCB.isComplete());
 
     //virtual
     //set vcxAndLL when rcxAndLO is unset
