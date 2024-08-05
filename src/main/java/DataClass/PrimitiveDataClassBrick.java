@@ -24,8 +24,8 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return pdc;
   }
 
-  public Result<PrimitiveDataClassBrick> getOrCalc() {
-    Result<PrimitiveDataClassBrick> r = Result.make();
+  public Result<Object> getOrCalc() {
+    Result<Object> r = Result.make();
     //1
     //check if this is complete
     if(isComplete()) {
@@ -33,15 +33,20 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       r = Result.make(this, null);
     } else {
       //else, enter loop described in step 2
-
       //2
       //make a loop for all outers of this
-        //if(currentOuter.isComplete)
+      for(OuterDataClassBrick outer : getOuters()) {
+        //if(outer.isComplete)
+        if(outer.isComplete()) {
           //r = outer.getInner(getName()).calc()
-      //after loop = if(r.getVal() == null)
+          r = calc(outer);
+        }
+      }
+        //after loop = if(r.getVal() == null)
+      if(r.getVal() == null) {
         //go to loop in step 3
-      //else
-        //step 5
+      }
+
     }
 
     //3
@@ -50,6 +55,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
 
     //5 return r
     return r;
+  }
+
+  private Result<Object> calc(OuterDataClassBrick outer) {
+    return outer.calc(getName());
   }
 
   private void putVal(Object val) {
