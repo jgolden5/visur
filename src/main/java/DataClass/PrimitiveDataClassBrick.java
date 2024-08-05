@@ -33,13 +33,22 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       r = Result.make(this, null);
     } else {
       //else, enter loop described in step 2
+
       //2
+      //make a loop for all outers of this
+        //if(currentOuter.isComplete)
+          //r = outer.getInner(getName()).calc()
+      //after loop = if(r.getVal() == null)
+        //go to loop in step 3
+      //else
+        //step 5
     }
 
     //3
 
     //4
 
+    //5 return r
     return r;
   }
 
