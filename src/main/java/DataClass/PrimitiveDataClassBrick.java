@@ -31,36 +31,63 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
 
   public Result<PrimitiveDataClassBrick> getOrCalc(ArrayList<DataClassBrick> dcbsAlreadySearched) {
     Result<PrimitiveDataClassBrick> r = Result.make();
+    Object resultingVal;
+    resultingVal = getValIfThisIsComplete();
+    if (resultingVal == null) {
+      resultingVal = calcFromDirectOuters();
+    }
+    if (resultingVal == null) {
+      r = calcFromNeighbors(dcbsAlreadySearched);
+    }
+    if (r.getVal() == null) {
+      resultingVal = calcFromOuterOuters();
+    }
+    if (resultingVal != null) {
+      r = cacheVal(resultingVal);
+    }
+    return r;
+  }
+
+  private Object getValIfThisIsComplete() {
+    return isComplete() ? this : null;
+  }
+
+  private Object calcFromDirectOuters() {
     Object resultingVal = null;
-    if(isComplete()) {
-      r = Result.make(this, null);
-    } else {
-      for(OuterDataClassBrick outer : getOuters()) {
-        if(outer.isComplete()) {
-          resultingVal = calc(outer).getVal();
-        }
+    for(OuterDataClassBrick outer : getOuters()) {
+      if(outer.isComplete()) {
+        resultingVal = calc(outer).getVal();
       }
-      if(r.getVal() == null) {
-        for(OuterDataClassBrick outer : getOuters()) {
-          CompoundDataClassBrick outerAsCDCB = (CompoundDataClassBrick) outer;
-          for(Map.Entry<String, DataClassBrick> innerEntry : outerAsCDCB.inners.entrySet()) {
-            PrimitiveDataClassBrick inner = (PrimitiveDataClassBrick) innerEntry.getValue();
-            if(!(dcbsAlreadySearched.contains(inner) && inner.isComplete())) {
-              r = inner.getOrCalc(dcbsAlreadySearched);
-              dcbsAlreadySearched.add(inner);
-            }
-          }
+    }
+    return resultingVal;
+  }
+
+  private Result<PrimitiveDataClassBrick> calcFromNeighbors(ArrayList<DataClassBrick> dcbsAlreadySearched) {
+    Result r = Result.make(null, "outers or inners are missing");
+    for(OuterDataClassBrick outer : getOuters()) {
+      CompoundDataClassBrick outerAsCDCB = (CompoundDataClassBrick) outer;
+      for(Map.Entry<String, DataClassBrick> innerEntry : outerAsCDCB.inners.entrySet()) {
+        PrimitiveDataClassBrick inner = (PrimitiveDataClassBrick) innerEntry.getValue();
+        if(!(dcbsAlreadySearched.contains(inner) && inner.isComplete())) {
+          r = inner.getOrCalc(dcbsAlreadySearched);
+          dcbsAlreadySearched.add(inner);
         }
       }
     }
-    if(r.getVal() == null) {
-      for(OuterDataClassBrick outer : getOuters()) {
-        resultingVal = outer.getOrCalc(getName()).getVal();
-        if(r.getVal() != null) {
-          break;
-        }
-      }
+    return r;
+  }
+
+  private Object calcFromOuterOuters() {
+    Object resultingVal = null;
+    for(OuterDataClassBrick outer : getOuters()) {
+      resultingVal = outer.getOrCalc(getName()).getVal();
+      if(resultingVal != null) break;
     }
+    return resultingVal;
+  }
+
+  private Result<PrimitiveDataClassBrick> cacheVal(Object resultingVal) {
+    Result r = Result.make(null, "val equals null");
     if(resultingVal != null) {
       DataFormBrick dfb = DataFormBrick.make(pdc.defaultDF, resultingVal);
       putDFB(dfb);
