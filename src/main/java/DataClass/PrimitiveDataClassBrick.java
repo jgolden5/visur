@@ -27,53 +27,34 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
 
   public Result<Object> getOrCalc() {
     Result<Object> r = Result.make();
-    //1
-    //check if this is complete
     if(isComplete()) {
-      //if true, return Result.make(this, null)
       r = Result.make(this, null);
     } else {
-      //else, enter loop described in step 2
-      //2
-      //make a loop for all outers of this
       for(OuterDataClassBrick outer : getOuters()) {
-        //if(outer.isComplete)
         if(outer.isComplete()) {
-          //r = outer.getInner(getName()).calc()
           r = calc(outer);
         }
       }
-        //after loop = if(r.getVal() == null)
       if(r.getVal() == null) {
-        //go to loop in step 3
-        //3
-        //for ODCB outer in outers
         for(OuterDataClassBrick outer : getOuters()) {
-          //(*note that the type of outer will always be cdcb, so it can be typecast to cdcb)
           CompoundDataClassBrick outerAsCDCB = (CompoundDataClassBrick) outer;
-          //for DCB inner in outer.inners
-          //(*note that dcb will always be pdcb and must be typecasted as such)
           for(Map.Entry<String, DataClassBrick> innerEntry : outerAsCDCB.inners.entrySet()) {
             PrimitiveDataClassBrick inner = (PrimitiveDataClassBrick) innerEntry.getValue();
-            //if !inner.isComplete()
             if(!inner.isComplete()) {
-              //r = inner.getOrCalc()
               r = inner.getOrCalc();
             }
-
           }
-
         }
       }
-
     }
-
-    //4
-    //if r.getVal == null
-    //for ODCB outer in outers
-    //r = outer.getOrCalc(getName)
-
-    //5 return r
+    if(r.getVal() == null) {
+      for(OuterDataClassBrick outer : getOuters()) {
+        r = outer.getOrCalc(getName());
+        if(r.getVal() != null) {
+          break;
+        }
+      }
+    }
     return r;
   }
 

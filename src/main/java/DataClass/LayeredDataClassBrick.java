@@ -51,9 +51,13 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
 
   @Override
   public Result<Object> getOrCalc(String targetName) {
-    Result<Object> r = Result.make();
-    //Result.make(null, "no outers exist for ldcb \"" + getName() + "\"")
-    return Result.make();
+    Result<Object> r;
+    if(isComplete()) {
+      r = calc(targetName);
+    } else {
+      r = Result.make(null, "no outers exist for ldcb \"" + getName() + "\"");
+    }
+    return r;
   }
 
   @Override
