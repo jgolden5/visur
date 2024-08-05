@@ -24,41 +24,22 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return pdc;
   }
 
-  /** get the value stored in this if set, or calculate it in the case that this is unset (!isComplete())
-   * make a result var r
-   * loop through every outer of this, and if outer in outers contains this.name, check if said inner is set
-   * if inner of outer contains this.name,
-     * check if inner.isComplete;
-       * if so, r.putVal(inner)
-   * else
-     * call calc on every outer until either an inner is found and able to be calculated or there are no more outers
-   * return whatever result is found. If no result is found either from get or calc, the value of r is null and
-   *  an error message is displayed reflecting which step failed (get or calc)
-   * @return Result object which contains a value if one was found, and an error message if no value was found,
-   * either through simple fetching or calculation
-   */
   public Result<PrimitiveDataClassBrick> getOrCalc() {
     Result<PrimitiveDataClassBrick> r = Result.make();
-    String name = getName();
-    int i = 0;
-    while(i < outers.size()) {
-      OuterDataClassBrick outer = outers.get(i);
-      r = outer.get(name);
-      boolean shouldCalc;
-      if(r.getVal() != null) {
-        shouldCalc = !isComplete();
-      } else {
-        shouldCalc = true;
-      }
-      if(shouldCalc) {
-        Result<Object> calcRes = outer.calc(name);
-        if(calcRes.getVal() != null) {
-          putVal(calcRes.getVal());
-          break;
-        }
-      }
-      i++;
+    //1
+    //check if this is complete
+    if(isComplete()) {
+      //if true, return Result.make(this, null)
+      r = Result.make(this, null);
+    } else {
+      //else, enter loop described in step 2
+      //2
     }
+
+    //3
+
+    //4
+
     return r;
   }
 
