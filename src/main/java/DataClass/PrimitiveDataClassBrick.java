@@ -25,14 +25,15 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return pdc;
   }
 
-  public Result<Object> getOrCalc() {
-    Result<Object> r = Result.make();
+  public Result<PrimitiveDataClassBrick> getOrCalc(ArrayList<DataClassBrick> dcbsAlreadySearched) {
+    Result<PrimitiveDataClassBrick> r = Result.make();
+    Object resultingVal = null;
     if(isComplete()) {
       r = Result.make(this, null);
     } else {
       for(OuterDataClassBrick outer : getOuters()) {
         if(outer.isComplete()) {
-          r = calc(outer);
+          resultingVal = calc(outer).getVal();
         }
       }
       if(r.getVal() == null) {
@@ -40,8 +41,9 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
           CompoundDataClassBrick outerAsCDCB = (CompoundDataClassBrick) outer;
           for(Map.Entry<String, DataClassBrick> innerEntry : outerAsCDCB.inners.entrySet()) {
             PrimitiveDataClassBrick inner = (PrimitiveDataClassBrick) innerEntry.getValue();
-            if(!inner.isComplete()) {
-              r = inner.getOrCalc();
+            if(!(dcbsAlreadySearched.contains(inner) && inner.isComplete())) {
+              r = inner.getOrCalc(dcbsAlreadySearched);
+              dcbsAlreadySearched.add(inner);
             }
           }
         }
@@ -49,11 +51,16 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     }
     if(r.getVal() == null) {
       for(OuterDataClassBrick outer : getOuters()) {
-        r = outer.getOrCalc(getName());
+        resultingVal = outer.getOrCalc(getName()).getVal();
         if(r.getVal() != null) {
           break;
         }
       }
+    }
+    if(resultingVal != null) {
+      DataFormBrick dfb = DataFormBrick.make(pdc.defaultDF, resultingVal);
+      putDFB(dfb);
+      r = Result.make(this, null);
     }
     return r;
   }
