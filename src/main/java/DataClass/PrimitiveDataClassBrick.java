@@ -25,6 +25,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return pdc;
   }
 
+  public Result<PrimitiveDataClassBrick> getOrCalc() {
+    return getOrCalc(new ArrayList<>());
+  }
+
   public Result<PrimitiveDataClassBrick> getOrCalc(ArrayList<DataClassBrick> dcbsAlreadySearched) {
     Result<PrimitiveDataClassBrick> r = Result.make();
     Object resultingVal = null;
