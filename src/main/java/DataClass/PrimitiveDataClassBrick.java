@@ -45,6 +45,11 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
         //after loop = if(r.getVal() == null)
       if(r.getVal() == null) {
         //go to loop in step 3
+        //for CDCB outer in outers
+          //for DCB inner in outer.inners
+          //(*note that the type of inner above will always be pdcb, but all the below methods apply to dcb anyway, so type conversion is unnecessary)
+            //if !inner.isComplete()
+              //r = inner.getOrCalc()
       }
 
     }
