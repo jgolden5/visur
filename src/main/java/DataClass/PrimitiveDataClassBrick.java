@@ -2,6 +2,7 @@ package DataClass;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class PrimitiveDataClassBrick extends DataClassBrick {
   private final PrimitiveDataClass pdc;
@@ -45,16 +46,27 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
         //after loop = if(r.getVal() == null)
       if(r.getVal() == null) {
         //go to loop in step 3
-        //for CDCB outer in outers
+        //3
+        //for ODCB outer in outers
+        for(OuterDataClassBrick outer : getOuters()) {
+          //(*note that the type of outer will always be cdcb, so it can be typecast to cdcb)
+          CompoundDataClassBrick outerAsCDCB = (CompoundDataClassBrick) outer;
           //for DCB inner in outer.inners
           //(*note that the type of inner above will always be pdcb, but all the below methods apply to dcb anyway, so type conversion is unnecessary)
+          for(Map.Entry<String, DataClassBrick> innerEntry : outerAsCDCB.inners.entrySet()) {
+            DataClassBrick inner = innerEntry.getValue();
             //if !inner.isComplete()
+            if(!inner.isComplete()) {
               //r = inner.getOrCalc()
+              r = inner.getOrCalc();
+            }
+
+          }
+
+        }
       }
 
     }
-
-    //3
 
     //4
 
