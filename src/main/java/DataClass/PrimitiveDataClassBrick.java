@@ -69,6 +69,9 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     }
 
     //4
+    //if r.getVal == null
+    //for ODCB outer in outers
+    //r = outer.getOrCalc(getName)
 
     //5 return r
     return r;
