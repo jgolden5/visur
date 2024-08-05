@@ -52,9 +52,9 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
           //(*note that the type of outer will always be cdcb, so it can be typecast to cdcb)
           CompoundDataClassBrick outerAsCDCB = (CompoundDataClassBrick) outer;
           //for DCB inner in outer.inners
-          //(*note that the type of inner above will always be pdcb, but all the below methods apply to dcb anyway, so type conversion is unnecessary)
+          //(*note that dcb will always be pdcb and must be typecasted as such)
           for(Map.Entry<String, DataClassBrick> innerEntry : outerAsCDCB.inners.entrySet()) {
-            DataClassBrick inner = innerEntry.getValue();
+            PrimitiveDataClassBrick inner = (PrimitiveDataClassBrick) innerEntry.getValue();
             //if !inner.isComplete()
             if(!inner.isComplete()) {
               //r = inner.getOrCalc()
