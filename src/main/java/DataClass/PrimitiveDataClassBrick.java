@@ -3,6 +3,7 @@ package DataClass;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Stack;
 
 public class PrimitiveDataClassBrick extends DataClassBrick {
   private final PrimitiveDataClass pdc;
@@ -34,13 +35,13 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     Object resultingVal;
     resultingVal = getValIfThisIsComplete();
     if (resultingVal == null) {
-      resultingVal = calcFromDirectOuters();
-    }
-    if (resultingVal == null) {
-      r = calcFromNeighbors(dcbsAlreadySearched);
-    }
-    if (r.getVal() == null) {
-      resultingVal = calcFromOuterOuters();
+      for(OuterDataClassBrick outer : getOuters()) {
+        resultingVal = outer.getOrCalc(getName(), new Stack<>());
+        if(resultingVal != null) break;
+      }
+      if (resultingVal == null) {
+        r = calcFromNeighbors(dcbsAlreadySearched);
+      }
     }
     if (resultingVal != null) {
       r = cacheVal(resultingVal);
@@ -49,7 +50,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   private Object getValIfThisIsComplete() {
-    return isComplete() ? this : null;
+    return isComplete() ? getVal() : null;
   }
 
   private Object calcFromDirectOuters() {
@@ -75,15 +76,6 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       }
     }
     return r;
-  }
-
-  private Object calcFromOuterOuters() {
-    Object resultingVal = null;
-    for(OuterDataClassBrick outer : getOuters()) {
-      resultingVal = outer.getOrCalc(getName()).getVal();
-      if(resultingVal != null) break;
-    }
-    return resultingVal;
   }
 
   private Result<PrimitiveDataClassBrick> cacheVal(Object resultingVal) {

@@ -1,6 +1,7 @@
 package DataClass;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public abstract class OuterDataClassBrick extends DataClassBrick {
 
@@ -8,7 +9,9 @@ public abstract class OuterDataClassBrick extends DataClassBrick {
     super(dc, outers, name);
   }
 
-  public abstract Result<Object> getOrCalc(String targetName);
+  public Result<Object> getOrCalc(String targetName, Stack<DataClassBrick> innerToOuterBricks) {
+    return null;
+  }
 
   public abstract Result<Object> calc(String name);
 

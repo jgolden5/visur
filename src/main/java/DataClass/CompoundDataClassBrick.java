@@ -83,23 +83,6 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     return r;
   }
 
-  @Override
-  public Result<Object> getOrCalc(String targetName) {
-    Result r = Result.make();
-    if(isComplete()) {
-      r = calc(targetName);
-    } else {
-      for(OuterDataClassBrick outer : getOuters()) {
-        //if outer.isComplete
-        r = outer.getOrCalc(targetName);
-        if(r.getVal() != null) {
-          break;
-        }
-      }
-    }
-    return r;
-  }
-
   public Result<Object> calc(String innerName) {
     Result r = getCDC().calcInternal(innerName, this);
     int i = 0;
