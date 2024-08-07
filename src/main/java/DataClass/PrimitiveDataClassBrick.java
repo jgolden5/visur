@@ -44,7 +44,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
         r = getOrCalc(new ArrayList<>());
       }
     } else {
-      r = Result.make(resultingVal, null);
+      r = Result.make(this, null);
     }
     return r;
   }
