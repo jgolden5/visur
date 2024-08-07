@@ -38,29 +38,14 @@ public class VirtualDC extends CompoundDataClass {
     Result<Object> r;
     int[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
     CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
-    String name = innerToOuterBrickNames.pop();
-    if (name.equals("vcxAndLL")) {
-      r = calcVCXAndLL(innerToOuterBrickNames.pop(), thisAsCDCB, coordinatesVars);
-    } else if (name.equals("rcxAndLO")) {
-      r = calcRCXAndLO(innerToOuterBrickNames.pop(), thisAsCDCB, coordinatesVars);
+    if (targetName.equals("vcx") || targetName.equals("ll")) {
+      r = calcVCXAndLL(targetName, coordinatesVars);
+    } else if (targetName.equals("rcx") || targetName.equals("lo")) {
+      r = calcRCXAndLO(targetName, coordinatesVars);
     } else {
       r = Result.make(null, "name not recognized");
     }
     return r;
-    /*
-    Result<Object> r;
-    Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
-    CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
-    String name = innerToOuterBrickNames.pop();
-    if (name.equals("caAndNL")) {
-      r = calcCAAndNL(thisAsCDCB, coordinatesVars);
-    } else if (name.equals("rcxcyAndNL")) {
-      r = calcRCXCYAndNL(innerToOuterBrickNames.pop(), thisAsCDCB, coordinatesVars);
-    } else {
-      r = Result.make(null, "name not recognized");
-    }
-    return r;
-     */
   }
 
   private int[] getAllCoordinatePDCBVals(OuterDataClassBrick thisAsBrick) {
@@ -78,7 +63,7 @@ public class VirtualDC extends CompoundDataClass {
     return new int[]{vcx, ll, rcx, lo};
   }
 
-  private Result<Object> calcVCXAndLL(String name, CompoundDataClassBrick thisAsCDCB, int[] coordinatesVars) {
+  private Result<Object> calcVCXAndLL(String name, int[] coordinatesVars) {
     int rcx = coordinatesVars[2];
     int lo = coordinatesVars[3];
     int vcx = lo > 0 ? rcx + lo : rcx;
@@ -93,7 +78,7 @@ public class VirtualDC extends CompoundDataClass {
     return r;
   }
 
-  private Result<Object> calcRCXAndLO(String name, CompoundDataClassBrick thisAsCDCB, int[] coordinatesVars) {
+  private Result<Object> calcRCXAndLO(String name, int[] coordinatesVars) {
     int vcx = coordinatesVars[0];
     int ll = coordinatesVars[1];
     int rcx = vcx > ll ? ll : vcx;
