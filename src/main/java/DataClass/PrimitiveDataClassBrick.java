@@ -36,14 +36,16 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     resultingVal = getValIfThisIsComplete();
     if (resultingVal == null) {
       for(OuterDataClassBrick outer : getOuters()) {
-        resultingVal = outer.getOrCalc(getName(), new Stack<>());
+        Stack<DataClassBrick> innerToOuterBricks = new Stack<>();
+        innerToOuterBricks.push(this);
+        resultingVal = outer.getOrCalc(getName(), innerToOuterBricks);
         if(resultingVal != null) break;
       }
       if (resultingVal == null) {
         r = calcFromNeighbors(dcbsAlreadySearched);
       }
     }
-    if (resultingVal != null) {
+    if (r.getVal() != null) {
       r = cacheVal(resultingVal);
     }
     return r;
