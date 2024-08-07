@@ -31,22 +31,20 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   public Result<PrimitiveDataClassBrick> getOrCalc(ArrayList<DataClassBrick> dcbsAlreadySearched) {
-    Result<PrimitiveDataClassBrick> r = Result.make();
+    Result<PrimitiveDataClassBrick> r;
     Object resultingVal;
     resultingVal = getValIfThisIsComplete();
     if (resultingVal == null) {
-      for(OuterDataClassBrick outer : getOuters()) {
-        Stack<DataClassBrick> innerToOuterBricks = new Stack<>();
-        innerToOuterBricks.push(this);
-        resultingVal = outer.getOrCalc(getName(), innerToOuterBricks);
-        if(resultingVal != null) break;
-      }
-      if (resultingVal == null) {
+      Result<Object> outersCalcResult = calcFromOuters();
+      if (outersCalcResult.getVal() != null) {
+        r = cacheVal(outersCalcResult.getVal());
+      } else {
         r = calcFromNeighbors(dcbsAlreadySearched);
+        cacheVal(r.getVal());
+        r = getOrCalc(new ArrayList<>());
       }
-    }
-    if (r.getVal() != null) {
-      r = cacheVal(resultingVal);
+    } else {
+      r = Result.make(resultingVal, null);
     }
     return r;
   }
@@ -55,14 +53,15 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return isComplete() ? getVal() : null;
   }
 
-  private Object calcFromDirectOuters() {
-    Object resultingVal = null;
+  private Result<Object> calcFromOuters() {
+    Result<Object> outersCalcResult = Result.make(null, "no outers exist for this brick");
     for(OuterDataClassBrick outer : getOuters()) {
-      if(outer.isComplete()) {
-        resultingVal = calc(outer).getVal();
-      }
+      Stack<DataClassBrick> innerToOuterBricks = new Stack<>();
+      innerToOuterBricks.push(this);
+      outersCalcResult = outer.getOrCalc(getName(), innerToOuterBricks);
+      if(outersCalcResult.getVal() != null) break;
     }
-    return resultingVal;
+    return outersCalcResult;
   }
 
   private Result<PrimitiveDataClassBrick> calcFromNeighbors(ArrayList<DataClassBrick> dcbsAlreadySearched) {
