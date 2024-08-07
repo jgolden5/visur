@@ -35,7 +35,7 @@ public class VirtualDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<Object> calcInternal(Stack<DataClassBrick> innerToOuterBricks) {
+  public Result<Object> calcInternal(Stack<String> innerToOuterBrickNames, OuterDataClassBrick thisAsBrick) {
 //    Result<Object> r;
 //    if(thisAsBrick.isComplete()) {
 //      int[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);

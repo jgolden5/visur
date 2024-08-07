@@ -41,7 +41,7 @@ public class CursorPositionDC extends LayeredDataClass {
   }
 
   @Override
-  public Result<Object> calcInternal(Stack<DataClassBrick> innerToOuterBricks) {
+  public Result<Object> calcInternal(Stack<String> innerToOuterBrickNames, OuterDataClassBrick thisAsBrick) {
     return Result.make(null, "incalculable");
   }
 

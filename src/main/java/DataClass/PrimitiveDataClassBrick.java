@@ -54,10 +54,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   private Result<Object> calcIfSomeOuterOfThisIsComplete() {
     Result<Object> outersCalcResult = Result.make(null, "no outers exist for this brick");
     for(OuterDataClassBrick outer : getOuters()) {
-      Stack<DataClassBrick> innerToOuterBricks = new Stack<>();
-      innerToOuterBricks.push(this);
-      outersCalcResult = outer.getOrCalc(getName(), innerToOuterBricks);
-      if(outersCalcResult.getVal() != null) break;
+      Stack<String> innerToOuterBrickNames = new Stack<>();
+      innerToOuterBrickNames.push(getName());
+      outersCalcResult = outer.getOrCalc(innerToOuterBrickNames);
+      if(outersCalcResult.getError() == null) break;
     }
     return outersCalcResult;
   }

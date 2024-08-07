@@ -8,7 +8,7 @@ public abstract class OuterDataClass implements DataClass {
 
   public abstract OuterDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, PrimitiveDataClassBrick... reusablePDCBs);
 
-  public abstract Result<Object> calcInternal(Stack<DataClassBrick> innerToOuterBricks);
+  public abstract Result<Object> calcInternal(Stack<String> innerToOuterBrickNames, OuterDataClassBrick thisAsBrick);
 
   public void removeConflicts(OuterDataClassBrick thisAsBrick) {
     thisAsBrick.remove();

@@ -17,10 +17,10 @@ public abstract class LayeredDataClass extends OuterDataClass {
 
 
   @Override
-  public Result<Object> calcInternal(Stack<DataClassBrick> innerToOuterBricks) {
+  public Result<Object> calcInternal(Stack<String> innerToOuterBrickNames, OuterDataClassBrick thisAsBrick) {
     Result<Object> r = Result.make(null, "no layers exist");
     for(CompoundDataClass layer : layers) {
-      r = layer.calcInternal(innerToOuterBricks);
+      r = layer.calcInternal(innerToOuterBrickNames, thisAsBrick);
     }
     return r;
   }

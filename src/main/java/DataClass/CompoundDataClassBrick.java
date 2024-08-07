@@ -84,17 +84,8 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     return r;
   }
 
-  public Result<Object> calc(Stack<DataClassBrick> innerToOuterBricks) {
-    Result r = getCDC().calcInternal(innerToOuterBricks);
-    int i = 0;
-    while(r.getVal() == null && i < outers.size()) {
-      OuterDataClassBrick outerDCB = outers.get(i);
-      if (outerDCB != null) {
-        r = outerDCB.calc(innerToOuterBricks);
-      }
-      i++;
-    }
-    return r;
+  public Result<Object> calc(Stack<String> innerToOuterBrickNames) {
+    return getCDC().calcInternal(innerToOuterBrickNames, this);
   }
 
   @Override

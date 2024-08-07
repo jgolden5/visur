@@ -51,11 +51,11 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
-  public Result<Object> calc(Stack<DataClassBrick> innerToOuterBricks) {
+  public Result<Object> calc(Stack<String> innerToOuterBricks) {
     Result r = Result.make();
     int i = 0;
     while(r.getVal() == null && i < layers.size()) {
-      r = layers.get(i).getCDC().calcInternal(innerToOuterBricks);
+      r = layers.get(i).getCDC().calcInternal(innerToOuterBricks, this);
       i++;
     }
     return r;

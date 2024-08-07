@@ -35,7 +35,7 @@ public class LLFromCYDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<Object> calcInternal(Stack<DataClassBrick> innerToOuterBricks) {
+  public Result<Object> calcInternal(Stack<String> innerToOuterBrickNames, OuterDataClassBrick thisAsBrick) {
     return null;
   }
 
