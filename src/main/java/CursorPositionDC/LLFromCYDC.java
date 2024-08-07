@@ -36,7 +36,38 @@ public class LLFromCYDC extends CompoundDataClass {
 
   @Override
   public Result<Object> calcInternal(String targetName, OuterDataClassBrick thisAsBrick) {
-    return null;
+    Result<Object> r;
+    Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
+    if (targetName.equals("ll")) {
+      r = calcLL(coordinatesVars);
+    } else {
+      r = Result.make(null, "name not recognized");
+    }
+    return r;
+  }
+
+  private Result<Object> calcLL(Object[] coordinatesVars) {
+    Result<Object> r;
+    int cy = (int)coordinatesVars[0];
+    ArrayList<Integer> nl = (ArrayList<Integer>) coordinatesVars[1];
+    if(cy < nl.size()) {
+      int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
+      int ll = nl.get(cy) - lineStart;
+      r = Result.make(ll, null);
+    } else {
+      r = Result.make(null, "cy is too big for nl");
+    }
+    return r;
+  }
+
+  private Object[] getAllCoordinatePDCBVals(OuterDataClassBrick thisAsBrick) {
+    CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
+    CompoundDataClassBrick cyAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("cyAndNL");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cyAndNLDCB.getInner("cy");
+    PrimitiveDataClassBrick nlDCB = (PrimitiveDataClassBrick) cyAndNLDCB.getInner("nl");
+    int cy = cyDCB.isComplete() ? (int)cyDCB.getVal() : 0;
+    ArrayList<Integer> nl = nlDCB.isComplete() ? (ArrayList<Integer>) nlDCB.getVal() : null;
+    return new Object[]{cy, nl};
   }
 
 }
