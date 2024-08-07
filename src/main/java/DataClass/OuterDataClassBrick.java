@@ -10,18 +10,14 @@ public abstract class OuterDataClassBrick extends DataClassBrick {
   }
 
   public Result<Object> getOrCalc(Stack<String> innerToOuterBrickNames) {
-    Result<Object> r = Result.make();
-    for(OuterDataClassBrick outer : getOuters()) {
-      if(!outer.isComplete()) {
-        if(outer.getOuters().size() > 0) {
-          for(OuterDataClassBrick outerOuter : outer.getOuters()) {
-            innerToOuterBrickNames.push(getName());
-            outerOuter.getOrCalc(innerToOuterBrickNames);
-          }
-        }
-      } else {
+    Result<Object> r = Result.make(null, "no complete outer exists");
+    if(isComplete()) {
+      return calc(innerToOuterBrickNames);
+    } else if(getOuters() != null) {
+      for (OuterDataClassBrick outer : getOuters()) {
         innerToOuterBrickNames.push(getName());
-        return outer.calc(innerToOuterBrickNames);
+        r = outer.getOrCalc(innerToOuterBrickNames);
+        if(r.getError() == null) break;
       }
     }
     return r;

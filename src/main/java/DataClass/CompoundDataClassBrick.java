@@ -20,7 +20,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
   }
 
   public DataClassBrick getInner(String name) {
-      return inners.get(name);
+    return inners.get(name);
   }
 
   public Result putInner(String name, DataClassBrick innerBrick) {

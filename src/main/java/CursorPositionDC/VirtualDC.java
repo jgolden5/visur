@@ -36,22 +36,32 @@ public class VirtualDC extends CompoundDataClass {
 
   @Override
   public Result<Object> calcInternal(Stack<String> innerToOuterBrickNames, OuterDataClassBrick thisAsBrick) {
-//    Result<Object> r;
-//    if(thisAsBrick.isComplete()) {
-//      int[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
-//      CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
-//      if (name.equals("vcx") || name.equals("ll")) {
-//        r = calcVCXAndLL(name, thisAsCDCB, coordinatesVars);
-//      } else if (name.equals("rcx") || name.equals("lo")) {
-//        r = calcRCXAndLO(name, thisAsCDCB, coordinatesVars);
-//      } else {
-//        r = Result.make(null, "name not recognized");
-//      }
-//    } else {
-//      r = Result.make(null, "brick incomplete, calculations impossible");
-//    }
-//    return r;
-    return null;
+    Result<Object> r;
+    int[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
+    CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
+    String name = innerToOuterBrickNames.pop();
+    if (name.equals("vcxAndLL")) {
+      r = calcVCXAndLL(innerToOuterBrickNames.pop(), thisAsCDCB, coordinatesVars);
+    } else if (name.equals("rcxAndLO")) {
+      r = calcRCXAndLO(innerToOuterBrickNames.pop(), thisAsCDCB, coordinatesVars);
+    } else {
+      r = Result.make(null, "name not recognized");
+    }
+    return r;
+    /*
+    Result<Object> r;
+    Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
+    CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
+    String name = innerToOuterBrickNames.pop();
+    if (name.equals("caAndNL")) {
+      r = calcCAAndNL(thisAsCDCB, coordinatesVars);
+    } else if (name.equals("rcxcyAndNL")) {
+      r = calcRCXCYAndNL(innerToOuterBrickNames.pop(), thisAsCDCB, coordinatesVars);
+    } else {
+      r = Result.make(null, "name not recognized");
+    }
+    return r;
+     */
   }
 
   private int[] getAllCoordinatePDCBVals(OuterDataClassBrick thisAsBrick) {
