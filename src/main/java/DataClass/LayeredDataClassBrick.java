@@ -55,7 +55,7 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
     Result r = Result.make();
     int i = 0;
     while(r.getVal() == null && i < layers.size()) {
-      r = layers.get(i).getCDC().calcInternal(name, this);
+      r = layers.get(i).getCDC().calcInternal(innerToOuterBricks);
       i++;
     }
     return r;

@@ -4,6 +4,7 @@ import DataClass.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 public class CYAndNLDC extends CompoundDataClass {
   public CYAndNLDC(int requiredSetValues) {
@@ -28,7 +29,7 @@ public class CYAndNLDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<Object> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
+  public Result<Object> calcInternal(Stack<DataClassBrick> innerToOuterBricks) {
     return null;
   }
 }

@@ -32,14 +32,17 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
 
   public Result<PrimitiveDataClassBrick> getOrCalc(ArrayList<DataClassBrick> dcbsAlreadySearched) {
     Result<PrimitiveDataClassBrick> r;
-    Object resultingVal;
-    resultingVal = getValIfThisIsComplete();
-    if (resultingVal == null) {
-      Result<Object> outersCalcResult = calcFromOuters();
-      if (outersCalcResult.getVal() != null) {
-        r = cacheVal(outersCalcResult.getVal());
+    Result<Object> resObj;
+    //1
+    resObj = getIfThisIsComplete();
+    if (resObj.getError() != null) {
+      //2
+      resObj = calcIfSomeOuterOfThisIsComplete();
+      if (resObj.getVal() != null) {
+        r = cacheVal(resObj.getVal());
       } else {
-        r = calcFromNeighbors(dcbsAlreadySearched);
+        //3
+        r = calcIfSomeOuterOfNeighborIsComplete(dcbsAlreadySearched);
         cacheVal(r.getVal());
         r = getOrCalc(new ArrayList<>());
       }
@@ -49,11 +52,17 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return r;
   }
 
-  private Object getValIfThisIsComplete() {
-    return isComplete() ? getVal() : null;
+  private Result<Object> getIfThisIsComplete() {
+    Result<Object> r;
+    if(isComplete()) {
+      r = Result.make(getVal(), null);
+    } else {
+      r = Result.make(null, "this is incomplete");
+    }
+    return r;
   }
 
-  private Result<Object> calcFromOuters() {
+  private Result<Object> calcIfSomeOuterOfThisIsComplete() {
     Result<Object> outersCalcResult = Result.make(null, "no outers exist for this brick");
     for(OuterDataClassBrick outer : getOuters()) {
       Stack<DataClassBrick> innerToOuterBricks = new Stack<>();
@@ -64,7 +73,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return outersCalcResult;
   }
 
-  private Result<PrimitiveDataClassBrick> calcFromNeighbors(ArrayList<DataClassBrick> dcbsAlreadySearched) {
+  private Result<PrimitiveDataClassBrick> calcIfSomeOuterOfNeighborIsComplete(ArrayList<DataClassBrick> dcbsAlreadySearched) {
     Result r = Result.make(null, "outers or inners are missing");
     for(OuterDataClassBrick outer : getOuters()) {
       CompoundDataClassBrick outerAsCDCB = (CompoundDataClassBrick) outer;

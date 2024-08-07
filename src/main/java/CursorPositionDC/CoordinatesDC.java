@@ -4,6 +4,7 @@ import DataClass.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 public class CoordinatesDC extends CompoundDataClass {
 
@@ -35,22 +36,23 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<Object> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
-    Result<Object> r;
-    if(thisAsBrick.isComplete()) {
-      Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
-      CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
-      if (name.equals("ca")) {
-        r = calcCAAndNL(thisAsCDCB, coordinatesVars);
-      } else if (name.equals("cy") || name.equals("rcx")) {
-        r = calcRCXCYAndNL(name, thisAsCDCB, coordinatesVars);
-      } else {
-        r = Result.make(null, "name not recognized");
-      }
-    } else {
-      r = Result.make(null, "brick incomplete, calculations impossible");
-    }
-    return r;
+  public Result<Object> calcInternal(Stack<DataClassBrick> innerToOuterBricks) {
+//    Result<Object> r;
+//    if(thisAsBrick.isComplete()) {
+//      Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
+//      CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
+//      if (name.equals("ca")) {
+//        r = calcCAAndNL(thisAsCDCB, coordinatesVars);
+//      } else if (name.equals("cy") || name.equals("rcx")) {
+//        r = calcRCXCYAndNL(name, thisAsCDCB, coordinatesVars);
+//      } else {
+//        r = Result.make(null, "name not recognized");
+//      }
+//    } else {
+//      r = Result.make(null, "brick incomplete, calculations impossible");
+//    }
+//    return r;
+    return null;
   }
 
   private Object[] getAllCoordinatePDCBVals(OuterDataClassBrick thisAsBrick) {

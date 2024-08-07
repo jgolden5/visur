@@ -4,6 +4,7 @@ import DataClass.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 public class CAAndNLDC extends CompoundDataClass {
   public CAAndNLDC(int requiredSetValues) {
@@ -30,11 +31,12 @@ public class CAAndNLDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<Object> calcInternal(String name, OuterDataClassBrick thisAsBrick) {
-    ArrayList<OuterDataClassBrick> outers = thisAsBrick.getOuters();
-    OuterDataClassBrick coordinatesDCB = outers.get(0);
-    CoordinatesDC coordinatesDC = (CoordinatesDC)coordinatesDCB.dc;
-    return coordinatesDC.calcInternal(name, coordinatesDCB);
+  public Result<Object> calcInternal(Stack<DataClassBrick> innerToOuterBricks) {
+//    ArrayList<OuterDataClassBrick> outers = thisAsBrick.getOuters();
+//    OuterDataClassBrick coordinatesDCB = outers.get(0);
+//    CoordinatesDC coordinatesDC = (CoordinatesDC)coordinatesDCB.dc;
+//    return coordinatesDC.calcInternal(name, coordinatesDCB);
+    return null;
   }
 
 }
