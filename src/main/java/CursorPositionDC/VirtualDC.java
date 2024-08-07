@@ -4,7 +4,6 @@ import DataClass.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Stack;
 
 public class VirtualDC extends CompoundDataClass {
 
@@ -35,7 +34,7 @@ public class VirtualDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<Object> calcInternal(Stack<String> innerToOuterBrickNames, OuterDataClassBrick thisAsBrick) {
+  public Result<Object> calcInternal(String targetName, OuterDataClassBrick thisAsBrick) {
     Result<Object> r;
     int[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
     CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;

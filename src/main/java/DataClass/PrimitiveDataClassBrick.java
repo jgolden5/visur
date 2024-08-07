@@ -3,7 +3,6 @@ package DataClass;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Stack;
 
 public class PrimitiveDataClassBrick extends DataClassBrick {
   private final PrimitiveDataClass pdc;
@@ -54,9 +53,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   private Result<Object> calcIfSomeOuterOfThisIsComplete() {
     Result<Object> outersCalcResult = Result.make(null, "no outers exist for this brick");
     for(OuterDataClassBrick outer : getOuters()) {
-      Stack<String> innerToOuterBrickNames = new Stack<>();
-      innerToOuterBrickNames.push(getName());
-      outersCalcResult = outer.getOrCalc(innerToOuterBrickNames);
+      outersCalcResult = outer.getOrCalc(getName());
       if(outersCalcResult.getError() == null) break;
     }
     return outersCalcResult;

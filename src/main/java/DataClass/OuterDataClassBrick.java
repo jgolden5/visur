@@ -9,21 +9,20 @@ public abstract class OuterDataClassBrick extends DataClassBrick {
     super(dc, outers, name);
   }
 
-  public Result<Object> getOrCalc(Stack<String> innerToOuterBrickNames) {
+  public Result<Object> getOrCalc(String targetName) {
     Result<Object> r = Result.make(null, "no complete outer exists");
     if(isComplete()) {
-      return calc(innerToOuterBrickNames);
+      return calc(targetName);
     } else if(getOuters() != null) {
       for (OuterDataClassBrick outer : getOuters()) {
-        innerToOuterBrickNames.push(getName());
-        r = outer.getOrCalc(innerToOuterBrickNames);
+        r = outer.getOrCalc(targetName);
         if(r.getError() == null) break;
       }
     }
     return r;
   }
 
-  public abstract Result<Object> calc(Stack<String> innerToOuterBricks);
+  public abstract Result<Object> calc(String targetName);
 
   public abstract Result<PrimitiveDataClassBrick> get(String targetName);
 

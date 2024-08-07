@@ -1,7 +1,6 @@
 package DataClass;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 public abstract class LayeredDataClass extends OuterDataClass {
 
@@ -17,10 +16,10 @@ public abstract class LayeredDataClass extends OuterDataClass {
 
 
   @Override
-  public Result<Object> calcInternal(Stack<String> innerToOuterBrickNames, OuterDataClassBrick thisAsBrick) {
+  public Result<Object> calcInternal(String targetName, OuterDataClassBrick thisAsBrick) {
     Result<Object> r = Result.make(null, "no layers exist");
     for(CompoundDataClass layer : layers) {
-      r = layer.calcInternal(innerToOuterBrickNames, thisAsBrick);
+      r = layer.calcInternal(targetName, thisAsBrick);
     }
     return r;
   }

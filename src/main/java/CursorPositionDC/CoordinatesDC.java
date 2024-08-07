@@ -36,7 +36,7 @@ public class CoordinatesDC extends CompoundDataClass {
   }
 
   @Override
-  public Result<Object> calcInternal(Stack<String> innerToOuterBrickNames, OuterDataClassBrick thisAsBrick) {
+  public Result<Object> calcInternal(String targetName, OuterDataClassBrick thisAsBrick) {
     Result<Object> r;
     Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
     CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
