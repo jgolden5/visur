@@ -633,6 +633,66 @@ public class TestCursorPositionDC {
     llDCB.getOrCalc().getVal();
     assertEquals(7, llDCB.getVal());
 
+    //11 if vcx = 1, cy = 0, & nl = [12, 25, 32], then ll should = 7 and rcx should = 1
+    cursorPositionDCB.remove();
+    nlDCB.put(nl);
+    vcxDCB.put(1);
+    cyDCB.put(0);
+    assertEquals(nl, nlDCB.getVal());
+    assertEquals(1, vcxDCB.getVal());
+    assertEquals(0, cyDCB.getVal());
+    rcxDCB.getOrCalc();
+    assertEquals(7, llDCB.getVal());
+    assertEquals(1, rcxDCB.getVal());
+
+    //12 if vcx = 8, cy = 0, & nl = ^, then ll should = 7 and rcx should = 8
+    vcxDCB.put(8);
+    assertEquals(nl, nlDCB.getVal());
+    assertEquals(8, vcxDCB.getVal());
+    assertEquals(0, cyDCB.getVal());
+    rcxDCB.getOrCalc();
+    assertEquals(7, llDCB.getVal());
+    assertEquals(8, rcxDCB.getVal());
+
+    //13 if vcx = 12, cy = 1, & nl = ^, then ll should = 13 and rcx should = 12
+    vcxDCB.put(12);
+    cyDCB.put(1);
+    assertEquals(nl, nlDCB.getVal());
+    assertEquals(12, vcxDCB.getVal());
+    assertEquals(1, cyDCB.getVal());
+    rcxDCB.getOrCalc();
+    assertEquals(13, llDCB.getVal());
+    assertEquals(12, rcxDCB.getVal());
+
+    //14 if vcx = 15, cy = 1, & nl = ^, then ll should = 13 and rcx should = 13
+    vcxDCB.put(15);
+    assertEquals(nl, nlDCB.getVal());
+    assertEquals(15, vcxDCB.getVal());
+    assertEquals(1, cyDCB.getVal());
+    rcxDCB.getOrCalc();
+    assertEquals(13, llDCB.getVal());
+    assertEquals(13, rcxDCB.getVal());
+
+    //15 if vcx = 4, cy = 2, & nl = ^, then ll should = 7 and rcx should = 4
+    vcxDCB.put(4);
+    cyDCB.put(2);
+    assertEquals(nl, nlDCB.getVal());
+    assertEquals(4, vcxDCB.getVal());
+    assertEquals(2, cyDCB.getVal());
+    rcxDCB.getOrCalc();
+    assertEquals(7, llDCB.getVal());
+    assertEquals(4, rcxDCB.getVal());
+
+    //16 if vcx = 9, cy = 2, & nl = ^, then ll should = 7 and rcx should = 7
+    vcxDCB.put(9);
+    cyDCB.put(2);
+    assertEquals(nl, nlDCB.getVal());
+    assertEquals(9, vcxDCB.getVal());
+    assertEquals(2, cyDCB.getVal());
+    rcxDCB.getOrCalc();
+    assertEquals(7, llDCB.getVal());
+    assertEquals(7, rcxDCB.getVal());
+
   }
 
 }
