@@ -10,7 +10,14 @@ public abstract class OuterDataClassBrick extends DataClassBrick {
   }
 
   public Result<Object> getOrCalc(String targetName, Stack<DataClassBrick> innerToOuterBricks) {
-    innerToOuterBricks.push(this);
+    Result<Object> r = Result.make();
+    for(OuterDataClassBrick outer : getOuters()) {
+      if (outer.isComplete()) {
+        innerToOuterBricks.push(this);
+        outer.getOrCalc(innerToOuterBricks);
+      }
+    }
+    return r;
   }
 
   public abstract Result<Object> calc(String name);
