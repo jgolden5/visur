@@ -37,18 +37,18 @@ public class CoordinatesDC extends CompoundDataClass {
 
   @Override
   public Result<Object> calcInternal(Stack<String> innerToOuterBrickNames, OuterDataClassBrick thisAsBrick) {
-//    Result<Object> r;
-//    Object[] coordinatesVars = getAllCoordinatePDCBVals(innerToOuterBrickNames);
-//    CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
-//    if (name.equals("ca")) {
-//      r = calcCAAndNL(thisAsCDCB, coordinatesVars);
-//    } else if (name.equals("cy") || name.equals("rcx")) {
-//      r = calcRCXCYAndNL(name, thisAsCDCB, coordinatesVars);
-//    } else {
-//      r = Result.make(null, "name not recognized");
-//    }
-//    return r;
-    return null;
+    Result<Object> r;
+    Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
+    CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
+    String name = innerToOuterBrickNames.pop();
+    if (name.equals("caAndNL")) {
+      r = calcCAAndNL(thisAsCDCB, coordinatesVars);
+    } else if (name.equals("rcxcyAndNL")) {
+      r = calcRCXCYAndNL(innerToOuterBrickNames.pop(), thisAsCDCB, coordinatesVars);
+    } else {
+      r = Result.make(null, "name not recognized");
+    }
+    return r;
   }
 
   private Object[] getAllCoordinatePDCBVals(OuterDataClassBrick thisAsBrick) {

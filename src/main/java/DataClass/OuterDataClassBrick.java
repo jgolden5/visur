@@ -20,6 +20,7 @@ public abstract class OuterDataClassBrick extends DataClassBrick {
           }
         }
       } else {
+        innerToOuterBrickNames.push(getName());
         return outer.calc(innerToOuterBrickNames);
       }
     }
