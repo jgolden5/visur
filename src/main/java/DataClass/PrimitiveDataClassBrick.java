@@ -89,10 +89,6 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return r;
   }
 
-  private Result<Object> calc(OuterDataClassBrick outer) {
-    return outer.calc(getName());
-  }
-
   private void putVal(Object val) {
     DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
     putDFB(thisDFBVal);

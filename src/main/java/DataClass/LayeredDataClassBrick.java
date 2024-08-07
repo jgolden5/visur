@@ -2,6 +2,7 @@ package DataClass;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Stack;
 
 public class LayeredDataClassBrick extends OuterDataClassBrick {
 
@@ -50,7 +51,7 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
-  public Result<Object> calc(String name) {
+  public Result<Object> calc(Stack<DataClassBrick> innerToOuterBricks) {
     Result r = Result.make();
     int i = 0;
     while(r.getVal() == null && i < layers.size()) {

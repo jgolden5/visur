@@ -3,6 +3,7 @@ package DataClass;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class CompoundDataClassBrick extends OuterDataClassBrick {
   private CompoundDataClass cdc;
@@ -83,13 +84,13 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     return r;
   }
 
-  public Result<Object> calc(String innerName) {
+  public Result<Object> calc(Stack<DataClassBrick> innerToOuterBricks) {
     Result r = getCDC().calcInternal(innerName, this);
     int i = 0;
     while(r.getVal() == null && i < outers.size()) {
       OuterDataClassBrick outerDCB = outers.get(i);
       if (outerDCB != null) {
-        r = outerDCB.calc(innerName);
+        r = outerDCB.calc(innerToOuterBricks);
       }
       i++;
     }
