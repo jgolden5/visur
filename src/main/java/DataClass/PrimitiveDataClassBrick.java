@@ -33,9 +33,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   public Result<PrimitiveDataClassBrick> getOrCalc(ArrayList<DataClassBrick> dcbsAlreadySearched) {
     Result<PrimitiveDataClassBrick> r;
     Result<Object> resObj;
-    //1
-    resObj = getIfThisIsComplete();
-    if (resObj.getError() != null) {
+    if (isComplete()) {
+      //1
+      r = Result.make(this, null);
+    } else {
       //2
       resObj = calcIfSomeOuterOfThisIsComplete();
       if (resObj.getVal() != null) {
@@ -46,18 +47,6 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
         cacheVal(r.getVal());
         r = getOrCalc(new ArrayList<>());
       }
-    } else {
-      r = Result.make(this, null);
-    }
-    return r;
-  }
-
-  private Result<Object> getIfThisIsComplete() {
-    Result<Object> r;
-    if(isComplete()) {
-      r = Result.make(getVal(), null);
-    } else {
-      r = Result.make(null, "this is incomplete");
     }
     return r;
   }
