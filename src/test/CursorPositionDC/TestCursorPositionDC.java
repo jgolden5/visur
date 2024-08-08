@@ -270,6 +270,11 @@ public class TestCursorPositionDC {
 
   }
 
+  @Test
+  void dcbToString() {
+
+  }
+
   private ArrayList<String> getOuterNamesFromBricks(ArrayList<OuterDataClassBrick> outersAsBricks) {
     ArrayList<String> outerNames = new ArrayList<>();
     for(OuterDataClassBrick outerBrick : outersAsBricks) {

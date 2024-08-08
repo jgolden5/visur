@@ -33,23 +33,7 @@ public abstract class DataClassBrick {
     outers.add(outer);
   }
 
-  /**
-   * if this is pdcb, set dfb of this to null
-   * else if this is cdcb, loop through this.inners and call remove on each inner
-   * else return result with an error message "data type for dcb is too generic"
-   * return Result with null value and error
-   * @return whether removal was successful (in error message of Result)
-   */
   public abstract Result remove();
-//    } else if(this instanceof LayeredDataClassBrick) {
-//      LayeredDataClassBrick thisAsLDCB = (LayeredDataClassBrick) this;
-//      for(CompoundDataClassBrick layer : thisAsLDCB.layers) {
-//        layer.remove();
-//      }
-//    } else {
-//      return Result.make(null,"data type for dcb is too generic");
-//    }
-//    return Result.make();
 
   public abstract void removeConflicts(String name, Object val);
 
