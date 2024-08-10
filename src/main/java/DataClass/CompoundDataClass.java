@@ -6,7 +6,7 @@ import java.util.Map;
 
 public abstract class CompoundDataClass extends OuterDataClass {
   HashMap<String, DataClass> inners = new HashMap<>();
-  int requiredSetValues;
+  protected int requiredSetValues;
   public CompoundDataClass(int requiredSetValues) {
     this.requiredSetValues = requiredSetValues;
   }

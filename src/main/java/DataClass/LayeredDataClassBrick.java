@@ -96,4 +96,19 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
     return containsName;
   }
 
+  @Override
+  public int getNumberOfSetValues() {
+    int numberOfSetLayers = 0;
+    for(CompoundDataClassBrick layer : layers) {
+      if(layer.isComplete()) {
+        numberOfSetLayers++;
+      }
+    }
+    return numberOfSetLayers;
+  }
+
+  public int getRequiredSetValues() {
+    return layers.size();
+  }
+
 }

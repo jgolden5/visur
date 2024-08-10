@@ -4,6 +4,7 @@ import DataClass.PrimitiveDataClassBrick;
 import DataClass.Result;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class BrickVisurVar implements VisurVar {
   PrimitiveDataClassBrick brick;
@@ -19,7 +20,7 @@ public class BrickVisurVar implements VisurVar {
   @Override
   public Object getVal() {
     if(!brick.isComplete()) {
-      Result<PrimitiveDataClassBrick> calculatedBrickResult = brick.getOrCalc(new ArrayList<>());
+      Result<PrimitiveDataClassBrick> calculatedBrickResult = brick.getOrCalc(new HashSet<>());
       PrimitiveDataClassBrick calculatedBrick = calculatedBrickResult.getVal();
       brick = calculatedBrick;
     }

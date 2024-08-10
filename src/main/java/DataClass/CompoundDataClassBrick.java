@@ -131,6 +131,21 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
+  public int getNumberOfSetValues() {
+    int numberOfSetInners = 0;
+    for(DataClassBrick inner : inners.values()) {
+      if(inner.isComplete()) {
+        numberOfSetInners++;
+      }
+    }
+    return numberOfSetInners;
+  }
+
+  public int getRequiredSetValues() {
+    return getCDC().requiredSetValues;
+  }
+
+  @Override
   public boolean containsName(String targetName) {
     boolean containsName = false;
     if(getName().equals(targetName)) {

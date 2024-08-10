@@ -1,8 +1,7 @@
 package DataClass;
 
-
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashSet;
 
 public class PrimitiveDataClassBrick extends DataClassBrick {
   private final PrimitiveDataClass pdc;
@@ -26,10 +25,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   public Result<PrimitiveDataClassBrick> getOrCalc() {
-    return getOrCalc(new ArrayList<>());
+    return getOrCalc(new HashSet<>());
   }
 
-  public Result<PrimitiveDataClassBrick> getOrCalc(ArrayList<DataClassBrick> dcbsAlreadySearched) {
+  public Result<PrimitiveDataClassBrick> getOrCalc(HashSet<DataClassBrick> dcbsAlreadySearched) {
     Result<PrimitiveDataClassBrick> r;
     Result<Object> resObj;
     if (isComplete()) {
@@ -37,41 +36,27 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       r = Result.make(this, null);
     } else {
       //2
-      resObj = calcIfSomeOuterOfThisIsComplete();
+      resObj = calcFromOuter();
       if (resObj.getVal() != null) {
         r = cacheVal(resObj.getVal());
       } else {
         //3
-        r = calcIfSomeOuterOfNeighborIsComplete(dcbsAlreadySearched);
+        dcbsAlreadySearched.add(this);
+        r = calcNeighbor(dcbsAlreadySearched);
         cacheVal(r.getVal());
-        r = getOrCalc(new ArrayList<>());
+        r = getOrCalc(new HashSet<>());
       }
     }
     return r;
   }
 
-  private Result<Object> calcIfSomeOuterOfThisIsComplete() {
+  private Result<Object> calcFromOuter() {
     Result<Object> outersCalcResult = Result.make(null, "no outers exist for this brick");
     for(OuterDataClassBrick outer : getOuters()) {
       outersCalcResult = outer.getOrCalc(getName());
       if(outersCalcResult.getError() == null) break;
     }
     return outersCalcResult;
-  }
-
-  private Result<PrimitiveDataClassBrick> calcIfSomeOuterOfNeighborIsComplete(ArrayList<DataClassBrick> dcbsAlreadySearched) {
-    Result r = Result.make(null, "outers or inners are missing");
-    for(OuterDataClassBrick outer : getOuters()) {
-      CompoundDataClassBrick outerAsCDCB = (CompoundDataClassBrick) outer;
-      for(Map.Entry<String, DataClassBrick> innerEntry : outerAsCDCB.inners.entrySet()) {
-        PrimitiveDataClassBrick inner = (PrimitiveDataClassBrick) innerEntry.getValue();
-        if(!(dcbsAlreadySearched.contains(inner) && inner.isComplete())) {
-          r = inner.getOrCalc(dcbsAlreadySearched);
-          dcbsAlreadySearched.add(inner);
-        }
-      }
-    }
-    return r;
   }
 
   private Result<PrimitiveDataClassBrick> cacheVal(Object resultingVal) {
@@ -148,6 +133,42 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
 
   public boolean getIsReadOnly() {
     return isReadOnly;
+  }
+
+  public Result<PrimitiveDataClassBrick> calcNeighbor(HashSet<DataClassBrick> dcbsAlreadySearched) {
+    Result r = Result.make(null, "outers or inners are missing");
+    HashSet<PrimitiveDataClassBrick> unsetNeighbors = getAllUnsetNeigbhors();
+    HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuter = getUnsetNeighborsWithUniqueOuter(unsetNeighbors);
+    boolean canCalculateThis = canCalculateThisIfNeighborsAreSet(unsetNeighborsWithUniqueOuter.size());
+    if(canCalculateThis) {
+      r = calcNeighborInternal(unsetNeighborsWithUniqueOuter);
+    }
+    return r;
+  }
+
+  private HashSet<PrimitiveDataClassBrick> getAllUnsetNeigbhors() {
+    return null;
+  }
+
+  private HashSet<PrimitiveDataClassBrick> getUnsetNeighborsWithUniqueOuter(HashSet<PrimitiveDataClassBrick> unsetNeighbors) {
+    return null;
+  }
+
+  private boolean canCalculateThisIfNeighborsAreSet(int numberOfValuesThatCouldBeCalculated) {
+    return false;
+  }
+
+  private Result<PrimitiveDataClassBrick> calcNeighborInternal(HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuter) {
+    Result<PrimitiveDataClassBrick> r = Result.make(null, "calcNeighborInternal failed");
+    for(PrimitiveDataClassBrick unsetNeighbor : unsetNeighborsWithUniqueOuter) {
+      r = unsetNeighbor.getOrCalc();
+      if(r.getError() == null) {
+        unsetNeighbor.cacheVal(r.getVal());
+      } else {
+        break;
+      }
+    }
+    return r;
   }
 
 }
