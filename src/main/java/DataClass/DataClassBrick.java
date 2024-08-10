@@ -1,6 +1,7 @@
 package DataClass;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 
 public abstract class DataClassBrick {
@@ -69,6 +70,54 @@ public abstract class DataClassBrick {
       }
     }
     return containsName;
+  }
+
+  protected HashSet<PrimitiveDataClassBrick> getAllUnsetNeighborsFromOuters(HashSet<DataClassBrick> dcbsAlreadySearched) {
+    HashSet<PrimitiveDataClassBrick> unsetNeighbors = new HashSet<>();
+    for(OuterDataClassBrick outer : outers) {
+      if(!dcbsAlreadySearched.contains(outer)) {
+        if (outer instanceof CompoundDataClassBrick) {
+          unsetNeighbors.addAll(getUnsetInnersOfCDCB(dcbsAlreadySearched, (CompoundDataClassBrick) outer));
+        } else {
+          unsetNeighbors.addAll(getUnsetInnersOfLDCB(dcbsAlreadySearched, (LayeredDataClassBrick) outer));
+        }
+        if (outer.getOuters() != null) {
+          for (OuterDataClassBrick outerOfOuter : outer.getOuters()) {
+            unsetNeighbors = outerOfOuter.getAllUnsetNeighborsFromOuters(dcbsAlreadySearched);
+          }
+        }
+        dcbsAlreadySearched.add(outer);
+      }
+    }
+    return unsetNeighbors;
+  }
+
+  private HashSet<PrimitiveDataClassBrick> getUnsetInnersOfCDCB(HashSet<DataClassBrick> dcbsAlreadySearched, CompoundDataClassBrick cdcb) {
+    HashSet<PrimitiveDataClassBrick> unsetInners = new HashSet<>();
+    for(DataClassBrick inner : cdcb.inners.values()) {
+      if(!(dcbsAlreadySearched.contains(inner) || inner.isComplete())) {
+        if (inner instanceof PrimitiveDataClassBrick) {
+          unsetInners.add((PrimitiveDataClassBrick) inner);
+        } else {
+          final HashSet<PrimitiveDataClassBrick> unsetInnersOfInner = getUnsetInnersOfCDCB(dcbsAlreadySearched, (CompoundDataClassBrick) inner);
+          unsetInners.addAll(unsetInnersOfInner);
+        }
+      }
+      dcbsAlreadySearched.add(inner);
+    }
+    return unsetInners;
+  }
+
+  private HashSet<PrimitiveDataClassBrick> getUnsetInnersOfLDCB(HashSet<DataClassBrick> dcbsAlreadySearched, LayeredDataClassBrick ldcb) {
+    HashSet<PrimitiveDataClassBrick> unsetInners = new HashSet<>();
+    for(CompoundDataClassBrick layer : ldcb.layers) {
+      if(!(dcbsAlreadySearched.contains(layer) || layer.isComplete())) {
+        final HashSet<PrimitiveDataClassBrick> unsetInnersOfLayer = getUnsetInnersOfCDCB(dcbsAlreadySearched, layer);
+        unsetInners.addAll(unsetInnersOfLayer);
+      }
+      dcbsAlreadySearched.add(layer);
+    }
+    return unsetInners;
   }
 
 }
