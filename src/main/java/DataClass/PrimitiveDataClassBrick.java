@@ -137,7 +137,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
 
   public Result<PrimitiveDataClassBrick> calcNeighbor(HashSet<DataClassBrick> dcbsAlreadySearched) {
     Result r = Result.make(null, "outers or inners are missing");
-    HashSet<PrimitiveDataClassBrick> unsetNeighbors = getAllUnsetNeigbhors(dcbsAlreadySearched);
+    HashSet<PrimitiveDataClassBrick> unsetNeighbors = getAllUnsetNeighbors(dcbsAlreadySearched);
     HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuter = getUnsetNeighborsWithUniqueOuter(unsetNeighbors);
     boolean canCalculateThis = canCalculateThisIfNeighborsAreSet(unsetNeighborsWithUniqueOuter.size());
     if(canCalculateThis) {
@@ -146,9 +146,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return r;
   }
 
-  private HashSet<PrimitiveDataClassBrick> getAllUnsetNeigbhors(HashSet<DataClassBrick> dcbsAlreadySearched) {
+  private HashSet<PrimitiveDataClassBrick> getAllUnsetNeighbors(HashSet<DataClassBrick> dcbsAlreadySearched) {
     HashSet<PrimitiveDataClassBrick> unsetNeighbors = new HashSet<>();
     for(OuterDataClassBrick outer : outers) {
+      dcbsAlreadySearched.add(outer);
       if(outer instanceof CompoundDataClassBrick) {
         unsetNeighbors = getUnsetInnersOfCDCB(dcbsAlreadySearched, (CompoundDataClassBrick)outer);
       } else {
@@ -158,12 +159,32 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return unsetNeighbors;
   }
 
-  private HashSet<PrimitiveDataClassBrick> getUnsetInnersOfCDCB(HashSet<DataClassBrick> dcbsAlreadySearched, CompoundDataClassBrick outer) {
-    return null;
+  private HashSet<PrimitiveDataClassBrick> getUnsetInnersOfCDCB(HashSet<DataClassBrick> dcbsAlreadySearched, CompoundDataClassBrick cdcb) {
+    HashSet<PrimitiveDataClassBrick> unsetInners = new HashSet<>();
+    for(DataClassBrick inner : cdcb.inners.values()) {
+      if(inner.isComplete() && !dcbsAlreadySearched.contains(inner)) {
+        if (inner instanceof PrimitiveDataClassBrick) {
+          unsetInners.add((PrimitiveDataClassBrick) inner);
+        } else {
+          final HashSet<PrimitiveDataClassBrick> unsetInnersOfInner = getUnsetInnersOfCDCB(dcbsAlreadySearched, (CompoundDataClassBrick) inner);
+          unsetInners.addAll(unsetInnersOfInner);
+        }
+      }
+      dcbsAlreadySearched.add(inner);
+    }
+    return unsetInners;
   }
 
-  private HashSet<PrimitiveDataClassBrick> getUnsetInnersOfLDCB(HashSet<DataClassBrick> dcbsAlreadySearched, LayeredDataClassBrick outer) {
-    return null;
+  private HashSet<PrimitiveDataClassBrick> getUnsetInnersOfLDCB(HashSet<DataClassBrick> dcbsAlreadySearched, LayeredDataClassBrick ldcb) {
+    HashSet<PrimitiveDataClassBrick> unsetInners = new HashSet<>();
+    for(CompoundDataClassBrick layer : ldcb.layers) {
+      if(layer.isComplete() && !dcbsAlreadySearched.contains(layer)) {
+        final HashSet<PrimitiveDataClassBrick> unsetInnersOfLayer = getUnsetInnersOfCDCB(dcbsAlreadySearched, layer);
+        unsetInners.addAll(unsetInnersOfLayer);
+      }
+      dcbsAlreadySearched.add(layer);
+    }
+    return unsetInners;
   }
 
   private HashSet<PrimitiveDataClassBrick> getUnsetNeighborsWithUniqueOuter(HashSet<PrimitiveDataClassBrick> unsetNeighbors) {
