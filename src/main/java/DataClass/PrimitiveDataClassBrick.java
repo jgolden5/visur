@@ -29,7 +29,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   public Result<PrimitiveDataClassBrick> getOrCalc(HashSet<DataClassBrick> dcbsAlreadySearched) {
-    Result<PrimitiveDataClassBrick> r;
+    Result<PrimitiveDataClassBrick> r = Result.make();
     Result<Object> resObj;
     if (isComplete()) {
       //1
@@ -37,15 +37,15 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     } else {
       //2
       resObj = calcFromOuter();
-      if (resObj.getVal() != null) {
-        r = cacheVal(resObj.getVal());
-      } else {
+      if (resObj.getVal() == null) {
         //3
         dcbsAlreadySearched.add(this);
         r = calcNeighbor(dcbsAlreadySearched);
         if(r.getError() == null) {
           r = getOrCalc(new HashSet<>());
         }
+      } else {
+        r.putError("no value found from calculations");
       }
     }
     return r;
@@ -60,7 +60,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return outersCalcResult;
   }
 
-  private Result<PrimitiveDataClassBrick> cacheVal(Object resultingVal) {
+  public Result<PrimitiveDataClassBrick> cacheVal(Object resultingVal) {
     Result r = Result.make(null, "val equals null");
     if(resultingVal != null) {
       DataFormBrick dfb = DataFormBrick.make(pdc.defaultDF, resultingVal);

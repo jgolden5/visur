@@ -1,6 +1,7 @@
 package CursorPositionDC;
 
 import DataClass.*;
+import io.reactivex.rxjava3.internal.operators.observable.ObservableScalarXMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,18 +60,27 @@ public class CoordinatesDC extends CompoundDataClass {
     return new PrimitiveDataClassBrick[]{caDCB, nlDCB, rcxDCB, cyDCB};
   }
 
-  private Result<Object> calcCAAndNL(Object[] coordinateVars) {
-    ArrayList<Integer> nl = (ArrayList<Integer>)coordinateVars[1];
-    int rcx = (int)coordinateVars[2];
-    int cy = (int)coordinateVars[3];
+  private Result<Object> calcCAAndNL(PrimitiveDataClassBrick[] coordinateBricks) {
+    PrimitiveDataClassBrick caDCB = coordinateBricks[0];
+    PrimitiveDataClassBrick nlDCB = coordinateBricks[1];
+    PrimitiveDataClassBrick rcxDCB = coordinateBricks[2];
+    PrimitiveDataClassBrick cyDCB = coordinateBricks[3];
+    ArrayList<Integer> nl = (ArrayList<Integer>) nlDCB.getVal();
+    int rcx = (int)rcxDCB.getVal();
+    int cy = (int)cyDCB.getVal();
     int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
     int ca = lineStart + rcx;
+    caDCB.cacheVal(ca);
     return Result.make(ca, null);
   }
 
-  private Result<Object> calcRCXCYAndNL(String name, PrimitiveDataClassBrick[] coordinateVars) {
-    int ca = (int)coordinateVars[0];
-    ArrayList<Integer> nl = (ArrayList<Integer>) coordinateVars[1];
+  private Result<Object> calcRCXCYAndNL(String name, PrimitiveDataClassBrick[] coordinateBricks) {
+    PrimitiveDataClassBrick caDCB = coordinateBricks[0];
+    PrimitiveDataClassBrick nlDCB = coordinateBricks[1];
+    PrimitiveDataClassBrick rcxDCB = coordinateBricks[2];
+    PrimitiveDataClassBrick cyDCB = coordinateBricks[3];
+    int ca = (int)caDCB.getVal();
+    ArrayList<Integer> nl = (ArrayList<Integer>) nlDCB.getVal();
     int cy;
     for(cy = 0; cy < nl.size(); cy++) {
       int nextLineStart = nl.get(cy);
@@ -78,13 +88,14 @@ public class CoordinatesDC extends CompoundDataClass {
     }
     int currentLineStart = cy > 0 ? nl.get(cy - 1) : 0;
     int rcx = ca - currentLineStart;
-
-    Result<Object> r = Result.make();
+    Result<Object> r = Result.make(null, "name not recognized");
     if(name.equals("rcx")) {
       r = Result.make(rcx, null);
     } else if(name.equals("cy")) {
       r = Result.make(cy, null);
     }
+    rcxDCB.cacheVal(rcx);
+    cyDCB.cacheVal(cy);
     return r;
   }
 
