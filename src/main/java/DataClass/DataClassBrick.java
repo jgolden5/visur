@@ -19,15 +19,19 @@ public abstract class DataClassBrick {
     return outers;
   }
 
-  public ArrayList<OuterDataClassBrick> getAllOutersInOrder() {
-    ArrayList<OuterDataClassBrick> allOuters = new ArrayList<>();
+  public ArrayList<ArrayList<OuterDataClassBrick>> getAllOutersInOrder() {
+    ArrayList<ArrayList<OuterDataClassBrick>> allOuters = new ArrayList<>();
     if(getOuters() != null) {
       for (OuterDataClassBrick outer : getOuters()) {
-        allOuters.add(outer);
+        ArrayList<OuterDataClassBrick> odcbArrayList = new ArrayList<>();
+        odcbArrayList.add(outer);
         if(outer.getOuters() != null) {
           for (OuterDataClassBrick outerOuter : getOuters()) {
-            allOuters.add(outerOuter);
+            odcbArrayList.add(outerOuter);
           }
+        }
+        if(odcbArrayList.size() > 0) {
+          allOuters.add(odcbArrayList);
         }
       }
     }
