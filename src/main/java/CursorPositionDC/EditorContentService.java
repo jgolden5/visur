@@ -114,11 +114,13 @@ public class EditorContentService {
   public void updateNextLineIndices(LocalMap<EditorModelKey, Object> editorModel) {
     String content = getEditorContent(editorModel);
     ArrayList<Integer> indices = new ArrayList<>();
-    for(int i = 0; i < content.length(); i++) {
-      if(content.charAt(i) == '\n') {
-        if(i < content.length()) {
-          indices.add(i);
+    for(int i = 0; i <= content.length(); i++) {
+      if(i < content.length()) {
+        if(content.charAt(i) == '\n') {
+          indices.add(i + 1);
         }
+      } else if(!indices.contains(content.length())) {
+        indices.add(i);
       }
     }
     indices.add(content.length());
