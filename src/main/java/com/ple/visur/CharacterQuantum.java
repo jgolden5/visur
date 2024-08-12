@@ -19,8 +19,12 @@ public class CharacterQuantum extends Quantum {
     int canvasWidth = emc.getCanvasWidth();
     int realCA = emc.getCA();
     int span = emc.getSpan();
-    realCA = moveRightOrLeftIfPossible(realCA, mv, newlineIndices, span);
-    realCA = moveDownOrUpIfPossible(realCA, mv, newlineIndices, span, canvasWidth);
+    if(mv.dx != 0) {
+      realCA = moveRightOrLeftIfPossible(realCA, mv, newlineIndices, span);
+    }
+    if(mv.dy != 0) {
+      realCA = moveDownOrUpIfPossible(realCA, mv, newlineIndices, span, canvasWidth);
+    }
     return realCA;
   }
 

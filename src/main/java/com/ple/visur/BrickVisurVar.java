@@ -3,7 +3,6 @@ package com.ple.visur;
 import DataClass.PrimitiveDataClassBrick;
 import DataClass.Result;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class BrickVisurVar implements VisurVar {
@@ -20,16 +19,14 @@ public class BrickVisurVar implements VisurVar {
   @Override
   public Object getVal() {
     if(!brick.isComplete()) {
-      Result<PrimitiveDataClassBrick> calculatedBrickResult = brick.getOrCalc(new HashSet<>());
-      PrimitiveDataClassBrick calculatedBrick = calculatedBrickResult.getVal();
-      brick = calculatedBrick;
+      brick.getOrCalc(new HashSet<>());
     }
     return brick.getVal();
   }
 
   @Override
-  public Result putVal(Object o) {
-    brick.put(o);
+  public Result putVal(Object v) {
+    brick.put(v);
     return Result.make();
   }
 
