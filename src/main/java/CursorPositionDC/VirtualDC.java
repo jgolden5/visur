@@ -36,7 +36,7 @@ public class VirtualDC extends CompoundDataClass {
   @Override
   public Result<Object> calcInternal(String targetName, OuterDataClassBrick thisAsBrick) {
     Result<Object> r;
-    int[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
+    PrimitiveDataClassBrick[] coordinatesVars = getAllVirtualPDCBs(thisAsBrick);
     CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
     if (targetName.equals("vcx") || targetName.equals("ll")) {
       r = calcVCXAndLL(targetName, coordinatesVars);
@@ -48,24 +48,22 @@ public class VirtualDC extends CompoundDataClass {
     return r;
   }
 
-  private int[] getAllCoordinatePDCBVals(OuterDataClassBrick thisAsBrick) {
-    CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick)thisAsBrick;
+  private PrimitiveDataClassBrick[] getAllVirtualPDCBs(OuterDataClassBrick thisAsBrick) {
+    CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
     CompoundDataClassBrick vcxAndLLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("vcxAndLL");
     PrimitiveDataClassBrick vcxDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("vcx");
     PrimitiveDataClassBrick llDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("ll");
     CompoundDataClassBrick rcxAndLODCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxAndLO");
     PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("rcx");
     PrimitiveDataClassBrick loDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("lo");
-    int vcx = vcxDCB.isComplete() ? (int)vcxDCB.getVal() : -1;
-    int ll = llDCB.isComplete() ? (int)llDCB.getVal() : -1;
-    int rcx = rcxDCB.isComplete() ?  (int)rcxDCB.getVal() : -1;
-    int lo = loDCB.isComplete() ? (int)loDCB.getVal() : -1;
-    return new int[]{vcx, ll, rcx, lo};
+    return new PrimitiveDataClassBrick[]{vcxDCB, llDCB, rcxDCB, loDCB};
   }
 
-  private Result<Object> calcVCXAndLL(String name, int[] coordinatesVars) {
-    int rcx = coordinatesVars[2];
-    int lo = coordinatesVars[3];
+  private Result<Object> calcVCXAndLL(String name, PrimitiveDataClassBrick[] coordinatesBricks) {
+    PrimitiveDataClassBrick rcxDCB = coordinatesBricks[2];
+    PrimitiveDataClassBrick loDCB = coordinatesBricks[3];
+    int rcx = (int)rcxDCB.getVal();
+    int lo = (int)loDCB.getVal();
     int vcx = lo > 0 ? rcx + lo : rcx;
     int ll = vcx - lo;
 
@@ -75,10 +73,11 @@ public class VirtualDC extends CompoundDataClass {
     } else if(name.equals("ll")) {
       r = Result.make(ll, null);
     }
+    rcxDCB.put(rcx);
     return r;
   }
 
-  private Result<Object> calcRCXAndLO(String name, int[] coordinatesVars) {
+  private Result<Object> calcRCXAndLO(String name, PrimitiveDataClassBrick[] coordinatesVars) {
     int vcx = coordinatesVars[0];
     int ll = coordinatesVars[1];
     int rcx = vcx > ll ? ll : vcx;

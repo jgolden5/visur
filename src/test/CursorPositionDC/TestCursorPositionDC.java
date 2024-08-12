@@ -633,7 +633,7 @@ public class TestCursorPositionDC {
     llDCB.getOrCalc().getVal();
     assertEquals(7, llDCB.getVal());
 
-    //11 if vcx = 1, cy = 0, & nl = [12, 25, 32], then ll should = 7 and rcx should = 1
+    //11 if vcx = 1, cy = 0, & nl = [12, 25, 32], then ll should = 12 and rcx should = 1
     cursorPositionDCB.remove();
     nlDCB.put(nl);
     vcxDCB.put(1);
@@ -642,10 +642,10 @@ public class TestCursorPositionDC {
     assertEquals(1, vcxDCB.getVal());
     assertEquals(0, cyDCB.getVal());
     rcxDCB.getOrCalc();
-    assertEquals(7, llDCB.getVal());
+    assertEquals(12, llDCB.getVal());
     assertEquals(1, rcxDCB.getVal());
 
-    //12 if vcx = 8, cy = 0, & nl = ^, then ll should = 7 and rcx should = 8
+    //12 if vcx = 8, cy = 0, & nl = ^, then ll should = 12 and rcx should = 8
     vcxDCB.put(8);
     assertEquals(nl, nlDCB.getVal());
     assertEquals(8, vcxDCB.getVal());

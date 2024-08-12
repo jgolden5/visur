@@ -4,7 +4,6 @@ import DataClass.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Stack;
 
 public class CoordinatesDC extends CompoundDataClass {
 
@@ -38,7 +37,7 @@ public class CoordinatesDC extends CompoundDataClass {
   @Override
   public Result<Object> calcInternal(String targetName, OuterDataClassBrick thisAsBrick) {
     Result<Object> r;
-    Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
+    PrimitiveDataClassBrick[] coordinatesVars = getAllCoordinatePDCBs(thisAsBrick);
     if (targetName.equals("ca")) {
       r = calcCAAndNL(coordinatesVars);
     } else if (targetName.equals("rcx") || targetName.equals("cy")) {
@@ -49,7 +48,7 @@ public class CoordinatesDC extends CompoundDataClass {
     return r;
   }
 
-  private Object[] getAllCoordinatePDCBVals(OuterDataClassBrick thisAsBrick) {
+  private PrimitiveDataClassBrick[] getAllCoordinatePDCBs(OuterDataClassBrick thisAsBrick) {
     CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
     CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("caAndNL");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
@@ -57,11 +56,7 @@ public class CoordinatesDC extends CompoundDataClass {
     CompoundDataClassBrick rcxCYAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxcyAndNL");
     PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxCYAndNLDCB.getInner("rcx");
     PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) rcxCYAndNLDCB.getInner("cy");
-    int ca = caDCB.isComplete() ? (int)caDCB.getVal() : 0;
-    ArrayList<Integer> nl = nlDCB.isComplete() ? (ArrayList<Integer>) nlDCB.getVal() : null;
-    int rcx = rcxDCB.isComplete() ? (int)rcxDCB.getVal() : 0;
-    int cy = cyDCB.isComplete() ? (int)cyDCB.getVal() : 0;
-    return new Object[]{ca, nl, rcx, cy};
+    return new PrimitiveDataClassBrick[]{caDCB, nlDCB, rcxDCB, cyDCB};
   }
 
   private Result<Object> calcCAAndNL(Object[] coordinateVars) {
@@ -73,7 +68,7 @@ public class CoordinatesDC extends CompoundDataClass {
     return Result.make(ca, null);
   }
 
-  private Result<Object> calcRCXCYAndNL(String name, Object[] coordinateVars) {
+  private Result<Object> calcRCXCYAndNL(String name, PrimitiveDataClassBrick[] coordinateVars) {
     int ca = (int)coordinateVars[0];
     ArrayList<Integer> nl = (ArrayList<Integer>) coordinateVars[1];
     int cy;

@@ -43,8 +43,9 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
         //3
         dcbsAlreadySearched.add(this);
         r = calcNeighbor(dcbsAlreadySearched);
-        cacheVal(r.getVal());
-        r = getOrCalc(new HashSet<>());
+        if(r.getError() == null) {
+          r = getOrCalc(new HashSet<>());
+        }
       }
     }
     return r;
@@ -139,7 +140,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     Result r;
     HashSet<PrimitiveDataClassBrick> unsetNeighbors = getAllUnsetNeighborsFromOuters(dcbsAlreadySearched);
     HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuters = getUnsetNeighborsWithUniqueOuters(unsetNeighbors);
-    r = calcNeighborInternal(unsetNeighborsWithUniqueOuters);
+    r = calcNeighborInternal(dcbsAlreadySearched, unsetNeighborsWithUniqueOuters);
     return r;
   }
 
@@ -154,13 +155,12 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return unsetNeighborsWithUniqueOuters;
   }
 
-  private Result<PrimitiveDataClassBrick> calcNeighborInternal(HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuter) {
+  private Result calcNeighborInternal(HashSet<DataClassBrick> dcbsAlreadySearched, HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuter) {
     Result<PrimitiveDataClassBrick> r = Result.make(null, "calcNeighborInternal failed");
     for(PrimitiveDataClassBrick unsetNeighbor : unsetNeighborsWithUniqueOuter) {
-      r = unsetNeighbor.getOrCalc();
+      r = unsetNeighbor.getOrCalc(dcbsAlreadySearched);
+      dcbsAlreadySearched.add(unsetNeighbor);
       if(r.getError() == null) {
-        unsetNeighbor.cacheVal(r.getVal());
-      } else {
         break;
       }
     }
