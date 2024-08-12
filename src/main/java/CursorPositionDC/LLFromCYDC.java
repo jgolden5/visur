@@ -54,9 +54,9 @@ public class LLFromCYDC extends CompoundDataClass {
     Result<Object> r;
     if(cy < nl.size()) {
       int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
-      int ll = nl.get(cy) - lineStart;
-      r = Result.make(ll, null);
-      llDCB.cacheVal(ll);
+      int lineLength = nl.get(cy) - lineStart;
+      r = Result.make(lineLength, null);
+      llDCB.cacheVal(lineLength);
     } else {
       r = Result.make(null, "cy is too big for nl");
     }

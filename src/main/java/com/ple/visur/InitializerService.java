@@ -120,8 +120,6 @@ public class InitializerService {
     llFromCYDCB.putInner("cyAndNL", cyAndNLDCB);
     virtualDCB.putInner("vcxAndLL", vcxAndLLDCB);
     virtualDCB.putInner("rcxAndLO", rcxAndLODCB);
-    cursorPositionDCB.putLayer(coordinatesDCB);
-    cursorPositionDCB.putLayer(virtualDCB);
 
     initializeBVVs(nlDCB, caDCB, rcxDCB, vcxDCB, cyDCB, llDCB);
 

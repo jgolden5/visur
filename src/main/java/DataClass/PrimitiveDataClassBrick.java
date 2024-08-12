@@ -32,13 +32,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     Result<PrimitiveDataClassBrick> r = Result.make();
     Result<Object> resObj;
     if (isComplete()) {
-      //1
       r = Result.make(this, null);
     } else {
-      //2
       resObj = calcFromOuter();
-      if(resObj.getVal() == null) {
-        //3
+      if(resObj.getError() != null) {
         dcbsAlreadySearched.add(this);
         r = calcNeighbor(dcbsAlreadySearched);
         if (r.getError() == null) {
@@ -158,9 +155,6 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     for(PrimitiveDataClassBrick unsetNeighbor : unsetNeighborsWithUniqueOuter) {
       r = unsetNeighbor.getOrCalc(dcbsAlreadySearched);
       dcbsAlreadySearched.add(unsetNeighbor);
-      if(r.getError() == null) {
-        break;
-      }
     }
     return r;
   }
