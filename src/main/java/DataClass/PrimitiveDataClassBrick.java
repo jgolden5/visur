@@ -136,13 +136,10 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   public Result<PrimitiveDataClassBrick> calcNeighbor(HashSet<DataClassBrick> dcbsAlreadySearched) {
-    Result r = Result.make(null, "outers or inners are missing");
+    Result r;
     HashSet<PrimitiveDataClassBrick> unsetNeighbors = getAllUnsetNeighborsFromOuters(dcbsAlreadySearched);
-    HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuter = getUnsetNeighborsWithUniqueOuters(unsetNeighbors);
-    boolean canCalculateThis = canCalculateThisIfNeighborsAreSet(unsetNeighborsWithUniqueOuter.size());
-    if(canCalculateThis) {
-      r = calcNeighborInternal(unsetNeighborsWithUniqueOuter);
-    }
+    HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuters = getUnsetNeighborsWithUniqueOuters(unsetNeighbors);
+    r = calcNeighborInternal(unsetNeighborsWithUniqueOuters);
     return r;
   }
 
@@ -155,10 +152,6 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
       }
     }
     return unsetNeighborsWithUniqueOuters;
-  }
-
-  private boolean canCalculateThisIfNeighborsAreSet(int numberOfValuesThatCouldBeCalculated) {
-    return false;
   }
 
   private Result<PrimitiveDataClassBrick> calcNeighborInternal(HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuter) {
