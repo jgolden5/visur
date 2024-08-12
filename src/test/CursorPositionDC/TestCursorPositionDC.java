@@ -583,14 +583,14 @@ public class TestCursorPositionDC {
     assertEquals(5, loDCB.getVal());
     rcxDCB.put(10);
     assertEquals(10, rcxDCB.getVal());
-    loDCB.getOrCalc().getVal();
+    loDCB.getOrCalc();
     assertEquals(5, loDCB.getVal());
-    rcxDCB.getOrCalc().getVal();
+    rcxDCB.getOrCalc();
     assertEquals(10, rcxDCB.getVal());
 
-    vcxDCB.getOrCalc().getVal();
+    vcxDCB.getOrCalc();
     assertEquals(15, vcxDCB.getVal());
-    llDCB.getOrCalc().getVal();
+    llDCB.getOrCalc();
     assertEquals(10, llDCB.getVal());
     assertTrue(rcxAndLODCB.isComplete());
     assertTrue(vcxAndLLDCB.isComplete());
@@ -601,9 +601,9 @@ public class TestCursorPositionDC {
     rcxDCB.put(8);
     assertEquals(8, rcxDCB.getVal());
 
-    vcxDCB.getOrCalc().getVal();
+    vcxDCB.getOrCalc();
     assertEquals(8, vcxDCB.getVal());
-    llDCB.getOrCalc().getVal();
+    llDCB.getOrCalc();
     assertEquals(10, llDCB.getVal());
     assertTrue(rcxAndLODCB.isComplete());
     assertTrue(vcxAndLLDCB.isComplete());
@@ -614,7 +614,7 @@ public class TestCursorPositionDC {
     assertEquals(0, cyDCB.getVal());
     assertEquals(nl, nlDCB.getVal());
 
-    llDCB.getOrCalc().getVal();
+    llDCB.getOrCalc();
     assertEquals(12, llDCB.getVal());
 
     //9 if cy = 1, ll should = 13
@@ -622,7 +622,7 @@ public class TestCursorPositionDC {
     assertEquals(1, cyDCB.getVal());
     assertEquals(nl, nlDCB.getVal());
 
-    llDCB.getOrCalc().getVal();
+    llDCB.getOrCalc();
     assertEquals(13, llDCB.getVal());
 
     //10 if cy = 2, ll should = 7
@@ -630,7 +630,7 @@ public class TestCursorPositionDC {
     assertEquals(2, cyDCB.getVal());
     assertEquals(nl, nlDCB.getVal());
 
-    llDCB.getOrCalc().getVal();
+    llDCB.getOrCalc();
     assertEquals(7, llDCB.getVal());
 
     //11 if vcx = 1, cy = 0, & nl = [12, 25, 32], then ll should = 12 and rcx should = 1

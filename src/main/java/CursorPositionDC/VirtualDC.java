@@ -74,8 +74,8 @@ public class VirtualDC extends CompoundDataClass {
     } else if(name.equals("ll")) {
       r = Result.make(ll, null);
     }
-    vcxDCB.put(vcx);
-    llDCB.put(ll);
+    vcxDCB.cacheVal(vcx);
+    llDCB.cacheVal(ll);
     return r;
   }
 

@@ -4,7 +4,6 @@ import DataClass.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Stack;
 
 public class LLFromCYDC extends CompoundDataClass {
   public LLFromCYDC(int requiredSetValues) {
@@ -37,37 +36,40 @@ public class LLFromCYDC extends CompoundDataClass {
   @Override
   public Result<Object> calcInternal(String targetName, OuterDataClassBrick thisAsBrick) {
     Result<Object> r;
-    Object[] coordinatesVars = getAllCoordinatePDCBVals(thisAsBrick);
+    PrimitiveDataClassBrick[] llFromCYPDCBs = getLLFromCYPDCBs(thisAsBrick);
     if (targetName.equals("ll")) {
-      r = calcLL(coordinatesVars);
+      r = calcLL(llFromCYPDCBs);
     } else {
       r = Result.make(null, "name not recognized");
     }
     return r;
   }
 
-  private Result<Object> calcLL(Object[] coordinatesVars) {
+  private Result<Object> calcLL(PrimitiveDataClassBrick[] llFromCYBricks) {
+    PrimitiveDataClassBrick llDCB = llFromCYBricks[0];
+    PrimitiveDataClassBrick cyDCB = llFromCYBricks[1];
+    PrimitiveDataClassBrick nlDCB = llFromCYBricks[2];
+    int cy = cyDCB.isComplete() ? (int)cyDCB.getVal() : 0;
+    ArrayList<Integer> nl = nlDCB.isComplete() ? (ArrayList<Integer>) nlDCB.getVal() : null;
     Result<Object> r;
-    int cy = (int)coordinatesVars[0];
-    ArrayList<Integer> nl = (ArrayList<Integer>) coordinatesVars[1];
     if(cy < nl.size()) {
       int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
       int ll = nl.get(cy) - lineStart;
       r = Result.make(ll, null);
+      llDCB.cacheVal(ll);
     } else {
       r = Result.make(null, "cy is too big for nl");
     }
     return r;
   }
 
-  private Object[] getAllCoordinatePDCBVals(OuterDataClassBrick thisAsBrick) {
+  private PrimitiveDataClassBrick[] getLLFromCYPDCBs(OuterDataClassBrick thisAsBrick) {
     CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
-    CompoundDataClassBrick cyAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("cyAndNL");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cyAndNLDCB.getInner("cy");
-    PrimitiveDataClassBrick nlDCB = (PrimitiveDataClassBrick) cyAndNLDCB.getInner("nl");
-    int cy = cyDCB.isComplete() ? (int)cyDCB.getVal() : 0;
-    ArrayList<Integer> nl = nlDCB.isComplete() ? (ArrayList<Integer>) nlDCB.getVal() : null;
-    return new Object[]{cy, nl};
+    CompoundDataClassBrick llcyAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("llcyAndNL");
+    PrimitiveDataClassBrick llDCB = (PrimitiveDataClassBrick) llcyAndNLDCB.getInner("ll");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) llcyAndNLDCB.getInner("cy");
+    PrimitiveDataClassBrick nlDCB = (PrimitiveDataClassBrick) llcyAndNLDCB.getInner("nl");
+    return new PrimitiveDataClassBrick[]{llDCB, cyDCB, nlDCB};
   }
 
 }
