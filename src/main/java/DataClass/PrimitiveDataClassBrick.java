@@ -147,11 +147,39 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   private HashSet<PrimitiveDataClassBrick> getUnsetNeighborsWithUniqueOuter(HashSet<PrimitiveDataClassBrick> unsetNeighbors) {
-    return null;
+    HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuter = new HashSet<>();
+    for(PrimitiveDataClassBrick neighbor : unsetNeighbors) {
+      if(neighbor.getOuters() != null) {
+        ArrayList<OuterDataClassBrick> outersOfNeighbor = neighbor.getAllOutersInOrder();
+        HashSet<OuterDataClassBrick> commonOutersOfNeighborAndThis = getAllCommonOuters(neighbor);
+        if(commonOutersOfNeighborAndThis.size() > 1) {
+          unsetNeighborsWithUniqueOuter.add(neighbor);
+          break;
+        }
+      }
+    }
+    return unsetNeighborsWithUniqueOuter;
   }
 
   private boolean canCalculateThisIfNeighborsAreSet(int numberOfValuesThatCouldBeCalculated) {
     return false;
+  }
+
+  private HashSet<OuterDataClassBrick> getAllCommonOuters(PrimitiveDataClassBrick neighbor) {
+    HashSet<OuterDataClassBrick> commonOuters = new HashSet<>();
+    if(getOuters() != null || neighbor.getOuters() != null) {
+      for (OuterDataClassBrick outerOfNeighbor : neighbor.getOuters()) {
+        for(OuterDataClassBrick outerOfThis : getOuters()) {
+          if(outerOfNeighbor.equals(outerOfThis)) {
+            commonOuters.add(outerOfThis);
+            break;
+          } else {
+
+          }
+        }
+      }
+    }
+    return commonOuters;
   }
 
   private Result<PrimitiveDataClassBrick> calcNeighborInternal(HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuter) {

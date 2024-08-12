@@ -19,6 +19,21 @@ public abstract class DataClassBrick {
     return outers;
   }
 
+  public ArrayList<OuterDataClassBrick> getAllOutersInOrder() {
+    ArrayList<OuterDataClassBrick> allOuters = new ArrayList<>();
+    if(getOuters() != null) {
+      for (OuterDataClassBrick outer : getOuters()) {
+        allOuters.add(outer);
+        if(outer.getOuters() != null) {
+          for (OuterDataClassBrick outerOuter : getOuters()) {
+            allOuters.add(outerOuter);
+          }
+        }
+      }
+    }
+    return allOuters;
+  }
+
   public Result<OuterDataClassBrick> getOuterContainingTargetName(String targetName) {
     Result r = Result.make(null, "target was not found");
     for(OuterDataClassBrick outer : outers) {
@@ -41,12 +56,12 @@ public abstract class DataClassBrick {
   public abstract boolean isComplete();
 
   public String getName() {
-                          return name;
-                                      }
+    return name;
+  }
 
   private void putName(String name) {
-                                   this.name = name;
-    }
+    this.name = name;
+  }
 
   public boolean containsName(String targetName) {
     boolean containsName = false;
