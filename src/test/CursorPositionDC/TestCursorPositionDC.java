@@ -361,8 +361,13 @@ public class TestCursorPositionDC {
     assertTrue(rcxAndLODCB.isComplete());
     assertTrue(virtualDCB.isComplete());
 
-    assertTrue(cursorPositionDCB.isComplete());//not possible because setting ll in llCYAndNL unsets cy,
+    assertFalse(cursorPositionDCB.isComplete());//not possible because setting ll in llCYAndNL unsets cy,
     // making it impossible to set llFromCYDCB and therefore also impossible to set CursorPositionDCB
+    //this can, however, be solved through the caching feature of getOrCalc
+    vcxDCB.put(0);
+    cyDCB.put(0);
+    rcxDCB.getOrCalc();
+    assertTrue(cursorPositionDCB.isComplete());
 
   }
 
