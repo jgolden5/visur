@@ -161,19 +161,6 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     return false;
   }
 
-  private HashSet<OuterDataClassBrick> getAllCommonOuters(PrimitiveDataClassBrick neighbor) {
-    HashSet<OuterDataClassBrick> commonOuters = new HashSet<>();
-    ArrayList<ArrayList<OuterDataClassBrick>> outersOfThis = getAllOutersInOrder();
-    ArrayList<ArrayList<OuterDataClassBrick>> outersOfNeighbor = neighbor.getAllOutersInOrder();
-    for(int i = 0; i < outersOfThis.size(); i++) {
-      ArrayList<OuterDataClassBrick> currentOuterGroup = outersOfThis.get(i);
-      for(int j = 0; j < currentOuterGroup.size(); j++) {
-
-      }
-    }
-    return commonOuters;
-  }
-
   private Result<PrimitiveDataClassBrick> calcNeighborInternal(HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuter) {
     Result<PrimitiveDataClassBrick> r = Result.make(null, "calcNeighborInternal failed");
     for(PrimitiveDataClassBrick unsetNeighbor : unsetNeighborsWithUniqueOuter) {

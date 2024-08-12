@@ -19,25 +19,6 @@ public abstract class DataClassBrick {
     return outers;
   }
 
-  public ArrayList<ArrayList<OuterDataClassBrick>> getAllOutersInOrder() {
-    ArrayList<ArrayList<OuterDataClassBrick>> allOuters = new ArrayList<>();
-    if(getOuters() != null) {
-      for (OuterDataClassBrick outer : getOuters()) {
-        ArrayList<OuterDataClassBrick> odcbArrayList = new ArrayList<>();
-        odcbArrayList.add(outer);
-        if(outer.getOuters() != null) {
-          for (OuterDataClassBrick outerOuter : getOuters()) {
-            odcbArrayList.add(outerOuter);
-          }
-        }
-        if(odcbArrayList.size() > 0) {
-          allOuters.add(odcbArrayList);
-        }
-      }
-    }
-    return allOuters;
-  }
-
   public Result<OuterDataClassBrick> getOuterContainingTargetName(String targetName) {
     Result r = Result.make(null, "target was not found");
     for(OuterDataClassBrick outer : outers) {
