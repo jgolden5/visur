@@ -411,25 +411,23 @@ public class TestCursorPositionDC {
     assertEquals(3, cyDCB.getVal());
     assertTrue(cyAndNLDCB.isComplete());
 
-    //llcyAndNL can be set when nl and cy are unset
+    //llcyAndNL CAN'T be set when nl and cy are unset, because setting ll with put unsets cy
     cyAndNLDCB.remove();
     assertFalse(cyAndNLDCB.isComplete());
     assertFalse(llcyAndNLDCB.isComplete());
     llDCB.put(10);
     assertEquals(10, llDCB.getVal());
-    assertFalse(llcyAndNLDCB.isComplete()); //actually, this is impossible because llcyAndNL currently can never be set
-    assertTrue(cyAndNLDCB.isComplete());
+    assertFalse(llcyAndNLDCB.isComplete());
+    assertFalse(cyAndNLDCB.isComplete());
 
     //virtual
     //set vcxAndLL when rcxAndLO is unset
     assertFalse(rcxAndLODCB.isComplete());
     assertFalse(vcxAndLLDCB.isComplete());
+    assertTrue(llDCB.isComplete());
 
     vcxDCB.put(0);
     assertEquals(0, vcxDCB.getVal());
-    assertFalse(vcxAndLLDCB.isComplete());
-    llDCB.put(10);
-    assertEquals(10, llDCB.getVal());
     assertTrue(vcxAndLLDCB.isComplete());
 
     //set rcxAndLO when vcxAndLL is unset
@@ -468,12 +466,20 @@ public class TestCursorPositionDC {
     assertTrue(rcxcyAndNLDCB.isComplete());
     assertFalse(caAndNLDCB.isComplete());
 
+    //llFromCY
+    //setting ll unsets cyAndNL if cyAndNL is set
+    assertTrue(cyAndNLDCB.isComplete());
+    llDCB.put(10);
+    assertTrue(llDCB.isComplete());
+    assertFalse(cyDCB.isComplete());
+    assertFalse(cyAndNLDCB.isComplete());
+    assertFalse(llcyAndNLDCB.isComplete());
+
     //virtual
     //setting vcxAndLL unsets rcxAndLO if rcxAndLO is set
-    assertFalse(rcxAndLODCB.isComplete());
-    assertTrue(rcxDCB.isComplete());
-    loDCB.put(-3);
-    assertFalse(vcxAndLLDCB.isComplete());
+    vcxAndLLDCB.remove();
+    rcxDCB.put(8);
+    loDCB.put(-1);
     assertTrue(rcxAndLODCB.isComplete());
     vcxDCB.put(5);
     assertFalse(vcxAndLLDCB.isComplete());
