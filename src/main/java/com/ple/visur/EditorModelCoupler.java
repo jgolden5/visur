@@ -69,6 +69,11 @@ public class EditorModelCoupler {
     return (int)cyBVV.getVal();
   }
 
+  public int getLL() {
+    BrickVisurVar llBVV = (BrickVisurVar) getGlobalVar("ll");
+    return (int)llBVV.getVal();
+  }
+
   public String getContentLineAtY(int y) {
     return ecs.getContentLineAtY(y, editorModel);
   }
@@ -248,6 +253,11 @@ public class EditorModelCoupler {
     putGlobalVar("cy", cyBVV);
   }
 
+  public void putLL(int ll) {
+    BrickVisurVar llBVV = (BrickVisurVar) getGlobalVar("ll");
+    llBVV.putVal(ll);
+    putGlobalVar("ll", llBVV);
+  }
 
   public void updateNextLineIndices() {
     ecs.updateNextLineIndices(editorModel);

@@ -112,18 +112,17 @@ public class CharacterQuantum extends Quantum {
   private int moveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
     int vcx = emc.getVCX();
     int cy = emc.getCY();
-    int caOfStartLine = cy > 0 ? newlineIndices.get(cy - 1) + 1 : 0;
-    int caOfEndLine = newlineIndices.get(cy);
-    int sizeOfLongLine = caOfEndLine - caOfStartLine;
-    int sizeOfTrailingStringOnLastShortLine = sizeOfLongLine % canvasWidth;
-    int maxVCXBeforeCYWillIncrement = sizeOfLongLine - sizeOfTrailingStringOnLastShortLine;
-    if(vcx > maxVCXBeforeCYWillIncrement) {
+    int ll = emc.getLL();
+    int startOfLastShortInLong = ll > canvasWidth ? ll - (ll % canvasWidth) : 0;
+    boolean shouldIncrementCY = vcx >= startOfLastShortInLong;
+    if(shouldIncrementCY) {
+      cy++;
       vcx = vcx % canvasWidth;
-      emc.putCY(++cy);
     } else {
       vcx += canvasWidth;
     }
     emc.putVCX(vcx); //see line 113 getVirtualLongCX
+    emc.putCY(cy);
     return emc.getCA();
   }
 

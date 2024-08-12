@@ -123,21 +123,23 @@ public class InitializerService {
     cursorPositionDCB.putLayer(coordinatesDCB);
     cursorPositionDCB.putLayer(virtualDCB);
 
-    initializeBVVs(nlDCB, caDCB, rcxDCB, vcxDCB, cyDCB);
+    initializeBVVs(nlDCB, caDCB, rcxDCB, vcxDCB, cyDCB, llDCB);
 
   }
 
-  private void initializeBVVs(PrimitiveDataClassBrick nlDCB, PrimitiveDataClassBrick caDCB, PrimitiveDataClassBrick rcxDCB, PrimitiveDataClassBrick vcxDCB, PrimitiveDataClassBrick cyDCB) {
+  private void initializeBVVs(PrimitiveDataClassBrick nlDCB, PrimitiveDataClassBrick caDCB, PrimitiveDataClassBrick rcxDCB, PrimitiveDataClassBrick vcxDCB, PrimitiveDataClassBrick cyDCB, PrimitiveDataClassBrick llDCB) {
     BrickVisurVar nlBVV = BrickVisurVar.make(nlDCB);
     BrickVisurVar caBVV = BrickVisurVar.make(caDCB);
     BrickVisurVar rcxBVV = BrickVisurVar.make(rcxDCB);
     BrickVisurVar vcxBVV = BrickVisurVar.make(vcxDCB);
     BrickVisurVar cyBVV = BrickVisurVar.make(cyDCB);
+    BrickVisurVar llBVV = BrickVisurVar.make(llDCB);
     emc.putGlobalVar("nl", nlBVV);
     emc.putGlobalVar("ca", caBVV);
     emc.putGlobalVar("rcx", rcxBVV);
     emc.putGlobalVar("vcx", vcxBVV);
     emc.putGlobalVar("cy", cyBVV);
+    emc.putGlobalVar("ll", llBVV);
   }
 
   private void initializeQuantums() {
