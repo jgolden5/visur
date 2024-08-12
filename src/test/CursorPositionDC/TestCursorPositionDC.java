@@ -651,7 +651,7 @@ public class TestCursorPositionDC {
     assertEquals(8, vcxDCB.getVal());
     assertEquals(0, cyDCB.getVal());
     rcxDCB.getOrCalc();
-    assertEquals(7, llDCB.getVal());
+    assertEquals(12, llDCB.getVal());
     assertEquals(8, rcxDCB.getVal());
 
     //13 if vcx = 12, cy = 1, & nl = ^, then ll should = 13 and rcx should = 12

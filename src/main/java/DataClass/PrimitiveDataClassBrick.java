@@ -37,15 +37,13 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     } else {
       //2
       resObj = calcFromOuter();
-      if (resObj.getVal() == null) {
+      if(resObj.getVal() == null) {
         //3
         dcbsAlreadySearched.add(this);
         r = calcNeighbor(dcbsAlreadySearched);
-        if(r.getError() == null) {
+        if (r.getError() == null) {
           r = getOrCalc(new HashSet<>());
         }
-      } else {
-        r.putError("no value found from calculations");
       }
     }
     return r;
