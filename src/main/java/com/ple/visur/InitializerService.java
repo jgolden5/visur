@@ -82,8 +82,10 @@ public class InitializerService {
     WholeNumberListDC wholeNumberListDC = cursorPositionDCHolder.wholeNumberListDC;
     PrimitiveDataClassBrick nlDCB = wholeNumberListDC.makeBrick("nl", new ArrayList<>(), true);
     PrimitiveDataClassBrick rcxDCB = wholeNumberDC.makeBrick("rcx", new ArrayList<>(), false);
+    PrimitiveDataClassBrick cyDCB = wholeNumberDC.makeBrick("cy", new ArrayList<>(), false);
+    PrimitiveDataClassBrick llDCB = wholeNumberDC.makeBrick("ll", new ArrayList<>(), false);
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
-    LayeredDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB, rcxDCB);
+    LayeredDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB, rcxDCB, cyDCB, llDCB);
     CompoundDataClassBrick coordinatesDCB = cursorPositionDCB.getLayer(0);
     CompoundDataClassBrick virtualDCB = cursorPositionDCB.getLayer(1);
     CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
@@ -91,9 +93,7 @@ public class InitializerService {
     CompoundDataClassBrick vcxAndLLDCB = (CompoundDataClassBrick) virtualDCB.getInner("vcxAndLL");
     CompoundDataClassBrick rcxAndLODCB = (CompoundDataClassBrick) virtualDCB.getInner("rcxAndLO");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) rcxcyAndNLDCB.getInner("cy");
     PrimitiveDataClassBrick vcxDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("vcx");
-    PrimitiveDataClassBrick llDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("ll");
     PrimitiveDataClassBrick loDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("lo");
     caAndNLDCB.putInner("ca", caDCB);
     caAndNLDCB.putInner("nl", nlDCB);
