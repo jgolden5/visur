@@ -47,21 +47,6 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     return numberOfSetValues >= cdc.requiredSetValues;
   }
 
-  public Result removeInner(String name) {
-    DataClassBrick inner = inners.get(name);
-    if(inner instanceof PrimitiveDataClassBrick) {
-      PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
-      innerAsPDCB.putDFB(null);
-      inners.put(name, innerAsPDCB);
-    } else if(inner instanceof CompoundDataClassBrick){
-      CompoundDataClassBrick innerAsCDCB = (CompoundDataClassBrick) inner;
-      for(String innerInnerName : innerAsCDCB.inners.keySet()) {
-        innerAsCDCB.removeInner(innerInnerName);
-      }
-    }
-    return Result.make();
-  }
-
   public CompoundDataClassBrick getInitializedBrickFromInners(HashMap<String, DataClassBrick> cursorPositionDCBInners) {
     inners = cursorPositionDCBInners;
     return this;

@@ -4,7 +4,6 @@ import DataClass.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Stack;
 
 public class LLCYAndNLDC extends CompoundDataClass {
   public LLCYAndNLDC(int requiredSetValues) {

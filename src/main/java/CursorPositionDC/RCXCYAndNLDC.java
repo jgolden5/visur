@@ -4,7 +4,6 @@ import DataClass.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Stack;
 
 public class RCXCYAndNLDC extends CompoundDataClass {
   public RCXCYAndNLDC(int requiredSetValues) {
@@ -33,10 +32,6 @@ public class RCXCYAndNLDC extends CompoundDataClass {
 
   @Override
   public Result<Object> calcInternal(String targetName, OuterDataClassBrick thisAsBrick) {
-//    ArrayList<OuterDataClassBrick> outers = thisAsBrick.getOuters();
-//    OuterDataClassBrick coordinatesDCB = outers.get(0);
-//    CoordinatesDC coordinatesDC = (CoordinatesDC)coordinatesDCB.dc;
-//    return coordinatesDC.calcInternal(name, coordinatesDCB);
     return null;
   }
 

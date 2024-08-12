@@ -3,7 +3,6 @@ package CursorPositionDC;
 import DataClass.*;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class WholeNumberListDC extends PrimitiveDataClass {
   public WholeNumberListDC(DataForm defaultDF) {

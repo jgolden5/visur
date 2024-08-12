@@ -4,7 +4,6 @@ import DataClass.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Stack;
 
 public class VCXAndLLDC extends CompoundDataClass {
 
@@ -32,10 +31,6 @@ public class VCXAndLLDC extends CompoundDataClass {
 
   @Override
   public Result<Object> calcInternal(String targetName, OuterDataClassBrick thisAsBrick) {
-//    ArrayList<OuterDataClassBrick> outers = thisAsBrick.getOuters();
-//    OuterDataClassBrick virtualDCB = outers.get(0);
-//    VirtualDC virtualDC = (VirtualDC)virtualDCB.dc;
-//    return virtualDC.calcInternal(name, virtualDCB);
     return null;
   }
 

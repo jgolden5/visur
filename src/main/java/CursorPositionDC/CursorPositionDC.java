@@ -4,8 +4,6 @@ import DataClass.*;
 import DataClass.Result;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Stack;
 
 public class CursorPositionDC extends LayeredDataClass {
 

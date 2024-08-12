@@ -1,7 +1,6 @@
 package CursorPositionDC;
 
 import DataClass.*;
-import io.reactivex.rxjava3.internal.operators.observable.ObservableScalarXMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;

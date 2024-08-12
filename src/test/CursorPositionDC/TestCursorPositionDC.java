@@ -644,6 +644,7 @@ public class TestCursorPositionDC {
     llDCB.getOrCalc();
     assertEquals(7, llDCB.getVal());
 
+    //using calcNeighbor
     //11 if vcx = 1, cy = 0, & nl = [12, 25, 32], then ll should = 12, rcx should = 1, and lo should = -11
     cursorPositionDCB.remove();
     nlDCB.put(nl);

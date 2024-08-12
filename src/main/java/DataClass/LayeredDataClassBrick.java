@@ -40,11 +40,6 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
     return true;
   }
 
-  public LayeredDataClassBrick initLayersAndReturnBrick(ArrayList<CompoundDataClassBrick> layers) {
-    this.layers = layers;
-    return this;
-  }
-
   @Override
   public Result<PrimitiveDataClassBrick> get(String targetName) {
     return null;

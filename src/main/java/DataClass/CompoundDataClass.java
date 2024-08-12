@@ -1,8 +1,6 @@
 package DataClass;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public abstract class CompoundDataClass extends OuterDataClass {
   HashMap<String, DataClass> inners = new HashMap<>();
