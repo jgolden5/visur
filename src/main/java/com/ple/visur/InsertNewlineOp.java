@@ -13,7 +13,7 @@ public class InsertNewlineOp implements Operator {
     emc.putCA(++realCA);
     emc.updateNextLineIndices();
     Quantum cursorQuantum = emc.getCursorQuantum();
-    int[] bounds = cursorQuantum.getBoundaries(realCA, emc.getNewlineIndices(), emc.getSpan(), false);
+    int[] bounds = cursorQuantum.getBoundaries(realCA, emc.getNextLineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(bounds[0]);
     emc.putCursorQuantumEnd(bounds[1]);
   }

@@ -160,7 +160,7 @@ public class InitializerService {
     emc.putCursorQuantum(emc.getQuantumNameToQuantum().get(startingCursorQuantumName));
     emc.putScopeQuantum(emc.getQuantumNameToQuantum().get(startingScopeQuantumName));
     int realCA = emc.getCA();
-    int bounds[] = emc.getQuantumNameToQuantum().get(startingCursorQuantumName).getBoundaries(realCA, emc.getNewlineIndices(), emc.getSpan(), false);
+    int bounds[] = emc.getQuantumNameToQuantum().get(startingCursorQuantumName).getBoundaries(realCA, emc.getNextLineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(bounds[0]);
     emc.putCursorQuantumEnd(bounds[1]);
     emc.putIsAtQuantumStart(true);

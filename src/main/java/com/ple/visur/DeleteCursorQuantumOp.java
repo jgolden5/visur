@@ -19,7 +19,7 @@ public class DeleteCursorQuantumOp implements Operator {
         emc.putCA(realCA);
       }
       Quantum cursorQuantum = emc.getCursorQuantum();
-      int[] bounds = cursorQuantum.getBoundaries(realCA, emc.getNewlineIndices(), span, false);
+      int[] bounds = cursorQuantum.getBoundaries(realCA, emc.getNextLineIndices(), span, false);
       emc.putCursorQuantumStart(bounds[0]);
       emc.putCursorQuantumEnd(bounds[1]);
     }

@@ -35,7 +35,7 @@ public class LineQuantum extends Quantum {
 
   private int getQuantumStart(int current) {
     int qStart = current;
-    ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
+    ArrayList<Integer> newlineIndices = emc.getNextLineIndices();
     if(newlineIndices.size() > 0) {
       for (int i = newlineIndices.size() - 1; i >= 0; i--) {
         if (current > newlineIndices.get(i)) {
@@ -54,7 +54,7 @@ public class LineQuantum extends Quantum {
   private int getQuantumEnd(int current) {
     int qEnd = current;
     String editorContent = emc.getEditorContent();
-    ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
+    ArrayList<Integer> newlineIndices = emc.getNextLineIndices();
     if(newlineIndices.size() > 0) {
       for (int i = 0; i <= newlineIndices.size() - 1; i++) {
         if (current <= newlineIndices.get(i)) {
@@ -92,7 +92,6 @@ public class LineQuantum extends Quantum {
         mv.dx++;
       }
       emc.putCA(realCA);
-      emc.putVCX(emc.getRCX());
     }
     return realCA;
   }

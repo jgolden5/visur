@@ -30,45 +30,18 @@ public class EditorContentService {
     return (VariableMap) editorModel.get(globalVariableMap);
   }
 
-  public String getCurrentContentLine(LocalMap<EditorModelKey, Object> editorModel) {
-    BrickVisurVar cyBVV = (BrickVisurVar)getGlobalVar("cy", editorModel);
-    int cy = (int)cyBVV.getVal();
-    return getContentLineAtY(cy, editorModel);
-  }
-
-  public String getContentLineAtY(int y, LocalMap<EditorModelKey, Object> editorModel) {
-    final String content = getEditorContent(editorModel);
-    ArrayList<Integer> newlineIndices = getNewlineIndices(editorModel);
-    String currentContentLine = content;
-    if(newlineIndices.size() > 1) {
-      int lastNewlineIndex = newlineIndices.get(newlineIndices.size() - 1);
-      if (y < newlineIndices.size()) {
-        if (y > 0) {
-          currentContentLine = content.substring(newlineIndices.get(y - 1) + 1, newlineIndices.get(y));
-        } else {
-          currentContentLine = content.substring(0, newlineIndices.get(y));
-        }
-      } else if (content.length() > lastNewlineIndex + 1) {
-        currentContentLine = content.substring(lastNewlineIndex + 1);
-      } else {
-        currentContentLine = null;
-      }
-    }
-    return currentContentLine;
-  }
-
   public int[] calcLongLineBoundaries(int realCA, ArrayList<Integer> newlineIndices, int span, boolean includeTail, LocalMap<EditorModelKey, Object> editorModel) {
     LineQuantum lineQuantum = new LineQuantum();
     return lineQuantum.getBoundaries(realCA, newlineIndices, span, false);
   }
 
-  public ArrayList<Integer> getNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
+  public ArrayList<Integer> getNextLineIndices(LocalMap<EditorModelKey, Object> editorModel) {
     BrickVisurVar nlBVV = (BrickVisurVar)getGlobalVar("nl", editorModel);
     return (ArrayList<Integer>) nlBVV.getVal();
   }
 
   public int calcNextNewlineIndexFromAbsPosition(int realCA, LocalMap<EditorModelKey, Object> editorModel) {
-    ArrayList<Integer> newlineIndices = getNewlineIndices(editorModel);
+    ArrayList<Integer> newlineIndices = getNextLineIndices(editorModel);
     int nextNewlineIndex = -1;
     for(int i = 0; i < newlineIndices.size(); i++) {
       nextNewlineIndex = newlineIndices.get(i);

@@ -8,7 +8,7 @@ public class RelativeMoveOp implements Operator {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String editorContent = emc.getEditorContent();
-    ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
+    ArrayList<Integer> newlineIndices = emc.getNextLineIndices();
     int dy = (int)eds.pop();
     int dx = (int)eds.pop();
     Quantum cursorQuantum = emc.getCursorQuantum();

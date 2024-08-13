@@ -74,12 +74,8 @@ public class EditorModelCoupler {
     return (int)llBVV.getVal();
   }
 
-  public String getContentLineAtY(int y) {
-    return ecs.getContentLineAtY(y, editorModel);
-  }
-
-  public ArrayList<Integer> getNewlineIndices() {
-    return ecs.getNewlineIndices(editorModel);
+  public ArrayList<Integer> getNextLineIndices() {
+    return ecs.getNextLineIndices(editorModel);
   }
 
   public int calcNextNewlineIndexFromAbsPosition(int realCA) {
@@ -123,7 +119,7 @@ public class EditorModelCoupler {
   public String getCurrentLine() {
     String currentLine;
     String editorContent = getEditorContent();
-    ArrayList<Integer> newlineIndices = getNewlineIndices();
+    ArrayList<Integer> newlineIndices = getNextLineIndices();
     int cy = getCY();
     if(cy == 0) {
       currentLine = editorContent.substring(0, newlineIndices.get(cy));
