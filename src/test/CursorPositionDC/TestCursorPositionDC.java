@@ -497,6 +497,15 @@ public class TestCursorPositionDC {
     assertFalse(vcxAndLLDCB.isComplete());
     assertTrue(rcxAndLODCB.isComplete());
 
+    //setting vcxAndLL unsets rcxcyAndNL AND caAndNL when rcxcyAndNL and caAndNL are set
+    cyDCB.put(0);
+    assertTrue(rcxcyAndNLDCB.isComplete());
+    caDCB.put(0);
+    assertTrue(caAndNLDCB.isComplete());
+    vcxDCB.put(1);
+    assertFalse(rcxcyAndNLDCB.isComplete());
+    assertFalse(caAndNLDCB.isComplete());
+
   }
 
   @Test void getOrCalc() {

@@ -2,6 +2,7 @@ package DataClass;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class CompoundDataClassBrick extends OuterDataClassBrick {
@@ -92,16 +93,22 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
-  public void conflictsCheckAndRemove(String name, Object val) {
+  public void removeInnersNotMatchingName(String name, HashSet<DataClassBrick> dcbsAlreadyChecked) {
     boolean conflictsFound = false;
     for(OuterDataClassBrick outer : outers) {
       if(outer instanceof LayeredDataClassBrick) {
         outer.remove();
       } else if(outer instanceof CompoundDataClassBrick) {
         CompoundDataClassBrick outerAsCDCB = (CompoundDataClassBrick) outer;
-        for(DataClassBrick inner : outerAsCDCB.inners.values()) {
-          if(!inner.equals(this)) {
-            inner.remove();
+        for(DataClassBrick neighbor : outerAsCDCB.inners.values()) {
+          boolean neighborIsThisOrOuterOfThis = neighbor.containsName(name);
+          boolean thisWasAlreadyChecked = dcbsAlreadyChecked.contains(this);
+          if(!(neighborIsThisOrOuterOfThis && thisWasAlreadyChecked)) {
+            neighbor.remove();
+            dcbsAlreadyChecked.add(this);
+            if(neighbor instanceof PrimitiveDataClassBrick) {
+              ((PrimitiveDataClassBrick)neighbor).removeAllNeighboringInners(dcbsAlreadyChecked);
+            }
           }
         }
       }
@@ -110,7 +117,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     }
     if(!conflictsFound) {
       for(OuterDataClassBrick outer : outers) {
-        outer.conflictsCheckAndRemove(name, val);
+        outer.removeInnersNotMatchingName(name, dcbsAlreadyChecked);
       }
     }
   }

@@ -72,12 +72,16 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
 
   public void put(Object val) {
     if(!isReadOnly) {
-      ArrayList<OuterDataClassBrick> outers = getOuters();
-      for (OuterDataClassBrick outer : outers) {
-        outer.conflictsCheckAndRemove(getName(), val);
-      }
+      removeAllNeighboringInners(new HashSet<>());
     }
     putVal(val);
+  }
+
+  public void removeAllNeighboringInners(HashSet<DataClassBrick> dcbsAlreadyChecked) {
+    ArrayList<OuterDataClassBrick> outers = getOuters();
+    for (OuterDataClassBrick outer : outers) {
+      outer.removeInnersNotMatchingName(getName(), dcbsAlreadyChecked);
+    }
   }
 
   @Override

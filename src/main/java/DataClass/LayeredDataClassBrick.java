@@ -1,6 +1,7 @@
 package DataClass;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Stack;
 
@@ -71,7 +72,7 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
 
 
   @Override
-  public void conflictsCheckAndRemove(String name, Object val) {
+  public void removeInnersNotMatchingName(String name, HashSet<DataClassBrick> dcbsAlreadyChecked) {
 
   }
 
