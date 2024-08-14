@@ -711,6 +711,20 @@ public class TestCursorPositionDC {
     assertEquals(7, rcxDCB.getVal());
     assertEquals(1, loDCB.getVal());
 
+    //17 if vcx = 9, cy = 1, & nl = ^, then ll should = 13, rcx should = 9, ca should = 21
+    vcxDCB.put(9);
+    cyDCB.put(1);
+    assertEquals(nl, nlDCB.getVal());
+    assertEquals(9, vcxDCB.getVal());
+    assertEquals(1, cyDCB.getVal());
+    assertFalse(llDCB.isComplete());
+    assertFalse(rcxDCB.isComplete());
+    assertFalse(caDCB.isComplete());
+    caDCB.getOrCalc();
+    assertEquals(13, llDCB.getVal());
+    assertEquals(9, rcxDCB.getVal());
+    assertEquals(21, caDCB.getVal());
+
   }
 
 }
