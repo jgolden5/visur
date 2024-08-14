@@ -102,11 +102,29 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveRight() {
-    return emc.getCA() + 1;
+    int rcx = emc.getRCX();
+    int ll = emc.getLL();
+    if(rcx + 1 > ll) {
+      int cy = emc.getCY();
+      emc.putCY(++cy);
+      emc.putRCX(0);
+    } else {
+      emc.putRCX(++rcx);
+    }
+    return emc.getCA();
   }
 
   private int moveLeft() {
-    return emc.getCA() - 1;
+    int rcx = emc.getRCX();
+    if(rcx > 0) {
+      emc.putRCX(--rcx);
+    } else {
+      int cy = emc.getCY();
+      emc.putCY(--cy);
+      int ll = emc.getLL();
+      emc.putRCX(ll);
+    }
+    return emc.getCA();
   }
 
   private int moveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
