@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class CharacterQuantum extends Quantum {
   EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
   @Override
-  public int[] getBoundaries(int ca, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
-    int lastNewlineIndex = newlineIndices.get(newlineIndices.size() - 1);
+  public int[] getBoundaries(int ca, ArrayList<Integer> nextLineIndices, int span, boolean includeTail) {
+    int lastNewlineIndex = nextLineIndices.get(nextLineIndices.size() - 1);
     if(ca < lastNewlineIndex) {
       return new int[]{ca, ca + 1};
     } else {
@@ -15,24 +15,24 @@ public class CharacterQuantum extends Quantum {
   }
 
   @Override
-  public int moveIfPossible(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
+  public int moveIfPossible(String editorContent, ArrayList<Integer> nextLineIndices, MovementVector mv) {
     int canvasWidth = emc.getCanvasWidth();
     int realCA = emc.getCA();
     int span = emc.getSpan();
     if(mv.dx != 0) {
-      realCA = moveRightOrLeftIfPossible(realCA, mv, newlineIndices, span);
+      realCA = moveRightOrLeftIfPossible(realCA, mv, nextLineIndices, span);
     }
     if(mv.dy != 0) {
-      realCA = moveDownOrUpIfPossible(realCA, mv, newlineIndices, span, canvasWidth);
+      realCA = moveDownOrUpIfPossible(realCA, mv, nextLineIndices, span, canvasWidth);
     }
     return realCA;
   }
 
-  private int moveRightOrLeftIfPossible(int realCA, MovementVector mv, ArrayList<Integer> newlineIndices, int span) {
+  private int moveRightOrLeftIfPossible(int realCA, MovementVector mv, ArrayList<Integer> nextLineIndices, int span) {
     int destinationCA = realCA;
     while(mv.dx != 0) {
       if(mv.dx > 0) {
-        boolean canMoveRight = checkCanMoveRight(realCA, newlineIndices, span);
+        boolean canMoveRight = checkCanMoveRight(realCA, nextLineIndices, span);
         if(canMoveRight) {
           destinationCA = moveRight();
         }
@@ -48,19 +48,19 @@ public class CharacterQuantum extends Quantum {
     return destinationCA;
   }
 
-  private int moveDownOrUpIfPossible(int realCA, MovementVector mv, ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
+  private int moveDownOrUpIfPossible(int realCA, MovementVector mv, ArrayList<Integer> nextLineIndices, int span, int canvasWidth) {
     int destinationCA = realCA;
     while(mv.dy != 0) {
       if(mv.dy > 0) {
-        boolean canMoveDown = checkCanMoveDown(newlineIndices, span, canvasWidth);
+        boolean canMoveDown = checkCanMoveDown(nextLineIndices, span, canvasWidth);
         if(canMoveDown) {
-          destinationCA = moveDown(newlineIndices, span, canvasWidth);
+          destinationCA = moveDown(nextLineIndices, span, canvasWidth);
         }
         mv.dy--;
       } else {
         boolean canMoveUp = checkCanMoveUp();
         if(canMoveUp) {
-          destinationCA = moveUp(newlineIndices);
+          destinationCA = moveUp(nextLineIndices);
         }
         mv.dy++;
       }
@@ -68,8 +68,8 @@ public class CharacterQuantum extends Quantum {
     return destinationCA;
   }
 
-  private boolean checkCanMoveRight(int realCA, ArrayList<Integer> newlineIndices, int span) {
-    int editorContentEnd = newlineIndices.get(newlineIndices.size() - 1);
+  private boolean checkCanMoveRight(int realCA, ArrayList<Integer> nextLineIndices, int span) {
+    int editorContentEnd = nextLineIndices.get(nextLineIndices.size() - 1);
     boolean canMoveRight;
     if(span > 0) {
       canMoveRight = realCA + 1 < editorContentEnd;
@@ -127,7 +127,7 @@ public class CharacterQuantum extends Quantum {
     return emc.getCA();
   }
 
-  private int moveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
+  private int moveDown(ArrayList<Integer> nextLineIndices, int span, int canvasWidth) {
     int vcx = emc.getVCX();
     int cy = emc.getCY();
     int ll = emc.getLL();
@@ -139,18 +139,12 @@ public class CharacterQuantum extends Quantum {
     } else {
       vcx += canvasWidth;
     }
-    emc.putVCX(vcx); //see line 113 getVirtualLongCX
+    emc.putVCX(vcx);
     emc.putCY(cy);
     return emc.getCA();
   }
 
-  private void virtualMoveDown(ArrayList<Integer> newlineIndices) {
-  }
-
-  private void realMoveDown(ArrayList<Integer> newlineIndices, int span, int canvasWidth) {
-  }
-
-  private int moveUp(ArrayList<Integer> newlineIndices) {
+  private int moveUp(ArrayList<Integer> nextLineIndices) {
 
     int ca = emc.getCA();
     return ca;
