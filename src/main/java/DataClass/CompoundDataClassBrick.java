@@ -103,7 +103,7 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
         for(DataClassBrick neighbor : outerAsCDCB.inners.values()) {
           boolean neighborIsThisOrOuterOfThis = neighbor.containsName(name);
           boolean thisWasAlreadyChecked = dcbsAlreadyChecked.contains(this);
-          if(!(neighborIsThisOrOuterOfThis && thisWasAlreadyChecked)) {
+          if(!(neighborIsThisOrOuterOfThis || thisWasAlreadyChecked)) {
             neighbor.remove();
             dcbsAlreadyChecked.add(this);
             if(neighbor instanceof PrimitiveDataClassBrick) {
