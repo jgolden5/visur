@@ -40,7 +40,7 @@ public class CharacterQuantum extends Quantum {
       } else {
         boolean canMoveLeft = checkCanMoveLeft(realCA);
         if(canMoveLeft) {
-          destinationCA = moveLeft();
+          destinationCA = moveLeft(span);
         }
         mv.dx++;
       }
@@ -114,15 +114,15 @@ public class CharacterQuantum extends Quantum {
     return emc.getCA();
   }
 
-  private int moveLeft() {
+  private int moveLeft(int span) {
     int rcx = emc.getRCX();
     if(rcx > 0) {
       emc.putRCX(--rcx);
     } else {
       int cy = emc.getCY();
       emc.putCY(--cy);
-      int ll = emc.getLL();
-      emc.putRCX(ll);
+      int lastValidCharOfPreviousLine = span < 1 ? emc.getLL() : emc.getLL() - 1;
+      emc.putRCX(lastValidCharOfPreviousLine);
     }
     return emc.getCA();
   }
