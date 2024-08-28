@@ -26,8 +26,8 @@ public abstract class OuterDataClassBrick extends DataClassBrick {
 
   public abstract Result<PrimitiveDataClassBrick> get(String targetName);
 
-  public abstract void removeInnersNotMatchingName(String name, HashSet<DataClassBrick> dcbsAlreadyChecked);
-
   public abstract int getNumberOfSetValues();
+
+  public abstract int getNumberOfNonEmpties();
 
 }

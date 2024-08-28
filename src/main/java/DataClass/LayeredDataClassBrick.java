@@ -42,8 +42,34 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
   }
 
   @Override
+  public boolean isEmpty() {
+    return false;
+  }
+
+  @Override
   public Result<PrimitiveDataClassBrick> get(String targetName) {
     return null;
+  }
+
+  @Override
+  public void removePossibleConflicts(HashSet<DataClassBrick> dcbsAlreadyChecked) {
+    int nonEmpties = getNumberOfNonEmpties();
+    int required = getRequiredSetValues();
+    if(nonEmpties > required && !dcbsAlreadyChecked.contains(this)) {
+      dcbsAlreadyChecked.add(this);
+      remove();
+    }
+  }
+
+  @Override
+  public int getNumberOfNonEmpties() {
+    int nonEmptyLayers = 0;
+    for(CompoundDataClassBrick layer : layers) {
+      if(!layer.isEmpty()) {
+        nonEmptyLayers++;
+      }
+    }
+    return nonEmptyLayers;
   }
 
   @Override
@@ -70,11 +96,6 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
     //all layers in ldcb always get set, therefore this method is not needed
   }
 
-
-  @Override
-  public void removeInnersNotMatchingName(String name, HashSet<DataClassBrick> dcbsAlreadyChecked) {
-
-  }
 
   @Override
   public boolean containsName(String targetName) {

@@ -38,7 +38,10 @@ public abstract class DataClassBrick {
 
   public abstract void removeConflicts(String name, Object val);
 
+  public abstract void removePossibleConflicts(HashSet<DataClassBrick> dcbsAlreadyChecked);
   public abstract boolean isComplete();
+  public abstract boolean isEmpty();
+
 
   public String getName() {
     return name;

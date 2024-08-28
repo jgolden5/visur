@@ -71,22 +71,30 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   }
 
   public void put(Object val) {
-    if(!isReadOnly) {
-      removeAllNeighboringInners(new HashSet<>());
-    }
     putVal(val);
+    HashSet<DataClassBrick> dcbsAlreadyChecked = new HashSet<>();
+    dcbsAlreadyChecked.add(this);
+    removePossibleConflicts(dcbsAlreadyChecked);
   }
 
-  public void removeAllNeighboringInners(HashSet<DataClassBrick> dcbsAlreadyChecked) {
-    ArrayList<OuterDataClassBrick> outers = getOuters();
-    for (OuterDataClassBrick outer : outers) {
-      outer.removeInnersNotMatchingName(getName(), dcbsAlreadyChecked);
+  @Override
+  public void removePossibleConflicts(HashSet<DataClassBrick> dcbsAlreadyChecked) {
+    if(!isReadOnly) {
+      ArrayList<OuterDataClassBrick> outers = getOuters();
+      for (OuterDataClassBrick outer : outers) {
+        outer.removePossibleConflicts(dcbsAlreadyChecked);
+      }
     }
   }
 
   @Override
   public boolean isComplete() {
     return getDFB() != null;
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return !isComplete();
   }
 
   public Object getVal() {
