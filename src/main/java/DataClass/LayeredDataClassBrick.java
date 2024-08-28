@@ -56,9 +56,9 @@ public class LayeredDataClassBrick extends OuterDataClassBrick {
     int nonEmpties = getNumberOfNonEmpties();
     int required = getRequiredSetValues();
     if(nonEmpties > required && !dcbsAlreadyChecked.contains(this)) {
-      dcbsAlreadyChecked.add(this);
       remove();
     }
+    dcbsAlreadyChecked.add(this);
   }
 
   @Override

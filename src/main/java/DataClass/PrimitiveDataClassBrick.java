@@ -82,7 +82,9 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     if(!isReadOnly) {
       ArrayList<OuterDataClassBrick> outers = getOuters();
       for (OuterDataClassBrick outer : outers) {
-        outer.removePossibleConflicts(dcbsAlreadyChecked);
+        if(!dcbsAlreadyChecked.contains(outer)) {
+          outer.removePossibleConflicts(dcbsAlreadyChecked);
+        }
       }
     }
   }

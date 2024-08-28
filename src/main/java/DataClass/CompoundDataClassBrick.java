@@ -129,26 +129,29 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
     if(nonEmpties > required && !dcbsAlreadyChecked.contains(this)) {
       dcbsAlreadyChecked.add(this);
       removeInnersAndAllOutersOfInners(dcbsAlreadyChecked);
+    } else if(getOuters() != null) {
+      dcbsAlreadyChecked.add(this);
+      for(OuterDataClassBrick outer : getOuters()) {
+        outer.removePossibleConflicts(dcbsAlreadyChecked);
+      }
     }
   }
 
-  private Result removeInnersAndAllOutersOfInners(HashSet<DataClassBrick> dcbsAlreadyChecked) {
-    String error = null;
-    if (inners.size() > 0) {
-      for (Map.Entry<String, DataClassBrick> inner : inners.entrySet()) {
-        dcbsAlreadyChecked.add(inner.getValue());
-        if(inner instanceof PrimitiveDataClassBrick) {
-          PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner.getValue();
+  private void removeInnersAndAllOutersOfInners(HashSet<DataClassBrick> dcbsAlreadyChecked) {
+    for (DataClassBrick inner : inners.values()) {
+      if (!dcbsAlreadyChecked.contains(inner)) {
+        if (inner instanceof PrimitiveDataClassBrick) {
+          dcbsAlreadyChecked.add(inner);
+          PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
+          innerAsPDCB.remove();
           innerAsPDCB.removePossibleConflicts(dcbsAlreadyChecked);
-        } else if(inner instanceof CompoundDataClassBrick) {
-          CompoundDataClassBrick innerAsCDCB = (CompoundDataClassBrick) inner.getValue();
+        } else if (inner instanceof CompoundDataClassBrick) {
+          dcbsAlreadyChecked.add(inner);
+          CompoundDataClassBrick innerAsCDCB = (CompoundDataClassBrick) inner;
           innerAsCDCB.removeInnersAndAllOutersOfInners(dcbsAlreadyChecked);
         }
       }
-    } else {
-      error = "no inners exist for compound data class brick";
     }
-    return Result.make(null, error);
   }
 
   @Override
