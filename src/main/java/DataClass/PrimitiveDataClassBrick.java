@@ -126,7 +126,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
   @Override
   public Result remove() {
     String error = null;
-    if(!getIsReadOnly()) {
+    if(!isReadOnly()) {
       putDFB(null);
     } else {
       error = "pdcb " + getName() + " is read-only";
@@ -141,7 +141,7 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     }
   }
 
-  public boolean getIsReadOnly() {
+  public boolean isReadOnly() {
     return isReadOnly;
   }
 

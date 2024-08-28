@@ -143,8 +143,10 @@ public class CompoundDataClassBrick extends OuterDataClassBrick {
         if (inner instanceof PrimitiveDataClassBrick) {
           dcbsAlreadyChecked.add(inner);
           PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
-          innerAsPDCB.remove();
-          innerAsPDCB.removePossibleConflicts(dcbsAlreadyChecked);
+          if(!innerAsPDCB.isReadOnly()) {
+            innerAsPDCB.remove();
+            innerAsPDCB.removePossibleConflicts(dcbsAlreadyChecked);
+          }
         } else if (inner instanceof CompoundDataClassBrick) {
           dcbsAlreadyChecked.add(inner);
           CompoundDataClassBrick innerAsCDCB = (CompoundDataClassBrick) inner;

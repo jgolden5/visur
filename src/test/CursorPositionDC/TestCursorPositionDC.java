@@ -4,7 +4,6 @@ import DataClass.CompoundDataClassBrick;
 import DataClass.LayeredDataClassBrick;
 import DataClass.OuterDataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -116,13 +115,13 @@ public class TestCursorPositionDC {
     rcxAndLODCB.putInner("rcx", rcxDCB);
     rcxAndLODCB.putInner("lo", loDCB);
 
-    assertTrue(nlDCB.getIsReadOnly());
-    assertFalse(rcxDCB.getIsReadOnly());
-    assertFalse(caDCB.getIsReadOnly());
-    assertFalse(cyDCB.getIsReadOnly());
-    assertFalse(vcxDCB.getIsReadOnly());
-    assertFalse(llDCB.getIsReadOnly());
-    assertFalse(loDCB.getIsReadOnly());
+    assertTrue(nlDCB.isReadOnly());
+    assertFalse(rcxDCB.isReadOnly());
+    assertFalse(caDCB.isReadOnly());
+    assertFalse(cyDCB.isReadOnly());
+    assertFalse(vcxDCB.isReadOnly());
+    assertFalse(llDCB.isReadOnly());
+    assertFalse(loDCB.isReadOnly());
 
   }
 
