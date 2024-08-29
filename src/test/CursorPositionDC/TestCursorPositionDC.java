@@ -105,6 +105,7 @@ public class TestCursorPositionDC {
     virtualDCB.putInner("ll", llDCB);
     virtualDCB.putInner("vcxRCXAndLO", vcxRcxAndLODCB);
 
+    vcxRcxAndLODCB.putInner("vcx", vcxDCB);
     vcxRcxAndLODCB.putInner("rcx", rcxDCB);
     vcxRcxAndLODCB.putInner("lo", loDCB);
 
@@ -126,8 +127,10 @@ public class TestCursorPositionDC {
     assertFalse(coordinatesDCB.isComplete());
     assertFalse(llFromCYDCB.isComplete());
     assertFalse(virtualDCB.isComplete());
+    assertFalse(rcxDCB.isComplete());
     assertFalse(cyDCB.isComplete());
     assertFalse(vcxDCB.isComplete());
+    assertFalse(loDCB.isComplete());
     assertFalse(llDCB.isComplete());
     assertEquals(nlDCBWasCompleteBeforeRemoval, nlDCB.isComplete());
   }
