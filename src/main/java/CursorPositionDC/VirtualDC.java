@@ -53,7 +53,7 @@ public class VirtualDC extends CompoundDataClass {
     PrimitiveDataClassBrick loDCB = virtualBricks[2];
     int rcx = (int)rcxDCB.getVal();
     int lo = (int)loDCB.getVal();
-    int vcx = lo > 0 ? rcx + lo : rcx;
+    int vcx = lo < 0 ? rcx : rcx + lo;
     vcxDCB.cacheVal(vcx);
     return Result.make(vcx, null);
   }
@@ -64,7 +64,7 @@ public class VirtualDC extends CompoundDataClass {
     PrimitiveDataClassBrick loDCB = virtualBricks[2];
     int lo = (int)loDCB.getVal();
     int vcx = (int)vcxDCB.getVal();
-    int rcx = vcx - lo;
+    int rcx = lo < 0 ? vcx : vcx - lo;
     rcxDCB.cacheVal(rcx);
     return Result.make(rcx, null);
   }
