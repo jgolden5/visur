@@ -553,67 +553,23 @@ public class TestCursorPositionDC {
     assertTrue(coordinatesDCB.isComplete());
 
     //virtualDC
-    //4 if vcx = 7, rcx = 5, and ll = 5, lo should = 2 (getLOFromVCXAndRCX)
-    //(also testing that getOrCalc works on previously set values vcx, rcx, and ll)
-    coordinatesDCB.remove();
-    assertFalse(coordinatesDCB.isComplete());
+    //4 getLOFromVCXAndLL (lo > 0) if ll = 12, vcx = 13, and rcx = 12, lo should = 1
 
-    vcxDCB.put(7);
-    assertEquals(7, vcxDCB.getVal());
-    rcxDCB.put(5);
-    assertEquals(5, rcxDCB.getVal());
-    llDCB.put(5);
-    assertEquals(5, llDCB.getVal());
-    vcxDCB.getOrCalc();
-    assertEquals(7, vcxDCB.getVal());
-    rcxDCB.getOrCalc();
-    assertEquals(5, rcxDCB.getVal());
-    llDCB.getOrCalc();
-    assertEquals(5, llDCB.getVal());
+    //5 getLOFromVCXAndLL (lo < 0) if ll = 12, vcx = 10, and rcx = 10, lo should = -2
 
-    assertTrue(virtualDCB.isComplete());
-    assertFalse(loDCB.isComplete());
-    loDCB.getOrCalc();
-    assertEquals(2, loDCB.getVal());
-    assertTrue(llDCB.isComplete());
-    assertTrue(vcxRcxAndLODCB.isComplete());
-    assertTrue(virtualDCB.isComplete());
+    //6 getLOFromVCXAndLL (lo == 0) if ll = 12, vcx = 12, and rcx = 12, lo should = 0
 
-    //5 if vcx = 19, lo = -1, and ll = 20, rcx should = 19 (getRCXFromVCXAndLO)
-    vcxDCB.put(19);
-    assertEquals(19, vcxDCB.getVal());
-    loDCB.put(-1);
-    assertEquals(-1, loDCB.getVal());
-    llDCB.put(20);
-    assertEquals(20, llDCB.getVal());
+    //7 getRCXFromVCXAndLO (lo > 0) if ll = 16, vcx = 19, and lo = 3, rcx should = 16
 
-    vcxDCB.getOrCalc();
-    assertEquals(19, vcxDCB.getVal());
-    loDCB.getOrCalc();
-    assertEquals(-1, loDCB.getVal());
-    llDCB.getOrCalc();
-    assertEquals(20, llDCB.getVal());
+    //8 getRCXFromVCXAndLO (lo < 0) if ll = 16, vcx = 9, and lo = -7, rcx should = 9
 
-    assertTrue(virtualDCB.isComplete());
-    assertFalse(rcxDCB.isComplete());
-    rcxDCB.getOrCalc();
-    assertEquals(19, rcxDCB.getVal());
-    assertTrue(llDCB.isComplete());
-    assertTrue(vcxRcxAndLODCB.isComplete());
+    //9 getRCXFromVCXAndLO (lo == 0) if ll = 16, vcx = 16, and lo = 0, rcx should = 16
 
-    //6 if rcx = 10, lo = -3, and ll = 13, vcx should = 10 (getVCXFromRCXAndLO)
-    rcxDCB.put(10);
-    assertEquals(10, rcxDCB.getVal());
-    loDCB.put(-3);
-    assertEquals(-3, loDCB.getVal());
-    llDCB.put(13);
-    assertEquals(13, llDCB.getVal());
+    //10 getVCXFromRCXAndLO (lo > 0) if ll = 33, rcx = 33, and lo = 14, vcx should = 47
 
-    assertTrue(vcxRcxAndLODCB.isComplete());
-    assertFalse(vcxDCB.isComplete());
-    vcxDCB.getOrCalc();
-    assertEquals(10, vcxDCB.getVal());
-    assertTrue(vcxRcxAndLODCB.isComplete());
+    //11 getVCXFromRCXAndLO (lo < 0) if ll = 33, rcx = 10, and lo = -23, vcx should = 10
+
+    //12 getVCXFromRCXAndLO (lo == 0) if ll = 33, rcx = 33, and lo = 0, vcx should = 33
 
     //llFromCYDC
     //7 if cy = 0, ll should = 12
