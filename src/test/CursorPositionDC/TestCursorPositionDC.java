@@ -35,7 +35,7 @@ public class TestCursorPositionDC {
   static CompoundDataClassBrick virtualDCB;
   static VCXAndLLDC vcxAndLLDC;
   static CompoundDataClassBrick vcxAndLLDCB;
-  static RCXAndLODC rcxAndLODC;
+  static VCXRCXAndLODC vcxRcxAndLODC;
   static CompoundDataClassBrick rcxAndLODCB;
   static WholeNumberDC wholeNumberDC;
   static PrimitiveDataClassBrick caDCB;
@@ -59,7 +59,7 @@ public class TestCursorPositionDC {
     llcyAndNLDC = cursorPositionDCHolder.llcyAndNLDC;
     virtualDC = cursorPositionDCHolder.virtualDC;
     vcxAndLLDC = cursorPositionDCHolder.vcxAndLLDC;
-    rcxAndLODC = cursorPositionDCHolder.rcxAndLODC;
+    vcxRcxAndLODC = cursorPositionDCHolder.vcxRcxAndLODC;
     wholeNumberDC = cursorPositionDCHolder.wholeNumberDC;
     nlDC = cursorPositionDCHolder.wholeNumberListDC;
     javaIntDF = cursorPositionDCHolder.javaIntDF;
@@ -167,11 +167,11 @@ public class TestCursorPositionDC {
 
     //virtual
     assertEquals(vcxAndLLDC, virtualDC.getInner("vcxAndLL"));
-    assertEquals(rcxAndLODC, virtualDC.getInner("rcxAndLO"));
+    assertEquals(vcxRcxAndLODC, virtualDC.getInner("rcxAndLO"));
 
     assertEquals(wholeNumberDC, vcxAndLLDC.getInner("wholeNumber"));
 
-    assertEquals(wholeNumberDC, rcxAndLODC.getInner("wholeNumber"));
+    assertEquals(wholeNumberDC, vcxRcxAndLODC.getInner("wholeNumber"));
 
   }
 

@@ -5,9 +5,9 @@ import DataClass.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class RCXAndLODC extends CompoundDataClass {
+public class VCXRCXAndLODC extends CompoundDataClass {
 
-  public RCXAndLODC(int requiredSetValues) {
+  public VCXRCXAndLODC(int requiredSetValues) {
     super(requiredSetValues);
   }
 
