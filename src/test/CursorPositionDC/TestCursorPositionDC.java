@@ -235,6 +235,11 @@ public class TestCursorPositionDC {
     assertTrue(caOuters.size() == 1);
     assertTrue(caOuters.contains("caAndNL"));
 
+    ArrayList<OuterDataClassBrick> vcxOutersAsBricks = vcxDCB.getOuters();
+    ArrayList<String> vcxOuters = getOuterNamesFromBricks(vcxOutersAsBricks);
+    assertTrue(vcxOuters.size() == 1);
+    assertTrue(vcxOuters.contains("vcxRCXAndLO"));
+
     ArrayList<OuterDataClassBrick> rcxOutersAsBricks = rcxDCB.getOuters();
     ArrayList<String> rcxOuters = getOuterNamesFromBricks(rcxOutersAsBricks);
     assertTrue(rcxOuters.size() == 2);
@@ -252,7 +257,7 @@ public class TestCursorPositionDC {
     ArrayList<String> llOuters = getOuterNamesFromBricks(llOutersAsBricks);
     assertTrue(llOuters.size() == 2);
     assertTrue(llOuters.contains("llcyAndNL"));
-    assertTrue(llOuters.contains("ll"));
+    assertTrue(llOuters.contains("virtual"));
 
     ArrayList<OuterDataClassBrick> loOutersAsBricks = loDCB.getOuters();
     ArrayList<String> loOuters = getOuterNamesFromBricks(loOutersAsBricks);
