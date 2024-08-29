@@ -510,12 +510,12 @@ public class TestCursorPositionDC {
     assertEquals(nl, nlDCB.getVal());
     assertEquals(5, rcxDCB.getVal());
     assertEquals(1, cyDCB.getVal());
-    rcxDCB.getOrCalc().getVal();
+    rcxDCB.getOrCalc();
     assertEquals(5, rcxDCB.getVal());
-    cyDCB.getOrCalc().getVal();
+    cyDCB.getOrCalc();
     assertEquals(1, cyDCB.getVal());
 
-    caDCB.getOrCalc().getVal();
+    caDCB.getOrCalc();
     assertEquals(17, caDCB.getVal());
     assertEquals(nl, nlDCB.getVal());
     assertTrue(rcxcyAndNLDCB.isComplete());
@@ -528,7 +528,7 @@ public class TestCursorPositionDC {
     assertEquals(3, rcxDCB.getVal());
     assertEquals(2, cyDCB.getVal());
     assertEquals(nl, nlDCB.getVal());
-    caDCB.getOrCalc().getVal();
+    caDCB.getOrCalc();
     assertEquals(28, caDCB.getVal());
     assertTrue(rcxcyAndNLDCB.isComplete());
     assertTrue(caAndNLDCB.isComplete());
@@ -539,48 +539,64 @@ public class TestCursorPositionDC {
     assertEquals(14, caDCB.getVal());
     assertTrue(caAndNLDCB.isComplete());
     assertFalse(rcxcyAndNLDCB.isComplete());
-    nlDCB.getOrCalc().getVal();
+    nlDCB.getOrCalc();
     assertEquals(nl, nlDCB.getVal());
-    caDCB.getOrCalc().getVal();
+    caDCB.getOrCalc();
     assertEquals(14, caDCB.getVal());
 
-    cyDCB.getOrCalc().getVal();
+    cyDCB.getOrCalc();
     assertEquals(1, cyDCB.getVal());
-    rcxDCB.getOrCalc().getVal();
+    rcxDCB.getOrCalc();
     assertEquals(2, rcxDCB.getVal());
     assertTrue(rcxcyAndNLDCB.isComplete());
     assertTrue(caAndNLDCB.isComplete());
     assertTrue(coordinatesDCB.isComplete());
 
     //virtualDC
-    //4 if vcx = 7 and ll = 5, lo should = 2, and rcx should = 5
-    // (getOrCalc also works on set values such as vcx, and ll)
+    //4 if vcx = 7, rcx = 5, and ll = 5, lo should = 2 (getLOFromVCXAndRCX)
+    //(also testing that getOrCalc works on previously set values vcx, rcx, and ll)
     coordinatesDCB.remove();
     assertFalse(coordinatesDCB.isComplete());
+
     vcxDCB.put(7);
     assertEquals(7, vcxDCB.getVal());
+    rcxDCB.put(5);
+    assertEquals(5, rcxDCB.getVal());
     llDCB.put(5);
     assertEquals(5, llDCB.getVal());
-    vcxDCB.getOrCalc().getVal();
+    vcxDCB.getOrCalc();
     assertEquals(7, vcxDCB.getVal());
-    llDCB.getOrCalc().getVal();
+    rcxDCB.getOrCalc();
+    assertEquals(5, rcxDCB.getVal());
+    llDCB.getOrCalc();
     assertEquals(5, llDCB.getVal());
 
-    loDCB.getOrCalc().getVal();
+    assertTrue(virtualDCB.isComplete());
+    assertFalse(loDCB.isComplete());
+    loDCB.getOrCalc();
     assertEquals(2, loDCB.getVal());
-    rcxDCB.getOrCalc().getVal();
-    assertEquals(5, rcxDCB.getVal());
     assertTrue(llDCB.isComplete());
     assertTrue(vcxRcxAndLODCB.isComplete());
+    assertTrue(virtualDCB.isComplete());
 
-    //5 if vcx = 19 and ll = 20, lo should = -1, and rcx should = 19
+    //5 if vcx = 19, lo = -1, and ll = 20, rcx should = 19 (getRCXFromVCXAndLO)
     vcxDCB.put(19);
     assertEquals(19, vcxDCB.getVal());
+    loDCB.put(-1);
+    assertEquals(-1, loDCB.getVal());
     llDCB.put(20);
     assertEquals(20, llDCB.getVal());
-    loDCB.getOrCalc().getVal();
+
+    vcxDCB.getOrCalc();
+    assertEquals(19, vcxDCB.getVal());
+    loDCB.getOrCalc();
     assertEquals(-1, loDCB.getVal());
-    rcxDCB.getOrCalc().getVal();
+    llDCB.getOrCalc();
+    assertEquals(20, llDCB.getVal());
+
+    assertTrue(virtualDCB.isComplete());
+    assertFalse(rcxDCB.isComplete());
+    rcxDCB.getOrCalc();
     assertEquals(19, rcxDCB.getVal());
     assertTrue(llDCB.isComplete());
     assertTrue(vcxRcxAndLODCB.isComplete());
