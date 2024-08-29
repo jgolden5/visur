@@ -33,7 +33,6 @@ public class TestCursorPositionDC {
   static LLCYAndNLDC llcyAndNLDC;
   static VirtualDC virtualDC;
   static CompoundDataClassBrick virtualDCB;
-  static VCXAndLLDC vcxAndLLDC;
   static CompoundDataClassBrick vcxAndLLDCB;
   static VCXRCXAndLODC vcxRcxAndLODC;
   static CompoundDataClassBrick rcxAndLODCB;
@@ -58,7 +57,6 @@ public class TestCursorPositionDC {
     cyAndNLDC = cursorPositionDCHolder.cyAndNLDC;
     llcyAndNLDC = cursorPositionDCHolder.llcyAndNLDC;
     virtualDC = cursorPositionDCHolder.virtualDC;
-    vcxAndLLDC = cursorPositionDCHolder.vcxAndLLDC;
     vcxRcxAndLODC = cursorPositionDCHolder.vcxRcxAndLODC;
     wholeNumberDC = cursorPositionDCHolder.wholeNumberDC;
     nlDC = cursorPositionDCHolder.wholeNumberListDC;
