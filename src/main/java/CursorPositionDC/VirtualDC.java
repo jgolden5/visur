@@ -19,16 +19,14 @@ public class VirtualDC extends CompoundDataClass {
     PrimitiveDataClassBrick rcxDCB = reusablePDCBs[0];
     PrimitiveDataClassBrick llDCB = reusablePDCBs[1];
 
-    VCXAndLLDC vcxAndLLDC = (VCXAndLLDC) getInner("vcxAndLL");
-    CompoundDataClassBrick vcxAndLLDCB = vcxAndLLDC.makeBrick("vcxAndLL", new ArrayList<>(), llDCB);
-    vcxAndLLDCB.putOuter(virtualDCB);
+    VCXRCXAndLODC vcxRCXAndLODC = (VCXRCXAndLODC) getInner("vcxRCXAndLO");
+    CompoundDataClassBrick vcxRCXAndLODCB = vcxRCXAndLODC.makeBrick("vcxRCXAndLO", new ArrayList<>(), rcxDCB);
+    vcxRCXAndLODCB.putOuter(virtualDCB);
 
-    VCXRCXAndLODC vcxRcxAndLODC = (VCXRCXAndLODC) getInner("rcxAndLO");
-    CompoundDataClassBrick rcxAndLODCB = vcxRcxAndLODC.makeBrick("rcxAndLO", new ArrayList<>(), rcxDCB);
-    rcxAndLODCB.putOuter(virtualDCB);
+    llDCB.putOuter(virtualDCB);
 
-    virtualInners.put("vcxAndLL", vcxAndLLDCB);
-    virtualInners.put("rcxAndLO", rcxAndLODCB);
+    virtualInners.put("vcxRCXAndLO", vcxRCXAndLODCB);
+    virtualInners.put("ll", llDCB);
 
     return virtualDCB.getInitializedBrickFromInners(virtualInners);
   }
