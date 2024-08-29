@@ -567,88 +567,88 @@ public class TestCursorPositionDC {
 
     //5 getLOFromVCXAndLL (lo < 0) if ll = 12, vcx = 10, and rcx = 10, lo should = -2
     llDCB.put(12);
-    assertEquals(12, llDCB.getOrCalc().getVal());
+    assertEquals(12, llDCB.getOrCalc().getVal().getVal());
     vcxDCB.put(10);
-    assertEquals(10, vcxDCB.getOrCalc().getVal());
+    assertEquals(10, vcxDCB.getOrCalc().getVal().getVal());
     rcxDCB.put(10);
-    assertEquals(10, rcxDCB.getOrCalc().getVal());
+    assertEquals(10, rcxDCB.getOrCalc().getVal().getVal());
 
     loDCB.getOrCalc();
     assertEquals(-2, loDCB.getVal());
 
     //6 getLOFromVCXAndLL (lo == 0) if ll = 12, vcx = 12, and rcx = 12, lo should = 0
     llDCB.put(12);
-    assertEquals(12, llDCB.getOrCalc().getVal());
+    assertEquals(12, llDCB.getOrCalc().getVal().getVal());
     vcxDCB.put(12);
-    assertEquals(12, vcxDCB.getOrCalc().getVal());
+    assertEquals(12, vcxDCB.getOrCalc().getVal().getVal());
     rcxDCB.put(12);
-    assertEquals(12, rcxDCB.getOrCalc().getVal());
+    assertEquals(12, rcxDCB.getOrCalc().getVal().getVal());
 
     loDCB.getOrCalc();
     assertEquals(0, loDCB.getVal());
 
     //7 getRCXFromVCXAndLO (lo > 0) if ll = 16, vcx = 19, and lo = 3, rcx should = 16
     llDCB.put(16);
-    assertEquals(16, llDCB.getOrCalc().getVal());
+    assertEquals(16, llDCB.getOrCalc().getVal().getVal());
     vcxDCB.put(19);
-    assertEquals(19, vcxDCB.getOrCalc().getVal());
+    assertEquals(19, vcxDCB.getOrCalc().getVal().getVal());
     loDCB.put(3);
-    assertEquals(3, loDCB.getOrCalc().getVal());
+    assertEquals(3, loDCB.getOrCalc().getVal().getVal());
 
     rcxDCB.getOrCalc();
     assertEquals(16, rcxDCB.getVal());
 
     //8 getRCXFromVCXAndLO (lo < 0) if ll = 16, vcx = 9, and lo = -7, rcx should = 9
     llDCB.put(16);
-    assertEquals(16, llDCB.getOrCalc().getVal());
+    assertEquals(16, llDCB.getOrCalc().getVal().getVal());
     vcxDCB.put(9);
-    assertEquals(9, vcxDCB.getOrCalc().getVal());
+    assertEquals(9, vcxDCB.getOrCalc().getVal().getVal());
     loDCB.put(-7);
-    assertEquals(-7, loDCB.getOrCalc().getVal());
+    assertEquals(-7, loDCB.getOrCalc().getVal().getVal());
 
     rcxDCB.getOrCalc();
     assertEquals(9, rcxDCB.getVal());
 
     //9 getRCXFromVCXAndLO (lo == 0) if ll = 16, vcx = 16, and lo = 0, rcx should = 16
     llDCB.put(16);
-    assertEquals(16, llDCB.getOrCalc().getVal());
+    assertEquals(16, llDCB.getOrCalc().getVal().getVal());
     vcxDCB.put(16);
-    assertEquals(16, vcxDCB.getOrCalc().getVal());
+    assertEquals(16, vcxDCB.getOrCalc().getVal().getVal());
     loDCB.put(0);
-    assertEquals(0, loDCB.getOrCalc().getVal());
+    assertEquals(0, loDCB.getOrCalc().getVal().getVal());
 
     rcxDCB.getOrCalc();
     assertEquals(16, rcxDCB.getVal());
 
     //10 getVCXFromRCXAndLO (lo > 0) if ll = 33, rcx = 33, and lo = 14, vcx should = 47
     llDCB.put(33);
-    assertEquals(33, llDCB.getOrCalc().getVal());
+    assertEquals(33, llDCB.getOrCalc().getVal().getVal());
     rcxDCB.put(33);
-    assertEquals(33, rcxDCB.getOrCalc().getVal());
+    assertEquals(33, rcxDCB.getOrCalc().getVal().getVal());
     loDCB.put(14);
-    assertEquals(14, loDCB.getOrCalc().getVal());
+    assertEquals(14, loDCB.getOrCalc().getVal().getVal());
 
     vcxDCB.getOrCalc();
     assertEquals(47, vcxDCB.getVal());
 
     //11 getVCXFromRCXAndLO (lo < 0) if ll = 33, rcx = 10, and lo = -23, vcx should = 10
     llDCB.put(33);
-    assertEquals(33, llDCB.getOrCalc().getVal());
+    assertEquals(33, llDCB.getOrCalc().getVal().getVal());
     rcxDCB.put(10);
-    assertEquals(10, rcxDCB.getOrCalc().getVal());
+    assertEquals(10, rcxDCB.getOrCalc().getVal().getVal());
     loDCB.put(-23);
-    assertEquals(-23, loDCB.getOrCalc().getVal());
+    assertEquals(-23, loDCB.getOrCalc().getVal().getVal());
 
     vcxDCB.getOrCalc();
     assertEquals(10, vcxDCB.getVal());
 
     //12 getVCXFromRCXAndLO (lo == 0) if ll = 33, rcx = 33, and lo = 0, vcx should = 33
     llDCB.put(33);
-    assertEquals(33, llDCB.getOrCalc().getVal());
+    assertEquals(33, llDCB.getOrCalc().getVal().getVal());
     rcxDCB.put(33);
-    assertEquals(33, rcxDCB.getOrCalc().getVal());
+    assertEquals(33, rcxDCB.getOrCalc().getVal().getVal());
     loDCB.put(0);
-    assertEquals(0, loDCB.getOrCalc().getVal());
+    assertEquals(0, loDCB.getOrCalc().getVal().getVal());
 
     vcxDCB.getOrCalc();
     assertEquals(33, vcxDCB.getVal());
