@@ -93,48 +93,4 @@ public class VirtualDC extends CompoundDataClass {
     return new PrimitiveDataClassBrick[]{vcxDCB, rcxDCB, loDCB, llDCB};
   }
 
-  private Result<Object> calcVCXAndLL(String name, PrimitiveDataClassBrick[] virtualBricks) {
-    PrimitiveDataClassBrick vcxDCB = virtualBricks[0];
-    PrimitiveDataClassBrick rcxDCB = virtualBricks[1];
-    PrimitiveDataClassBrick loDCB = virtualBricks[2];
-    PrimitiveDataClassBrick llDCB = virtualBricks[3];
-    int rcx = (int)rcxDCB.getVal();
-    int lo = (int)loDCB.getVal();
-    int vcx = lo > 0 ? rcx + lo : rcx;
-    int ll = vcx - lo;
-    Result<Object> r = Result.make();
-    if(name.equals("vcx")) {
-      r = Result.make(vcx, null);
-    } else if(name.equals("ll")) {
-      r = Result.make(ll, null);
-    }
-    vcxDCB.cacheVal(vcx);
-    llDCB.cacheVal(ll);
-    return r;
-  }
-
-  private Result<Object> calcVCXRCXAndLO(String name, PrimitiveDataClassBrick[] virtualBricks) {
-    PrimitiveDataClassBrick vcxDCB = virtualBricks[0];
-    PrimitiveDataClassBrick rcxDCB = virtualBricks[1];
-    PrimitiveDataClassBrick loDCB = virtualBricks[2];
-    PrimitiveDataClassBrick llDCB = virtualBricks[3];
-    int ll = (int)llDCB.getVal();
-    int vcx = lo > 0 ? rcx + lo : rcx;
-    int rcx = vcx > ll ? ll : vcx;
-    int lo = vcx - ll;
-
-    Result<Object> r = Result.make();
-    if(name.equals("vcx")) {
-      r = Result.make(vcx, null);
-    } else if(name.equals("rcx")) {
-      r = Result.make(rcx, null);
-    } else if(name.equals("lo")) {
-      r = Result.make(lo, null);
-    }
-    vcxDCB.cacheVal(vcx);
-    rcxDCB.cacheVal(rcx);
-    loDCB.cacheVal(lo);
-    return r;
-  }
-
 }
