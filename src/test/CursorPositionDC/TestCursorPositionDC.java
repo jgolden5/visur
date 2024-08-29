@@ -407,20 +407,22 @@ public class TestCursorPositionDC {
     assertFalse(cyAndNLDCB.isComplete());
 
     //virtual
-    //set ll when vcxRCXAndLO is unset
+    //set ll within virtual when ll was previously unset
     assertFalse(vcxRcxAndLODCB.isComplete());
+    llDCB.remove();
     assertFalse(llDCB.isComplete());
-    assertTrue(llDCB.isComplete());
 
-    vcxDCB.put(0);
-    assertEquals(0, vcxDCB.getVal());
+    llDCB.put(10);
+    assertEquals(10, llDCB.getVal());
     assertTrue(llDCB.isComplete());
 
     //set vcxRCXAndLO when ll is unset
     llDCB.remove();
+    vcxRcxAndLODCB.remove();
     assertFalse(llDCB.isComplete());
-    rcxDCB.put(4);
-    assertEquals(4, rcxDCB.getVal());
+    assertFalse(vcxRcxAndLODCB.isComplete());
+    vcxDCB.put(4);
+    assertEquals(4, vcxDCB.getVal());
     assertFalse(vcxRcxAndLODCB.isComplete());
     loDCB.put(-1);
     assertEquals(-1, loDCB.getVal());
