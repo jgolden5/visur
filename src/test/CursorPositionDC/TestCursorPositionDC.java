@@ -601,6 +601,20 @@ public class TestCursorPositionDC {
     assertTrue(llDCB.isComplete());
     assertTrue(vcxRcxAndLODCB.isComplete());
 
+    //6 if rcx = 10, lo = -3, and ll = 13, vcx should = 10 (getVCXFromRCXAndLO)
+    rcxDCB.put(10);
+    assertEquals(10, rcxDCB.getVal());
+    loDCB.put(-3);
+    assertEquals(-3, loDCB.getVal());
+    llDCB.put(13);
+    assertEquals(13, llDCB.getVal());
+
+    assertTrue(vcxRcxAndLODCB.isComplete());
+    assertFalse(vcxDCB.isComplete());
+    vcxDCB.getOrCalc();
+    assertEquals(10, vcxDCB.getVal());
+    assertTrue(vcxRcxAndLODCB.isComplete());
+
     //6 if lo = 5 and rcx = 10, vcx should = 15 and ll should = 10
     // (getOrCalc also works on set values such as lo, and rcx)
     loDCB.put(5);
