@@ -464,35 +464,35 @@ public class TestCursorPositionDC {
     assertFalse(llcyAndNLDCB.isComplete());
 
     //virtual
-    //setting ll unsets vcxRCXAndLO if vcxRCXAndLO is set
-    llDCB.remove();
-    rcxDCB.put(8);
-    loDCB.put(-1);
-    assertTrue(vcxRcxAndLODCB.isComplete());
-    vcxDCB.put(5);
+    //llDCB.put unsets cy
+    cyDCB.put(12);
     assertFalse(llDCB.isComplete());
-    assertFalse(vcxRcxAndLODCB.isComplete());
-    llDCB.put(15);
+    assertEquals(12, cyDCB.getVal());
+    llDCB.put(12);
     assertTrue(llDCB.isComplete());
+    assertFalse(cyDCB.isComplete());
+
+    //rcxDCB.put always unsets ca
+    vcxRcxAndLODCB.remove();
+    caDCB.put(1);
+    assertFalse(vcxRcxAndLODCB.isComplete());
+    assertEquals(1, caDCB.getVal());
+    rcxDCB.put(1); //even if it's the same number being set, it doesn't matter, ca should still get removed
+    assertFalse(caDCB.isComplete());
     assertFalse(vcxRcxAndLODCB.isComplete());
 
-    //setting vcxRCXAndLO unsets ll if ll is set
-    rcxDCB.put(1);
-    assertEquals(1, rcxDCB.getVal());
+    //vcxDCB.put doesn't unset anything if only one var is set
+    vcxDCB.put(2);
+    assertTrue(vcxDCB.isComplete());
     assertTrue(rcxDCB.isComplete());
-    loDCB.put(0);
-    assertEquals(0, loDCB.getVal());
-    assertFalse(llDCB.isComplete());
-    assertTrue(vcxRcxAndLODCB.isComplete());
+    assertFalse(loDCB.isComplete());
 
-    //setting ll unsets rcxcyAndNL AND caAndNL when rcxcyAndNL and caAndNL are set
-    cyDCB.put(0);
-    assertTrue(rcxcyAndNLDCB.isComplete());
-    caDCB.put(0);
-    assertTrue(caAndNLDCB.isComplete());
-    vcxDCB.put(1);
-    assertFalse(rcxcyAndNLDCB.isComplete());
-    assertFalse(caAndNLDCB.isComplete());
+    //loDCB.put will unset all other bricks since it will make nonEmpties > requiredSetValues
+    loDCB.put(4);
+    assertEquals(4, loDCB.getVal());
+    assertFalse(vcxDCB.isComplete());
+    assertFalse(rcxDCB.isComplete());
+    assertFalse(vcxRcxAndLODCB.isComplete());
 
   }
 
