@@ -13,20 +13,23 @@ public class VCXRCXAndLODC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, PrimitiveDataClassBrick... reusablePDCBs) {
-    CompoundDataClassBrick rcxAndLODCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
-    HashMap<String, DataClassBrick> rcxAndLOInners = new HashMap<>();
+    CompoundDataClassBrick vcxRCXAndLODCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    HashMap<String, DataClassBrick> vcxRCXAndLOInners = new HashMap<>();
 
     PrimitiveDataClassBrick rcxDCB = reusablePDCBs[0];
 
-    rcxDCB.putOuter(rcxAndLODCB);
     WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
+    PrimitiveDataClassBrick vcxDCB = wholeNumberDC.makeBrick("vcx", new ArrayList<>(), false);
+    vcxDCB.putOuter(vcxRCXAndLODCB);
+    rcxDCB.putOuter(vcxRCXAndLODCB);
     PrimitiveDataClassBrick loDCB = wholeNumberDC.makeBrick("lo", new ArrayList<>(), false);
-    loDCB.putOuter(rcxAndLODCB);
+    loDCB.putOuter(vcxRCXAndLODCB);
 
-    rcxAndLOInners.put("rcx", rcxDCB);
-    rcxAndLOInners.put("lo", loDCB);
+    vcxRCXAndLOInners.put("vcx", vcxDCB);
+    vcxRCXAndLOInners.put("rcx", rcxDCB);
+    vcxRCXAndLOInners.put("lo", loDCB);
 
-    return rcxAndLODCB.getInitializedBrickFromInners(rcxAndLOInners);
+    return vcxRCXAndLODCB.getInitializedBrickFromInners(vcxRCXAndLOInners);
   }
 
   @Override
