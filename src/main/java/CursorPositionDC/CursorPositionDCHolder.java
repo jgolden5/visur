@@ -10,7 +10,7 @@ public class CursorPositionDCHolder extends DCHolder implements Shareable {
   public final CursorPositionDC cursorPositionDC = new CursorPositionDC();
   public final CoordinatesDC coordinatesDC = new CoordinatesDC(1);
   public final LLFromCYDC llFromCYDC = new LLFromCYDC(1);
-  public final VirtualDC virtualDC = new VirtualDC(1);
+  public final VirtualDC virtualDC = new VirtualDC(2);
   public final CAAndNLDC caAndNLDC = new CAAndNLDC(2);
   public final RCXCYAndNLDC rcxcyAndNLDC = new RCXCYAndNLDC(3);
   public final CYAndNLDC cyAndNLDC = new CYAndNLDC(2);

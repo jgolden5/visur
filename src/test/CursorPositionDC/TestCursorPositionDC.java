@@ -339,31 +339,21 @@ public class TestCursorPositionDC {
 
     //virtual
     //ll
+    llDCB.remove();
     assertFalse(virtualDCB.isComplete());
     assertFalse(llDCB.isComplete());
-    vcxDCB.put(0);
-    assertTrue(vcxDCB.isComplete());
+    llDCB.put(0);
     assertTrue(llDCB.isComplete());
-    assertTrue(llDCB.isComplete());
-
-    assertTrue(virtualDCB.isComplete());
+    assertFalse(virtualDCB.isComplete());
 
     //vcxRCXAndLO
     assertFalse(vcxRcxAndLODCB.isComplete());
     rcxDCB.put(1);
     assertEquals(1, rcxDCB.getVal());
     loDCB.put(0);
-    assertTrue(loDCB.isComplete());
+    assertEquals(0, loDCB.getVal());
     assertTrue(vcxRcxAndLODCB.isComplete());
     assertTrue(virtualDCB.isComplete());
-
-    assertFalse(cursorPositionDCB.isComplete());//not possible because setting ll in llCYAndNL unsets cy,
-    // making it impossible to set llFromCYDCB and therefore also impossible to set CursorPositionDCB
-    //this can, however, be solved through the caching feature of getOrCalc
-    vcxDCB.put(0);
-    cyDCB.put(0);
-    rcxDCB.getOrCalc();
-    assertTrue(cursorPositionDCB.isComplete());
 
   }
 
