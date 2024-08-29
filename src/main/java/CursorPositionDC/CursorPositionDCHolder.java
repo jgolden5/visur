@@ -15,7 +15,6 @@ public class CursorPositionDCHolder extends DCHolder implements Shareable {
   public final RCXCYAndNLDC rcxcyAndNLDC = new RCXCYAndNLDC(3);
   public final CYAndNLDC cyAndNLDC = new CYAndNLDC(2);
   public final LLCYAndNLDC llcyAndNLDC = new LLCYAndNLDC(3);
-  public final VCXAndLLDC vcxAndLLDC = new VCXAndLLDC(2);
   public final VCXRCXAndLODC vcxRcxAndLODC = new VCXRCXAndLODC(2);
   public final WholeNumberDC wholeNumberDC = new WholeNumberDC(javaIntDF);
   public final WholeNumberListDC wholeNumberListDC = new WholeNumberListDC(intArrayListDF);
@@ -33,14 +32,13 @@ public class CursorPositionDCHolder extends DCHolder implements Shareable {
     cyAndNLDC.putInner("nl", wholeNumberListDC);
     llcyAndNLDC.putInner("wholeNumber", wholeNumberDC);
     llcyAndNLDC.putInner("nl", wholeNumberListDC);
-    vcxAndLLDC.putInner("wholeNumber", wholeNumberDC);
     vcxRcxAndLODC.putInner("wholeNumber", wholeNumberDC);
     coordinatesDC.putInner("caAndNL", caAndNLDC);
     coordinatesDC.putInner("rcxcyAndNL", rcxcyAndNLDC);
     llFromCYDC.putInner("cyAndNL", cyAndNLDC);
     llFromCYDC.putInner("llcyAndNL", llcyAndNLDC);
-    virtualDC.putInner("vcxAndLL", vcxAndLLDC);
-    virtualDC.putInner("rcxAndLO", vcxRcxAndLODC);
+    virtualDC.putInner("wholeNumber", wholeNumberDC);
+    virtualDC.putInner("vcxRCXAndLO", vcxRcxAndLODC);
     cursorPositionDC.putLayer(coordinatesDC);
     cursorPositionDC.putLayer(llFromCYDC);
     cursorPositionDC.putLayer(virtualDC);
