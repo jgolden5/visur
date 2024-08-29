@@ -554,10 +554,38 @@ public class TestCursorPositionDC {
 
     //virtualDC
     //4 getLOFromVCXAndLL (lo > 0) if ll = 12, vcx = 13, and rcx = 12, lo should = 1
+    vcxRcxAndLODCB.remove();
+    llDCB.put(12);
+    assertEquals(12, llDCB.getOrCalc().getVal());
+    vcxDCB.put(13);
+    assertEquals(13, vcxDCB.getOrCalc().getVal());
+    rcxDCB.put(12);
+    assertEquals(12, rcxDCB.getOrCalc().getVal());
+
+    loDCB.getOrCalc();
+    assertEquals(1, loDCB.getVal());
 
     //5 getLOFromVCXAndLL (lo < 0) if ll = 12, vcx = 10, and rcx = 10, lo should = -2
+    llDCB.put(12);
+    assertEquals(12, llDCB.getOrCalc().getVal());
+    vcxDCB.put(10);
+    assertEquals(10, vcxDCB.getOrCalc().getVal());
+    rcxDCB.put(10);
+    assertEquals(10, rcxDCB.getOrCalc().getVal());
+
+    loDCB.getOrCalc();
+    assertEquals(-2, loDCB.getVal());
 
     //6 getLOFromVCXAndLL (lo == 0) if ll = 12, vcx = 12, and rcx = 12, lo should = 0
+    llDCB.put(12);
+    assertEquals(12, llDCB.getOrCalc().getVal());
+    vcxDCB.put(12);
+    assertEquals(12, vcxDCB.getOrCalc().getVal());
+    rcxDCB.put(12);
+    assertEquals(12, rcxDCB.getOrCalc().getVal());
+
+    loDCB.getOrCalc();
+    assertEquals(0, loDCB.getVal());
 
     //7 getRCXFromVCXAndLO (lo > 0) if ll = 16, vcx = 19, and lo = 3, rcx should = 16
 
