@@ -34,7 +34,7 @@ public class VCXRCXAndLODC extends CompoundDataClass {
 
   @Override
   public Result<Object> calcInternal(String targetName, OuterDataClassBrick thisAsBrick) {
-    return null;
+    return Result.make(null, "no calculations available at the vcxRCXAnDLODC level");
   }
 
 }

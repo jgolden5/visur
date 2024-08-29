@@ -31,10 +31,6 @@ public class CAAndNLDC extends CompoundDataClass {
 
   @Override
   public Result<Object> calcInternal(String targetName, OuterDataClassBrick thisAsBrick) {
-//    ArrayList<OuterDataClassBrick> outers = thisAsBrick.getOuters();
-//    OuterDataClassBrick coordinatesDCB = outers.get(0);
-//    CoordinatesDC coordinatesDC = (CoordinatesDC)coordinatesDCB.dc;
-//    return coordinatesDC.calcInternal(name, coordinatesDCB);
     return null;
   }
 

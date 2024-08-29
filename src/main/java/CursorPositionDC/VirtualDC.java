@@ -82,12 +82,11 @@ public class VirtualDC extends CompoundDataClass {
 
   private PrimitiveDataClassBrick[] getAllVirtualPDCBs(OuterDataClassBrick thisAsBrick) {
     CompoundDataClassBrick thisAsCDCB = (CompoundDataClassBrick) thisAsBrick;
-    CompoundDataClassBrick vcxAndLLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("vcxAndLL");
-    PrimitiveDataClassBrick vcxDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("vcx");
-    CompoundDataClassBrick rcxAndLODCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxAndLO");
-    PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("rcx");
-    PrimitiveDataClassBrick loDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("lo");
-    PrimitiveDataClassBrick llDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("ll");
+    CompoundDataClassBrick vcxRcxAndLODCB = (CompoundDataClassBrick) thisAsCDCB.getInner("vcxRCXAndLO");
+    PrimitiveDataClassBrick vcxDCB = (PrimitiveDataClassBrick) vcxRcxAndLODCB.getInner("vcx");
+    PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) vcxRcxAndLODCB.getInner("rcx");
+    PrimitiveDataClassBrick loDCB = (PrimitiveDataClassBrick) vcxRcxAndLODCB.getInner("lo");
+    PrimitiveDataClassBrick llDCB = (PrimitiveDataClassBrick) thisAsCDCB.getInner("ll");
     return new PrimitiveDataClassBrick[]{vcxDCB, rcxDCB, loDCB, llDCB};
   }
 

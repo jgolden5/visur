@@ -556,11 +556,11 @@ public class TestCursorPositionDC {
     //4 getLOFromVCXAndLL (lo > 0) if ll = 12, vcx = 13, and rcx = 12, lo should = 1
     vcxRcxAndLODCB.remove();
     llDCB.put(12);
-    assertEquals(12, llDCB.getOrCalc().getVal());
+    assertEquals(12, llDCB.getOrCalc().getVal().getVal());
     vcxDCB.put(13);
-    assertEquals(13, vcxDCB.getOrCalc().getVal());
+    assertEquals(13, vcxDCB.getOrCalc().getVal().getVal());
     rcxDCB.put(12);
-    assertEquals(12, rcxDCB.getOrCalc().getVal());
+    assertEquals(12, rcxDCB.getOrCalc().getVal().getVal());
 
     loDCB.getOrCalc();
     assertEquals(1, loDCB.getVal());

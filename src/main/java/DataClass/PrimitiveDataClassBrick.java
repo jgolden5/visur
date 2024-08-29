@@ -50,7 +50,14 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
     Result<Object> outersCalcResult = Result.make(null, "no outers exist for this brick");
     for(OuterDataClassBrick outer : getOuters()) {
       outersCalcResult = outer.getOrCalc(getName());
-      if(outersCalcResult.getError() == null) break;
+      if(outersCalcResult.getError() == null) {
+        break;
+      } else if(outer.getOuters() != null) {
+        for (OuterDataClassBrick outerOfOuter : outer.getOuters()) {
+          outersCalcResult = outerOfOuter.getOrCalc(getName());
+          if(outersCalcResult.getError() == null) break;
+        }
+      }
     }
     return outersCalcResult;
   }
