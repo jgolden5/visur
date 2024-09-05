@@ -75,7 +75,7 @@ public class CharacterQuantum extends Quantum {
     int cx = emc.getCX();
     int cy = emc.getCY();
     int canvasWidth = emc.getCanvasWidth();
-    int[] shortBounds = LineBoundCalculator.getShort(cy); //move somewhere besides emc? (maybe separate quantum?)
+    int[] shortBounds = LineBoundCalculator.getShort(cx, cy, newlineIndices); //move somewhere besides emc? (maybe separate quantum?)
     boolean isOnLastShortLineInLongLine = shortBounds[1] - shortBounds[0] < canvasWidth;
     boolean isAtEndOfEditorContent = cy == newlineIndices.size() && isOnLastShortLineInLongLine;
     boolean shouldIncrementCY = isOnLastShortLineInLongLine && !isAtEndOfEditorContent;
