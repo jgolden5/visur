@@ -7,7 +7,11 @@ public class LineBoundCalculator {
   public static int getLongLineLength(int cy, ArrayList<Integer> ni) {
     int longLineLength = 0;
     if(cy < ni.size()) {
-      longLineLength = ni.get(cy);
+      if(cy > 0) {
+        longLineLength = ni.get(cy) - ni.get(cy - 1);
+      } else {
+        longLineLength = ni.get(cy);
+      }
     } else {
       System.out.println("cy value is invalid");;
     }
@@ -35,9 +39,10 @@ public class LineBoundCalculator {
   }
 
   private static int getShortLineEnd(int shortLineStart, int cw, int cx, int cy, ArrayList<Integer> ni) {
-    int shortLineEnd = ni.get(cy) - 1;
+    final int longLineLength = getLongLineLength(cy, ni);
+    int shortLineEnd = longLineLength;
     if(shortLineEnd != shortLineStart) {
-      for (int i = cx + 1; i < ni.get(cy); i++) {
+      for (int i = cx + 1; i < longLineLength; i++) {
         if (i % cw == 0) {
           shortLineEnd = i;
           break;
