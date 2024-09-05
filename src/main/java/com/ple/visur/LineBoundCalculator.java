@@ -16,7 +16,7 @@ public class LineBoundCalculator {
     int[] shortBounds = new int[2];
     int canvasWidth = emc.getCanvasWidth();
     shortBounds[0] = getShortLineStart(canvasWidth, cx);
-    shortBounds[1] = getShortLineEnd(canvasWidth, cx, cy, ni);
+    shortBounds[1] = getShortLineEnd(shortBounds[0], canvasWidth, cx, cy, ni);
     return shortBounds;
   }
 
@@ -31,13 +31,14 @@ public class LineBoundCalculator {
     return shortLineStart;
   }
 
-  private static int getShortLineEnd(int cw, int cx, int cy, ArrayList<Integer> ni) {
-    int currentLineLength = cy < ni.size() ? ni.get(cy) : ni.get(ni.size() - 1);
-    int shortLineEnd = currentLineLength;
-    for(int i = cx > 0 ? cx : cx + 1; i < currentLineLength; i++) {
-      if(i % cw == 0 || i == currentLineLength) {
-        shortLineEnd = i;
-        break;
+  private static int getShortLineEnd(int shortLineStart, int cw, int cx, int cy, ArrayList<Integer> ni) {
+    int shortLineEnd = ni.get(cy) - 1;
+    if(shortLineEnd != shortLineStart) {
+      for (int i = cx + 1; i < ni.get(cy); i++) {
+        if (i % cw == 0) {
+          shortLineEnd = i + 1;
+          break;
+        }
       }
     }
     return shortLineEnd;
