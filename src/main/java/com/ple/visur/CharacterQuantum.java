@@ -75,7 +75,7 @@ public class CharacterQuantum extends Quantum {
     int cx = emc.getCX();
     int cy = emc.getCY();
     int canvasWidth = emc.getCanvasWidth();
-    int[] shortBounds = emc.calcShortLineBoundaries();
+    int[] shortBounds = emc.calcShortLineBoundaries(); //move somewhere besides emc? (maybe separate quantum?)
     boolean isOnLastShortLineInLongLine = shortBounds[1] - shortBounds[0] < canvasWidth;
     boolean isAtEndOfEditorContent = cy == newlineIndices.size() && isOnLastShortLineInLongLine;
     boolean shouldIncrementCY = isOnLastShortLineInLongLine && !isAtEndOfEditorContent;
@@ -83,11 +83,11 @@ public class CharacterQuantum extends Quantum {
     int[] longBounds;
     if(shouldIncrementCY) {
       emc.putCY(++cy);
-      emc.putCX(0); //default for testing getLongLineBoundaries so old cx does not mismatch ca with new cy
-      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, 1, false);
+      emc.putCX(0); //change! should not be necessary to falsely mutate vars!
+      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, 1, false); //line 78
       cx = virtualCX < longBounds[1] - longBounds[0] ? virtualCX : longBounds[1] - longBounds[0];
     } else if(!isAtEndOfEditorContent) {
-      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, 1, false);
+      longBounds = emc.getLongLineBoundaries(editorContent, newlineIndices, 1, false); //move outside of if-else block after resolving issue on line 86
       if(!isAtEndOfEditorContent) {
         cx = cx + canvasWidth < longBounds[1] - longBounds[0] ? cx + canvasWidth : longBounds[1] - longBounds[0];
       } else {
