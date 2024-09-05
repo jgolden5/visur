@@ -36,7 +36,7 @@ public class CharacterQuantum extends Quantum {
     }
     while(mv.dy != 0) {
       if(mv.dy > 0) {
-        destination = moveDown(editorContent, newlineIndices);
+        destination = moveDown(editorContent, newlineIndices, span);
         mv.dy--;
       } else {
         destination = moveUp(editorContent, newlineIndices);
@@ -52,9 +52,7 @@ public class CharacterQuantum extends Quantum {
     int destination = ca + 1;
 
     emc.putCA(destination);
-    int cx = emc.getCX();
-    int canvasWidth = emc.getCanvasWidth();
-    emc.putVirtualCX(cx % canvasWidth);
+    emc.putVirtualCX(emc.getCX());
 
     return destination;
   }
@@ -64,38 +62,37 @@ public class CharacterQuantum extends Quantum {
     if(ca > 0) {
       emc.putCA(--ca);
     }
-    int cx = emc.getCX();
-    int canvasWidth = emc.getCanvasWidth();
-    emc.putVirtualCX(cx % canvasWidth);
+    emc.putVirtualCX(emc.getCX());
 
     return ca;
   }
 
-  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices) {
+  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices, int span) {
     int cx = emc.getCX();
     int cy = emc.getCY();
     int canvasWidth = emc.getCanvasWidth();
-    int[] shortBounds = LineBoundCalculator.getShort(cx, cy, newlineIndices); //move somewhere besides emc? (maybe separate quantum?)
+    int[] shortBounds = LineBoundCalculator.getShort(cx, cy, newlineIndices);
+    int vcx = emc.getVirtualCX();
+    if(shouldIncrementCY(shortBounds, cy, newlineIndices, canvasWidth)) {
+      emc.putCY(++cy);
+      vcx = vcx % canvasWidth;
+    } else {
+      vcx += canvasWidth;
+    }
+    int[] longBounds = LineBoundCalculator.getLong(cy, newlineIndices);
+    int longLineLimit = span > 0 ? longBounds[1] - longBounds[0] - 1 : longBounds[1] - longBounds[0];
+    cx = Math.min(vcx, longLineLimit);
+    emc.putCX(cx);
+    emc.putVirtualCX(vcx);
+    int ca = emc.getCA();
+    return span > 0 && ca == editorContent.length() ? --ca : ca;
+  }
+
+  private boolean shouldIncrementCY(int[] shortBounds, int cy, ArrayList<Integer> newlineIndices, int canvasWidth) {
     boolean isOnLastShortLineInLongLine = shortBounds[1] - shortBounds[0] < canvasWidth;
     boolean isAtEndOfEditorContent = cy == newlineIndices.size() && isOnLastShortLineInLongLine;
     boolean shouldIncrementCY = isOnLastShortLineInLongLine && !isAtEndOfEditorContent;
-    int virtualCX = emc.getVirtualCX();
-    int[] longBounds = LineBoundCalculator.getLong(cy, newlineIndices); //line 78
-    if(shouldIncrementCY) {
-      emc.putCY(++cy);
-      int[] newLongBounds = LineBoundCalculator.getLong(cy, newlineIndices);
-      cx = virtualCX < newLongBounds[1] - newLongBounds[0] ? virtualCX : newLongBounds[1] - newLongBounds[0];
-    } else if(!isAtEndOfEditorContent) {
-      if(!isAtEndOfEditorContent) {
-        cx = cx + canvasWidth < longBounds[1] - longBounds[0] ? cx + canvasWidth : longBounds[1] - longBounds[0];
-      } else {
-        cx = longBounds[1] - longBounds[0];
-      }
-    }
-    emc.putCX(cx);
-    int span = emc.getSpan();
-    int ca = emc.getCA();
-    return span > 0 && ca == editorContent.length() ? --ca : ca;
+    return shouldIncrementCY;
   }
 
   private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {
