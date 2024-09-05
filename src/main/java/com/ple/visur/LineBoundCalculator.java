@@ -32,10 +32,10 @@ public class LineBoundCalculator {
   }
 
   private static int getShortLineEnd(int cw, int cx, int cy, ArrayList<Integer> ni) {
-    int shortLineEnd = 0;
     int currentLineLength = cy < ni.size() ? ni.get(cy) : ni.get(ni.size() - 1);
+    int shortLineEnd = currentLineLength;
     for(int i = cx > 0 ? cx : cx + 1; i < currentLineLength; i++) {
-      if(i % cw == 0 || i == currentLineLength - 1) {
+      if(i % cw == 0 || i == currentLineLength) {
         shortLineEnd = i;
         break;
       }
