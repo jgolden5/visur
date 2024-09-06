@@ -95,20 +95,20 @@ public class CharacterQuantum extends Quantum {
     int cx = emc.getCX();
     int cy = emc.getCY();
     int canvasWidth = emc.getCanvasWidth();
-    int[] shortBounds = RelativeLineBoundCalculator.getShort(cx, cy, newlineIndices);
     int vcx = emc.getVirtualCX();
-    boolean shouldDecrementCY = cy > 0 || cx > canvasWidth;
-    int longLineLength;
+    boolean isOnFirstLongLine = cy == 0;
+    boolean isOnFirstShortLine = cx < canvasWidth;
+    boolean shouldDecrementCY = !isOnFirstLongLine && isOnFirstShortLine;
     if(shouldDecrementCY) {
       emc.putCY(--cy);
-      longLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
-      int vcxDistanceFromRightCanvasLimit = canvasWidth - vcx % canvasWidth;
-      vcx = longLineLength - vcxDistanceFromRightCanvasLimit;
-    } else {
+      int previousLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
+      int[] shortBoundsOfLastShortInPreviousLine = RelativeLineBoundCalculator.getShort(previousLongLineLength, cy, newlineIndices);
+      vcx = vcx % canvasWidth + shortBoundsOfLastShortInPreviousLine[0];
+      cx = Math.min(vcx, previousLongLineLength);
+    } else if(!isOnFirstShortLine) {
       vcx -= canvasWidth;
-      longLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
+      cx = vcx;
     }
-    cx = Math.min(vcx, longLineLength);
     emc.putCX(cx);
     emc.putVirtualCX(vcx);
     int ca = emc.getCA();
