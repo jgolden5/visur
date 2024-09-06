@@ -8,9 +8,9 @@ public class RelativeLineBoundCalculator {
     int longLineLength = 0;
     if(cy < ni.size()) {
       if(cy > 0) {
-        longLineLength = ni.get(cy) - ni.get(cy - 1);
+        longLineLength = ni.get(cy) - ni.get(cy - 1) - 1;
       } else {
-        longLineLength = ni.get(cy);
+        longLineLength = ni.get(cy) - 1;
       }
     } else {
       System.out.println("cy value is invalid");;

@@ -83,7 +83,8 @@ public class CharacterQuantum extends Quantum {
       vcx += canvasWidth;
     }
     int longLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
-    int longLineLimit = span > 0 ? longLineLength - 1 : longLineLength;
+    int longLineLimit = longLineLength;
+//    int longLineLimit = span > 0 ? longLineLength - 1 : longLineLength;
     cx = Math.min(vcx, longLineLimit);
     emc.putCX(cx);
     emc.putVirtualCX(vcx);
