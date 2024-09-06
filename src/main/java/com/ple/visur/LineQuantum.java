@@ -88,7 +88,7 @@ public class LineQuantum extends Quantum {
         ca = moveDown(newlineIndices);
         mv.dy--;
       } else {
-        ca = moveUp(editorContent, newlineIndices);
+        ca = moveUp();
         mv.dy++;
       }
     }
@@ -109,17 +109,23 @@ public class LineQuantum extends Quantum {
   private int moveDown(ArrayList<Integer> newlineIndices) {
     int cy = emc.getCY();
     if(cy < newlineIndices.size() - 1) {
-      cy++;
+      emc.putCY(++cy);
     }
-    emc.putCY(cy);
     //following 2 lines are potentially temporary
     emc.putCX(0);
     emc.putVirtualCX(0);
     return emc.getCA();
   }
 
-  private int moveUp(String editorContent, ArrayList<Integer> newlineIndices) {
-    return 0;
+  private int moveUp() {
+    int cy = emc.getCY();
+    if(cy > 0) {
+      emc.putCY(--cy);
+    }
+    //following 2 lines are potentially temporary
+    emc.putCX(0);
+    emc.putVirtualCX(0);
+    return emc.getCA();
   }
 
   private int zeroQuantumMoveRight(int ca, String editorContent, ArrayList<Integer> newlineIndices) {
