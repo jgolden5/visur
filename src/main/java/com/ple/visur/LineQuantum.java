@@ -1,9 +1,8 @@
 package com.ple.visur;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
-public class WrappedLineQuantum extends Quantum {
+public class LineQuantum extends Quantum {
 
   EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
 
@@ -145,7 +144,7 @@ public class WrappedLineQuantum extends Quantum {
 
   @Override
   public String getName() {
-    return "wrappedLine";
+    return "line";
   }
 
 }
