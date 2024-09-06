@@ -72,10 +72,6 @@ public class EditorModelCoupler {
     return ecs.getNewlineIndices(editorModel);
   }
 
-  public int[] getLongLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
-    return ecs.getLongLineBoundaries(editorContent, newlineIndices, span, includeTail, editorModel);
-  }
-
   public int getVirtualCX() {
     return ecs.getVirtualCX(editorModel);
   }

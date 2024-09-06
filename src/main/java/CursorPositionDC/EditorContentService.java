@@ -57,11 +57,6 @@ public class EditorContentService {
     return currentContentLine;
   }
 
-  public int[] getLongLineBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail, LocalMap<EditorModelKey, Object> editorModel) {
-    WrappedLineQuantum wrappedLineQuantum = new WrappedLineQuantum();
-    return wrappedLineQuantum.getBoundaries(editorContent, newlineIndices, span, false);
-  }
-
   public ArrayList<Integer> getNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
     BrickVisurVar niBVV = (BrickVisurVar)getGlobalVar("ni", editorModel);
     return (ArrayList<Integer>) niBVV.getVal();

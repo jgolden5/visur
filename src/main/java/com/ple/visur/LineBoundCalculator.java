@@ -18,6 +18,13 @@ public class LineBoundCalculator {
     return longLineLength;
   }
 
+  public static int[] getLong(int cy, ArrayList<Integer> ni) {
+    int[] longBounds = new int[2];
+    longBounds[0] = cy > 0 ? ni.get(cy - 1) : 0;
+    longBounds[1] = getLongLineLength(cy, ni);
+    return longBounds;
+  }
+
   public static int[] getShort(int cx, int cy, ArrayList<Integer> ni) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     int[] shortBounds = new int[2];
