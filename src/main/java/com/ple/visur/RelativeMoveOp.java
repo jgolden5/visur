@@ -24,7 +24,6 @@ public class RelativeMoveOp implements Operator {
     } else {
       newBounds = cursorQuantum.getBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
     }
-    emc.putCA(newBounds[0]);
     emc.putCursorQuantumStart(newBounds[0]);
     emc.putCursorQuantumEnd(newBounds[1]);
   }
