@@ -71,7 +71,7 @@ public class CharacterQuantum extends Quantum {
     int cx = emc.getCX();
     int cy = emc.getCY();
     int canvasWidth = emc.getCanvasWidth();
-    int[] shortBounds = LineBoundCalculator.getShort(cx, cy, newlineIndices);
+    int[] shortBounds = RelativeLineBoundCalculator.getShort(cx, cy, newlineIndices);
     int vcx = emc.getVirtualCX();
     boolean isOnLastShortLineInLongLine = shortBounds[1] - shortBounds[0] < canvasWidth;
     boolean isAtEndOfEditorContent = cy == newlineIndices.size() - 1 && isOnLastShortLineInLongLine;
@@ -82,7 +82,7 @@ public class CharacterQuantum extends Quantum {
     } else if(!isAtEndOfEditorContent) {
       vcx += canvasWidth;
     }
-    int longLineLength = LineBoundCalculator.getLongLineLength(cy, newlineIndices);
+    int longLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
     int longLineLimit = span > 0 ? longLineLength - 1 : longLineLength;
     cx = Math.min(vcx, longLineLimit);
     emc.putCX(cx);

@@ -2,7 +2,7 @@ package com.ple.visur;
 
 import java.util.ArrayList;
 
-public class LineBoundCalculator {
+public class RelativeLineBoundCalculator {
 
   public static int getLongLineLength(int cy, ArrayList<Integer> ni) {
     int longLineLength = 0;
