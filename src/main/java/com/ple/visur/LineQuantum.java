@@ -110,10 +110,7 @@ public class LineQuantum extends Quantum {
     int cy = emc.getCY();
     if(cy < newlineIndices.size() - 1) {
       emc.putCY(++cy);
-      int vcx = emc.getVirtualCX();
-      int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
-      int cx = Math.min(vcx, newLongLineLength);
-      emc.putCX(cx);
+      updateXValuesAfterVerticalMovement(cy, newlineIndices);
     }
     return emc.getCA();
   }
@@ -122,16 +119,16 @@ public class LineQuantum extends Quantum {
     int cy = emc.getCY();
     if(cy > 0) {
       emc.putCY(--cy);
-      int vcx = emc.getVirtualCX();
-      int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
-      int cx = Math.min(vcx, newLongLineLength);
-      emc.putCX(cx);
-      emc.putVirtualCX(0);
+      updateXValuesAfterVerticalMovement(cy, newlineIndices);
     }
-    //following 2 lines are potentially temporary
-    emc.putCX(0);
-    emc.putVirtualCX(0);
     return emc.getCA();
+  }
+
+  private void updateXValuesAfterVerticalMovement(int cy, ArrayList<Integer> newlineIndices) {
+    int vcx = emc.getVirtualCX();
+    int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
+    int cx = Math.min(vcx, newLongLineLength);
+    emc.putCX(cx);
   }
 
   private int zeroQuantumMoveRight(int ca, String editorContent, ArrayList<Integer> newlineIndices) {
