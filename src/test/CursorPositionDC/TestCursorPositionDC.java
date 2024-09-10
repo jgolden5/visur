@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TestCursorPositionDC {
 
@@ -25,23 +24,10 @@ public class TestCursorPositionDC {
   static CompoundDataClassBrick caAndNLDCB;
   static RCXCYAndNLDC rcxcyAndNLDC;
   static CompoundDataClassBrick rcxcyAndNLDCB;
-  static CompoundDataClassBrick llFromCYDCB;
-  static CompoundDataClassBrick cyAndNLDCB;
-  static CompoundDataClassBrick llcyAndNLDCB;
-  static LLFromCYDC llFromCYDC;
-  static CYAndNLDC cyAndNLDC;
-  static LLCYAndNLDC llcyAndNLDC;
-  static VirtualDC virtualDC;
-  static CompoundDataClassBrick virtualDCB;
-  static VCXRCXAndLODC vcxRcxAndLODC;
-  static CompoundDataClassBrick vcxRcxAndLODCB;
   static WholeNumberDC wholeNumberDC;
   static PrimitiveDataClassBrick caDCB;
   static PrimitiveDataClassBrick rcxDCB;
   static PrimitiveDataClassBrick cyDCB;
-  static PrimitiveDataClassBrick vcxDCB;
-  static PrimitiveDataClassBrick llDCB;
-  static PrimitiveDataClassBrick loDCB;
   static WholeNumberListDC nlDC;
   static PrimitiveDataClassBrick nlDCB;
   static JavaIntDF javaIntDF;
@@ -52,36 +38,22 @@ public class TestCursorPositionDC {
     coordinatesDC = cursorPositionDCHolder.coordinatesDC;
     caAndNLDC = cursorPositionDCHolder.caAndNLDC;
     rcxcyAndNLDC = cursorPositionDCHolder.rcxcyAndNLDC;
-    llFromCYDC = cursorPositionDCHolder.llFromCYDC;
-    cyAndNLDC = cursorPositionDCHolder.cyAndNLDC;
-    llcyAndNLDC = cursorPositionDCHolder.llcyAndNLDC;
-    virtualDC = cursorPositionDCHolder.virtualDC;
-    vcxRcxAndLODC = cursorPositionDCHolder.vcxRcxAndLODC;
     wholeNumberDC = cursorPositionDCHolder.wholeNumberDC;
     nlDC = cursorPositionDCHolder.wholeNumberListDC;
     javaIntDF = cursorPositionDCHolder.javaIntDF;
 
     ArrayList<OuterDataClassBrick> nlOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> llOuters = new ArrayList<>();
     ArrayList<OuterDataClassBrick> cyOuters = new ArrayList<>();
     ArrayList<OuterDataClassBrick> rcxOuters = new ArrayList<>();
 
     nlDCB = wholeNumberDC.makeBrick("nl", nlOuters, true);
     rcxDCB = wholeNumberDC.makeBrick("rcx", rcxOuters, false);
     cyDCB = wholeNumberDC.makeBrick("cy", cyOuters, false);
-    llDCB = wholeNumberDC.makeBrick("ll", llOuters, false);
-    cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB, rcxDCB, cyDCB, llDCB);
+    cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB);
     coordinatesDCB = cursorPositionDCB.getLayer(0);
     caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
     rcxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("rcxcyAndNL");
-    llFromCYDCB = cursorPositionDCB.getLayer(1);
-    cyAndNLDCB = (CompoundDataClassBrick)llFromCYDCB.getInner("cyAndNL");
-    llcyAndNLDCB = (CompoundDataClassBrick)llFromCYDCB.getInner("llcyAndNL");
-    virtualDCB = cursorPositionDCB.getLayer(2);
-    vcxRcxAndLODCB = (CompoundDataClassBrick) virtualDCB.getInner("vcxRCXAndLO");
     caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
-    vcxDCB = (PrimitiveDataClassBrick) vcxRcxAndLODCB.getInner("vcx");
-    loDCB = (PrimitiveDataClassBrick) vcxRcxAndLODCB.getInner("lo");
 
     coordinatesDCB.putInner("caAndNL", caAndNLDCB);
     coordinatesDCB.putInner("rcxcyAndNL", rcxcyAndNLDCB);
@@ -93,29 +65,10 @@ public class TestCursorPositionDC {
     rcxcyAndNLDCB.putInner("cy", cyDCB);
     rcxcyAndNLDCB.putInner("nl", nlDCB);
 
-    llFromCYDCB.putInner("cyAndNL", cyAndNLDCB);
-    cyAndNLDCB.putInner("cy", cyDCB);
-    cyAndNLDCB.putInner("nl", nlDCB);
-
-    llFromCYDCB.putInner("llcyAndNL", llcyAndNLDCB);
-    llcyAndNLDCB.putInner("ll", llDCB);
-    llcyAndNLDCB.putInner("cy", cyDCB);
-    llcyAndNLDCB.putInner("nl", nlDCB);
-
-    virtualDCB.putInner("ll", llDCB);
-    virtualDCB.putInner("vcxRCXAndLO", vcxRcxAndLODCB);
-
-    vcxRcxAndLODCB.putInner("vcx", vcxDCB);
-    vcxRcxAndLODCB.putInner("rcx", rcxDCB);
-    vcxRcxAndLODCB.putInner("lo", loDCB);
-
     assertTrue(nlDCB.isReadOnly());
     assertFalse(rcxDCB.isReadOnly());
     assertFalse(caDCB.isReadOnly());
     assertFalse(cyDCB.isReadOnly());
-    assertFalse(vcxDCB.isReadOnly());
-    assertFalse(llDCB.isReadOnly());
-    assertFalse(loDCB.isReadOnly());
 
   }
 
@@ -125,21 +78,14 @@ public class TestCursorPositionDC {
     cursorPositionDCB.remove();
     assertFalse(cursorPositionDCB.isComplete());
     assertFalse(coordinatesDCB.isComplete());
-    assertFalse(llFromCYDCB.isComplete());
-    assertFalse(virtualDCB.isComplete());
     assertFalse(rcxDCB.isComplete());
     assertFalse(cyDCB.isComplete());
-    assertFalse(vcxDCB.isComplete());
-    assertFalse(loDCB.isComplete());
-    assertFalse(llDCB.isComplete());
     assertEquals(nlDCBWasCompleteBeforeRemoval, nlDCB.isComplete());
   }
 
   @Test
   void setCursorPositionDCHolder() {
     assertEquals(coordinatesDC, cursorPositionDC.getLayer(0));
-    assertEquals(llFromCYDC, cursorPositionDC.getLayer(1));
-    assertEquals(virtualDC, cursorPositionDC.getLayer(2));
 
     //coordinates
     assertEquals(caAndNLDC, coordinatesDC.getInner("caAndNL"));
@@ -151,38 +97,14 @@ public class TestCursorPositionDC {
     assertEquals(nlDC, rcxcyAndNLDC.getInner("nl"));
     assertEquals(wholeNumberDC, rcxcyAndNLDC.getInner("wholeNumber"));
 
-    //llFromCY
-    assertEquals(cyAndNLDC, llFromCYDC.getInner("cyAndNL"));
-    assertEquals(llcyAndNLDC, llFromCYDC.getInner("llcyAndNL"));
-
-    assertEquals(nlDC, cyAndNLDC.getInner("nl"));
-    assertEquals(wholeNumberDC, cyAndNLDC.getInner("wholeNumber"));
-
-    assertEquals(nlDC, llcyAndNLDC.getInner("nl"));
-    assertEquals(wholeNumberDC, llcyAndNLDC.getInner("wholeNumber"));
-
-    //virtual
-    assertEquals(wholeNumberDC, virtualDC.getInner("wholeNumber"));
-    assertEquals(vcxRcxAndLODC, virtualDC.getInner("vcxRCXAndLO"));
-
-    assertEquals(wholeNumberDC, vcxRcxAndLODC.getInner("wholeNumber"));
-
   }
 
   @Test
   void setInners() {
     assertEquals("coordinates", cursorPositionDCB.getLayer(0).name);
-    assertEquals("llFromCY", cursorPositionDCB.getLayer(1).name);
-    assertEquals("virtual", cursorPositionDCB.getLayer(2).name);
 
     assertNotNull(coordinatesDCB.getInner("caAndNL"));
     assertNotNull(coordinatesDCB.getInner("rcxcyAndNL"));
-
-    assertNotNull(llFromCYDCB.getInner("cyAndNL"));
-    assertNotNull(llFromCYDCB.getInner("llcyAndNL"));
-
-    assertNotNull(virtualDCB.getInner("ll"));
-    assertNotNull(virtualDCB.getInner("vcxRCXAndLO"));
 
     assertNotNull(caAndNLDCB.getInner("ca"));
     assertNotNull(caAndNLDCB.getInner("nl"));
@@ -190,18 +112,6 @@ public class TestCursorPositionDC {
     assertNotNull(rcxcyAndNLDCB.getInner("rcx"));
     assertNotNull(rcxcyAndNLDCB.getInner("cy"));
     assertNotNull(rcxcyAndNLDCB.getInner("nl"));
-
-    assertNotNull(cyAndNLDCB.getInner("cy"));
-    assertNotNull(cyAndNLDCB.getInner("nl"));
-
-    assertNotNull(llcyAndNLDCB.getInner("ll"));
-    assertNotNull(llcyAndNLDCB.getInner("cy"));
-    assertNotNull(llcyAndNLDCB.getInner("nl"));
-    assertNull(llcyAndNLDCB.getInner("bogusInner"));
-
-    assertNotNull(vcxRcxAndLODCB.getInner("vcx"));
-    assertNotNull(vcxRcxAndLODCB.getInner("rcx"));
-    assertNotNull(vcxRcxAndLODCB.getInner("lo"));
 
   }
 
@@ -227,42 +137,21 @@ public class TestCursorPositionDC {
     assertTrue(nlOuters.size() == 4);
     assertTrue(nlOuters.contains("caAndNL"));
     assertTrue(nlOuters.contains("rcxcyAndNL"));
-    assertTrue(nlOuters.contains("cyAndNL"));
-    assertTrue(nlOuters.contains("llcyAndNL"));
 
     ArrayList<OuterDataClassBrick> caOutersAsBricks = caDCB.getOuters();
     ArrayList<String> caOuters = getOuterNamesFromBricks(caOutersAsBricks);
     assertTrue(caOuters.size() == 1);
     assertTrue(caOuters.contains("caAndNL"));
 
-    ArrayList<OuterDataClassBrick> vcxOutersAsBricks = vcxDCB.getOuters();
-    ArrayList<String> vcxOuters = getOuterNamesFromBricks(vcxOutersAsBricks);
-    assertTrue(vcxOuters.size() == 1);
-    assertTrue(vcxOuters.contains("vcxRCXAndLO"));
-
     ArrayList<OuterDataClassBrick> rcxOutersAsBricks = rcxDCB.getOuters();
     ArrayList<String> rcxOuters = getOuterNamesFromBricks(rcxOutersAsBricks);
     assertTrue(rcxOuters.size() == 2);
     assertTrue(rcxOuters.contains("rcxcyAndNL"));
-    assertTrue(rcxOuters.contains("vcxRCXAndLO"));
 
     ArrayList<OuterDataClassBrick> cyOutersAsBricks = cyDCB.getOuters();
     ArrayList<String> cyOuters = getOuterNamesFromBricks(cyOutersAsBricks);
     assertTrue(cyOuters.size() == 3);
     assertTrue(cyOuters.contains("rcxcyAndNL"));
-    assertTrue(cyOuters.contains("cyAndNL"));
-    assertTrue(cyOuters.contains("llcyAndNL"));
-
-    ArrayList<OuterDataClassBrick> llOutersAsBricks = llDCB.getOuters();
-    ArrayList<String> llOuters = getOuterNamesFromBricks(llOutersAsBricks);
-    assertTrue(llOuters.size() == 2);
-    assertTrue(llOuters.contains("llcyAndNL"));
-    assertTrue(llOuters.contains("virtual"));
-
-    ArrayList<OuterDataClassBrick> loOutersAsBricks = loDCB.getOuters();
-    ArrayList<String> loOuters = getOuterNamesFromBricks(loOutersAsBricks);
-    assertTrue(loOuters.size() == 1);
-    assertTrue(loOuters.contains("vcxRCXAndLO"));
 
   }
 
@@ -278,17 +167,10 @@ public class TestCursorPositionDC {
   void isComplete() {
     assertFalse(cursorPositionDCB.isComplete());
     assertFalse(coordinatesDCB.isComplete());
-    assertFalse(llFromCYDCB.isComplete());
-    assertFalse(virtualDCB.isComplete());
     assertFalse(nlDCB.isComplete());
     assertFalse(caDCB.isComplete());
     assertFalse(rcxDCB.isComplete());
-    assertFalse(cyAndNLDCB.isComplete());
-    assertFalse(llcyAndNLDCB.isComplete());
     assertFalse(cyDCB.isComplete());
-    assertFalse(vcxDCB.isComplete());
-    assertFalse(llDCB.isComplete());
-    assertFalse(loDCB.isComplete());
 
     //coordinates
     //caAndNL
@@ -318,42 +200,6 @@ public class TestCursorPositionDC {
     assertTrue(rcxcyAndNLDCB.isComplete());
 
     assertTrue(coordinatesDCB.isComplete());
-
-    //llFromCY
-    //cyAndNL
-    assertTrue(cyDCB.isComplete());
-    assertTrue(nlDCB.isComplete());
-    assertTrue(cyAndNLDCB.isComplete());
-
-    //llcyAndNL
-    assertFalse(llDCB.isComplete());
-    assertTrue(cyDCB.isComplete());
-    assertTrue(nlDCB.isComplete());
-    assertFalse(llcyAndNLDCB.isComplete());
-    cyDCB.put(2);
-    assertTrue(cyDCB.isComplete());
-    llDCB.put(10);
-    assertTrue(llDCB.isComplete());
-    assertFalse(cyDCB.isComplete());
-    assertFalse(llcyAndNLDCB.isComplete()); //llcyAndNLDCB cannot possibly be set as of right now
-
-    //virtual
-    //ll
-    llDCB.remove();
-    assertFalse(virtualDCB.isComplete());
-    assertFalse(llDCB.isComplete());
-    llDCB.put(0);
-    assertTrue(llDCB.isComplete());
-    assertFalse(virtualDCB.isComplete());
-
-    //vcxRCXAndLO
-    assertFalse(vcxRcxAndLODCB.isComplete());
-    rcxDCB.put(1);
-    assertEquals(1, rcxDCB.getVal());
-    loDCB.put(0);
-    assertEquals(0, loDCB.getVal());
-    assertTrue(vcxRcxAndLODCB.isComplete());
-    assertTrue(virtualDCB.isComplete());
 
   }
 
@@ -389,45 +235,6 @@ public class TestCursorPositionDC {
     assertEquals(1, cyDCB.getVal());
     assertTrue(rcxcyAndNLDCB.isComplete());
 
-    //llFromCY
-    //cyAndNL can be set when llcyAndNL are unset
-    llcyAndNLDCB.remove();
-    assertFalse(llcyAndNLDCB.isComplete());
-    cyDCB.put(3);
-    assertEquals(3, cyDCB.getVal());
-    assertTrue(cyAndNLDCB.isComplete());
-
-    //llcyAndNL CAN'T be set when nl and cy are unset, because setting ll with put unsets cy
-    cyAndNLDCB.remove();
-    assertFalse(cyAndNLDCB.isComplete());
-    assertFalse(llcyAndNLDCB.isComplete());
-    llDCB.put(10);
-    assertEquals(10, llDCB.getVal());
-    assertFalse(llcyAndNLDCB.isComplete());
-    assertFalse(cyAndNLDCB.isComplete());
-
-    //virtual
-    //set ll within virtual when ll was previously unset
-    assertFalse(vcxRcxAndLODCB.isComplete());
-    llDCB.remove();
-    assertFalse(llDCB.isComplete());
-
-    llDCB.put(10);
-    assertEquals(10, llDCB.getVal());
-    assertTrue(llDCB.isComplete());
-
-    //set vcxRCXAndLO when ll is unset
-    llDCB.remove();
-    vcxRcxAndLODCB.remove();
-    assertFalse(llDCB.isComplete());
-    assertFalse(vcxRcxAndLODCB.isComplete());
-    vcxDCB.put(4);
-    assertEquals(4, vcxDCB.getVal());
-    assertFalse(vcxRcxAndLODCB.isComplete());
-    loDCB.put(-1);
-    assertEquals(-1, loDCB.getVal());
-    assertTrue(vcxRcxAndLODCB.isComplete());
-
   }
 
   @Test
@@ -453,46 +260,6 @@ public class TestCursorPositionDC {
     assertEquals(2, cyDCB.getVal());
     assertTrue(rcxcyAndNLDCB.isComplete());
     assertFalse(caAndNLDCB.isComplete());
-
-    //llFromCY
-    //setting ll unsets cyAndNL if cyAndNL is set
-    assertTrue(cyAndNLDCB.isComplete());
-    llDCB.put(10);
-    assertTrue(llDCB.isComplete());
-    assertFalse(cyDCB.isComplete());
-    assertFalse(cyAndNLDCB.isComplete());
-    assertFalse(llcyAndNLDCB.isComplete());
-
-    //virtual
-    //llDCB.put unsets cy
-    cyDCB.put(12);
-    assertFalse(llDCB.isComplete());
-    assertEquals(12, cyDCB.getVal());
-    llDCB.put(12);
-    assertTrue(llDCB.isComplete());
-    assertFalse(cyDCB.isComplete());
-
-    //rcxDCB.put always unsets ca
-    vcxRcxAndLODCB.remove();
-    caDCB.put(1);
-    assertFalse(vcxRcxAndLODCB.isComplete());
-    assertEquals(1, caDCB.getVal());
-    rcxDCB.put(1); //even if it's the same number being set, it doesn't matter, ca should still get removed
-    assertFalse(caDCB.isComplete());
-    assertFalse(vcxRcxAndLODCB.isComplete());
-
-    //vcxDCB.put doesn't unset anything if only one var is set
-    vcxDCB.put(2);
-    assertTrue(vcxDCB.isComplete());
-    assertTrue(rcxDCB.isComplete());
-    assertFalse(loDCB.isComplete());
-
-    //loDCB.put will unset all other bricks since it will make nonEmpties > requiredSetValues
-    loDCB.put(4);
-    assertEquals(4, loDCB.getVal());
-    assertFalse(vcxDCB.isComplete());
-    assertFalse(rcxDCB.isComplete());
-    assertFalse(vcxRcxAndLODCB.isComplete());
 
   }
 
@@ -551,213 +318,6 @@ public class TestCursorPositionDC {
     assertTrue(rcxcyAndNLDCB.isComplete());
     assertTrue(caAndNLDCB.isComplete());
     assertTrue(coordinatesDCB.isComplete());
-
-    //virtualDC
-    //4 getLOFromVCXAndLL (lo > 0) if ll = 12, vcx = 13, and rcx = 12, lo should = 1
-    vcxRcxAndLODCB.remove();
-    llDCB.put(12);
-    assertEquals(12, llDCB.getOrCalc().getVal().getVal());
-    vcxDCB.put(13);
-    assertEquals(13, vcxDCB.getOrCalc().getVal().getVal());
-    rcxDCB.put(12);
-    assertEquals(12, rcxDCB.getOrCalc().getVal().getVal());
-
-    loDCB.getOrCalc();
-    assertEquals(1, loDCB.getVal());
-
-    //5 getLOFromVCXAndLL (lo < 0) if ll = 12, vcx = 10, and rcx = 10, lo should = -2
-    llDCB.put(12);
-    assertEquals(12, llDCB.getOrCalc().getVal().getVal());
-    vcxDCB.put(10);
-    assertEquals(10, vcxDCB.getOrCalc().getVal().getVal());
-    rcxDCB.put(10);
-    assertEquals(10, rcxDCB.getOrCalc().getVal().getVal());
-
-    loDCB.getOrCalc();
-    assertEquals(-2, loDCB.getVal());
-
-    //6 getLOFromVCXAndLL (lo == 0) if ll = 12, vcx = 12, and rcx = 12, lo should = 0
-    llDCB.put(12);
-    assertEquals(12, llDCB.getOrCalc().getVal().getVal());
-    vcxDCB.put(12);
-    assertEquals(12, vcxDCB.getOrCalc().getVal().getVal());
-    rcxDCB.put(12);
-    assertEquals(12, rcxDCB.getOrCalc().getVal().getVal());
-
-    loDCB.getOrCalc();
-    assertEquals(0, loDCB.getVal());
-
-    //7 getRCXFromVCXAndLO (lo > 0) if ll = 16, vcx = 19, and lo = 3, rcx should = 16
-    llDCB.put(16);
-    assertEquals(16, llDCB.getOrCalc().getVal().getVal());
-    vcxDCB.put(19);
-    assertEquals(19, vcxDCB.getOrCalc().getVal().getVal());
-    loDCB.put(3);
-    assertEquals(3, loDCB.getOrCalc().getVal().getVal());
-
-    rcxDCB.getOrCalc();
-    assertEquals(16, rcxDCB.getVal());
-
-    //8 getRCXFromVCXAndLO (lo < 0) if ll = 16, vcx = 9, and lo = -7, rcx should = 9
-    llDCB.put(16);
-    assertEquals(16, llDCB.getOrCalc().getVal().getVal());
-    vcxDCB.put(9);
-    assertEquals(9, vcxDCB.getOrCalc().getVal().getVal());
-    loDCB.put(-7);
-    assertEquals(-7, loDCB.getOrCalc().getVal().getVal());
-
-    rcxDCB.getOrCalc();
-    assertEquals(9, rcxDCB.getVal());
-
-    //9 getRCXFromVCXAndLO (lo == 0) if ll = 16, vcx = 16, and lo = 0, rcx should = 16
-    llDCB.put(16);
-    assertEquals(16, llDCB.getOrCalc().getVal().getVal());
-    vcxDCB.put(16);
-    assertEquals(16, vcxDCB.getOrCalc().getVal().getVal());
-    loDCB.put(0);
-    assertEquals(0, loDCB.getOrCalc().getVal().getVal());
-
-    rcxDCB.getOrCalc();
-    assertEquals(16, rcxDCB.getVal());
-
-    //10 getVCXFromRCXAndLO (lo > 0) if ll = 33, rcx = 33, and lo = 14, vcx should = 47
-    llDCB.put(33);
-    assertEquals(33, llDCB.getOrCalc().getVal().getVal());
-    rcxDCB.put(33);
-    assertEquals(33, rcxDCB.getOrCalc().getVal().getVal());
-    loDCB.put(14);
-    assertEquals(14, loDCB.getOrCalc().getVal().getVal());
-
-    vcxDCB.getOrCalc();
-    assertEquals(47, vcxDCB.getVal());
-
-    //11 getVCXFromRCXAndLO (lo < 0) if ll = 33, rcx = 10, and lo = -23, vcx should = 10
-    llDCB.put(33);
-    assertEquals(33, llDCB.getOrCalc().getVal().getVal());
-    rcxDCB.put(10);
-    assertEquals(10, rcxDCB.getOrCalc().getVal().getVal());
-    loDCB.put(-23);
-    assertEquals(-23, loDCB.getOrCalc().getVal().getVal());
-
-    vcxDCB.getOrCalc();
-    assertEquals(10, vcxDCB.getVal());
-
-    //12 getVCXFromRCXAndLO (lo == 0) if ll = 33, rcx = 33, and lo = 0, vcx should = 33
-    llDCB.put(33);
-    assertEquals(33, llDCB.getOrCalc().getVal().getVal());
-    rcxDCB.put(33);
-    assertEquals(33, rcxDCB.getOrCalc().getVal().getVal());
-    loDCB.put(0);
-    assertEquals(0, loDCB.getOrCalc().getVal().getVal());
-
-    vcxDCB.getOrCalc();
-    assertEquals(33, vcxDCB.getVal());
-
-    //llFromCYDC
-    //13 if cy = 0, ll should = 12
-    cyDCB.put(0);
-    assertEquals(0, cyDCB.getVal());
-    assertEquals(nl, nlDCB.getVal());
-
-    llDCB.getOrCalc();
-    assertEquals(12, llDCB.getVal());
-
-    //14 if cy = 1, ll should = 13
-    cyDCB.put(1);
-    assertEquals(1, cyDCB.getVal());
-    assertEquals(nl, nlDCB.getVal());
-
-    llDCB.getOrCalc();
-    assertEquals(13, llDCB.getVal());
-
-    //15 if cy = 2, ll should = 7
-    cyDCB.put(2);
-    assertEquals(2, cyDCB.getVal());
-    assertEquals(nl, nlDCB.getVal());
-
-    llDCB.getOrCalc();
-    assertEquals(7, llDCB.getVal());
-
-    //using calcNeighbor
-    //16 if vcx = 1, cy = 0, & nl = [12, 25, 32], then ll should = 12, rcx should = 1, and lo should = -11
-    cursorPositionDCB.remove();
-    nlDCB.put(nl);
-    vcxDCB.put(1);
-    cyDCB.put(0);
-    assertEquals(nl, nlDCB.getVal());
-    assertEquals(1, vcxDCB.getVal());
-    assertEquals(0, cyDCB.getVal());
-    rcxDCB.getOrCalc();
-    assertEquals(12, llDCB.getVal());
-    assertEquals(1, rcxDCB.getVal());
-    assertEquals(-11, loDCB.getVal());
-
-    //17 if vcx = 15, cy = 0, & nl = ^, then ll should = 12, rcx should = 12, and lo should = 3
-    vcxDCB.put(15);
-    assertEquals(nl, nlDCB.getVal());
-    assertEquals(15, vcxDCB.getVal());
-    assertEquals(0, cyDCB.getVal());
-    rcxDCB.getOrCalc();
-    assertEquals(12, llDCB.getVal());
-    assertEquals(12, rcxDCB.getVal());
-    assertEquals(3, loDCB.getVal());
-
-    //18 if vcx = 12, cy = 1, & nl = ^, then ll should = 13, rcx should = 12, and lo should = -1
-    vcxDCB.put(12);
-    cyDCB.put(1);
-    assertEquals(nl, nlDCB.getVal());
-    assertEquals(12, vcxDCB.getVal());
-    assertEquals(1, cyDCB.getVal());
-    rcxDCB.getOrCalc();
-    assertEquals(13, llDCB.getVal());
-    assertEquals(12, rcxDCB.getVal());
-    assertEquals(-1, loDCB.getVal());
-
-    //19 if vcx = 15, cy = 1, & nl = ^, then ll should = 13, rcx should = 13, and lo should = 2
-    vcxDCB.put(15);
-    assertEquals(nl, nlDCB.getVal());
-    assertEquals(15, vcxDCB.getVal());
-    assertEquals(1, cyDCB.getVal());
-    rcxDCB.getOrCalc();
-    assertEquals(13, llDCB.getVal());
-    assertEquals(13, rcxDCB.getVal());
-    assertEquals(2, loDCB.getVal());
-
-    //20 if vcx = 4, cy = 2, & nl = ^, then ll should = 7, rcx should = 4, and lo should = -3
-    vcxDCB.put(4);
-    cyDCB.put(2);
-    assertEquals(nl, nlDCB.getVal());
-    assertEquals(4, vcxDCB.getVal());
-    assertEquals(2, cyDCB.getVal());
-    rcxDCB.getOrCalc();
-    assertEquals(7, llDCB.getVal());
-    assertEquals(4, rcxDCB.getVal());
-    assertEquals(-3, loDCB.getVal());
-
-    //21 if vcx = 8, cy = 2, & nl = ^, then ll should = 7, rcx should = 7, and lo should = 1
-    vcxDCB.put(8);
-    cyDCB.put(2);
-    assertEquals(nl, nlDCB.getVal());
-    assertEquals(8, vcxDCB.getVal());
-    assertEquals(2, cyDCB.getVal());
-    rcxDCB.getOrCalc();
-    assertEquals(7, llDCB.getVal());
-    assertEquals(7, rcxDCB.getVal());
-    assertEquals(1, loDCB.getVal());
-
-    //22 if vcx = 9, cy = 1, & nl = ^, then ll should = 13, rcx should = 9, ca should = 21
-    vcxDCB.put(9);
-    cyDCB.put(1);
-    assertEquals(nl, nlDCB.getVal());
-    assertEquals(9, vcxDCB.getVal());
-    assertEquals(1, cyDCB.getVal());
-    assertFalse(llDCB.isComplete());
-    assertFalse(rcxDCB.isComplete());
-    assertFalse(caDCB.isComplete());
-    caDCB.getOrCalc();
-    assertEquals(13, llDCB.getVal());
-    assertEquals(9, rcxDCB.getVal());
-    assertEquals(21, caDCB.getVal());
 
   }
 
