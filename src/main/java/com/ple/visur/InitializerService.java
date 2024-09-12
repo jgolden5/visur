@@ -57,10 +57,8 @@ public class InitializerService {
     emc.updateNextLineIndices();
     emc.putLineWrapping(LineWrapping.wrapped);
 
-    int vcx = 0;
-    emc.putVCX(vcx);
-    int cy = 0;
-    emc.putCY(cy);
+    emc.putCA(0);
+    emc.putVirtualCX(0);
 
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
