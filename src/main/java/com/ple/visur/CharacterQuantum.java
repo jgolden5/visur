@@ -119,14 +119,53 @@ public class CharacterQuantum extends Quantum {
     return ca;
   }
 
-  private int moveDown(ArrayList<Integer> nextLineIndices, int span, int canvasWidth) {
-    //logic here
-    return emc.getCA();
+  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices, int span){
+    int cx = emc.getCX();
+    int cy = emc.getCY();
+    int canvasWidth = emc.getCanvasWidth();
+    int[] shortBounds = RelativeLineBoundCalculator.getShort(cx, cy, newlineIndices);
+    int vcx = emc.getVirtualCX();
+    boolean isOnLastShortLineInLongLine = shortBounds[1] - shortBounds[0] < canvasWidth;
+    boolean isAtEndOfEditorContent = cy == newlineIndices.size() - 1 && isOnLastShortLineInLongLine;
+    boolean shouldIncrementCY = isOnLastShortLineInLongLine && !isAtEndOfEditorContent;
+    if (shouldIncrementCY) {
+      emc.putCY(++cy);
+      vcx = vcx % canvasWidth;
+
+    } else if (!isAtEndOfEditorContent) {
+      vcx += canvasWidth;
+    }
+    int longLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
+    int longLineLimit = longLineLength;
+    cx = Math.min(vcx, longLineLimit);
+    emc.putCX(cx);
+    emc.putVirtualCX(vcx);
+    int ca = emc.getCA();
+    return span > 0 && ca == editorContent.length() ? --ca : ca;
   }
 
-  private int moveUp(ArrayList<Integer> nextLineIndices) {
-    //logic here
-    return emc.getCA();
+  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices, int span) {
+    int cx = emc.getCX();
+    int cy = emc.getCY();
+    int canvasWidth = emc.getCanvasWidth();
+    int[] shortBounds = RelativeLineBoundCalculator.getShort(cx, cy, newlineIndices);
+    int vcx = emc.getVirtualCX();
+    boolean isOnLastShortLineInLongLine = shortBounds[1] - shortBounds[0] < canvasWidth;
+    boolean isAtEndOfEditorContent = cy == newlineIndices.size() - 1 && isOnLastShortLineInLongLine;
+    boolean shouldIncrementCY = isOnLastShortLineInLongLine && !isAtEndOfEditorContent;
+    if(shouldIncrementCY) {
+      emc.putCY(++cy);
+      vcx = vcx % canvasWidth;
+    } else if(!isAtEndOfEditorContent) {
+      vcx += canvasWidth;
+    }
+    int longLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
+    int longLineLimit = longLineLength;
+    cx = Math.min(vcx, longLineLimit);
+    emc.putCX(cx);
+    emc.putVirtualCX(vcx);
+    int ca = emc.getCA();
+    return span > 0 && ca == editorContent.length() ? --ca : ca;
   }
 
   @Override
