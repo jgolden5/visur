@@ -105,7 +105,7 @@ public class CharacterQuantum extends Quantum {
     int ca = emc.getCA();
     ArrayList<Integer> nl = emc.getNextLineIndices();
     int contentEndLimit = span > 0 ? nl.get(nl.size() - 1) - 1 : nl.get(nl.size() - 1);
-    if(ca + 1 < contentEndLimit) {
+    if(ca < contentEndLimit) {
       ca++;
     }
     return ca;
