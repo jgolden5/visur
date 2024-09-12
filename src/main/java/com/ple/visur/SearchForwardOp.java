@@ -24,7 +24,7 @@ public class SearchForwardOp implements Operator {
         if (foundResult > -1) {
           int foundIndex = foundResult + cursorQuantumEnd + 1;
           emc.putCA(foundIndex);
-          emc.putVCX(emc.getCX());
+          emc.putVirtualCX(emc.getCX());
           Quantum cursorQuantum = emc.getCursorQuantum();
           int[] newBounds = cursorQuantum.getBoundaries(emc.getCA(), emc.getNextLineIndices(), emc.getSpan(), false);
           emc.putCursorQuantumStart(newBounds[0]);

@@ -24,7 +24,7 @@ public class SearchBackwardOp implements Operator {
         if (foundResult > -1) {
           int foundIndex = scopeQuantumStart + foundResult; //this is not necessary if the two are truly equal. This is temp for debugging
           emc.putCA(foundIndex);
-          emc.putVCX(emc.getCX());
+          emc.putVirtualCX(emc.getCX());
           Quantum cursorQuantum = emc.getCursorQuantum();
           int[] newBounds = cursorQuantum.getBoundaries(emc.getCA(), emc.getNextLineIndices(), emc.getSpan(), false);
           emc.putCursorQuantumStart(newBounds[0]);

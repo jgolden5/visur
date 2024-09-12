@@ -140,7 +140,7 @@ public class RegexQuantum extends Quantum {
         }
       }
       emc.putCA(destination);
-      emc.putVCX(emc.getCX());
+      emc.putVirtualCX(emc.getCX());
       mv.dx -= incrementer;
       boolean destinationIsInWrongPlace = mv.dx == 0 && span > 0 && !isAtBeginningOfQuantum(destination);
       if(destinationIsInWrongPlace) {
