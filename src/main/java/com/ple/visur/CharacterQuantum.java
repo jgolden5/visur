@@ -22,7 +22,7 @@ public class CharacterQuantum extends Quantum {
       if(mv.dx > 0) {
         realCA = moveRight(nextLineIndices, span);
       } else {
-        realCA = moveLeft();
+        realCA = moveLeft(nextLineIndices);
       }
     }
     if(mv.dy != 0) {
@@ -51,11 +51,17 @@ public class CharacterQuantum extends Quantum {
     return emc.getCA();
   }
 
-  private int moveLeft() {
+  private int moveLeft(ArrayList<Integer> nl) {
     int cx = emc.getCX();
     int cy = emc.getCY();
     if(cy > 0 || cx > 0) {
-      cx--;
+      if(cx == 0) {
+        emc.putCY(--cy);
+        int currentLineLength = cy > 0 ? nl.get(cy) - nl.get(cy - 1) : nl.get(cy);
+        cx = currentLineLength - 1;
+      } else {
+        cx--;
+      }
     }
     emc.putCX(cx);
     emc.putVirtualCX(cx);
