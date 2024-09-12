@@ -40,7 +40,7 @@ public class LineQuantum extends Quantum {
         ca = zeroQuantumMoveRight(ca, editorContent, newlineIndices);
         mv.dx--;
       } else {
-        ca = zeroQuantumMoveLeft(ca, editorContent, newlineIndices);
+        ca = zeroQuantumMoveLeft(ca, newlineIndices);
         mv.dx++;
       }
       emc.putCA(ca);
@@ -80,27 +80,21 @@ public class LineQuantum extends Quantum {
     if (startingCharIsNewline) {
       destination++;
     } else {
-      destination = nl.get(emc.getCY()) - 1;
+      int cy = emc.getCY();
+      destination = cy == nl.size() - 1 ? nl.get(cy) : nl.get(cy) - 1;
     }
     return destination;
   }
 
-  private int zeroQuantumMoveLeft(int ca, String editorContent, ArrayList<Integer> newlineIndices) {
+  private int zeroQuantumMoveLeft(int ca, ArrayList<Integer> nl) {
     int destination = ca;
     if(ca > 0) {
-      boolean previousCharIsNewline = editorContent.charAt(ca - 1) == '\n';
+      int cy = emc.getCY();
+      boolean previousCharIsNewline = nl.contains(ca) && ca < nl.get(nl.size() - 1);
       if(previousCharIsNewline) {
         destination--;
       } else {
-        for (int i = newlineIndices.size() - 1; i >= 0; i--) {
-          if(ca > newlineIndices.get(i)) {
-            destination = newlineIndices.get(i) + 1;
-            break;
-          }
-        }
-        if(destination == ca) {
-          destination = 0;
-        }
+        destination = cy > 0 ? nl.get(cy - 1) : 0;
       }
     }
     return destination;
