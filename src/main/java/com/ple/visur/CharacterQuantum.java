@@ -20,7 +20,7 @@ public class CharacterQuantum extends Quantum {
     int span = emc.getSpan();
     if(mv.dx != 0) {
       if(mv.dx > 0) {
-        realCA = moveRight(span);
+        realCA = moveRight(nextLineIndices, span);
       } else {
         realCA = moveLeft();
       }
@@ -35,22 +35,31 @@ public class CharacterQuantum extends Quantum {
     return realCA;
   }
 
-  private int moveRight(int span) {
-    int ca = emc.getCA();
-    ArrayList<Integer> nl = emc.getNextLineIndices();
-    int contentEndLimit = span > 0 ? nl.get(nl.size() - 1) - 1 : nl.get(nl.size() - 1);
-    if(ca < contentEndLimit) {
-      ca++;
+  private int moveRight(ArrayList<Integer> nl, int span) {
+    int cx = emc.getCX();
+    int cy = emc.getCY();
+    if(cy <= nl.size() - 1) {
+      int previousLineStart = cy > 0 ? nl.get(cy - 1) : 0;
+      if(span > 0 ? cx + previousLineStart < nl.get(cy) : cx + previousLineStart <= nl.get(cy)) {
+        cx++;
+      }
+    } else {
+      cx++;
     }
-    return ca;
+    emc.putCX(cx);
+    emc.putVirtualCX(cx);
+    return emc.getCA();
   }
 
   private int moveLeft() {
-    int ca = emc.getCA();
-    if(ca > 0) {
-      ca--;
+    int cx = emc.getCX();
+    int cy = emc.getCY();
+    if(cy > 0 || cx > 0) {
+      cx--;
     }
-    return ca;
+    emc.putCX(cx);
+    emc.putVirtualCX(cx);
+    return emc.getCA();
   }
 
   private int moveDown(String editorContent, ArrayList<Integer> nextLineIndices, int span) {
