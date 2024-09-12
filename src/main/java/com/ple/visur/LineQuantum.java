@@ -68,8 +68,8 @@ public class LineQuantum extends Quantum {
   }
 
   private void updateXValuesAfterVerticalMovement(int cy, ArrayList<Integer> newlineIndices) {
-    int vcx = emc.getVirtualCX();
     int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
+    int vcx = emc.getVirtualCX();
     int cx = Math.min(vcx, newLongLineLength);
     emc.putCX(cx);
   }
