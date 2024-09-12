@@ -22,12 +22,12 @@ public class CoordinatesDC extends CompoundDataClass {
     CompoundDataClassBrick caAndNLDCB = caAndNLDC.makeBrick("caAndNL", new ArrayList<>(), nlDCB);
     caAndNLDCB.putOuter(coordinatesDCB);
 
-    CXCYAndNLDC CXCYAndNLDC = (CXCYAndNLDC) getInner("rcxcyAndNL");
-    CompoundDataClassBrick rcxcyAndNLDCB = CXCYAndNLDC.makeBrick("rcxcyAndNL", new ArrayList<>(), nlDCB);
-    rcxcyAndNLDCB.putOuter(coordinatesDCB);
+    CXCYAndNLDC CXCYAndNLDC = (CXCYAndNLDC) getInner("cxcyAndNL");
+    CompoundDataClassBrick cxcyAndNLDCB = CXCYAndNLDC.makeBrick("cxcyAndNL", new ArrayList<>(), nlDCB);
+    cxcyAndNLDCB.putOuter(coordinatesDCB);
 
     coordinatesInners.put("caAndNL", caAndNLDCB);
-    coordinatesInners.put("rcxcyAndNL", rcxcyAndNLDCB);
+    coordinatesInners.put("cxcyAndNL", cxcyAndNLDCB);
 
     return coordinatesDCB.getInitializedBrickFromInners(coordinatesInners);
   }
@@ -38,7 +38,7 @@ public class CoordinatesDC extends CompoundDataClass {
     PrimitiveDataClassBrick[] coordinatesVars = getAllCoordinatePDCBs(thisAsBrick);
     if (targetName.equals("ca")) {
       r = calcCAAndNL(coordinatesVars);
-    } else if (targetName.equals("rcx") || targetName.equals("cy")) {
+    } else if (targetName.equals("cx") || targetName.equals("cy")) {
       r = calcRCXCYAndNL(targetName, coordinatesVars);
     } else {
       r = Result.make(null, "name not recognized");
@@ -51,22 +51,22 @@ public class CoordinatesDC extends CompoundDataClass {
     CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("caAndNL");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
     PrimitiveDataClassBrick nlDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("nl");
-    CompoundDataClassBrick rcxCYAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("rcxcyAndNL");
-    PrimitiveDataClassBrick rcxDCB = (PrimitiveDataClassBrick) rcxCYAndNLDCB.getInner("rcx");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) rcxCYAndNLDCB.getInner("cy");
-    return new PrimitiveDataClassBrick[]{caDCB, nlDCB, rcxDCB, cyDCB};
+    CompoundDataClassBrick cxCYAndNLDCB = (CompoundDataClassBrick) thisAsCDCB.getInner("cxcyAndNL");
+    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxCYAndNLDCB.getInner("cx");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxCYAndNLDCB.getInner("cy");
+    return new PrimitiveDataClassBrick[]{caDCB, nlDCB, cxDCB, cyDCB};
   }
 
   private Result<Object> calcCAAndNL(PrimitiveDataClassBrick[] coordinateBricks) {
     PrimitiveDataClassBrick caDCB = coordinateBricks[0];
     PrimitiveDataClassBrick nlDCB = coordinateBricks[1];
-    PrimitiveDataClassBrick rcxDCB = coordinateBricks[2];
+    PrimitiveDataClassBrick cxDCB = coordinateBricks[2];
     PrimitiveDataClassBrick cyDCB = coordinateBricks[3];
     ArrayList<Integer> nl = (ArrayList<Integer>) nlDCB.getVal();
-    int rcx = (int)rcxDCB.getVal();
+    int cx = (int)cxDCB.getVal();
     int cy = (int)cyDCB.getVal();
     int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
-    int ca = lineStart + rcx;
+    int ca = lineStart + cx;
     caDCB.cacheVal(ca);
     return Result.make(ca, null);
   }
@@ -74,7 +74,7 @@ public class CoordinatesDC extends CompoundDataClass {
   private Result<Object> calcRCXCYAndNL(String name, PrimitiveDataClassBrick[] coordinateBricks) {
     PrimitiveDataClassBrick caDCB = coordinateBricks[0];
     PrimitiveDataClassBrick nlDCB = coordinateBricks[1];
-    PrimitiveDataClassBrick rcxDCB = coordinateBricks[2];
+    PrimitiveDataClassBrick cxDCB = coordinateBricks[2];
     PrimitiveDataClassBrick cyDCB = coordinateBricks[3];
     int ca = (int)caDCB.getVal();
     ArrayList<Integer> nl = (ArrayList<Integer>) nlDCB.getVal();
@@ -84,14 +84,14 @@ public class CoordinatesDC extends CompoundDataClass {
       if(nextLineStart > ca) break;
     }
     int currentLineStart = cy > 0 ? nl.get(cy - 1) : 0;
-    int rcx = ca - currentLineStart;
+    int cx = ca - currentLineStart;
     Result<Object> r = Result.make(null, "name not recognized");
-    if(name.equals("rcx")) {
-      r = Result.make(rcx, null);
+    if(name.equals("cx")) {
+      r = Result.make(cx, null);
     } else if(name.equals("cy")) {
       r = Result.make(cy, null);
     }
-    rcxDCB.cacheVal(rcx);
+    cxDCB.cacheVal(cx);
     cyDCB.cacheVal(cy);
     return r;
   }

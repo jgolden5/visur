@@ -24,7 +24,7 @@ public class CursorPositionDCHolder extends DCHolder implements Shareable {
     CXCYAndNLDC.putInner("wholeNumber", wholeNumberDC);
     CXCYAndNLDC.putInner("nl", wholeNumberListDC);
     coordinatesDC.putInner("caAndNL", caAndNLDC);
-    coordinatesDC.putInner("rcxcyAndNL", CXCYAndNLDC);
+    coordinatesDC.putInner("cxcyAndNL", CXCYAndNLDC);
     cursorPositionDC.putLayer(coordinatesDC);
   }
 

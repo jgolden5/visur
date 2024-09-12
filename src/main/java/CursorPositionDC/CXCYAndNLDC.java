@@ -12,27 +12,27 @@ public class CXCYAndNLDC extends CompoundDataClass {
 
   @Override
   public CompoundDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, PrimitiveDataClassBrick... reusablePDCBs) {
-    CompoundDataClassBrick rcxcyAndNLDCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
-    HashMap<String, DataClassBrick> rcxcyAndNLInners = new HashMap<>();
+    CompoundDataClassBrick cxcyAndNLDCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
+    HashMap<String, DataClassBrick> cxcyAndNLInners = new HashMap<>();
 
     WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
     PrimitiveDataClassBrick cxDCB = wholeNumberDC.makeBrick("cx", new ArrayList<>(), false);
-    cxDCB.putOuter(rcxcyAndNLDCB);
+    cxDCB.putOuter(cxcyAndNLDCB);
 
     PrimitiveDataClassBrick cyDCB = wholeNumberDC.makeBrick("cy", new ArrayList<>(), false);
-    cyDCB.putOuter(rcxcyAndNLDCB);
+    cyDCB.putOuter(cxcyAndNLDCB);
 
     PrimitiveDataClassBrick nlDCB = reusablePDCBs[0];
 
-    cxDCB.putOuter(rcxcyAndNLDCB);
-    cyDCB.putOuter(rcxcyAndNLDCB);
-    nlDCB.putOuter(rcxcyAndNLDCB);
+    cxDCB.putOuter(cxcyAndNLDCB);
+    cyDCB.putOuter(cxcyAndNLDCB);
+    nlDCB.putOuter(cxcyAndNLDCB);
 
-    rcxcyAndNLInners.put("cx", cxDCB);
-    rcxcyAndNLInners.put("cy",  cyDCB);
-    rcxcyAndNLInners.put("nl", nlDCB);
+    cxcyAndNLInners.put("cx", cxDCB);
+    cxcyAndNLInners.put("cy",  cyDCB);
+    cxcyAndNLInners.put("nl", nlDCB);
 
-    return rcxcyAndNLDCB.getInitializedBrickFromInners(rcxcyAndNLInners);
+    return cxcyAndNLDCB.getInitializedBrickFromInners(cxcyAndNLInners);
   }
 
   @Override
