@@ -83,61 +83,35 @@ public class InitializerService {
     WholeNumberDC wholeNumberDC = cursorPositionDCHolder.wholeNumberDC;
     WholeNumberListDC wholeNumberListDC = cursorPositionDCHolder.wholeNumberListDC;
     PrimitiveDataClassBrick nlDCB = wholeNumberListDC.makeBrick("nl", new ArrayList<>(), true);
-    PrimitiveDataClassBrick rcxDCB = wholeNumberDC.makeBrick("rcx", new ArrayList<>(), false);
+    PrimitiveDataClassBrick cxDCB = wholeNumberDC.makeBrick("cx", new ArrayList<>(), false);
     PrimitiveDataClassBrick cyDCB = wholeNumberDC.makeBrick("cy", new ArrayList<>(), false);
-    PrimitiveDataClassBrick llDCB = wholeNumberDC.makeBrick("ll", new ArrayList<>(), false);
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
-    LayeredDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB, rcxDCB, cyDCB, llDCB);
+    LayeredDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB);
     CompoundDataClassBrick coordinatesDCB = cursorPositionDCB.getLayer(0);
-    CompoundDataClassBrick llFromCYDCB = cursorPositionDCB.getLayer(1);
-    CompoundDataClassBrick virtualDCB = cursorPositionDCB.getLayer(2);
     CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
-    CompoundDataClassBrick rcxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("rcxcyAndNL");
-    CompoundDataClassBrick llcyAndNLDCB = (CompoundDataClassBrick) llFromCYDCB.getInner("llcyAndNL");
-    CompoundDataClassBrick cyAndNLDCB = (CompoundDataClassBrick) llFromCYDCB.getInner("cyAndNL");
-    CompoundDataClassBrick vcxAndLLDCB = (CompoundDataClassBrick) virtualDCB.getInner("vcxAndLL");
-    CompoundDataClassBrick rcxAndLODCB = (CompoundDataClassBrick) virtualDCB.getInner("rcxAndLO");
+    CompoundDataClassBrick cxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("cxcyAndNL");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
-    PrimitiveDataClassBrick vcxDCB = (PrimitiveDataClassBrick) vcxAndLLDCB.getInner("vcx");
-    PrimitiveDataClassBrick loDCB = (PrimitiveDataClassBrick) rcxAndLODCB.getInner("lo");
     caAndNLDCB.putInner("ca", caDCB);
     caAndNLDCB.putInner("nl", nlDCB);
-    rcxcyAndNLDCB.putInner("rcx", rcxDCB);
-    rcxcyAndNLDCB.putInner("cy", cyDCB);
-    rcxcyAndNLDCB.putInner("nl", nlDCB);
-    llcyAndNLDCB.putInner("ll", llDCB);
-    cyAndNLDCB.putInner("cy", cyDCB);
-    llcyAndNLDCB.putInner("nl", nlDCB);
-    cyAndNLDCB.putInner("cy", cyDCB);
-    cyAndNLDCB.putInner("nl", nlDCB);
-    vcxAndLLDCB.putInner("vcx", vcxDCB);
-    vcxAndLLDCB.putInner("ll", llDCB);
-    rcxAndLODCB.putInner("rcx", rcxDCB);
-    rcxAndLODCB.putInner("lo", loDCB);
+    cxcyAndNLDCB.putInner("cx", cxDCB);
+    cxcyAndNLDCB.putInner("cy", cyDCB);
+    cxcyAndNLDCB.putInner("nl", nlDCB);
     coordinatesDCB.putInner("caAndNL", caAndNLDCB);
-    coordinatesDCB.putInner("rcxcyAndNL", rcxcyAndNLDCB);
-    llFromCYDCB.putInner("llcyAndNL", llcyAndNLDCB);
-    llFromCYDCB.putInner("cyAndNL", cyAndNLDCB);
-    virtualDCB.putInner("vcxAndLL", vcxAndLLDCB);
-    virtualDCB.putInner("rcxAndLO", rcxAndLODCB);
+    coordinatesDCB.putInner("cxcyAndNL", cxcyAndNLDCB);
 
-    initializeBVVs(nlDCB, caDCB, rcxDCB, vcxDCB, cyDCB, llDCB);
+    initializeBVVs(nlDCB, caDCB, cxDCB, cyDCB);
 
   }
 
-  private void initializeBVVs(PrimitiveDataClassBrick nlDCB, PrimitiveDataClassBrick caDCB, PrimitiveDataClassBrick rcxDCB, PrimitiveDataClassBrick vcxDCB, PrimitiveDataClassBrick cyDCB, PrimitiveDataClassBrick llDCB) {
+  private void initializeBVVs(PrimitiveDataClassBrick nlDCB, PrimitiveDataClassBrick caDCB, PrimitiveDataClassBrick cxDCB, PrimitiveDataClassBrick cyDCB) {
     BrickVisurVar nlBVV = BrickVisurVar.make(nlDCB);
     BrickVisurVar caBVV = BrickVisurVar.make(caDCB);
-    BrickVisurVar rcxBVV = BrickVisurVar.make(rcxDCB);
-    BrickVisurVar vcxBVV = BrickVisurVar.make(vcxDCB);
+    BrickVisurVar cxBVV = BrickVisurVar.make(cxDCB);
     BrickVisurVar cyBVV = BrickVisurVar.make(cyDCB);
-    BrickVisurVar llBVV = BrickVisurVar.make(llDCB);
     emc.putGlobalVar("nl", nlBVV);
     emc.putGlobalVar("ca", caBVV);
-    emc.putGlobalVar("rcx", rcxBVV);
-    emc.putGlobalVar("vcx", vcxBVV);
+    emc.putGlobalVar("cx", cxBVV);
     emc.putGlobalVar("cy", cyBVV);
-    emc.putGlobalVar("ll", llBVV);
   }
 
   private void initializeQuantums() {
