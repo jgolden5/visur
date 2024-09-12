@@ -74,23 +74,13 @@ public class LineQuantum extends Quantum {
     emc.putCX(cx);
   }
 
-  private int zeroQuantumMoveRight(int ca, String editorContent, ArrayList<Integer> newlineIndices) {
+  private int zeroQuantumMoveRight(int ca, String editorContent, ArrayList<Integer> nl) {
     int destination = ca;
-    if(ca < editorContent.length()) {
-      boolean startingCharIsNewline = editorContent.charAt(ca) == '\n';
-      if (startingCharIsNewline) {
-        destination++;
-      } else if (destination < editorContent.length()) {
-        for (int i = 0; i < newlineIndices.size(); i++) {
-          if (ca < newlineIndices.get(i)) {
-            destination = newlineIndices.get(i);
-            break;
-          }
-        }
-        if (destination == ca) {
-          destination = editorContent.length();
-        }
-      }
+    boolean startingCharIsNewline = editorContent.charAt(ca) == '\n';
+    if (startingCharIsNewline) {
+      destination++;
+    } else {
+      destination = nl.get(emc.getCY()) - 1;
     }
     return destination;
   }
