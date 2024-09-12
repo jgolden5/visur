@@ -34,13 +34,13 @@ public class CharacterQuantum extends Quantum {
       if(mv.dx > 0) {
         boolean canMoveRight = checkCanMoveRight(realCA, nextLineIndices, span);
         if(canMoveRight) {
-          destinationCA = moveRight();
+          destinationCA = moveRight(span);
         }
         mv.dx--;
       } else {
         boolean canMoveLeft = checkCanMoveLeft(realCA);
         if(canMoveLeft) {
-          destinationCA = moveLeft(span);
+          destinationCA = moveLeft();
         }
         mv.dx++;
       }
@@ -101,53 +101,32 @@ public class CharacterQuantum extends Quantum {
     return false;
   }
 
-  private int moveRight() {
-    int rcx = emc.getCX();
-    int ll = emc.getLL();
-    if(rcx + 1 > ll) {
-      int cy = emc.getCY();
-      emc.putCY(++cy);
-      emc.putCX(0);
-    } else {
-      emc.putCX(++rcx);
+  private int moveRight(int span) {
+    int ca = emc.getCA();
+    ArrayList<Integer> nl = emc.getNextLineIndices();
+    int contentEndLimit = span > 0 ? nl.get(nl.size() - 1) - 1 : nl.get(nl.size() - 1);
+    if(ca + 1 < contentEndLimit) {
+      ca++;
     }
-    return emc.getCA();
+    return ca;
   }
 
-  private int moveLeft(int span) {
-    int rcx = emc.getCX();
-    if(rcx > 0) {
-      emc.putCX(--rcx);
-    } else {
-      int cy = emc.getCY();
-      emc.putCY(--cy);
-      int lastValidCharOfPreviousLine = span < 1 ? emc.getLL() : emc.getLL() - 1;
-      emc.putCX(lastValidCharOfPreviousLine);
+  private int moveLeft() {
+    int ca = emc.getCA();
+    if(ca > 0) {
+      ca--;
     }
-    return emc.getCA();
+    return ca;
   }
 
   private int moveDown(ArrayList<Integer> nextLineIndices, int span, int canvasWidth) {
-    int vcx = emc.getVCX();
-    int cy = emc.getCY();
-    int ll = emc.getLL();
-    int startOfLastShortInLong = ll > canvasWidth ? ll - (ll % canvasWidth) : 0;
-    boolean shouldIncrementCY = vcx >= startOfLastShortInLong;
-    if(shouldIncrementCY) {
-      cy++;
-      vcx = vcx % canvasWidth;
-    } else {
-      vcx += canvasWidth;
-    }
-    emc.putVCX(vcx);
-    emc.putCY(cy);
+    //logic here
     return emc.getCA();
   }
 
   private int moveUp(ArrayList<Integer> nextLineIndices) {
-
-    int ca = emc.getCA();
-    return ca;
+    //logic here
+    return emc.getCA();
   }
 
   @Override
