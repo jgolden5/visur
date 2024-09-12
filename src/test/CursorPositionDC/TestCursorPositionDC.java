@@ -23,10 +23,10 @@ public class TestCursorPositionDC {
   static CAAndNLDC caAndNLDC;
   static CompoundDataClassBrick caAndNLDCB;
   static CXCYAndNLDC CXCYAndNLDC;
-  static CompoundDataClassBrick rcxcyAndNLDCB;
+  static CompoundDataClassBrick cxcyAndNLDCB;
   static WholeNumberDC wholeNumberDC;
   static PrimitiveDataClassBrick caDCB;
-  static PrimitiveDataClassBrick rcxDCB;
+  static PrimitiveDataClassBrick cxDCB;
   static PrimitiveDataClassBrick cyDCB;
   static WholeNumberListDC nlDC;
   static PrimitiveDataClassBrick nlDCB;
@@ -44,29 +44,29 @@ public class TestCursorPositionDC {
 
     ArrayList<OuterDataClassBrick> nlOuters = new ArrayList<>();
     ArrayList<OuterDataClassBrick> cyOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> rcxOuters = new ArrayList<>();
+    ArrayList<OuterDataClassBrick> cxOuters = new ArrayList<>();
 
     nlDCB = wholeNumberDC.makeBrick("nl", nlOuters, true);
-    rcxDCB = wholeNumberDC.makeBrick("rcx", rcxOuters, false);
+    cxDCB = wholeNumberDC.makeBrick("cx", cxOuters, false);
     cyDCB = wholeNumberDC.makeBrick("cy", cyOuters, false);
     cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB);
     coordinatesDCB = cursorPositionDCB.getLayer(0);
     caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
-    rcxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("rcxcyAndNL");
+    cxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("cxcyAndNL");
     caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
 
     coordinatesDCB.putInner("caAndNL", caAndNLDCB);
-    coordinatesDCB.putInner("rcxcyAndNL", rcxcyAndNLDCB);
+    coordinatesDCB.putInner("cxcyAndNL", cxcyAndNLDCB);
 
     caAndNLDCB.putInner("ca", caDCB);
     caAndNLDCB.putInner("nl", nlDCB);
 
-    rcxcyAndNLDCB.putInner("rcx", rcxDCB);
-    rcxcyAndNLDCB.putInner("cy", cyDCB);
-    rcxcyAndNLDCB.putInner("nl", nlDCB);
+    cxcyAndNLDCB.putInner("cx", cxDCB);
+    cxcyAndNLDCB.putInner("cy", cyDCB);
+    cxcyAndNLDCB.putInner("nl", nlDCB);
 
     assertTrue(nlDCB.isReadOnly());
-    assertFalse(rcxDCB.isReadOnly());
+    assertFalse(cxDCB.isReadOnly());
     assertFalse(caDCB.isReadOnly());
     assertFalse(cyDCB.isReadOnly());
 
@@ -78,7 +78,7 @@ public class TestCursorPositionDC {
     cursorPositionDCB.remove();
     assertFalse(cursorPositionDCB.isComplete());
     assertFalse(coordinatesDCB.isComplete());
-    assertFalse(rcxDCB.isComplete());
+    assertFalse(cxDCB.isComplete());
     assertFalse(cyDCB.isComplete());
     assertEquals(nlDCBWasCompleteBeforeRemoval, nlDCB.isComplete());
   }
@@ -89,7 +89,7 @@ public class TestCursorPositionDC {
 
     //coordinates
     assertEquals(caAndNLDC, coordinatesDC.getInner("caAndNL"));
-    assertEquals(CXCYAndNLDC, coordinatesDC.getInner("rcxcyAndNL"));
+    assertEquals(CXCYAndNLDC, coordinatesDC.getInner("cxcyAndNL"));
 
     assertEquals(nlDC, caAndNLDC.getInner("nl"));
     assertEquals(wholeNumberDC, caAndNLDC.getInner("wholeNumber"));
@@ -104,14 +104,14 @@ public class TestCursorPositionDC {
     assertEquals("coordinates", cursorPositionDCB.getLayer(0).name);
 
     assertNotNull(coordinatesDCB.getInner("caAndNL"));
-    assertNotNull(coordinatesDCB.getInner("rcxcyAndNL"));
+    assertNotNull(coordinatesDCB.getInner("cxcyAndNL"));
 
     assertNotNull(caAndNLDCB.getInner("ca"));
     assertNotNull(caAndNLDCB.getInner("nl"));
 
-    assertNotNull(rcxcyAndNLDCB.getInner("rcx"));
-    assertNotNull(rcxcyAndNLDCB.getInner("cy"));
-    assertNotNull(rcxcyAndNLDCB.getInner("nl"));
+    assertNotNull(cxcyAndNLDCB.getInner("cx"));
+    assertNotNull(cxcyAndNLDCB.getInner("cy"));
+    assertNotNull(cxcyAndNLDCB.getInner("nl"));
 
   }
 
@@ -127,31 +127,31 @@ public class TestCursorPositionDC {
     assertTrue(caAndNLOuters.size() == 1);
     assertTrue(caAndNLOuters.contains("coordinates"));
 
-    ArrayList<OuterDataClassBrick> rcxcyAndNLOutersAsBricks = rcxcyAndNLDCB.getOuters();
-    ArrayList<String> rcxcyAndNLOuters = getOuterNamesFromBricks(rcxcyAndNLOutersAsBricks);
-    assertTrue(rcxcyAndNLOuters.size() == 1);
-    assertTrue(rcxcyAndNLOuters.contains("coordinates"));
+    ArrayList<OuterDataClassBrick> cxcyAndNLOutersAsBricks = cxcyAndNLDCB.getOuters();
+    ArrayList<String> cxcyAndNLOuters = getOuterNamesFromBricks(cxcyAndNLOutersAsBricks);
+    assertTrue(cxcyAndNLOuters.size() == 1);
+    assertTrue(cxcyAndNLOuters.contains("coordinates"));
 
     ArrayList<OuterDataClassBrick> nlOutersAsBricks = nlDCB.getOuters();
     ArrayList<String> nlOuters = getOuterNamesFromBricks(nlOutersAsBricks);
     assertTrue(nlOuters.size() == 4);
     assertTrue(nlOuters.contains("caAndNL"));
-    assertTrue(nlOuters.contains("rcxcyAndNL"));
+    assertTrue(nlOuters.contains("cxcyAndNL"));
 
     ArrayList<OuterDataClassBrick> caOutersAsBricks = caDCB.getOuters();
     ArrayList<String> caOuters = getOuterNamesFromBricks(caOutersAsBricks);
     assertTrue(caOuters.size() == 1);
     assertTrue(caOuters.contains("caAndNL"));
 
-    ArrayList<OuterDataClassBrick> rcxOutersAsBricks = rcxDCB.getOuters();
-    ArrayList<String> rcxOuters = getOuterNamesFromBricks(rcxOutersAsBricks);
-    assertTrue(rcxOuters.size() == 2);
-    assertTrue(rcxOuters.contains("rcxcyAndNL"));
+    ArrayList<OuterDataClassBrick> cxOutersAsBricks = cxDCB.getOuters();
+    ArrayList<String> cxOuters = getOuterNamesFromBricks(cxOutersAsBricks);
+    assertTrue(cxOuters.size() == 2);
+    assertTrue(cxOuters.contains("cxcyAndNL"));
 
     ArrayList<OuterDataClassBrick> cyOutersAsBricks = cyDCB.getOuters();
     ArrayList<String> cyOuters = getOuterNamesFromBricks(cyOutersAsBricks);
     assertTrue(cyOuters.size() == 3);
-    assertTrue(cyOuters.contains("rcxcyAndNL"));
+    assertTrue(cyOuters.contains("cxcyAndNL"));
 
   }
 
@@ -169,7 +169,7 @@ public class TestCursorPositionDC {
     assertFalse(coordinatesDCB.isComplete());
     assertFalse(nlDCB.isComplete());
     assertFalse(caDCB.isComplete());
-    assertFalse(rcxDCB.isComplete());
+    assertFalse(cxDCB.isComplete());
     assertFalse(cyDCB.isComplete());
 
     //coordinates
@@ -188,16 +188,16 @@ public class TestCursorPositionDC {
 
     assertTrue(coordinatesDCB.isComplete());
 
-    //rcxcyAndNL
+    //cxcyAndNL
     assertTrue(nlDCB.isComplete());
-    assertFalse(rcxcyAndNLDCB.isComplete());
-    rcxDCB.put(0);
-    assertTrue(rcxDCB.isComplete());
-    assertFalse(rcxcyAndNLDCB.isComplete());
+    assertFalse(cxcyAndNLDCB.isComplete());
+    cxDCB.put(0);
+    assertTrue(cxDCB.isComplete());
+    assertFalse(cxcyAndNLDCB.isComplete());
 
     cyDCB.put(0);
     assertTrue(cyDCB.isComplete());
-    assertTrue(rcxcyAndNLDCB.isComplete());
+    assertTrue(cxcyAndNLDCB.isComplete());
 
     assertTrue(coordinatesDCB.isComplete());
 
@@ -206,7 +206,7 @@ public class TestCursorPositionDC {
   @Test
   void putWhenNotComplete() {
     //coordinates
-    //set caAndNL when rcxcyAndNL is unset
+    //set caAndNL when cxcyAndNL is unset
     assertFalse(caAndNLDCB.isComplete());
     caDCB.put(0);
     assertEquals(0, caDCB.getVal());
@@ -224,88 +224,88 @@ public class TestCursorPositionDC {
 
     caAndNLDCB.remove();
 
-    //set rcxcyAndNL when caAndNL is unset
+    //set cxcyAndNL when caAndNL is unset
     assertFalse(caAndNLDCB.isComplete());
-    assertFalse(rcxcyAndNLDCB.isComplete());
+    assertFalse(cxcyAndNLDCB.isComplete());
 
-    rcxDCB.put(0);
-    assertEquals(0, rcxDCB.getVal());
-    assertFalse(rcxcyAndNLDCB.isComplete());
+    cxDCB.put(0);
+    assertEquals(0, cxDCB.getVal());
+    assertFalse(cxcyAndNLDCB.isComplete());
     cyDCB.put(1);
     assertEquals(1, cyDCB.getVal());
-    assertTrue(rcxcyAndNLDCB.isComplete());
+    assertTrue(cxcyAndNLDCB.isComplete());
 
   }
 
   @Test
   void putWhenComplete() {
     //coordinates
-    //setting caAndNL unsets rcxcyAndNL if rcxcyAndNL is set
-    rcxDCB.put(0);
+    //setting caAndNL unsets cxcyAndNL if cxcyAndNL is set
+    cxDCB.put(0);
     cyDCB.put(1);
     ArrayList<Integer> nl = new ArrayList<>();
     nl.add(13);
     nlDCB.put(nl);
-    assertTrue(rcxcyAndNLDCB.isComplete());
+    assertTrue(cxcyAndNLDCB.isComplete());
     assertFalse(caAndNLDCB.isComplete());
     caDCB.put(0);
-    assertFalse(rcxcyAndNLDCB.isComplete());
+    assertFalse(cxcyAndNLDCB.isComplete());
     assertTrue(caAndNLDCB.isComplete());
 
-    //setting rcxcyAndNL unsets caAndNL if caAndNL is set
-    rcxDCB.put(1);
-    assertTrue(rcxDCB.isComplete());
+    //setting cxcyAndNL unsets caAndNL if caAndNL is set
+    cxDCB.put(1);
+    assertTrue(cxDCB.isComplete());
     assertTrue(nlDCB.isComplete());
     cyDCB.put(2);
     assertEquals(2, cyDCB.getVal());
-    assertTrue(rcxcyAndNLDCB.isComplete());
+    assertTrue(cxcyAndNLDCB.isComplete());
     assertFalse(caAndNLDCB.isComplete());
 
   }
 
   @Test void getOrCalc() {
     //coordinatesDC
-    //1 if nl = [12, 25, 32], rcx = 5, and cy = 1, ca can be calculated = 17
-    // (getOrCalc also works on set values such as nl, rcx and cy)
+    //1 if nl = [12, 25, 32], cx = 5, and cy = 1, ca can be calculated = 17
+    // (getOrCalc also works on set values such as nl, cx and cy)
     ArrayList<Integer> nl = new ArrayList<>();
     nl.add(12);
     nl.add(25);
     nl.add(32);
     nlDCB.put(nl);
-    rcxDCB.put(5);
+    cxDCB.put(5);
     cyDCB.put(1);
     assertEquals(nl, nlDCB.getVal());
-    assertEquals(5, rcxDCB.getVal());
+    assertEquals(5, cxDCB.getVal());
     assertEquals(1, cyDCB.getVal());
-    rcxDCB.getOrCalc();
-    assertEquals(5, rcxDCB.getVal());
+    cxDCB.getOrCalc();
+    assertEquals(5, cxDCB.getVal());
     cyDCB.getOrCalc();
     assertEquals(1, cyDCB.getVal());
 
     caDCB.getOrCalc();
     assertEquals(17, caDCB.getVal());
     assertEquals(nl, nlDCB.getVal());
-    assertTrue(rcxcyAndNLDCB.isComplete());
+    assertTrue(cxcyAndNLDCB.isComplete());
     assertTrue(caAndNLDCB.isComplete());
 
-    //2 if nl = [12, 25, 32], rcx = 3, and cy = 2, ca can be calculated = 28
-    rcxDCB.put(3);
+    //2 if nl = [12, 25, 32], cx = 3, and cy = 2, ca can be calculated = 28
+    cxDCB.put(3);
     cyDCB.put(2);
-    assertTrue(rcxcyAndNLDCB.isComplete());
-    assertEquals(3, rcxDCB.getVal());
+    assertTrue(cxcyAndNLDCB.isComplete());
+    assertEquals(3, cxDCB.getVal());
     assertEquals(2, cyDCB.getVal());
     assertEquals(nl, nlDCB.getVal());
     caDCB.getOrCalc();
     assertEquals(28, caDCB.getVal());
-    assertTrue(rcxcyAndNLDCB.isComplete());
+    assertTrue(cxcyAndNLDCB.isComplete());
     assertTrue(caAndNLDCB.isComplete());
 
-    //3 if nl = [12, 25, 32] and ca = 14, rcx should = 2 and cy should = 1
+    //3 if nl = [12, 25, 32] and ca = 14, cx should = 2 and cy should = 1
     // (getOrCalc also works on set values such as nl, and ca)
     caDCB.put(14);
     assertEquals(14, caDCB.getVal());
     assertTrue(caAndNLDCB.isComplete());
-    assertFalse(rcxcyAndNLDCB.isComplete());
+    assertFalse(cxcyAndNLDCB.isComplete());
     nlDCB.getOrCalc();
     assertEquals(nl, nlDCB.getVal());
     caDCB.getOrCalc();
@@ -313,9 +313,9 @@ public class TestCursorPositionDC {
 
     cyDCB.getOrCalc();
     assertEquals(1, cyDCB.getVal());
-    rcxDCB.getOrCalc();
-    assertEquals(2, rcxDCB.getVal());
-    assertTrue(rcxcyAndNLDCB.isComplete());
+    cxDCB.getOrCalc();
+    assertEquals(2, cxDCB.getVal());
+    assertTrue(cxcyAndNLDCB.isComplete());
     assertTrue(caAndNLDCB.isComplete());
     assertTrue(coordinatesDCB.isComplete());
 
