@@ -120,9 +120,9 @@ public class RegexQuantum extends Quantum {
    * @return resulting ca coordinate from move method
    */
   @Override
-  public int moveIfPossible(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
-    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
-    int startingCA = (int)realCABVV.getVal();
+  public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
+    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
+    int startingCA = (int)caBVV.getVal();
     int destination = startingCA;
     int span = emc.getSpan();
     int spansRemaining = span;
@@ -149,10 +149,11 @@ public class RegexQuantum extends Quantum {
     }
     while(mv.dy != 0) {
       CharacterQuantum cq = new CharacterQuantum();
-      destination = cq.moveIfPossible(editorContent, newlineIndices, mv);
+      destination = cq.move(editorContent, newlineIndices, mv);
     }
     return destination;
   }
+
 
   private boolean isAtBeginningOfQuantum(int bound) {
     String nextString = emc.getStrToMatch(true, bound);

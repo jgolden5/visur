@@ -15,7 +15,7 @@ public class CharacterQuantum extends Quantum {
   }
 
   @Override
-  public int moveIfPossible(String editorContent, ArrayList<Integer> nextLineIndices, MovementVector mv) {
+  public int move(String editorContent, ArrayList<Integer> nextLineIndices, MovementVector mv) {
     int canvasWidth = emc.getCanvasWidth();
     int realCA = emc.getCA();
     int span = emc.getSpan();

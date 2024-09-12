@@ -25,7 +25,7 @@ public class DocumentQuantum extends Quantum {
   }
 
   @Override
-  int moveIfPossible(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m) {
+  int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     int span = emc.getSpan();
     BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
