@@ -150,6 +150,7 @@ public class RegexQuantum extends Quantum {
     while(mv.dy != 0) {
       CharacterQuantum cq = new CharacterQuantum();
       destination = cq.move(editorContent, newlineIndices, mv);
+      mv.dy -= mv.dy > 0 ? 1 : -1;
     }
     return destination;
   }
