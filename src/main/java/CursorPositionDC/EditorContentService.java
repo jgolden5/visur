@@ -96,7 +96,6 @@ public class EditorContentService {
         indices.add(i);
       }
     }
-    indices.add(content.length());
     BrickVisurVar nlBVV = (BrickVisurVar) getGlobalVar("nl", editorModel);
     nlBVV.putVal(indices);
     putGlobalVar("nl", nlBVV, editorModel);
