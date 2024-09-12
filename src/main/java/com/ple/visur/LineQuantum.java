@@ -10,9 +10,14 @@ public class LineQuantum extends Quantum {
   public int[] getBoundaries(int ca, ArrayList<Integer> nl, int span, boolean includeTail) {
     int[] bounds = new int[]{ca, ca};
     int cy = emc.getCY();
+    bounds[0] = cy > 0 ? nl.get(cy - 1) : 0;;
     if(span > 0) {
-      bounds[0] = cy > 0 ? nl.get(cy - 1) : 0;;
       bounds[1] = cy == nl.size() - 1 ? nl.get(cy) : nl.get(cy) - 1;;
+    } else if(isInMiddleOfQuantum(ca)) {
+      bounds[1] = bounds[0];
+    } else {
+      bounds[0] = ca;
+      bounds[1] = ca;
     }
     return bounds;
   }
@@ -67,10 +72,22 @@ public class LineQuantum extends Quantum {
     return emc.getCA();
   }
 
-  private void updateXValuesAfterVerticalMovement(int cy, ArrayList<Integer> newlineIndices) {
-    int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
+  private boolean isInMiddleOfQuantum(int bound) {
+    String editorContent = emc.getEditorContent();
+    if(bound > 0 && bound < editorContent.length()) {
+      boolean matchExistsBefore = editorContent.charAt(bound - 1) != '\n';
+      boolean matchExistsAfter = editorContent.charAt(bound) != '\n';
+      return matchExistsBefore && matchExistsAfter;
+    } else {
+      return false;
+    }
+  }
+
+  private void updateXValuesAfterVerticalMovement(int cy, ArrayList<Integer> nl) {
+    int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, nl);
     int vcx = emc.getVirtualCX();
-    int cx = Math.min(vcx, newLongLineLength - 1);
+    int lineEndLimit = cy == nl.size() - 1 ? newLongLineLength : newLongLineLength - 1;
+    int cx = Math.min(vcx, lineEndLimit);
     emc.putCX(cx);
   }
 
