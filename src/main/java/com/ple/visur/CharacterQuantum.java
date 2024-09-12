@@ -54,7 +54,7 @@ public class CharacterQuantum extends Quantum {
       if(mv.dy > 0) {
         boolean canMoveDown = checkCanMoveDown(nextLineIndices, span, canvasWidth);
         if(canMoveDown) {
-          destinationCA = moveDown(nextLineIndices, span, canvasWidth);
+          destinationCA = moveDown(emc.getEditorContent(), nextLineIndices, span);
         }
         mv.dy--;
       } else {
@@ -119,7 +119,7 @@ public class CharacterQuantum extends Quantum {
     return ca;
   }
 
-  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices, int span){
+  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices, int span) {
     int cx = emc.getCX();
     int cy = emc.getCY();
     int canvasWidth = emc.getCanvasWidth();
@@ -133,30 +133,6 @@ public class CharacterQuantum extends Quantum {
       vcx = vcx % canvasWidth;
 
     } else if (!isAtEndOfEditorContent) {
-      vcx += canvasWidth;
-    }
-    int longLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
-    int longLineLimit = longLineLength;
-    cx = Math.min(vcx, longLineLimit);
-    emc.putCX(cx);
-    emc.putVirtualCX(vcx);
-    int ca = emc.getCA();
-    return span > 0 && ca == editorContent.length() ? --ca : ca;
-  }
-
-  private int moveDown(String editorContent, ArrayList<Integer> newlineIndices, int span) {
-    int cx = emc.getCX();
-    int cy = emc.getCY();
-    int canvasWidth = emc.getCanvasWidth();
-    int[] shortBounds = RelativeLineBoundCalculator.getShort(cx, cy, newlineIndices);
-    int vcx = emc.getVirtualCX();
-    boolean isOnLastShortLineInLongLine = shortBounds[1] - shortBounds[0] < canvasWidth;
-    boolean isAtEndOfEditorContent = cy == newlineIndices.size() - 1 && isOnLastShortLineInLongLine;
-    boolean shouldIncrementCY = isOnLastShortLineInLongLine && !isAtEndOfEditorContent;
-    if(shouldIncrementCY) {
-      emc.putCY(++cy);
-      vcx = vcx % canvasWidth;
-    } else if(!isAtEndOfEditorContent) {
       vcx += canvasWidth;
     }
     int longLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);

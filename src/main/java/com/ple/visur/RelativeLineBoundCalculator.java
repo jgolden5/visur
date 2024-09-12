@@ -4,6 +4,16 @@ import java.util.ArrayList;
 
 public class RelativeLineBoundCalculator {
 
+  public static int getLongLineLength(int cy, ArrayList<Integer> nl) {
+    int longLineLength = 0;
+    if(cy < nl.size()) {
+      longLineLength = nl.get(cy);
+    } else {
+      System.out.println("cy value is invalid");;
+    }
+    return longLineLength;
+  }
+
   public static int[] getShort(int cx, int cy, ArrayList<Integer> nl) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     int[] shortBounds = new int[2];
