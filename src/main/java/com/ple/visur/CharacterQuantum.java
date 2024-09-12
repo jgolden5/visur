@@ -38,9 +38,9 @@ public class CharacterQuantum extends Quantum {
   private int moveRight(ArrayList<Integer> nl, int span) {
     int cx = emc.getCX();
     int cy = emc.getCY();
-    if(cy <= nl.size() - 1) {
+    if(cy >= nl.size() - 1) {
       int previousLineStart = cy > 0 ? nl.get(cy - 1) : 0;
-      if(span > 0 ? cx + previousLineStart < nl.get(cy) : cx + previousLineStart <= nl.get(cy)) {
+      if(span > 0 ? cx + previousLineStart < nl.get(cy) - 1 : cx + previousLineStart < nl.get(cy)) {
         cx++;
       }
     } else {
