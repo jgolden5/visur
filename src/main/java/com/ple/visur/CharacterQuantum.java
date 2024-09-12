@@ -83,8 +83,7 @@ public class CharacterQuantum extends Quantum {
     cx = Math.min(vcx, longLineLimit);
     emc.putCX(cx);
     emc.putVirtualCX(vcx);
-    int ca = emc.getCA();
-    return span > 0 && ca == editorContent.length() ? --ca : ca;
+    return emc.getCA();
   }
 
   private int moveUp(String editorContent, ArrayList<Integer> nextLineIndices, int span) {
@@ -107,8 +106,7 @@ public class CharacterQuantum extends Quantum {
     }
     emc.putCX(cx);
     emc.putVirtualCX(vcx);
-    int ca = emc.getCA();
-    return span > 0 && ca == editorContent.length() ? --ca : ca;
+    return emc.getCA();
   }
 
   @Override
