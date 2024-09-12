@@ -7,12 +7,11 @@ public class LineQuantum extends Quantum {
   EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
 
   @Override
-  public int[] getBoundaries(String editorContent, ArrayList<Integer> nl, int span, boolean includeTail) {
-    int ca = emc.getCA();
+  public int[] getBoundaries(int ca, ArrayList<Integer> nl, int span, boolean includeTail) {
     int[] bounds = new int[]{ca, ca};
     int cy = emc.getCY();
     if(span > 0) {
-      bounds[0] = cy > 0 ? 0 : nl.get(cy);;
+      bounds[0] = cy > 0 ? nl.get(cy - 1) : 0;;
       bounds[1] = nl.get(cy) - 1;;
     }
     return bounds;
@@ -23,7 +22,6 @@ public class LineQuantum extends Quantum {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     int ca = (int)caBVV.getVal();
     int span = emc.getSpan();
-    CharacterQuantum cq = new CharacterQuantum();
     if(span > 0) {
       mv.dy += mv.dx;
       mv.dx = 0;
