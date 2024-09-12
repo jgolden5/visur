@@ -43,16 +43,14 @@ public class TestCursorPositionDC {
     javaIntDF = cursorPositionDCHolder.javaIntDF;
 
     ArrayList<OuterDataClassBrick> nlOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> cyOuters = new ArrayList<>();
-    ArrayList<OuterDataClassBrick> cxOuters = new ArrayList<>();
 
     nlDCB = wholeNumberDC.makeBrick("nl", nlOuters, true);
-    cxDCB = wholeNumberDC.makeBrick("cx", cxOuters, false);
-    cyDCB = wholeNumberDC.makeBrick("cy", cyOuters, false);
     cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB);
     coordinatesDCB = cursorPositionDCB.getLayer(0);
     caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
     cxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("cxcyAndNL");
+    cxDCB = (PrimitiveDataClassBrick) cxcyAndNLDCB.getInner("cx");
+    cyDCB = (PrimitiveDataClassBrick) cxcyAndNLDCB.getInner("cy");
     caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
 
     coordinatesDCB.putInner("caAndNL", caAndNLDCB);
@@ -134,7 +132,7 @@ public class TestCursorPositionDC {
 
     ArrayList<OuterDataClassBrick> nlOutersAsBricks = nlDCB.getOuters();
     ArrayList<String> nlOuters = getOuterNamesFromBricks(nlOutersAsBricks);
-    assertTrue(nlOuters.size() == 4);
+    assertTrue(nlOuters.size() == 2);
     assertTrue(nlOuters.contains("caAndNL"));
     assertTrue(nlOuters.contains("cxcyAndNL"));
 
@@ -145,12 +143,12 @@ public class TestCursorPositionDC {
 
     ArrayList<OuterDataClassBrick> cxOutersAsBricks = cxDCB.getOuters();
     ArrayList<String> cxOuters = getOuterNamesFromBricks(cxOutersAsBricks);
-    assertTrue(cxOuters.size() == 2);
+    assertTrue(cxOuters.size() == 1);
     assertTrue(cxOuters.contains("cxcyAndNL"));
 
     ArrayList<OuterDataClassBrick> cyOutersAsBricks = cyDCB.getOuters();
     ArrayList<String> cyOuters = getOuterNamesFromBricks(cyOutersAsBricks);
-    assertTrue(cyOuters.size() == 3);
+    assertTrue(cyOuters.size() == 1);
     assertTrue(cyOuters.contains("cxcyAndNL"));
 
   }
@@ -234,6 +232,7 @@ public class TestCursorPositionDC {
     cyDCB.put(1);
     assertEquals(1, cyDCB.getVal());
     assertTrue(cxcyAndNLDCB.isComplete());
+    assertTrue(coordinatesDCB.isComplete());
 
   }
 
@@ -256,6 +255,7 @@ public class TestCursorPositionDC {
     cxDCB.put(1);
     assertTrue(cxDCB.isComplete());
     assertTrue(nlDCB.isComplete());
+    assertFalse(caAndNLDCB.isComplete()); //?
     cyDCB.put(2);
     assertEquals(2, cyDCB.getVal());
     assertTrue(cxcyAndNLDCB.isComplete());
@@ -311,10 +311,29 @@ public class TestCursorPositionDC {
     caDCB.getOrCalc();
     assertEquals(14, caDCB.getVal());
 
-    cyDCB.getOrCalc();
-    assertEquals(1, cyDCB.getVal());
     cxDCB.getOrCalc();
     assertEquals(2, cxDCB.getVal());
+    cyDCB.getOrCalc();
+    assertEquals(1, cyDCB.getVal());
+    assertTrue(cxcyAndNLDCB.isComplete());
+    assertTrue(caAndNLDCB.isComplete());
+    assertTrue(coordinatesDCB.isComplete());
+
+    //3 if nl = [12, 25, 32] and ca = 5, cx should = 5 and cy should = 0
+    // (getOrCalc also works on set values such as nl, and ca)
+    caDCB.put(5);
+    assertEquals(5, caDCB.getVal());
+    assertTrue(caAndNLDCB.isComplete());
+    assertFalse(cxcyAndNLDCB.isComplete());
+    nlDCB.getOrCalc();
+    assertEquals(nl, nlDCB.getVal());
+    caDCB.getOrCalc();
+    assertEquals(5, caDCB.getVal());
+
+    cxDCB.getOrCalc();
+    assertEquals(5, cxDCB.getVal());
+    cyDCB.getOrCalc();
+    assertEquals(0, cyDCB.getVal());
     assertTrue(cxcyAndNLDCB.isComplete());
     assertTrue(caAndNLDCB.isComplete());
     assertTrue(coordinatesDCB.isComplete());

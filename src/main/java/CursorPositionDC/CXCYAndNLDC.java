@@ -23,9 +23,6 @@ public class CXCYAndNLDC extends CompoundDataClass {
     cyDCB.putOuter(cxcyAndNLDCB);
 
     PrimitiveDataClassBrick nlDCB = reusablePDCBs[0];
-
-    cxDCB.putOuter(cxcyAndNLDCB);
-    cyDCB.putOuter(cxcyAndNLDCB);
     nlDCB.putOuter(cxcyAndNLDCB);
 
     cxcyAndNLInners.put("cx", cxDCB);
