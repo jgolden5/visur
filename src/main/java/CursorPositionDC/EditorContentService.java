@@ -102,14 +102,6 @@ public class EditorContentService {
     putGlobalVar("nl", nlBVV, editorModel);
   }
 
-  public void putVirtualCX(int x, LocalMap<EditorModelKey, Object> editorModel) {
-    editorModel.put(virtualX, x);
-  }
-
-  public void putVirtualXIsAtEndOfLine(boolean isAtEndOfLine, LocalMap<EditorModelKey, Object> editorModel) {
-    editorModel.put(virtualXIsAtEndOfLine, isAtEndOfLine);
-  }
-
   public void putCanvasWidth(int cw, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(canvasWidth, cw);
   }

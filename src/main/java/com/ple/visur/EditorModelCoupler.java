@@ -49,6 +49,10 @@ public class EditorModelCoupler {
     return (LineWrapping) editorModel.get(lineWrapping);
   }
 
+  public int getVirtualCX() {
+    return (int)editorModel.get(virtualCX);
+  }
+
   public int getCA() {
     BrickVisurVar caBVV = (BrickVisurVar) getGlobalVar("ca");
     return (int)caBVV.getVal();
@@ -209,6 +213,10 @@ public class EditorModelCoupler {
 
   public void putLineWrapping(LineWrapping lw) {
     editorModel.put(lineWrapping, lw);
+  }
+
+  public void putVirtualCX(int vcx) {
+    editorModel.put(virtualCX, vcx);
   }
 
   public void putCA(int ca) {
