@@ -78,16 +78,15 @@ public class InitializerService {
 
   private void initializeCursorPositionDCBsAndBVVs() {
     CursorPositionDCHolder cursorPositionDCHolder = new CursorPositionDCHolder();
-    WholeNumberDC wholeNumberDC = cursorPositionDCHolder.wholeNumberDC;
     WholeNumberListDC wholeNumberListDC = cursorPositionDCHolder.wholeNumberListDC;
     PrimitiveDataClassBrick nlDCB = wholeNumberListDC.makeBrick("nl", new ArrayList<>(), true);
-    PrimitiveDataClassBrick cxDCB = wholeNumberDC.makeBrick("cx", new ArrayList<>(), false);
-    PrimitiveDataClassBrick cyDCB = wholeNumberDC.makeBrick("cy", new ArrayList<>(), false);
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
     LayeredDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB);
     CompoundDataClassBrick coordinatesDCB = cursorPositionDCB.getLayer(0);
     CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
     CompoundDataClassBrick cxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("cxcyAndNL");
+    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyAndNLDCB.getInner("cx");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyAndNLDCB.getInner("cy");
     PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
     caAndNLDCB.putInner("ca", caDCB);
     caAndNLDCB.putInner("nl", nlDCB);
