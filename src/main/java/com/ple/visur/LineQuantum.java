@@ -12,7 +12,7 @@ public class LineQuantum extends Quantum {
     int cy = emc.getCY();
     if(span > 0) {
       bounds[0] = cy > 0 ? nl.get(cy - 1) : 0;;
-      bounds[1] = nl.get(cy) - 1;;
+      bounds[1] = cy == nl.size() - 1 ? nl.get(cy) : nl.get(cy) - 1;;
     }
     return bounds;
   }
