@@ -5,14 +5,12 @@ import java.util.ArrayList;
 public class RelativeLineBoundCalculator {
 
   public static int getLongLineLength(int cy, ArrayList<Integer> nl) {
-    int longLineLength = 0;
-    if(cy < nl.size()) {
-      longLineLength = nl.get(cy) - 1;
-      if(cy > 0) {
-        longLineLength -= nl.get(cy - 1) - 1;
-      }
+    int caAtEndOfLongLine = nl.get(cy);
+    int longLineLength;
+    if(cy > 0) {
+      longLineLength = caAtEndOfLongLine - nl.get(cy - 1);
     } else {
-      System.out.println("cy value is invalid");;
+      longLineLength = caAtEndOfLongLine;
     }
     return longLineLength;
   }

@@ -105,7 +105,7 @@ public class CharacterQuantum extends Quantum {
       int previousLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, nextLineIndices);
       int[] shortBoundsOfLastShortInPreviousLine = RelativeLineBoundCalculator.getShort(previousLongLineLength, cy, nextLineIndices);
       vcx = vcx % canvasWidth + shortBoundsOfLastShortInPreviousLine[0];
-      cx = Math.min(vcx, previousLongLineLength);
+      cx = Math.min(vcx, previousLongLineLength - 1);
     } else if(!isOnFirstShortLine) {
       vcx -= canvasWidth;
       cx = vcx;
