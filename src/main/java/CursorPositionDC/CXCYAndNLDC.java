@@ -5,8 +5,8 @@ import DataClass.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class RCXCYAndNLDC extends CompoundDataClass {
-  public RCXCYAndNLDC(int requiredSetValues) {
+public class CXCYAndNLDC extends CompoundDataClass {
+  public CXCYAndNLDC(int requiredSetValues) {
     super(requiredSetValues);
   }
 
@@ -15,15 +15,20 @@ public class RCXCYAndNLDC extends CompoundDataClass {
     CompoundDataClassBrick rcxcyAndNLDCB = CompoundDataClassBrick.make(name, outers, this, new HashMap<>());
     HashMap<String, DataClassBrick> rcxcyAndNLInners = new HashMap<>();
 
-    PrimitiveDataClassBrick nlDCB = reusablePDCBs[0];
-    PrimitiveDataClassBrick rcxDCB = reusablePDCBs[1];
-    PrimitiveDataClassBrick cyDCB = reusablePDCBs[2];
+    WholeNumberDC wholeNumberDC = (WholeNumberDC) getInner("wholeNumber");
+    PrimitiveDataClassBrick cxDCB = wholeNumberDC.makeBrick("cx", new ArrayList<>(), false);
+    cxDCB.putOuter(rcxcyAndNLDCB);
 
-    rcxDCB.putOuter(rcxcyAndNLDCB);
+    PrimitiveDataClassBrick cyDCB = wholeNumberDC.makeBrick("cy", new ArrayList<>(), false);
+    cyDCB.putOuter(rcxcyAndNLDCB);
+
+    PrimitiveDataClassBrick nlDCB = reusablePDCBs[0];
+
+    cxDCB.putOuter(rcxcyAndNLDCB);
     cyDCB.putOuter(rcxcyAndNLDCB);
     nlDCB.putOuter(rcxcyAndNLDCB);
 
-    rcxcyAndNLInners.put("rcx", rcxDCB);
+    rcxcyAndNLInners.put("cx", cxDCB);
     rcxcyAndNLInners.put("cy",  cyDCB);
     rcxcyAndNLInners.put("nl", nlDCB);
 

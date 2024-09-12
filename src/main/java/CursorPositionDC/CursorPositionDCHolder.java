@@ -10,7 +10,7 @@ public class CursorPositionDCHolder extends DCHolder implements Shareable {
   public final CursorPositionDC cursorPositionDC = new CursorPositionDC();
   public final CoordinatesDC coordinatesDC = new CoordinatesDC(1);
   public final CAAndNLDC caAndNLDC = new CAAndNLDC(2);
-  public final RCXCYAndNLDC rcxcyAndNLDC = new RCXCYAndNLDC(3);
+  public final CXCYAndNLDC CXCYAndNLDC = new CXCYAndNLDC(3);
   public final WholeNumberDC wholeNumberDC = new WholeNumberDC(javaIntDF);
   public final WholeNumberListDC wholeNumberListDC = new WholeNumberListDC(intArrayListDF);
 
@@ -21,10 +21,10 @@ public class CursorPositionDCHolder extends DCHolder implements Shareable {
   public CursorPositionDCHolder() {
     caAndNLDC.putInner("wholeNumber", wholeNumberDC);
     caAndNLDC.putInner("nl", wholeNumberListDC);
-    rcxcyAndNLDC.putInner("wholeNumber", wholeNumberDC);
-    rcxcyAndNLDC.putInner("nl", wholeNumberListDC);
+    CXCYAndNLDC.putInner("wholeNumber", wholeNumberDC);
+    CXCYAndNLDC.putInner("nl", wholeNumberListDC);
     coordinatesDC.putInner("caAndNL", caAndNLDC);
-    coordinatesDC.putInner("rcxcyAndNL", rcxcyAndNLDC);
+    coordinatesDC.putInner("rcxcyAndNL", CXCYAndNLDC);
     cursorPositionDC.putLayer(coordinatesDC);
   }
 

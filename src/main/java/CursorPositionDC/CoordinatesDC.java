@@ -17,15 +17,13 @@ public class CoordinatesDC extends CompoundDataClass {
     HashMap<String, DataClassBrick> coordinatesInners = new HashMap<>();
 
     PrimitiveDataClassBrick nlDCB = reusablePDCBs[0];
-    PrimitiveDataClassBrick rcxDCB = reusablePDCBs[1];
-    PrimitiveDataClassBrick cyDCB = reusablePDCBs[2];
 
     CAAndNLDC caAndNLDC = (CAAndNLDC) getInner("caAndNL");
     CompoundDataClassBrick caAndNLDCB = caAndNLDC.makeBrick("caAndNL", new ArrayList<>(), nlDCB);
     caAndNLDCB.putOuter(coordinatesDCB);
 
-    RCXCYAndNLDC rcxcyAndNLDC = (RCXCYAndNLDC) getInner("rcxcyAndNL");
-    CompoundDataClassBrick rcxcyAndNLDCB = rcxcyAndNLDC.makeBrick("rcxcyAndNL", new ArrayList<>(), nlDCB, rcxDCB, cyDCB);
+    CXCYAndNLDC CXCYAndNLDC = (CXCYAndNLDC) getInner("rcxcyAndNL");
+    CompoundDataClassBrick rcxcyAndNLDCB = CXCYAndNLDC.makeBrick("rcxcyAndNL", new ArrayList<>(), nlDCB);
     rcxcyAndNLDCB.putOuter(coordinatesDCB);
 
     coordinatesInners.put("caAndNL", caAndNLDCB);

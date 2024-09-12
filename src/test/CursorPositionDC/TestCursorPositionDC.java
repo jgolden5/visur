@@ -22,7 +22,7 @@ public class TestCursorPositionDC {
   static CompoundDataClassBrick coordinatesDCB;
   static CAAndNLDC caAndNLDC;
   static CompoundDataClassBrick caAndNLDCB;
-  static RCXCYAndNLDC rcxcyAndNLDC;
+  static CXCYAndNLDC CXCYAndNLDC;
   static CompoundDataClassBrick rcxcyAndNLDCB;
   static WholeNumberDC wholeNumberDC;
   static PrimitiveDataClassBrick caDCB;
@@ -37,7 +37,7 @@ public class TestCursorPositionDC {
     cursorPositionDC = cursorPositionDCHolder.cursorPositionDC;
     coordinatesDC = cursorPositionDCHolder.coordinatesDC;
     caAndNLDC = cursorPositionDCHolder.caAndNLDC;
-    rcxcyAndNLDC = cursorPositionDCHolder.rcxcyAndNLDC;
+    CXCYAndNLDC = cursorPositionDCHolder.CXCYAndNLDC;
     wholeNumberDC = cursorPositionDCHolder.wholeNumberDC;
     nlDC = cursorPositionDCHolder.wholeNumberListDC;
     javaIntDF = cursorPositionDCHolder.javaIntDF;
@@ -89,13 +89,13 @@ public class TestCursorPositionDC {
 
     //coordinates
     assertEquals(caAndNLDC, coordinatesDC.getInner("caAndNL"));
-    assertEquals(rcxcyAndNLDC, coordinatesDC.getInner("rcxcyAndNL"));
+    assertEquals(CXCYAndNLDC, coordinatesDC.getInner("rcxcyAndNL"));
 
     assertEquals(nlDC, caAndNLDC.getInner("nl"));
     assertEquals(wholeNumberDC, caAndNLDC.getInner("wholeNumber"));
 
-    assertEquals(nlDC, rcxcyAndNLDC.getInner("nl"));
-    assertEquals(wholeNumberDC, rcxcyAndNLDC.getInner("wholeNumber"));
+    assertEquals(nlDC, CXCYAndNLDC.getInner("nl"));
+    assertEquals(wholeNumberDC, CXCYAndNLDC.getInner("wholeNumber"));
 
   }
 
