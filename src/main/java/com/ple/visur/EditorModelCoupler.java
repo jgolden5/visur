@@ -54,14 +54,9 @@ public class EditorModelCoupler {
     return (int)caBVV.getVal();
   }
 
-  public int getRCX() {
-    BrickVisurVar rcxBVV = (BrickVisurVar) getGlobalVar("rcx");
-    return (int)rcxBVV.getVal();
-  }
-
-  public int getVCX() {
-    BrickVisurVar vcxBVV = (BrickVisurVar) getGlobalVar("vcx");
-    return (int)vcxBVV.getVal();
+  public int getCX() {
+    BrickVisurVar cxBVV = (BrickVisurVar) getGlobalVar("cx");
+    return (int)cxBVV.getVal();
   }
 
   public int getCY() {
@@ -69,17 +64,8 @@ public class EditorModelCoupler {
     return (int)cyBVV.getVal();
   }
 
-  public int getLL() {
-    BrickVisurVar llBVV = (BrickVisurVar) getGlobalVar("ll");
-    return (int)llBVV.getVal();
-  }
-
   public ArrayList<Integer> getNextLineIndices() {
     return ecs.getNextLineIndices(editorModel);
-  }
-
-  public int calcNextNewlineIndexFromAbsPosition(int realCA) {
-    return ecs.calcNextNewlineIndexFromAbsPosition(realCA, editorModel);
   }
 
   public int[] calcLongLineBoundaries(int realCA, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
@@ -97,7 +83,7 @@ public class EditorModelCoupler {
   public int[] calcShortLineBoundaries() {
     int[] shortBounds = new int[2];
     int canvasWidth = getCanvasWidth();
-    int cx = getRCX();
+    int cx = getCX();
     for(int i = cx; i > 0; i--) {
       if(i % canvasWidth == 0) {
         shortBounds[0] = i;
@@ -231,28 +217,16 @@ public class EditorModelCoupler {
     putGlobalVar("ca", caBVV);
   }
 
-  public void putRCX(int rcx) {
-    BrickVisurVar rcxBVV = (BrickVisurVar) getGlobalVar("rcx");
-    rcxBVV.putVal(rcx);
-    putGlobalVar("rcx", rcxBVV);
-  }
-
-  public void putVCX(int vcx) {
-    BrickVisurVar vcxBVV = (BrickVisurVar) getGlobalVar("vcx");
-    vcxBVV.putVal(vcx);
-    putGlobalVar("vcx", vcxBVV);
+  public void putCX(int cx) {
+    BrickVisurVar cxBVV = (BrickVisurVar) getGlobalVar("cx");
+    cxBVV.putVal(cx);
+    putGlobalVar("cx", cxBVV);
   }
 
   public void putCY(int cy) {
     BrickVisurVar cyBVV = (BrickVisurVar) getGlobalVar("cy");
     cyBVV.putVal(cy);
     putGlobalVar("cy", cyBVV);
-  }
-
-  public void putLL(int ll) {
-    BrickVisurVar llBVV = (BrickVisurVar) getGlobalVar("ll");
-    llBVV.putVal(ll);
-    putGlobalVar("ll", llBVV);
   }
 
   public void updateNextLineIndices() {

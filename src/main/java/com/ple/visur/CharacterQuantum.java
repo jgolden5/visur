@@ -85,7 +85,7 @@ public class CharacterQuantum extends Quantum {
 
   private boolean checkCanMoveDown(ArrayList<Integer> nextLineIndices, int span, int canvasWidth) {
     boolean canMoveDown = true;
-    int rcx = emc.getRCX();
+    int rcx = emc.getCX();
     int cy = emc.getCY();
     if(cy >= nextLineIndices.size() - 1) {
       int lastNewlineIndex = nextLineIndices.get(nextLineIndices.size() - 1);
@@ -102,27 +102,27 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveRight() {
-    int rcx = emc.getRCX();
+    int rcx = emc.getCX();
     int ll = emc.getLL();
     if(rcx + 1 > ll) {
       int cy = emc.getCY();
       emc.putCY(++cy);
-      emc.putRCX(0);
+      emc.putCX(0);
     } else {
-      emc.putRCX(++rcx);
+      emc.putCX(++rcx);
     }
     return emc.getCA();
   }
 
   private int moveLeft(int span) {
-    int rcx = emc.getRCX();
+    int rcx = emc.getCX();
     if(rcx > 0) {
-      emc.putRCX(--rcx);
+      emc.putCX(--rcx);
     } else {
       int cy = emc.getCY();
       emc.putCY(--cy);
       int lastValidCharOfPreviousLine = span < 1 ? emc.getLL() : emc.getLL() - 1;
-      emc.putRCX(lastValidCharOfPreviousLine);
+      emc.putCX(lastValidCharOfPreviousLine);
     }
     return emc.getCA();
   }

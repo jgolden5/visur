@@ -104,7 +104,6 @@ public class EditorContentService {
 
   public void putVirtualCX(int x, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(virtualX, x);
-    putVirtualXIsAtEndOfLine(false, editorModel);
   }
 
   public void putVirtualXIsAtEndOfLine(boolean isAtEndOfLine, LocalMap<EditorModelKey, Object> editorModel) {
