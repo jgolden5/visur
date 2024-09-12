@@ -39,7 +39,7 @@ public class CoordinatesDC extends CompoundDataClass {
     if (targetName.equals("ca")) {
       r = calcCAAndNL(coordinatesVars);
     } else if (targetName.equals("cx") || targetName.equals("cy")) {
-      r = calcRCXCYAndNL(targetName, coordinatesVars);
+      r = calcCXCYAndNL(targetName, coordinatesVars);
     } else {
       r = Result.make(null, "name not recognized");
     }
@@ -71,7 +71,7 @@ public class CoordinatesDC extends CompoundDataClass {
     return Result.make(ca, null);
   }
 
-  private Result<Object> calcRCXCYAndNL(String name, PrimitiveDataClassBrick[] coordinateBricks) {
+  private Result<Object> calcCXCYAndNL(String name, PrimitiveDataClassBrick[] coordinateBricks) {
     PrimitiveDataClassBrick caDCB = coordinateBricks[0];
     PrimitiveDataClassBrick nlDCB = coordinateBricks[1];
     PrimitiveDataClassBrick cxDCB = coordinateBricks[2];
@@ -81,7 +81,7 @@ public class CoordinatesDC extends CompoundDataClass {
     int cy;
     for(cy = 0; cy < nl.size(); cy++) {
       int nextLineStart = nl.get(cy);
-      if(nextLineStart > ca) break;
+      if(nextLineStart > ca || cy == nl.size() - 1) break;
     }
     int currentLineStart = cy > 0 ? nl.get(cy - 1) : 0;
     int cx = ca - currentLineStart;
