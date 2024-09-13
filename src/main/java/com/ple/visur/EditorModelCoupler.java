@@ -336,13 +336,38 @@ public class EditorModelCoupler {
   public void incrementCanvasStart() {
     int canvasStart = getCanvasStart();
     int canvasWidth = getCanvasWidth();
-    int cy = getCY();
+    int fy = getFY();
     ArrayList<Integer> nl = getNextLineIndices();
-    int nextLineStart = nl.get(cy + 1);
+    int nextLineStart = nl.get(fy);
     if(canvasStart + canvasWidth < nextLineStart) {
       canvasStart += canvasWidth;
     } else {
-      canvasStart = nextLineStart - 1;
+      canvasStart = nextLineStart;
+      putFY(++fy);
+    }
+    putCanvasStart(canvasStart);
+  }
+
+  public void decrementCanvasStart() {
+    int canvasStart = getCanvasStart();
+    int canvasWidth = getCanvasWidth();
+    int fy = getFY();
+    ArrayList<Integer> nl = getNextLineIndices();
+    int currentLineStart = fy > 0 ? nl.get(fy - 1) : 0;
+    if(canvasStart - canvasWidth >= currentLineStart) {
+      canvasStart -= canvasWidth;
+    } else {
+      putFY(--fy);
+      int prevLineStart = fy > 0 ? nl.get(fy - 1) : 0;
+      canvasStart = prevLineStart;
+      boolean canvasStartFound = false;
+      while(!canvasStartFound) {
+        if(prevLineStart < currentLineStart) {
+          prevLineStart += canvasWidth;
+        } else {
+          canvasStartFound = true;
+        }
+      }
     }
     putCanvasStart(canvasStart);
   }
