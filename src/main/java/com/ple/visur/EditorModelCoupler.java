@@ -333,6 +333,20 @@ public class EditorModelCoupler {
     putGlobalVar("span", spanVV);
   }
 
+  public void incrementCanvasStart() {
+    int canvasStart = getCanvasStart();
+    int canvasWidth = getCanvasWidth();
+    int cy = getCY();
+    ArrayList<Integer> nl = getNextLineIndices();
+    int nextLineStart = nl.get(cy + 1);
+    if(canvasStart + canvasWidth < nextLineStart) {
+      canvasStart += canvasWidth;
+    } else {
+      canvasStart = nextLineStart - 1;
+    }
+    putCanvasStart(canvasStart);
+  }
+
   public void reportError(String message) {
     System.out.println(message);
   }
