@@ -27,7 +27,7 @@ public class CharacterQuantum extends Quantum {
     }
     if(mv.dy != 0) {
       if(mv.dy > 0) {
-        realCA = moveDown(editorContent, nextLineIndices, span);
+        realCA = moveDown(nextLineIndices, span);
       } else {
         realCA = moveUp(editorContent, nextLineIndices, span);
       }
@@ -68,7 +68,7 @@ public class CharacterQuantum extends Quantum {
     return emc.getCA();
   }
 
-  private int moveDown(String editorContent, ArrayList<Integer> nextLineIndices, int span) {
+  private int moveDown(ArrayList<Integer> nextLineIndices, int span) {
     int cx = emc.getCX();
     int cy = emc.getCY();
     int canvasWidth = emc.getCanvasWidth();
@@ -80,7 +80,6 @@ public class CharacterQuantum extends Quantum {
     if (shouldIncrementCY) {
       emc.putCY(++cy);
       vcx = vcx % canvasWidth;
-
     } else if (!isAtEndOfEditorContent) {
       vcx += canvasWidth;
     }
@@ -89,7 +88,11 @@ public class CharacterQuantum extends Quantum {
     cx = Math.min(vcx, longLineLimit);
     emc.putCX(cx);
     emc.putVirtualCX(vcx);
-    return emc.getCA();
+    int ca = emc.getCA();
+    if(ca > emc.getCanvasEnd()) {
+      emc.incrementCanvasStart();
+    }
+    return ca;
   }
 
   private int moveUp(String editorContent, ArrayList<Integer> nextLineIndices, int span) {
