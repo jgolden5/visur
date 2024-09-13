@@ -28,16 +28,15 @@ public class DocumentQuantum extends Quantum {
   int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m) {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     int span = emc.getSpan();
-    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
-    int realCA = (int)realCABVV.getVal();
+    int ca = emc.getCA();
     if(span == 0) {
-      if(realCA < editorContent.length() && m.dx > 0) {
-        realCA = editorContent.length();
-      } else if(realCA == editorContent.length() && m.dx < 0) {
-        realCA = 0;
+      if(ca < editorContent.length() && m.dx > 0) {
+        ca = editorContent.length();
+      } else if(ca == editorContent.length() && m.dx < 0) {
+        ca = 0;
       }
     }
-    return realCA;
+    return ca;
   }
 
   @Override
