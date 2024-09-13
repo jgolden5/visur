@@ -96,6 +96,7 @@ public class InitializerService {
     emc.putCA(0);
     emc.putVirtualCX(0);
     emc.putCanvasStart(0);
+    emc.putFY(0);
 
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");

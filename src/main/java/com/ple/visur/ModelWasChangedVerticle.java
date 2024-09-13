@@ -27,6 +27,8 @@ public class ModelWasChangedVerticle extends AbstractVisurVerticle {
     output.put("ca", view.ca);
     output.put("editorContent", view.editorContent);
     output.put("span", emc.getSpan());
+    output.put("canvasStart", emc.getCanvasStart());
+    output.put("canvasEnd", emc.getCanvasEnd());
     output.put("cursorQuantumStart", emc.getCursorQuantumStart());
     output.put("cursorQuantumEnd", emc.getCursorQuantumEnd());
     output.put("editorMode", emc.getEditorMode());
