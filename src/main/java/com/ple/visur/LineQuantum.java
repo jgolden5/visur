@@ -54,13 +54,27 @@ public class LineQuantum extends Quantum {
     return ca;
   }
 
-  private int moveDown(ArrayList<Integer> newlineIndices) {
+  private int moveDown(ArrayList<Integer> nl) {
     int cy = emc.getCY();
-    if(cy < newlineIndices.size() - 1) {
+    if(cy < nl.size() - 1) {
       emc.putCY(++cy);
-      updateXValuesAfterVerticalMovement(cy, newlineIndices);
+      updateXValuesAfterVerticalMovement(cy, nl);
     }
-    return emc.getCA();
+    int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
+    int lineEnd = cy < nl.size() - 1 ? nl.get(cy) - 1 : nl.get(cy);
+    int ca = emc.getCA();
+    int canvasEnd = emc.getCanvasEnd();
+    if(ca > canvasEnd) {
+      double lineLength = lineEnd - lineStart;
+      double canvasWidth = emc.getCanvasWidth();
+      int numberOfTimesToIncrementCanvasStart = (int)Math.ceil(lineLength / canvasWidth); //equals number of short lines in current long
+      if(numberOfTimesToIncrementCanvasStart == 0) numberOfTimesToIncrementCanvasStart = 1;
+      while(numberOfTimesToIncrementCanvasStart > 0) {
+        emc.incrementCanvasStart();
+        numberOfTimesToIncrementCanvasStart--;
+      }
+    }
+    return ca;
   }
 
   private int moveUp(ArrayList<Integer> newlineIndices) {
