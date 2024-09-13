@@ -1,6 +1,8 @@
 let ca;
 let editorContent;
 let span;
+let canvasStart;
+let canvasEnd;
 let cursorQuantumStart;
 let cursorQuantumEnd;
 let cursorQuantum;
@@ -45,6 +47,8 @@ eb.onopen = function() {
     ca = message["body"]["ca"]
     editorContent = message["body"]["editorContent"]
     span = message["body"]["span"]
+    canvasStart = message["body"]["canvasStart"]
+    canvasEnd = message["body"]["canvasEnd"]
     cursorQuantumStart = message["body"]["cursorQuantumStart"]
     cursorQuantumEnd = message["body"]["cursorQuantumEnd"]
     mode = message["body"]["editorMode"]
@@ -134,7 +138,7 @@ function drawCanvas() {
   let y = 0
   let numberOfWrappedLines = 0
   contentLoop:
-  for(let absX = 0; absX <= editorContent.length; absX++) {
+  for(let absX = canvasStart; absX <= canvasEnd; absX++) {
     if(span > 0) {
       if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
         drawCursor(x, y, "🟨")
