@@ -60,11 +60,11 @@ public class LineQuantum extends Quantum {
       emc.putCY(++cy);
       updateXValuesAfterVerticalMovement(cy, nl);
     }
-    int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
-    int lineEnd = cy < nl.size() - 1 ? nl.get(cy) - 1 : nl.get(cy);
     int ca = emc.getCA();
     int canvasEnd = emc.getCanvasEnd();
     if(ca > canvasEnd) {
+      int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
+      int lineEnd = cy < nl.size() - 1 ? nl.get(cy) - 1 : nl.get(cy);
       double lineLength = lineEnd - lineStart;
       double canvasWidth = emc.getCanvasWidth();
       int numberOfTimesToIncrementCanvasStart = (int)Math.ceil(lineLength / canvasWidth); //equals number of short lines in current long
@@ -77,13 +77,27 @@ public class LineQuantum extends Quantum {
     return ca;
   }
 
-  private int moveUp(ArrayList<Integer> newlineIndices) {
+  private int moveUp(ArrayList<Integer> nl) {
     int cy = emc.getCY();
     if(cy > 0) {
       emc.putCY(--cy);
-      updateXValuesAfterVerticalMovement(cy, newlineIndices);
+      updateXValuesAfterVerticalMovement(cy, nl);
     }
-    return emc.getCA();
+    int ca = emc.getCA();
+    int canvasStart = emc.getCanvasStart();
+    if(ca < canvasStart) {
+      int prevLineStart = cy > 0 ? nl.get(cy - 1) : 0;
+      int relevantPrevLineEnd = canvasStart - 1;
+      double prevLineLength = relevantPrevLineEnd - prevLineStart;
+      double canvasWidth = emc.getCanvasWidth();
+      int numberOfTimesToDecrementCanvasStart = (int)Math.ceil(prevLineLength / canvasWidth); //equals number of short lines in previous long
+      if(numberOfTimesToDecrementCanvasStart == 0) numberOfTimesToDecrementCanvasStart = 1;
+      while(numberOfTimesToDecrementCanvasStart > 0) {
+        emc.decrementCanvasStart();
+        numberOfTimesToDecrementCanvasStart--;
+      }
+    }
+    return ca;
   }
 
   private boolean isInMiddleOfQuantum(int bound) {
