@@ -13,14 +13,14 @@ public class RelativeMoveOp implements Operator {
     int dx = (int)eds.pop();
     Quantum cursorQuantum = emc.getCursorQuantum();
     MovementVector movementVector = new MovementVector(dx, dy);
-    int newRealCA = cursorQuantum.move(editorContent, newlineIndices, movementVector);
-    emc.putCA(newRealCA);
+    int newCA = cursorQuantum.move(editorContent, newlineIndices, movementVector);
+    emc.putCA(newCA);
     int[] newBounds;
-    if(newRealCA == 0 && editorContent.length() == 0) {
-      newBounds = new int[]{newRealCA, newRealCA};
+    if(newCA == 0 && editorContent.length() == 0) {
+      newBounds = new int[]{newCA, newCA};
       emc.putSpan(0);
     } else {
-      newBounds = cursorQuantum.getBoundaries(newRealCA, newlineIndices, emc.getSpan(), false);
+      newBounds = cursorQuantum.getBoundaries(newCA, newlineIndices, emc.getSpan(), false);
     }
     emc.putCursorQuantumStart(newBounds[0]);
     emc.putCursorQuantumEnd(newBounds[1]);

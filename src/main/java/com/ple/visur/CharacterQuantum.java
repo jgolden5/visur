@@ -29,7 +29,7 @@ public class CharacterQuantum extends Quantum {
       if(mv.dy > 0) {
         realCA = moveDown(nextLineIndices, span);
       } else {
-        realCA = moveUp(editorContent, nextLineIndices, span);
+        realCA = moveUp(nextLineIndices);
       }
     }
     return realCA;
