@@ -25,11 +25,12 @@ public abstract class Quantum implements Shareable {
       scopeQuantum = otherQuantum;
       cursorQuantum = this;
     }
-    int realCA = emc.getCA();
-    int[] scopeBounds = scopeQuantum.getBoundaries(realCA, emc.getNextLineIndices(), emc.getSpan(), false);
-    realCA = scopeBounds[0];
-    emc.putCA(realCA);
-    int[] newCursorBounds = cursorQuantum.getBoundaries(realCA, emc.getNextLineIndices(), emc.getSpan(), false);
+    int ca = emc.getCA();
+    int[] scopeBounds = scopeQuantum.getBoundaries(ca, emc.getNextLineIndices(), emc.getSpan(), false);
+    ca = scopeBounds[0];
+    emc.putCA(ca);
+    emc.putVirtualCX(emc.getCX());
+    int[] newCursorBounds = cursorQuantum.getBoundaries(ca, emc.getNextLineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(newCursorBounds[0]);
     emc.putCursorQuantumEnd(newCursorBounds[1]);
     if(otherQuantum.getName().equals(cursorQuantum.getName())) {
@@ -55,11 +56,12 @@ public abstract class Quantum implements Shareable {
       scopeQuantum = quantumFromStack;
       cursorQuantum = this;
     }
-    int realCA = emc.getCA();
-    int[] scopeBounds = scopeQuantum.getBoundaries(realCA, emc.getNextLineIndices(), emc.getSpan(), false);
-    realCA = scopeBounds[1] - 1;
-    emc.putCA(realCA);
-    int[] newCursorBounds = cursorQuantum.getBoundaries(realCA, emc.getNextLineIndices(), emc.getSpan(), false);
+    int ca = emc.getCA();
+    int[] scopeBounds = scopeQuantum.getBoundaries(ca, emc.getNextLineIndices(), emc.getSpan(), false);
+    ca = scopeBounds[1] - 1;
+    emc.putCA(ca);
+    emc.putVirtualCX(emc.getCX());
+    int[] newCursorBounds = cursorQuantum.getBoundaries(ca, emc.getNextLineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(newCursorBounds[0]);
     emc.putCursorQuantumEnd(newCursorBounds[1]);
     if(quantumFromStack.getName().equals(cursorQuantum.getName())) {
