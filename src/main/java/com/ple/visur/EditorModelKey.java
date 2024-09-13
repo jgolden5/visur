@@ -31,4 +31,6 @@ public enum EditorModelKey {
   previousSearchTarget,
   previousSearchDirectionWasForward,
   lineWrapping,
+  canvasStart,
+  fy,
 }

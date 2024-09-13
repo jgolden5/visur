@@ -85,6 +85,14 @@ public class EditorModelCoupler {
     return ecs.getCanvasHeight(editorModel);
   }
 
+  public int getCanvasStart() {
+    return (int)editorModel.get(canvasStart);
+  }
+
+  public int getFY() {
+    return (int)editorModel.get(fy);
+  }
+
   public int getCanvasEnd() {
     int canvasHeight = getCanvasHeight();
     int canvasWidth = getCanvasWidth();
@@ -104,7 +112,6 @@ public class EditorModelCoupler {
     }
     return canvasEnd;
   }
-
 
   public int[] calcShortLineBoundaries() {
     int[] shortBounds = new int[2];
@@ -269,6 +276,14 @@ public class EditorModelCoupler {
 
   public void putCanvasHeight(int height) {
     ecs.putCanvasHeight(height, editorModel);
+  }
+
+  public void putCanvasStart(int cs) {
+    editorModel.put(canvasStart, cs);
+  }
+
+  public void putFY(int focusY) {
+    editorModel.put(fy, focusY);
   }
 
   public void putEditorMode(EditorMode mode) {
