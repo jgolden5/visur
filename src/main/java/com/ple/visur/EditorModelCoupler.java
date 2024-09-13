@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import static com.ple.visur.EditorModelKey.*;
-import static com.ple.visur.EditorModelKey.canvasWidth;
 
 public class EditorModelCoupler {
 
@@ -404,6 +403,26 @@ public class EditorModelCoupler {
       }
     }
     putCanvasStart(canvasStart);
+  }
+
+  public void checkThenScrollDownSingleLine(int ca) {
+    if(ca > getCanvasEnd()) {
+      incrementCanvasStart();
+    }
+  }
+
+  public void checkThenScrollUpSingleLine(int ca) {
+    if(ca < getCanvasStart()) {
+      decrementCanvasStart();
+    }
+  }
+
+  public void checkThenScrollDownLines() {
+
+  }
+
+  public void checkThenScrollUpLines() {
+
   }
 
   public void reportError(String message) {

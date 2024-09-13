@@ -49,10 +49,7 @@ public class CharacterQuantum extends Quantum {
     emc.putCX(cx);
     emc.putVirtualCX(cx);
     int ca = emc.getCA();
-    int canvasEnd = emc.getCanvasEnd();
-    if(ca > canvasEnd) {
-      emc.incrementCanvasStart();
-    }
+    emc.checkThenScrollDownSingleLine(ca);
     return ca;
   }
 
@@ -98,9 +95,7 @@ public class CharacterQuantum extends Quantum {
     emc.putCX(cx);
     emc.putVirtualCX(vcx);
     int ca = emc.getCA();
-    if(ca > emc.getCanvasEnd()) {
-      emc.incrementCanvasStart();
-    }
+    emc.checkThenScrollDownSingleLine(ca);
     return ca;
   }
 
