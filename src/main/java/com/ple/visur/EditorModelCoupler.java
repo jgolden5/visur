@@ -105,7 +105,7 @@ public class EditorModelCoupler {
       if(canvasEnd + canvasWidth < nextLineStart) {
         canvasEnd += canvasWidth;
       } else {
-        canvasEnd = nextLineStart - 2; //I would like to change this part, but it is necessary in order to first, backstep from the beginning of the next line and instead go to the end of the previous, and second, to go BEFORE the newline char at the end of the line, because the canvasEnd is inclusive, and it doesn't make sense to draw the newline char when we know we are out of vertical space at this point
+        canvasEnd = y < nl.size() - 1 ? nextLineStart - 2 : nextLineStart - 1; //I would like to change this part, but it is necessary in order to first, backstep from the beginning of the next line and instead go to the end of the previous, and second, to go BEFORE the newline char at the end of the line, because the canvasEnd is inclusive, and it doesn't make sense to draw the newline char when we know we are out of vertical space at this point
         y++;
       }
       row++;
