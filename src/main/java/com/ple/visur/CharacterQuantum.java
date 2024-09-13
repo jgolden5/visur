@@ -70,7 +70,11 @@ public class CharacterQuantum extends Quantum {
     }
     emc.putCX(cx);
     emc.putVirtualCX(cx);
-    return emc.getCA();
+    int ca = emc.getCA();
+    if(ca < emc.getCanvasStart()) {
+      emc.decrementCanvasStart();
+    }
+    return ca;
   }
 
   private int moveDown(ArrayList<Integer> nextLineIndices, int span) {
