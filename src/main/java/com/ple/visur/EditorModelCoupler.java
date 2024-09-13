@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import static com.ple.visur.EditorModelKey.*;
+import static com.ple.visur.EditorModelKey.canvasWidth;
 
 public class EditorModelCoupler {
 
@@ -83,6 +84,27 @@ public class EditorModelCoupler {
   public int getCanvasHeight() {
     return ecs.getCanvasHeight(editorModel);
   }
+
+  public int getCanvasEnd() {
+    int canvasHeight = getCanvasHeight();
+    int canvasWidth = getCanvasWidth();
+    int row = 0;
+    int canvasEnd = getCanvasStart();
+    int y = getFY();
+    ArrayList<Integer> nl = getNextLineIndices();
+    while(row < canvasHeight) {
+      int nextLineStart = nl.get(y);
+      if(canvasEnd + canvasWidth < nextLineStart) {
+        canvasEnd += canvasWidth;
+      } else {
+        canvasEnd = nextLineStart;
+        y++;
+      }
+      row++;
+    }
+    return canvasEnd;
+  }
+
 
   public int[] calcShortLineBoundaries() {
     int[] shortBounds = new int[2];
