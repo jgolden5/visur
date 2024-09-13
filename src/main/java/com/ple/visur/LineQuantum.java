@@ -58,7 +58,11 @@ public class LineQuantum extends Quantum {
     int cy = emc.getCY();
     if(cy < nl.size() - 1) {
       emc.putCY(++cy);
-      updateXValuesAfterVerticalMovement(cy, nl);
+      int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, nl);
+      int vcx = emc.getVirtualCX();
+      int lineEndLimit = cy == nl.size() - 1 ? newLongLineLength : newLongLineLength - 1;
+      int cx = Math.min(vcx, lineEndLimit);
+      emc.putCX(cx);
     }
     int ca = emc.getCA();
     emc.checkThenScrollDownLines(ca, cy, nl);
@@ -69,7 +73,11 @@ public class LineQuantum extends Quantum {
     int cy = emc.getCY();
     if(cy > 0) {
       emc.putCY(--cy);
-      updateXValuesAfterVerticalMovement(cy, nl);
+      int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, nl);
+      int vcx = emc.getVirtualCX();
+      int lineEndLimit = cy == nl.size() - 1 ? newLongLineLength : newLongLineLength - 1;
+      int cx = Math.min(vcx, lineEndLimit);
+      emc.putCX(cx);
     }
     int ca = emc.getCA();
     emc.checkThenScrollUpLines(ca, cy, nl);
@@ -85,14 +93,6 @@ public class LineQuantum extends Quantum {
     } else {
       return false;
     }
-  }
-
-  private void updateXValuesAfterVerticalMovement(int cy, ArrayList<Integer> nl) {
-    int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, nl);
-    int vcx = emc.getVirtualCX();
-    int lineEndLimit = cy == nl.size() - 1 ? newLongLineLength : newLongLineLength - 1;
-    int cx = Math.min(vcx, lineEndLimit);
-    emc.putCX(cx);
   }
 
   private int zeroQuantumMoveRight(int ca, String editorContent, ArrayList<Integer> nl) {
