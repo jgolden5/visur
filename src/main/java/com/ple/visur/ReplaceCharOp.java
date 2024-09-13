@@ -6,12 +6,11 @@ public class ReplaceCharOp implements Operator {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String editorContent = emc.getEditorContent();
-    BrickVisurVar realCABVV = (BrickVisurVar) emc.getGlobalVar("realCA");
-    int realCA = (int)realCABVV.getVal();
-    if(editorContent.charAt(realCA) != '\n') {
-      String contentBeforeChar = editorContent.substring(0, realCA);
+    int ca = emc.getCA();
+    if(editorContent.charAt(ca) != '\n') {
+      String contentBeforeChar = editorContent.substring(0, ca);
       String replacingChar = (String) eds.pop();
-      String contentAfterChar = editorContent.substring(realCA + 1, editorContent.length());
+      String contentAfterChar = editorContent.substring(ca + 1, editorContent.length());
       String resultingEditorContent = contentBeforeChar + replacingChar + contentAfterChar;
       emc.putEditorContent(resultingEditorContent);
     }
