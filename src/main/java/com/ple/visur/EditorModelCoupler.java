@@ -388,24 +388,18 @@ public class EditorModelCoupler {
   public void decrementCanvasStart() {
     int canvasStart = getCanvasStart();
     int canvasWidth = getCanvasWidth();
-    int fy = getFY();
     ArrayList<Integer> nl = getNextLineIndices();
-    int currentLineStart = fy > 0 ? nl.get(fy - 1) : 0;
-    if(canvasStart - canvasWidth >= currentLineStart) {
-      canvasStart -= canvasWidth;
-    } else {
+    int fy = getFY();
+    int lineStart = fy > 0 ? nl.get(fy - 1) : 0;
+    int difference;
+    if(canvasStart - canvasWidth < lineStart) {
       putFY(--fy);
       int prevLineStart = fy > 0 ? nl.get(fy - 1) : 0;
-      canvasStart = prevLineStart;
-      boolean canvasStartFound = false;
-      while(!canvasStartFound) {
-        if(prevLineStart < currentLineStart) {
-          prevLineStart += canvasWidth;
-        } else {
-          canvasStartFound = true;
-        }
-      }
+      difference = prevLineStart % canvasWidth;
+    } else {
+      difference = canvasWidth;
     }
+    canvasStart -= difference;
     putCanvasStart(canvasStart);
   }
 

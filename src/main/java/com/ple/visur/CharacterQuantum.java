@@ -95,7 +95,7 @@ public class CharacterQuantum extends Quantum {
     return ca;
   }
 
-  private int moveUp(String editorContent, ArrayList<Integer> nextLineIndices, int span) {
+  private int moveUp(ArrayList<Integer> nextLineIndices) {
     int cx = emc.getCX();
     int cy = emc.getCY();
     int canvasWidth = emc.getCanvasWidth();
@@ -115,7 +115,11 @@ public class CharacterQuantum extends Quantum {
     }
     emc.putCX(cx);
     emc.putVirtualCX(vcx);
-    return emc.getCA();
+    int ca = emc.getCA();
+    if(ca < emc.getCanvasStart()) {
+      emc.decrementCanvasStart();
+    }
+    return ca;
   }
 
   @Override
