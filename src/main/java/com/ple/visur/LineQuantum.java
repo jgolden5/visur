@@ -61,19 +61,7 @@ public class LineQuantum extends Quantum {
       updateXValuesAfterVerticalMovement(cy, nl);
     }
     int ca = emc.getCA();
-    int canvasEnd = emc.getCanvasEnd();
-    if(ca > canvasEnd) {
-      int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
-      int lineEnd = cy < nl.size() - 1 ? nl.get(cy) - 1 : nl.get(cy);
-      double lineLength = lineEnd - lineStart;
-      double canvasWidth = emc.getCanvasWidth();
-      int numberOfTimesToIncrementCanvasStart = (int)Math.ceil(lineLength / canvasWidth); //equals number of short lines in current long
-      if(numberOfTimesToIncrementCanvasStart == 0) numberOfTimesToIncrementCanvasStart = 1;
-      while(numberOfTimesToIncrementCanvasStart > 0) {
-        emc.incrementCanvasStart();
-        numberOfTimesToIncrementCanvasStart--;
-      }
-    }
+    emc.checkThenScrollDownLines(ca, cy, nl);
     return ca;
   }
 
@@ -84,19 +72,7 @@ public class LineQuantum extends Quantum {
       updateXValuesAfterVerticalMovement(cy, nl);
     }
     int ca = emc.getCA();
-    int canvasStart = emc.getCanvasStart();
-    if(ca < canvasStart) {
-      int prevLineStart = cy > 0 ? nl.get(cy - 1) : 0;
-      int relevantPrevLineEnd = canvasStart - 1;
-      double prevLineLength = relevantPrevLineEnd - prevLineStart;
-      double canvasWidth = emc.getCanvasWidth();
-      int numberOfTimesToDecrementCanvasStart = (int)Math.ceil(prevLineLength / canvasWidth); //equals number of short lines in previous long
-      if(numberOfTimesToDecrementCanvasStart == 0) numberOfTimesToDecrementCanvasStart = 1;
-      while(numberOfTimesToDecrementCanvasStart > 0) {
-        emc.decrementCanvasStart();
-        numberOfTimesToDecrementCanvasStart--;
-      }
-    }
+    emc.checkThenScrollUpLines(ca, cy, nl);
     return ca;
   }
 
@@ -128,20 +104,7 @@ public class LineQuantum extends Quantum {
       int cy = emc.getCY();
       destination = cy == nl.size() - 1 ? nl.get(cy) : nl.get(cy) - 1;
     }
-    int canvasEnd = emc.getCanvasEnd();
-    int cy = emc.getCY();
-    if(destination > canvasEnd) {
-      int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
-      int lineEnd = cy < nl.size() - 1 ? nl.get(cy) - 1 : nl.get(cy);
-      double lineLength = lineEnd - lineStart;
-      double canvasWidth = emc.getCanvasWidth();
-      int numberOfTimesToIncrementCanvasStart = (int)Math.ceil(lineLength / canvasWidth); //equals number of short lines in current long
-      if(numberOfTimesToIncrementCanvasStart == 0) numberOfTimesToIncrementCanvasStart = 1;
-      while(numberOfTimesToIncrementCanvasStart > 0) {
-        emc.incrementCanvasStart();
-        numberOfTimesToIncrementCanvasStart--;
-      }
-    }
+    emc.checkThenScrollDownLines(destination, emc.getCY(), nl);
     return destination;
   }
 
@@ -156,10 +119,7 @@ public class LineQuantum extends Quantum {
         destination = cy > 0 ? nl.get(cy - 1) : 0;
       }
     }
-    int canvasStart = emc.getCanvasStart();
-    if(destination > canvasStart) {
-      emc.decrementCanvasStart();
-    }
+    emc.checkThenScrollUpLines(destination, emc.getCY(), nl);
     return destination;
   }
 
