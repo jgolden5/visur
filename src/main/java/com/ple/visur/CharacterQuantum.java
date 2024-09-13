@@ -48,7 +48,12 @@ public class CharacterQuantum extends Quantum {
     }
     emc.putCX(cx);
     emc.putVirtualCX(cx);
-    return emc.getCA();
+    int ca = emc.getCA();
+    int canvasEnd = emc.getCanvasEnd();
+    if(ca > canvasEnd) {
+      emc.incrementCanvasStart();
+    }
+    return ca;
   }
 
   private int moveLeft(ArrayList<Integer> nl) {
