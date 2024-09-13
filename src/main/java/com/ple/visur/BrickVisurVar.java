@@ -1,9 +1,9 @@
 package com.ple.visur;
 
-import CursorPositionDC.WholeNumberDC;
-import DataClass.DataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
 import DataClass.Result;
+
+import java.util.HashSet;
 
 public class BrickVisurVar implements VisurVar {
   PrimitiveDataClassBrick brick;
@@ -19,16 +19,14 @@ public class BrickVisurVar implements VisurVar {
   @Override
   public Object getVal() {
     if(!brick.isComplete()) {
-      Result<DataClassBrick> calculatedBrickResult = brick.getOrCalc();
-      PrimitiveDataClassBrick calculatedBrick = (PrimitiveDataClassBrick) calculatedBrickResult.getVal();
-      brick = calculatedBrick;
+      brick.getOrCalc(new HashSet<>());
     }
-    return brick.get().getVal();
+    return brick.getVal();
   }
 
   @Override
-  public Result putVal(Object o) {
-    brick.putForce(o);
+  public Result putVal(Object v) {
+    brick.put(v);
     return Result.make();
   }
 

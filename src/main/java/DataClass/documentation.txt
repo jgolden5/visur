@@ -1,0 +1,94 @@
+Rule 1: DCB.put Catalyst Permanence Rule:
+Calling w.put will NOT unset x or y because no cdcb of the layer below includes any w without a lvl 1 x and y neighbor
+Calling x.put or y.put WILL unset w because there exists a cdcb within the layer where x and y have no lvl 1 w neighbor
+Example 1:
+.---------------------.
+||________ 	          |
+|| _____  |	  _______ |
+|||  w  | |  |  ---  ||
+|| -----  |  | | x | ||
+|| _____  |  |  ---  ||
+|||  x  | |--|  ---  ||
+|| -----  |  | | y | ||
+|| _____  |  |  ---  ||
+|||  y  | |  |-------||
+|| -----  |           |
+||--------|           |
+'---------------------' 
+Note that the same would be true even if there was just w and x as shown below:
+Example 2: Calling w.put will NOT unset x because no cdcb of this layer includes any w without a lvl x neighbor. However, x.put WILL unset w because no w exists without a lvl 1 x neighbor in this layer
+ .-------------------.
+||________ 	         |
+|| _____  |	         |
+|||  w  | |     ---  |
+|| -----  |----| x | |
+|| _____  |     ---  |
+|||  x  | |          |
+|| -----  |          |
+||--------|          |
+ '-------------------' 
+Rule 2: No Outer Left Behind Rule! (includes CalcNeigbhor):
+Example 3: An additional aspect of this rule which must be considered is if x has multiple outers, we have to unset all of the inners of the innermost outer of x that do NOT contain x. Given the below example showing an additional outer dcb of x, if a & b's odcb is NOT EMPTY (aka number of non-empty values > requiredNumberOfSetValues), then calling x.put will unset w (as shown in the above example) AND a and b (because any of those three bricks could conflict with the new x value)
+.--------------------.
+||________ 	         |
+|| _____  |	         |
+|||  a  | |     ---  |
+|| -----  |----| x | |
+|| _____  |     ---  |
+|||  b  | |          |
+|| -----  |          |
+||--------|          |
+'--------------------' 
+Example 4: More complex example of the same rule:
+In this example, we have x, which is a pdcb that exists in 2 separate inners of the same outer cdcb. There is also a w brick in the picture as a member of the outermost cdcb (presumably a layer in some grand picture). What happens when w.put is called? All members of any outer brick of w where nonEmpties > required (aka any POSSIBLE conflicts) get unset. For example, if x was set, then x, y, and z would all get unset since x exists in both inners and would create 2 nonEmpties where only one is required. On the other hand, if only y or z were set, but x was not, then nothing would be unset, because there would only be 1 nonEmpty which is not greater than 1 required. If only y AND z were set, however, the entire cdcb would be unset (again with x y and z), because that would be 2 nonEmpties, greater than 1 required. Now, if x.put, y.put, or z.put was called, w would be unset no matter what if it was previously set, because the outer of w would have 2 non-empties, even though it requires one, therefore it would delete the inner WITHOUT x, y, or z (depending on whichever brick put was called on), which would result in removing w.
+.-------------------------------------.
+|   _________________________         |
+|  |  ________ 	   ________  |        |
+|  | | _____  |	  | _____  | |        |
+|  | ||  x  | |   ||  x  | | |   ---  |
+|  | | -----  |---| -----  | |--| w | |
+|  | | _____  |   | _____  | |   ---  |
+|  | ||  y  | |   ||  z  | | |        |
+|  | | -----  |   | -----  | |        |
+|  | |________|   |________| |        |
+|  |_________________________|        |
+'-------------------------------------' 
+Combining Rules 1 & 2:
+Example 5: Similar example of the same rule, but with a twist:
+In the example shown below, w has been replaced by another z. What happens now when we call z.put? z has 2 outers in this scenario. For the one where it has an outer containing x and z, z.put would first check if its direct outer (xAndZ) has more non-empties than required, which is impossible, because the number of inners is equal to the number of required, so more inners than required can't possibly be non-empty. So next, z checks its other direct outer, which is zAndXYZ. It then checks if said outer has more non-empties than required after z is set. The question I have is, should this ignore z or count z, and if it ignores z, one might wonder--wouldn't it have to only ignore z for the check as a neighbor, since the z by itself from which put method was called must be counted for any of it to work? Is this exception to/complication of the rule worth it? The answer is that, z.put will check for both of its outers. One of its outers will just contain z, and then the outer of that will contain the whole shebang. It will look for the number of non-empties, which is 2, and that IS greater than requiredSetValues (1), so it WILL unset all inners not containing the target, which are in fact NO bricks. But this is ok, because by definition, z also has another outer at this point which is INSIDE the neighboring cdcb of the previously attempted equation, except that this direct outer of z is xAndZ. It has a number of inners equal to requiredSetValues, so it non-empties can't possibly be greater than requiredSetValues, so it goes to the outer of that which is xYAndZ, and let's say x is set, so the number of non-empties in xYAndZ is 2, and the number of required is 1, so all inners not containing z are unset--which is only the cdcb xAndY--so xAndY get unset. This is correct behavior. Therefore, we see that calling z.put does unset x and y in the case that either x or y is set, which is the expected behavior.
+.-------------------------------------.
+|   _________________________         |
+|  |  ________ 	   ________  |        |
+|  | | _____  |	  | _____  | |        |
+|  | ||  x  | |   ||  x  | | |   ---  |
+|  | | -----  |---| -----  | |--| z | |
+|  | | _____  |   | _____  | |   ---  |
+|  | ||  y  | |   ||  z  | | |        |
+|  | | -----  |   | -----  | |        |
+|  | |________|   |________| |        |
+|  |_________________________|        |
+'-------------------------------------' 
+Example 6: Let's add one more twist to the last example just for fun:
+Here, we have re-introduced w into the layer drawn above 
+w.put -> n steps
+	step 1 -> check direct outer wz if nonEmpties > required 
+		*note - (in the case of wz, the above is always false, because there are only 2 inners and required == 2, so there can never be more than 2 non-empties)
+	step 2 -> wz nonEmpties <= required, therefore, we check all outers of wz (only one--wxyz) if nonEmpties > required
+		step 3a -> if wxyz nonEmpties > required
+			step 4a -> remove all inners that don't contain w
+		step 3b -> if wxyz nonEmpties <= required
+
+z.put -> x and y get unset, but w does not because no inner of z exists without w
+.-----------------------------------------.
+|   _________________________             |
+|  |  ________ 	   ________  |   _______  |
+|  | | _____  |	  | _____  | |  | _____ | |
+|  | ||  x  | |   ||  x  | | |  ||  w  || |
+|  | | -----  |---| -----  | |--| ----- | |
+|  | | _____  |   | _____  | |  | _____ | |
+|  | ||  y  | |   ||  z  | | |  ||  z  || |
+|  | | -----  |   | -----  | |  | ----- | |
+|  | |________|   |________| |  |_______| |
+|  |_________________________|            |
+'-----------------------------------------' 
+

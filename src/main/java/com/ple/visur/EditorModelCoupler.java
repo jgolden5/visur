@@ -49,6 +49,10 @@ public class EditorModelCoupler {
     return (LineWrapping) editorModel.get(lineWrapping);
   }
 
+  public int getVirtualCX() {
+    return (int)editorModel.get(virtualCX);
+  }
+
   public int getCA() {
     BrickVisurVar caBVV = (BrickVisurVar) getGlobalVar("ca");
     return (int)caBVV.getVal();
@@ -64,20 +68,12 @@ public class EditorModelCoupler {
     return (int)cyBVV.getVal();
   }
 
-  public String getContentLineAtY(int y) {
-    return ecs.getContentLineAtY(y, editorModel);
+  public ArrayList<Integer> getNextLineIndices() {
+    return ecs.getNextLineIndices(editorModel);
   }
 
-  public ArrayList<Integer> getNewlineIndices() {
-    return ecs.getNewlineIndices(editorModel);
-  }
-
-  public int getVirtualCX() {
-    return ecs.getVirtualCX(editorModel);
-  }
-
-  public boolean getVirtualXIsAtEndOfLine() {
-    return ecs.getVirtualXIsAtEndOfLine(editorModel);
+  public int[] calcLongLineBoundaries(int realCA, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
+    return ecs.calcLongLineBoundaries(realCA, newlineIndices, span, includeTail, editorModel);
   }
 
   public int getCanvasWidth() {
@@ -113,7 +109,7 @@ public class EditorModelCoupler {
   public String getCurrentLine() {
     String currentLine;
     String editorContent = getEditorContent();
-    ArrayList<Integer> newlineIndices = getNewlineIndices();
+    ArrayList<Integer> newlineIndices = getNextLineIndices();
     int cy = getCY();
     if(cy == 0) {
       currentLine = editorContent.substring(0, newlineIndices.get(cy));
@@ -219,6 +215,10 @@ public class EditorModelCoupler {
     editorModel.put(lineWrapping, lw);
   }
 
+  public void putVirtualCX(int vcx) {
+    editorModel.put(virtualCX, vcx);
+  }
+
   public void putCA(int ca) {
     BrickVisurVar caBVV = (BrickVisurVar) getGlobalVar("ca");
     caBVV.putVal(ca);
@@ -237,16 +237,8 @@ public class EditorModelCoupler {
     putGlobalVar("cy", cyBVV);
   }
 
-  public void updateNewlineIndices() {
-    ecs.updateNewlineIndices(editorModel);
-  }
-
-  public void putVirtualCX(int x) {
-    ecs.putVirtualCX(x, editorModel);
-  }
-
-  public void putVirtualXIsAtEndOfLine(boolean isAtEndOfLine) {
-    ecs.putVirtualXIsAtEndOfLine(isAtEndOfLine, editorModel);
+  public void updateNextLineIndices() {
+    ecs.updateNextLineIndices(editorModel);
   }
 
   public void putCanvasWidth(int width) {

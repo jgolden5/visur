@@ -2,6 +2,8 @@ package CursorPositionDC;
 
 import DataClass.*;
 
+import java.util.ArrayList;
+
 public class WholeNumberDC extends PrimitiveDataClass {
   public WholeNumberDC(DataForm defaultDF) {
     super(defaultDF);
@@ -17,19 +19,19 @@ public class WholeNumberDC extends PrimitiveDataClass {
   }
 
   @Override
-  public PrimitiveDataClassBrick makeBrick(String name, Object val, CompoundDataClassBrick outer) {
+  public PrimitiveDataClassBrick makeBrick(String name, Object val, ArrayList<OuterDataClassBrick> outers, boolean isReadOnly) {
     PrimitiveDataClassBrick res;
     if(isValidInput(val)) {
-      res = PrimitiveDataClassBrick.make(name, DataFormBrick.make(defaultDF, val), this, outer);
+      res = PrimitiveDataClassBrick.make(name, outers, DataFormBrick.make(defaultDF, val), this, isReadOnly);
     } else {
-      res = PrimitiveDataClassBrick.make(name, null, this, outer);
+      res = PrimitiveDataClassBrick.make(name, outers, null, this, isReadOnly);
     }
     return res;
   }
 
   @Override
-  public DataClassBrick makeBrick(String name, CompoundDataClassBrick outer) {
-    return PrimitiveDataClassBrick.make(name, null, this, outer);
+  public PrimitiveDataClassBrick makeBrick(String name, ArrayList<OuterDataClassBrick> outers, boolean isReadOnly) {
+    return PrimitiveDataClassBrick.make(name, outers, null, this, isReadOnly);
   }
 
 }

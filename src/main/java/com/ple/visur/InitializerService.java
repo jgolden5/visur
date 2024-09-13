@@ -1,10 +1,11 @@
 package com.ple.visur;
 
-import CursorPositionDC.CursorPositionDC;
-import CursorPositionDC.CursorPositionDCHolder;
+import CursorPositionDC.*;
 import DataClass.CompoundDataClassBrick;
+import DataClass.LayeredDataClassBrick;
 import DataClass.PrimitiveDataClassBrick;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -27,8 +28,6 @@ public class InitializerService {
   public void initializeEditorModel() {
     VariableMap initialGvm = new VariableMap(new HashMap<>());
     emc.editorModel.put(globalVariableMap, initialGvm);
-    emc.putVirtualCX(0);
-    emc.putVirtualXIsAtEndOfLine(false);
 
     emc.putEditorMode(navigate);
 
@@ -43,21 +42,24 @@ public class InitializerService {
 //      "Goodbye";
 //    final String initialEditorContent = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nbbb";
     final String initialEditorContent = "Vehumet is a god of the destructive powers of magic.\n" +
+      "He is also the best guardian for DrCj, objectively.\n" +
       "Followers will gain divine assistance in commanding the hermetic arts, and the most favoured stand to gain access to some of the fearsome spells in Vehumet's library.\n" +
       "One's devotion to Vehumet can be proven by the causing of as much carnage and destruction as possible.\n" +
       "Worshippers of Vehumet will quickly be able to recover their magical energy upon killing beings.\n" +
       "As they gain favour, they will also gain enhancements to their destructive spells — first assistance in casting such spells and then increased range for conjurations.\n" +
       "Vehumet will offer followers the knowledge of increasingly powerful destructive spells as they gain piety.\n" +
-      "Whether \"having spells as a god\" is a good thing is up to you, but it does come with a few downsides. Without active abilities, you have less ways to deal with a dangerous situation. In addition, Vehumet is one of the weaker gods for the early game. For spellcaster backgrounds, the first few spell gifts generally won't be much of an improvement compared to your own spells. Characters new to spellcasting have to take time to train up magic, which might not be all that powerful by the time you hit 1* or even 3*. Furthermore, there are ways to get an \"engine\" without taking up the god slot.";
+      "Whether \"having spells as a god\" is a good thing is up to you, but it does come with a few downsides. Without active abilities, you have less ways to deal with a dangerous situation. In addition, Vehumet is one of the weaker gods for the early game. For spellcaster backgrounds, the first few spell gifts generally won't be much of an improvement compared to your own spells. Characters new to spellcasting have to take time to train up magic, which might not be all that powerful by the time you hit 1* or even 3*. Furthermore, there are ways to get an \"engine\" without taking up the god slot.\n" +
+      "Let's find out what it means to be a magic-user...";
 
-    initializeUnsetCoordinateBricks();
+    initializeCursorPositionDCBsAndBVVs();
 
     emc.initializeEditorContent(initialEditorContent);
-    emc.updateNewlineIndices();
+    emc.updateNextLineIndices();
     emc.putLineWrapping(LineWrapping.wrapped);
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    caBVV.putVal(0);
-    emc.putGlobalVar("ca", caBVV);
+
+    emc.putCA(0);
+    emc.putVirtualCX(0);
+
     emc.putIsInCommandState(false);
     emc.putCommandStateContent("");
     emc.putCommandCursor(emc.getCommandStateContent().length());
@@ -74,32 +76,39 @@ public class InitializerService {
 
   }
 
-  private void initializeUnsetCoordinateBricks() {
+  private void initializeCursorPositionDCBsAndBVVs() {
+    CursorPositionDCHolder cursorPositionDCHolder = new CursorPositionDCHolder();
+    WholeNumberListDC wholeNumberListDC = cursorPositionDCHolder.wholeNumberListDC;
+    PrimitiveDataClassBrick nlDCB = wholeNumberListDC.makeBrick("nl", new ArrayList<>(), true);
     CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
-    CompoundDataClassBrick cursorPosDCB = cursorPositionDC.makeBrick();
-    PrimitiveDataClassBrick niDCB = (PrimitiveDataClassBrick) cursorPosDCB.getInner("ni");
-    CompoundDataClassBrick cxcycaDCB = (CompoundDataClassBrick) cursorPosDCB.getInner("cxcyca");
-    CompoundDataClassBrick cxcyDCB = (CompoundDataClassBrick) cxcycaDCB.getInner("cxcy");
-    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) cxcycaDCB.getInner("ca");
-    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cx");
-    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyDCB.getInner("cy");
-    cxcyDCB.putInner("cx", cxDCB);
-    cxcyDCB.putInner("cy", cyDCB);
-    cxcycaDCB.putInner("ca", caDCB);
-    cxcycaDCB.putInner("cxcy", cxcyDCB);
-    cursorPosDCB.putInner("ni", niDCB);
-    cursorPosDCB.putInner("cxcyca", cxcycaDCB);
+    LayeredDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB);
+    CompoundDataClassBrick coordinatesDCB = cursorPositionDCB.getLayer(0);
+    CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
+    CompoundDataClassBrick cxcyAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("cxcyAndNL");
+    PrimitiveDataClassBrick cxDCB = (PrimitiveDataClassBrick) cxcyAndNLDCB.getInner("cx");
+    PrimitiveDataClassBrick cyDCB = (PrimitiveDataClassBrick) cxcyAndNLDCB.getInner("cy");
+    PrimitiveDataClassBrick caDCB = (PrimitiveDataClassBrick) caAndNLDCB.getInner("ca");
+    caAndNLDCB.putInner("ca", caDCB);
+    caAndNLDCB.putInner("nl", nlDCB);
+    cxcyAndNLDCB.putInner("cx", cxDCB);
+    cxcyAndNLDCB.putInner("cy", cyDCB);
+    cxcyAndNLDCB.putInner("nl", nlDCB);
+    coordinatesDCB.putInner("caAndNL", caAndNLDCB);
+    coordinatesDCB.putInner("cxcyAndNL", cxcyAndNLDCB);
 
-    BrickVisurVar caDCBVV = BrickVisurVar.make(caDCB);
-    BrickVisurVar cxDCBVV = BrickVisurVar.make(cxDCB);
-    BrickVisurVar cyDCBVV = BrickVisurVar.make(cyDCB);
-    BrickVisurVar niBVV = BrickVisurVar.make(niDCB);
+    initializeBVVs(nlDCB, caDCB, cxDCB, cyDCB);
 
-    emc.putGlobalVar("ca", caDCBVV);
-    emc.putGlobalVar("cx", cxDCBVV);
-    emc.putGlobalVar("cy", cyDCBVV);
-    emc.putGlobalVar("ni", niBVV);
+  }
 
+  private void initializeBVVs(PrimitiveDataClassBrick nlDCB, PrimitiveDataClassBrick caDCB, PrimitiveDataClassBrick cxDCB, PrimitiveDataClassBrick cyDCB) {
+    BrickVisurVar nlBVV = BrickVisurVar.make(nlDCB);
+    BrickVisurVar caBVV = BrickVisurVar.make(caDCB);
+    BrickVisurVar cxBVV = BrickVisurVar.make(cxDCB);
+    BrickVisurVar cyBVV = BrickVisurVar.make(cyDCB);
+    emc.putGlobalVar("nl", nlBVV);
+    emc.putGlobalVar("ca", caBVV);
+    emc.putGlobalVar("cx", cxBVV);
+    emc.putGlobalVar("cy", cyBVV);
   }
 
   private void initializeQuantums() {
@@ -121,7 +130,8 @@ public class InitializerService {
 
     emc.putCursorQuantum(emc.getQuantumNameToQuantum().get(startingCursorQuantumName));
     emc.putScopeQuantum(emc.getQuantumNameToQuantum().get(startingScopeQuantumName));
-    int bounds[] = emc.getQuantumNameToQuantum().get(startingCursorQuantumName).getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
+    int realCA = emc.getCA();
+    int bounds[] = emc.getQuantumNameToQuantum().get(startingCursorQuantumName).getBoundaries(realCA, emc.getNextLineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(bounds[0]);
     emc.putCursorQuantumEnd(bounds[1]);
     emc.putIsAtQuantumStart(true);

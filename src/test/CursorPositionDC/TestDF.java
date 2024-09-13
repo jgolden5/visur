@@ -1,4 +1,4 @@
-package com.ple.visur;
+package CursorPositionDC;
 
 import CursorPositionDC.*;
 import DataClass.DataFormBrick;

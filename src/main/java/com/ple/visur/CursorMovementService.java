@@ -2,9 +2,6 @@ package com.ple.visur;
 
 public class CursorMovementService implements OperatorService {
 
-  final EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
-  final VisurVar contentXVisurVar = ems.getGlobalVar("ca");
-  final VisurVar contentYVisurVar = ems.getGlobalVar("contentY");
 
   public static CursorMovementService make() {
     return new CursorMovementService();

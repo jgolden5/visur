@@ -30,48 +30,30 @@ public class EditorContentService {
     return (VariableMap) editorModel.get(globalVariableMap);
   }
 
-  public String getCurrentContentLine(LocalMap<EditorModelKey, Object> editorModel) {
-    BrickVisurVar cyBVV = (BrickVisurVar)getGlobalVar("cy", editorModel);
-    int cy = (int)cyBVV.getVal();
-    return getContentLineAtY(cy, editorModel);
+  public int[] calcLongLineBoundaries(int realCA, ArrayList<Integer> newlineIndices, int span, boolean includeTail, LocalMap<EditorModelKey, Object> editorModel) {
+    LineQuantum lineQuantum = new LineQuantum();
+    return lineQuantum.getBoundaries(realCA, newlineIndices, span, false);
   }
 
-  public String getContentLineAtY(int y, LocalMap<EditorModelKey, Object> editorModel) {
-    final String content = getEditorContent(editorModel);
-    ArrayList<Integer> newlineIndices = getNewlineIndices(editorModel);
-    String currentContentLine = content;
-    if(newlineIndices.size() > 1) {
-      int lastNewlineIndex = newlineIndices.get(newlineIndices.size() - 1);
-      if (y < newlineIndices.size()) {
-        if (y > 0) {
-          currentContentLine = content.substring(newlineIndices.get(y - 1) + 1, newlineIndices.get(y));
-        } else {
-          currentContentLine = content.substring(0, newlineIndices.get(y));
-        }
-      } else if (content.length() > lastNewlineIndex + 1) {
-        currentContentLine = content.substring(lastNewlineIndex + 1);
-      } else {
-        currentContentLine = null;
+  public ArrayList<Integer> getNextLineIndices(LocalMap<EditorModelKey, Object> editorModel) {
+    BrickVisurVar nlBVV = (BrickVisurVar)getGlobalVar("nl", editorModel);
+    return (ArrayList<Integer>) nlBVV.getVal();
+  }
+
+  public int calcNextNewlineIndexFromAbsPosition(int realCA, LocalMap<EditorModelKey, Object> editorModel) {
+    ArrayList<Integer> newlineIndices = getNextLineIndices(editorModel);
+    int nextNewlineIndex = -1;
+    for(int i = 0; i < newlineIndices.size(); i++) {
+      nextNewlineIndex = newlineIndices.get(i);
+      if(realCA < newlineIndices.get(i)) {
+        break;
       }
     }
-    return currentContentLine;
-  }
-
-  public ArrayList<Integer> getNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
-    BrickVisurVar niBVV = (BrickVisurVar)getGlobalVar("ni", editorModel);
-    return (ArrayList<Integer>) niBVV.getVal();
-  }
-
-  public int getVirtualCX(LocalMap<EditorModelKey, Object> editorModel) {
-    return (int) editorModel.get(virtualX);
-  }
-
-  public boolean getVirtualXIsAtEndOfLine(LocalMap<EditorModelKey, Object> editorModel) {
-    return (boolean) editorModel.get(virtualXIsAtEndOfLine);
+    return nextNewlineIndex;
   }
 
   public int getCanvasWidth(LocalMap<EditorModelKey, Object> editorModel) {
-    return (int) editorModel.get(canvasWidth);
+    return (int)editorModel.get(canvasWidth);
   }
 
   public int getCanvasHeight(LocalMap<EditorModelKey, Object> editorModel) {
@@ -85,7 +67,7 @@ public class EditorContentService {
 
   public void putEditorContent(String contentLines, LocalMap<EditorModelKey, Object> editorModel) {
     editorModel.put(editorContent, contentLines);
-    updateNewlineIndices(editorModel);
+    updateNextLineIndices(editorModel);
   }
 
   public void putCursorPositionDCHolder(CursorPositionDCHolder cpDCHolder, LocalMap<EditorModelKey, Object> editorModel) {
@@ -102,41 +84,25 @@ public class EditorContentService {
     editorModel.put(globalVariableMap, gvm);
   }
 
-  /**
-   * call getEditorContent, and assign it to content var
-   * make indices var equal to empty ArrayList
-   * loop through every character in content to check if newline char exists
-   * if char at index i == \n, then add i to indices var
-   * make niBVV var, which is equal to the result of getGlobalVar("ni")
-   * call niBVV.putVal(indices)
-   * call putGlobalVar("ni", niBVV, editorModel)
-   * @param editorModel
-   */
-  public void updateNewlineIndices(LocalMap<EditorModelKey, Object> editorModel) {
+  public void updateNextLineIndices(LocalMap<EditorModelKey, Object> editorModel) {
     String content = getEditorContent(editorModel);
     ArrayList<Integer> indices = new ArrayList<>();
-    for(int i = 0; i < content.length(); i++) {
-      if(content.charAt(i) == '\n') {
+    for(int i = 0; i <= content.length(); i++) {
+      if(i < content.length()) {
+        if(content.charAt(i) == '\n') {
+          indices.add(i + 1);
+        }
+      } else if(!indices.contains(content.length())) {
         indices.add(i);
       }
     }
-    indices.add(content.length());
-    BrickVisurVar niBVV = (BrickVisurVar) getGlobalVar("ni", editorModel);
-    niBVV.putVal(indices);
-    putGlobalVar("ni", niBVV, editorModel);
+    BrickVisurVar nlBVV = (BrickVisurVar) getGlobalVar("nl", editorModel);
+    nlBVV.putVal(indices);
+    putGlobalVar("nl", nlBVV, editorModel);
   }
 
-  public void putVirtualCX(int x, LocalMap<EditorModelKey, Object> editorModel) {
-    editorModel.put(virtualX, x);
-    putVirtualXIsAtEndOfLine(false, editorModel);
-  }
-
-  public void putVirtualXIsAtEndOfLine(boolean isAtEndOfLine, LocalMap<EditorModelKey, Object> editorModel) {
-    editorModel.put(virtualXIsAtEndOfLine, isAtEndOfLine);
-  }
-
-  public void putCanvasWidth(int width, LocalMap<EditorModelKey, Object> editorModel) {
-    editorModel.put(canvasWidth, width);
+  public void putCanvasWidth(int cw, LocalMap<EditorModelKey, Object> editorModel) {
+    editorModel.put(canvasWidth, cw);
   }
 
   public void putCanvasHeight(int height, LocalMap<EditorModelKey, Object> editorModel) {

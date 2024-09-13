@@ -1,54 +1,40 @@
 package DataClass;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
-public class CompoundDataClassBrick extends DataClassBrick {
+public class CompoundDataClassBrick extends OuterDataClassBrick {
   private CompoundDataClass cdc;
   HashMap<String, DataClassBrick> inners;
-  private CompoundDataClassBrick(String name, CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
-      super(cdc, outer, name);
-      this.cdc = cdc;
-      this.inners = inners;
-  }
-  public static CompoundDataClassBrick make(String name, CompoundDataClassBrick outer, CompoundDataClass cdc, HashMap<String, DataClassBrick> inners) {
-      return new CompoundDataClassBrick(name, outer, cdc, inners);
-  }
-  public DataClassBrick getInner(String name) {
-      return inners.get(name);
-  }
-  public CompoundDataClass getCDC() {
-    return cdc;
+
+  private CompoundDataClassBrick(String name, ArrayList<OuterDataClassBrick> outers, DataClass cdc, HashMap<String, DataClassBrick> inners) {
+    super(cdc, outers, name);
+    this.cdc = (CompoundDataClass) cdc;
+    this.inners = inners;
   }
 
-  /**
-   * getInner and assign to targetInner var
-   * if targetInner is unset, set r = calc(name)
-   * calc method will set value equal to newly calculated value and only an error message if calc fails
-   * else, r = Result.make(targetInner, null)
-   * return r
-   * @param name
-   * @return
-   */
-  public Result<DataClassBrick> getOrCalc(String name) {
-    DataClassBrick targetInner = getInner(name);
-    Result r;
-    if(!targetInner.isComplete()) {
-      r = calc(name);
-    } else {
-      r = Result.make(targetInner, null);
-    }
-    return r;
+  public static CompoundDataClassBrick make(String name, ArrayList<OuterDataClassBrick> outers, DataClass cdc, HashMap<String, DataClassBrick> inners) {
+    return new CompoundDataClassBrick(name, outers, cdc, inners);
+  }
+
+  public DataClassBrick getInner(String name) {
+    return inners.get(name);
   }
 
   public Result putInner(String name, DataClassBrick innerBrick) {
     String error = null;
     if(inners.containsKey(name)) {
-      DataClassBrick inner = inners.get(name);
       inners.put(name, innerBrick);
     } else {
       error = "name not recognized";
     }
     return Result.make(null, error);
+  }
+
+  public CompoundDataClass getCDC() {
+    return cdc;
   }
 
   @Override
@@ -59,77 +45,146 @@ public class CompoundDataClassBrick extends DataClassBrick {
         numberOfSetValues++;
       }
     }
-    return numberOfSetValues >= cdc.minimumRequiredSetValues;
+    return numberOfSetValues >= cdc.requiredSetValues;
   }
 
-  public boolean isComplete(String nameToForceCount) {
-    int numberOfSetValues = 0;
+  @Override
+  public boolean isEmpty() {
     for(DataClassBrick inner : inners.values()) {
-      if(inner.isComplete() || inner.getName().equals(nameToForceCount)) {
-        numberOfSetValues++;
+      if(inner instanceof PrimitiveDataClassBrick) {
+        if(inner.isComplete()) {
+          return false;
+        }
+      } else if(inner instanceof CompoundDataClassBrick) {
+        CompoundDataClassBrick innerAsCDCB = ((CompoundDataClassBrick)inner);
+        for(DataClassBrick innerOfInner : innerAsCDCB.inners.values()) {
+          if(!innerOfInner.isEmpty()) {
+            return false;
+          }
+        }
       }
     }
-    return numberOfSetValues >= cdc.minimumRequiredSetValues;
+    return true;
   }
 
-  public Result removeInner(String name) {
-    DataClassBrick inner = inners.get(name);
-    if(inner instanceof PrimitiveDataClassBrick) {
-      PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
-      innerAsPDCB.putDFB(null);
-      inners.put(name, innerAsPDCB);
-    } else if(inner instanceof CompoundDataClassBrick){
-      CompoundDataClassBrick innerAsCDCB = (CompoundDataClassBrick) inner;
-      for(String innerInnerName : innerAsCDCB.inners.keySet()) {
-        innerAsCDCB.removeInner(innerInnerName);
+  public CompoundDataClassBrick getInitializedBrickFromInners(HashMap<String, DataClassBrick> cursorPositionDCBInners) {
+    inners = cursorPositionDCBInners;
+    return this;
+  }
+
+  @Override
+  public Result<PrimitiveDataClassBrick> get(String targetName) {
+    Result<PrimitiveDataClassBrick> r = Result.make();
+    for(Map.Entry inner : inners.entrySet()) {
+      DataClassBrick innerBrick = (DataClassBrick) inner.getValue();
+      if(inner.getKey().equals(targetName) && innerBrick instanceof PrimitiveDataClassBrick) {
+        r.putVal((PrimitiveDataClassBrick) innerBrick);
+      }
+      if(r.getVal() != null) break;
+    }
+    if(r.getVal() == null) {
+      r.putError("inner not found with name \"" + targetName + "\"");
+    }
+    return r;
+  }
+
+  public Result<Object> calc(String targetName) {
+    return getCDC().calcInternal(targetName, this);
+  }
+
+  @Override
+  public Result remove() {
+    if (inners.size() > 0) {
+      for (Map.Entry<String, DataClassBrick> inner : inners.entrySet()) {
+        inner.getValue().remove();
       }
     }
     return Result.make();
   }
 
-  public CompoundDataClassBrick initInners(HashMap<String, DataClassBrick> cursorPositionDCBInners) {
-    inners = cursorPositionDCBInners;
-    return this;
-  }
-
-  public Result<DataClassBrick> calc(String innerName) {
-    Result r = getCDC().calcInternal(innerName, this);
-    if(r == null && getOuter() != null) {
-      return getOuter().calc(innerName);
-    } else {
-      return r;
-    }
-  }
-
-  /**
-   * call cdc.conflictsForce(this, targetName, targetVal)
-   * if outerDCB != null, call outerDCB.conflictsForce(targetName, targetVal) so all conflicts get removed
-   * @param targetName name of brick to assign targetVal to
-   * @param targetVal value which will be assigned to brick at targetName
-   */
-  public void conflictsForce(String targetName, Object targetVal) {
-    getCDC().conflictsForce(this, targetName, targetVal);
-    CompoundDataClassBrick outerDCB = getOuter();
+  @Override
+  public void removeConflicts(String targetName, Object targetVal) {
+    getCDC().removeConflicts(this);
+    OuterDataClassBrick outerDCB = getOuterContainingTargetName(targetName).getVal();
     if(outerDCB != null) {
-      outerDCB.conflictsForce(targetName, targetVal);
+      outerDCB.removeConflicts(targetName, targetVal);
     }
   }
 
-  /**
-   * call cdc.conflictsCheck(this, name, val), and assign that result to conflictsExist boolean var
-   * recursively call conflictsCheck(name, val) until either a conflict is found OR outer brick == null
-   * be sure to assign the return value of the above to conflictsExist var after EVERY recursive search attempt
-   * return conflictsExist var
-   * @param name used for cdc.conflictsCheck
-   * @param val ^
-   * @return whether a conflict would hypothetically exist after calling putInner(name, val)
-   */
-  public boolean conflictsCheck(String name, Object val) {
-    boolean conflictsExist = cdc.conflictsCheck(this, name, val);
-    if(!conflictsExist && outer != null) {
-      conflictsExist = outer.conflictsCheck(name, val);
+  @Override
+  public int getNumberOfNonEmpties() {
+    int nonEmptyInners = 0;
+    for(DataClassBrick inner : inners.values()) {
+      if(!inner.isEmpty()) {
+        nonEmptyInners++;
+      }
     }
-    return conflictsExist;
+    return nonEmptyInners;
+  }
+
+  @Override
+  public void removePossibleConflicts(HashSet<DataClassBrick> dcbsAlreadyChecked) {
+    int nonEmpties = getNumberOfNonEmpties();
+    int required = getRequiredSetValues();
+    if(nonEmpties > required && !dcbsAlreadyChecked.contains(this)) {
+      dcbsAlreadyChecked.add(this);
+      removeInnersAndAllOutersOfInners(dcbsAlreadyChecked);
+    } else if(getOuters() != null) {
+      dcbsAlreadyChecked.add(this);
+      for(OuterDataClassBrick outer : getOuters()) {
+        outer.removePossibleConflicts(dcbsAlreadyChecked);
+      }
+    }
+  }
+
+  private void removeInnersAndAllOutersOfInners(HashSet<DataClassBrick> dcbsAlreadyChecked) {
+    for (DataClassBrick inner : inners.values()) {
+      if (!dcbsAlreadyChecked.contains(inner)) {
+        if (inner instanceof PrimitiveDataClassBrick) {
+          dcbsAlreadyChecked.add(inner);
+          PrimitiveDataClassBrick innerAsPDCB = (PrimitiveDataClassBrick) inner;
+          if(!innerAsPDCB.isReadOnly()) {
+            innerAsPDCB.remove();
+            innerAsPDCB.removePossibleConflicts(dcbsAlreadyChecked);
+          }
+        } else if (inner instanceof CompoundDataClassBrick) {
+          dcbsAlreadyChecked.add(inner);
+          CompoundDataClassBrick innerAsCDCB = (CompoundDataClassBrick) inner;
+          innerAsCDCB.removeInnersAndAllOutersOfInners(dcbsAlreadyChecked);
+        }
+      }
+    }
+  }
+
+  @Override
+  public int getNumberOfSetValues() {
+    int numberOfSetInners = 0;
+    for(DataClassBrick inner : inners.values()) {
+      if(inner.isComplete()) {
+        numberOfSetInners++;
+      }
+    }
+    return numberOfSetInners;
+  }
+
+  public int getRequiredSetValues() {
+    return getCDC().requiredSetValues;
+  }
+
+  @Override
+  public boolean containsName(String targetName) {
+    boolean containsName = false;
+    if(getName().equals(targetName)) {
+      containsName = true;
+    } else {
+      for(Map.Entry<String, DataClassBrick> inner : inners.entrySet()) {
+        if (inner.getValue().containsName(targetName)) {
+          containsName = true;
+          break;
+        }
+      }
+    }
+    return containsName;
   }
 
 }

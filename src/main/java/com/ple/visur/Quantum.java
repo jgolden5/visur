@@ -5,7 +5,7 @@ import io.vertx.core.shareddata.Shareable;
 import java.util.ArrayList;
 
 public abstract class Quantum implements Shareable {
-  abstract int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail); //newlineIndices are only needed in CustomQuantums
+  abstract int[] getBoundaries(int ca, ArrayList<Integer> newlineIndices, int span, boolean includeTail); //newlineIndices are only needed in CustomQuantums
   abstract int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m);
   abstract String getName();
   void quantumStart() {
@@ -25,12 +25,11 @@ public abstract class Quantum implements Shareable {
       scopeQuantum = otherQuantum;
       cursorQuantum = this;
     }
-    int[] scopeBounds = scopeQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
-    int ca = scopeBounds[0];
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    caBVV.putVal(ca);
-    emc.putVirtualCX(emc.getCX());
-    int[] newCursorBounds = cursorQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
+    int realCA = emc.getCA();
+    int[] scopeBounds = scopeQuantum.getBoundaries(realCA, emc.getNextLineIndices(), emc.getSpan(), false);
+    realCA = scopeBounds[0];
+    emc.putCA(realCA);
+    int[] newCursorBounds = cursorQuantum.getBoundaries(realCA, emc.getNextLineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(newCursorBounds[0]);
     emc.putCursorQuantumEnd(newCursorBounds[1]);
     if(otherQuantum.getName().equals(cursorQuantum.getName())) {
@@ -56,12 +55,11 @@ public abstract class Quantum implements Shareable {
       scopeQuantum = quantumFromStack;
       cursorQuantum = this;
     }
-    int[] scopeBounds = scopeQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
-    int ca = scopeBounds[1] - 1;
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    caBVV.putVal(ca);
-    emc.putVirtualCX(emc.getCX());
-    int[] newCursorBounds = cursorQuantum.getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
+    int realCA = emc.getCA();
+    int[] scopeBounds = scopeQuantum.getBoundaries(realCA, emc.getNextLineIndices(), emc.getSpan(), false);
+    realCA = scopeBounds[1] - 1;
+    emc.putCA(realCA);
+    int[] newCursorBounds = cursorQuantum.getBoundaries(realCA, emc.getNextLineIndices(), emc.getSpan(), false);
     emc.putCursorQuantumStart(newCursorBounds[0]);
     emc.putCursorQuantumEnd(newCursorBounds[1]);
     if(quantumFromStack.getName().equals(cursorQuantum.getName())) {
@@ -72,7 +70,7 @@ public abstract class Quantum implements Shareable {
 
   int getQuantumBoundsLength() {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
-    int[] bounds = getBoundaries(emc.getEditorContent(), emc.getNewlineIndices(), emc.getSpan(), false);
+    int[] bounds = getBoundaries(emc.getCA(), emc.getNextLineIndices(), emc.getSpan(), false);
     return bounds[1] - bounds[0];
   }
 

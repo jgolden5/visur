@@ -1,8 +1,8 @@
 package com.ple.visur;
 
 public enum EditorModelKey {
-  canvasHeight,
   canvasWidth,
+  canvasHeight,
   commandCursor,
   commandStateContent,
   contentY,
@@ -16,8 +16,7 @@ public enum EditorModelKey {
   modeToKeymap,
   operator,
   operatorToService,
-  virtualX,
-  virtualXIsAtEndOfLine,
+  virtualCX,
   quantum,
   executionData,
   quantumNameToQuantum,

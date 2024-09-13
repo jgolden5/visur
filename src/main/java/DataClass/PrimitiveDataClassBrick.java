@@ -1,86 +1,109 @@
 package DataClass;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class PrimitiveDataClassBrick extends DataClassBrick {
   private final PrimitiveDataClass pdc;
   private DataFormBrick dfb;
-    private PrimitiveDataClassBrick(String name, DataFormBrick dfb, PrimitiveDataClass pdc, CompoundDataClassBrick outer) {
-        super(pdc, outer, name);
-        this.pdc = pdc;
-        this.dfb = dfb;
-    }
-    public static PrimitiveDataClassBrick make(String name, DataFormBrick dfb, PrimitiveDataClass pdc, CompoundDataClassBrick outer) {
-        return new PrimitiveDataClassBrick(name, dfb, pdc, outer);
-    }
-    public DataFormBrick getDFB() {
-        return dfb;
-    }
-    public PrimitiveDataClass getPDC() {
-      return pdc;
-    }
+  private boolean isReadOnly;
 
-  /**
-   * initialize Result r var = outerDCB.getOrCalc(name)
-   * initialize pdcb var = r.getVal
-   * if r.getError is null, do the following 2 lines:
-     * if pdcb.isComplete, initialize dfb var = DFB.make(pdc.defaultDF, pdcb.getVal), and call putDFB(dfb)
-     * else putDFB(null)
-   * return r
-   * @return result with either calculated value and no error, or no value and an error message
-   */
-  public Result<DataClassBrick> getOrCalc() {
-    CompoundDataClassBrick outerDCB = getOuter();
-    Result<DataClassBrick> r = outerDCB.getOrCalc(name);
-    if(r.getError() == null) {
-      PrimitiveDataClassBrick pdcb = (PrimitiveDataClassBrick) r.getVal();
-      if(pdcb.isComplete()) {
-        DataFormBrick dfb = DataFormBrick.make(getPDC().defaultDF, pdcb.getVal());
-        putDFB(dfb);
-      } else {
-        putDFB(null);
+  private PrimitiveDataClassBrick(String name, ArrayList<OuterDataClassBrick> outers, DataFormBrick dfb, PrimitiveDataClass pdc, boolean isReadOnly) {
+    super(pdc, outers, name);
+    this.pdc = pdc;
+    this.dfb = dfb;
+    this.isReadOnly = isReadOnly;
+  }
+  public static PrimitiveDataClassBrick make(String name, ArrayList<OuterDataClassBrick> outers, DataFormBrick dfb, PrimitiveDataClass pdc, boolean isReadOnly) {
+    return new PrimitiveDataClassBrick(name, outers, dfb, pdc, isReadOnly);
+  }
+  public DataFormBrick getDFB() {
+    return dfb;
+  }
+  public PrimitiveDataClass getPDC() {
+    return pdc;
+  }
+
+  public Result<PrimitiveDataClassBrick> getOrCalc() {
+    return getOrCalc(new HashSet<>());
+  }
+
+  public Result<PrimitiveDataClassBrick> getOrCalc(HashSet<DataClassBrick> dcbsAlreadySearched) {
+    Result<PrimitiveDataClassBrick> r = Result.make();
+    Result<Object> resObj;
+    if (isComplete()) {
+      r = Result.make(this, null);
+    } else {
+      resObj = calcFromOuter();
+      if(resObj.getError() != null) {
+        dcbsAlreadySearched.add(this);
+        r = calcNeighbor(dcbsAlreadySearched);
+        if (r.getError() == null) {
+          r = getOrCalc(new HashSet<>());
+        }
       }
     }
     return r;
   }
 
-  /**
-   * make result var
-   * call outerDCB.conflictsCheck(name, val), and assign the result to conflictsExist boolean var
-   * if conflicts exist, set result var value to null with an error message stating the inners conflict
-   * else, set this brick's value to dfb(javaIntDF, val), and set result var val & error to null
-   * return the result var
-   *
-   * @param val the value attempting to be set (only succeeds if this would create no conflicts)
-   * @return Result, may or may not contain an error message stating that inners conflict
-   */
-  public Result putSafe(Object val) {
-    Result result;
-    boolean conflictsExist = outer.conflictsCheck(name, val);
-    if(conflictsExist) {
-      result = Result.make(null, "inners conflict");
-    } else {
-      DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
-      putDFB(thisDFBVal);
-      result = Result.make();
+  private Result<Object> calcFromOuter() {
+    Result<Object> outersCalcResult = Result.make(null, "no outers exist for this brick");
+    for(OuterDataClassBrick outer : getOuters()) {
+      outersCalcResult = outer.getOrCalc(getName());
+      if(outersCalcResult.getError() == null) {
+        break;
+      } else if(outer.getOuters() != null) {
+        for (OuterDataClassBrick outerOfOuter : outer.getOuters()) {
+          outersCalcResult = outerOfOuter.getOrCalc(getName());
+          if(outersCalcResult.getError() == null) break;
+        }
+      }
     }
-    return result;
+    return outersCalcResult;
   }
 
-  /**
-   * call outerDCB.conflictsForce(name, val) to unset previously set values which conflict with val
-   * return outerDCB.putInner(name, val), which will return a Result which contains an error only if putInner fails
-   * @param val the value which will be set
-   */
-  public void putForce(Object val) {
-    CompoundDataClassBrick outerDCB = getOuter();
-    outerDCB.conflictsForce(name, val);
+  public Result<PrimitiveDataClassBrick> cacheVal(Object resultingVal) {
+    Result r = Result.make(null, "val equals null");
+    if(resultingVal != null) {
+      DataFormBrick dfb = DataFormBrick.make(pdc.defaultDF, resultingVal);
+      putDFB(dfb);
+      r = Result.make(this, null);
+    }
+    return r;
+  }
+
+  private void putVal(Object val) {
     DataFormBrick thisDFBVal = DataFormBrick.make(pdc.defaultDF, val);
     putDFB(thisDFBVal);
+  }
+
+  public void put(Object val) {
+    putVal(val);
+    HashSet<DataClassBrick> dcbsAlreadyChecked = new HashSet<>();
+    dcbsAlreadyChecked.add(this);
+    removePossibleConflicts(dcbsAlreadyChecked);
+  }
+
+  @Override
+  public void removePossibleConflicts(HashSet<DataClassBrick> dcbsAlreadyChecked) {
+    if(!isReadOnly) {
+      ArrayList<OuterDataClassBrick> outers = getOuters();
+      for (OuterDataClassBrick outer : outers) {
+        if(!dcbsAlreadyChecked.contains(outer)) {
+          outer.removePossibleConflicts(dcbsAlreadyChecked);
+        }
+      }
+    }
   }
 
   @Override
   public boolean isComplete() {
     return getDFB() != null;
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return !isComplete();
   }
 
   public Object getVal() {
@@ -100,6 +123,61 @@ public class PrimitiveDataClassBrick extends DataClassBrick {
 
   public void putDFB(DataFormBrick newDFB) {
     dfb = newDFB;
+  }
+
+  @Override
+  public boolean containsName(String targetName) {
+    return getName().equals(targetName);
+  }
+
+  @Override
+  public Result remove() {
+    String error = null;
+    if(!isReadOnly()) {
+      putDFB(null);
+    } else {
+      error = "pdcb " + getName() + " is read-only";
+    }
+    return Result.make(null, error);
+  }
+
+  @Override
+  public void removeConflicts(String name, Object val) {
+    for(OuterDataClassBrick outer : outers) {
+      outer.removeConflicts(name, val);
+    }
+  }
+
+  public boolean isReadOnly() {
+    return isReadOnly;
+  }
+
+  public Result<PrimitiveDataClassBrick> calcNeighbor(HashSet<DataClassBrick> dcbsAlreadySearched) {
+    Result r;
+    HashSet<PrimitiveDataClassBrick> unsetNeighbors = getAllUnsetNeighborsFromOuters(dcbsAlreadySearched);
+    HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuters = getUnsetNeighborsWithUniqueOuters(unsetNeighbors);
+    r = calcNeighborInternal(dcbsAlreadySearched, unsetNeighborsWithUniqueOuters);
+    return r;
+  }
+
+  private HashSet<PrimitiveDataClassBrick> getUnsetNeighborsWithUniqueOuters(HashSet<PrimitiveDataClassBrick> unsetNeighbors) {
+    HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuters = new HashSet<>();
+    for(PrimitiveDataClassBrick neighbor : unsetNeighbors) {
+      ArrayList<OuterDataClassBrick> outersOfNeighbor = neighbor.getOuters();
+      if(outersOfNeighbor != null && outersOfNeighbor.size() > 1) {
+        unsetNeighborsWithUniqueOuters.add(neighbor);
+      }
+    }
+    return unsetNeighborsWithUniqueOuters;
+  }
+
+  private Result calcNeighborInternal(HashSet<DataClassBrick> dcbsAlreadySearched, HashSet<PrimitiveDataClassBrick> unsetNeighborsWithUniqueOuter) {
+    Result<PrimitiveDataClassBrick> r = Result.make(null, "calcNeighborInternal failed");
+    for(PrimitiveDataClassBrick unsetNeighbor : unsetNeighborsWithUniqueOuter) {
+      r = unsetNeighbor.getOrCalc(dcbsAlreadySearched);
+      dcbsAlreadySearched.add(unsetNeighbor);
+    }
+    return r;
   }
 
 }

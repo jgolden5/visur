@@ -7,70 +7,19 @@ public class LineQuantum extends Quantum {
   EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
 
   @Override
-  public int[] getBoundaries(String editorContent, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
-    int[] bounds = new int[2];
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int ca = (int)caBVV.getVal();
-    int leftBound = ca;
-    int rightBound = ca;
+  public int[] getBoundaries(int ca, ArrayList<Integer> nl, int span, boolean includeTail) {
+    int[] bounds = new int[]{ca, ca};
+    int cy = emc.getCY();
+    bounds[0] = cy > 0 ? nl.get(cy - 1) : 0;;
     if(span > 0) {
-      leftBound = getQuantumStart(ca);
-      rightBound = getQuantumEnd(ca);
-    } else if(isInMiddleOfQuantum(leftBound)) {
-      leftBound = getQuantumStart(leftBound);
-      emc.putVirtualCX(emc.getCX());
+      bounds[1] = cy == nl.size() - 1 ? nl.get(cy) : nl.get(cy) - 1;;
+    } else if(isInMiddleOfQuantum(ca)) {
+      bounds[1] = bounds[0];
+    } else {
+      bounds[0] = ca;
+      bounds[1] = ca;
     }
-    bounds[0] = leftBound;
-    bounds[1] = rightBound;
     return bounds;
-  }
-
-  private boolean isInMiddleOfQuantum(int bound) {
-    String editorContent = emc.getEditorContent();
-    if(bound > 0 && bound < editorContent.length()) {
-      boolean matchExistsBefore = editorContent.charAt(bound - 1) != '\n';
-      boolean matchExistsAfter = editorContent.charAt(bound) != '\n';
-      return matchExistsBefore && matchExistsAfter;
-    } else {
-      return false;
-    }
-  }
-
-  private int getQuantumStart(int current) {
-    int qStart = current;
-    ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
-    if(newlineIndices.size() > 0) {
-      for (int i = newlineIndices.size() - 1; i >= 0; i--) {
-        if (current > newlineIndices.get(i)) {
-          qStart = newlineIndices.get(i) + 1;
-          break;
-        } else if (i == 0) {
-          qStart = 0;
-        }
-      }
-    } else {
-      qStart = 0;
-    }
-    return qStart;
-  }
-
-  private int getQuantumEnd(int current) {
-    int qEnd = current;
-    String editorContent = emc.getEditorContent();
-    ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
-    if(newlineIndices.size() > 0) {
-      for (int i = 0; i <= newlineIndices.size() - 1; i++) {
-        if (current <= newlineIndices.get(i)) {
-          qEnd = newlineIndices.get(i);
-          break;
-        } else if (i == newlineIndices.size() - 1) {
-          qEnd = editorContent.length();
-        }
-      }
-    } else {
-      qEnd = editorContent.length();
-    }
-    return qEnd;
   }
 
   @Override
@@ -78,7 +27,6 @@ public class LineQuantum extends Quantum {
     BrickVisurVar caBVV = (BrickVisurVar)emc.getGlobalVar("ca");
     int ca = (int)caBVV.getVal();
     int span = emc.getSpan();
-    CharacterQuantum cq = new CharacterQuantum();
     if(span > 0) {
       mv.dy += mv.dx;
       mv.dx = 0;
@@ -97,7 +45,7 @@ public class LineQuantum extends Quantum {
         ca = zeroQuantumMoveRight(ca, editorContent, newlineIndices);
         mv.dx--;
       } else {
-        ca = zeroQuantumMoveLeft(ca, editorContent, newlineIndices);
+        ca = zeroQuantumMoveLeft(ca, newlineIndices);
         mv.dx++;
       }
       emc.putCA(ca);
@@ -124,50 +72,46 @@ public class LineQuantum extends Quantum {
     return emc.getCA();
   }
 
-  private void updateXValuesAfterVerticalMovement(int cy, ArrayList<Integer> newlineIndices) {
+  private boolean isInMiddleOfQuantum(int bound) {
+    String editorContent = emc.getEditorContent();
+    if(bound > 0 && bound < editorContent.length()) {
+      boolean matchExistsBefore = editorContent.charAt(bound - 1) != '\n';
+      boolean matchExistsAfter = editorContent.charAt(bound) != '\n';
+      return matchExistsBefore && matchExistsAfter;
+    } else {
+      return false;
+    }
+  }
+
+  private void updateXValuesAfterVerticalMovement(int cy, ArrayList<Integer> nl) {
+    int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, nl);
     int vcx = emc.getVirtualCX();
-    int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, newlineIndices);
-    int cx = Math.min(vcx, newLongLineLength);
+    int lineEndLimit = cy == nl.size() - 1 ? newLongLineLength : newLongLineLength - 1;
+    int cx = Math.min(vcx, lineEndLimit);
     emc.putCX(cx);
   }
 
-  private int zeroQuantumMoveRight(int ca, String editorContent, ArrayList<Integer> newlineIndices) {
+  private int zeroQuantumMoveRight(int ca, String editorContent, ArrayList<Integer> nl) {
     int destination = ca;
-    if(ca < editorContent.length()) {
-      boolean startingCharIsNewline = editorContent.charAt(ca) == '\n';
-      if (startingCharIsNewline) {
-        destination++;
-      } else if (destination < editorContent.length()) {
-        for (int i = 0; i < newlineIndices.size(); i++) {
-          if (ca < newlineIndices.get(i)) {
-            destination = newlineIndices.get(i);
-            break;
-          }
-        }
-        if (destination == ca) {
-          destination = editorContent.length();
-        }
-      }
+    boolean startingCharIsNewline = editorContent.charAt(ca) == '\n';
+    if (startingCharIsNewline) {
+      destination++;
+    } else {
+      int cy = emc.getCY();
+      destination = cy == nl.size() - 1 ? nl.get(cy) : nl.get(cy) - 1;
     }
     return destination;
   }
 
-  private int zeroQuantumMoveLeft(int ca, String editorContent, ArrayList<Integer> newlineIndices) {
+  private int zeroQuantumMoveLeft(int ca, ArrayList<Integer> nl) {
     int destination = ca;
     if(ca > 0) {
-      boolean previousCharIsNewline = editorContent.charAt(ca - 1) == '\n';
+      int cy = emc.getCY();
+      boolean previousCharIsNewline = nl.contains(ca) && ca < nl.get(nl.size() - 1);
       if(previousCharIsNewline) {
         destination--;
       } else {
-        for (int i = newlineIndices.size() - 1; i >= 0; i--) {
-          if(ca > newlineIndices.get(i)) {
-            destination = newlineIndices.get(i) + 1;
-            break;
-          }
-        }
-        if(destination == ca) {
-          destination = 0;
-        }
+        destination = cy > 0 ? nl.get(cy - 1) : 0;
       }
     }
     return destination;

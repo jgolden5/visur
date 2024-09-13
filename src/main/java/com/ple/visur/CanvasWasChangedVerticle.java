@@ -15,13 +15,18 @@ public class CanvasWasChangedVerticle extends AbstractVisurVerticle {
   public void handle(Message event) {
     JsonObject canvasJson = new JsonObject((String)event.body());
     final Integer width = canvasJson.getInteger("width");
-    final EditorModelCoupler ems = ServiceHolder.editorModelCoupler;
-    ems.putCanvasWidth(width);
+    final EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
+    emc.putCanvasWidth(width);
     final Integer height = canvasJson.getInteger("height");
-    ems.putCanvasHeight(height);
-    ArrayList<Integer> newlineIndices = ems.getNewlineIndices();
-    for(int i = 0; i <= newlineIndices.size(); i++) {
-      String line = ems.getContentLineAtY(i);
+    emc.putCanvasHeight(height);
+    ArrayList<Integer> nextLineIndices = emc.getNextLineIndices();
+    int cy = emc.getCY();
+    for(int i = 0; i <= nextLineIndices.size(); i++) {
+      String editorContent = emc.getEditorContent();
+
+      int lineStart = cy > 0 ? nextLineIndices.get(cy - 1) : 0;
+      int lineEnd = nextLineIndices.get(cy) - 1;
+      String line = editorContent.substring(lineStart, lineEnd);
       if(line != null) {
         System.out.println("Line " + i + ": " + line);
       }

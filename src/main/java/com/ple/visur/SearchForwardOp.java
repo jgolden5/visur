@@ -15,7 +15,7 @@ public class SearchForwardOp implements Operator {
       System.out.println("forward search target = " + searchTarget);
       String editorContent = emc.getEditorContent();
       Quantum scopeQuantum = emc.getScopeQuantum();
-      int[] scopeQuantumBounds = scopeQuantum.getBoundaries(editorContent, emc.getNewlineIndices(), 1, false); //span is always 1 when searching within a scopeQuantum
+      int[] scopeQuantumBounds = scopeQuantum.getBoundaries(emc.getCA(), emc.getNextLineIndices(), 1, false); //span is always 1 when searching within a scopeQuantum
       int scopeQuantumEnd = scopeQuantumBounds[1];
       int cursorQuantumEnd = emc.getCursorQuantumEnd();
       if(cursorQuantumEnd < scopeQuantumEnd) {
@@ -26,7 +26,7 @@ public class SearchForwardOp implements Operator {
           emc.putCA(foundIndex);
           emc.putVirtualCX(emc.getCX());
           Quantum cursorQuantum = emc.getCursorQuantum();
-          int[] newBounds = cursorQuantum.getBoundaries(editorContent, emc.getNewlineIndices(), emc.getSpan(), false);
+          int[] newBounds = cursorQuantum.getBoundaries(emc.getCA(), emc.getNextLineIndices(), emc.getSpan(), false);
           emc.putCursorQuantumStart(newBounds[0]);
           emc.putCursorQuantumEnd(newBounds[1]);
         }

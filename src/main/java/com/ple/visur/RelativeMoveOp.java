@@ -8,21 +8,19 @@ public class RelativeMoveOp implements Operator {
     EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     ExecutionDataStack eds = emc.getExecutionDataStack();
     String editorContent = emc.getEditorContent();
-    ArrayList<Integer> newlineIndices = emc.getNewlineIndices();
+    ArrayList<Integer> newlineIndices = emc.getNextLineIndices();
     int dy = (int)eds.pop();
     int dx = (int)eds.pop();
     Quantum cursorQuantum = emc.getCursorQuantum();
     MovementVector movementVector = new MovementVector(dx, dy);
-    int newCA = cursorQuantum.move(editorContent, newlineIndices, movementVector);
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    caBVV.putVal(newCA);
-    emc.putGlobalVar("ca", caBVV);
+    int newRealCA = cursorQuantum.move(editorContent, newlineIndices, movementVector);
+    emc.putCA(newRealCA);
     int[] newBounds;
-    if(newCA == 0 && editorContent.length() == 0) {
-      newBounds = new int[]{newCA, newCA};
+    if(newRealCA == 0 && editorContent.length() == 0) {
+      newBounds = new int[]{newRealCA, newRealCA};
       emc.putSpan(0);
     } else {
-      newBounds = cursorQuantum.getBoundaries(editorContent, newlineIndices, emc.getSpan(), false);
+      newBounds = cursorQuantum.getBoundaries(newRealCA, newlineIndices, emc.getSpan(), false);
     }
     emc.putCursorQuantumStart(newBounds[0]);
     emc.putCursorQuantumEnd(newBounds[1]);
