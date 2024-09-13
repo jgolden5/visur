@@ -396,7 +396,7 @@ public class EditorModelCoupler {
     } else {
       putFY(--fy);
       int prevLineStart = fy > 0 ? nl.get(fy - 1) : 0;
-      int prevLineLength = currentLineStart - prevLineStart;
+      int prevLineLength = currentLineStart - prevLineStart - 1;
       if(prevLineLength - 1 <= canvasWidth) {
         canvasStart = prevLineStart;
       } else {
