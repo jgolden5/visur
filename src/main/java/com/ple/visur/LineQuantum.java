@@ -60,7 +60,7 @@ public class LineQuantum extends Quantum {
       emc.putCY(++cy);
       int newLongLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, nl);
       int vcx = emc.getVirtualCX();
-      int lineEndLimit = cy == nl.size() - 1 ? newLongLineLength : newLongLineLength - 1;
+      int lineEndLimit = newLongLineLength - 1;
       int cx = Math.min(vcx, lineEndLimit);
       emc.putCX(cx);
     }
