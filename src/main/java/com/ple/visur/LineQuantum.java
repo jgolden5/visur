@@ -98,9 +98,10 @@ public class LineQuantum extends Quantum {
   private int zeroQuantumMoveRight(int ca, String editorContent, ArrayList<Integer> nl) {
     int destination = ca;
     boolean startingCharIsNewline = editorContent.charAt(ca) == '\n';
-    if (startingCharIsNewline) {
+    int contentEnd = editorContent.length() - 1;
+    if (startingCharIsNewline && ca < contentEnd) {
       destination++;
-    } else {
+    } else if(ca < contentEnd) {
       int cy = emc.getCY();
       destination = cy == nl.size() - 1 ? nl.get(cy) : nl.get(cy) - 1;
     }
