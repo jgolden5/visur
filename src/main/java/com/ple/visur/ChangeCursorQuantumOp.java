@@ -14,6 +14,15 @@ public class ChangeCursorQuantumOp implements Operator {
       if (bounds[0] == bounds[1]) {
         emc.putSpan(0);
       }
+      if(emc.getCanvasStart() > bounds[0]) {
+        while (emc.getCanvasStart() > bounds[0]) {
+          emc.decrementCanvasStart();
+        }
+      } else {
+        while (emc.getCanvasEnd() < bounds[1]) {
+          emc.incrementCanvasStart();
+        }
+      }
       emc.putCursorQuantum(targetQuantum);
     }
   }
