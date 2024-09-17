@@ -366,8 +366,9 @@ public class EditorModelCoupler {
 
   public void putCursorQuantumEndAndScroll(int endBound) {
     putCursorQuantumEnd(endBound);
-    if(getCanvasEnd() < endBound) {
-      while (getCanvasEnd() < endBound) {
+    int startBound = getCursorQuantumStart();
+    if(getCanvasEnd() < startBound) {
+      while (getCanvasEnd() < startBound) {
         incrementCanvasStart();
       }
     }
