@@ -99,7 +99,7 @@ public class EditorModelCoupler {
     int canvasEnd = getCanvasStart();
     int y = getFY();
     ArrayList<Integer> nl = getNextLineIndices();
-    while(row < canvasHeight) {
+    while(row < canvasHeight && y < nl.size()) {
       int nextLineStart = nl.get(y);
       if(canvasEnd + canvasWidth < nextLineStart) {
         canvasEnd += canvasWidth;
