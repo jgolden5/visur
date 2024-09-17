@@ -104,7 +104,7 @@ public class EditorModelCoupler {
       if(canvasEnd + canvasWidth < nextLineStart) {
         canvasEnd += canvasWidth;
       } else {
-        canvasEnd = nextLineStart - 1;
+        canvasEnd = y < nl.size() - 1 ? nextLineStart - 1 : nextLineStart;
         y++;
       }
       row++;
@@ -367,9 +367,7 @@ public class EditorModelCoupler {
   public void putCursorQuantumEndAndScroll(int endBound) {
     putCursorQuantumEnd(endBound);
     if(getCanvasEnd() < endBound) {
-      ArrayList<Integer> nl = getNextLineIndices();
-      int endLimit = endBound < nl.get(nl.size() - 1) ? endBound : endBound - 1;
-      while (getCanvasEnd() < endLimit) {
+      while (getCanvasEnd() < endBound) {
         incrementCanvasStart();
       }
     }
