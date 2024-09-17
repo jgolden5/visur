@@ -50,98 +50,99 @@ public class InitializerService {
 //      "Whether \"having spells as a god\" is a good thing is up to you, but it does come with a few downsides. Without active abilities, you have less ways to deal with a dangerous situation. In addition, Vehumet is one of the weaker gods for the early game. For spellcaster backgrounds, the first few spell gifts generally won't be much of an improvement compared to your own spells. Characters new to spellcasting have to take time to train up magic, which might not be all that powerful by the time you hit 1* or even 3*. Furthermore, there are ways to get an \"engine\" without taking up the god slot.\n" +
 //      "Let's find out what it means to be a magic-user...";
 
-//    final String initialEditorContent =
-//      "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111\n" +
-//      "2\n" +
-//      "3\n" +
-//      "4\n" +
-//      "5\n" +
-//      "6\n" +
-//      "7\n" +
-//      "8\n" +
-//      "9\n" +
-//      "10\n" +
-//      "11\n" +
-//      "12\n" +
-//      "13\n" +
-//      "14\n" +
-//      "15\n" +
-//      "16\n" +
-//      "17\n" +
-//      "18\n" +
-//      "19\n" +
-//      "20\n" +
-//      "21\n" +
-//      "22\n" +
-//      "23\n" +
-//      "24\n" +
-//      "25\n" +
-//      "26\n" +
-//      "27\n" +
-//      "28\n" +
-//      "29\n" +
-//      "30\n" +
-//      "31\n" +
-//      "32\n" +
-//      "33\n" +
-//      "34\n" +
-//      "35\n" +
-//      "36\n" +
-//      "37";
-    final String initialEditorContent = "The unanimous Declaration of the thirteen united States of America, When in the Course of human events, it becomes necessary for one people to dissolve the political bands which have connected them with another, and to assume among the powers of the earth, the separate and equal station to which the Laws of Nature and of Nature’s God entitle them, a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation.\n" +
-      "\n" +
-      "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness.–That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed, –That whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness. Prudence, indeed, will dictate that Governments long established should not be changed for light and transient causes; and accordingly all experience hath shewn, that mankind are more disposed to suffer, while evils are sufferable, than to right themselves by abolishing the forms to which they are accustomed. But when a long train of abuses and usurpations, pursuing invariably the same Object evinces a design to reduce them under absolute Despotism, it is their right, it is their duty, to throw off such Government, and to provide new Guards for their future security.–Such has been the patient sufferance of these Colonies; and such is now the necessity which constrains them to alter their former Systems of Government. The history of the present King of Great Britain is a history of repeated injuries and usurpations, all having in direct object the establishment of an absolute Tyranny over these States. To prove this, let Facts be submitted to a candid world.\n" +
-      "\n" +
-      "He has refused his Assent to Laws, the most wholesome and necessary for the public good.\n" +
-      "\n" +
-      "He has forbidden his Governors to pass Laws of immediate and pressing importance, unless suspended in their operation till his Assent should be obtained; and when so suspended, he has utterly neglected to attend to them.\n" +
-      "\n" +
-      "He has refused to pass other Laws for the accommodation of large districts of people, unless those people would relinquish the right of Representation in the Legislature, a right inestimable to them and formidable to tyrants only.\n" +
-      "\n" +
-      "He has called together legislative bodies at places unusual, uncomfortable, and distant from the depository of their public Records, for the sole purpose of fatiguing them into compliance with his measures.\n" +
-      "\n" +
-      "He has dissolved Representative Houses repeatedly, for opposing with manly firmness his invasions on the rights of the people.\n" +
-      "\n" +
-      "He has refused for a long time, after such dissolutions, to cause others to be elected; whereby the Legislative powers, incapable of Annihilation, have returned to the People at large for their exercise; the State remaining in the mean time exposed to all the dangers of invasion from without, and convulsions within.\n" +
-      "\n" +
-      "He has endeavoured to prevent the population of these States; for that purpose obstructing the Laws for Naturalization of Foreigners; refusing to pass others to encourage their migrations hither, and raising the conditions of new Appropriations of Lands.\n" +
-      "\n" +
-      "He has obstructed the Administration of Justice, by refusing his Assent to Laws for establishing Judiciary powers.\n" +
-      "\n" +
-      "He has made Judges dependent on his Will alone, for the tenure of their offices, and the amount and payment of their salaries. He has erected a multitude of New Offices, and sent hither swarms of Officers to harrass our people, and eat out their substance.\n" +
-      "\n" +
-      "He has kept among us, in times of peace, Standing Armies without the Consent of our legislatures.\n" +
-      "\n" +
-      "He has affected to render the Military independent of and superior to the Civil power.\n" +
-      "\n" +
-      "He has combined with others to subject us to a jurisdiction foreign to our constitution, and unacknowledged by our laws; giving his Assent to their Acts of pretended Legislation:\n" +
-      "\n" +
-      "For Quartering large bodies of armed troops among us:\n" +
-      "\n" +
-      "For protecting them, by a mock Trial, from punishment for any Murders which they should commit on the Inhabitants of these States:\n" +
-      "\n" +
-      "For cutting off our Trade with all parts of the world: For imposing Taxes on us without our Consent:\n" +
-      "\n" +
-      "For depriving us in many cases, of the benefits of Trial by Jury:\n" +
-      "\n" +
-      "For transporting us beyond Seas to be tried for pretended offences\n" +
-      "\n" +
-      "For abolishing the free System of English Laws in a neighbouring Province, establishing therein an Arbitrary government, and enlarging its Boundaries so as to render it at once an example and fit instrument for introducing the same absolute rule into these Colonies:\n" +
-      "\n" +
-      "For taking away our Charters, abolishing our most valuable Laws, and altering fundamentally the Forms of our Governments:\n" +
-      "\n" +
-      "For suspending our own Legislatures, and declaring themselves invested with power to legislate for us in all cases whatsoever.\n" +
-      "\n" +
-      "He has abdicated Government here, by declaring us out of his Protection and waging War against us.\n" +
-      "\n" +
-      "He has plundered our seas, ravaged our Coasts, burnt our towns, and destroyed the lives of our people.\n" +
-      "\n" +
-      "He is at this time transporting large Armies of foreign Mercenaries to compleat the works of death, desolation and tyranny, already begun with circumstances of Cruelty & perfidy scarcely paralleled in the most barbarous ages, and totally unworthy the Head of a civilized nation.\n" +
-      "\n" +
-      "He has constrained our fellow Citizens taken Captive on the high Seas to bear Arms against their Country, to become the executioners of their friends and Brethren, or to fall themselves by their Hands.\n" +
-      "\n" +
-      "He has excited domestic insurrections amongst us, and has endeavoured to bring on the inhabitants of our frontiers, the merciless Indian Savages, whose known rule of warfare, is an undistinguished destruction of all ages, sexes and conditions.\n" +
-      "\n";
+    final String initialEditorContent =
+      "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111\n" +
+      "2\n" +
+      "3\n" +
+      "4\n" +
+      "5\n" +
+      "6\n" +
+      "7\n" +
+      "8\n" +
+      "9\n" +
+      "10\n" +
+      "11\n" +
+      "12\n" +
+      "13\n" +
+      "14\n" +
+      "15\n" +
+      "16\n" +
+      "17\n" +
+      "18\n" +
+      "19\n" +
+      "20\n" +
+      "21\n" +
+      "22\n" +
+      "23\n" +
+      "24\n" +
+      "25\n" +
+      "26\n" +
+      "27\n" +
+      "28\n" +
+      "29\n" +
+      "30\n" +
+      "31\n" +
+      "32\n" +
+      "33\n" +
+      "34\n" +
+      "35\n" +
+      "36\n" +
+      "37";
+
+//    final String initialEditorContent = "The unanimous Declaration of the thirteen united States of America, When in the Course of human events, it becomes necessary for one people to dissolve the political bands which have connected them with another, and to assume among the powers of the earth, the separate and equal station to which the Laws of Nature and of Nature’s God entitle them, a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation.\n" +
+//      "\n" +
+//      "We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness.–That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed, –That whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness. Prudence, indeed, will dictate that Governments long established should not be changed for light and transient causes; and accordingly all experience hath shewn, that mankind are more disposed to suffer, while evils are sufferable, than to right themselves by abolishing the forms to which they are accustomed. But when a long train of abuses and usurpations, pursuing invariably the same Object evinces a design to reduce them under absolute Despotism, it is their right, it is their duty, to throw off such Government, and to provide new Guards for their future security.–Such has been the patient sufferance of these Colonies; and such is now the necessity which constrains them to alter their former Systems of Government. The history of the present King of Great Britain is a history of repeated injuries and usurpations, all having in direct object the establishment of an absolute Tyranny over these States. To prove this, let Facts be submitted to a candid world.\n" +
+//      "\n" +
+//      "He has refused his Assent to Laws, the most wholesome and necessary for the public good.\n" +
+//      "\n" +
+//      "He has forbidden his Governors to pass Laws of immediate and pressing importance, unless suspended in their operation till his Assent should be obtained; and when so suspended, he has utterly neglected to attend to them.\n" +
+//      "\n" +
+//      "He has refused to pass other Laws for the accommodation of large districts of people, unless those people would relinquish the right of Representation in the Legislature, a right inestimable to them and formidable to tyrants only.\n" +
+//      "\n" +
+//      "He has called together legislative bodies at places unusual, uncomfortable, and distant from the depository of their public Records, for the sole purpose of fatiguing them into compliance with his measures.\n" +
+//      "\n" +
+//      "He has dissolved Representative Houses repeatedly, for opposing with manly firmness his invasions on the rights of the people.\n" +
+//      "\n" +
+//      "He has refused for a long time, after such dissolutions, to cause others to be elected; whereby the Legislative powers, incapable of Annihilation, have returned to the People at large for their exercise; the State remaining in the mean time exposed to all the dangers of invasion from without, and convulsions within.\n" +
+//      "\n" +
+//      "He has endeavoured to prevent the population of these States; for that purpose obstructing the Laws for Naturalization of Foreigners; refusing to pass others to encourage their migrations hither, and raising the conditions of new Appropriations of Lands.\n" +
+//      "\n" +
+//      "He has obstructed the Administration of Justice, by refusing his Assent to Laws for establishing Judiciary powers.\n" +
+//      "\n" +
+//      "He has made Judges dependent on his Will alone, for the tenure of their offices, and the amount and payment of their salaries. He has erected a multitude of New Offices, and sent hither swarms of Officers to harrass our people, and eat out their substance.\n" +
+//      "\n" +
+//      "He has kept among us, in times of peace, Standing Armies without the Consent of our legislatures.\n" +
+//      "\n" +
+//      "He has affected to render the Military independent of and superior to the Civil power.\n" +
+//      "\n" +
+//      "He has combined with others to subject us to a jurisdiction foreign to our constitution, and unacknowledged by our laws; giving his Assent to their Acts of pretended Legislation:\n" +
+//      "\n" +
+//      "For Quartering large bodies of armed troops among us:\n" +
+//      "\n" +
+//      "For protecting them, by a mock Trial, from punishment for any Murders which they should commit on the Inhabitants of these States:\n" +
+//      "\n" +
+//      "For cutting off our Trade with all parts of the world: For imposing Taxes on us without our Consent:\n" +
+//      "\n" +
+//      "For depriving us in many cases, of the benefits of Trial by Jury:\n" +
+//      "\n" +
+//      "For transporting us beyond Seas to be tried for pretended offences\n" +
+//      "\n" +
+//      "For abolishing the free System of English Laws in a neighbouring Province, establishing therein an Arbitrary government, and enlarging its Boundaries so as to render it at once an example and fit instrument for introducing the same absolute rule into these Colonies:\n" +
+//      "\n" +
+//      "For taking away our Charters, abolishing our most valuable Laws, and altering fundamentally the Forms of our Governments:\n" +
+//      "\n" +
+//      "For suspending our own Legislatures, and declaring themselves invested with power to legislate for us in all cases whatsoever.\n" +
+//      "\n" +
+//      "He has abdicated Government here, by declaring us out of his Protection and waging War against us.\n" +
+//      "\n" +
+//      "He has plundered our seas, ravaged our Coasts, burnt our towns, and destroyed the lives of our people.\n" +
+//      "\n" +
+//      "He is at this time transporting large Armies of foreign Mercenaries to compleat the works of death, desolation and tyranny, already begun with circumstances of Cruelty & perfidy scarcely paralleled in the most barbarous ages, and totally unworthy the Head of a civilized nation.\n" +
+//      "\n" +
+//      "He has constrained our fellow Citizens taken Captive on the high Seas to bear Arms against their Country, to become the executioners of their friends and Brethren, or to fall themselves by their Hands.\n" +
+//      "\n" +
+//      "He has excited domestic insurrections amongst us, and has endeavoured to bring on the inhabitants of our frontiers, the merciless Indian Savages, whose known rule of warfare, is an undistinguished destruction of all ages, sexes and conditions.\n" +
+//      "\n";
 
     initializeCursorPositionDCBsAndBVVs();
 
@@ -313,9 +314,6 @@ public class InitializerService {
     );
     keymap.put(KeyPressed.from("i"),
       scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"insert\" changeMode 0 setSpan \"character\" changeCursorQuantum")
-    );
-    keymap.put(KeyPressed.from("a"),
-      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"insert\" changeMode 0 setSpan 1 0 relativeMove \"character\" changeCursorQuantum")
     );
     keymap.put(KeyPressed.from("o"),
       scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"replace\" changeMode 0 setSpan \"character\" changeCursorQuantum")
