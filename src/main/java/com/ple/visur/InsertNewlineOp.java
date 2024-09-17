@@ -14,7 +14,7 @@ public class InsertNewlineOp implements Operator {
     emc.updateNextLineIndices();
     Quantum cursorQuantum = emc.getCursorQuantum();
     int[] bounds = cursorQuantum.getBoundaries(ca, emc.getNextLineIndices(), emc.getSpan(), false);
-    emc.putCursorQuantumStart(bounds[0]);
-    emc.putCursorQuantumEnd(bounds[1]);
+    emc.putCursorQuantumStartAndScroll(bounds[0]);
+    emc.putCursorQuantumEndAndScroll(bounds[1]);
   }
 }

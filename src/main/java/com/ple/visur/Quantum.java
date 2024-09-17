@@ -31,8 +31,8 @@ public abstract class Quantum implements Shareable {
     emc.putCA(ca);
     emc.putVirtualCX(emc.getCX());
     int[] newCursorBounds = cursorQuantum.getBoundaries(ca, emc.getNextLineIndices(), emc.getSpan(), false);
-    emc.putCursorQuantumStart(newCursorBounds[0]);
-    emc.putCursorQuantumEnd(newCursorBounds[1]);
+    emc.putCursorQuantumStartAndScroll(newCursorBounds[0]);
+    emc.putCursorQuantumEndAndScroll(newCursorBounds[1]);
     if(otherQuantum.getName().equals(cursorQuantum.getName())) {
       emc.putCursorQuantum(otherQuantum);
       System.out.println("quantum changed from " + getName() + " to " + otherQuantum.getName());
@@ -62,8 +62,8 @@ public abstract class Quantum implements Shareable {
     emc.putCA(ca);
     emc.putVirtualCX(emc.getCX());
     int[] newCursorBounds = cursorQuantum.getBoundaries(ca, emc.getNextLineIndices(), emc.getSpan(), false);
-    emc.putCursorQuantumStart(newCursorBounds[0]);
-    emc.putCursorQuantumEnd(newCursorBounds[1]);
+    emc.putCursorQuantumStartAndScroll(newCursorBounds[0]);
+    emc.putCursorQuantumEndAndScroll(newCursorBounds[1]);
     if(quantumFromStack.getName().equals(cursorQuantum.getName())) {
       emc.putCursorQuantum(quantumFromStack);
       System.out.println("quantum changed from " + getName() + " to " + quantumFromStack.getName());

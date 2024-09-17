@@ -22,7 +22,7 @@ public class RelativeMoveOp implements Operator {
     } else {
       newBounds = cursorQuantum.getBoundaries(newCA, newlineIndices, emc.getSpan(), false);
     }
-    emc.putCursorQuantumStart(newBounds[0]);
-    emc.putCursorQuantumEnd(newBounds[1]);
+    emc.putCursorQuantumStartAndScroll(newBounds[0]);
+    emc.putCursorQuantumEndAndScroll(newBounds[1]);
   }
 }

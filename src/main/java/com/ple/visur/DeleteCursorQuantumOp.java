@@ -20,8 +20,8 @@ public class DeleteCursorQuantumOp implements Operator {
       }
       Quantum cursorQuantum = emc.getCursorQuantum();
       int[] bounds = cursorQuantum.getBoundaries(realCA, emc.getNextLineIndices(), span, false);
-      emc.putCursorQuantumStart(bounds[0]);
-      emc.putCursorQuantumEnd(bounds[1]);
+      emc.putCursorQuantumStartAndScroll(bounds[0]);
+      emc.putCursorQuantumEndAndScroll(bounds[1]);
     }
   }
 }

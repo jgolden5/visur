@@ -347,12 +347,32 @@ public class EditorModelCoupler {
     putGlobalVar("cursorQuantum", cursorQuantumVV);
   }
 
-  public void putCursorQuantumStart(int startBound) {
+  private void putCursorQuantumStart(int startBound) {
     editorModel.put(quantumStart, startBound);
   }
 
-  public void putCursorQuantumEnd(int endBound) {
+  public void putCursorQuantumStartAndScroll(int startBound) {
+    putCursorQuantumStart(startBound);
+    if(getCanvasStart() > startBound) {
+      while (getCanvasStart() > startBound) {
+        decrementCanvasStart();
+      }
+    }
+  }
+
+  void putCursorQuantumEnd(int endBound) {
     editorModel.put(quantumEnd, endBound);
+  }
+
+  public void putCursorQuantumEndAndScroll(int endBound) {
+    putCursorQuantumEnd(endBound);
+    if(getCanvasEnd() < endBound) {
+      ArrayList<Integer> nl = getNextLineIndices();
+      int endLimit = endBound < nl.get(nl.size() - 1) ? endBound : endBound - 1;
+      while (getCanvasEnd() < endLimit) {
+        incrementCanvasStart();
+      }
+    }
   }
 
   public void putIsAtQuantumStart(boolean isAtQStart) {
