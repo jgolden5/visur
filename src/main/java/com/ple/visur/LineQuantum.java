@@ -103,7 +103,10 @@ public class LineQuantum extends Quantum {
       destination++;
     } else if(ca < contentEnd) {
       int cy = emc.getCY();
-      destination = cy == nl.size() - 1 ? nl.get(cy) : nl.get(cy) - 1;
+      boolean lastCharInContentIsNewline = nl.get(nl.size() - 1) == '\n';
+      boolean cyIsOnLastLongInContent = cy == nl.size() - 1;
+      boolean shouldDecrementNextLineIndex = !(lastCharInContentIsNewline && cyIsOnLastLongInContent);
+      destination = shouldDecrementNextLineIndex ? nl.get(cy) - 1 : nl.get(cy);
     }
     emc.checkThenScrollDownLines(destination, emc.getCY(), nl);
     return destination;
