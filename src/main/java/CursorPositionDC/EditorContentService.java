@@ -92,7 +92,7 @@ public class EditorContentService {
         if(content.charAt(i) == '\n') {
           indices.add(i + 1);
         }
-      } else if(!indices.contains(content.length())) {
+      } else {
         indices.add(i);
       }
     }
