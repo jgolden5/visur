@@ -121,8 +121,7 @@ public class RegexQuantum extends Quantum {
    */
   @Override
   public int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector mv) {
-    BrickVisurVar caBVV = (BrickVisurVar) emc.getGlobalVar("ca");
-    int startingCA = (int)caBVV.getVal();
+    int startingCA = emc.getCA();
     int destination = startingCA;
     int span = emc.getSpan();
     int spansRemaining = span;
