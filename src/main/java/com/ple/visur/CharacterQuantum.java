@@ -15,21 +15,21 @@ public class CharacterQuantum extends Quantum {
   }
 
   @Override
-  public int move(String editorContent, ArrayList<Integer> nextLineIndices, MovementVector mv) {
+  public int move(String editorContent, ArrayList<Integer> nl, MovementVector mv) {
     int ca = emc.getCA();
     int span = emc.getSpan();
     if(mv.dx != 0) {
       if(mv.dx > 0) {
-        ca = moveRight(nextLineIndices, span);
+        ca = moveRight(nl, span);
       } else {
-        ca = moveLeft(nextLineIndices);
+        ca = moveLeft();
       }
     }
     if(mv.dy != 0) {
       if(mv.dy > 0) {
-        ca = moveDown(nextLineIndices, span);
+        ca = moveDown(nl, span);
       } else {
-        ca = moveUp(nextLineIndices);
+        ca = moveUp(nl);
       }
     }
     return ca;
@@ -47,24 +47,13 @@ public class CharacterQuantum extends Quantum {
     return ca;
   }
 
-  private int moveLeft(ArrayList<Integer> nl) {
-    int cx = emc.getCX();
-    int cy = emc.getCY();
-    if(cy > 0 || cx > 0) {
-      if(cx == 0) {
-        emc.putCY(--cy);
-        int currentLineLength = cy > 0 ? nl.get(cy) - nl.get(cy - 1) : nl.get(cy);
-        cx = currentLineLength - 1;
-      } else {
-        cx--;
-      }
-    }
-    emc.putCX(cx);
-    emc.putVirtualCX(cx);
+  private int moveLeft() {
     int ca = emc.getCA();
-    if(ca < emc.getCanvasStart()) {
-      emc.decrementCanvasStart();
+    if(ca > 0) {
+      emc.putCA(--ca);
+      emc.putVirtualCX(emc.getCX());
     }
+    emc.checkThenScrollUpSingleLine(ca);
     return ca;
   }
 
