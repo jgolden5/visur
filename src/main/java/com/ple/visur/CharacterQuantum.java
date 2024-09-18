@@ -36,26 +36,13 @@ public class CharacterQuantum extends Quantum {
   }
 
   private int moveRight(ArrayList<Integer> nl, int span) {
-    int cx = emc.getCX();
-    int vcx = cx;
-    int cy = emc.getCY();
-    int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
-    boolean shouldIncrementCY = lineStart + cx + 1 >= nl.get(cy);
-    int contentLength = nl.get(nl.size() - 1);
-    int contentLimit = span > 0 || lineStart + cx + 1 > contentLength ? contentLength - 1 : contentLength;
-    if(lineStart + cx + 1 <= contentLimit) {
-      if (shouldIncrementCY) {
-        cx = 0;
-        vcx = 0;
-        emc.putCY(++cy);
-      } else {
-        cx++;
-        vcx++;
-      }
-    }
-    emc.putCX(cx);
-    emc.putVirtualCX(vcx);
     int ca = emc.getCA();
+    int contentEnd = nl.get(nl.size() - 1);
+    int endLimit = span > 0 ? contentEnd - 1 : contentEnd;
+    if(ca + 1 <= endLimit) {
+      emc.putCA(++ca);
+      emc.putVirtualCX(emc.getCX());
+    }
     emc.checkThenScrollDownSingleLine(ca);
     return ca;
   }
