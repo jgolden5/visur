@@ -41,13 +41,17 @@ public class CharacterQuantum extends Quantum {
     int cy = emc.getCY();
     int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
     boolean shouldIncrementCY = lineStart + cx + 1 >= nl.get(cy);
-    if(shouldIncrementCY) {
-      cx = 0;
-      vcx = 0;
-      emc.putCY(++cy);
-    } else {
-      cx++;
-      vcx++;
+    int contentLength = nl.get(nl.size() - 1);
+    int contentLimit = span > 0 ? contentLength - 1 : contentLength;
+    if(lineStart + cx + 1 <= contentLimit) {
+      if (shouldIncrementCY) {
+        cx = 0;
+        vcx = 0;
+        emc.putCY(++cy);
+      } else {
+        cx++;
+        vcx++;
+      }
     }
     emc.putCX(cx);
     emc.putVirtualCX(vcx);
