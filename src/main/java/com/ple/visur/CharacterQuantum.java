@@ -64,7 +64,7 @@ public class CharacterQuantum extends Quantum {
     int canvasWidth = emc.getCanvasWidth();
     int[] shortBounds = RelativeLineBoundCalculator.getShort(cx, cy, nl);
     boolean isOnLastShortLineInLongLine = shortBounds[1] - shortBounds[0] < canvasWidth;
-    boolean isAtEndOfEditorContent = cy == nl.size() - 1 && isOnLastShortLineInLongLine;
+    boolean isAtEndOfEditorContent = getIsAtEndOfEditorContent(nl, cy, span, isOnLastShortLineInLongLine);
     boolean shouldIncrementCY = isOnLastShortLineInLongLine && !isAtEndOfEditorContent;
     if (shouldIncrementCY) {
       emc.putCY(++cy);
@@ -80,6 +80,13 @@ public class CharacterQuantum extends Quantum {
     int ca = emc.getCA();
     emc.checkThenScrollDownSingleLine(ca);
     return ca;
+  }
+
+  private boolean getIsAtEndOfEditorContent(ArrayList<Integer> nl, int cy, int span, boolean isOnLastShortOfLong) {
+    int cyOfLastLong = nl.size() - 1;
+    int cyOfLastValidLongLineInContent = span > 0 ? cyOfLastLong - 1 : cyOfLastLong;
+    boolean isOnLastValidLongOfContent = cy >= cyOfLastValidLongLineInContent;
+    return isOnLastValidLongOfContent && isOnLastShortOfLong;
   }
 
   private int moveUp(ArrayList<Integer> nextLineIndices) {
