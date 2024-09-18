@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class RelativeLineBoundCalculator {
 
   public static int getLongLineLength(int cy, ArrayList<Integer> nl) {
-    int caAtEndOfLongLine = nl.get(cy);
+    int caAtBeginningOfNextLine = nl.get(cy);
     int longLineLength;
     if(cy > 0) {
-      longLineLength = caAtEndOfLongLine - nl.get(cy - 1);
+      longLineLength = caAtBeginningOfNextLine - nl.get(cy - 1);
     } else {
-      longLineLength = caAtEndOfLongLine;
+      longLineLength = caAtBeginningOfNextLine;
     }
     return longLineLength;
   }
@@ -24,10 +24,10 @@ public class RelativeLineBoundCalculator {
     return shortBounds;
   }
 
-  private static int getShortLineStart(int cw, int cx) {
+  private static int getShortLineStart(int canvasWidth, int cx) {
     int shortLineStart = 0;
     for (int i = cx; i > 0; i--) {
-      if (i % cw == 0) {
+      if (i % canvasWidth == 0) {
         shortLineStart = i;
         break;
       }

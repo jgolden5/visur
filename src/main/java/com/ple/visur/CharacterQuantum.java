@@ -42,7 +42,7 @@ public class CharacterQuantum extends Quantum {
     int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
     boolean shouldIncrementCY = lineStart + cx + 1 >= nl.get(cy);
     int contentLength = nl.get(nl.size() - 1);
-    int contentLimit = span > 0 ? contentLength - 1 : contentLength;
+    int contentLimit = contentLength - 1;
     if(lineStart + cx + 1 <= contentLimit) {
       if (shouldIncrementCY) {
         cx = 0;
@@ -81,14 +81,14 @@ public class CharacterQuantum extends Quantum {
     return ca;
   }
 
-  private int moveDown(ArrayList<Integer> nextLineIndices, int span) {
+  private int moveDown(ArrayList<Integer> nl, int span) {
     int cx = emc.getCX();
+    int vcx = emc.getVirtualCX();
     int cy = emc.getCY();
     int canvasWidth = emc.getCanvasWidth();
-    int[] shortBounds = RelativeLineBoundCalculator.getShort(cx, cy, nextLineIndices);
-    int vcx = emc.getVirtualCX();
+    int[] shortBounds = RelativeLineBoundCalculator.getShort(cx, cy, nl);
     boolean isOnLastShortLineInLongLine = shortBounds[1] - shortBounds[0] < canvasWidth;
-    boolean isAtEndOfEditorContent = cy == nextLineIndices.size() - 1 && isOnLastShortLineInLongLine;
+    boolean isAtEndOfEditorContent = cy == nl.size() - 1 && isOnLastShortLineInLongLine;
     boolean shouldIncrementCY = isOnLastShortLineInLongLine && !isAtEndOfEditorContent;
     if (shouldIncrementCY) {
       emc.putCY(++cy);
@@ -96,7 +96,7 @@ public class CharacterQuantum extends Quantum {
     } else if (!isAtEndOfEditorContent) {
       vcx += canvasWidth;
     }
-    int longLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, nextLineIndices);
+    int longLineLength = RelativeLineBoundCalculator.getLongLineLength(cy, nl);
     int longLineLimit = longLineLength - 1;
     cx = Math.min(vcx, longLineLimit);
     emc.putCX(cx);
