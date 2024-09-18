@@ -16,23 +16,23 @@ public class CharacterQuantum extends Quantum {
 
   @Override
   public int move(String editorContent, ArrayList<Integer> nextLineIndices, MovementVector mv) {
-    int realCA = emc.getCA();
+    int ca = emc.getCA();
     int span = emc.getSpan();
     if(mv.dx != 0) {
       if(mv.dx > 0) {
-        realCA = moveRight(nextLineIndices, span);
+        ca = moveRight(nextLineIndices, span);
       } else {
-        realCA = moveLeft(nextLineIndices);
+        ca = moveLeft(nextLineIndices);
       }
     }
     if(mv.dy != 0) {
       if(mv.dy > 0) {
-        realCA = moveDown(nextLineIndices, span);
+        ca = moveDown(nextLineIndices, span);
       } else {
-        realCA = moveUp(nextLineIndices);
+        ca = moveUp(nextLineIndices);
       }
     }
-    return realCA;
+    return ca;
   }
 
   private int moveRight(ArrayList<Integer> nl, int span) {
@@ -42,7 +42,7 @@ public class CharacterQuantum extends Quantum {
     int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
     boolean shouldIncrementCY = lineStart + cx + 1 >= nl.get(cy);
     int contentLength = nl.get(nl.size() - 1);
-    int contentLimit = contentLength - 1;
+    int contentLimit = span > 0 || lineStart + cx + 1 > contentLength ? contentLength - 1 : contentLength;
     if(lineStart + cx + 1 <= contentLimit) {
       if (shouldIncrementCY) {
         cx = 0;

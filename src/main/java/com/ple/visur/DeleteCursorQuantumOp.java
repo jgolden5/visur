@@ -1,5 +1,7 @@
 package com.ple.visur;
 
+import java.util.ArrayList;
+
 public class DeleteCursorQuantumOp implements Operator {
   @Override
   public void execute(Object opInfo) {
@@ -10,20 +12,18 @@ public class DeleteCursorQuantumOp implements Operator {
       int endBound = emc.getCursorQuantumEnd();
       String editorContent = emc.getEditorContent();
       String editorContentBeforeDeletedPortion = editorContent.substring(0, startBound);
-      String editorContentAfterDeletedPortion = editorContent.substring(endBound, editorContent.length());
+      String editorContentAfterDeletedPortion = editorContent.substring(endBound);
       String resultingEditorContent = editorContentBeforeDeletedPortion + editorContentAfterDeletedPortion;
       emc.putEditorContent(resultingEditorContent);
       int ca = emc.getCA();
-      if(ca > resultingEditorContent.length()) {
-        ca = resultingEditorContent.length();
+      if(ca > resultingEditorContent.length() - 1) {
+        ca = resultingEditorContent.length() > 0 ? resultingEditorContent.length() - 1 : 0;
         emc.putCA(ca);
       }
-      if(ca < emc.getCanvasStart()) {
-        emc.putCanvasStart(ca);
-        emc.putFY(emc.getCY());
-      }
+      ArrayList<Integer> nl = emc.getNextLineIndices();
+      emc.checkThenScrollUpLines(ca, emc.getCY(), nl);
       Quantum cursorQuantum = emc.getCursorQuantum();
-      int[] bounds = cursorQuantum.getBoundaries(ca, emc.getNextLineIndices(), span, false);
+      int[] bounds = cursorQuantum.getBoundaries(ca, nl, span, false);
       emc.putCursorQuantumStartAndScroll(bounds[0]);
       emc.putCursorQuantumEndAndScroll(bounds[1]);
     }
