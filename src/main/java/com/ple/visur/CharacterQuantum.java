@@ -83,10 +83,15 @@ public class CharacterQuantum extends Quantum {
   }
 
   private boolean getIsAtEndOfEditorContent(ArrayList<Integer> nl, int cy, int span, boolean isOnLastShortOfLong) {
-    int cyOfLastLong = nl.size() - 1;
-    int cyOfLastValidLongLineInContent = span > 0 ? cyOfLastLong - 1 : cyOfLastLong;
-    boolean isOnLastValidLongOfContent = cy >= cyOfLastValidLongLineInContent;
-    return isOnLastValidLongOfContent && isOnLastShortOfLong;
+    if(isOnLastShortOfLong) {
+      int editorContentLength = nl.get(nl.size() - 1);
+      int lastLineStart = nl.size() > 1 ? nl.get(nl.size() - 2) : 0;
+      boolean lastCharInContentIsNewline = editorContentLength == lastLineStart;
+      int lastValidCY = span > 0 && lastCharInContentIsNewline ? nl.size() - 2 : nl.size() - 1;
+      return cy >= lastValidCY;
+    } else {
+      return false;
+    }
   }
 
   private int moveUp(ArrayList<Integer> nextLineIndices) {
