@@ -19,6 +19,7 @@ public class DeleteCursorQuantumOp implements Operator {
       if(ca > resultingEditorContent.length() - 1) {
         ca = resultingEditorContent.length() > 0 ? resultingEditorContent.length() - 1 : 0;
         emc.putCA(ca);
+        emc.putVirtualCX(emc.getCX());
       }
       ArrayList<Integer> nl = emc.getNextLineIndices();
       emc.checkThenScrollUpLines(ca, emc.getCY(), nl);
