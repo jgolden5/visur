@@ -93,21 +93,21 @@ public class EditorModelCoupler {
   }
 
   public int getCanvasEnd() {
-    int canvasHeight = getCanvasHeight() - 1; //gets decremented because last line on canvas isn't used for content
+    int canvasHeight = getCanvasHeight() - 1; //because last line on actual canvas isn't used for content
     int canvasWidth = getCanvasWidth();
-    int row = 0;
+    int rowsAdded = 0;
     int canvasEnd = getCanvasStart();
-    int y = getFY();
+    int fy = getFY();
     ArrayList<Integer> nl = getNextLineIndices();
-    while(row < canvasHeight && y < nl.size()) {
-      int nextLineStart = nl.get(y);
+    while(rowsAdded < canvasHeight && fy < nl.size()) {
+      int nextLineStart = nl.get(fy);
       if(canvasEnd + canvasWidth < nextLineStart) {
         canvasEnd += canvasWidth;
       } else {
-        canvasEnd = y < nl.size() - 1 ? nextLineStart - 1 : nextLineStart;
-        y++;
+        canvasEnd = fy < nl.size() - 1 ? nextLineStart - 1 : nextLineStart;
+        fy++;
       }
-      row++;
+      rowsAdded++;
     }
     return canvasEnd;
   }
@@ -353,10 +353,8 @@ public class EditorModelCoupler {
 
   public void putCursorQuantumStartAndScroll(int startBound) {
     putCursorQuantumStart(startBound);
-    if(getCanvasStart() > startBound) {
-      while (getCanvasStart() > startBound) {
-        decrementCanvasStart();
-      }
+    while (getCanvasStart() > startBound) {
+      decrementCanvasStart();
     }
   }
 
@@ -369,10 +367,8 @@ public class EditorModelCoupler {
     int startBound = getCursorQuantumStart();
     String cursorQuantumName = getCursorQuantum().getName();
     int limit = cursorQuantumName.equals("character") ? startBound : endBound;
-    if(getCanvasEnd() < limit) {
-      while (getCanvasEnd() < limit) {
-        incrementCanvasStart();
-      }
+    while (getCanvasEnd() < limit) {
+      incrementCanvasStart();
     }
   }
 
