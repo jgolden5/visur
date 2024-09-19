@@ -25,7 +25,7 @@ public class CanvasWasChangedVerticle extends AbstractVisurVerticle {
       String editorContent = emc.getEditorContent();
 
       int lineStart = cy > 0 ? nextLineIndices.get(cy - 1) : 0;
-      int lineEnd = nextLineIndices.get(cy) - 1;
+      int lineEnd = Math.max(nextLineIndices.get(cy) - 1, 0);
       String line = editorContent.substring(lineStart, lineEnd);
       if(line != null) {
         System.out.println("Line " + i + ": " + line);
