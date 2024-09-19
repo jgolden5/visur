@@ -43,7 +43,6 @@ public class CharacterQuantum extends Quantum {
       emc.putCA(++ca);
       emc.putVirtualCX(emc.getCX());
     }
-    emc.checkThenScrollDownSingleLine(ca);
     return ca;
   }
 
@@ -53,7 +52,6 @@ public class CharacterQuantum extends Quantum {
       emc.putCA(--ca);
       emc.putVirtualCX(emc.getCX());
     }
-    emc.checkThenScrollUpSingleLine(ca);
     return ca;
   }
 
@@ -77,9 +75,7 @@ public class CharacterQuantum extends Quantum {
     cx = Math.min(vcx, longLineLimit);
     emc.putCX(cx);
     emc.putVirtualCX(vcx);
-    int ca = emc.getCA();
-    emc.checkThenScrollDownSingleLine(ca);
-    return ca;
+    return emc.getCA();
   }
 
   private boolean getIsAtEndOfEditorContent(ArrayList<Integer> nl, int cy, int span, boolean isOnLastShortOfLong) {
@@ -114,9 +110,7 @@ public class CharacterQuantum extends Quantum {
     }
     emc.putCX(cx);
     emc.putVirtualCX(vcx);
-    int ca = emc.getCA();
-    emc.checkThenScrollUpSingleLine(ca);
-    return ca;
+    return emc.getCA();
   }
 
   @Override

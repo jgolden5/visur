@@ -64,9 +64,7 @@ public class LineQuantum extends Quantum {
       int cx = Math.min(vcx, lineEndLimit);
       emc.putCX(cx);
     }
-    int ca = emc.getCA();
-    emc.checkThenScrollDownLines(ca, cy, nl);
-    return ca;
+    return emc.getCA();
   }
 
   private int moveUp(ArrayList<Integer> nl) {
@@ -79,9 +77,7 @@ public class LineQuantum extends Quantum {
       int cx = Math.min(vcx, lineEndLimit);
       emc.putCX(cx);
     }
-    int ca = emc.getCA();
-    emc.checkThenScrollUpLines(ca, cy, nl);
-    return ca;
+    return emc.getCA();
   }
 
   private boolean isInMiddleOfQuantum(int bound) {
@@ -108,7 +104,6 @@ public class LineQuantum extends Quantum {
       boolean shouldDecrementNextLineIndex = !(lastCharInContentIsNewline && cyIsOnLastLongInContent);
       destination = shouldDecrementNextLineIndex ? nl.get(cy) - 1 : nl.get(cy);
     }
-    emc.checkThenScrollDownLines(destination, emc.getCY(), nl);
     return destination;
   }
 
@@ -123,7 +118,6 @@ public class LineQuantum extends Quantum {
         destination = cy > 0 ? nl.get(cy - 1) : 0;
       }
     }
-    emc.checkThenScrollUpLines(destination, emc.getCY(), nl);
     return destination;
   }
 

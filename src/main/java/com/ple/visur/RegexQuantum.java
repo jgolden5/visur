@@ -151,8 +151,6 @@ public class RegexQuantum extends Quantum {
       destination = cq.move(editorContent, newlineIndices, mv);
       mv.dy -= mv.dy > 0 ? 1 : -1;
     }
-    emc.checkThenScrollDownSingleLine(destination);
-    emc.checkThenScrollUpSingleLine(destination);
     return destination;
   }
 

@@ -22,7 +22,6 @@ public class DeleteCursorQuantumOp implements Operator {
         emc.putVirtualCX(emc.getCX());
       }
       ArrayList<Integer> nl = emc.getNextLineIndices();
-      emc.checkThenScrollUpLines(ca, emc.getCY(), nl);
       Quantum cursorQuantum = emc.getCursorQuantum();
       int[] bounds = cursorQuantum.getBoundaries(ca, nl, span, false);
       emc.putCursorQuantumStartAndScroll(bounds[0]);

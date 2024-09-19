@@ -422,50 +422,6 @@ public class EditorModelCoupler {
     putCanvasStart(canvasStart);
   }
 
-  public void checkThenScrollDownSingleLine(int ca) {
-    if(ca > getCanvasEnd()) {
-      incrementCanvasStart();
-    }
-  }
-
-  public void checkThenScrollUpSingleLine(int ca) {
-    if(ca < getCanvasStart()) {
-      decrementCanvasStart();
-    }
-  }
-
-  public void checkThenScrollDownLines(int ca, int cy, ArrayList<Integer> nl) {
-    int canvasEnd = getCanvasEnd();
-    if(ca > canvasEnd) {
-      int lineStart = cy > 0 ? nl.get(cy - 1) : 0;
-      int lineEnd = cy < nl.size() - 1 ? nl.get(cy) - 1 : nl.get(cy);
-      double lineLength = lineEnd - lineStart;
-      double canvasWidth = getCanvasWidth();
-      int numberOfTimesToIncrementCanvasStart = (int)Math.ceil(lineLength / canvasWidth);
-      if(numberOfTimesToIncrementCanvasStart == 0) numberOfTimesToIncrementCanvasStart = 1;
-      while(numberOfTimesToIncrementCanvasStart > 0) {
-        incrementCanvasStart();
-        numberOfTimesToIncrementCanvasStart--;
-      }
-    }
-  }
-
-  public void checkThenScrollUpLines(int ca, int cy, ArrayList<Integer> nl) {
-    int canvasStart = getCanvasStart();
-    if(ca < canvasStart) {
-      int prevLineStart = cy > 0 ? nl.get(cy - 1) : 0;
-      int relevantPrevLineEnd = canvasStart - 1;
-      double prevLineLength = relevantPrevLineEnd - prevLineStart;
-      double canvasWidth = getCanvasWidth();
-      int numberOfTimesToDecrementCanvasStart = (int)Math.ceil(prevLineLength / canvasWidth); //equals number of short lines in previous long
-      if(numberOfTimesToDecrementCanvasStart == 0) numberOfTimesToDecrementCanvasStart = 1;
-      while(numberOfTimesToDecrementCanvasStart > 0) {
-        decrementCanvasStart();
-        numberOfTimesToDecrementCanvasStart--;
-      }
-    }
-  }
-
   public void reportError(String message) {
     System.out.println(message);
   }
