@@ -23,7 +23,7 @@ public class DeleteCursorQuantumOp implements Operator {
         emc.putCA(ca);
         emc.putVirtualCX(emc.getCX());
       }
-      adjustCanvas(resultingEditorContent);
+      adjustCanvas(resultingEditorContent.length());
       ArrayList<Integer> nl = emc.getNextLineIndices();
       Quantum cursorQuantum = emc.getCursorQuantum();
       int[] bounds = cursorQuantum.getBoundaries(ca, nl, span, false);
@@ -32,13 +32,17 @@ public class DeleteCursorQuantumOp implements Operator {
     }
   }
 
-  private void adjustCanvas(String resultingEditorContent) {
-    boolean canvasEndShouldBeAdjusted = emc.getCanvasEnd() >= resultingEditorContent.length() - 1 && emc.getCanvasStart() > 0;
-    while(emc.getCanvasEnd() >= resultingEditorContent.length() - 1 && emc.getCanvasStart() > 0) {
+  private void adjustCanvas(int contentLimit) {
+    int canvasStart = emc.getCanvasStart();
+    int canvasEnd = emc.getCanvasEnd();
+    int cursorQuantumEnd = emc.getCursorQuantumEnd();
+    boolean canvasStartCanBeDecremented = canvasStart > 0;
+    boolean cursorQuantumEndIsAtContentEnd = cursorQuantumEnd >= contentLimit;
+    boolean canvasEndGoesPastContentLimit = cursorQuantumEndIsAtContentEnd ? canvasEnd >= contentLimit : canvasEnd > contentLimit;
+    boolean canvasStartShouldBeDecremented = canvasEndGoesPastContentLimit && canvasStartCanBeDecremented;
+    if(canvasStartShouldBeDecremented) {
       emc.decrementCanvasStart();
-    }
-    if(canvasEndShouldBeAdjusted) {
-      emc.incrementCanvasStart();
+      adjustCanvas(contentLimit);
     }
   }
 
