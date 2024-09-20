@@ -3,9 +3,11 @@ package com.ple.visur;
 import java.util.ArrayList;
 
 public class DeleteCursorQuantumOp implements Operator {
+
+  EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
+
   @Override
   public void execute(Object opInfo) {
-    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
     int span = emc.getSpan();
     if(span > 0) {
       int startBound = emc.getCursorQuantumStart();
@@ -21,6 +23,7 @@ public class DeleteCursorQuantumOp implements Operator {
         emc.putCA(ca);
         emc.putVirtualCX(emc.getCX());
       }
+      adjustCanvasStartToAccountForCanvasEnd(resultingEditorContent);
       ArrayList<Integer> nl = emc.getNextLineIndices();
       Quantum cursorQuantum = emc.getCursorQuantum();
       int[] bounds = cursorQuantum.getBoundaries(ca, nl, span, false);
@@ -28,4 +31,15 @@ public class DeleteCursorQuantumOp implements Operator {
       emc.putCursorQuantumEndAndScroll(bounds[1]);
     }
   }
+
+  private void adjustCanvasStartToAccountForCanvasEnd(String resultingEditorContent) {
+    boolean canvasEndShouldBeAdjusted = emc.getCanvasEnd() >= resultingEditorContent.length() - 1 && emc.getCanvasStart() > 0;
+    while(emc.getCanvasEnd() >= resultingEditorContent.length() - 1 && emc.getCanvasStart() > 0) {
+      emc.decrementCanvasStart();
+    }
+    if(canvasEndShouldBeAdjusted) {
+      emc.incrementCanvasStart();
+    }
+  }
+
 }
