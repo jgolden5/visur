@@ -101,7 +101,7 @@ public class LineQuantum extends Quantum {
       int cy = emc.getCY();
       boolean lastCharInContentIsNewline = nl.get(nl.size() - 1) == '\n';
       boolean cyIsOnLastLongInContent = cy == nl.size() - 1;
-      boolean shouldDecrementNextLineIndex = !(lastCharInContentIsNewline && cyIsOnLastLongInContent);
+      boolean shouldDecrementNextLineIndex = !(lastCharInContentIsNewline || cyIsOnLastLongInContent);
       destination = shouldDecrementNextLineIndex ? nl.get(cy) - 1 : nl.get(cy);
     }
     return destination;
