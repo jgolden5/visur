@@ -23,7 +23,7 @@ public class DeleteCursorQuantumOp implements Operator {
         emc.putCA(ca);
         emc.putVirtualCX(emc.getCX());
       }
-      adjustCanvasStartToAccountForCanvasEnd(resultingEditorContent);
+      adjustCanvas(resultingEditorContent);
       ArrayList<Integer> nl = emc.getNextLineIndices();
       Quantum cursorQuantum = emc.getCursorQuantum();
       int[] bounds = cursorQuantum.getBoundaries(ca, nl, span, false);
@@ -32,7 +32,7 @@ public class DeleteCursorQuantumOp implements Operator {
     }
   }
 
-  private void adjustCanvasStartToAccountForCanvasEnd(String resultingEditorContent) {
+  private void adjustCanvas(String resultingEditorContent) {
     boolean canvasEndShouldBeAdjusted = emc.getCanvasEnd() >= resultingEditorContent.length() - 1 && emc.getCanvasStart() > 0;
     while(emc.getCanvasEnd() >= resultingEditorContent.length() - 1 && emc.getCanvasStart() > 0) {
       emc.decrementCanvasStart();

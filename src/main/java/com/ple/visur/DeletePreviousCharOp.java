@@ -11,12 +11,12 @@ public class DeletePreviousCharOp implements Operator {
     String editorContentBeforeChar = ca > 0 ? editorContent.substring(0, ca - 1) : "";
     String editorContentAfterChar = editorContent.substring(ca);
     String resultingEditorContent = editorContentBeforeChar + editorContentAfterChar;
-    adjustCanvasStartToAccountForCanvasEnd(editorContent, resultingEditorContent, ca);
+    adjustCanvas(editorContent, resultingEditorContent, ca);
     emc.putEditorContent(resultingEditorContent);
     emc.putCA(ca);
   }
 
-  private void adjustCanvasStartToAccountForCanvasEnd(String originalEditorContent, String resultingEditorContent, int ca) {
+  private void adjustCanvas(String originalEditorContent, String resultingEditorContent, int ca) {
     if(ca >= originalEditorContent.length()) {
       int cx = emc.getCX();
       if (!resultingEditorContent.equals(originalEditorContent) && cx % emc.getCanvasWidth() == 0) {
