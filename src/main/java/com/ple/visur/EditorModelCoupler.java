@@ -419,7 +419,7 @@ public class EditorModelCoupler {
     int fy = getFY();
     fy = Math.min(fy, nl.size() - 1);
     int currentLineStart = fy > 0 ? nl.get(fy - 1) : 0;
-    if(nl.get(fy) > canvasStart) {
+    if(nl.get(fy) >= canvasStart) {
       int canvasWidth = getCanvasWidth();
       if (canvasStart > currentLineStart) {
         canvasStart -= canvasWidth;
