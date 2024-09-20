@@ -21,13 +21,6 @@ public class DeleteCursorQuantumOp implements Operator {
         emc.putCA(ca);
         emc.putVirtualCX(emc.getCX());
       }
-      boolean canvasEndShouldBeAdjusted = emc.getCanvasEnd() >= resultingEditorContent.length() - 1 && emc.getCanvasStart() > 0;
-      while(emc.getCanvasEnd() >= resultingEditorContent.length() - 1 && emc.getCanvasStart() > 0) {
-        emc.decrementCanvasStart();
-      }
-      if(canvasEndShouldBeAdjusted) {
-        emc.incrementCanvasStart();
-      }
       ArrayList<Integer> nl = emc.getNextLineIndices();
       Quantum cursorQuantum = emc.getCursorQuantum();
       int[] bounds = cursorQuantum.getBoundaries(ca, nl, span, false);

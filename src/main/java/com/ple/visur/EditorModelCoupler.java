@@ -367,8 +367,17 @@ public class EditorModelCoupler {
     int startBound = getCursorQuantumStart();
     String cursorQuantumName = getCursorQuantum().getName();
     int limit = cursorQuantumName.equals("character") ? startBound : endBound;
-    while (getCanvasEnd() < limit) {
+    int contentLength = getEditorContent().length();
+    boolean canvasEndShouldBeAdjusted = getCanvasEnd() >= contentLength - 1 && getCanvasStart() > 0;
+    if(canvasEndShouldBeAdjusted) {
+      while (getCanvasEnd() >= contentLength - 1 && getCanvasStart() > 0) {
+        decrementCanvasStart();
+      }
       incrementCanvasStart();
+    } else {
+      while (getCanvasEnd() < limit) {
+        incrementCanvasStart();
+      }
     }
   }
 
