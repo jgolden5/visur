@@ -8,7 +8,49 @@ image:https://img.shields.io/badge/vert.x-4.1.3-purple.svg[link="https://vertx.i
 
 This application was generated using http://start.vertx.io
 
-##Main Visur Features:
+### Current Visur Features
+
+1. **Quantums**: Defines cursor boundaries and search scopes. Implementations include:
+   - **Character**: Cursor moves one character at a time.
+   - **Regex (Word)**: Searches using regex patterns.
+   - **Line (Wrapped)**: Moves between wrapped lines.
+   - **Document**: Navigates through the entire document.
+
+2. **Modes and Submodes**: Modes encapsulate commands; submodes allow temporary command changes. Supported modes:
+   - **Navigate (Normal)**: General navigation commands.
+   - **Insert**: For typing input.
+   - **Replace**: Replaces existing text. 
+   - Submodes include commands like `quantumStart`, `searchForward`, and `changeScope`, allowing for granular control during editing.
+
+3. **Words**: Parts of **VisurCommand** strings categorized into:
+   - **LiteralNumber** and **LiteralString**: Inputs for variable assignments.
+   - **Assignment**: Sets variables based on preceding literal types.
+   - **NativeOp**: Refers to operators in the current keymap.
+	 - **Recall**: Fetches variables by name.
+
+4. **Commands**: Strings of words executed in a reverse-polish notation manner, managed by the CommandCompileService for efficient parsing and execution.
+
+5. **Operators**: Functionality invoked by `nativeWordOp` to modify the editor model's state, executed through the CommandExecutionService using values from the `executionDataStack`.
+
+6. **Cursor Movement**: Supports both horizontal and vertical movement across all quantums, facilitating precise navigation.
+
+7. **Deletion**: Deletes text within the cursor selection for all quantums, enhancing text editing capabilities.
+
+8. **Typing**: Full support for user input anywhere in the document, allowing smooth text addition.
+
+9. **Spans 0-1**: Indicates how many quantums the cursor occupies. A span of 0 collapses the cursor into a thin line, akin to insert mode in Vim.
+
+10. **Replacing**: Functions like Vim’s replace mode. Allows text replacement but does not currently undo replacement changes with backspacing.
+
+11. **QuantumStart/End**: Submodes for navigating to the first or last instance of a smaller quantum within a larger one, changing cursor positions based on quantum bounds.
+
+12. **Searching**: Enters searchForward or searchBackward submodes for finding matches, moving the cursor to the first occurrence within scope.
+
+13. **Repeat Last Search**: Implements movement to next or previous search results, starting from the current cursor position.
+
+14. **Scope Changing**: Users can modify the search scope dynamically to any of the supported quantums, making search operations flexible.
+
+### Future Visur Features:
 1. Edit objects not just text files. Type-sensitive editor. Because of that, it is also language-independent
 2. Client-server architetures. Multiple users can edit the same files at the same time. Like Google Docs
 3. Conditional logic & arithmetic operation within macro definition

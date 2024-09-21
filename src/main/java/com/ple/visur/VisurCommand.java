@@ -19,4 +19,5 @@ public class VisurCommand {
       opInfo.add(operatorWithInfo[1]);
     }
   }
+
 }
