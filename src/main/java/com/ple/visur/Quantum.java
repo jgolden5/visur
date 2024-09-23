@@ -51,6 +51,7 @@ public abstract class Quantum implements Shareable {
     QuantumNameToQuantum quantumNameToQuantum = emc.getQuantumNameToQuantum();
     Quantum quantumFromStack = quantumNameToQuantum.get(otherQuantumName);
     int spanMinimumOne = Math.max(emc.getSpan(), 1);
+    int actualSpan = emc.getSpan();
     int distanceOfCurrentQuantumBounds = getQuantumBoundsLengthAtSpan(spanMinimumOne);
     int distanceOfOtherQuantumBounds = quantumFromStack.getQuantumBoundsLengthAtSpan(spanMinimumOne);
     Quantum scopeQuantum;
@@ -60,11 +61,10 @@ public abstract class Quantum implements Shareable {
       cursorQuantum = quantumFromStack;
     } else {
       scopeQuantum = quantumFromStack;
-      cursorQuantum = this;
+      cursorQuantum = actualSpan == 0 ? quantumNameToQuantum.get("character") : this;
     }
     int ca = emc.getCA();
     int[] scopeBounds = scopeQuantum.getBoundaries(ca, emc.getNextLineIndices(), spanMinimumOne, false);
-    int actualSpan = emc.getSpan();
     ca = actualSpan > 0 ? scopeBounds[1] - 1 : scopeBounds[1];
     emc.putCA(ca);
     emc.putVirtualCX(emc.getCX());
