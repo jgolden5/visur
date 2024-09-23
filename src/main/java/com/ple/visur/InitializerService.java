@@ -319,10 +319,10 @@ public class InitializerService {
       scs.compile("\"span\" pushSubmode")
     );
     keymap.put(KeyPressed.from("i"),
-      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"character\" quantumStart \"insert\" changeMode 0 setSpan \"character\" changeCursorQuantum")
+      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> 0 setSpan \"character\" quantumStart \"insert\" changeMode \"character\" changeCursorQuantum")
     );
     keymap.put(KeyPressed.from("a"),
-      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"character\" quantumEnd \"insert\" changeMode 0 setSpan \"character\" changeCursorQuantum 1 0 relativeMove")
+      scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> 0 setSpan \"character\" quantumEnd \"insert\" changeMode \"character\" changeCursorQuantum")
     );
     keymap.put(KeyPressed.from("o"),
       scs.compile("\"span\" \"tempSpan\" -> \"cursorQuantum\" \"tempCursorQuantum\" -> \"replace\" changeMode 0 setSpan \"character\" changeCursorQuantum")
