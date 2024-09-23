@@ -13,8 +13,7 @@ public class QuantumEndSubmodeHandler implements KeymapHandler {
     KeyToQuantumName keyToQuantumName = emc.getKeyToQuantumName();
     String quantumName = keyToQuantumName.get(key);
     String sentence = "";
-    int span = emc.getSpan();
-    if(quantumName != null && span > 0) {
+    if(quantumName != null) {
       sentence += "\"" + quantumName + "\" quantumEnd ";
     }
     sentence += "removeSubmode";
