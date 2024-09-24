@@ -36,7 +36,7 @@ This application was generated using http://start.vertx.io
 
 7. **Deletion**: Deletes text within the cursor selection for all quantums, enhancing text editing capabilities.
 
-8. **Typing**: Full support for user input anywhere in the document, allowing smooth text addition.
+8. **Typing**: Full support for user input anywhere in the document, allowing smooth text addition. i and a move to beginning and end quantum before insertion, respectively
 
 9. **Spans 0-1**: Indicates how many quantums the cursor occupies. A span of 0 collapses the cursor into a thin line, akin to insert mode in Vim.
 
