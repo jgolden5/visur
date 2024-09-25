@@ -176,7 +176,11 @@ function toXContent(x) {
   return x * cellWidth + cxContentOffset
 }
 
-function toXCursor(x) {
+function toXCursorSpanZero(x) {
+  return x * cellWidth - 0.5
+}
+
+function toXCursorSpanGreaterThanZero(x) {
   return x * cellWidth + cxCursorOffset
 }
 
@@ -194,12 +198,12 @@ function drawCharacter(x, y, characterToDraw) {
 
 function drawCursor(x, y, spanEqualsZero) {
   if(spanEqualsZero) {
-    ctx.fillText("|", toXContent(x), toYContent(y))
+    ctx.fillText("|", toXCursorSpanZero(x), toYContent(y))
   } else {
     const rectWidth = cellWidth;
     const rectHeight = cellHeight;
     ctx.fillStyle = "#FFD700";
-    ctx.fillRect(toXCursor(x), toYCursor(y) - cellHeight, rectWidth, rectHeight);
+    ctx.fillRect(toXCursorSpanGreaterThanZero(x), toYCursor(y) - cellHeight, rectWidth, rectHeight);
     ctx.fillStyle = "black";
   }
 }
