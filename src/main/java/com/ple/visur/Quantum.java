@@ -30,6 +30,23 @@ public abstract class Quantum implements Shareable {
     setSmallestQuantum(cursorQuantum);
   }
 
+  void quantumEnd() {
+    int actualSpan = emc.getSpan();
+    int spanMinimumOne = Math.max(actualSpan, 1);
+    Quantum[] scopeAndCursorQuantums = getScopeAndCursorQuantums(spanMinimumOne);
+    Quantum scopeQuantum = scopeAndCursorQuantums[0];
+    Quantum cursorQuantum = scopeAndCursorQuantums[1];
+    int ca = emc.getCA();
+    int[] scopeBounds = scopeQuantum.getBoundaries(ca, emc.getNextLineIndices(), spanMinimumOne, false);
+    ca = actualSpan > 0 ? scopeBounds[1] - 1 : scopeBounds[1];
+    emc.putCA(ca);
+    emc.putVirtualCX(emc.getCX());
+    int[] newCursorBounds = cursorQuantum.getBoundaries(ca, emc.getNextLineIndices(), spanMinimumOne, false);
+    emc.putCursorQuantumStartAndScroll(newCursorBounds[0]);
+    emc.putCursorQuantumEndAndScroll(newCursorBounds[1]);
+    setSmallestQuantum(cursorQuantum);
+  }
+
   private void setSmallestQuantum(Quantum smallestQuantum) {
     if(!smallestQuantum.equals(emc.getCursorQuantum())) {
       emc.putCursorQuantum(smallestQuantum);
@@ -53,23 +70,6 @@ public abstract class Quantum implements Shareable {
       cursorQuantum = this;
     }
     return new Quantum[]{scopeQuantum, cursorQuantum};
-  }
-
-  void quantumEnd() {
-    int actualSpan = emc.getSpan();
-    int spanMinimumOne = Math.max(actualSpan, 1);
-    Quantum[] scopeAndCursorQuantums = getScopeAndCursorQuantums(spanMinimumOne);
-    Quantum scopeQuantum = scopeAndCursorQuantums[0];
-    Quantum cursorQuantum = scopeAndCursorQuantums[1];
-    int ca = emc.getCA();
-    int[] scopeBounds = scopeQuantum.getBoundaries(ca, emc.getNextLineIndices(), spanMinimumOne, false);
-    ca = actualSpan > 0 ? scopeBounds[1] - 1 : scopeBounds[1];
-    emc.putCA(ca);
-    emc.putVirtualCX(emc.getCX());
-    int[] newCursorBounds = cursorQuantum.getBoundaries(ca, emc.getNextLineIndices(), spanMinimumOne, false);
-    emc.putCursorQuantumStartAndScroll(newCursorBounds[0]);
-    emc.putCursorQuantumEndAndScroll(newCursorBounds[1]);
-    setSmallestQuantum(cursorQuantum);
   }
 
   int getQuantumBoundsLengthAtSpan(int span) {
