@@ -20,7 +20,7 @@ canvas.height = window.innerHeight
 console.log("canvas width = " + canvas.width)
 console.log("canvas height = " + canvas.height)
 
-let cellWidth = 20
+let cellWidth = 15
 let cellHeight = 20
 let canvasWidth = Math.floor(canvas.width / cellWidth)
 let canvasHeight = Math.floor(canvas.height / cellHeight)
@@ -174,7 +174,7 @@ function toXContent(x) { //as opposed to XCursor
 }
 
 function toXCursor(x) {
-  return x * cellWidth + cxOffset - 6
+  return x * cellWidth
 }
 
 function toY(y) {
