@@ -20,7 +20,7 @@ canvas.height = window.innerHeight
 console.log("canvas width = " + canvas.width)
 console.log("canvas height = " + canvas.height)
 
-let cellWidth = 15
+let cellWidth = 20
 let cellHeight = 20
 let canvasWidth = Math.floor(canvas.width / cellWidth)
 let canvasHeight = Math.floor(canvas.height / cellHeight)
