@@ -11,10 +11,10 @@ let scopeQuantum;
 let searchTarget;
 
 let canvas = document.getElementById("mainCanvas")
-if((window.innerWidth - 5) % 20 == 0) {
+if((window.innerWidth - 5) % 21 == 0) {
   canvas.width = window.innerWidth
 } else {
-  canvas.width = window.innerWidth - (window.innerWidth - 5) % 20
+  canvas.width = window.innerWidth - (window.innerWidth - 5) % 21
 }
 canvas.height = window.innerHeight
 console.log("canvas width = " + canvas.width)
