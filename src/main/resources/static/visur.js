@@ -20,18 +20,21 @@ canvas.height = window.innerHeight
 console.log("canvas width = " + canvas.width)
 console.log("canvas height = " + canvas.height)
 
-let cellWidth = 20
+let ctx = canvas.getContext("2d")
+ctx.font = "20px courier"
+const textWidth = ctx.measureText("c").width; //measure the width of an example char
+
+let cellWidth = textWidth + 1
 let cellHeight = 20
 let canvasWidth = Math.floor(canvas.width / cellWidth)
 let canvasHeight = Math.floor(canvas.height / cellHeight)
 
-let cxOffset = 6
-let cyOffset = 20
+let cxContentOffset = 6
+let cxCursorOffset = 5
+let cyContentOffset = 20
+let cyCursorOffset = 15
 
 let numberOfTimesPageWasLoaded = 0
-
-let ctx = canvas.getContext("2d")
-ctx.font = cellWidth + "px courier"
 
 function refreshEditor() {
   numberOfTimesPageWasLoaded++
@@ -105,8 +108,8 @@ eb.onopen = function() {
   })
 
   let canvasInfo = {
-    width: (canvas.width - cxOffset) / cellWidth + 1,
-    height: (canvas.height - cyOffset) / cellHeight + 1
+    width: (canvas.width - cxContentOffset) / cellWidth + 1,
+    height: (canvas.height - cyContentOffset) / cellHeight + 1
   };
   /*canvasWasChangedEventComplete ensures that canvasWasChanged gets called before modelWasChanged so that
   getCanvasWidth is not called before putCanvasWidth */
@@ -169,24 +172,30 @@ function drawCanvas() {
   }
 }
 
-function toXContent(x) { //as opposed to XCursor
-  return x * cellWidth + cxOffset
+function toXContent(x) {
+  return x * cellWidth + cxContentOffset
 }
 
 function toXCursor(x) {
-  return x * cellWidth
+  return x * cellWidth + cxCursorOffset
 }
 
-function toY(y) {
-  return y * cellHeight + cyOffset
+function toYContent(y) {
+  return y * cellHeight + cyContentOffset
+}
+
+function toYCursor(y) {
+  return y * cellHeight + cyCursorOffset
 }
 
 function drawCharacter(x, y, characterToDraw) {
-  ctx.fillText(characterToDraw, toXContent(x), toY(y));
+  ctx.fillText(characterToDraw, toXContent(x), toYContent(y));
 }
 
 function drawCursor(x, y, cursorIcon) {
-  ctx.fillText(cursorIcon, toXCursor(x), toY(y))
+  ctx.font = "11px courier"
+  ctx.fillText(cursorIcon, toXCursor(x), toYCursor(y))
+  ctx.font = "20px courier"
 }
 
 function clearCanvas() {
