@@ -8,24 +8,12 @@ public abstract class Quantum implements Shareable {
   abstract int[] getBoundaries(int ca, ArrayList<Integer> newlineIndices, int span, boolean includeTail); //newlineIndices are only needed in CustomQuantums
   abstract int move(String editorContent, ArrayList<Integer> newlineIndices, MovementVector m);
   abstract String getName();
+  EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
   void quantumStart() {
-    EditorModelCoupler emc = ServiceHolder.editorModelCoupler;
-    ExecutionDataStack eds = emc.getExecutionDataStack();
-    String otherQuantumName = (String)eds.pop();
-    QuantumNameToQuantum quantumNameToQuantum = emc.getQuantumNameToQuantum();
-    Quantum otherQuantum = quantumNameToQuantum.get(otherQuantumName);
     int spanMinimumOne = Math.max(emc.getSpan(), 1);
-    int distanceOfCurrentQuantumBounds = getQuantumBoundsLengthAtSpan(spanMinimumOne);
-    int distanceOfOtherQuantumBounds = otherQuantum.getQuantumBoundsLengthAtSpan(spanMinimumOne);
-    Quantum scopeQuantum;
-    Quantum cursorQuantum;
-    if(distanceOfCurrentQuantumBounds > distanceOfOtherQuantumBounds) {
-      scopeQuantum = this;
-      cursorQuantum = otherQuantum;
-    } else {
-      scopeQuantum = otherQuantum;
-      cursorQuantum = this;
-    }
+    Quantum[] scopeAndCursorQuantums = getScopeAndCursorQuantums(spanMinimumOne);
+    Quantum scopeQuantum = scopeAndCursorQuantums[0];
+    Quantum cursorQuantum = scopeAndCursorQuantums[1];
     int ca = emc.getCA();
     int[] scopeBounds = scopeQuantum.getBoundaries(ca, emc.getNextLineIndices(), spanMinimumOne, false);
     ca = scopeBounds[0];
@@ -38,10 +26,28 @@ public abstract class Quantum implements Shareable {
     }
     emc.putCursorQuantumStartAndScroll(newCursorBounds[0]);
     emc.putCursorQuantumEndAndScroll(newCursorBounds[1]);
-    if(otherQuantum.getName().equals(cursorQuantum.getName())) {
-      emc.putCursorQuantum(otherQuantum);
-      System.out.println("quantum changed from " + getName() + " to " + otherQuantum.getName());
+    if(cursorQuantum.equals(emc.getCursorQuantum())) {
+      emc.putCursorQuantum(cursorQuantum);
     }
+  }
+
+  private Quantum[] getScopeAndCursorQuantums(int spanMinimumOne) {
+    ExecutionDataStack eds = emc.getExecutionDataStack();
+    String otherQuantumName = (String)eds.pop();
+    QuantumNameToQuantum quantumNameToQuantum = emc.getQuantumNameToQuantum();
+    Quantum otherQuantum = quantumNameToQuantum.get(otherQuantumName);
+    int distanceOfCurrentQuantumBounds = getQuantumBoundsLengthAtSpan(spanMinimumOne);
+    int distanceOfOtherQuantumBounds = otherQuantum.getQuantumBoundsLengthAtSpan(spanMinimumOne);
+    Quantum scopeQuantum;
+    Quantum cursorQuantum;
+    if(distanceOfCurrentQuantumBounds > distanceOfOtherQuantumBounds) {
+      scopeQuantum = this;
+      cursorQuantum = otherQuantum;
+    } else {
+      scopeQuantum = otherQuantum;
+      cursorQuantum = this;
+    }
+    return new Quantum[]{scopeQuantum, cursorQuantum};
   }
 
   void quantumEnd() {
