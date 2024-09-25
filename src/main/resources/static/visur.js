@@ -32,7 +32,7 @@ let canvasHeight = Math.floor(canvas.height / cellHeight)
 let cxContentOffset = 6
 let cxCursorOffset = 5
 let cyContentOffset = 20
-let cyCursorOffset = 15
+let cyCursorOffset = 24
 
 let numberOfTimesPageWasLoaded = 0
 
@@ -144,18 +144,18 @@ function drawCanvas() {
   for(let absX = canvasStart; absX <= canvasEnd; absX++) {
     if(span > 0) {
       if(absX >= cursorQuantumStart && absX < cursorQuantumEnd) {
-        drawCursor(x, y, "🟨")
+        drawCursor(x, y, false)
       } else if(absX == cursorQuantumStart && absX == cursorQuantumEnd) {
-        drawCursor(x, y, "⎹")
+        drawCursor(x, y, true)
       }
     } else {
       if(isAtQuantumStart) {
         if(absX == cursorQuantumStart) {
-          drawCursor(x, y, "⎹")
+          drawCursor(x, y, true)
         }
       } else {
         if(absX == cursorQuantumEnd) {
-          drawCursor(x, y, "⎹")
+          drawCursor(x, y, true)
         }
       }
     }
@@ -192,10 +192,16 @@ function drawCharacter(x, y, characterToDraw) {
   ctx.fillText(characterToDraw, toXContent(x), toYContent(y));
 }
 
-function drawCursor(x, y, cursorIcon) {
-  ctx.font = "11px courier"
-  ctx.fillText(cursorIcon, toXCursor(x), toYCursor(y))
-  ctx.font = "20px courier"
+function drawCursor(x, y, spanEqualsZero) {
+  if(spanEqualsZero) {
+    ctx.fillText("|", toXContent(x), toYContent(y))
+  } else {
+    const rectWidth = cellWidth;
+    const rectHeight = cellHeight;
+    ctx.fillStyle = "#FFD700";
+    ctx.fillRect(toXCursor(x), toYCursor(y) - cellHeight, rectWidth, rectHeight);
+    ctx.fillStyle = "black";
+  }
 }
 
 function clearCanvas() {
