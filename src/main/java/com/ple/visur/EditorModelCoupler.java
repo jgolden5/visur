@@ -72,10 +72,6 @@ public class EditorModelCoupler {
     return ecs.getNextLineIndices(editorModel);
   }
 
-  public int[] calcLongLineBoundaries(int realCA, ArrayList<Integer> newlineIndices, int span, boolean includeTail) {
-    return ecs.calcLongLineBoundaries(realCA, newlineIndices, span, includeTail, editorModel);
-  }
-
   public int getCanvasWidth() {
     return ecs.getCanvasWidth(editorModel);
   }
@@ -112,43 +108,6 @@ public class EditorModelCoupler {
     return canvasEnd;
   }
 
-  public int[] calcShortLineBoundaries() {
-    int[] shortBounds = new int[2];
-    int canvasWidth = getCanvasWidth();
-    int cx = getCX();
-    for(int i = cx; i > 0; i--) {
-      if(i % canvasWidth == 0) {
-        shortBounds[0] = i;
-        break;
-      }
-    }
-
-    String currentLine = getCurrentLine();
-    int currentLineLength = currentLine.length();
-    for(int i = cx > 0 ? cx : cx + 1; i < currentLineLength; i++) {
-      if(i % canvasWidth == 0 || i == currentLineLength - 1) {
-        shortBounds[1] = i;
-        break;
-      }
-    }
-    return shortBounds;
-  }
-
-  public String getCurrentLine() {
-    String currentLine;
-    String editorContent = getEditorContent();
-    ArrayList<Integer> newlineIndices = getNextLineIndices();
-    int cy = getCY();
-    if(cy == 0) {
-      currentLine = editorContent.substring(0, newlineIndices.get(cy));
-    } else if(cy == newlineIndices.size()) {
-      currentLine = editorContent.substring(newlineIndices.get(cy - 1) + 1);
-    } else {
-      currentLine = editorContent.substring(newlineIndices.get(cy - 1), newlineIndices.get(cy));
-    }
-    return currentLine;
-  }
-
   public EditorMode getEditorMode() {
     return (EditorMode)editorModel.get(editorMode);
   }
@@ -160,11 +119,6 @@ public class EditorModelCoupler {
 
   public Stack<EditorSubmode> getEditorSubmodeStack() {
     return (Stack<EditorSubmode>) editorModel.get(editorSubmodeStack);
-  }
-
-  public String getPreviousSearchTarget() {
-    VariableMap gvm = getGlobalVarMap();
-    return (String)gvm.get("previousSearchTarget").getVal();
   }
 
   public boolean getPreviousSearchDirectionWasForward() {
@@ -233,10 +187,6 @@ public class EditorModelCoupler {
 
   public void putGlobalVar(String globalVarName, VisurVar globalVarValue) {
     ecs.putGlobalVar(globalVarName, globalVarValue, editorModel);
-  }
-
-  public void putGlobalVarMap(VariableMap gvm) {
-    ecs.putGlobalVarMap(gvm, editorModel);
   }
 
   public void putLineWrapping(LineWrapping lw) {
