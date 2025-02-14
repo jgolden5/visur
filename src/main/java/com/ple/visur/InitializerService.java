@@ -406,6 +406,9 @@ public class InitializerService {
     insertKeymap.put(KeyPressed.from("Backspace"),
       scs.compile("deletePreviousChar -1 0 relativeMove")
     );
+    insertKeymap.put(KeyPressed.from("Enter"),
+      scs.compile("insertNewline")
+    );
     final KeymapHandler[] insertKeymapHandlers = new KeymapHandler[1];
     insertKeymapHandlers[0] = InsertModeHandler.make();
     insertKeymap.putHandlers(insertKeymapHandlers);
