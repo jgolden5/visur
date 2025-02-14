@@ -181,7 +181,7 @@ public class InitializerService {
     CursorPositionDCHolder cursorPositionDCHolder = new CursorPositionDCHolder();
     WholeNumberListDC wholeNumberListDC = cursorPositionDCHolder.wholeNumberListDC;
     PrimitiveDataClassBrick nlDCB = wholeNumberListDC.makeBrick("nl", new ArrayList<>(), true);
-    CursorPositionDC cursorPositionDC = CursorPositionDCHolder.make().cursorPositionDC;
+    CursorPositionDC cursorPositionDC = cursorPositionDCHolder.cursorPositionDC;
     LayeredDataClassBrick cursorPositionDCB = cursorPositionDC.makeBrick(nlDCB);
     CompoundDataClassBrick coordinatesDCB = cursorPositionDCB.getLayer(0);
     CompoundDataClassBrick caAndNLDCB = (CompoundDataClassBrick) coordinatesDCB.getInner("caAndNL");
